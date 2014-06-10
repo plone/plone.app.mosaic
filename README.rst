@@ -1,4 +1,4 @@
 plone.app.mosaic
 ================
 
-Pone Mosaic main repository
+Plone Mosaic main repository
