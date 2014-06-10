@@ -4,6 +4,7 @@ from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
 from plone.app.mosaic.browser.interfaces import IMainTemplate
+from plone.app.blocks.utils import getLayoutAwareSiteLayout, resolveResource
 
 
 class MainTemplate(BrowserView):
@@ -20,6 +21,7 @@ class MainTemplate(BrowserView):
         if self.request.form.get('ajax_load'):
             return self.ajax_template
         else:
+            layout = resolveResource('/++sitelayout++default/site-flavor1.html')
             return self.main_template
 
     @property

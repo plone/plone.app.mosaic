@@ -13,13 +13,13 @@
     <plone:static
         type="sitelayout"
         name="default"
-        directory="layouts/page"
+        directory="layouts/site"
         />
 
     <plone:static
         type="pagelayout"
         name="default"
-        directory="layouts/site"
+        directory="layouts/page"
         />
 
 </configure>
