@@ -3,7 +3,7 @@ from zope.interface import implements
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
-from Products.CMFPlone.browser.interfaces import IMainTemplate
+from plone.app.mosaic.browser.interfaces import IMainTemplate
 
 
 class MainTemplate(BrowserView):

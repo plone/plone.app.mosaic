@@ -1,8 +1,18 @@
+<metal:page define-macro="master">
+<metal:block define-slot="top_slot" />
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
       xml:lang="en"
       lang="en">
   <head>
+    <metal:javascript define-slot="javascript-slot"></metal:javascript>
+    <metal:baseslot define-slot="base"></metal:baseslot>
+    <metal:headslot define-slot="head_slot" />
+    <metal:styleslot define-slot="style_slot" />
+    <metal:cssslot define-slot="css_slot" />
+    <metal:javascriptslot define-slot="javascript_head_slot" />
     <link  data-tile="./@@plone.app.standardtiles.headtitle" />
     <link  data-tile="./@@plone.app.standardtiles.stylesheets" />
     <link  data-tile="./@@plone.app.standardtiles.javascripts" />
@@ -34,10 +44,25 @@
       <div id="portal-columns" class="row">
         <div class="cell width-1:4 position-0">
           <div data-panel="portal-column-one" id="portal-column-one">
+            <metal:column_one define-slot="column_one_slot"/>
             <div data-tile="./@@plone.app.standardtiles.portletmanager/left-portlets?manager=plone.leftcolumn" />
           </div>
         </div>
         <div id="portal-column-content" class="cell width-1:2 position-1:4">
+          <metal:content define-slot="content">
+              <metal:content-core define-slot="content-core">
+                  <metal:header define-slot="header" tal:content="nothing">
+                      Visual Header
+                  </metal:header>
+                  <metal:bodytext define-slot="main">
+
+                    <metal:main define-macro="main">
+                    </metal:main>
+                  </metal:bodytext>
+                  <metal:slot define-slot="body">
+                  </metal:slot>
+              </metal:content-core>
+          </metal:content>
           <div data-tile="./@@plone.app.standardtiles.path_bar" />
           <div data-tile="./@@plone.app.standardtiles.lockinfo" />
           <div data-tile="./@@plone.app.standardtiles.viewletmanager/above-content?manager=plone.abovecontent" />
@@ -46,6 +71,9 @@
         </div>
         <div class="cell width-1:4 position-3:4">
           <div data-panel="portal-column-two" id="portal-column-two">
+            <metal:column_two define-slot="column_two_slot">
+            </metal:column_two>
+
             <div data-tile="./@@plone.app.standardtiles.portletmanager/right-portlets?manager=plone.rightcolumn" />
           </div>
         </div>
@@ -64,3 +92,5 @@
     </div>
   </body>
 </html>
+</metal:block>
+</metal:page>
