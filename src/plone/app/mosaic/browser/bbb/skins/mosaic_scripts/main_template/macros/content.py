@@ -1,0 +1,1 @@
+return context.restrictedTraverse('@@main_template').macros['content']
