@@ -2,6 +2,7 @@ from zope.interface import implements
 
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+from plone.memoize import view
 
 from plone.app.mosaic.browser.interfaces import IMainTemplate
 from plone.app.blocks.utils import getLayoutAwareSiteLayout, resolveResource
@@ -21,6 +22,7 @@ class MainTemplate(BrowserView):
         return self.template()
 
     @property
+    @view.memoize
     def template(self):
         if self.request.form.get('ajax_load'):
             return self.ajax_template
