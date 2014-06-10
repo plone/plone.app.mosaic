@@ -13,6 +13,7 @@ class MainTemplate(BrowserView):
     main_template = ViewPageTemplateFile('templates/main_template.pt')
 
     def __call__(self):
+        import pdb; pdb.set_trace()
         return self.template()
 
     @property
