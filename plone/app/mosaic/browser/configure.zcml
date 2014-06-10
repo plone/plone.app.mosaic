@@ -1,0 +1,13 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:browser="http://namespaces.zope.org/browser"
+           xmlns:five="http://namespaces.zope.org/five">
+
+  <browser:page
+      for="*"
+      name="main_template"
+      class=".main_template.MainTemplate"
+      permission="zope.Public"
+      />
+
+
+</configure>

@@ -9,4 +9,6 @@
     <!-- Include our dependencies -->
     <includeDependencies package="." />
 
+    <include package=".browser" />
+
 </configure>
