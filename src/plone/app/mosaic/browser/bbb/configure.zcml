@@ -1,0 +1,19 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:cmf="http://namespaces.zope.org/cmf"
+           xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+           xmlns:browser="http://namespaces.zope.org/browser"
+           xmlns:five="http://namespaces.zope.org/five">
+
+  <!-- On Plone < 5 the main_template can only be overridden in skins -->
+  <cmf:registerDirectory name="mosaic_scripts" />
+
+  <genericsetup:registerProfile
+      name="default"
+      title="Mosaic backwards support for Plone 4"
+      directory="profiles/default"
+      description="Register Mosaic backwards support for Plone 4"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
+</configure>

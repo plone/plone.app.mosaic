@@ -1,4 +1,5 @@
 <configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:zcml="http://namespaces.zope.org/zcml"
            xmlns:browser="http://namespaces.zope.org/browser"
            xmlns:five="http://namespaces.zope.org/five">
 
@@ -9,5 +10,6 @@
       permission="zope.Public"
       />
 
+  <include package=".bbb" zcml:condition="have plone-4" />
 
 </configure>
