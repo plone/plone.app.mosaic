@@ -8,7 +8,6 @@
       name="main_template"
       class=".main_template.MainTemplate"
       permission="zope.Public"
-      allowed_attributes="macros"
       />
 
   <include package=".bbb" zcml:condition="have plone-4" />

@@ -7,6 +7,15 @@
   <!-- On Plone < 5 the main_template can only be overridden in skins -->
   <cmf:registerDirectory name="mosaic_scripts" />
 
+  <browser:page
+      for="*"
+      name="main_template"
+      class="..main_template.MainTemplate"
+      permission="zope.Public"
+      layer=".interfaces.IPloneAppMosaicBBB"
+      allowed_attributes="macros"
+      />
+
   <genericsetup:registerProfile
       name="default"
       title="Mosaic backwards support for Plone 4"
