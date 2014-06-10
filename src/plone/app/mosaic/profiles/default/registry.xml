@@ -1,14 +1,12 @@
+<?xml version="1.0"?>
 <registry>
-
   <records interface="plone.app.blocks.interfaces.IBlocksSettings" />
-  
   <!-- Default (portal-wide) site layout -->
-    <record name="plone.defaultSiteLayout">
-        <field type="plone.registry.field.ASCIILine">
-            <title>Default site layout</title>
-            <description>The site layout used</description>
-        </field>
-        <value>site-flavor1.html</value>
-    </record>
-  
+  <record name="plone.defaultSiteLayout">
+    <field type="plone.registry.field.ASCIILine">
+       <title>Default site layout</title>
+       <description>The site layout used</description>
+    </field>
+    <value>/++sitelayout++flavor-1/site.html</value>
+  </record>
 </registry>

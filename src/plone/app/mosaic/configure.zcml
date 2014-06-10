@@ -5,30 +5,31 @@
     xmlns:plone="http://namespaces.plone.org/plone"
     i18n_domain="plone">
 
-    <!-- Include our dependencies -->
-    <includeDependencies package="." />
+  <!-- Include our dependencies -->
+  <includeDependencies package="." />
 
-    <genericsetup:registerProfile
-        name="default"
-        title="Plone App Mosaic profile"
-        description="Installs plone app mosaic."
-        directory="profiles/default"
-        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-        provides="Products.GenericSetup.interfaces.EXTENSION"
-        />
+  <genericsetup:registerProfile
+      name="default"
+      title="Plone App Mosaic profile"
+      description="Installs plone app mosaic."
+      directory="profiles/default"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
 
-    <include package=".browser" />
+  <include package=".browser" />
 
-    <plone:static
-        type="sitelayout"
-        name="default"
-        directory="layouts/site"
-        />
-
-    <plone:static
-        type="pagelayout"
-        name="default"
-        directory="layouts/page"
-        />
+  <plone:static type="sitelayout"
+                name="flavor-1" directory="layouts/site-flavor-1" />
+  <plone:static type="sitelayout"
+                name="flavor-2" directory="layouts/site-flavor-2" />
+  <plone:static type="sitelayout"
+                name="flavor-3" directory="layouts/site-flavor-3" />
+  <plone:static type="pagelayout"
+                name="default-document" directory="layouts/default-document" />
+  <plone:static type="pagelayout"
+                name="default-event" directory="layouts/default-event" />
+  <plone:static type="pagelayout"
+                name="default-news" directory="layouts/default-news" />
 
 </configure>

@@ -25,12 +25,11 @@ class MainTemplate(BrowserView):
         if self.request.form.get('ajax_load'):
             return self.ajax_template
         else:
-            layout_name = getDefaultSiteLayout(self.context)
-            layout = resolveResource('/++sitelayout++default/' + layout_name)
+            layout_resource_path = getDefaultSiteLayout(self.context)
+            layout = resolveResource(layout_resource_path)
             pt = PageTemplate()
             pt.write(layout)
             return pt
-
 
     @property
     def macros(self):
