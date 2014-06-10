@@ -24,5 +24,4 @@ class MainTemplate(BrowserView):
 
     @property
     def macros(self):
-        import pdb; pdb.set_trace()
         return self.template.macros
