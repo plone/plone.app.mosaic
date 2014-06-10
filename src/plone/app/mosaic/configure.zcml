@@ -19,6 +19,8 @@
 
   <include package=".browser" />
 
+  <adapter factory=".registry.MosaicRegistry" />
+
   <plone:static type="sitelayout"
                 name="flavor-1" directory="layouts/site-flavor-1" />
   <plone:static type="sitelayout"

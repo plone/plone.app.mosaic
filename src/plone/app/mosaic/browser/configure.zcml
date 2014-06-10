@@ -12,4 +12,34 @@
 
   <include package=".bbb" zcml:condition="have plone-4" />
 
+    
+  <browser:resourceDirectory
+      name="plone.app.mosaic.stylesheets"
+      directory="stylesheets"
+      />
+
+  <browser:resourceDirectory
+      name="plone.app.mosaic.images"
+      directory="images"
+      />
+
+  <browser:resourceDirectory
+      name="plone.app.mosaic.javascripts"
+      directory="javascripts"
+      />
+  
+  <browser:page
+      for="*"
+      name="mosaic-config"
+      class=".browser.MosaicConfigView"
+      permission="cmf.ModifyPortalContent"
+      />
+
+  <browser:page
+      for="*"
+      name="mosaic-upload"
+      class=".browser.MosaicUploadView"
+      permission="cmf.ModifyPortalContent"
+      />
+
 </configure>

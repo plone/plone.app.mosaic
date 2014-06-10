@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<object name="portal_javascripts" meta_type="JavaScripts Registry">
+
+  <javascript cacheable="False"
+              compression="none"
+              cookable="False"
+              enabled="True"
+              id="++resource++plone.app.mosaic.javascripts/mosaic.core.js"
+              inline="False"/>
+
+  <javascript cacheable="False"
+              compression="none"
+              cookable="False"
+              enabled="True"
+              id="++resource++plone.app.mosaic.javascripts/mosaic.overlay.js"
+              inline="False"/>
+
+  <javascript cacheable="False"
+              compression="none"
+              cookable="False"
+              enabled="True"
+              id="++resource++plone.app.mosaic.javascripts/mosaic.layout.js"
+              inline="False"/>
+
+  <javascript cacheable="False"
+              compression="none"
+              cookable="False"
+              enabled="True"
+              id="++resource++plone.app.mosaic.javascripts/mosaic.toolbar.js"
+              inline="False"/>
+
+  <javascript cacheable="False"
+              compression="none"
+              cookable="False"
+              enabled="True"
+              id="++resource++plone.app.mosaic.javascripts/mosaic.actions.js"
+              inline="False"/>
+
+  <javascript cacheable="False"
+              compression="none"
+              cookable="False"
+              enabled="True"
+              id="++resource++plone.app.mosaic.javascripts/mosaic.upload.js"
+              inline="False"/>
+
+  <javascript cacheable="False"
+              compression="none"
+              cookable="False"
+              enabled="True"
+              id="++resource++plone.app.mosaic.javascripts/mosaic.undo.js"
+              inline="False"/>
+
+  <javascript cacheable="False"
+              compression="none"
+              cookable="False"
+              enabled="True"
+              id="++resource++plone.app.mosaic.javascripts/mosaic.editor.js"
+              inline="False"/>
+
+  <javascript cacheable="False"
+              compression="none"
+              cookable="False"
+              enabled="True"
+              id="++resource++plone.app.mosaic.javascripts/mosaic.overlaytriggers.js"
+              inline="False"/>
+
+  <javascript cacheable="False"
+              compression="none"
+              cookable="False"
+              enabled="True"
+              id="++resource++plone.app.mosaic.javascripts/tinymce/tiny_mce_mosaic.js"
+              inline="False"/>
+
+</object>
