@@ -8,6 +8,15 @@
     <!-- Include our dependencies -->
     <includeDependencies package="." />
 
+    <genericsetup:registerProfile
+        name="default"
+        title="Plone App Mosaic profile"
+        description="Installs plone app mosaic."
+        directory="profiles/default"
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        />
+
     <include package=".browser" />
 
     <plone:static
