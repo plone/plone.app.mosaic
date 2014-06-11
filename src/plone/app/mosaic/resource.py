@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from plone.resource.traversal import ResourceTraverser
 
 from plone.app.blocks.resource import AvailableLayoutsVocabulary

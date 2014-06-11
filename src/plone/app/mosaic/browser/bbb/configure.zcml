@@ -16,13 +16,6 @@
       allowed_attributes="macros"
       />
 
-  <genericsetup:registerProfile
-      name="default"
-      title="Mosaic backwards support for Plone 4"
-      directory="profiles/default"
-      description="Register Mosaic backwards support for Plone 4 (WARNING: May not be compatible with custom main_templates)"
-      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-      provides="Products.GenericSetup.interfaces.EXTENSION"
-      />
+   <!-- The bbb profile is configured in top level configure.zcml -->
 
 </configure>

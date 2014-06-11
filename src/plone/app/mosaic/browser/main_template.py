@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from lxml import etree
 from hashlib import md5
 from plone.memoize.ram import cache

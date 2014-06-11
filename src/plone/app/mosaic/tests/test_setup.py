@@ -1,13 +1,11 @@
-import unittest2 as unittest
-
+# -*- coding: utf-8 -*-
 from Products.CMFCore.utils import getToolByName
+from plone.app.mosaic.testing import PLONE_APP_MOSAIC_INTEGRATION
 
-from plone.app.mosaic.testing import\
-    PLONE_APP_MOSAIC_INTEGRATION
+import unittest2 as unittest
 
 
 class TestExample(unittest.TestCase):
-
     layer = PLONE_APP_MOSAIC_INTEGRATION
     
     def setUp(self):
