@@ -36,6 +36,8 @@ setup(name='plone.app.mosaic',
       zip_safe=False,
       install_requires=[
           'setuptools',
+          'plone.app.blocks',
+          'plone.app.tiles',
           # -*- Extra requirements: -*-
       ],
       extras_require={'test': ['plone.app.testing']},
