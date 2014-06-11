@@ -92,263 +92,254 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
             options.ignore_context = true;
         }
 
-        // Get the configuration from the backend
-        $.ajax({
-            type: "GET",
-            url: options.url + "/@@mosaic-config" +
-                (options.type === '' ? '' : "?type=" + options.type),
-            success: function (configdata) {
+
+        // Local variables
+        var content;
+
+        // Add global options
+        $.mosaic.options = options.data;
+        $.mosaic.options.url = options.url;
+        $.mosaic.options.ignore_context = options.ignore_context;
+        $.mosaic.options.tileheadelements = [];
+
+        content = $('[name="form.widgets.ILayoutAware.content"]').val();
+
+        // Check if no layout
+        if (content === '') {
+
+            // Exit
+            return;
+        }
+
+        // Get dom tree
+        content = $.mosaic.getDomTreeFromHtml(content);
+        $.mosaic.options.layout = content.attr('data-layout');
+        // Find panels
+        content.find("[data-panel]").each(function () {
+
+            // Local variables
+            var panel_id = $(this).attr("data-panel"),
+                target = $("[data-panel=" + panel_id + "]",
+                $.mosaic.document);
+
+            // If content, create a new div since the form data is in
+            // this panel
+            if (panel_id === 'content') {
+                target
+                    .removeAttr('data-panel')
+                    .removeAttr('id')
+                    .addClass('mosaic-original-content')
+                    .hide();
+                target.before($(document.createElement("div"))
+                    .attr("id", "content")
+                    .addClass('mosaic-panel')
+                    .attr('data-panel', 'content')
+                    .html(content.find("[data-panel=" +
+                        panel_id + "]").html())
+                );
+            } else {
+                target.addClass('mosaic-panel');
+                target.html(content.find("[data-panel=" +
+                    panel_id + "]").html());
+            }
+        });
+
+        // Init app tiles
+        $.mosaic.options.panels = $(".mosaic-panel", $.mosaic.document);
+        $.mosaic.nrOfTiles =
+            $.mosaic.options.panels.find("[data-tile]").size();
+
+        $.mosaic.options.panels.find("[data-tile]").each(function () {
+
+            // Local variables
+            var target, href, tile_content, tiletype, classes, url,
+                tile_config, x, tile_group, y, fieldhtml, lines, i;
+
+            href = $(this).attr("data-tile");
+
+            // Get tile type
+            tile_content = $(this).parent();
+            tiletype = '';
+            classes = tile_content.parents('.mosaic-tile').attr('class')
+                .split(" ");
+            $(classes).each(function () {
 
                 // Local variables
-                var content;
+                var classname;
 
-                // Add global options
-                $.mosaic.options = configdata;
-                $.mosaic.options.url = options.url;
-                $.mosaic.options.ignore_context = options.ignore_context;
-                $.mosaic.options.tileheadelements = [];
-
-                content = $('#form-widgets-ILayoutAware-content').val();
-
-                // Check if no layout
-                if (content === '') {
-
-                    // Exit
-                    return;
+                classname = this.match(/^mosaic-([\w.\-]+)-tile$/);
+                if (classname !== null) {
+                    if ((classname[1] !== 'selected') &&
+                        (classname[1] !== 'new') &&
+                        (classname[1] !== 'read-only') &&
+                        (classname[1] !== 'helper') &&
+                        (classname[1] !== 'original')) {
+                        tiletype = classname[1];
+                    }
                 }
+            });
 
-                // Get dom tree
-                content = $.mosaic.getDomTreeFromHtml(content);
-                $.mosaic.options.layout = content.attr('data-layout');
+            // Get tile config
+            for (x = 0; x < $.mosaic.options.tiles.length; x += 1) {
+                tile_group = $.mosaic.options.tiles[x];
+                for (y = 0; y < tile_group.tiles.length; y += 1) {
 
-                // Find panels
-                content.find("[data-panel]").each(function () {
-
-                    // Local variables
-                    var panel_id = $(this).attr("data-panel"),
-                        target = $("[data-panel=" + panel_id + "]",
-                        $.mosaic.document);
-
-                    // If content, create a new div since the form data is in
-                    // this panel
-                    if (panel_id === 'content') {
-                        target
-                            .removeAttr('data-panel')
-                            .removeAttr('id')
-                            .addClass('mosaic-original-content')
-                            .hide();
-                        target.before($(document.createElement("div"))
-                            .attr("id", "content")
-                            .addClass('mosaic-panel')
-                            .attr('data-panel', 'content')
-                            .html(content.find("[data-panel=" +
-                                panel_id + "]").html())
-                        );
-                    } else {
-                        target.addClass('mosaic-panel');
-                        target.html(content.find("[data-panel=" +
-                            panel_id + "]").html());
-                    }
-                });
-
-                // Init app tiles
-                $.mosaic.options.panels = $(".mosaic-panel",
-                                            $.mosaic.document);
-                $.mosaic.nrOfTiles =
-                    $.mosaic.options.panels.find("[data-tile]").size();
-
-                $.mosaic.options.panels.find("[data-tile]").each(function () {
-
-                    // Local variables
-                    var target, href, tile_content, tiletype, classes, url,
-                        tile_config, x, tile_group, y, fieldhtml, lines, i;
-
-                    href = $(this).attr("data-tile");
-
-                    // Get tile type
-                    tile_content = $(this).parent();
-                    tiletype = '';
-                    classes = tile_content.parents('.mosaic-tile')
-                                .attr('class').split(" ");
-                    $(classes).each(function () {
-
-                        // Local variables
-                        var classname;
-
-                        classname = this.match(/^mosaic-([\w.\-]+)-tile$/);
-                        if (classname !== null) {
-                            if ((classname[1] !== 'selected') &&
-                                (classname[1] !== 'new') &&
-                                (classname[1] !== 'read-only') &&
-                                (classname[1] !== 'helper') &&
-                                (classname[1] !== 'original')) {
-                                tiletype = classname[1];
-                            }
-                        }
-                    });
-
-                    // Get tile config
-                    for (x = 0; x < $.mosaic.options.tiles.length; x += 1) {
-                        tile_group = $.mosaic.options.tiles[x];
-                        for (y = 0; y < tile_group.tiles.length; y += 1) {
-
-                            // Set settings value
-                            if (tile_group.tiles[y].tile_type === 'field') {
-                                switch (tile_group.tiles[y].widget) {
-                                case "z3c.form.browser.text.TextWidget":
-                                case "z3c.form.browser.text.TextFieldWidget":
-                                case "z3c.form.browser.textarea.TextAreaWidget":
-                                case "z3c.form.browser.textarea.TextAreaFieldWidget":
-                                case "plone.app.z3cform.wysiwyg.widget.WysiwygWidget":
-                                case "plone.app.z3cform.wysiwyg.widget.WysiwygFieldWidget":
-                                    tile_group.tiles[y].settings = false;
-                                    break;
-                                default:
-                                    tile_group.tiles[y].settings = true;
-                                }
-                            }
-                            if (tile_group.tiles[y].name === tiletype) {
-                                tile_config = tile_group.tiles[y];
-                            }
-                        }
-                    }
-
-                    // Check if a field tile
-                    if (tile_config.tile_type === 'field') {
-
-                        fieldhtml = '';
-
-                        switch (tile_config.widget) {
+                    // Set settings value
+                    if (tile_group.tiles[y].tile_type === 'field') {
+                        switch (tile_group.tiles[y].widget) {
                         case "z3c.form.browser.text.TextWidget":
                         case "z3c.form.browser.text.TextFieldWidget":
-                            fieldhtml = '<div>' +
-                                $("#" + tile_config.id)
-                                      .find('input').attr('value') + '</div>';
-                            break;
                         case "z3c.form.browser.textarea.TextAreaWidget":
                         case "z3c.form.browser.textarea.TextAreaFieldWidget":
-                            lines = $("#" + tile_config.id)
-                                        .find('textarea')
-                                        .attr('value').split('\n');
-                            for (i = 0; i < lines.length; i += 1) {
-                                fieldhtml += '<div>' + lines[i] + '</div>';
-                            }
-                            break;
                         case "plone.app.z3cform.wysiwyg.widget.WysiwygWidget":
                         case "plone.app.z3cform.wysiwyg.widget.WysiwygFieldWidget":
-                            fieldhtml = $("#" + tile_config.id)
-                                            .find('textarea').attr('value');
+                            tile_group.tiles[y].settings = false;
                             break;
                         default:
-                            fieldhtml = '<div class="discreet">Placeholder ' +
-                                'for field:<br/><b>' + tile_config.label +
-                                '</b></div>';
-                            break;
+                            tile_group.tiles[y].settings = true;
                         }
-                        tile_content.html(fieldhtml);
+                    }
+                    if (tile_group.tiles[y].name === tiletype) {
+                        tile_config = tile_group.tiles[y];
+                    }
+                }
+            }
 
-                    // Get data from app tile
-                    } else {
-                        url = href;
-                        if (tile_config.name ===
-                            'plone.app.standardtiles.title' ||
-                            tile_config.name ===
-                            'plone.app.standardtiles.description') {
-                            url += '?ignore_context=' +
-                                $.mosaic.options.ignore_context;
+            // Check if a field tile
+            if (tile_config.tile_type === 'field') {
+
+                fieldhtml = '';
+
+                switch (tile_config.widget) {
+                case "z3c.form.browser.text.TextWidget":
+                case "z3c.form.browser.text.TextFieldWidget":
+                    fieldhtml = '<div>' +
+                        $("#" + tile_config.id)
+                              .find('input').attr('value') + '</div>';
+                    break;
+                case "z3c.form.browser.textarea.TextAreaWidget":
+                case "z3c.form.browser.textarea.TextAreaFieldWidget":
+                    lines = $("#" + tile_config.id)
+                                .find('textarea')
+                                .attr('value').split('\n');
+                    for (i = 0; i < lines.length; i += 1) {
+                        fieldhtml += '<div>' + lines[i] + '</div>';
+                    }
+                    break;
+                case "plone.app.z3cform.wysiwyg.widget.WysiwygWidget":
+                case "plone.app.z3cform.wysiwyg.widget.WysiwygFieldWidget":
+                    fieldhtml = $("#" + tile_config.id)
+                                    .find('textarea').attr('value');
+                    break;
+                default:
+                    fieldhtml = '<div class="discreet">Placeholder ' +
+                        'for field:<br/><b>' + tile_config.label +
+                        '</b></div>';
+                    break;
+                }
+                tile_content.html(fieldhtml);
+
+            // Get data from app tile
+            } else {
+                url = href;
+                if (tile_config.name ===
+                    'plone.app.standardtiles.title' ||
+                    tile_config.name ===
+                    'plone.app.standardtiles.description') {
+                    url += '?ignore_context=' +
+                        $.mosaic.options.ignore_context;
+                }
+                $.ajax({
+                    type: "GET",
+                    url: url,
+                    success: function (value) {
+
+                        // Get dom tree
+                        value = $.mosaic.getDomTreeFromHtml(value);
+
+                        // Add head tags
+                        $.mosaic.addHeadTags(href, value);
+
+                        tile_content
+                            .html('<p class="hiddenStructure ' +
+                                'tileUrl">' + href + '</p>' +
+                                value.find('.temp_body_tag').html());
+
+                        $.mosaic.tileInitCount += 1;
+
+                        if ($.mosaic.tileInitCount >= $.mosaic.nrOfTiles) {
+                            $.mosaic.initialized();
                         }
-                        $.ajax({
-                            type: "GET",
-                            url: url,
-                            success: function (value) {
-
-                                // Get dom tree
-                                value = $.mosaic.getDomTreeFromHtml(value);
-
-                                // Add head tags
-                                $.mosaic.addHeadTags(href, value);
-
-                                tile_content
-                                    .html('<p class="hiddenStructure ' +
-                                        'tileUrl">' + href + '</p>' +
-                                        value.find('.temp_body_tag').html());
-
-                                $.mosaic.tileInitCount += 1;
-
-                                if ($.mosaic.tileInitCount >= $.mosaic.nrOfTiles) {
-                                    $.mosaic.initialized();
-                                }
-                            }
-                        });
                     }
                 });
+            }
+        });
 
-                // Init overlay
+        // Init overlay
 //                $('#content.mosaic-original-content',
 //                  $.mosaic.document).mosaicOverlay();
 
-                // Add toolbar div below menu
-                $("body").prepend($(document.createElement("div"))
-                    .addClass("mosaic-toolbar")
-                );
+        // Add toolbar div below menu
+        $("body").prepend($(document.createElement("div"))
+            .addClass("mosaic-toolbar")
+        );
 
-                // Add the toolbar to the options
-                $.mosaic.options.toolbar = $(".mosaic-toolbar");
+        // Add the toolbar to the options
+        $.mosaic.options.toolbar = $(".mosaic-toolbar");
 
-                // Add page url to the options
-                $.mosaic.options.url = options.url;
+        // Add page url to the options
+        $.mosaic.options.url = options.url;
 
-                // Init toolbar
-                $.mosaic.options.toolbar.mosaicToolbar();
+        // Init toolbar
+        $.mosaic.options.toolbar.mosaicToolbar();
 
-                // Init panel
-                $.mosaic.options.panels.mosaicLayout();
+        // Init panel
+        $.mosaic.options.panels.mosaicLayout();
 
-                // Add blur to the rest of the content
-                $("*", $.mosaic.document).each(function () {
+        // Add blur to the rest of the content
+        $("*", $.mosaic.document).each(function () {
 
-                    // Local variables
-                    var obj;
+            // Local variables
+            var obj;
 
-                    obj = $(this);
+            obj = $(this);
 
-                    // Check if block element
-                    if (obj.css('display') === 'block') {
+            // Check if block element
+            if (obj.css('display') === 'block') {
 
-                        // Check if panel or toolbar
-                        if (!obj.hasClass('mosaic-panel') &&
-                            !obj.hasClass('mosaic-toolbar') &&
-                            !obj.hasClass('mosaic-notifications') &&
-                            obj.attr('id') !== 'plone-cmsui-menu') {
+                // Check if panel or toolbar
+                if (!obj.hasClass('mosaic-panel') &&
+                    !obj.hasClass('mosaic-toolbar') &&
+                    !obj.hasClass('mosaic-notifications') &&
+                    obj.attr('id') !== 'plone-cmsui-menu') {
 
-                            // Check if inside panel or toolbar
-                            if (obj.parents('.mosaic-panel, .mosaic-toolbar')
-                                .length === 0) {
+                    // Check if inside panel or toolbar
+                    if (obj.parents('.mosaic-panel, .mosaic-toolbar')
+                        .length === 0) {
 
-                                // Check if parent of a panel or toolbar
-                                if (obj.find('.mosaic-panel, .mosaic-toolbar')
-                                    .length === 0) {
+                        // Check if parent of a panel or toolbar
+                        if (obj.find('.mosaic-panel, .mosaic-toolbar')
+                            .length === 0) {
 
-                                    // Check if parent has a child who is a
-                                    // panel or a toolbar
-                                    if (obj.parent()
-                                        .find('.mosaic-panel, .mosaic-toolbar')
-                                        .length !== 0) {
+                            // Check if parent has a child who is a
+                            // panel or a toolbar
+                            if (obj.parent()
+                                .find('.mosaic-panel, .mosaic-toolbar')
+                                .length !== 0) {
 
-                                        // Add blur class
-                                        obj.addClass('mosaic-blur');
-                                    }
-                                }
+                                // Add blur class
+                                obj.addClass('mosaic-blur');
                             }
                         }
                     }
-                });
-
-                // Init upload
-                // $.mosaic.initUpload();
-                $.mosaic.undo.init();
+                }
             }
         });
+
+        // Init upload
+        // $.mosaic.initUpload();
+        $.mosaic.undo.init();
+
     };
 
     /**

@@ -71,4 +71,11 @@
               id="++resource++plone.app.mosaic.javascripts/mosaic.overlaytriggers.js"
               inline="False"/>
 
+  <javascript cacheable="False"
+              compression="none"
+              cookable="False"
+              enabled="True"
+              id="++resource++plone.app.mosaic.javascripts/mosaic.pattern.js"
+              inline="False"/>
+
 </object>

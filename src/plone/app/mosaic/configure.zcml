@@ -32,7 +32,6 @@
 
   <include package=".browser" />
 
-  <adapter factory=".registry.MosaicRegistry" />
 
   <!-- Register the resource traverser -->
   <adapter

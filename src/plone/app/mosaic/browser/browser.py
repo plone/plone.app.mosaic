@@ -1,13 +1,10 @@
 # -*- coding: utf-8 -*-
 from zope.publisher.browser import BrowserView
-from zope.component import getUtility
 try:
     import json
 except:
     import simplejson as json
 
-from plone.registry.interfaces import IRegistry
-from plone.app.mosaic.interfaces import IMosaicRegistryAdapter
 from Products.CMFCore.utils import getToolByName
 
 from plone.app.mosaic import PloneMessageFactory as _
@@ -113,29 +110,3 @@ class MosaicUploadView(BrowserView):
             count += 1
 
 
-class MosaicConfigView(BrowserView):
-
-    def obtainType(self):
-        """
-        Obtains the type of the context object or of the object we are adding
-        """
-        if 'type' in self.request.form:
-            return self.request.form['type']
-        else:
-            if hasattr(self.context, 'portal_type'):
-                return self.context.portal_type
-        return None
-
-    def __call__(self):
-        self.request.response.setHeader('Content-Type', 'application/json')
-        registry = getUtility(IRegistry)
-        adapted = IMosaicRegistryAdapter(registry)
-        pm = getToolByName(self.context, 'portal_membership')
-        kwargs = {
-            'type': self.obtainType(),
-            'context': self.context,
-            'request': self.request,
-        }
-        result = adapted(**kwargs)
-        result['can_change_layout'] = True
-        return json.dumps(result)

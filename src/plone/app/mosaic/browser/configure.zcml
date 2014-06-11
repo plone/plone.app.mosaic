@@ -30,13 +30,6 @@
 
   <browser:page
       for="*"
-      name="mosaic-config"
-      class=".browser.MosaicConfigView"
-      permission="cmf.ModifyPortalContent"
-      />
-
-  <browser:page
-      for="*"
       name="mosaic-upload"
       class=".browser.MosaicUploadView"
       permission="cmf.ModifyPortalContent"

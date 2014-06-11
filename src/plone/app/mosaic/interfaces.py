@@ -15,10 +15,6 @@ PAGE_LAYOUT_MANIFEST_FORMAT = ManifestFormat(
 )
 
 
-class IMosaicRegistryAdapter(Interface):
-    """Marker interface for the registry adapter"""
-
-
 class IWeightedDict(Interface):
     name = schema.TextLine(title=_(u"Name"))
     label = schema.TextLine(title=_(u"Label"))
