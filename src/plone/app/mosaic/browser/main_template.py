@@ -14,7 +14,8 @@ from plone.app.blocks.utils import getDefaultSiteLayout, panelXPath
 
 
 @cache(lambda func, layout: md5(layout).hexdigest())
-def main_templatize(layout):
+def cook_layout(layout):
+    """Return main_template compatible layout"""
     result = getHTMLSerializer(layout, encoding='utf-8')
     nsmap = {'metal': 'http://namespaces.zope.org/metal'}
 
@@ -66,8 +67,9 @@ class MainTemplate(BrowserView):
         else:
             layout_resource_path = getDefaultSiteLayout(self.context)
             layout = resolveResource(layout_resource_path)
+            cooked = cook_layout(layout)
             pt = PageTemplate()
-            pt.write(main_templatize(layout))
+            pt.write(cooked)
             return pt
 
     @property
