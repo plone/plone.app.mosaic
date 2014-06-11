@@ -447,11 +447,13 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
                     url: url,
                     success: function (value) {
 
+/*
                         $.plone.notify({
                             title: "Info",
                             message: "Application tile removed",
                             sticky: false
                         });
+*/
                     }
                 });
             }
@@ -1812,11 +1814,13 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
         helper.mosaicInitTile();
 
         // Notify user
+        /*
         $.plone.notify({
             title: "Inserting new tile",
             message: "Select the location for the new tile",
             sticky: false
         });
+        */
     };
 
     /**
