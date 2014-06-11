@@ -356,7 +356,7 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
                 $("#form-widgets-ILayoutAware-content")
                       .attr("value", $.mosaic.getPageContent());
 
-                $("#form-buttons-save").click();
+                //$("#form-buttons-save").click();
             },
             shortcut: {
                 ctrl: true,

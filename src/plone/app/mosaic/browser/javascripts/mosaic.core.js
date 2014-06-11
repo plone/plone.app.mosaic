@@ -120,6 +120,7 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
                 // Get dom tree
                 content = $.mosaic.getDomTreeFromHtml(content);
                 $.mosaic.options.layout = content.attr('data-layout');
+
                 // Find panels
                 content.find("[data-panel]").each(function () {
 
@@ -127,9 +128,25 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
                     var panel_id = $(this).attr("data-panel"),
                         target = $("[data-panel=" + panel_id + "]",
                         $.mosaic.document);
-                    target.addClass('mosaic-panel');
-                    target.html(content.find("[data-panel=" +
-                        panel_id + "]").html());
+
+                    // If content, create a new div since the form data is in
+                    // this panel
+                    if (panel_id === 'content') {
+                        target
+                            .removeAttr('data-panel')
+                            .addClass('mosaic-original-content');
+                        target.before($(document.createElement("div"))
+                            .attr("id", "content")
+                            .addClass('mosaic-panel')
+                            .attr('data-panel', 'content')
+                            .html(content.find("[data-panel=" +
+                                panel_id + "]").html())
+                        );
+                    } else {
+                        target.addClass('mosaic-panel');
+                        target.html(content.find("[data-panel=" +
+                            panel_id + "]").html());
+                    }
                 });
 
                 // Init app tiles

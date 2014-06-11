@@ -1992,7 +1992,7 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
                                 if (tile_url === null) {
                                     break;
                                 }
-                                body += '          <span data-tile="' + tile_url + '"></span>\n';
+                                body += '          <div data-tile="' + tile_url + '"></div>\n';
                                 body += '          </div>\n';
                                 body += '          </div>\n';
 
@@ -2014,7 +2014,7 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
                                 // Calc url
                                 tile_url = './@@plone.app.standardtiles.field?field=' + tiletype;
 
-                                body += '          <span data-tile="' + tile_url + '"></span>\n';
+                                body += '          <div data-tile="' + tile_url + '"></div>\n';
                                 body += '          </div>\n';
                                 body += '          </div>\n';
 
