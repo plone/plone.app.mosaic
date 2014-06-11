@@ -5,6 +5,13 @@
               compression="none"
               cookable="False"
               enabled="True"
+              id="++resource++plone.app.mosaic.javascripts/tinymce/tiny_mce_mosaic.js"
+              inline="False"/>
+
+  <javascript cacheable="False"
+              compression="none"
+              cookable="False"
+              enabled="True"
               id="++resource++plone.app.mosaic.javascripts/mosaic.core.js"
               inline="False"/>
 
@@ -62,13 +69,6 @@
               cookable="False"
               enabled="True"
               id="++resource++plone.app.mosaic.javascripts/mosaic.overlaytriggers.js"
-              inline="False"/>
-
-  <javascript cacheable="False"
-              compression="none"
-              cookable="False"
-              enabled="True"
-              id="++resource++plone.app.mosaic.javascripts/tinymce/tiny_mce_mosaic.js"
               inline="False"/>
 
 </object>
