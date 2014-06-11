@@ -79,7 +79,7 @@ $.ajax = function (options) {
                     }
                   ],
                 "weight" : 30
-                } 
+                }
             ]
         });
     }

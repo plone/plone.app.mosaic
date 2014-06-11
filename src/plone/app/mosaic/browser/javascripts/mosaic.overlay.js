@@ -108,7 +108,7 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
                 })
             );
         }
- 
+
         if (mode === 'all') {
 
             // Get form tabs
@@ -230,7 +230,7 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
     $.mosaic.overlay.openIframe = function (url) {
 
         $(".mosaic-overlay-blocker", $.mosaic.document).show();
-        
+
         $($.mosaic.document.body).append(
             $($.mosaic.document.createElement("iframe"))
                 .css({

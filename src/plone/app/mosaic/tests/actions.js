@@ -102,7 +102,7 @@ test("registerAction", function() {
             shift: false,
             key: "t"
         },
-        
+
         visible: function () {
             return false;
         }

@@ -3,7 +3,7 @@
  * undo/redo actions. The JS defines two classes, one for internal use
  * ($.mosaic.undo.Stack) and the public one $.mosaic.unto.UndoManager. The
  * latter needs to be initialized (form the mosaic core), using:
- *  - stack size (max undo history) 
+ *  - stack size (max undo history)
  *  - reference to a handler that is called with the state as argument on undo/redo
  *  - current state (optional)
  *
@@ -181,7 +181,7 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
      * @param {Object} currentState Current state
      */
     $.mosaic.undo.UndoManager = function (stackSize, handler, currentState) {
-      
+
         this.stack = new $.mosaic.undo.Stack(stackSize);
         this.pointer = 0;
         this.handler = handler;
@@ -196,7 +196,7 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
      * @param {Object} state State to add.
      */
     $.mosaic.undo.UndoManager.prototype.add = function (state) {
-      
+
         this.stack.add(state);
     };
 

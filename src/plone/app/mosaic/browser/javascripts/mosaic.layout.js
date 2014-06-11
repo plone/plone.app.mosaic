@@ -1718,7 +1718,7 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
 
                 // Add tile
                 $.mosaic.addTile(type,
-                    '<p class="hiddenStructure tileUrl">' + url + '</p>' + 
+                    '<p class="hiddenStructure tileUrl">' + url + '</p>' +
                         value.find('.temp_body_tag').html());
             }
         });

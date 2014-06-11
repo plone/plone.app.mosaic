@@ -69,7 +69,7 @@ $.deco.options = {
         }
       ],
     "weight" : 30
-    } 
+    }
     ]
 };
 
