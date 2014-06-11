@@ -39,7 +39,7 @@ test("Manipulate stack", function() {
     equals(stack.get(1), "foo18", "Second object")
     equals(stack.get(2), "foo17", "Get third object")
 
-    equals(stack.size(), 10, "Stack has still 10 elements left");      
+    equals(stack.size(), 10, "Stack has still 10 elements left");
 });
 
 
@@ -51,7 +51,7 @@ test("Undo manager", function() {
     function handle(newState) {
       state = newState;
     }
-    
+
     // setup undo manager
     var undo = new $.deco.undo.UndoManager(10, handle, state);
 

@@ -12,7 +12,7 @@
 
   <include package=".bbb" zcml:condition="have plone-4" />
 
-    
+
   <browser:resourceDirectory
       name="plone.app.mosaic.stylesheets"
       directory="stylesheets"
@@ -27,7 +27,7 @@
       name="plone.app.mosaic.javascripts"
       directory="javascripts"
       />
-  
+
   <browser:page
       for="*"
       name="mosaic-config"

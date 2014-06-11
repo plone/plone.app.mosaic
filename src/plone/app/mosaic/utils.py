@@ -81,7 +81,7 @@ def extractFieldInformation(schema, context, request, prefix):
             mergedTaggedValueDict(schema, WRITE_PERMISSIONS_KEY),
             context,
         )
-    
+
     read_only = []
     for name, mode in modes.items():
         if mode == HIDDEN_MODE:

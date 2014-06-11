@@ -111,7 +111,7 @@
         <value key="label">Save as template...</value>
         <value key="weight">50</value>
     </records>
-    
+
     <records prefix="plone.app.mosaic.secondary_actions.format"
              interface='plone.app.mosaic.interfaces.IAction'>
         <value key="name">format</value>
@@ -162,7 +162,7 @@
         </value>
     </record>
 
-    <!-- Format categories -->    
+    <!-- Format categories -->
     <records interface="plone.app.mosaic.interfaces.IWeightedDict"
              prefix="plone.app.mosaic.format_categories.actions">
         <value key="name">actions</value>
@@ -271,7 +271,7 @@
         <value key="action">literal</value>
         <value key="icon">true</value>
         <value key="favorite">false</value>
-        <value key="weight">70</value>        
+        <value key="weight">70</value>
     </records>
     <records interface="plone.app.mosaic.interfaces.IFormat"
              prefix="plone.app.mosaic.formats.quote">
@@ -781,7 +781,7 @@
              <element>tile-align-right</element>
              <element>tile-align-left</element>
         </value>
-    </record>  
+    </record>
 
    <records prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_title"
             interface="plone.app.mosaic.interfaces.ITile">
@@ -806,7 +806,7 @@
              <element>tile-align-right</element>
              <element>tile-align-left</element>
         </value>
-    </record>  
+    </record>
 
    <records prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_description"
             interface="plone.app.mosaic.interfaces.ITile">
@@ -1039,6 +1039,6 @@
              <element>tile-align-right</element>
              <element>tile-align-left</element>
         </value>
-    </record>  
+    </record>
 
 </registry>
