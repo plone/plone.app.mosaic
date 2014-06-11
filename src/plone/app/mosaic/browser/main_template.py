@@ -68,6 +68,7 @@ class MainTemplate(BrowserView):
             return pt
 
     @property
+    @view.memoize
     def macros(self):
         macros = self.main_template.macros.copy()
         macros.update(self.template.macros.copy())
