@@ -48,6 +48,8 @@
       />
 
   <plone:static type="sitelayout"
+                name="ajax" directory="layouts/ajax" />
+  <plone:static type="sitelayout"
                 name="flavor-1" directory="layouts/site-flavor-1" />
   <plone:static type="sitelayout"
                 name="flavor-2" directory="layouts/site-flavor-2" />

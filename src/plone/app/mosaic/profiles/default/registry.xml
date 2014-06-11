@@ -12,6 +12,13 @@
         <value>/++sitelayout++flavor-1/site.html</value>
     </record>
 
+    <record name="plone.defaultAjaxLayout">
+        <field type="plone.registry.field.ASCIILine">
+             <title>Default AJAX layout</title>
+             <description>The site layout used</description>
+        </field>
+        <value>/++sitelayout++ajax/default.html</value>
+    </record>
 
     <!-- Primary actions -->
     <records prefix="plone.app.mosaic.primary_actions.save"

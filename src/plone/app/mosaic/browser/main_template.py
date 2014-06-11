@@ -12,7 +12,9 @@ from zope.pagetemplate.pagetemplate import PageTemplate
 
 from plone.app.mosaic.browser.interfaces import IMainTemplate
 from plone.app.blocks.utils import resolveResource
-from plone.app.blocks.utils import getDefaultSiteLayout, panelXPath
+from plone.app.blocks.utils import getDefaultSiteLayout
+from plone.app.blocks.utils import getDefaultAjaxLayout
+from plone.app.blocks.utils import panelXPath
 
 import logging
 logger = logging.getLogger('plone.app.mosaic')
@@ -58,7 +60,6 @@ dummy python:request.RESPONSE.setHeader('X-UA-Compatible', 'IE=edge,chrome=1');
 class MainTemplate(BrowserView):
     implements(IMainTemplate)
 
-    ajax_template = ViewPageTemplateFile('templates/ajax_main_template.pt')
     main_template = ViewPageTemplateFile('templates/main_template.pt')
 
     def __call__(self):
@@ -68,9 +69,9 @@ class MainTemplate(BrowserView):
     @view.memoize
     def template(self):
         if self.request.form.get('ajax_load'):
-            return self.ajax_template
-
-        layout_resource_path = getDefaultSiteLayout(self.context)
+            layout_resource_path = getDefaultAjaxLayout(self.context)
+        else:
+            layout_resource_path = getDefaultSiteLayout(self.context)
 
         try:
             layout = resolveResource(layout_resource_path)
