@@ -2,6 +2,7 @@ from lxml import etree
 from hashlib import md5
 from plone.memoize.ram import cache
 from repoze.xmliter.utils import getHTMLSerializer
+from zExceptions import NotFound
 from zope.interface import implements
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
@@ -11,6 +12,9 @@ from zope.pagetemplate.pagetemplate import PageTemplate
 from plone.app.mosaic.browser.interfaces import IMainTemplate
 from plone.app.blocks.utils import resolveResource
 from plone.app.blocks.utils import getDefaultSiteLayout, panelXPath
+
+import logging
+logger = logging.getLogger('plone.app.mosaic')
 
 
 @cache(lambda func, layout: md5(layout).hexdigest())
@@ -64,13 +68,19 @@ class MainTemplate(BrowserView):
     def template(self):
         if self.request.form.get('ajax_load'):
             return self.ajax_template
-        else:
-            layout_resource_path = getDefaultSiteLayout(self.context)
+
+        layout_resource_path = getDefaultSiteLayout(self.context)
+
+        try:
             layout = resolveResource(layout_resource_path)
-            cooked = cook_layout(layout)
-            pt = PageTemplate()
-            pt.write(cooked)
-            return pt
+        except NotFound as e:
+            logger.warning('Missing layout {0:s}'.format(e))
+            return self.main_template
+
+        cooked = cook_layout(layout)
+        pt = PageTemplate()
+        pt.write(cooked)
+        return pt
 
     @property
     @view.memoize
