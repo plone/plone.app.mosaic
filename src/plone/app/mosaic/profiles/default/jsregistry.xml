@@ -12,70 +12,9 @@
               compression="none"
               cookable="False"
               enabled="True"
-              id="++resource++plone.app.mosaic.javascripts/mosaic.core.js"
+              id="++resource++plone.app.mosaic.javascripts/bundle/mosaic.js"
               inline="False"/>
 
-  <javascript cacheable="False"
-              compression="none"
-              cookable="False"
-              enabled="True"
-              id="++resource++plone.app.mosaic.javascripts/mosaic.overlay.js"
-              inline="False"/>
 
-  <javascript cacheable="False"
-              compression="none"
-              cookable="False"
-              enabled="True"
-              id="++resource++plone.app.mosaic.javascripts/mosaic.layout.js"
-              inline="False"/>
-
-  <javascript cacheable="False"
-              compression="none"
-              cookable="False"
-              enabled="True"
-              id="++resource++plone.app.mosaic.javascripts/mosaic.toolbar.js"
-              inline="False"/>
-
-  <javascript cacheable="False"
-              compression="none"
-              cookable="False"
-              enabled="True"
-              id="++resource++plone.app.mosaic.javascripts/mosaic.actions.js"
-              inline="False"/>
-
-  <javascript cacheable="False"
-              compression="none"
-              cookable="False"
-              enabled="True"
-              id="++resource++plone.app.mosaic.javascripts/mosaic.upload.js"
-              inline="False"/>
-
-  <javascript cacheable="False"
-              compression="none"
-              cookable="False"
-              enabled="True"
-              id="++resource++plone.app.mosaic.javascripts/mosaic.undo.js"
-              inline="False"/>
-
-  <javascript cacheable="False"
-              compression="none"
-              cookable="False"
-              enabled="True"
-              id="++resource++plone.app.mosaic.javascripts/mosaic.editor.js"
-              inline="False"/>
-
-  <javascript cacheable="False"
-              compression="none"
-              cookable="False"
-              enabled="True"
-              id="++resource++plone.app.mosaic.javascripts/mosaic.overlaytriggers.js"
-              inline="False"/>
-
-  <javascript cacheable="False"
-              compression="none"
-              cookable="False"
-              enabled="True"
-              id="++resource++plone.app.mosaic.javascripts/mosaic.pattern.js"
-              inline="False"/>
 
 </object>
