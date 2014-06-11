@@ -2,7 +2,6 @@
 <metadata>
   <version>0001</version>
   <dependencies>
-    <dependency>profile-plone.app.blocks:default</dependency>
-    <dependency>profile-plone.app.tiles:default</dependency>
+    <dependency>profile-plone.app.standardtiles:default</dependency>
   </dependencies>
 </metadata>
