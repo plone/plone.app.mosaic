@@ -2,7 +2,7 @@
 
 .mosaic-toolbar {
     position: fixed;
-    top: 40px;
+    top: 0px;
     width: 100%;
     z-index: 10000000;
 }

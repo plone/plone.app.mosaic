@@ -21,6 +21,20 @@
 
   <adapter factory=".registry.MosaicRegistry" />
 
+  <!-- Register the resource traverser -->
+  <adapter
+      name="pagelayout"
+      for="* zope.publisher.interfaces.IRequest"
+      provides="zope.traversing.interfaces.ITraversable"
+      factory=".resource.PageLayoutTraverser"
+      />
+
+  <!-- Register vocabulary -->
+  <utility
+      component=".resource.AvailablePageLayoutsVocabularyFactory"
+      name="plone.availablePageLayouts"
+      />
+
   <plone:static type="sitelayout"
                 name="flavor-1" directory="layouts/site-flavor-1" />
   <plone:static type="sitelayout"

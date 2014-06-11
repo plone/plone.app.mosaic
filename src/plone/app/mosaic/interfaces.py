@@ -1,7 +1,17 @@
+from plone.resource.manifest import ManifestFormat
 from zope.interface import Interface
 from zope import schema
 
 from plone.app.mosaic import PloneMessageFactory as _
+
+PAGE_LAYOUT_RESOURCE_NAME = "pagelayout"
+PAGE_LAYOUT_FILE_NAME = "page.html"
+
+PAGE_LAYOUT_MANIFEST_FORMAT = ManifestFormat(
+    PAGE_LAYOUT_RESOURCE_NAME,
+    keys=('title', 'description', 'file'),
+    defaults={'file': PAGE_LAYOUT_FILE_NAME},
+)
 
 
 class IMosaicRegistryAdapter(Interface):

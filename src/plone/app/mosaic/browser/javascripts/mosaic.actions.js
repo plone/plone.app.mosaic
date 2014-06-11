@@ -356,8 +356,6 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
                 $("#form-widgets-ILayoutAware-content")
                       .attr("value", $.mosaic.getPageContent());
 
-                // Remove KSS onunload protection
-                window.parent.onbeforeunload = null;
                 $("#form-buttons-save").click();
             },
             shortcut: {
