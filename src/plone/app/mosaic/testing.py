@@ -40,6 +40,7 @@ class PloneAppMosaic(PloneSandboxLayer):
     def setUpPloneSite(self, portal):
         # Install into Plone site using portal_setup
         applyProfile(portal, 'plone.app.mosaic:default')
+        applyProfile(portal, 'plone.app.mosaic:bbb')
 
 
 PLONE_APP_MOSAIC = PloneAppMosaic()
