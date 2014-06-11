@@ -63,13 +63,13 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
      */
     $.mosaic.init = function (options) {
         options = $.extend({
-            url: window.parent.document.location.href,
+            url: window.document.location.href,
             type: '',
             ignore_context: false
         }, options);
 
         // Set document
-        $.mosaic.document = window.parent.document;
+        $.mosaic.document = window.document;
 
         // Local variables
         var match;
