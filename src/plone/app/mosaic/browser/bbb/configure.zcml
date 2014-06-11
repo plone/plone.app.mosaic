@@ -10,7 +10,7 @@
   <browser:page
       for="*"
       name="main_template"
-      class="..main_template.MainTemplate"
+      class=".main_template.MainTemplateBBB"
       permission="zope.Public"
       layer=".interfaces.IPloneAppMosaicBBB"
       allowed_attributes="macros"

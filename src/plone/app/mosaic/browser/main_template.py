@@ -1,4 +1,6 @@
 from lxml import etree
+from hashlib import md5
+from plone.memoize.ram import cache
 from repoze.xmliter.utils import getHTMLSerializer
 from zope.interface import implements
 from Products.Five import BrowserView
@@ -11,6 +13,7 @@ from plone.app.blocks.utils import resolveResource
 from plone.app.blocks.utils import getDefaultSiteLayout, panelXPath
 
 
+@cache(lambda func, layout: md5(layout).hexdigest())
 def main_templatize(layout):
     result = getHTMLSerializer(layout, encoding='utf-8')
     nsmap = {'metal': 'http://namespaces.zope.org/metal'}
