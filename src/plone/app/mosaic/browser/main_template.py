@@ -25,6 +25,22 @@ def main_templatize(layout):
         slot.append(layoutPanelNode)
         slot_parent.insert(slot_parent_index, slot)
 
+    root = result.tree.getroot()
+    root.attrib['tal:define'] = """\
+portal_state python:context.restrictedTraverse('@@plone_portal_state');
+context_state python:context.restrictedTraverse('@@plone_context_state');
+plone_view python:context.restrictedTraverse('@@plone');
+lang portal_state/language;
+view nocall:view | nocall: plone_view;
+dummy python: plone_view.mark_view(view);
+portal_url portal_state/portal_url;
+checkPermission nocall: context/portal_membership/checkPermission;
+site_properties nocall:context/portal_properties/site_properties;
+ajax_load request/ajax_load | nothing;
+ajax_include_head request/ajax_include_head | nothing;
+dummy python:request.RESPONSE.setHeader('X-UA-Compatible', 'IE=edge,chrome=1');
+"""
+
     template = '<metal:page define-macro="master">\n%s\n</metal:page>'
     metal = 'xmlns:metal="http://namespaces.zope.org/metal"'
     return (template % ''.join(result)).replace(metal, '')
