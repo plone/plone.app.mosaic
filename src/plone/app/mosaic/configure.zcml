@@ -3,6 +3,7 @@
     xmlns:browser="http://namespaces.zope.org/browser"
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
     xmlns:plone="http://namespaces.plone.org/plone"
+    xmlns:zcml="http://namespaces.zope.org/zcml"
     i18n_domain="plone">
 
   <!-- Include our dependencies -->
@@ -18,14 +19,16 @@
       />
 
   <!-- Backwards compatibility profile -->
-  <genericsetup:registerProfile
-      name="bbb"
-      title="Mosaic backwards support for Plone 4"
-      directory="browser/bbb/profiles/default"
-      description="Register Mosaic backwards support for Plone 4 (WARNING: May not be compatible with custom main_templates)"
-      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-      provides="Products.GenericSetup.interfaces.EXTENSION"
-      />
+  <configure zcml:condition="have plone-4">
+    <genericsetup:registerProfile
+        name="bbb"
+        title="Mosaic App Mosaic profile for Plone 4"
+        directory="browser/bbb/profiles/default"
+        description="Installs plone app mosaic."
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        />
+  </configure>
 
   <include package=".browser" />
 
