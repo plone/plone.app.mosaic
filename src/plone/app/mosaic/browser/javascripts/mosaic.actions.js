@@ -306,7 +306,8 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
 
                 // Remove left and right align classes
                 $(".mosaic-selected-tile", $.mosaic.document)
-                    .removeClass("mosaic-tile-align-right mosaic-tile-align-left");
+                    .removeClass("mosaic-tile-align-right")
+                    .removeClass("mosaic-tile-align-left");
             },
             shortcut: {
                 ctrl: true,

@@ -152,7 +152,8 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
                 });
 
                 // Init app tiles
-                $.mosaic.options.panels = $(".mosaic-panel", $.mosaic.document);
+                $.mosaic.options.panels = $(".mosaic-panel",
+                                            $.mosaic.document);
                 $.mosaic.nrOfTiles =
                     $.mosaic.options.panels.find("[data-tile]").size();
 
@@ -167,8 +168,8 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
                     // Get tile type
                     tile_content = $(this).parent();
                     tiletype = '';
-                    classes = tile_content.parents('.mosaic-tile').attr('class')
-                        .split(" ");
+                    classes = tile_content.parents('.mosaic-tile')
+                                .attr('class').split(" ");
                     $(classes).each(function () {
 
                         // Local variables
