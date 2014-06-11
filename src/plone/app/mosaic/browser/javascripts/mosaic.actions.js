@@ -478,7 +478,7 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
                     }
                 }
 
-                if (tile_config.type === 'app') {
+                if (tile_config.tile_type === 'app') {
 
                     // Open overlay
                     $.mosaic.overlay.openIframe($.mosaic.options.parent +

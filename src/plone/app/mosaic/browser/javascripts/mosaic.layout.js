@@ -1704,9 +1704,6 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
         // Close overlay
         $.mosaic.overlay.close();
 
-        // Focus on current window
-        window.parent.focus();
-
         // Get value
         $.ajax({
             type: "GET",
