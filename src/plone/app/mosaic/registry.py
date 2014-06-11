@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from zope.component import adapts
 from zope.i18n import translate
 from zope.interface import implements

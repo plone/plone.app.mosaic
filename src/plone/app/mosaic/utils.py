@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from zope.component import queryUtility, getMultiAdapter
 from zope.interface import Interface
 from zope.schema.interfaces import IField

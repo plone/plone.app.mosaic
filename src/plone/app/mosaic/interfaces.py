@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from plone.resource.manifest import ManifestFormat
 from zope.interface import Interface
 from zope import schema
