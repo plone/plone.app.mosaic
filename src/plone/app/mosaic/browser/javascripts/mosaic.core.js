@@ -134,7 +134,9 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
                     if (panel_id === 'content') {
                         target
                             .removeAttr('data-panel')
-                            .addClass('mosaic-original-content');
+                            .removeAttr('id')
+                            .addClass('mosaic-original-content')
+                            .hide();
                         target.before($(document.createElement("div"))
                             .attr("id", "content")
                             .addClass('mosaic-panel')
