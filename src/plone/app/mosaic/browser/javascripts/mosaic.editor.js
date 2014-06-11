@@ -31,11 +31,9 @@
 eqeqeq: true, plusplus: true, bitwise: true, regexp: true, newcap: true,
 immed: true, strict: true, maxlen: 80, maxerr: 9999 */
 
-(function ($) {
+(function ($, tinymce) {
 
-    var DOM = tinymce.DOM;
-
-    window.parent.tinymce.create('tinymce.themes.PloneTheme', {
+    tinymce.create('tinymce.themes.PloneTheme', {
         init: function(ed, url) {
             var t = this,
                 s = ed.settings;
@@ -58,7 +56,7 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
         }
     });
 
-    window.parent.tinymce.ThemeManager.add('mosaic', window.parent.tinymce.themes.PloneTheme);
+    tinymce.ThemeManager.add('mosaic', tinymce.themes.PloneTheme);
 
     // Define mosaic namespace if it doesn't exist
     if (typeof($.mosaic) === "undefined") {
@@ -91,7 +89,7 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
         $(this).attr('id', 'mosaic-rich-text-init-' + random_id);
 
         // Init rich editor
-        window.parent.tinyMCE.init({
+        tinyMCE.init({
             mode : "exact",
             elements : "mosaic-rich-text-init-" + random_id,
             content_editable : true,
@@ -141,7 +139,7 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
     $.mosaic.execCommand = function (command, ui, value) {
 
         // Exec command
-        window.parent.tinyMCE.activeEditor.execCommand(command, ui, value);
+        tinyMCE.activeEditor.execCommand(command, ui, value);
     };
 
     /**
@@ -153,7 +151,7 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
     $.mosaic.editor.applyFormat = function (format) {
 
         // Apply format
-        window.parent.tinyMCE.activeEditor.formatter.apply(format);
+        tinyMCE.activeEditor.formatter.apply(format);
     };
 
     /**
@@ -169,5 +167,5 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
         tinymce.activeEditor.formatter.register(name, format);
     };
 
-}(jQuery));
+})(jQuery, tinymce);
 
