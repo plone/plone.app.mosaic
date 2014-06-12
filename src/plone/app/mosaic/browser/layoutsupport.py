@@ -6,6 +6,8 @@ from Products.CMFDynamicViewFTI.interfaces import ISelectableBrowserDefault
 from Products.Five import BrowserView
 from plone.app.content.browser.interfaces import IContentsPage
 from plone.app.contentmenu.interfaces import IContentMenuItem
+from plone.app.contentmenu.interfaces import IDisplaySubMenuItem
+from plone.app.contentmenu.menu import DisplaySubMenuItem
 from zExceptions import NotFound
 from zope.browsermenu.menu import BrowserMenu, BrowserSubMenuItem
 from zope.component import adapts, getMultiAdapter, getUtility
@@ -67,11 +69,18 @@ class DisplayLayoutView(BrowserView):
             raise
 
 
+class HiddenDisplaySubMenuItem(DisplaySubMenuItem):
+    adapts(ILayoutAware, IBrowserRequest)
+    @view.memoize
+    def available(self):
+        return False
+
+
 class DisplayLayoutSubMenuItem(BrowserSubMenuItem):
     implements(IContentMenuItem)
     adapts(ILayoutAware, IBrowserRequest)
 
-    title = _(u'label_choose_layout', default=u'Layout')
+    title = _(u'label_choose_display', default=u'Display')
     submenuId = 'plone_contentmenu_layout'
 
     order = 25  # between display menu and factories menu:

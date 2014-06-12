@@ -26,6 +26,12 @@
 
   <adapter
       for="plone.app.blocks.layoutbehavior.ILayoutAware *"
+      name="plone.contentmenu.display"
+      factory=".layoutsupport.HiddenDisplaySubMenuItem"
+      provides="plone.app.contentmenu.interfaces.IContentMenuItem" />
+
+  <adapter
+      for="plone.app.blocks.layoutbehavior.ILayoutAware *"
       name="plone.contentmenu.layout"
       factory=".layoutsupport.DisplayLayoutSubMenuItem"
       provides="plone.app.contentmenu.interfaces.IContentMenuItem" />
