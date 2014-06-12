@@ -856,8 +856,11 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
             exec: function () {
 
                 // Open overlay
-                $.mosaic.overlay.openIframe($.mosaic.options.parent +
-                    '@@add-tile?form.button.Create=Create');
+                var modal = require('mockup-patterns-modal')
+                $.mosaic.overlay = new modal($('.mosaic-toolbar'), {ajaxUrl: $.mosaic.options.context_url +
+                    '/@@add-tile?form.button.Create=Create'})
+                $.mosaic.overlay.show()
+                // $.mosaic.overlay.openIframe();
             }
         });
 
@@ -907,9 +910,21 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
                 if (tile_config.tile_type === 'app') {
 
                     // Open overlay
-                    $.mosaic.overlay.openIframe($.mosaic.options.parent +
-                        '@@add-tile?type=' + $(source).val() +
-                        '&form.button.Create=Create');
+                    var modal = require('mockup-patterns-modal')
+                    $.mosaic.overlay = new modal($('.mosaic-toolbar'), {ajaxUrl: $.mosaic.options.context_url +
+                        '/@@add-tile?type=' + $(source).val() + '&form.button.Create=Create', 
+                        loadLinksWithinModal: true,
+                    })
+                    $.mosaic.overlay._tile_type = $(source).val()
+                    $.mosaic.overlay.show()
+                    $.mosaic.overlay.on('formActionSuccess', function(event, response, state, xhr, form){
+                        var tiledata_url = xhr.getResponseHeader('X-Tile-Url')
+                        $.mosaic.addAppTileHTML($.mosaic.overlay._tile_type, response,
+                            tiledata_url);
+                    });
+                    // $.mosaic.overlay.openIframe($.mosaic.options.parent +
+                    //     '@@add-tile?type=' + $(source).val() +
+                    //     '&form.button.Create=Create');
 
                 } else {
 
@@ -1241,7 +1256,7 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
                 });
 
                 // Hide overlay
-                $.mosaic.overlay.close();
+                $.mosaic.overlay.hide();
             }
         };
 
@@ -2838,7 +2853,7 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
     $.mosaic.addAppTile = function (type, url, id) {
 
         // Close overlay
-        $.mosaic.overlay.close();
+        $.mosaic.overlay.hide();
 
         // Get value
         $.ajax({
@@ -2859,6 +2874,27 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
             }
         });
     };
+
+    /**
+     * Add an apptile with the given value
+     *
+     * @id jQuery.mosaic.addAppTile
+     * @param {String} type Type of the application tile
+     * @param {String} response HTML code to show
+     * @param {String} url Url of the application tile
+     * @param {String} id Id of the application tile
+     */
+    $.mosaic.addAppTileHTML = function (type, response, url) {
+
+        // Close overlay
+        $.mosaic.overlay.hide();
+        value = $.mosaic.getDomTreeFromHtml(response);
+        $.mosaic.addHeadTags(url, value);
+        $.mosaic.addTile(type,
+            '<p class="hiddenStructure tileUrl">' + url + '</p>' +
+                value.find('.temp_body_tag').html());
+    }
+
 
     /**
      * Edit an apptile with the given value
