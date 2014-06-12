@@ -354,7 +354,7 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
         // Register save action
         $.mosaic.registerAction('save', {
             exec: function () {
-                $("#form-widgets-ILayoutAware-content")
+                $.mosaic.options.$el
                       .attr("value", $.mosaic.getPageContent());
 
                 $("#form-buttons-save").click();

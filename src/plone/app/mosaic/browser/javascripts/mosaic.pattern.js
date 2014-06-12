@@ -46,6 +46,7 @@ require([
     },
     init: function() {
       var self = this;
+      self.options.data.$el = self.$el;
       $.mosaic.init({'data': self.options.data});
 
     }
