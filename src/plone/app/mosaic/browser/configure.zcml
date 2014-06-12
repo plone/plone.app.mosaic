@@ -12,6 +12,23 @@
 
   <include package=".bbb" zcml:condition="have plone-4" />
 
+  <!-- Register content layout traverser for shared layout support -->
+  <adapter
+      name="layout"
+      factory=".layoutsupport.DisplayLayoutTraverser"
+      />
+
+  <browser:menu
+      id="plone_contentmenu_layout"
+      title="The 'layout' menu - allows the user to select the predefined layout of an object"
+      class=".layoutsupport.DisplayLayoutMenu"
+      />
+
+  <adapter
+      for="plone.app.blocks.layoutbehavior.ILayoutAware *"
+      name="plone.contentmenu.layout"
+      factory=".layoutsupport.DisplayLayoutSubMenuItem"
+      provides="plone.app.contentmenu.interfaces.IContentMenuItem" />
 
   <browser:resourceDirectory
       name="plone.app.mosaic.stylesheets"

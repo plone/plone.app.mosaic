@@ -52,16 +52,17 @@
       name="plone.availableContentLayouts"
       />
 
+  <!-- Register vocabulary for display layouts available for given context -->
+  <utility
+      component=".layoutsupport.AvailableDisplayLayoutsVocabularyFactory"
+      provides="zope.schema.interfaces.IVocabularyFactory"
+      name="plone.availableDisplayLayouts"
+      />
+
   <!-- Register default value adapter for layout aware content attribute -->
   <adapter
       name="default"
       factory=".layoutsupport.default_layout_content"
-      />
-
-  <!-- Register content layout traverser for shared layout support -->
-  <adapter
-      name="layout"
-      factory=".layoutsupport.ViewLayoutTraverser"
       />
 
   <!-- Register default layouts -->

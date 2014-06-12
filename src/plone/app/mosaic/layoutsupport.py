@@ -2,26 +2,23 @@
 import logging
 
 from Products.CMFCore.utils import getToolByName
-from Products.Five import BrowserView
+from plone.resource.manifest import getAllResources
 from plone.resource.traversal import ResourceTraverser
 from z3c.form.interfaces import IGroup
 from z3c.form.widget import ComputedWidgetAttribute
 from zExceptions import NotFound
-from zope.component import adapts
+from zope.component import adapter
 from zope.interface import implements
-from zope.publisher.interfaces.browser import IBrowserRequest
-from zope.traversing.interfaces import ITraversable
-from zope.traversing.namespace import SimpleHandler
+from zope.schema.interfaces import IVocabularyFactory
+from zope.schema.vocabulary import SimpleVocabulary, SimpleTerm
 
 from plone.app.blocks.interfaces import ILayoutField
 from plone.app.blocks.layoutbehavior import ILayoutAware
 from plone.app.blocks.resource import AvailableLayoutsVocabulary
 from plone.app.blocks.utils import resolveResource
-from plone.app.mosaic.interfaces import (
-    CONTENT_LAYOUT_MANIFEST_FORMAT,
-    CONTENT_LAYOUT_FILE_NAME,
-    CONTENT_LAYOUT_RESOURCE_NAME
-)
+from plone.app.mosaic.interfaces import CONTENT_LAYOUT_MANIFEST_FORMAT
+from plone.app.mosaic.interfaces import CONTENT_LAYOUT_FILE_NAME
+from plone.app.mosaic.interfaces import CONTENT_LAYOUT_RESOURCE_NAME
 
 logger = logging.getLogger('plone.app.mosaic')
 
@@ -45,7 +42,7 @@ AvailableContentLayoutsVocabularyFactory = AvailableLayoutsVocabulary(
 def getDefaultContentLayoutContent(adapter):
     portal_type = getattr(getattr(
         adapter.view, '__parent__', adapter.view), 'portal_type', None)
-    if not portal_type:
+    if portal_type is None:
         return u''
 
     types_tool = getToolByName(adapter.context, 'portal_types')
@@ -70,44 +67,42 @@ default_layout_content = ComputedWidgetAttribute(
     getDefaultContentLayoutContent, view=IGroup, field=ILayoutField)
 
 
-class ViewLayoutTraverser(SimpleHandler):
-    """A traverser to allow unique URLs for caching"""
+def getDefaultDisplayLayoutContent():
+    layout = '/++contentlayout++default/content.html'
+    try:
+        return resolveResource(layout)
+    except NotFound:
+        return u''
 
-    implements(ITraversable)
-    adapts(ILayoutAware, IBrowserRequest)
-
-    def __init__(self, context, request):
-        self.context = context
-        self.request = request
-
-    def traverse(self, name, remaining):
-        portal_type = getattr(self.context, 'portal_type', None)
-        if not portal_type:
-            raise NotFound(self.context, name, self.request)
-
-        types_tool = getToolByName(self.context, 'portal_types')
-        fti = getattr(types_tool, portal_type, None)
-        if fti is None:
-            raise NotFound(self.context, name, self.request)
-
-        aliases = fti.getMethodAliases() or {}
-        layout = '++layout++{0:s}'.format(name)
-        resource_path = aliases.get(layout)
-
-        if resource_path is None:
-            raise NotFound(self.context, name, self.request)
-        else:
-            return ContentLayoutView(self.context, self.request, resource_path)
+ILayoutAware['content'].defaultFactory = getDefaultDisplayLayoutContent
 
 
-class ContentLayoutView(BrowserView):
-    def __init__(self, context, request, layout):
-        super(ContentLayoutView, self).__init__(context, request)
-        self.resource_path = layout
+@adapter(IVocabularyFactory)
+def AvailableDisplayLayoutsVocabularyFactory(context):
+    portal_type = getattr(context, 'portal_type', None)
+    if portal_type is None:
+        return SimpleVocabulary([])
 
-    def __call__(self):
-        try:
-            return resolveResource(self.resource_path)
-        except NotFound as e:
-            logger.warning('Missing layout {0:s}'.format(e))
-            raise
+    types_tool = getToolByName(context, 'portal_types')
+    fti = getattr(types_tool, portal_type, None)
+    if fti is None:
+        return SimpleVocabulary([])
+
+    aliases = fti.getMethodAliases() or {}
+    layouts = dict([(item[1], item[0]) for item in aliases.items()
+                    if item[0].startswith('++layout++')])
+
+    items = []
+    format_ = CONTENT_LAYOUT_MANIFEST_FORMAT
+    resources = getAllResources(format_)  # memoize?
+    for name, manifest in resources.items():
+        if manifest is not None:
+            filename = manifest['file']
+            path = "/++{0:s}++{1:s}/{2:s}".format(format_.resourceType,
+                                                  name, filename)
+            layout = layouts.get(path)
+            if layout is not None:
+                title = unicode(manifest['title'], 'utf-8', 'ignore')
+                items.append(SimpleTerm(layout, layout, title))
+
+    return SimpleVocabulary(items)

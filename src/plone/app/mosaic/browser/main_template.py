@@ -26,7 +26,7 @@ def cook_layout(layout):
     result = getHTMLSerializer(layout, encoding='utf-8')
     nsmap = {'metal': 'http://namespaces.zope.org/metal'}
 
-    # wrap all panels with a metal:fill-slot -tag
+    # Wrap all panels with a metal:fill-slot -tag:
     for layoutPanelNode in panelXPath(result.tree):
         panelId = layoutPanelNode.attrib['data-panel']
         slot = etree.Element('{%s}%s' % (nsmap['metal'], panelId), nsmap=nsmap)
@@ -35,6 +35,10 @@ def cook_layout(layout):
         slot_parent_index = slot_parent.index(layoutPanelNode)
         slot.append(layoutPanelNode)
         slot_parent.insert(slot_parent_index, slot)
+
+        ## XXX: 'data-panel'-attributes are required for Deco-editor and could
+        ## only be removed for anonymous users (and that's not implemented yet)
+        # del layoutPanelNode.attrib['data-panel']
 
     root = result.tree.getroot()
     root.attrib['tal:define'] = """\
