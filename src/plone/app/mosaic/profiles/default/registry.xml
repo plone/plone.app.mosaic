@@ -54,29 +54,6 @@
         <value key="weight">30</value>
     </records>
 
-    <records prefix="plone.app.mosaic.primary_actions.add_tile"
-             interface='plone.app.mosaic.interfaces.IAction'>
-        <value key="name">add_tile</value>
-        <value key="fieldset"></value>
-        <value key="label">Add tile</value>
-        <value key="action">add-tile</value>
-        <value key="icon">False</value>
-        <value key="menu">False</value>
-        <value key="weight">40</value>
-    </records>
-
-    <records prefix="plone.app.mosaic.primary_actions.html"
-            interface='plone.app.mosaic.interfaces.IAction'>
-        <value key="name">html</value>
-        <value key="fieldset"></value>
-        <value key="label">Edit HTML</value>
-        <value key="action">html</value>
-        <value key="icon">False</value>
-        <value key="menu">False</value>
-        <value key="weight">50</value>
-    </records>
-
-
     <!-- secondary actions -->
     <records prefix="plone.app.mosaic.secondary_actions.layout"
             interface='plone.app.mosaic.interfaces.IAction'>
