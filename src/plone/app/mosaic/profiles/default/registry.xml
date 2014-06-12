@@ -9,7 +9,7 @@
              <title>Default site layout</title>
              <description>The site layout used</description>
         </field>
-        <value>/++sitelayout++flavor-1/site.html</value>
+        <value>/++sitelayout++default/site.html</value>
     </record>
 
     <record name="plone.defaultAjaxLayout">

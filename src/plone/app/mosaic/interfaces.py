@@ -5,13 +5,13 @@ from zope import schema
 
 from plone.app.mosaic import PloneMessageFactory as _
 
-PAGE_LAYOUT_RESOURCE_NAME = "pagelayout"
-PAGE_LAYOUT_FILE_NAME = "page.html"
+CONTENT_LAYOUT_RESOURCE_NAME = "contentlayout"
+CONTENT_LAYOUT_FILE_NAME = "content.html"
 
-PAGE_LAYOUT_MANIFEST_FORMAT = ManifestFormat(
-    PAGE_LAYOUT_RESOURCE_NAME,
+CONTENT_LAYOUT_MANIFEST_FORMAT = ManifestFormat(
+    CONTENT_LAYOUT_RESOURCE_NAME,
     keys=('title', 'description', 'file'),
-    defaults={'file': PAGE_LAYOUT_FILE_NAME},
+    defaults={'file': CONTENT_LAYOUT_FILE_NAME},
 )
 
 

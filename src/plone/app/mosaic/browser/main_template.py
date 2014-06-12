@@ -50,6 +50,7 @@ site_properties nocall:context/portal_properties/site_properties;
 ajax_load request/ajax_load | nothing;
 ajax_include_head request/ajax_include_head | nothing;
 dummy python:request.RESPONSE.setHeader('X-UA-Compatible', 'IE=edge,chrome=1');
+dummy python:options.update({'state': options.get('state', request.get('controller_state'))});
 """
 
     template = '<metal:page define-macro="master">\n%s\n</metal:page>'
@@ -73,11 +74,12 @@ class MainTemplate(BrowserView):
         else:
             layout_resource_path = getDefaultSiteLayout(self.context)
 
+        if layout_resource_path is None:
+            return self.main_template
         try:
             layout = resolveResource(layout_resource_path)
         except NotFound as e:
             logger.warning('Missing layout {0:s}'.format(e))
-            return self.main_template
 
         cooked = cook_layout(layout)
         pt = PageTemplate()
