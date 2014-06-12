@@ -43,26 +43,21 @@
           </div>
         </div>
         <div id="portal-column-content" data-grid='{"type": "cell", "info":{"xs": "false", "sm": "False", "lg": "False", "pos": {"x":1, "width": 10}}}'>
-          <metal:content define-slot="content">
-              <metal:content-core define-slot="content-core">
-                  <metal:bodytext define-slot="main">
-
-                    <metal:main define-macro="main">
-                    </metal:main>
-                  </metal:bodytext>
-                  <metal:slot define-slot="body">
-                  </metal:slot>
-                  <metal:header define-slot="header" tal:content="nothing">
-                      Visual Header
-                  </metal:header>
-              </metal:content-core>
-          </metal:content>
           <div data-tile="./@@plone.app.standardtiles.path_bar" />
           <div data-tile="./@@plone.app.standardtiles.lockinfo" />
           <!-- div data-tile="./@@plone.app.standardtiles.viewletmanager/above-content?manager=plone.abovecontent" /-->
-          <div data-panel="content" id="content">
-            <div data-panel="main">
-            <div data-panel="content-core" id="content-core"></div>
+          <div id="content" data-panel="content">
+            <div data-panel="body">
+              <div data-panel="header"/>
+              <div data-panel="main">
+                <div data-panel="content-title">
+                  <div data-tile="./@@plone.app.standardtiles.title"></div>
+                </div>
+                <div data-panel="content-description">
+                  <div data-tile="./@@plone.app.standardtiles.description"></div>
+                </div>
+                <div id="content-core" data-panel="content-core"/>
+              </div>
             </div>
           </div>
           <div data-tile="./@@plone.app.standardtiles.viewletmanager/below-content?manager=plone.belowcontent" />
