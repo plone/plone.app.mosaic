@@ -9,6 +9,7 @@ from plone.app.contentmenu.interfaces import IContentMenuItem
 from plone.app.contentmenu.interfaces import IDisplaySubMenuItem
 from plone.app.contentmenu.menu import DisplaySubMenuItem
 from zExceptions import NotFound
+from zope.browsermenu.interfaces import IBrowserMenu
 from zope.browsermenu.menu import BrowserMenu, BrowserSubMenuItem
 from zope.component import adapts, getMultiAdapter, getUtility
 from zope.interface import implements
@@ -115,8 +116,11 @@ class DisplayLayoutSubMenuItem(BrowserSubMenuItem):
         if self.disabled():
             return ''
         else:
-            # TODO: A standalone action view should be made and links added
-            return '#'
+            if self.context_state.is_default_page():
+                return self.context_state.parent().absolute_url() + \
+                       '/select_default_view'
+            else:
+                return self.context.absolute_url() + '/select_default_view'
 
     @view.memoize
     def available(self):
@@ -154,8 +158,6 @@ class DisplayLayoutSubMenuItem(BrowserSubMenuItem):
 
 class DisplayLayoutMenu(BrowserMenu):
     def getMenuItems(self, context, request):
-        results = []
-
         vocab_factory = getUtility(IVocabularyFactory,
                                    name='plone.availableDisplayLayouts')
         vocab = vocab_factory(context)
@@ -164,21 +166,8 @@ class DisplayLayoutMenu(BrowserMenu):
         if context is None:
             return []
 
-        # Add the 'Custom layout' option
-        is_selected = layout == 'view'
-        results.append({
-            'title': _('Custom layout'),
-            'description': '',
-            'action': '{0:s}/selectViewTemplate?templateId={1:s}'.format(
-                context.absolute_url(), 'view'),
-            'selected': is_selected,
-            'icon': None,
-            'extra': {
-                'id': 'layout-view',
-                'separator': None,
-                'class': is_selected and 'actionMenuSelected' or ''},
-            'submenu': None,
-        })
+        menu = getUtility(IBrowserMenu, 'plone_contentmenu_display')
+        results = menu.getMenuItems(context, request)
 
         # Add the predefined layout options
         for term in vocab:
