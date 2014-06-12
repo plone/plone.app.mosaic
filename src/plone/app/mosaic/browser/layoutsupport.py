@@ -107,7 +107,7 @@ class DisplayLayoutSubMenuItem(BrowserSubMenuItem):
             return ''
         else:
             # TODO: A standalone action view should be made and links added
-            self.context.absolute_url() + '/#'
+            return '#'
 
     @view.memoize
     def available(self):
