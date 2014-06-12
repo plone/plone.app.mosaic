@@ -15904,7 +15904,44 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
             add_unload_trigger: false,
             toolbar: false,
             statusbar: false,
-            menubar: false
+            menubar: false,
+            formats : {
+                strong : {inline : 'strong'},
+                em : {inline : 'em'},
+                h2 : {block : 'h2', remove : 'all'},
+                h3 : {block : 'h3', remove : 'all'},
+                p : {block : 'p', remove : 'all'},
+                sub : {inline : 'sub', remove : 'all'},
+                sup : {inline : 'sup', remove : 'all'},
+                discreet : {block : 'p',
+                            attributes : {'class' : 'discreet'},
+                            remove : 'all'},
+                pre : {block : 'pre', remove : 'all'},
+                pullquote : {block: 'q',
+                             attributes: {'class' : 'pullquote'},
+                             remove: 'all'},
+                callout : {block: 'p',
+                           attributes: {'class' : 'callout'},
+                           remove: 'all'},
+                highlight : {inline: 'span',
+                             attributes: {'class' : 'visualHighlight'},
+                             remove: 'all'},
+                pagebreak : {block: 'p',
+                             attributes: {'class' : 'pagebreak'},
+                             remove: 'all'},
+                'justify-left' : {selector: 'p,h2,h3,pre,q',
+                                  attributes: {'class' : 'justify-left'},
+                                  remove: 'all'},
+                'justify-center' : {selector: 'p,h2,h3,pre,q',
+                                    attributes: {'class' : 'justify-center'},
+                                    remove: 'all'},
+                'justify-right' : {selector: 'p,h2,h3,pre,q',
+                                   attributes: {'class' : 'justify-right'},
+                                   remove: 'all'},
+                'justify-justify' : {selector: 'p,h2,h3,pre,q',
+                                     attributes: {'class' : 'justify-justify'},
+                                     remove: 'all'}
+            }
         });
 
         // Set editor class
@@ -15922,7 +15959,7 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
     $.mosaic.execCommand = function (command, ui, value) {
 
         // Exec command
-        tinyMCE.activeEditor.execCommand(command, ui, value);
+        tinymce.activeEditor.execCommand(command, ui, value);
     };
 
     /**
