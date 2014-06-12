@@ -11886,9 +11886,27 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
             var panel_id = $(this).attr("data-panel"),
                 target = $("[data-panel=" + panel_id + "]",
                 $.mosaic.document);
-            target.addClass('mosaic-panel');
-            target.html(content.find("[data-panel=" +
-                panel_id + "]").html());
+
+            // If content, create a new div since the form data is in
+            // this panel
+            if (panel_id === 'content') {
+                target
+                    .removeAttr('data-panel')
+                    .removeAttr('id')
+                    .addClass('mosaic-original-content')
+                    .hide();
+                target.before($(document.createElement("div"))
+                    .attr("id", "content")
+                    .addClass('mosaic-panel')
+                    .attr('data-panel', 'content')
+                    .html(content.find("[data-panel=" +
+                        panel_id + "]").html())
+                );
+            } else {
+                target.addClass('mosaic-panel');
+                target.html(content.find("[data-panel=" +
+                    panel_id + "]").html());
+            }
         });
 
         // Init app tiles
@@ -12286,7 +12304,7 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
                 })
             );
         }
- 
+
         if (mode === 'all') {
 
             // Get form tabs
@@ -12408,7 +12426,7 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
     $.mosaic.overlay.openIframe = function (url) {
 
         $(".mosaic-overlay-blocker", $.mosaic.document).show();
-        
+
         $($.mosaic.document.body).append(
             $($.mosaic.document.createElement("iframe"))
                 .css({
@@ -12882,11 +12900,13 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
                     url: url,
                     success: function (value) {
 
+/*
                         $.plone.notify({
                             title: "Info",
                             message: "Application tile removed",
                             sticky: false
                         });
+*/
                     }
                 });
             }
@@ -14137,9 +14157,6 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
         // Close overlay
         $.mosaic.overlay.close();
 
-        // Focus on current window
-        window.parent.focus();
-
         // Get value
         $.ajax({
             type: "GET",
@@ -14154,7 +14171,7 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
 
                 // Add tile
                 $.mosaic.addTile(type,
-                    '<p class="hiddenStructure tileUrl">' + url + '</p>' + 
+                    '<p class="hiddenStructure tileUrl">' + url + '</p>' +
                         value.find('.temp_body_tag').html());
             }
         });
@@ -14247,11 +14264,13 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
         helper.mosaicInitTile();
 
         // Notify user
+        /*
         $.plone.notify({
             title: "Inserting new tile",
             message: "Select the location for the new tile",
             sticky: false
         });
+        */
     };
 
     /**
@@ -14423,7 +14442,7 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
                                 if (tile_url === null) {
                                     break;
                                 }
-                                body += '          <span data-tile="' + tile_url + '"></span>\n';
+                                body += '          <div data-tile="' + tile_url + '"></div>\n';
                                 body += '          </div>\n';
                                 body += '          </div>\n';
 
@@ -14445,7 +14464,7 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
                                 // Calc url
                                 tile_url = './@@plone.app.standardtiles.field?field=' + tiletype;
 
-                                body += '          <span data-tile="' + tile_url + '"></span>\n';
+                                body += '          <div data-tile="' + tile_url + '"></div>\n';
                                 body += '          </div>\n';
                                 body += '          </div>\n';
 
@@ -15313,7 +15332,8 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
 
                 // Remove left and right align classes
                 $(".mosaic-selected-tile", $.mosaic.document)
-                    .removeClass("mosaic-tile-align-right mosaic-tile-align-left");
+                    .removeClass("mosaic-tile-align-right")
+                    .removeClass("mosaic-tile-align-left");
             },
             shortcut: {
                 ctrl: true,
@@ -15363,8 +15383,6 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
                 $("#form-widgets-ILayoutAware-content")
                       .attr("value", $.mosaic.getPageContent());
 
-                // Remove KSS onunload protection
-                window.parent.onbeforeunload = null;
                 $("#form-buttons-save").click();
             },
             shortcut: {
@@ -15486,7 +15504,7 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
                     }
                 }
 
-                if (tile_config.type === 'app') {
+                if (tile_config.tile_type === 'app') {
 
                     // Open overlay
                     $.mosaic.overlay.openIframe($.mosaic.options.parent +
@@ -15917,16 +15935,34 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
                 p : {block : 'p', remove : 'all'},
                 sub : {inline : 'sub', remove : 'all'},
                 sup : {inline : 'sup', remove : 'all'},
-                discreet : {block : 'p',  attributes : {'class' : 'discreet'}, remove : 'all'},
+                discreet : {block : 'p',
+                            attributes : {'class' : 'discreet'},
+                            remove : 'all'},
                 pre : {block : 'pre', remove : 'all'},
-                pullquote : {block : 'q',  attributes : {'class' : 'pullquote'}, remove : 'all'},
-                callout : {block : 'p',  attributes : {'class' : 'callout'}, remove : 'all'},
-                highlight : {inline : 'span',  attributes : {'class' : 'visualHighlight'}, remove : 'all'},
-                pagebreak : {block : 'p',  attributes : {'class' : 'pagebreak'}, remove : 'all'},
-                'justify-left' : {selector : 'p,h2,h3,pre,q', attributes : {'class' : 'justify-left'}, remove : 'all'},
-                'justify-center' : {selector : 'p,h2,h3,pre,q', attributes : {'class' : 'justify-center'}, remove : 'all'},
-                'justify-right' : {selector : 'p,h2,h3,pre,q', attributes : {'class' : 'justify-right'}, remove : 'all'},
-                'justify-justify' : {selector : 'p,h2,h3,pre,q', attributes : {'class' : 'justify-justify'}, remove : 'all'}
+                pullquote : {block: 'q',
+                             attributes: {'class' : 'pullquote'},
+                             remove: 'all'},
+                callout : {block: 'p',
+                           attributes: {'class' : 'callout'},
+                           remove: 'all'},
+                highlight : {inline: 'span',
+                             attributes: {'class' : 'visualHighlight'},
+                             remove: 'all'},
+                pagebreak : {block: 'p',
+                             attributes: {'class' : 'pagebreak'},
+                             remove: 'all'},
+                'justify-left' : {selector: 'p,h2,h3,pre,q',
+                                  attributes: {'class' : 'justify-left'},
+                                  remove: 'all'},
+                'justify-center' : {selector: 'p,h2,h3,pre,q',
+                                    attributes: {'class' : 'justify-center'},
+                                    remove: 'all'},
+                'justify-right' : {selector: 'p,h2,h3,pre,q',
+                                   attributes: {'class' : 'justify-right'},
+                                   remove: 'all'},
+                'justify-justify' : {selector: 'p,h2,h3,pre,q',
+                                     attributes: {'class' : 'justify-justify'},
+                                     remove: 'all'}
             },
             valid_elements : "@[id|class|title|dir<ltr?rtl|lang|xml::lang]," +
                 "a[rel|rev|charset|hreflang|tabindex|accesskey|type|" +
@@ -15985,6 +16021,244 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
 
 
 define("mosaic.editor", function(){});
+
+/**
+ * This plugin is used to create the mosaic undo stack, and enable
+ * undo/redo actions. The JS defines two classes, one for internal use
+ * ($.mosaic.undo.Stack) and the public one $.mosaic.unto.UndoManager. The
+ * latter needs to be initialized (form the mosaic core), using:
+ *  - stack size (max undo history)
+ *  - reference to a handler that is called with the state as argument on undo/redo
+ *  - current state (optional)
+ *
+ * The state can be anyting, but a feasible use is a DOM snippet as
+ * state, that can be re-applied to an element on undo/redo.  Check
+ * out plone.app.mosaic/plone/app/mosaic/tests/javascipts/test_undo.html
+ * for an example wiring.
+ *
+ * Currently for mosaic the 'public' methods of the module are 'init',
+ * 'undo', 'redo', 'hasInitial' and 'snapshot'. The undo manager
+ * always needs an intial state (to be able to redo the undo...). A
+ * state can be added with the jQuery.mosaic.undo.snapshot
+ * method. Always take the snapshot AFTER the change in the DOM.
+ *
+ * @author D.A.Dokter
+ * @version 0.1
+ * @licstart  The following is the entire license notice for the JavaScript
+ *            code in this page.
+ *
+ * Copyright (C) 2010 Plone Foundation
+ *
+ * This program is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License as published by the Free
+ * Software Foundation; either version 2 of the License.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
+ * more details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * this program; if not, write to the Free Software Foundation, Inc., 51
+ * Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * @licend  The above is the entire license notice for the JavaScript code in
+ *          this page.
+ */
+
+
+/*global jQuery: false, window: false */
+/*jslint white: true, browser: true, onevar: true, undef: true, nomen: true,
+eqeqeq: true, plusplus: true, bitwise: true, regexp: true, newcap: true,
+immed: true, strict: true, maxlen: 80, maxerr: 9999 */
+
+(function ($) {
+
+    // Define mosaic namespace if it doesn't exist
+    if (typeof($.mosaic) === "undefined") {
+        $.mosaic = {};
+    }
+
+    // Declare mosaic.undo namespace
+    $.mosaic.undo = function () {};
+
+    /**
+     * Initialize undo manager.
+     * @id jQuery.mosaic.undo.init
+     */
+    $.mosaic.undo.init = function () {
+
+        function handler(state) {
+
+            for (var i = 0; i < state.length; i += 1) {
+                $("#" + state[i].target, $.mosaic.document)
+                    .html(state[i].source);
+            }
+        }
+
+        $.mosaic.undo.undoManager =  new $.mosaic.undo.UndoManager(10, handler);
+    };
+
+
+    /**
+     * Create a snapshot of the current situation, and add it to the
+     * undo manager.
+     * @id jQuery.mosaic.undo.snapshot
+     */
+    $.mosaic.undo.snapshot = function () {
+        var state = [];
+        $(".mosaic-panel", $.mosaic.document).each(function () {
+            state.push({"target": $(this).attr("id"),
+                        "source": $(this).html()});
+        });
+        if (typeof($.mosaic.undo.undoManager) === "undefined") {
+            $.mosaic.undo.init();
+        }
+
+        $.mosaic.undo.undoManager.add(state);
+    };
+
+
+    /**
+     *
+     */
+    $.mosaic.undo.hasInitial = function () {
+        if ($.mosaic.undo.undoManager.stack.size() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    };
+
+
+    /**
+     * Undo.
+     * @id jQuery.mosaic.undo.undo
+     */
+    $.mosaic.undo.undo = function () {
+        $.mosaic.undo.undoManager.undo();
+    };
+
+
+    /**
+     * Redo.
+     * @id jQuery.mosaic.undo.redo
+     */
+    $.mosaic.undo.redo = function () {
+        $.mosaic.undo.undoManager.redo();
+    };
+
+
+    /**
+     * Stack constructor, taking optional size parameter.
+     * @id jQuery.mosaic.undo.Stack
+     * @param {Integer} stackSize Maximum number of items on the stack.
+     */
+    $.mosaic.undo.Stack = function (stackSize) {
+        if (typeof(stackSize) === "undefined") {
+            this.maxsize = 10;
+        } else {
+            this.maxsize = stackSize;
+        }
+
+        this.stack = [];
+    };
+
+    /**
+     * Return current stack size.
+     * @id jQuery.mosaic.undo.Stack.size
+     */
+    $.mosaic.undo.Stack.prototype.size  = function () {
+        return this.stack.length;
+    };
+
+    /**
+     * FIFO stack push, that removes object at other end if the stack
+     * grows bigger than the size set.
+     * @id jQuery.mosaic.undo.Stack.add
+     * @param {Object} obj Object to push onto the stack.
+     */
+    $.mosaic.undo.Stack.prototype.add = function (obj) {
+
+        if (this.stack.length >= this.maxsize) {
+            this.stack.pop();
+        }
+
+        this.stack.unshift(obj);
+    };
+
+    /**
+     * Get the object at the given index. Note that new states (added
+     * through jQuery.mosaic.undo.Stack.add) are added (using shift) at index 0.
+     * @id jQuery.mosaic.undo.Stack.get
+     */
+    $.mosaic.undo.Stack.prototype.get = function (i) {
+        return this.stack[i];
+    };
+
+    /**
+     * Undo manager, handling calls to undo/redo. This implementation
+     * uses full DOM snippets.
+     * @id jQuery.mosaic.undo.UndoManager
+     * @param {Integer} stackSize max undo history
+     * @param {Function} handler for undo/redo, taking state as argument
+     * @param {Object} currentState Current state
+     */
+    $.mosaic.undo.UndoManager = function (stackSize, handler, currentState) {
+
+        this.stack = new $.mosaic.undo.Stack(stackSize);
+        this.pointer = 0;
+        this.handler = handler;
+        if (typeof(currentState) !== "undefined") {
+            this.stack.add(currentState);
+        }
+    };
+
+    /**
+     * Add state to manager.
+     * @id jQuery.mosaic.undo.UndoManager.add
+     * @param {Object} state State to add.
+     */
+    $.mosaic.undo.UndoManager.prototype.add = function (state) {
+
+        this.stack.add(state);
+    };
+
+    /**
+     * Undo last action, by restoring last state.
+     * @id jQuery.mosaic.undo.UndoManager.undo
+     */
+    $.mosaic.undo.UndoManager.prototype.undo = function  () {
+
+        var state = this.stack.get(this.pointer + 1);
+
+        if (state) {
+            this.handler(state);
+            this.pointer += 1;
+        } else {
+          // Alert there's no (more) states.
+        }
+    };
+
+    /**
+     * Redo last action, by calling handler with previous state.
+     * @id jQuery.mosaic.undo.UndoManager.redo
+     */
+    $.mosaic.undo.UndoManager.prototype.redo = function () {
+
+        var state = this.stack.get(this.pointer - 1);
+
+        if (state) {
+            this.handler(state);
+            this.pointer -= 1;
+        } else {
+            // Alert there's no (more) states.
+        }
+    };
+
+}(jQuery));
+
+define("mosaic.undo", function(){});
 
 /**
  * This plugin is used to trigger the editing of tiles in an overlay
@@ -16095,6 +16369,7 @@ require([
   'mosaic.actions',
   'mosaic.upload',
   'mosaic.editor',
+  'mosaic.undo',
   'mosaic.overlaytriggers'
 ], function(undefined, $, Registry, Base) {
   

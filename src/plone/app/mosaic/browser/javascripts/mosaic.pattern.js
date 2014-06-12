@@ -34,6 +34,7 @@ require([
   'mosaic.actions',
   'mosaic.upload',
   'mosaic.editor',
+  'mosaic.undo',
   'mosaic.overlaytriggers'
 ], function(undefined, $, Registry, Base) {
   'use strict';
