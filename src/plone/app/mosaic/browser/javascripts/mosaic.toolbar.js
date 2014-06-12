@@ -414,16 +414,17 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
                     .attr("disabled", "disabled");
                 $(obj.find(".mosaic-menu-format").find(".mosaic-option").get(0))
                     .show()
-                    .attr("disabled", "");
+                    .removeAttr("disabled");
 
                 // Show actions
-                $(actions).each(function () {
-                    obj.find(".mosaic-button-" + this).show();
-                    obj.find(".mosaic-icon-menu-" + this).show();
-                    obj.find(".mosaic-menu-" + this).show();
-                    obj.find(".mosaic-option-" + this)
+                $(actions).each(function (i, val) {
+console.log(val);
+                    obj.find(".mosaic-button-" + val).show();
+                    obj.find(".mosaic-icon-menu-" + val).show();
+                    obj.find(".mosaic-menu-" + val).show();
+                    obj.find(".mosaic-option-" + val)
                         .show()
-                        .attr("disabled", "");
+                        .removeAttr("disabled");
                 });
 
                 // Set available fields
@@ -433,7 +434,7 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
                     if ($.mosaic.options.panels
                         .find(".mosaic-" + $(this).attr("value") + "-tile")
                         .length === 0) {
-                        $(this).show().attr("disabled", "");
+                        $(this).show().removeAttr("disabled");
                     } else {
                         $(this).hide().attr("disabled", "disabled");
                     }
