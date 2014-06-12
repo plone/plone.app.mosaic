@@ -32,7 +32,7 @@ def enable_layout_behavior(portal):
         # Set the default view method
         view_methods = [i for i in fti.view_methods]
         view_methods.insert(0, 'view')
-        fti.view_methods = view_methods
+        fti.view_methods = list(set(view_methods))
 
         # Set the default view for selected types
         if fti.getId() in ['Document']:
