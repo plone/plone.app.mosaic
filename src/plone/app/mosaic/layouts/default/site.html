@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xml:lang="en"
+      lang="en"
+      data-gridsystem="bs3">
+  <head>
+    <link data-tile="./@@plone.app.standardtiles.headtitle" />
+    <link data-tile="./@@plone.app.standardtiles.stylesheets" />
+    <link data-tile="./@@plone.app.standardtiles.javascripts" />
+    <link data-tile="./@@plone.app.standardtiles.authorlink" />
+    <link data-tile="./@@plone.app.standardtiles.faviconlink" />
+    <link data-tile="./@@plone.app.standardtiles.navigationlink" />
+    <!-- <link  data-tile="./@@plone.app.standardtiles.rsslink" /> -->
+    <link data-tile="./@@plone.app.standardtiles.searchlink" />
+    <!--
+    <link data-tile="./@@plone.app.standardtiles.viewletmanager?manager=plone.htmlhead&amp;section=head" />
+    <link data-tile="./@@plone.app.standardtiles.viewletmanager?manager=plone.htmlhead.links&amp;section=head" />
+    -->
+  </head>
+  <body>
+    <div id="edit-bar">
+      <div data-tile="./@@plone.app.standardtiles.edit_bar" />
+    </div>
+    <div id="visual-portal-wrapper">
+
+      <div id="portal-top" data-grid='{"type": "row"}'>
+        <div data-grid='{"type": "cell", "info":{"xs": "false", "sm": "False", "lg": "True", "pos": {"x":1, "width": 12}}}'>
+          <div id="plone-portaltop">
+            <div data-tile="./@@plone.app.standardtiles.skip_links" />
+            <div data-tile="./@@plone.app.standardtiles.languageselector" />
+            <div data-tile="./@@plone.app.standardtiles.logo" />
+            <div data-tile="./@@plone.app.standardtiles.searchbox" />
+            <div data-tile="./@@plone.app.standardtiles.global_sections" />
+            <!-- <div data-tile="./@@plone.app.standardtiles.viewletmanager/portal-top?manager=plone.portaltop&amp;viewlet=plone.header" /> -->
+          </div>
+        </div>
+      </div>
+
+      <div id="portal-columns" data-grid='{"type": "row"}'>
+        <div data-grid='{"type": "cell", "info":{"xs": "false", "sm": "False", "lg": "False", "pos": {"x":1, "width": 10}}}'>
+          <div data-panel="portal-column-one" id="portal-column-one">
+            <div data-tile="./@@plone.app.standardtiles.portletmanager/left-portlets?manager=plone.leftcolumn" />
+          </div>
+        </div>
+        <div id="portal-column-content" data-grid='{"type": "cell", "info":{"xs": "false", "sm": "False", "lg": "False", "pos": {"x":1, "width": 10}}}'>
+          <metal:content define-slot="content">
+              <metal:content-core define-slot="content-core">
+                  <metal:bodytext define-slot="main">
+
+                    <metal:main define-macro="main">
+                    </metal:main>
+                  </metal:bodytext>
+                  <metal:slot define-slot="body">
+                  </metal:slot>
+                  <metal:header define-slot="header" tal:content="nothing">
+                      Visual Header
+                  </metal:header>
+              </metal:content-core>
+          </metal:content>
+          <div data-tile="./@@plone.app.standardtiles.path_bar" />
+          <div data-tile="./@@plone.app.standardtiles.lockinfo" />
+          <!-- div data-tile="./@@plone.app.standardtiles.viewletmanager/above-content?manager=plone.abovecontent" /-->
+          <div data-panel="content" id="content">
+            <div data-panel="main">
+            <div data-panel="content-core" id="content-core"></div>
+            </div>
+          </div>
+          <div data-tile="./@@plone.app.standardtiles.viewletmanager/below-content?manager=plone.belowcontent" />
+        </div>
+        <div data-grid='{"type": "cell", "info":{"xs": "false", "sm": "False", "lg": "False", "pos": {"x":1, "width": 10}}}'>
+          <div data-panel="portal-column-two" id="portal-column-two">
+            <div data-tile="./@@plone.app.standardtiles.portletmanager/right-portlets?manager=plone.rightcolumn" />
+          </div>
+        </div>
+      </div>
+
+      <div data-grid='{"type": "row"}'>
+        <div data-grid='{"type": "cell", "info":{"xs": "false", "sm": "False", "lg": "False", "pos": {"x":1, "width": 10}}}'>
+          <div data-tile="./@@plone.app.standardtiles.footer" />
+          <div data-tile="./@@plone.app.standardtiles.colophon" />
+          <div data-tile="./@@plone.app.standardtiles.site_actions" />
+          <div data-tile="./@@plone.app.standardtiles.analytics" />
+
+          <!-- <div data-tile="./@@plone.app.standardtiles.viewletmanager/footer?manager=plone.portalfooter" /> -->
+        </div>
+      </div>
+
+    </div>
+  </body>
+</html>

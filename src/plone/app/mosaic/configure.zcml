@@ -18,48 +18,75 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
+  <genericsetup:importStep
+      name="plone.app.mosaic_default"
+      title="Plone App Mosaic setup"
+      description="Auto-configures content-types for layout ready"
+      handler=".setuphandlers.step_setup_various"
+      />
+
   <!-- Backwards compatibility profile -->
-  <configure zcml:condition="have plone-4">
-    <genericsetup:registerProfile
-        name="bbb"
-        title="Mosaic App Mosaic profile for Plone 4"
-        directory="browser/bbb/profiles/default"
-        description="Installs plone app mosaic."
-        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-        provides="Products.GenericSetup.interfaces.EXTENSION"
-        />
-  </configure>
+  <genericsetup:registerProfile
+      name="bbb"
+      title="Mosaic App Mosaic profile for Plone 4"
+      directory="browser/bbb/profiles/default"
+      description="Installs plone app mosaic."
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      zcml:condition="have plone-4"
+      />
 
   <include package=".browser" />
 
-
-  <!-- Register the resource traverser -->
+  <!-- Register resource traverser for content layouts -->
   <adapter
-      name="pagelayout"
+      name="contentlayout"
       for="* zope.publisher.interfaces.IRequest"
       provides="zope.traversing.interfaces.ITraversable"
-      factory=".resource.PageLayoutTraverser"
+      factory=".layoutsupport.ContentLayoutTraverser"
       />
 
-  <!-- Register vocabulary -->
+  <!-- Register vocabulary all available content layouts-->
   <utility
-      component=".resource.AvailablePageLayoutsVocabularyFactory"
-      name="plone.availablePageLayouts"
+      component=".layoutsupport.AvailableContentLayoutsVocabularyFactory"
+      name="plone.availableContentLayouts"
       />
 
+  <!-- Register default value adapter for layout aware content attribute -->
+  <adapter
+      name="default"
+      factory=".layoutsupport.default_layout_content"
+      />
+
+  <!-- Register content layout traverser for shared layout support -->
+  <adapter
+      name="layout"
+      factory=".layoutsupport.ViewLayoutTraverser"
+      />
+
+  <!-- Register default layouts -->
   <plone:static type="sitelayout"
                 name="ajax" directory="layouts/ajax" />
+
+  <plone:static type="sitelayout"
+                name="default" directory="layouts/default" />
+
+  <plone:static type="contentlayout"
+                name="default" directory="layouts/default" />
+
+  <!-- Register example layouts -->
   <plone:static type="sitelayout"
                 name="flavor-1" directory="layouts/site-flavor-1" />
   <plone:static type="sitelayout"
                 name="flavor-2" directory="layouts/site-flavor-2" />
   <plone:static type="sitelayout"
                 name="flavor-3" directory="layouts/site-flavor-3" />
-  <plone:static type="pagelayout"
-                name="default-document" directory="layouts/default-document" />
-  <plone:static type="pagelayout"
-                name="default-event" directory="layouts/default-event" />
-  <plone:static type="pagelayout"
-                name="default-news" directory="layouts/default-news" />
+
+  <plone:static type="contentlayout"
+                name="example-document" directory="layouts/example-document" />
+  <plone:static type="contentlayout"
+                name="example-event" directory="layouts/example-event" />
+  <plone:static type="contentlayout"
+                name="example-news" directory="layouts/example-news" />
 
 </configure>
