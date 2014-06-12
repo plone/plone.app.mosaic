@@ -16,3 +16,5 @@ fake-eggs/
 parts/
 dist/
 var/
+bower_components
+node_modules

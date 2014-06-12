@@ -15863,32 +15863,7 @@ define("mosaic.upload", function(){});
 eqeqeq: true, plusplus: true, bitwise: true, regexp: true, newcap: true,
 immed: true, strict: true, maxlen: 80, maxerr: 9999 */
 
-(function ($, tinymce) {
-
-    tinymce.create('tinymce.themes.PloneTheme', {
-        init: function(ed, url) {
-            var t = this,
-                s = ed.settings;
-            t.editor = ed;
-        },
-
-        renderUI: function(o) {
-            return {
-                deltaHeight: 0
-            };
-        },
-
-        getInfo: function() {
-            return {
-                longname: 'Mosaic theme',
-                author: 'Plone Foundation',
-                authorurl: 'http://plone.org',
-                version: tinymce.majorVersion + "." + tinymce.minorVersion
-            };
-        }
-    });
-
-    tinymce.ThemeManager.add('mosaic', tinymce.themes.PloneTheme);
+(function ($) {
 
     // Define mosaic namespace if it doesn't exist
     if (typeof($.mosaic) === "undefined") {
@@ -15921,57 +15896,15 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
         $(this).attr('id', 'mosaic-rich-text-init-' + random_id);
 
         // Init rich editor
-        tinyMCE.init({
-            mode : "exact",
-            elements : "mosaic-rich-text-init-" + random_id,
-            content_editable : true,
-            theme : "mosaic",
-            language_load : false,
-            formats : {
-                strong : {inline : 'strong'},
-                em : {inline : 'em'},
-                h2 : {block : 'h2', remove : 'all'},
-                h3 : {block : 'h3', remove : 'all'},
-                p : {block : 'p', remove : 'all'},
-                sub : {inline : 'sub', remove : 'all'},
-                sup : {inline : 'sup', remove : 'all'},
-                discreet : {block : 'p',
-                            attributes : {'class' : 'discreet'},
-                            remove : 'all'},
-                pre : {block : 'pre', remove : 'all'},
-                pullquote : {block: 'q',
-                             attributes: {'class' : 'pullquote'},
-                             remove: 'all'},
-                callout : {block: 'p',
-                           attributes: {'class' : 'callout'},
-                           remove: 'all'},
-                highlight : {inline: 'span',
-                             attributes: {'class' : 'visualHighlight'},
-                             remove: 'all'},
-                pagebreak : {block: 'p',
-                             attributes: {'class' : 'pagebreak'},
-                             remove: 'all'},
-                'justify-left' : {selector: 'p,h2,h3,pre,q',
-                                  attributes: {'class' : 'justify-left'},
-                                  remove: 'all'},
-                'justify-center' : {selector: 'p,h2,h3,pre,q',
-                                    attributes: {'class' : 'justify-center'},
-                                    remove: 'all'},
-                'justify-right' : {selector: 'p,h2,h3,pre,q',
-                                   attributes: {'class' : 'justify-right'},
-                                   remove: 'all'},
-                'justify-justify' : {selector: 'p,h2,h3,pre,q',
-                                     attributes: {'class' : 'justify-justify'},
-                                     remove: 'all'}
-            },
-            valid_elements : "@[id|class|title|dir<ltr?rtl|lang|xml::lang]," +
-                "a[rel|rev|charset|hreflang|tabindex|accesskey|type|" +
-                "name|href|target|title|class]," +
-                "strong/b,em/i,strike,u,#p,-sub,-sup,-blockquote," +
-                "-div,-span,-code,-pre,address,-h1,-h2,-h3,-h4,-h5,-h6,hr," +
-                "-ol[type|compact],-ul[type|compact],-li,dd,dl,dt," +
-                "br,abbr,acronym,del[datetime|cite],ins[datetime|cite]," +
-                "bdo,dfn,kbd,q[cite],samp,small,var,big"
+        tinymce.init({
+            selector: "#" + "mosaic-rich-text-init-" + random_id,
+            theme: "modern",
+            inline: true,
+            schema: "html5",
+            add_unload_trigger: false,
+            toolbar: false,
+            statusbar: false,
+            menubar: false
         });
 
         // Set editor class
@@ -16017,7 +15950,7 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
         tinymce.activeEditor.formatter.register(name, format);
     };
 
-})(jQuery, tinymce);
+})(jQuery);
 
 
 define("mosaic.editor", function(){});

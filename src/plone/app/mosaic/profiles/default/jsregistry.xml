@@ -5,16 +5,7 @@
               compression="none"
               cookable="False"
               enabled="True"
-              id="++resource++plone.app.mosaic.javascripts/tinymce/tiny_mce_mosaic_src.js"
-              inline="False"/>
-
-  <javascript cacheable="False"
-              compression="none"
-              cookable="False"
-              enabled="True"
               id="++resource++plone.app.mosaic.javascripts/bundle/mosaic.js"
               inline="False"/>
-
-
 
 </object>
