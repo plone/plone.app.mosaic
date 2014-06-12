@@ -418,7 +418,6 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
 
                 // Show actions
                 $(actions).each(function (i, val) {
-console.log(val);
                     obj.find(".mosaic-button-" + val).show();
                     obj.find(".mosaic-icon-menu-" + val).show();
                     obj.find(".mosaic-menu-" + val).show();

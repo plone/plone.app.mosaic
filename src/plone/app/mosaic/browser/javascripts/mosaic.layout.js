@@ -721,24 +721,14 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
             var tile_content = $(this).children(".mosaic-tile-content");
             tile_content.focus();
 
-/*
             // Check if rich text
             if (tile_content.hasClass('mosaic-rich-text')) {
 
-                // Append selection div to end of last block element
-                tile_content.children(":last").append($($.mosaic.document.createElement("span"))
-                    .addClass("mosaic-tile-selection-end")
-                    .html("&nbsp;")
-                );
-
-                // Select node and delete the selection
-                $.mosaic.document.selection.select(tile_content.find(".mosaic-tile-selection-end").get(0));
-                $.mosaic.execCommand("Delete");
-
-                // Fallback remove selection
-                $(".mosaic-tile-selection-end", $.mosaic.document).remove();
+                // Put cursor at the end
+                tinyMCE.activeEditor.selection.select(
+                    tinyMCE.activeEditor.getBody(), true);
+                tinyMCE.activeEditor.selection.collapse(false);
             }
-*/
         });
     };
 
