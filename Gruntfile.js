@@ -5,28 +5,22 @@ module.exports = function(grunt) {
     requirejs: {
         compile: {
             options: {
-                baseUrl: "./",
+                baseUrl: "src/plone/app/mosaic/browser/javascripts/",
                 paths: {
-                    'mockup-patterns-base': 'bower_components/mockup-core/js/pattern',
-                    'mockup-registry': 'bower_components/mockup-core/js/registry',
-                    'jquery': 'bower_components/jquery/jquery',
-                    'mosaic.tinymce': 'src/plone/app/mosaic/browser/javascripts/tinymce/tiny_mce_mosaic',
-                    'mosaic.core': 'src/plone/app/mosaic/browser/javascripts/mosaic.core',
-                    'mosaic.overlay': 'src/plone/app/mosaic/browser/javascripts/mosaic.overlay',
-                    'mosaic.layout': 'src/plone/app/mosaic/browser/javascripts/mosaic.layout',
-                    'mosaic.toolbar': 'src/plone/app/mosaic/browser/javascripts/mosaic.toolbar',
-                    'mosaic.actions': 'src/plone/app/mosaic/browser/javascripts/mosaic.actions',
-                    'mosaic.upload': 'src/plone/app/mosaic/browser/javascripts/mosaic.upload',
-                    'mosaic.undo': 'src/plone/app/mosaic/browser/javascripts/mosaic.undo',
-                    'mosaic.editor': 'src/plone/app/mosaic/browser/javascripts/mosaic.editor',
-                    'mosaic.overlaytriggers': 'src/plone/app/mosaic/browser/javascripts/mosaic.overlaytriggers',
-                    'requirejs': 'bower_components/requirejs/require'
+                    'mosaic.tinymce': 'tinymce/tiny_mce_mosaic'
                 },
-                shim: {
-                    'mockup-registry': {exports: 'window.Registry'},
-                    'mosaic.core': {exports: 'window.Mosaic'}
-                },
-                name: "src/plone/app/mosaic/browser/javascripts/mosaic.pattern",
+                name: "mosaic.core",
+                include: [
+                    'mosaic.actions',
+                    'mosaic.editor',
+                    'mosaic.layout',
+                    'mosaic.overlay',
+                    'mosaic.overlaytriggers',
+                    'mosaic.tinymce',
+                    'mosaic.toolbar',
+                    'mosaic.undo',
+                    'mosaic.upload',
+                ],
                 out: "src/plone/app/mosaic/browser/javascripts/bundle/mosaic.js",
                 optimize: "none"
             }
@@ -35,9 +29,23 @@ module.exports = function(grunt) {
     watch: {
         scripts: {
             files: ['src/plone/app/mosaic/browser/javascripts/*.js'],
-            tasks: ['requirejs']
+            tasks: ['requirejs', 'concat:bundle']
         }
     },
+
+    concat: {
+      bundle: {
+          options: {
+              separator: '\n\n',
+          },
+          src: [
+            "src/plone/app/mosaic/browser/javascripts/bundle/mosaic.js",
+            "src/plone/app/mosaic/browser/javascripts/mosaic.pattern.js"
+          ],
+          dest: "src/plone/app/mosaic/browser/javascripts/bundle/mosaic.js"
+      },
+    },
+
     jshint: { options: { jshintrc: '.jshintrc' }, all: ['src/plone/app/mosaic/browser/javascripts/*.js', 'tests/*.js'] },
     jscs: { options: { config: '.jscs.json' }, all: ['src/plone/app/mosaic/browser/javascripts/*.js', 'tests/*.js'] },
     karma: {
@@ -85,6 +93,7 @@ module.exports = function(grunt) {
   });
 
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-requirejs');
   grunt.loadNpmTasks('grunt-jscs-checker');

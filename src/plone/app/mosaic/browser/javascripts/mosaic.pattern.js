@@ -22,7 +22,6 @@
  */
 
 require([
-  'requirejs',
   'jquery',
   'mockup-registry',
   'mockup-patterns-base',
@@ -36,7 +35,7 @@ require([
   'mosaic.editor',
   'mosaic.undo',
   'mosaic.overlaytriggers'
-], function(undefined, $, Registry, Base) {
+], function($, Registry, Base) {
   'use strict';
 
   var Layout = Base.extend({
@@ -54,12 +53,12 @@ require([
   });
 
   // initialize only if we are in top frame
-  // if (window.parent === window) {
-  //   $(document).ready(function() {
-  //     $('body').addClass('pat-test');
-  //     Registry.scan($('body'));
-  //   });
-  // }
+  if (window.parent === window) {
+    $(document).ready(function() {
+      $('body').addClass('pat-test');
+      Registry.scan($('body'));
+    });
+  }
 
   return Layout;
 
