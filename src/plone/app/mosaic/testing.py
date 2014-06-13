@@ -7,7 +7,6 @@ from plone.app.testing import PloneSandboxLayer
 from plone.app.testing import applyProfile
 from plone.testing import z2
 from zope.configuration import xmlconfig
-from plone.app.mosaic.setuphandlers import enable_layout_view
 from plone.app.robotframework.testing import REMOTE_LIBRARY_BUNDLE_FIXTURE
 
 
@@ -80,4 +79,64 @@ PLONE_APP_MOSAIC_FUNCTIONAL = FunctionalTesting(
 PLONE_APP_MOSAIC_ROBOT = FunctionalTesting(
     bases=(REMOTE_LIBRARY_BUNDLE_FIXTURE,
            PLONE_APP_MOSAIC, z2.ZSERVER_FIXTURE),
+    name="PLONE_APP_MOSAIC_ROBOT")
+
+
+class PloneAppMosaicNoPAC(PloneSandboxLayer):
+    defaultBases = (PLONE_FIXTURE,)
+
+    def setUpZope(self, app, configurationContext):
+        # Fix subrequest not fallbacking to wrong encoding in test environment:
+        HTTPResponse.default_encoding = 'utf-8'
+
+        # Load ZCML
+        import plone.app.dexterity
+        xmlconfig.file('configure.zcml',
+                       plone.app.dexterity,
+                       context=configurationContext)
+
+        import plone.app.blocks
+        xmlconfig.file('configure.zcml',
+                       plone.app.blocks,
+                       context=configurationContext)
+
+        import plone.app.tiles
+        xmlconfig.file('configure.zcml',
+                       plone.app.tiles,
+                       context=configurationContext)
+
+        import plone.app.standardtiles
+        xmlconfig.file('configure.zcml',
+                       plone.app.standardtiles,
+                       context=configurationContext)
+
+        import plone.app.widgets
+        xmlconfig.file('configure.zcml',
+                       plone.app.widgets,
+                       context=configurationContext)
+
+        import plone.app.mosaic
+        xmlconfig.file('configure.zcml',
+                       plone.app.mosaic,
+                       context=configurationContext)
+
+        import plone.app.mosaic.browser.bbb
+        xmlconfig.file('configure.zcml',
+                       plone.app.mosaic.browser.bbb,
+                       context=configurationContext)
+
+    def setUpPloneSite(self, portal):
+        # Install into Plone site using portal_setup
+        applyProfile(portal, 'plone.app.widgets:default')
+        applyProfile(portal, 'plone.app.mosaic:default')
+        applyProfile(portal, 'plone.app.mosaic:bbb')
+
+        ## This was a bad idea, because we want to run CMFPlone tests
+        # enable_layout_view(portal)
+
+PLONE_APP_MOSAIC_NO_PAC = PloneAppMosaicNoPAC()
+
+PLONE_APP_MOSAIC_NO_PAC_ROBOT = FunctionalTesting(
+    bases=(REMOTE_LIBRARY_BUNDLE_FIXTURE,
+           PLONE_APP_MOSAIC_NO_PAC, z2.ZSERVER_FIXTURE),
     name="PLONE_APP_MOSAIC_ROBOT")

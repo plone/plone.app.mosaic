@@ -5,6 +5,7 @@ import robotsuite
 from plone.testing import layered
 from plone.app.testing import ROBOT_TEST_LEVEL
 from plone.app.mosaic.testing import PLONE_APP_MOSAIC_ROBOT
+from plone.app.mosaic.testing import PLONE_APP_MOSAIC_NO_PAC_ROBOT
 
 
 def leveled(suite):
@@ -21,6 +22,6 @@ def test_suite():
         layered(leveled(
             robotsuite.RobotTestSuite('robot',
                                       package='Products.CMFPlone.tests'),
-        ), layer=PLONE_APP_MOSAIC_ROBOT),
+        ), layer=PLONE_APP_MOSAIC_NO_PAC_ROBOT),
     ])
     return suite
