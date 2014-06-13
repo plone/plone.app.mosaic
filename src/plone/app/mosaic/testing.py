@@ -6,6 +6,7 @@ from plone.app.testing import PloneSandboxLayer
 from plone.app.testing import applyProfile
 from plone.testing import z2
 from zope.configuration import xmlconfig
+from plone.app.mosaic.setuphandlers import enable_layout_view
 
 
 class PloneAppMosaic(PloneSandboxLayer):
@@ -57,6 +58,8 @@ class PloneAppMosaic(PloneSandboxLayer):
         applyProfile(portal, 'plone.app.widgets:default')
         applyProfile(portal, 'plone.app.mosaic:default')
         applyProfile(portal, 'plone.app.mosaic:bbb')
+
+        enable_layout_view(portal)
 
 
 PLONE_APP_MOSAIC = PloneAppMosaic()

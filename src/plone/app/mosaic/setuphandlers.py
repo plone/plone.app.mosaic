@@ -34,8 +34,12 @@ def enable_layout_behavior(portal):
         view_methods.append('view')
         fti.view_methods = list(set(view_methods))
 
-        ## XXX: This was a bad idea, because it could make the site look broken
-        # Set the default view for selected types
-        # if fti.getId() in ['Document']:
-        #     fti.default_view = 'view'
-        #
+
+def enable_layout_view(portal):
+    types_tool = portal.portal_types
+
+    all_ftis = types_tool.listTypeInfo()
+    dx_ftis = [x for x in all_ftis if getattr(x, 'behaviors', False)]
+    for fti in dx_ftis:
+        if fti.getId() in ['Document']:
+            fti.default_view = 'view'
