@@ -64,7 +64,8 @@ class PloneAppMosaic(PloneSandboxLayer):
         applyProfile(portal, 'plone.app.mosaic:default')
         applyProfile(portal, 'plone.app.mosaic:bbb')
 
-        enable_layout_view(portal)
+        ## This was a bad idea, because we want to run CMFPlone tests
+        # enable_layout_view(portal)
 
 
 PLONE_APP_MOSAIC = PloneAppMosaic()
