@@ -187,13 +187,15 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
 
                     // Set settings value
                     if (tile_group.tiles[y].tile_type === 'field') {
-                        switch (tile_group.tiles[y].widget) {
-                        case "z3c.form.browser.text.TextWidget":
-                        case "z3c.form.browser.text.TextFieldWidget":
-                        case "z3c.form.browser.textarea.TextAreaWidget":
-                        case "z3c.form.browser.textarea.TextAreaFieldWidget":
-                        case "plone.app.z3cform.wysiwyg.widget.WysiwygWidget":
-                        case "plone.app.z3cform.wysiwyg.widget.WysiwygFieldWidget":
+                        var widget = tile_group.tiles[y].widget.split('.');
+                        widget = widget[widget.length - 1];
+                        switch(widget) {
+                        case "TextWidget":
+                        case "TextFieldWidget":
+                        case "TextAreaWidget":
+                        case "TextAreaFieldWidget":
+                        case "WysiwygWidget":
+                        case "WysiwygFieldWidget":
                             tile_group.tiles[y].settings = false;
                             break;
                         default:

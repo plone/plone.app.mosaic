@@ -430,12 +430,11 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
             exec: function () {
 
                 // Open overlay
-                var modal = require('mockup-patterns-modal')
+                var modal = require('mockup-patterns-modal');
                 $.mosaic.overlay = new modal($('.mosaic-toolbar'),
                     {ajaxUrl: $.mosaic.options.context_url +
-                     '/@@add-tile?form.button.Create=Create'})
-                $.mosaic.overlay.show()
-                // $.mosaic.overlay.openIframe();
+                     '/@@add-tile?form.button.Create=Create'});
+                $.mosaic.overlay.show();
             }
         });
 
@@ -485,21 +484,24 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
                 if (tile_config.tile_type === 'app') {
 
                     // Open overlay
-                    var modal = require('mockup-patterns-modal')
-                    $.mosaic.overlay = new modal($('.mosaic-toolbar'), {ajaxUrl: $.mosaic.options.context_url +
-                        '/@@add-tile?type=' + $(source).val() + '&form.button.Create=Create', 
+                    var modal = require('mockup-patterns-modal');
+                    $.mosaic.overlay = new modal($('.mosaic-toolbar'),
+                        {ajaxUrl: $.mosaic.options.context_url +
+                        '/@@add-tile?type=' + $(source).val() +
+                        '&form.button.Create=Create', 
                         loadLinksWithinModal: true,
-                    })
-                    $.mosaic.overlay._tile_type = $(source).val()
-                    $.mosaic.overlay.show()
-                    $.mosaic.overlay.on('formActionSuccess', function(event, response, state, xhr, form){
-                        var tiledata_url = xhr.getResponseHeader('X-Tile-Url')
-                        $.mosaic.addAppTileHTML($.mosaic.overlay._tile_type, response,
-                            tiledata_url);
                     });
-                    // $.mosaic.overlay.openIframe($.mosaic.options.parent +
-                    //     '@@add-tile?type=' + $(source).val() +
-                    //     '&form.button.Create=Create');
+                    $.mosaic.overlay._tile_type = $(source).val();
+                    $.mosaic.overlay.show();
+                    $.mosaic.overlay.on(
+                        'formActionSuccess',
+                        function (event, response, state, xhr, form) {
+                            $.mosaic.addAppTileHTML(
+                                $.mosaic.overlay._tile_type, response,
+                                xhr.getResponseHeader('X-Tile-Url')
+                            );
+                        }
+                    );
 
                 } else {
 

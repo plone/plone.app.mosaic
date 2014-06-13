@@ -24,7 +24,6 @@
  * @licend  The above is the entire license notice for the JavaScript code in
  *          this page.
  */
-"use strict";
 
 /*global jQuery: false, window: false */
 /*jslint white: true, browser: true, onevar: true, undef: true, nomen: true,
@@ -32,6 +31,7 @@ eqeqeq: true, plusplus: true, bitwise: true, regexp: true, newcap: true,
 immed: true, strict: true, maxlen: 80, maxerr: 9999 */
 
 (function ($) {
+    "use strict";
 
     // Define mosaic namespace if it doesn't exist
     if (typeof($.mosaic) === "undefined") {

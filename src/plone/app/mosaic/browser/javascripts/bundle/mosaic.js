@@ -188,13 +188,15 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
 
                     // Set settings value
                     if (tile_group.tiles[y].tile_type === 'field') {
-                        switch (tile_group.tiles[y].widget) {
-                        case "z3c.form.browser.text.TextWidget":
-                        case "z3c.form.browser.text.TextFieldWidget":
-                        case "z3c.form.browser.textarea.TextAreaWidget":
-                        case "z3c.form.browser.textarea.TextAreaFieldWidget":
-                        case "plone.app.z3cform.wysiwyg.widget.WysiwygWidget":
-                        case "plone.app.z3cform.wysiwyg.widget.WysiwygFieldWidget":
+                        var widget = tile_group.tiles[y].widget.split('.');
+                        widget = widget[widget.length - 1];
+                        switch(widget) {
+                        case "TextWidget":
+                        case "TextFieldWidget":
+                        case "TextAreaWidget":
+                        case "TextAreaFieldWidget":
+                        case "WysiwygWidget":
+                        case "WysiwygFieldWidget":
                             tile_group.tiles[y].settings = false;
                             break;
                         default:
@@ -858,12 +860,11 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
             exec: function () {
 
                 // Open overlay
-                var modal = require('mockup-patterns-modal')
+                var modal = require('mockup-patterns-modal');
                 $.mosaic.overlay = new modal($('.mosaic-toolbar'),
                     {ajaxUrl: $.mosaic.options.context_url +
-                     '/@@add-tile?form.button.Create=Create'})
-                $.mosaic.overlay.show()
-                // $.mosaic.overlay.openIframe();
+                     '/@@add-tile?form.button.Create=Create'});
+                $.mosaic.overlay.show();
             }
         });
 
@@ -913,21 +914,24 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
                 if (tile_config.tile_type === 'app') {
 
                     // Open overlay
-                    var modal = require('mockup-patterns-modal')
-                    $.mosaic.overlay = new modal($('.mosaic-toolbar'), {ajaxUrl: $.mosaic.options.context_url +
-                        '/@@add-tile?type=' + $(source).val() + '&form.button.Create=Create', 
+                    var modal = require('mockup-patterns-modal');
+                    $.mosaic.overlay = new modal($('.mosaic-toolbar'),
+                        {ajaxUrl: $.mosaic.options.context_url +
+                        '/@@add-tile?type=' + $(source).val() +
+                        '&form.button.Create=Create', 
                         loadLinksWithinModal: true,
-                    })
-                    $.mosaic.overlay._tile_type = $(source).val()
-                    $.mosaic.overlay.show()
-                    $.mosaic.overlay.on('formActionSuccess', function(event, response, state, xhr, form){
-                        var tiledata_url = xhr.getResponseHeader('X-Tile-Url')
-                        $.mosaic.addAppTileHTML($.mosaic.overlay._tile_type, response,
-                            tiledata_url);
                     });
-                    // $.mosaic.overlay.openIframe($.mosaic.options.parent +
-                    //     '@@add-tile?type=' + $(source).val() +
-                    //     '&form.button.Create=Create');
+                    $.mosaic.overlay._tile_type = $(source).val();
+                    $.mosaic.overlay.show();
+                    $.mosaic.overlay.on(
+                        'formActionSuccess',
+                        function (event, response, state, xhr, form) {
+                            $.mosaic.addAppTileHTML(
+                                $.mosaic.overlay._tile_type, response,
+                                xhr.getResponseHeader('X-Tile-Url')
+                            );
+                        }
+                    );
 
                 } else {
 
@@ -1017,13 +1021,13 @@ define("mosaic.actions", function(){});
  *          this page.
  */
 
-
 /*global jQuery: false, window: false */
 /*jslint white: true, browser: true, onevar: true, undef: true, nomen: true,
 eqeqeq: true, plusplus: true, bitwise: true, regexp: true, newcap: true,
 immed: true, strict: true, maxlen: 80, maxerr: 9999 */
 
 (function ($) {
+    
 
     // Define mosaic namespace if it doesn't exist
     if (typeof($.mosaic) === "undefined") {
@@ -1179,13 +1183,13 @@ define("mosaic.editor", function(){});
  *          this page.
  */
 
-
 /*global jQuery: false, window: false */
 /*jslint white: true, browser: true, onevar: true, undef: true, nomen: true,
 eqeqeq: true, plusplus: true, bitwise: true, regexp: true, newcap: true,
 immed: true, strict: true, maxlen: 80, maxerr: 9999 */
 
 (function ($) {
+    
 
     // Define mosaic namespace if it doesn't exist
     if (typeof($.mosaic) === "undefined") {
@@ -1325,6 +1329,7 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
 
             // Find resize helper
             $(".mosaic-resize-handle-helper", $.mosaic.document).each(function () {
+                var columns;
 
                 var cur_snap_offset;
 
@@ -1402,7 +1407,7 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
                         if ((helper.data("column_sizes").split(" ")[$(this).data("resize_handle_index") - 1] !== snap) && (parseInt(snap, 10) <= 50)) {
 
                             // Get columns
-                            var columns = row.children(".mosaic-resize-placeholder");
+                            columns = row.children(".mosaic-resize-placeholder");
 
                             // Remove position and width classes
                             columns
@@ -1442,7 +1447,7 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
                         if ((helper.data("column_sizes").split(" ")[$(this).data("resize_handle_index")] !== (100 - snap)) && (parseInt(snap, 10) >= 50)) {
 
                             // Get columns
-                            var columns = row.children(".mosaic-resize-placeholder");
+                            columns = row.children(".mosaic-resize-placeholder");
 
                             // Remove position and width classes
                             columns
@@ -2530,7 +2535,7 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
             $(this).children(".mosaic-resize-handle").mousedown(function (e) {
 
                 // Get number of columns and current sizes
-                var column_sizes = new Array();
+                var column_sizes = [];
                 $(this).parent().children(".mosaic-grid-cell").each(function () {
 
                     // Add column size
@@ -2889,7 +2894,7 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
         $.mosaic.addTile(type,
             '<p class="hiddenStructure tileUrl">' + url + '</p>' +
                 value.find('.temp_body_tag').html());
-    }
+    };
 
 
     /**
@@ -3002,7 +3007,6 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
             case "z3c.form.browser.text.TextWidget":
             case "z3c.form.browser.text.TextFieldWidget":
                 return '<div>' + $("#" + tile_config.id, $.mosaic.document).find('input').attr('value') + '</div>';
-                break;
             case "z3c.form.browser.textarea.TextAreaWidget":
             case "z3c.form.browser.textarea.TextAreaFieldWidget":
                 var lines = $("#" + tile_config.id, $.mosaic.document).find('textarea').attr('value').split('\n');
@@ -3011,19 +3015,15 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
                     return_string += '<div>' + lines[i] + '</div>';
                 }
                 return return_string;
-                break;
             case "plone.app.z3cform.wysiwyg.widget.WysiwygWidget":
             case "plone.app.z3cform.wysiwyg.widget.WysiwygFieldWidget":
                 return $("#" + tile_config.id, $.mosaic.document).find('textarea').attr('value');
-                break;
             default:
                 return '<div class="discreet">Placeholder for field:<br/><b>' + tile_config.label + '</b></div>';
-                break;
             }
             break;
         default:
             return tile_config.default_value;
-            break;
         }
     };
 
@@ -3298,13 +3298,13 @@ define("mosaic.layout", function(){});
  * @version 0.1
  */
 
-
 /*global jQuery: false, window: false */
 /*jslint white: true, browser: true, onevar: true, undef: true, nomen: true,
 eqeqeq: true, plusplus: true, bitwise: true, regexp: true, newcap: true,
 immed: true, strict: true, maxlen: 80, maxerr: 9999 */
 
 (function ($) {
+    
 
     // Define mosaic namespace if it doesn't exist
     if (typeof($.mosaic) === "undefined") {
@@ -3426,7 +3426,8 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
             for (x = 0; x < tile_group.tiles.length; x += 1) {
                 field_tile = tile_group.tiles[x];
                 if ($.mosaic.options.panels
-                    .find(".mosaic-" + field_tile.name + "-tile").length !== 0) {
+                    .find(".mosaic-" + field_tile.name + "-tile")
+                        .length !== 0) {
                     $($.mosaic.document.getElementById(field_tile.id))
                         .addClass('mosaic-hidden');
                 }
@@ -3452,7 +3453,7 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
             visible_tabs.eq(0).children('a').addClass('selected');
             form.find('#fieldset-' +
                 visible_tabs.eq(0).children('a').attr('href').split('-')[1])
-                .show()
+                .show();
 
         } else if (mode === 'field') {
 
@@ -3552,13 +3553,13 @@ define("mosaic.overlay", function(){});
  * @version 0.1
  */
 
-
 /*global tiledata: false, jQuery: false, window: false */
 /*jslint white: true, browser: true, onevar: true, undef: true, nomen: true,
 eqeqeq: true, plusplus: true, bitwise: true, regexp: true, newcap: true,
 immed: true, strict: true, maxlen: 80, maxerr: 9999 */
 
 (function ($) {
+    
 
     // Init on load
     $(window).load(function () {
@@ -3570,7 +3571,7 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
             if (tiledata.action === 'cancel') {
 
                 // Close overlay
-                window.parent.frames['plone-cmsui-menu'].jQuery.mosaic.overlay.close();
+                $.mosaic.overlay.close();
 
             } else if (tiledata.action === 'save') {
 
@@ -3581,13 +3582,13 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
                     if (typeof(tiledata.url) !== 'undefined') {
 
                         // Insert app tile
-                         window.parent.frames['plone-cmsui-menu'].jQuery.mosaic.addAppTile(tiledata.tile_type,
+                        $.mosaic.addAppTile(tiledata.tile_type,
                             tiledata.url, tiledata.id);
                     }
                 } else {
 
                     // Update app tile
-                     window.parent.frames['plone-cmsui-menu'].jQuery.mosaic.editAppTile(tiledata.url);
+                    $.mosaic.editAppTile(tiledata.url);
                 }
             }
         }
@@ -3625,13 +3626,13 @@ define("mosaic.overlaytriggers", function(){});
  *          this page.
  */
 
-
 /*global jQuery: false, window: false */
 /*jslint white: true, browser: true, onevar: true, undef: true, nomen: true,
 eqeqeq: true, plusplus: true, bitwise: true, regexp: true, newcap: true,
 immed: true, strict: true, maxlen: 80, maxerr: 9999 */
 
 (function ($) {
+    
 
     // Define mosaic namespace if it doesn't exist
     if (typeof($.mosaic) === "undefined") {
@@ -3660,7 +3661,8 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
                     .html(action.label)
                     .attr("title", action.label)
                     .append($(document.createElement("select"))
-                        .addClass("mosaic-menu-" + action.name.replace(/_/g, "-"))
+                        .addClass("mosaic-menu-" +
+                                  action.name.replace(/_/g, "-"))
                         .data("action", action.action)
                         .change(function () {
                             $(this).mosaicExecAction();
@@ -3709,7 +3711,8 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
 
                 // Create menu
                 parent.append($(document.createElement("select"))
-                    .addClass("mosaic-menu mosaic-menu-" + action.name.replace(/_/g, "-"))
+                    .addClass("mosaic-menu mosaic-menu-" +
+                              action.name.replace(/_/g, "-"))
                     .data("action", action.action)
                     .change(function () {
                         $(this).mosaicExecAction();
@@ -3753,6 +3756,7 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
             }
 
         } else {
+
             // Create button
             parent.append($(document.createElement("button"))
                 .addClass("mosaic-button mosaic-button-" + action.name.replace(/_/g, "-") + (action.icon ? ' mosaic-icon' : ''))
@@ -3851,15 +3855,21 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
             if ($.mosaic.options.formats !== undefined) {
                 for (x = 0; x < $.mosaic.options.formats.length; x += 1) {
                     action_group = $.mosaic.options.formats[x];
-                    actions.primary_actions.append($(document.createElement("fieldset"))
-                        .addClass("mosaic-button-group mosaic-button-group-" + action_group.name.replace(/_/g, "-"))
+                    actions.primary_actions.append(
+                        $(document.createElement("fieldset"))
+                            .addClass(
+                                  "mosaic-button-group mosaic-button-group-" +
+                                  action_group.name.replace(/_/g, "-"))
                     );
-                    elm_action_group = actions.primary_actions.children(".mosaic-button-group-" + action_group.name.replace(/_/g, "-"));
+                    elm_action_group = actions.primary_actions.children(
+                        ".mosaic-button-group-" +
+                        action_group.name.replace(/_/g, "-"));
                     for (y = 0; y < action_group.actions.length; y += 1) {
                         if (action_group.actions[y].favorite) {
 
                             // Add control
-                            AddControl(elm_action_group, action_group.actions[y]);
+                            AddControl(elm_action_group,
+                                       action_group.actions[y]);
                         }
                     }
                     if (elm_action_group.children().length === 0) {
@@ -3870,7 +3880,8 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
 
             // Add items to the insert menu
             if ($.mosaic.options.tiles !== undefined) {
-                elm_select_insert = actions.secondary_actions.find(".mosaic-menu-insert");
+                elm_select_insert = actions.secondary_actions.find(
+                    ".mosaic-menu-insert");
                 for (x = 0; x < $.mosaic.options.tiles.length; x += 1) {
                     action_group = $.mosaic.options.tiles[x];
                     elm_select_insert.append($(document.createElement("optgroup"))
@@ -4012,7 +4023,8 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
                 obj.find(".mosaic-menu-format").find(".mosaic-option")
                     .hide()
                     .attr("disabled", "disabled");
-                $(obj.find(".mosaic-menu-format").find(".mosaic-option").get(0))
+                $(obj.find(".mosaic-menu-format")
+                    .find(".mosaic-option").get(0))
                     .show()
                     .removeAttr("disabled");
 
@@ -4110,13 +4122,13 @@ define("mosaic.toolbar", function(){});
  *          this page.
  */
 
-
 /*global jQuery: false, window: false */
 /*jslint white: true, browser: true, onevar: true, undef: true, nomen: true,
 eqeqeq: true, plusplus: true, bitwise: true, regexp: true, newcap: true,
 immed: true, strict: true, maxlen: 80, maxerr: 9999 */
 
 (function ($) {
+    
 
     // Define mosaic namespace if it doesn't exist
     if (typeof($.mosaic) === "undefined") {

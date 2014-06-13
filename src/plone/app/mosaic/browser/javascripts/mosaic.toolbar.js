@@ -24,7 +24,6 @@
  * @licend  The above is the entire license notice for the JavaScript code in
  *          this page.
  */
-"use strict";
 
 /*global jQuery: false, window: false */
 /*jslint white: true, browser: true, onevar: true, undef: true, nomen: true,
@@ -32,6 +31,7 @@ eqeqeq: true, plusplus: true, bitwise: true, regexp: true, newcap: true,
 immed: true, strict: true, maxlen: 80, maxerr: 9999 */
 
 (function ($) {
+    "use strict";
 
     // Define mosaic namespace if it doesn't exist
     if (typeof($.mosaic) === "undefined") {
@@ -60,7 +60,8 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
                     .html(action.label)
                     .attr("title", action.label)
                     .append($(document.createElement("select"))
-                        .addClass("mosaic-menu-" + action.name.replace(/_/g, "-"))
+                        .addClass("mosaic-menu-" +
+                                  action.name.replace(/_/g, "-"))
                         .data("action", action.action)
                         .change(function () {
                             $(this).mosaicExecAction();
@@ -109,7 +110,8 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
 
                 // Create menu
                 parent.append($(document.createElement("select"))
-                    .addClass("mosaic-menu mosaic-menu-" + action.name.replace(/_/g, "-"))
+                    .addClass("mosaic-menu mosaic-menu-" +
+                              action.name.replace(/_/g, "-"))
                     .data("action", action.action)
                     .change(function () {
                         $(this).mosaicExecAction();
@@ -153,6 +155,7 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
             }
 
         } else {
+
             // Create button
             parent.append($(document.createElement("button"))
                 .addClass("mosaic-button mosaic-button-" + action.name.replace(/_/g, "-") + (action.icon ? ' mosaic-icon' : ''))
@@ -251,15 +254,21 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
             if ($.mosaic.options.formats !== undefined) {
                 for (x = 0; x < $.mosaic.options.formats.length; x += 1) {
                     action_group = $.mosaic.options.formats[x];
-                    actions.primary_actions.append($(document.createElement("fieldset"))
-                        .addClass("mosaic-button-group mosaic-button-group-" + action_group.name.replace(/_/g, "-"))
+                    actions.primary_actions.append(
+                        $(document.createElement("fieldset"))
+                            .addClass(
+                                  "mosaic-button-group mosaic-button-group-" +
+                                  action_group.name.replace(/_/g, "-"))
                     );
-                    elm_action_group = actions.primary_actions.children(".mosaic-button-group-" + action_group.name.replace(/_/g, "-"));
+                    elm_action_group = actions.primary_actions.children(
+                        ".mosaic-button-group-" +
+                        action_group.name.replace(/_/g, "-"));
                     for (y = 0; y < action_group.actions.length; y += 1) {
                         if (action_group.actions[y].favorite) {
 
                             // Add control
-                            AddControl(elm_action_group, action_group.actions[y]);
+                            AddControl(elm_action_group,
+                                       action_group.actions[y]);
                         }
                     }
                     if (elm_action_group.children().length === 0) {
@@ -270,7 +279,8 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
 
             // Add items to the insert menu
             if ($.mosaic.options.tiles !== undefined) {
-                elm_select_insert = actions.secondary_actions.find(".mosaic-menu-insert");
+                elm_select_insert = actions.secondary_actions.find(
+                    ".mosaic-menu-insert");
                 for (x = 0; x < $.mosaic.options.tiles.length; x += 1) {
                     action_group = $.mosaic.options.tiles[x];
                     elm_select_insert.append($(document.createElement("optgroup"))
@@ -412,7 +422,8 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
                 obj.find(".mosaic-menu-format").find(".mosaic-option")
                     .hide()
                     .attr("disabled", "disabled");
-                $(obj.find(".mosaic-menu-format").find(".mosaic-option").get(0))
+                $(obj.find(".mosaic-menu-format")
+                    .find(".mosaic-option").get(0))
                     .show()
                     .removeAttr("disabled");
 

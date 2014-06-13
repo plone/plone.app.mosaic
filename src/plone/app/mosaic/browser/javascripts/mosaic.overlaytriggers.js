@@ -24,7 +24,6 @@
  *          this page.
  * @version 0.1
  */
-"use strict";
 
 /*global tiledata: false, jQuery: false, window: false */
 /*jslint white: true, browser: true, onevar: true, undef: true, nomen: true,
@@ -32,6 +31,7 @@ eqeqeq: true, plusplus: true, bitwise: true, regexp: true, newcap: true,
 immed: true, strict: true, maxlen: 80, maxerr: 9999 */
 
 (function ($) {
+    "use strict";
 
     // Init on load
     $(window).load(function () {
@@ -43,7 +43,7 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
             if (tiledata.action === 'cancel') {
 
                 // Close overlay
-                window.parent.frames['plone-cmsui-menu'].jQuery.mosaic.overlay.close();
+                $.mosaic.overlay.close();
 
             } else if (tiledata.action === 'save') {
 
@@ -54,13 +54,13 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
                     if (typeof(tiledata.url) !== 'undefined') {
 
                         // Insert app tile
-                         window.parent.frames['plone-cmsui-menu'].jQuery.mosaic.addAppTile(tiledata.tile_type,
+                        $.mosaic.addAppTile(tiledata.tile_type,
                             tiledata.url, tiledata.id);
                     }
                 } else {
 
                     // Update app tile
-                     window.parent.frames['plone-cmsui-menu'].jQuery.mosaic.editAppTile(tiledata.url);
+                    $.mosaic.editAppTile(tiledata.url);
                 }
             }
         }

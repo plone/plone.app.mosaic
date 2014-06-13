@@ -24,7 +24,6 @@
  * @licend  The above is the entire license notice for the JavaScript code in
  *          this page.
  */
-"use strict";
 
 /*global jQuery: false, window: false */
 /*jslint white: true, browser: true, onevar: true, undef: true, nomen: true,
@@ -32,6 +31,7 @@ eqeqeq: true, plusplus: true, bitwise: true, regexp: true, newcap: true,
 immed: true, strict: true, maxlen: 80, maxerr: 9999 */
 
 (function ($) {
+    "use strict";
 
     // Define mosaic namespace if it doesn't exist
     if (typeof($.mosaic) === "undefined") {
@@ -171,6 +171,7 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
 
             // Find resize helper
             $(".mosaic-resize-handle-helper", $.mosaic.document).each(function () {
+                var columns;
 
                 var cur_snap_offset;
 
@@ -248,7 +249,7 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
                         if ((helper.data("column_sizes").split(" ")[$(this).data("resize_handle_index") - 1] !== snap) && (parseInt(snap, 10) <= 50)) {
 
                             // Get columns
-                            var columns = row.children(".mosaic-resize-placeholder");
+                            columns = row.children(".mosaic-resize-placeholder");
 
                             // Remove position and width classes
                             columns
@@ -288,7 +289,7 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
                         if ((helper.data("column_sizes").split(" ")[$(this).data("resize_handle_index")] !== (100 - snap)) && (parseInt(snap, 10) >= 50)) {
 
                             // Get columns
-                            var columns = row.children(".mosaic-resize-placeholder");
+                            columns = row.children(".mosaic-resize-placeholder");
 
                             // Remove position and width classes
                             columns
@@ -1376,7 +1377,7 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
             $(this).children(".mosaic-resize-handle").mousedown(function (e) {
 
                 // Get number of columns and current sizes
-                var column_sizes = new Array();
+                var column_sizes = [];
                 $(this).parent().children(".mosaic-grid-cell").each(function () {
 
                     // Add column size
@@ -1735,7 +1736,7 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
         $.mosaic.addTile(type,
             '<p class="hiddenStructure tileUrl">' + url + '</p>' +
                 value.find('.temp_body_tag').html());
-    }
+    };
 
 
     /**
@@ -1848,7 +1849,6 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
             case "z3c.form.browser.text.TextWidget":
             case "z3c.form.browser.text.TextFieldWidget":
                 return '<div>' + $("#" + tile_config.id, $.mosaic.document).find('input').attr('value') + '</div>';
-                break;
             case "z3c.form.browser.textarea.TextAreaWidget":
             case "z3c.form.browser.textarea.TextAreaFieldWidget":
                 var lines = $("#" + tile_config.id, $.mosaic.document).find('textarea').attr('value').split('\n');
@@ -1857,19 +1857,15 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
                     return_string += '<div>' + lines[i] + '</div>';
                 }
                 return return_string;
-                break;
             case "plone.app.z3cform.wysiwyg.widget.WysiwygWidget":
             case "plone.app.z3cform.wysiwyg.widget.WysiwygFieldWidget":
                 return $("#" + tile_config.id, $.mosaic.document).find('textarea').attr('value');
-                break;
             default:
                 return '<div class="discreet">Placeholder for field:<br/><b>' + tile_config.label + '</b></div>';
-                break;
             }
             break;
         default:
             return tile_config.default_value;
-            break;
         }
     };
 

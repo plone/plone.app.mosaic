@@ -24,7 +24,6 @@
  *          this page.
  * @version 0.1
  */
-"use strict";
 
 /*global jQuery: false, window: false */
 /*jslint white: true, browser: true, onevar: true, undef: true, nomen: true,
@@ -32,6 +31,7 @@ eqeqeq: true, plusplus: true, bitwise: true, regexp: true, newcap: true,
 immed: true, strict: true, maxlen: 80, maxerr: 9999 */
 
 (function ($) {
+    "use strict";
 
     // Define mosaic namespace if it doesn't exist
     if (typeof($.mosaic) === "undefined") {
@@ -153,7 +153,8 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
             for (x = 0; x < tile_group.tiles.length; x += 1) {
                 field_tile = tile_group.tiles[x];
                 if ($.mosaic.options.panels
-                    .find(".mosaic-" + field_tile.name + "-tile").length !== 0) {
+                    .find(".mosaic-" + field_tile.name + "-tile")
+                        .length !== 0) {
                     $($.mosaic.document.getElementById(field_tile.id))
                         .addClass('mosaic-hidden');
                 }
@@ -179,7 +180,7 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
             visible_tabs.eq(0).children('a').addClass('selected');
             form.find('#fieldset-' +
                 visible_tabs.eq(0).children('a').attr('href').split('-')[1])
-                .show()
+                .show();
 
         } else if (mode === 'field') {
 
