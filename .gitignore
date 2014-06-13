@@ -12,10 +12,12 @@
 /build/
 /develop-eggs/
 /dist/
+/docs/_screenshots/*.png
 /downloads/
 /eggs/
 /extras/
 /fake-eggs/
+/html/
 /parts/
 /var/
 bower_components

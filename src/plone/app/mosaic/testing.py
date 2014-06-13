@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from ZPublisher import HTTPResponse
 from plone.app.testing import PLONE_FIXTURE
 from plone.app.testing import IntegrationTesting
 from plone.app.testing import FunctionalTesting
@@ -7,12 +8,16 @@ from plone.app.testing import applyProfile
 from plone.testing import z2
 from zope.configuration import xmlconfig
 from plone.app.mosaic.setuphandlers import enable_layout_view
+from plone.app.robotframework.testing import REMOTE_LIBRARY_BUNDLE_FIXTURE
 
 
 class PloneAppMosaic(PloneSandboxLayer):
     defaultBases = (PLONE_FIXTURE,)
 
     def setUpZope(self, app, configurationContext):
+        # Fix subrequest not fallbacking to wrong encoding in test environment:
+        HTTPResponse.default_encoding = 'utf-8'
+
         # Load ZCML
         import plone.app.dexterity
         xmlconfig.file('configure.zcml',
@@ -72,5 +77,6 @@ PLONE_APP_MOSAIC_FUNCTIONAL = FunctionalTesting(
     name="PLONE_APP_MOSAIC_FUNCTIONAL")
 
 PLONE_APP_MOSAIC_ROBOT = FunctionalTesting(
-    bases=(PLONE_APP_MOSAIC, z2.ZSERVER_FIXTURE),
+    bases=(REMOTE_LIBRARY_BUNDLE_FIXTURE,
+           PLONE_APP_MOSAIC, z2.ZSERVER_FIXTURE),
     name="PLONE_APP_MOSAIC_ROBOT")
