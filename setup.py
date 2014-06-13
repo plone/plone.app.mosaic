@@ -38,12 +38,16 @@ setup(name='plone.app.mosaic',
           'setuptools',
           'plone.app.blocks',
           'plone.app.tiles',
+          'plone.app.standardtiles',
           # -*- Extra requirements: -*-
       ],
-      extras_require={'test': ['plone.app.testing']},
+      extras_require={'test': ['plone.app.testing',
+                               'plone.app.contenttypes',
+                               'plone.app.widgets',
+                               'plone.app.robotframework']},
       entry_points="""
       # -*- Entry points: -*-
-  	  [z3c.autoinclude.plugin]
-  	  target = plone
+      [z3c.autoinclude.plugin]
+      target = plone
       """,
       )
