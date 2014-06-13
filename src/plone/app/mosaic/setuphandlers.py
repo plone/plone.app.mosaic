@@ -31,7 +31,7 @@ def enable_layout_behavior(portal):
 
         # Set the default view method
         view_methods = [i for i in fti.view_methods]
-        view_methods.append(0, 'view')
+        view_methods.append('view')
         fti.view_methods = list(set(view_methods))
 
         ## XXX: This was a bad idea, because it could make the site look broken
