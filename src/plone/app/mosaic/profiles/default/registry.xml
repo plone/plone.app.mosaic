@@ -17,7 +17,7 @@
              <title>Default AJAX layout</title>
              <description>The site layout used</description>
         </field>
-        <value>/++sitelayout++ajax/default.html</value>
+        <value>/++sitelayout++ajax/ajax.html</value>
     </record>
 
     <!-- Primary actions -->
