@@ -8,7 +8,7 @@
       />
 
   <skin-path name="Plone Default">
-    <layer name="mosaic_scripts" insert-before="custom" />
+    <layer name="mosaic_scripts" insert-after="custom" />
   </skin-path>
 
   <skin-path name="Sunburst Theme">
