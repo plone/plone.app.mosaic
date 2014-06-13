@@ -6,9 +6,9 @@ module.exports = function(grunt) {
         compile: {
             options: {
                 baseUrl: "src/plone/app/mosaic/browser/javascripts/",
-                paths: {
-                    'mosaic.tinymce': 'tinymce/tiny_mce_mosaic'
-                },
+                // paths: {
+                //     'mosaic.tinymce': 'tinymce/tiny_mce_mosaic'
+                // },
                 name: "mosaic.core",
                 include: [
                     'mosaic.actions',
@@ -16,7 +16,6 @@ module.exports = function(grunt) {
                     'mosaic.layout',
                     'mosaic.overlay',
                     'mosaic.overlaytriggers',
-                    'mosaic.tinymce',
                     'mosaic.toolbar',
                     'mosaic.undo',
                     'mosaic.upload',

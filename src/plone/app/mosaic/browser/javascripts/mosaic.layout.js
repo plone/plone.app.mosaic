@@ -106,6 +106,7 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
 
                 // Hide overlay
                 $.mosaic.overlay.hide();
+                // $.mosaic.overlay.$el.trigger('destroy.modal.patterns');;
             }
         };
 
@@ -1693,6 +1694,7 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
 
         // Close overlay
         $.mosaic.overlay.hide();
+        // $.mosaic.overlay.trigger('destroy.modal.patterns');
 
         // Get value
         $.ajax({
@@ -1727,6 +1729,7 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
 
         // Close overlay
         $.mosaic.overlay.hide();
+        $.mosaic.overlay = null;
         value = $.mosaic.getDomTreeFromHtml(response);
         $.mosaic.addHeadTags(url, value);
         $.mosaic.addTile(type,

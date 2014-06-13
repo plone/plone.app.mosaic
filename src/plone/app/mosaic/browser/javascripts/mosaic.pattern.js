@@ -27,7 +27,6 @@ require([
   'mockup-patterns-base',
   'mosaic.core',
   'mosaic.overlay',
-  'mosaic.tinymce',
   'mosaic.layout',
   'mosaic.toolbar',
   'mosaic.actions',
