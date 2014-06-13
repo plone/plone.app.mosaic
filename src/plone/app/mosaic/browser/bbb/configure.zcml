@@ -5,7 +5,7 @@
            xmlns:five="http://namespaces.zope.org/five">
 
   <!-- On Plone < 5 the main_template can only be overridden in skins -->
-  <cmf:registerDirectory name="mosaic_scripts" />
+  <cmf:registerDirectory name="mosaic_scripts" recursive="True" />
 
   <browser:page
       for="*"
