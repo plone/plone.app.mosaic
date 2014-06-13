@@ -115,7 +115,6 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
         content = $.mosaic.getDomTreeFromHtml(content);
         $.mosaic.options.layout = content.attr('data-layout');
         // Find panels
-        debugger;
         $('#content [data-panel]').removeAttr('data-panel');
         content.find("[data-panel]").each(function () {
 
