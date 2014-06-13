@@ -2,11 +2,10 @@
 Plone Theme Preview
 ===================
 
-.. toctree::
-   :maxdepth: 2
-   :numbered:
+.. include:: _robot.rst
+.. figure:: _screenshots/front-page.png
+.. code:: robotframework
 
-   desktop/index
-   tablet-landscape/index
-   tablet-portrait/index
-   mobile/index
+   Capture Front Page Screenshot
+       Go to  ${PLONE_URL}
+       Capture page screenshot  _screenshots/front-page.png

@@ -13,8 +13,8 @@
 
    *** Variables ***
 
-   ${FIXTURE}  plone.app.robotframework.PLONE_ROBOT_TESTING
-   @{DIMENSIONS}  640  1024
+   ${FIXTURE}  plone.app.mosaic.testing.PLONE_APP_MOSAIC_ROBOT
+   @{DIMENSIONS}  1280  1024
 
    *** Keywords ***
 
@@ -51,3 +51,5 @@
        ...             Teardown Plone Site
        Run keyword if  sys.argv[0].startswith('bin/robot')
        ...             Close all browsers
+
+   *** Test Cases ***
