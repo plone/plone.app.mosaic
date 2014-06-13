@@ -1,6 +1,6 @@
 ===================
-Plone Theme Preview
-===================
+Plone Mosaic
+============
 
 .. include:: _robot.rst
 .. figure:: _screenshots/front-page.png
