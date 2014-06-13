@@ -1,13 +1,22 @@
 # -*- coding: utf-8 -*-
-from lxml import etree
 from hashlib import md5
+import logging
+
+from AccessControl import getSecurityManager
+from Products.PageTemplates.Expressions import SecureModuleImporter
+from lxml import etree
+from Acquisition import aq_get
 from plone.memoize.ram import cache
 from repoze.xmliter.utils import getHTMLSerializer
 from zExceptions import NotFound
 from zope.interface import implements
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+from Products.Five.browser.pagetemplatefile import BoundPageTemplate
+from Products.Five.browser.pagetemplatefile import getEngine
+from Products.Five.browser.pagetemplatefile import ViewMapper
 from plone.memoize import view
+from zope.pagetemplate.engine import TrustedAppPT
 from zope.pagetemplate.pagetemplate import PageTemplate
 
 from plone.app.mosaic.browser.interfaces import IMainTemplate
@@ -16,7 +25,6 @@ from plone.app.blocks.utils import getDefaultSiteLayout
 from plone.app.blocks.utils import getDefaultAjaxLayout
 from plone.app.blocks.utils import panelXPath
 
-import logging
 logger = logging.getLogger('plone.app.mosaic')
 
 
@@ -62,13 +70,70 @@ dummy python:options.update({'state': options.get('state', request.get('controll
     return (template % ''.join(result)).replace(metal, '')
 
 
+class ViewPageTemplate(TrustedAppPT, PageTemplate):
+    """Page Template used as class variable of views defined as Python classes.
+    """
+    def __init__(self, id_):
+        self.id_ = id_
+
+    def __call__(self, __instance, *args, **keywords):
+        # Work around BBB foul. Before Zope 2.12 there was no first argument
+        # but the zope.pagetemplate version has one called instance. Some
+        # people used instance as an additional keyword argument.
+        instance = __instance
+        namespace = self.pt_getContext(
+            request=instance.request,
+            instance=instance, args=args, options=keywords)
+        debug_flags = instance.request.debug
+        s = self.pt_render(
+            namespace,
+            showtal=getattr(debug_flags, 'showTAL', 0),
+            sourceAnnotations=getattr(debug_flags, 'sourceAnnotations', 0),
+            )
+        response = instance.request.response
+        if not response.getHeader("Content-Type"):
+            response.setHeader("Content-Type", self.content_type)
+        return s
+
+    def pt_getEngine(self):
+        return getEngine()
+
+    def pt_getContext(self, instance, request, **kw):
+        namespace = super(ViewPageTemplate, self).pt_getContext(**kw)
+        namespace['request'] = request
+        namespace['view'] = instance
+        namespace['context'] = context = instance.context
+        namespace['views'] = ViewMapper(context, request)
+
+        # get the root
+        obj = context
+        root = None
+        meth = aq_get(obj, 'getPhysicalRoot', None)
+        if meth is not None:
+            root = meth()
+
+        namespace.update(here=obj,
+                         # philiKON thinks container should be the view,
+                         # but BBB is more important than aesthetics.
+                         container=obj,
+                         root=root,
+                         modules=SecureModuleImporter,
+                         traverse_subpath=[],  # BBB, never really worked
+                         user=getSecurityManager().getUser()
+        )
+        return namespace
+
+    def __get__(self, instance, type):
+        return BoundPageTemplate(self, instance)
+
+
 class MainTemplate(BrowserView):
     implements(IMainTemplate)
 
     main_template = ViewPageTemplateFile('templates/main_template.pt')
 
     def __call__(self):
-        return self.template()
+        return self.template(self)
 
     @property
     @view.memoize
@@ -77,16 +142,16 @@ class MainTemplate(BrowserView):
             layout_resource_path = getDefaultAjaxLayout(self.context)
         else:
             layout_resource_path = getDefaultSiteLayout(self.context)
-
         if layout_resource_path is None:
             return self.main_template
         try:
             layout = resolveResource(layout_resource_path)
         except NotFound as e:
             logger.warning('Missing layout {0:s}'.format(e))
+            return self.main_template
 
         cooked = cook_layout(layout)
-        pt = PageTemplate()
+        pt = ViewPageTemplate('main_template')
         pt.write(cooked)
         return pt
 
