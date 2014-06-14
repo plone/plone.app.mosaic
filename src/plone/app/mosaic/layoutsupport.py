@@ -53,7 +53,7 @@ def getDefaultContentLayoutContent(adapter):
         return u''
 
     aliases = fti.getMethodAliases() or {}
-    layout = aliases.get('++layout++default')
+    layout = absolute_path(aliases.get('++layout++default'))
 
     if layout:
         try:
