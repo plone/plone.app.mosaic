@@ -6,12 +6,14 @@ from Products.CMFDynamicViewFTI.interfaces import ISelectableBrowserDefault
 from Products.Five import BrowserView
 from plone.app.content.browser.interfaces import IContentsPage
 from plone.app.contentmenu.interfaces import IContentMenuItem
-from plone.app.contentmenu.interfaces import IDisplaySubMenuItem
 from plone.app.contentmenu.menu import DisplaySubMenuItem
+from plone.subrequest import ISubRequest
 from zExceptions import NotFound
 from zope.browsermenu.interfaces import IBrowserMenu
 from zope.browsermenu.menu import BrowserMenu, BrowserSubMenuItem
-from zope.component import adapts, getMultiAdapter, getUtility
+from zope.component import adapts
+from zope.component import getMultiAdapter
+from zope.component import getUtility
 from zope.interface import implements
 from zope.publisher.interfaces.browser import IBrowserRequest
 from zope.schema.interfaces import IVocabularyFactory
@@ -22,19 +24,18 @@ from plone.memoize import view
 from plone.app.blocks.layoutbehavior import ILayoutAware
 from plone.app.blocks.utils import resolveResource
 from plone.app.mosaic.interfaces import _
+from plone.app.mosaic.layoutsupport import absolute_path
 
 
 logger = logging.getLogger('plone.app.mosaic')
 
 
 class DisplayLayoutTraverser(SimpleHandler):
-    """A traverser to allow unique URLs for caching"""
-
     implements(ITraversable)
     adapts(ILayoutAware, IBrowserRequest)
 
     def __init__(self, context, request):
-        self.context = context
+        super(DisplayLayoutTraverser, self).__init__(context)
         self.request = request
 
     def traverse(self, name, remaining):
@@ -49,12 +50,26 @@ class DisplayLayoutTraverser(SimpleHandler):
 
         aliases = fti.getMethodAliases() or {}
         layout = '++layout++{0:s}'.format(name)
-        resource_path = aliases.get(layout)
+        resource_path = absolute_path(aliases.get(layout))
 
         if resource_path is None:
             raise NotFound(self.context, name, self.request)
         else:
             return DisplayLayoutView(self.context, self.request, resource_path)
+
+
+class DisplayContentLayoutTraverser(SimpleHandler):
+    implements(ITraversable)
+    adapts(ILayoutAware, IBrowserRequest)
+
+    def __init__(self, context, request):
+        super(DisplayContentLayoutTraverser, self).__init__(context)
+        self.request = request
+
+    def traverse(self, name, remaining):
+        resource_path = '/++contentlayout++' + name
+        self.request.URL = self.context.absolute_url() + '/'
+        return DisplayLayoutView(self.context, self.request, resource_path)
 
 
 class DisplayLayoutView(BrowserView):

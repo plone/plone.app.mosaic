@@ -18,6 +18,12 @@
       factory=".layoutsupport.DisplayLayoutTraverser"
       />
 
+  <!-- Register resource traverser for content layouts -->
+  <adapter
+      name="contentlayout"
+      factory=".layoutsupport.DisplayContentLayoutTraverser"
+      />
+
   <browser:menu
       id="plone_contentmenu_layout"
       title="The 'layout' menu - allows the user to select the predefined layout of an object"

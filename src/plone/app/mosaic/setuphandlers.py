@@ -26,7 +26,7 @@ def enable_layout_behavior(portal):
 
         # Set the default content layout for all types
         aliases = fti.getMethodAliases() or {}
-        aliases['++layout++default'] = '/++contentlayout++default/content.html'
+        aliases['++layout++default'] = '++contentlayout++default/content.html'
         fti.setMethodAliases(aliases)
 
         # Set the default view method
