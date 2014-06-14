@@ -2,15 +2,17 @@
 import logging
 
 from Products.CMFCore.utils import getToolByName
+
 from plone.resource.manifest import getAllResources
 from plone.resource.traversal import ResourceTraverser
+from plone.subrequest import ISubRequest
 from z3c.form.interfaces import IGroup
 from z3c.form.widget import ComputedWidgetAttribute
 from zExceptions import NotFound
 from zope.component import adapter
-from zope.interface import implements
 from zope.schema.interfaces import IVocabularyFactory
-from zope.schema.vocabulary import SimpleVocabulary, SimpleTerm
+from zope.schema.vocabulary import SimpleVocabulary
+from zope.schema.vocabulary import SimpleTerm
 
 from plone.app.blocks.interfaces import ILayoutField
 from plone.app.blocks.layoutbehavior import ILayoutAware
@@ -77,6 +79,13 @@ def getDefaultDisplayLayoutContent():
 ILayoutAware['content'].defaultFactory = getDefaultDisplayLayoutContent
 
 
+def absolute_path(path):
+    """Return path prefixed with slash"""
+    if not path.startswith('/'):
+        path = '/' + path
+    return path
+
+
 @adapter(IVocabularyFactory)
 def AvailableDisplayLayoutsVocabularyFactory(context):
     portal_type = getattr(context, 'portal_type', None)
@@ -89,7 +98,8 @@ def AvailableDisplayLayoutsVocabularyFactory(context):
         return SimpleVocabulary([])
 
     aliases = fti.getMethodAliases() or {}
-    layouts = dict([(item[1], item[0]) for item in aliases.items()
+    layouts = dict([(absolute_path(item[1]), item[0])
+                    for item in aliases.items()
                     if item[0].startswith('++layout++')])
 
     items = []
