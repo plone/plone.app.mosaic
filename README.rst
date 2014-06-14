@@ -1,13 +1,29 @@
-plone.app.mosaic
-================
+Plone Mosaic
+============
 
-Plone Mosaic main repository
+TL;DR; Plone Mosaic provides modern TTW content views for Dexterity content types and pluggable framework for smart layouts.
+
+This package provides modern layout editor with blocks_ and tiles_ based layouts for Dexterity content types for Plone 4.3 and newer.
+
+The notable features (with the help of blocks_) include:
+
+- custom layout behavior for Dexterity content types
+- WYSIWYG inline layout editor for custom content layouts
+- separation of layouts into site layouts and content layout
+- site layouts can be assigned per content and per site section
+- global content layouts can be bound as named views for Dexterity content types
+
+Please, wait for the documentation for more details about this package its usage.
+
+.. _blocks: https://pypi.python.org/pypi/plone.app.blocks
+.. _tiles: https://pypi.python.org/pypi/plone.app.tiles
 
 
 Javascript development
 ----------------------
 
 The plone package uses a bundle.
+
 In order to update it while working on JS you need to install `bower` and `grunt` system wide:
 
     sudo npm install -g bower grunt-cli
@@ -27,5 +43,3 @@ When you run it you get:
     # grunt
     Running "watch" task
     Waiting...
-
-
