@@ -23,9 +23,9 @@ from plone.memoize import view
 
 from plone.app.blocks.layoutbehavior import ILayoutAware
 from plone.app.blocks.utils import resolveResource
-from plone.app.mosaic.interfaces import _
 from plone.app.mosaic.layoutsupport import absolute_path
-
+from plone.app.mosaic.layoutsupport import ContentLayoutTraverser
+from plone.app.mosaic.interfaces import _
 
 logger = logging.getLogger('plone.app.mosaic')
 
@@ -68,8 +68,16 @@ class DisplayContentLayoutTraverser(SimpleHandler):
 
     def traverse(self, name, remaining):
         resource_path = '/++contentlayout++' + name
-        self.request.URL = self.context.absolute_url() + '/'
-        return DisplayLayoutView(self.context, self.request, resource_path)
+        vocab_factory = getUtility(IVocabularyFactory,
+                                   name='plone.availableContentLayouts')
+        vocab = vocab_factory(self.context)
+        if resource_path in vocab:
+            self.request.URL = self.context.absolute_url() + '/'
+            return DisplayLayoutView(self.context, self.request, resource_path)
+        else:
+            # Fallback to the original resource traverser
+            traverser = ContentLayoutTraverser(self.context, self.request)
+            return traverser.traverse(name, remaining)
 
 
 class DisplayLayoutView(BrowserView):
