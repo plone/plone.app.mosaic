@@ -9,7 +9,7 @@ from plone.subrequest import ISubRequest
 from z3c.form.interfaces import IGroup
 from z3c.form.widget import ComputedWidgetAttribute
 from zExceptions import NotFound
-from zope.component import adapter
+from zope.component import adapter, getUtility
 from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleVocabulary
 from zope.schema.vocabulary import SimpleTerm
@@ -102,17 +102,14 @@ def AvailableDisplayLayoutsVocabularyFactory(context):
                     for item in aliases.items()
                     if item[0].startswith('++layout++')])
 
+    vocab_factory = getUtility(IVocabularyFactory,
+                               name='plone.availableContentLayouts')
+    vocab = vocab_factory(context)
+
     items = []
-    format_ = CONTENT_LAYOUT_MANIFEST_FORMAT
-    resources = getAllResources(format_)  # memoize?
-    for name, manifest in resources.items():
-        if manifest is not None:
-            filename = manifest['file']
-            path = "/++{0:s}++{1:s}/{2:s}".format(format_.resourceType,
-                                                  name, filename)
-            layout = layouts.get(path)
-            if layout is not None:
-                title = unicode(manifest['title'], 'utf-8', 'ignore')
-                items.append(SimpleTerm(layout, layout, title))
+    for term in vocab:
+        layout = layouts.get(term.value)
+        if layout is not None:
+            items.append(SimpleTerm(layout, layout, term.title))
 
     return SimpleVocabulary(items)
