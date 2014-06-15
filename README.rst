@@ -19,6 +19,22 @@ Please, wait for the documentation for more details about this package its usage
 .. _tiles: https://pypi.python.org/pypi/plone.app.tiles
 
 
+Try it out
+----------
+
+.. code:: bash
+
+   $ clone https://github.com/plone/plone.app.mosaic
+   $ cd plone.app.mosaic
+   $ python bootstrap.py  # clean python 2.7 virtualenv recommended
+   $ bin/buildout
+   $ bin/demo
+
+And open the browser at http://localhost:55001/plone/
+
+Admin username is ``admin`` and password ``secret``.
+
+
 Javascript development
 ----------------------
 
