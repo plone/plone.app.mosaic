@@ -21,9 +21,10 @@ from zope.pagetemplate.pagetemplate import PageTemplate
 
 from plone.app.mosaic.browser.interfaces import IMainTemplate
 from plone.app.blocks.utils import resolveResource
-from plone.app.blocks.utils import getDefaultSiteLayout
+from plone.app.blocks.utils import getLayoutAwareSiteLayout
 from plone.app.blocks.utils import getDefaultAjaxLayout
 from plone.app.blocks.utils import panelXPath
+
 
 logger = logging.getLogger('plone.app.mosaic')
 
@@ -141,7 +142,7 @@ class MainTemplate(BrowserView):
         if self.request.form.get('ajax_load'):
             layout_resource_path = getDefaultAjaxLayout(self.context)
         else:
-            layout_resource_path = getDefaultSiteLayout(self.context)
+            layout_resource_path = getLayoutAwareSiteLayout(self.context)
         if layout_resource_path is None:
             return self.main_template
         try:
