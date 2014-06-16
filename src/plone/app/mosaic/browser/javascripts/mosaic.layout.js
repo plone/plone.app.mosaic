@@ -1727,6 +1727,7 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
      * @param {String} id Id of the application tile
      */
     $.mosaic.addAppTileHTML = function (type, response, url) {
+        var value;
 
         // Close overlay
         $.mosaic.overlay.hide();
