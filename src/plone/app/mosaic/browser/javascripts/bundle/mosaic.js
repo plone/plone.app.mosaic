@@ -117,7 +117,6 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
         // Drop panels within panels (only the top level panels are editable)
         $('[data-panel] [data-panel]').removeAttr('data-panel');
         // Find panels
-        $('#content [data-panel]').removeAttr('data-panel');
         content.find("[data-panel]").each(function () {
 
             // Local variables
