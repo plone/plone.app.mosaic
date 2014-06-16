@@ -490,7 +490,7 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
                         {ajaxUrl: $.mosaic.options.context_url +
                         '/@@add-tile?type=' + $(source).val() +
                         '&form.button.Create=Create', 
-                        loadLinksWithinModal: true,
+                        loadLinksWithinModal: true
                     });
                     $.mosaic.overlay._tile_type = $(source).val();
                     $.mosaic.overlay.show();

@@ -40,7 +40,7 @@ require([
   var Layout = Base.extend({
     name: 'layout',
     defaults: {
-      attribute: 'class',
+      attribute: 'class'
     },
     init: function() {
       var self = this;
