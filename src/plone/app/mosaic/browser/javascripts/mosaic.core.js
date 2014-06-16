@@ -120,20 +120,21 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
         content.find("[data-panel]").each(function () {
 
             // Local variables
-            var panel_id = $(this).attr("data-panel"),
+            var panel_id = $(this).attr("data-panel"), panel_attr_id,
                 target = $("[data-panel=" + panel_id + "]",
                 $.mosaic.document);
 
             // If content, create a new div since the form data is in
             // this panel
             if (panel_id === 'content') {
+                panel_attr_id = target.attr('id');
                 target
                     .removeAttr('data-panel')
                     .removeAttr('id')
                     .addClass('mosaic-original-content')
                     .hide();
                 target.before($(document.createElement("div"))
-                    .attr("id", "content")
+                    .attr("id", panel_attr_id)
                     .addClass('mosaic-panel')
                     .attr('data-panel', 'content')
                     .html(content.find("[data-panel=" +
