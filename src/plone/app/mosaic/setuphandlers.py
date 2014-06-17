@@ -1,11 +1,29 @@
 # -*- coding: utf-8 -*-
+from Products.CMFCore.utils import getToolByName
+import pkg_resources
+
+try:
+    pkg_resources.get_distribution('plone.app.contenttypes')
+except pkg_resources.DistributionNotFound:
+    HAS_PLONE_APP_CONTENTTYPES = False
+else:
+    HAS_PLONE_APP_CONTENTTYPES = True
 
 
 def step_setup_various(context):
     if context.readDataFile('plone.app.mosaic_default.txt') is None:
         return
     portal = context.getSite()
-    enable_layout_behavior(portal)
+    if HAS_PLONE_APP_CONTENTTYPES:
+        if getattr(getattr(portal, 'front-page', None),
+                   'meta_type', None) == 'ATDocument':
+            # For a new site, import also PAC default content
+            profile_name = 'profile-plone.app.contenttypes:plone-content'
+        else:
+            # For an old site, just install PAC without any migration
+            profile_name = 'profile-plone.app.contenttypes:default'
+        import_profile(portal, profile_name)
+        enable_layout_behavior(portal)
 
 
 def enable_layout_behavior(portal):
@@ -43,3 +61,9 @@ def enable_layout_view(portal):
     for fti in dx_ftis:
         if fti.getId() in ['Document']:
             fti.default_view = 'view'
+
+
+def import_profile(portal, profile_name):
+    setup_tool = getToolByName(portal, 'portal_setup')
+    if not setup_tool.getProfileImportDate(profile_name):
+        setup_tool.runAllImportStepsFromProfile(profile_name)
