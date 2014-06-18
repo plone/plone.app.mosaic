@@ -22,8 +22,11 @@ def step_setup_various(context):
         else:
             # For an old site, just install PAC without any migration
             profile_name = 'profile-plone.app.contenttypes:default'
-        import_profile(portal, profile_name)
-        enable_layout_behavior(portal)
+        try:
+            import_profile(portal, profile_name)
+            enable_layout_behavior(portal)
+        except KeyError:
+            pass
 
 
 def enable_layout_behavior(portal):
