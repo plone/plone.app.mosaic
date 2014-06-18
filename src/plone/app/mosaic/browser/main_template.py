@@ -6,7 +6,8 @@ from AccessControl import getSecurityManager
 from Products.PageTemplates.Expressions import SecureModuleImporter
 from lxml import etree
 from Acquisition import aq_get
-from plone.memoize.ram import cache
+from plone.memoize import ram
+from plone.memoize import volatile
 from repoze.xmliter.utils import getHTMLSerializer
 from zExceptions import NotFound
 from zope.interface import implements
@@ -15,9 +16,9 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.Five.browser.pagetemplatefile import BoundPageTemplate
 from Products.Five.browser.pagetemplatefile import getEngine
 from Products.Five.browser.pagetemplatefile import ViewMapper
-from plone.memoize import view
 from zope.pagetemplate.engine import TrustedAppPT
 from zope.pagetemplate.pagetemplate import PageTemplate
+from plone.app.blocks.resource import cacheKey
 
 from plone.app.mosaic.browser.interfaces import IMainTemplate
 from plone.app.blocks.utils import resolveResource
@@ -29,7 +30,7 @@ from plone.app.blocks.utils import panelXPath
 logger = logging.getLogger('plone.app.mosaic')
 
 
-@cache(lambda func, layout: md5(layout).hexdigest())
+@ram.cache(lambda func, layout: md5(layout).hexdigest())
 def cook_layout(layout):
     """Return main_template compatible layout"""
     result = getHTMLSerializer(layout, encoding='utf-8')
@@ -137,8 +138,9 @@ class MainTemplate(BrowserView):
         return self.template(self)
 
     @property
-    @view.memoize
+    @volatile.cache(cacheKey, volatile.store_on_context)
     def template(self):
+        print "macros", self.request.getURL()
         if self.request.form.get('ajax_load'):
             layout_resource_path = getDefaultAjaxLayout(self.context)
         else:
@@ -157,7 +159,6 @@ class MainTemplate(BrowserView):
         return pt
 
     @property
-    @view.memoize
     def macros(self):
         macros = self.main_template.macros.copy()
         macros.update(self.template.macros.copy())
