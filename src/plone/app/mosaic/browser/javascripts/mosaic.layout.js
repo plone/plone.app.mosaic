@@ -583,7 +583,8 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
                    tile_config.widget === 'z3c.form.browser.textarea.TextAreaWidget' ||
                    tile_config.widget === 'z3c.form.browser.textarea.TextAreaFieldWidget' ||
                    tile_config.widget === 'plone.app.z3cform.wysiwyg.widget.WysiwygWidget' ||
-                   tile_config.widget === 'plone.app.z3cform.wysiwyg.widget.WysiwygFieldWidget')))) {
+                   tile_config.widget === 'plone.app.z3cform.wysiwyg.widget.WysiwygFieldWidget' ||
+                   tile_config.widget === 'plone.app.widgets.dx.RichTextWidget')))) {
 
                 // Init rich editor
                 $(this).children('.mosaic-tile-content').mosaicEditor();
@@ -1860,6 +1861,7 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
                 return return_string;
             case "plone.app.z3cform.wysiwyg.widget.WysiwygWidget":
             case "plone.app.z3cform.wysiwyg.widget.WysiwygFieldWidget":
+            case "plone.app.widgets.dx.RichTextWidget":
                 return $("#" + tile_config.id, $.mosaic.document).find('textarea').attr('value');
             default:
                 return '<div class="discreet">Placeholder for field:<br/><b>' + tile_config.label + '</b></div>';
@@ -1888,7 +1890,8 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
              tile_config.widget === 'z3c.form.browser.textarea.TextAreaWidget' ||
              tile_config.widget === 'z3c.form.browser.textarea.TextAreaFieldWidget' ||
              tile_config.widget === 'plone.app.z3cform.wysiwyg.widget.WysiwygWidget' ||
-             tile_config.widget === 'plone.app.z3cform.wysiwyg.widget.WysiwygFieldWidget')) {
+             tile_config.widget === 'plone.app.z3cform.wysiwyg.widget.WysiwygFieldWidget' ||
+             tile_config.widget === 'plone.app.widgets.dx.RichTextWidget')) {
             switch (tile_config.widget) {
             case "z3c.form.browser.text.TextWidget":
             case "z3c.form.browser.text.TextFieldWidget":
@@ -1905,6 +1908,7 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
                 break;
             case "plone.app.z3cform.wysiwyg.widget.WysiwygWidget":
             case "plone.app.z3cform.wysiwyg.widget.WysiwygFieldWidget":
+            case "plone.app.widgets.dx.RichTextWidget":
                 $(document.getElementById(tile_config.id)).find('textarea').attr('value', $('.mosaic-' + tiletype + '-tile', $.mosaic.document).find('.mosaic-tile-content').html());
                 break;
             }
