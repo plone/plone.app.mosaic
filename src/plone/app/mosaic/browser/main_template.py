@@ -10,6 +10,7 @@ from plone.memoize import ram
 from plone.memoize import volatile
 from repoze.xmliter.utils import getHTMLSerializer
 from zExceptions import NotFound
+from zope.component import getMultiAdapter
 from zope.interface import implements
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
@@ -30,8 +31,8 @@ from plone.app.blocks.utils import panelXPath
 logger = logging.getLogger('plone.app.mosaic')
 
 
-@ram.cache(lambda func, layout: md5(layout).hexdigest())
-def cook_layout(layout):
+@ram.cache(lambda func, layout, ajax: (md5(layout).hexdigest(), ajax))
+def cook_layout(layout, ajax):
     """Return main_template compatible layout"""
     result = getHTMLSerializer(layout, encoding='utf-8')
     nsmap = {'metal': 'http://namespaces.zope.org/metal'}
@@ -66,15 +67,15 @@ ajax_include_head request/ajax_include_head | nothing;
 dummy python:request.RESPONSE.setHeader('X-UA-Compatible', 'IE=edge,chrome=1');
 dummy python:options.update({'state': request.get('controller_state')});
 """
-
-    head = root.find('head')
-    if head is not None:
-        for name in ['top_slot', 'head_slot',
-                     'style_slot', 'javascript_head_slot']:
-            slot = etree.Element('{%s}%s' % (nsmap['metal'], panelId),
-                                 nsmap=nsmap)
-            slot.attrib['define-slot'] = name
-            head.append(slot)
+    if not ajax:
+        head = root.find('head')
+        if head is not None:
+            for name in ['top_slot', 'head_slot',
+                         'style_slot', 'javascript_head_slot']:
+                slot = etree.Element('{%s}%s' % (nsmap['metal'], panelId),
+                                     nsmap=nsmap)
+                slot.attrib['define-slot'] = name
+                head.append(slot)
 
     template = '<metal:page define-macro="master">\n%s\n</metal:page>'
     metal = 'xmlns:metal="http://namespaces.zope.org/metal"'
@@ -142,6 +143,7 @@ class ViewPageTemplate(TrustedAppPT, PageTemplate):
 class MainTemplate(BrowserView):
     implements(IMainTemplate)
 
+    # XXX: This probably should be loaded as resource from plonetheme.sunburst
     main_template = ViewPageTemplateFile('templates/main_template.pt')
 
     def __call__(self):
@@ -150,21 +152,17 @@ class MainTemplate(BrowserView):
     @property
     @volatile.cache(cacheKey, volatile.store_on_context)
     def template(self):
-        if self.request.form.get('ajax_load'):
-            layout_resource_path = getDefaultAjaxLayout(self.context)
-        else:
-            layout_resource_path = getLayoutAwareSiteLayout(self.context)
-        if layout_resource_path is None:
-            return self.main_template
         try:
-            layout = resolveResource(layout_resource_path)
+            layout = getMultiAdapter((self.context, self.request),
+                                     name='page-site-layout')()
         except NotFound as e:
             logger.warning('Missing layout {0:s}'.format(e))
             return self.main_template
 
-        cooked = cook_layout(layout)
+        cooked = cook_layout(layout, self.request.get('ajax_load'))
         pt = ViewPageTemplate('main_template')
         pt.write(cooked)
+
         return pt
 
     @property
