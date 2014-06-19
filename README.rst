@@ -24,7 +24,7 @@ Try it out
 
 .. code:: bash
 
-   $ clone https://github.com/plone/plone.app.mosaic
+   $ git clone https://github.com/plone/plone.app.mosaic
    $ cd plone.app.mosaic
    $ python bootstrap.py  # clean python 2.7 virtualenv recommended
    $ bin/buildout
