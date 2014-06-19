@@ -20,7 +20,7 @@ after_script:
 - travis-artifacts upload --target-path latest --path parts/test
 matrix:
   allow_failures:
-  - env: OPTIONS=-all
+  - env: OPTIONS=--all
 env:
   global:
   - ARTIFACTS_S3_BUCKET=plone-app-mosaic
@@ -28,7 +28,7 @@ env:
   - secure: buYYreaObmTNEuVTibj/kIyFnIoHCZdezeA8P0HwGHrTbIAwArBFfhG5PC1grT8MayN3f4sfY80d8sRhRATTPNX1smjjBfyni/Zon8OTpr6mGaGsHOg+HHHqocy3hZPlgg1yYLpUCfKCOc8pnq09lF06JwPxsIXAiV+oRHR446E=
   matrix:
   - OPTIONS=
-  - OPTIONS=-all
+  - OPTIONS=--all
   irc:
     channels:
     - irc.freenode.org#plone-testing
