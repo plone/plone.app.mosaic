@@ -18,6 +18,9 @@ Please, wait for the documentation for more details about this package its usage
 .. _blocks: https://pypi.python.org/pypi/plone.app.blocks
 .. _tiles: https://pypi.python.org/pypi/plone.app.tiles
 
+.. image:: https://secure.travis-ci.org/plone/plone.app.mosaic.png
+   :target: http://travis-ci.org/plone/plone.app.mosaic
+
 
 Try a demo
 ----------
