@@ -19,12 +19,9 @@ from Products.Five.browser.pagetemplatefile import getEngine
 from Products.Five.browser.pagetemplatefile import ViewMapper
 from zope.pagetemplate.engine import TrustedAppPT
 from zope.pagetemplate.pagetemplate import PageTemplate
-from plone.app.blocks.resource import cacheKey
 
+from plone.app.blocks.resource import cacheKey
 from plone.app.mosaic.browser.interfaces import IMainTemplate
-from plone.app.blocks.utils import resolveResource
-from plone.app.blocks.utils import getLayoutAwareSiteLayout
-from plone.app.blocks.utils import getDefaultAjaxLayout
 from plone.app.blocks.utils import panelXPath
 
 
@@ -67,15 +64,14 @@ ajax_include_head request/ajax_include_head | nothing;
 dummy python:request.RESPONSE.setHeader('X-UA-Compatible', 'IE=edge,chrome=1');
 dummy python:options.update({'state': request.get('controller_state')});
 """
-    if not ajax:
-        head = root.find('head')
-        if head is not None:
-            for name in ['top_slot', 'head_slot',
-                         'style_slot', 'javascript_head_slot']:
-                slot = etree.Element('{%s}%s' % (nsmap['metal'], panelId),
-                                     nsmap=nsmap)
-                slot.attrib['define-slot'] = name
-                head.append(slot)
+    head = root.find('head')
+    if not ajax and head is not None:
+        for name in ['top_slot', 'head_slot',
+                     'style_slot', 'javascript_head_slot']:
+            slot = etree.Element('{%s}%s' % (nsmap['metal'], panelId),
+                                 nsmap=nsmap)
+            slot.attrib['define-slot'] = name
+            head.append(slot)
 
     template = '<metal:page define-macro="master">\n%s\n</metal:page>'
     metal = 'xmlns:metal="http://namespaces.zope.org/metal"'
