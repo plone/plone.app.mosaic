@@ -32,7 +32,7 @@ Try it out
 
 And open the browser at http://localhost:55001/plone/
 
-Admin username is ``admin`` and password ``secret``.
+Admin username is ``admin`` and password ``admin``.
 
 
 Javascript development
