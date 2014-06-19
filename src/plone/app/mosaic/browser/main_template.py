@@ -52,20 +52,29 @@ def cook_layout(layout):
 
     root = result.tree.getroot()
     root.attrib['tal:define'] = """\
-portal_state python:context.restrictedTraverse('@@plone_portal_state');
-context_state python:context.restrictedTraverse('@@plone_context_state');
-plone_view python:context.restrictedTraverse('@@plone');
+portal_state python: context.restrictedTraverse('@@plone_portal_state');
+context_state python: context.restrictedTraverse('@@plone_context_state');
+plone_view python: context.restrictedTraverse('@@plone');
 lang portal_state/language;
-view nocall:view | nocall: plone_view;
-dummy python: plone_view.mark_view(view);
+view nocall: view | nocall: plone_view;
+dummy python:plone_view.mark_view(view);
 portal_url portal_state/portal_url;
 checkPermission nocall: context/portal_membership/checkPermission;
-site_properties nocall:context/portal_properties/site_properties;
+site_properties nocall: context/portal_properties/site_properties;
 ajax_load request/ajax_load | nothing;
 ajax_include_head request/ajax_include_head | nothing;
 dummy python:request.RESPONSE.setHeader('X-UA-Compatible', 'IE=edge,chrome=1');
-dummy python:options.update({'state': options.get('state', request.get('controller_state'))});
+dummy python:options.update({'state': request.get('controller_state')});
 """
+
+    head = root.find('head')
+    if head is not None:
+        for name in ['top_slot', 'head_slot',
+                     'style_slot', 'javascript_head_slot']:
+            slot = etree.Element('{%s}%s' % (nsmap['metal'], panelId),
+                                 nsmap=nsmap)
+            slot.attrib['define-slot'] = name
+            head.append(slot)
 
     template = '<metal:page define-macro="master">\n%s\n</metal:page>'
     metal = 'xmlns:metal="http://namespaces.zope.org/metal"'
@@ -91,7 +100,7 @@ class ViewPageTemplate(TrustedAppPT, PageTemplate):
             namespace,
             showtal=getattr(debug_flags, 'showTAL', 0),
             sourceAnnotations=getattr(debug_flags, 'sourceAnnotations', 0),
-            )
+        )
         response = instance.request.response
         if not response.getHeader("Content-Type"):
             response.setHeader("Content-Type", self.content_type)
@@ -114,14 +123,15 @@ class ViewPageTemplate(TrustedAppPT, PageTemplate):
         if meth is not None:
             root = meth()
 
-        namespace.update(here=obj,
-                         # philiKON thinks container should be the view,
-                         # but BBB is more important than aesthetics.
-                         container=obj,
-                         root=root,
-                         modules=SecureModuleImporter,
-                         traverse_subpath=[],  # BBB, never really worked
-                         user=getSecurityManager().getUser()
+        namespace.update(
+            here=obj,
+            # philiKON thinks container should be the view,
+            # but BBB is more important than aesthetics.
+            container=obj,
+            root=root,
+            modules=SecureModuleImporter,
+            traverse_subpath=[],  # BBB, never really worked
+            user=getSecurityManager().getUser()
         )
         return namespace
 
@@ -140,7 +150,6 @@ class MainTemplate(BrowserView):
     @property
     @volatile.cache(cacheKey, volatile.store_on_context)
     def template(self):
-        print "macros", self.request.getURL()
         if self.request.form.get('ajax_load'):
             layout_resource_path = getDefaultAjaxLayout(self.context)
         else:
