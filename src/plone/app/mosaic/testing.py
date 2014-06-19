@@ -110,11 +110,6 @@ class PloneAppMosaicNoPAC(PloneSandboxLayer):
                        plone.app.standardtiles,
                        context=configurationContext)
 
-        import plone.app.widgets
-        xmlconfig.file('configure.zcml',
-                       plone.app.widgets,
-                       context=configurationContext)
-
         import plone.app.mosaic
         xmlconfig.file('configure.zcml',
                        plone.app.mosaic,
@@ -127,7 +122,6 @@ class PloneAppMosaicNoPAC(PloneSandboxLayer):
 
     def setUpPloneSite(self, portal):
         # Install into Plone site using portal_setup
-        applyProfile(portal, 'plone.app.widgets:default')
         applyProfile(portal, 'plone.app.mosaic:default')
         applyProfile(portal, 'plone.app.mosaic:bbb')
 
