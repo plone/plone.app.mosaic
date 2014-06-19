@@ -14,7 +14,11 @@ Mosaic is a spiritual successor of the Plone Deco project, but is designed from 
 .. code:: robotframework
 
    Capture Front Page Screenshot
-       Go to  ${PLONE_URL}
+       Create content  type=Document
+       ...  id=exaple-document
+       ...  title=Example Document
+       ...  text=<p>This document will soon have a custom layout.</p>
+       Go to  ${PLONE_URL}/example-document/++layout++default
        Capture page screenshot  _screenshots/front-page.png
 
 
