@@ -19,8 +19,10 @@ Please, wait for the documentation for more details about this package its usage
 .. _tiles: https://pypi.python.org/pypi/plone.app.tiles
 
 
-Try it out
+Try a demo
 ----------
+
+Installation:
 
 .. code:: bash
 
@@ -28,11 +30,27 @@ Try it out
    $ cd plone.app.mosaic
    $ python bootstrap.py  # clean python 2.7 virtualenv recommended
    $ bin/buildout
+
+Startup:
+
+.. code:: bash
+
    $ bin/demo
 
-And open the browser at http://localhost:55001/plone/
+To get started:
 
-Admin username is ``admin`` and password ``admin``.
+* open a browser at ``http://localhost:55001/plone/++add++Document``
+* login as ``admin`` with password ``secret``
+* save the new page
+* from the **Display**-menu, select the new entry **Custom layout**
+* click **Edit** to see the new *Mosaic Editor*
+
+
+Known issues when Mosaic is installed
+-------------------------------------
+
+* Going directly to login form does not report successful login
+  immediately: https://github.com/plone/plone.app.mosaic/issues/9
 
 
 Javascript development
