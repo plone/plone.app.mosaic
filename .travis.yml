@@ -14,6 +14,8 @@ script:
 - bin/test $OPTIONS
 after_script:
 - bin/sphinx-build docs html
+- find docs
+- find html
 - travis-artifacts upload --path html
 - travis-artifacts upload --path parts/test
 - travis-artifacts upload --target-path latest --path html
