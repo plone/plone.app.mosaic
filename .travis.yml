@@ -6,6 +6,7 @@ before_install:
 install:
 - mkdir -p buildout-cache/downloads
 - python bootstrap.py -c travis.cfg
+- bin/buildout -N -t 3 -c travis.cfg annotate
 - bin/buildout -N -t 3 -c travis.cfg
 before_script:
 - gem install --version 0.8.9 faraday
