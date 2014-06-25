@@ -5,13 +5,12 @@ from plone.app.mosaic.browser.main_template import MainTemplate
 
 
 class List(list):
-    # Used to hide output for main_template/macros/master
+    # Clean __repr__ to not publish main_template/macros/master and other
     def __repr__(self):
         return ''
 
 
 class MainTemplateBBB(MainTemplate):
-
     @property
     @view.memoize
     def macros(self):

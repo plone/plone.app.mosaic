@@ -2,10 +2,7 @@
 from hashlib import md5
 import logging
 
-from AccessControl import getSecurityManager
-from Products.PageTemplates.Expressions import SecureModuleImporter
 from lxml import etree
-from Acquisition import aq_get
 from plone.memoize import ram
 from plone.memoize import volatile
 from repoze.xmliter.utils import getHTMLSerializer
@@ -14,11 +11,6 @@ from zope.component import getMultiAdapter
 from zope.interface import implements
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from Products.Five.browser.pagetemplatefile import BoundPageTemplate
-from Products.Five.browser.pagetemplatefile import getEngine
-from Products.Five.browser.pagetemplatefile import ViewMapper
-from zope.pagetemplate.engine import TrustedAppPT
-from zope.pagetemplate.pagetemplate import PageTemplate
 
 from plone.app.blocks.resource import cacheKey
 from plone.app.mosaic.browser.interfaces import IMainTemplate
@@ -62,7 +54,6 @@ site_properties nocall: context/portal_properties/site_properties;
 ajax_load request/ajax_load | nothing;
 ajax_include_head request/ajax_include_head | nothing;
 dummy python:request.RESPONSE.setHeader('X-UA-Compatible', 'IE=edge,chrome=1');
-dummy python:options.update({'state': request.get('controller_state')});
 """
     head = root.find('head')
     if not ajax and head is not None:
@@ -78,62 +69,19 @@ dummy python:options.update({'state': request.get('controller_state')});
     return (template % ''.join(result)).replace(metal, '')
 
 
-class ViewPageTemplate(TrustedAppPT, PageTemplate):
-    """Page Template used as class variable of views defined as Python classes.
-    """
-    def __init__(self, id_):
-        self.id_ = id_
+class ViewPageTemplateString(ViewPageTemplateFile):
 
-    def __call__(self, __instance, *args, **keywords):
-        # Work around BBB foul. Before Zope 2.12 there was no first argument
-        # but the zope.pagetemplate version has one called instance. Some
-        # people used instance as an additional keyword argument.
-        instance = __instance
-        namespace = self.pt_getContext(
-            request=instance.request,
-            instance=instance, args=args, options=keywords)
-        debug_flags = instance.request.debug
-        s = self.pt_render(
-            namespace,
-            showtal=getattr(debug_flags, 'showTAL', 0),
-            sourceAnnotations=getattr(debug_flags, 'sourceAnnotations', 0),
-        )
-        response = instance.request.response
-        if not response.getHeader("Content-Type"):
-            response.setHeader("Content-Type", self.content_type)
-        return s
+    def __init__(self, text):
+        super(ViewPageTemplateString, self).__init__(__file__)
+        self.pt_edit(text, 'text/html')
+        self._cook()
 
-    def pt_getEngine(self):
-        return getEngine()
+        if self._v_errors:
+            logger.error('PageTemplateFile: Error in template %s: %s',
+                         self.filename, '\n'.join(self._v_errors))
 
-    def pt_getContext(self, instance, request, **kw):
-        namespace = super(ViewPageTemplate, self).pt_getContext(**kw)
-        namespace['request'] = request
-        namespace['view'] = instance
-        namespace['context'] = context = instance.context
-        namespace['views'] = ViewMapper(context, request)
-
-        # get the root
-        obj = context
-        root = None
-        meth = aq_get(obj, 'getPhysicalRoot', None)
-        if meth is not None:
-            root = meth()
-
-        namespace.update(
-            here=obj,
-            # philiKON thinks container should be the view,
-            # but BBB is more important than aesthetics.
-            container=obj,
-            root=root,
-            modules=SecureModuleImporter,
-            traverse_subpath=[],  # BBB, never really worked
-            user=getSecurityManager().getUser()
-        )
-        return namespace
-
-    def __get__(self, instance, type):
-        return BoundPageTemplate(self, instance)
+    def _cook_check(self):
+        pass  # cooked only during init
 
 
 class MainTemplate(BrowserView):
@@ -149,6 +97,18 @@ class MainTemplate(BrowserView):
     @volatile.cache(cacheKey, volatile.store_on_context)
     def template(self):
         try:
+            if self.request.response.cookies:
+                # XXX: Work around plone.subrequest issues where subrequests
+                # do not include new cookies in request.response.cookies
+                cookies = self.request.cookies.copy()
+                cookies.update(dict([
+                    (key, value['value']) for key, value
+                    in self.request.response.cookies.items()
+                ]))
+                self.request.environ['HTTP_COOKIE'] = '; '.join([
+                    '{0:s}="{1:s}"'.format(key, value)
+                    for key, value in cookies.items()
+                ])
             layout = getMultiAdapter((self.context, self.request),
                                      name='page-site-layout')()
         except NotFound as e:
@@ -156,10 +116,10 @@ class MainTemplate(BrowserView):
             return self.main_template
 
         cooked = cook_layout(layout, self.request.get('ajax_load'))
-        pt = ViewPageTemplate('main_template')
-        pt.write(cooked)
+        pt = ViewPageTemplateString(cooked)
+        bound_pt = pt.__get__(self, type(self))
 
-        return pt
+        return bound_pt
 
     @property
     def macros(self):
