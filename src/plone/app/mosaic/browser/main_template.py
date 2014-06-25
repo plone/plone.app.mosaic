@@ -97,18 +97,6 @@ class MainTemplate(BrowserView):
     @volatile.cache(cacheKey, volatile.store_on_context)
     def template(self):
         try:
-            if self.request.response.cookies:
-                # XXX: Work around plone.subrequest issues where subrequests
-                # do not include new cookies in request.response.cookies
-                cookies = self.request.cookies.copy()
-                cookies.update(dict([
-                    (key, value['value']) for key, value
-                    in self.request.response.cookies.items()
-                ]))
-                self.request.environ['HTTP_COOKIE'] = '; '.join([
-                    '{0:s}="{1:s}"'.format(key, value)
-                    for key, value in cookies.items()
-                ])
             layout = getMultiAdapter((self.context, self.request),
                                      name='page-site-layout')()
         except NotFound as e:
