@@ -7,6 +7,7 @@ from Products.Five import BrowserView
 from plone.app.content.browser.interfaces import IContentsPage
 from plone.app.contentmenu.interfaces import IContentMenuItem
 from plone.app.contentmenu.menu import DisplaySubMenuItem
+from plone.app.blocks.interfaces import IBlocksTransformEnabled
 from plone.subrequest import ISubRequest
 from zExceptions import NotFound
 from zope.browsermenu.interfaces import IBrowserMenu
@@ -81,6 +82,8 @@ class DisplayContentLayoutTraverser(SimpleHandler):
 
 
 class DisplayLayoutView(BrowserView):
+    implements(IBlocksTransformEnabled)
+
     def __init__(self, context, request, layout):
         super(DisplayLayoutView, self).__init__(context, request)
         self.resource_path = layout

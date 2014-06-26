@@ -11,8 +11,10 @@ from repoze.xmliter.utils import getHTMLSerializer
 from zExceptions import NotFound
 from zope.component import getMultiAdapter
 from zope.interface import implements
+from zope.interface import alsoProvides
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+from plone.app.blocks.interfaces import IBlocksTransformEnabled
 
 from plone.app.blocks.resource import cacheKey
 from plone.app.mosaic.browser.interfaces import IMainTemplate
@@ -97,7 +99,7 @@ class Macro(list):
 
 
 class MainTemplate(BrowserView):
-    implements(IMainTemplate)
+    implements(IMainTemplate, IBlocksTransformEnabled)
 
     # XXX: This probably should be loaded as resource from plonetheme.sunburst
     main_template = ViewPageTemplateFile('templates/main_template.pt')
@@ -125,6 +127,9 @@ class MainTemplate(BrowserView):
     @view.memoize
     def macros(self):
         macros = {}
+        if self.request.get('PUBLISHED') is not None:
+            alsoProvides(self.request.get('PUBLISHED'),
+                         IBlocksTransformEnabled)
         for template in [self.main_template, self.template]:
             if hasattr(template.macros, 'names'):
                 # Chameleon template macros
