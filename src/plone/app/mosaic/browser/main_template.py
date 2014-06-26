@@ -126,10 +126,15 @@ class MainTemplate(BrowserView):
     @property
     @view.memoize
     def macros(self):
+        # Ensure that request has PUBLISHED to allow enabling blocks transform
+        if self.request.get('PUBLISHED') is None:
+            self.request.set('PUBLISHED', self)
+
+        # Enable blocks transform
+        alsoProvides(self.request.get('PUBLISHED'), IBlocksTransformEnabled)
+
+        # Merge macros to provide fallback macros form legacy main_template
         macros = {}
-        if self.request.get('PUBLISHED') is not None:
-            alsoProvides(self.request.get('PUBLISHED'),
-                         IBlocksTransformEnabled)
         for template in [self.main_template, self.template]:
             if hasattr(template.macros, 'names'):
                 # Chameleon template macros
