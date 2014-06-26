@@ -51,13 +51,6 @@ To get started:
 * click **Edit** to see the new *Mosaic Editor*
 
 
-Known issues when Mosaic is installed
--------------------------------------
-
-* Going directly to login form does not report successful login
-  immediately: https://github.com/plone/plone.app.mosaic/issues/9
-
-
 Javascript development
 ----------------------
 
