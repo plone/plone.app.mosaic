@@ -1,16 +1,27 @@
 <configure xmlns="http://namespaces.zope.org/zope"
            xmlns:zcml="http://namespaces.zope.org/zcml"
-           xmlns:browser="http://namespaces.zope.org/browser"
-           xmlns:five="http://namespaces.zope.org/five">
+           xmlns:browser="http://namespaces.zope.org/browser">
 
-  <browser:page
-      for="*"
-      name="main_template"
-      class=".main_template.MainTemplate"
-      permission="zope.Public"
-      />
+  <configure zcml:condition="have plone-4">
+    <include package=".bbb" />
+    <!-- This is not in .bbb to avoid an extra browser layer just for that -->
+    <browser:page
+        for="*"
+        name="main_template"
+        class=".main_template.MainTemplate"
+        permission="zope.Public"
+        allowed_attributes="macros"
+        />
+  </configure>
 
-  <include package=".bbb" zcml:condition="have plone-4" />
+  <configure zcml:condition="have plone-5">
+    <browser:page
+        for="*"
+        name="main_template"
+        class=".main_template.MainTemplate"
+        permission="zope.Public"
+        />
+  </configure>
 
   <!-- Register content layout traverser for shared layout support -->
   <adapter

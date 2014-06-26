@@ -3,7 +3,9 @@ from hashlib import md5
 import logging
 
 from lxml import etree
+
 from plone.memoize import ram
+from plone.memoize import view
 from plone.memoize import volatile
 from repoze.xmliter.utils import getHTMLSerializer
 from zExceptions import NotFound
@@ -84,6 +86,16 @@ class ViewPageTemplateString(ViewPageTemplateFile):
         pass  # cooked only during init
 
 
+class Macro(list):
+    def __repr__(self):
+        # Override the default list.__repr__ to hide the contents of list
+        return '<{0:s}.{1:s} object at 0x{2:x}>'.format(
+            self.__class__.__module__,
+            self.__class__.__name__,
+            id(self)
+        )
+
+
 class MainTemplate(BrowserView):
     implements(IMainTemplate)
 
@@ -110,7 +122,16 @@ class MainTemplate(BrowserView):
         return bound_pt
 
     @property
+    @view.memoize
     def macros(self):
-        macros = self.main_template.macros.copy()
-        macros.update(self.template.macros.copy())
+        macros = {}
+        for template in [self.main_template, self.template]:
+            if hasattr(template.macros, 'names'):
+                # Chameleon template macros
+                for name in template.macros.names:
+                    macros[name] = template.macros[name]
+            else:
+                # Legacy template macros
+                for name, macro in template.macros.items():
+                    macros[name] = Macro(macro)
         return macros

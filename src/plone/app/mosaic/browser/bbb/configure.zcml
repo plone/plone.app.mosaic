@@ -1,21 +1,9 @@
 <configure xmlns="http://namespaces.zope.org/zope"
-           xmlns:cmf="http://namespaces.zope.org/cmf"
-           xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
-           xmlns:browser="http://namespaces.zope.org/browser"
-           xmlns:five="http://namespaces.zope.org/five">
+           xmlns:cmf="http://namespaces.zope.org/cmf">
 
   <!-- On Plone < 5 the main_template can only be overridden in skins -->
   <cmf:registerDirectory name="mosaic_scripts" recursive="True" />
 
-  <browser:page
-      for="*"
-      name="main_template"
-      class=".main_template.MainTemplateBBB"
-      permission="zope.Public"
-      layer=".interfaces.IPloneAppMosaicBBB"
-      allowed_attributes="macros"
-      />
-
-   <!-- The bbb profile is configured in top level configure.zcml -->
+  <!-- The bbb profile is configured in top level configure.zcml -->
 
 </configure>

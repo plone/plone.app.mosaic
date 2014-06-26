@@ -1,7 +1,0 @@
-<?xml version="1.0"?>
-<layers>
-  <layer
-      name="plone.app.mosaic.bbb"
-      interface="plone.app.mosaic.browser.bbb.interfaces.IPloneAppMosaicBBB"
-      />
-</layers>
