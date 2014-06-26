@@ -19,6 +19,8 @@ after_script:
 - travis-artifacts upload --path parts/test
 - travis-artifacts upload --target-path latest --path html
 - travis-artifacts upload --target-path latest --path parts/test
+- echo 'Sphinx: http://plone-app-mosaic.s3-website-us-east-1.amazonaws.com/artifacts/${TRAVIS_BUILD_NUMBER}/${TRAVIS_JOB_NUMBER}/'
+- echo 'Robot: http://plone-app-mosaic.s3-website-us-east-1.amazonaws.com/artifacts/${TRAVIS_BUILD_NUMBER}/${TRAVIS_JOB_NUMBER}/robot_report.html'
 matrix:
   allow_failures:
   - env: OPTIONS=--all
@@ -34,9 +36,7 @@ env:
     channels:
     - irc.freenode.org#plone-testing
     template:
-    - ! '%{repository}#%{build_number} (%{branch} | %{commit} | %{author}): %{message}'
-    - ! 'Change: %{compare_url}'
-    - ! 'Details: %{build_url}'
-    - ! 'Robot: http://plone-app-mosaic.s3-website-us-east-1.amazonaws.com/artifacts/%{build_number}/%{build_number}.1/robot_report.html'
-    - ! 'Sphinx: http://plone-app-mosaic.s3-website-us-east-1.amazonaws.com/artifacts/%{build_number}/%{build_number}.1/'
-    - ! 'Latest: http://plone-app-mosaic.s3-website-us-east-1.amazonaws.com/latest/'
+    - '%{repository}#%{build_number} (%{branch} | %{commit} | %{author}): %{message}'
+    - 'Change: %{compare_url}'
+    - 'Details: %{build_url}'
+    - 'Artifacts: http://plone-app-mosaic.s3-website-us-east-1.amazonaws.com/latest/'
