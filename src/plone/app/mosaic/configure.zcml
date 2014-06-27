@@ -66,28 +66,6 @@
       />
 
   <!-- Register default layouts -->
-  <plone:static type="sitelayout"
-                name="ajax" directory="layouts/ajax" />
-
-  <plone:static type="sitelayout"
-                name="default" directory="layouts/default" />
-
-  <plone:static type="contentlayout"
-                name="default" directory="layouts/default" />
-
-  <!-- Register example layouts -->
-  <plone:static type="sitelayout"
-                name="flavor-1" directory="layouts/site-flavor-1" />
-  <plone:static type="sitelayout"
-                name="flavor-2" directory="layouts/site-flavor-2" />
-  <plone:static type="sitelayout"
-                name="flavor-3" directory="layouts/site-flavor-3" />
-
-  <plone:static type="contentlayout"
-                name="example-document" directory="layouts/example-document" />
-  <plone:static type="contentlayout"
-                name="example-event" directory="layouts/example-event" />
-  <plone:static type="contentlayout"
-                name="example-news" directory="layouts/example-news" />
+  <include file="layouts.zcml" />
 
 </configure>
