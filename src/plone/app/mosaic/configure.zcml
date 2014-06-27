@@ -33,7 +33,7 @@
       description="Installs plone app mosaic."
       for="Products.CMFPlone.interfaces.IPloneSiteRoot"
       provides="Products.GenericSetup.interfaces.EXTENSION"
-      zcml:condition="have plone-4"
+      zcml:condition="not-have plone-5"
       />
 
   <include package=".browser" />

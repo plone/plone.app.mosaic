@@ -2,7 +2,7 @@
            xmlns:zcml="http://namespaces.zope.org/zcml"
            xmlns:browser="http://namespaces.zope.org/browser">
 
-  <configure zcml:condition="have plone-4">
+  <configure zcml:condition="not-have plone-5">
     <include package=".bbb" />
     <!-- This is not in .bbb to avoid an extra browser layer just for that -->
     <browser:page
@@ -10,6 +10,7 @@
         name="main_template"
         class=".main_template.MainTemplate"
         permission="zope.Public"
+        layer="plone.app.blocks.interfaces.IBlocksLayer"
         allowed_attributes="macros"
         />
   </configure>
@@ -19,6 +20,7 @@
         for="*"
         name="main_template"
         class=".main_template.MainTemplate"
+        layer="plone.app.blocks.interfaces.IBlocksLayer"
         permission="zope.Public"
         />
   </configure>
