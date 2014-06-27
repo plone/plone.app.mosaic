@@ -5,7 +5,7 @@
 }
 
 /* Outer border */
-.mosaic-tile-outer-border {
+.mosaic-panel .mosaic-tile-outer-border {
     position: absolute;
     border: solid 2px transparent;
     width: auto;
@@ -21,7 +21,7 @@
 }
 
 /* Inner border */
-.mosaic-tile-inner-border {
+.mosaic-panel .mosaic-tile-inner-border {
     position: absolute;
     border: solid 1px transparent;
     width: auto;
@@ -34,88 +34,88 @@
 }
 
 /* Border on mouse over */
-.mosaic-tile:hover .mosaic-tile-outer-border {
+.mosaic-panel .mosaic-tile:hover .mosaic-tile-outer-border {
     border: dashed 2px #3469d0;
 }
 
 /* Hide hover border when dragging or resizing*/
-.mosaic-panel-dragging .mosaic-tile:hover .mosaic-tile-outer-border {
+.mosaic-panel .mosaic-panel-dragging .mosaic-tile:hover .mosaic-tile-outer-border {
     border: solid 2px transparent;
 }
 
-.mosaic-panel-resizing .mosaic-tile:hover .mosaic-tile-outer-border {
+.mosaic-panel .mosaic-panel-resizing .mosaic-tile:hover .mosaic-tile-outer-border {
     border: solid 2px transparent;
 }
 
-.mosaic-panel-resizing .mosaic-selected-tile.mosaic-tile .mosaic-tile-outer-border {
-    border: solid 2px transparent;
-    background-color: transparent;
-}
-
-.mosaic-panel-resizing .mosaic-selected-tile.mosaic-tile:hover .mosaic-tile-outer-border {
+.mosaic-panel .mosaic-panel-resizing .mosaic-selected-tile.mosaic-tile .mosaic-tile-outer-border {
     border: solid 2px transparent;
     background-color: transparent;
 }
 
-.mosaic-panel-resizing .mosaic-selected-tile.mosaic-tile .mosaic-tile-control {
+.mosaic-panel .mosaic-panel-resizing .mosaic-selected-tile.mosaic-tile:hover .mosaic-tile-outer-border {
+    border: solid 2px transparent;
+    background-color: transparent;
+}
+
+.mosaic-panel .mosaic-panel-resizing .mosaic-selected-tile.mosaic-tile .mosaic-tile-control {
     display: none !important;
 }
 
 /* Selected tile */
-.mosaic-selected-tile .mosaic-tile-outer-border {
+.mosaic-panel .mosaic-selected-tile .mosaic-tile-outer-border {
     border: 2px solid #3469d0;
     background-color: #FFFFE1;
 }
 
-.mosaic-selected-tile.mosaic-read-only-tile .mosaic-tile-outer-border {
+.mosaic-panel .mosaic-selected-tile.mosaic-read-only-tile .mosaic-tile-outer-border {
     border: 2px solid #3469d0;
     background-color: #F0F0EE;
 }
 
-.mosaic-selected-tile.mosaic-read-only-tile:hover .mosaic-tile-outer-border {
+.mosaic-panel .mosaic-selected-tile.mosaic-read-only-tile:hover .mosaic-tile-outer-border {
     border: 2px solid #3469d0;
     background-color: #F0F0EE;
 }
 
 /* Selected tile hover */
-.mosaic-selected-tile:hover .mosaic-tile-outer-border {
+.mosaic-panel .mosaic-selected-tile:hover .mosaic-tile-outer-border {
     border: 2px solid #3469d0;
     background-color: #FFFFE1;
 }
 
 /* Other tiles while dragging */
-.mosaic-panel-dragging .mosaic-tile .mosaic-tile-inner-border {
+.mosaic-panel .mosaic-panel-dragging .mosaic-tile .mosaic-tile-inner-border {
     border: 1px dotted #888;
 }
 
 /* Hide inner border of helper while dragging */
-.mosaic-panel-dragging .mosaic-helper-tile .mosaic-tile-inner-border {
+.mosaic-panel .mosaic-panel-dragging .mosaic-helper-tile .mosaic-tile-inner-border {
     border: 1px transparent;
 }
 
-.mosaic-panel-dragging-new {
+.mosaic-panel .mosaic-panel-dragging-new {
     cursor: crosshair !important;
 }
 
-.mosaic-panel-dragging-new:hover {
+.mosaic-panel .mosaic-panel-dragging-new:hover {
     cursor: crosshair !important;
 }
 
 /* Rich text */
-.mosaic-rich-text-textarea {
+.mosaic-panel .mosaic-rich-text-textarea {
     width: 100%;
     border: 0;
 }
 
 /* Helper border */
-.mosaic-tile.mosaic-helper-tile {
+.mosaic-panel .mosaic-tile.mosaic-helper-tile {
     border: 2px solid #3469d0;
     z-index: 1000;
     opacity: 0.5;
     position: absolute;
 }
 
-.mosaic-empty-row .mosaic-tile-outer-border {
+.mosaic-panel .mosaic-empty-row .mosaic-tile-outer-border {
     background-image: url(++resource++plone.app.mosaic.images/divider_horizontal.png);
     background-position: 0px -12px;
     border: 0px;
@@ -125,59 +125,59 @@
     right: 0px;
 }
 
-.mosaic-empty-row .mosaic-tile-outer-border .mosaic-divider-dot {
+.mosaic-panel .mosaic-empty-row .mosaic-tile-outer-border .mosaic-divider-dot {
     background-image: url(++resource++plone.app.mosaic.images/divider_horizontal.png);
     width: 12px;
     height: 12px;
 }
 
-.mosaic-tile {
+.mosaic-panel .mosaic-tile {
     position: relative;
     z-index: 100;
 }
 
-.mosaic-tile .mosaic-tile-content {
+.mosaic-panel .mosaic-tile .mosaic-tile-content {
     position: relative;
     z-index: 100;
 }
 
-.mosaic-tile-content textarea, .mosaic-tile-content input[type=text] {
+.mosaic-panel .mosaic-tile-content textarea, .mosaic-tile-content input[type=text] {
     width: 100%;
 }
 
-.mosaic-tile-align-left {
+.mosaic-panel .mosaic-tile-align-left {
     float: left;
     z-index: 200;
 }
 
-.mosaic-tile-align-right {
+.mosaic-panel .mosaic-tile-align-right {
     float: right;
     z-index: 200;
 }
 
-.mosaic-panel-dragging .mosaic-tile-align-left {
+.mosaic-panel .mosaic-panel-dragging .mosaic-tile-align-left {
     z-index: 50;
 }
 
-.mosaic-panel-dragging .mosaic-tile-align-right {
+.mosaic-panel .mosaic-panel-dragging .mosaic-tile-align-right {
     z-index: 50;
 }
 
-.mosaic-original-tile {
+.mosaic-panel .mosaic-original-tile {
     opacity: 0.5;
 }
 
 /* Empty row */
-.mosaic-empty-row {
+.mosaic-panel .mosaic-empty-row {
     height: 12px;
 }
 
-.mosaic-empty-row .mosaic-grid-cell {
+.mosaic-panel .mosaic-empty-row .mosaic-grid-cell {
     height: 12px;
     display: none;
 }
 
-.mosaic-empty-row .mosaic-grid-cell > div {
+.mosaic-panel .mosaic-empty-row .mosaic-grid-cell > div {
     position: relative;
     height: 12px;
 }
