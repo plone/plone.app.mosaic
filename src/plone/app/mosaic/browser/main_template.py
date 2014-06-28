@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 from hashlib import md5
+import re
 import logging
 
 from lxml import etree
+from lxml import html
 
 from plone.memoize import ram
 from plone.memoize import view
@@ -33,7 +35,15 @@ def cook_layout_cachekey(func, layout, ajax):
 @ram.cache(cook_layout_cachekey)
 def cook_layout(layout, ajax):
     """Return main_template compatible layout"""
+    # Fix layouts with CR[+LF] line endings
+    layout = re.sub('\r', '\n', re.sub('\r\n', '\n', layout))
+
     result = getHTMLSerializer([layout], encoding='utf-8')
+
+    # Fix XHTML layouts with inline js (etree.tostring breaks all <![CDATA[)
+    if '<![CDATA[' in layout:
+        result.serializer = html.tostring
+
     nsmap = {'metal': 'http://namespaces.zope.org/metal'}
 
     # Wrap all panels with a metal:fill-slot -tag:
