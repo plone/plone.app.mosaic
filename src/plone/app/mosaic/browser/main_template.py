@@ -24,7 +24,13 @@ from plone.app.blocks.utils import panelXPath
 logger = logging.getLogger('plone.app.mosaic')
 
 
-@ram.cache(lambda func, layout, ajax: (md5(layout).hexdigest(), ajax))
+def cook_layout_cachekey(func, layout, ajax):
+    if isinstance(layout, unicode):
+        layout = layout.encode('utf-8', 'replace')
+    return md5(layout).hexdigest(), ajax
+
+
+@ram.cache(cook_layout_cachekey)
 def cook_layout(layout, ajax):
     """Return main_template compatible layout"""
     result = getHTMLSerializer(layout, encoding='utf-8')
@@ -63,7 +69,7 @@ dummy python:request.RESPONSE.setHeader('X-UA-Compatible', 'IE=edge,chrome=1');
     if not ajax and head is not None:
         for name in ['top_slot', 'head_slot',
                      'style_slot', 'javascript_head_slot']:
-            slot = etree.Element('{%s}%s' % (nsmap['metal'], panelId),
+            slot = etree.Element('{%s}%s' % (nsmap['metal'], name),
                                  nsmap=nsmap)
             slot.attrib['define-slot'] = name
             head.append(slot)
