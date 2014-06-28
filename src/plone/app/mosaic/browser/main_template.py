@@ -33,7 +33,7 @@ def cook_layout_cachekey(func, layout, ajax):
 @ram.cache(cook_layout_cachekey)
 def cook_layout(layout, ajax):
     """Return main_template compatible layout"""
-    result = getHTMLSerializer(layout, encoding='utf-8')
+    result = getHTMLSerializer([layout], encoding='utf-8')
     nsmap = {'metal': 'http://namespaces.zope.org/metal'}
 
     # Wrap all panels with a metal:fill-slot -tag:
