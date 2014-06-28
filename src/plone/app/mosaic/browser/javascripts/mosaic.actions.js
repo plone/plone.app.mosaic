@@ -358,7 +358,6 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
                   "[name='form.widgets.ILayoutAware.content']")
                       .attr("value", $.mosaic.getPageContent());
 
-                debugger
                 $("#form-buttons-save").click();
             },
             shortcut: {
