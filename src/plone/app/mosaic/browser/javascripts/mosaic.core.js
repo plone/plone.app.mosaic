@@ -147,6 +147,24 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
             }
         });
 
+        // Pre-fill new panels from the layout
+        $("[data-panel]", $.mosaic.document).each(function () {
+            if (!$(this).hasClass('mosaic-panel')) {
+                console.log($(this));
+                $(this).addClass('mosaic-panel');
+                $(this).children().wrap($(
+                    '<div class="mosaic-grid-row">' +
+                        '<div class="mosaic-grid-cell mosaic-width-full mosaic-position-leftmost">' +
+                            '<div class="movable removable mosaic-tile mosaic-text-tile">' +
+                                '<div class="mosaic-tile-content">' +
+                                '</div>' +
+                            '</div>' +
+                        '</div>' +
+                    '</div>'
+                ));
+            }
+        });
+
         // Init app tiles
         $.mosaic.options.panels = $(".mosaic-panel", $.mosaic.document);
         $.mosaic.nrOfTiles =
