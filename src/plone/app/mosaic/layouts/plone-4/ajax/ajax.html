@@ -1,20 +1,25 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xml:lang="en"
-      lang="en"
-      data-gridsystem="bs3">
-  <head>
-    <link data-tile="./@@plone.app.standardtiles.headtitle" />
-    <link data-tile="./@@plone.app.standardtiles.stylesheets" />
-    <link data-tile="./@@plone.app.standardtiles.javascripts" />
-  </head>
-  <body>
-    <div id="visual-portal-wrapper">
-      <div data-panel="content" id="content">
-        <div data-panel="main">
-        <div data-panel="content-core" id="content-core"></div>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" data-layout="./@@page-site-layout">
+<body>
+<div data-panel="content">
+  <div class="mosaic-grid-row">
+    <div class="mosaic-grid-cell mosaic-width-full mosaic-position-leftmost">
+      <div class="mosaic-tile mosaic-plone.app.standardtiles.title-tile movable">
+        <div class="mosaic-tile-content">
+          <div data-tile="./@@plone.app.standardtiles.title"></div>
         </div>
       </div>
     </div>
-  </body>
+  </div>
+  <div class="mosaic-grid-row">
+    <div class="mosaic-grid-cell mosaic-width-full mosaic-position-leftmost">
+      <div class="movable removable mosaic-tile mosaic-plone.app.standardtiles.description-tile">
+        <div class="mosaic-tile-content">
+          <div data-tile="./@@plone.app.standardtiles.description"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
 </html>
