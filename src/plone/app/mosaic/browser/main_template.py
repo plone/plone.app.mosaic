@@ -60,22 +60,7 @@ def cook_layout(layout, ajax):
         ## only be removed for anonymous users (and that's not implemented yet)
         # del layoutPanelNode.attrib['data-panel']
 
-    root = result.tree.getroot()
-    root.attrib['tal:define'] = """\
-portal_state python: context.restrictedTraverse('@@plone_portal_state');
-context_state python: context.restrictedTraverse('@@plone_context_state');
-plone_view python: context.restrictedTraverse('@@plone');
-lang portal_state/language;
-view nocall: view | nocall: plone_view;
-dummy python:plone_view.mark_view(view);
-portal_url portal_state/portal_url;
-checkPermission nocall: context/portal_membership/checkPermission;
-site_properties nocall: context/portal_properties/site_properties;
-ajax_load request/ajax_load | nothing;
-ajax_include_head request/ajax_include_head | nothing;
-dummy python:request.RESPONSE.setHeader('X-UA-Compatible', 'IE=edge,chrome=1');
-"""
-    head = root.find('head')
+    head = result.tree.getroot().find('head')
     if not ajax and head is not None:
         for name in ['top_slot', 'head_slot',
                      'style_slot', 'javascript_head_slot']:
@@ -84,7 +69,22 @@ dummy python:request.RESPONSE.setHeader('X-UA-Compatible', 'IE=edge,chrome=1');
             slot.attrib['define-slot'] = name
             head.append(slot)
 
-    template = '<metal:page define-macro="master">\n%s\n</metal:page>'
+    template = """\
+<metal:page define-macro="master"
+            tal:define="portal_state python: context.restrictedTraverse('@@plone_portal_state');
+                        context_state python: context.restrictedTraverse('@@plone_context_state');
+                        plone_view python: context.restrictedTraverse('@@plone');
+                        lang portal_state/language;
+                        view nocall: view | nocall: plone_view;
+                        dummy python:plone_view.mark_view(view);
+                        portal_url portal_state/portal_url;
+                        checkPermission nocall: context/portal_membership/checkPermission;
+                        site_properties nocall: context/portal_properties/site_properties;
+                        ajax_load request/ajax_load | nothing;
+                        ajax_include_head request/ajax_include_head | nothing;
+                        dummy python:request.RESPONSE.setHeader('X-UA-Compatible', 'IE=edge,chrome=1');">
+%s
+</metal:page>"""
     metal = 'xmlns:metal="http://namespaces.zope.org/metal"'
     return (template % ''.join(result)).replace(metal, '')
 
