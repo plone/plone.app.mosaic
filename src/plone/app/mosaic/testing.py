@@ -57,6 +57,9 @@ class PloneAppMosaic(PloneSandboxLayer):
                        context=configurationContext)
 
     def setUpPloneSite(self, portal):
+        # Set the default workflow
+        portal.portal_workflow.setDefaultChain("simple_publication_workflow")
+
         # Install into Plone site using portal_setup
         applyProfile(portal, 'plone.app.contenttypes:default')
         applyProfile(portal, 'plone.app.widgets:default')
@@ -121,6 +124,9 @@ class PloneAppMosaicNoPAC(PloneSandboxLayer):
                        context=configurationContext)
 
     def setUpPloneSite(self, portal):
+        # Set the default workflow
+        portal.portal_workflow.setDefaultChain("simple_publication_workflow")
+
         # Install into Plone site using portal_setup
         applyProfile(portal, 'plone.app.mosaic:default')
         applyProfile(portal, 'plone.app.mosaic:bbb')
