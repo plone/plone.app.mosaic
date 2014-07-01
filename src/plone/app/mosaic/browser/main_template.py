@@ -142,25 +142,8 @@ class MainTemplate(BrowserView):
     @property
     @view.memoize
     def macros(self):
-        # Ensure that request has PUBLISHED to allow enabling blocks transform
-        if self.request.get('PUBLISHED') is None:
-            self.request.set('PUBLISHED', self)
-
         # Enable blocks transform
-        published = self.request.get('PUBLISHED')
-        persistent = (getattr(published, '_p_jar', None)
-                      or getattr(published, '_p_changed', False))
-        if not persistent:
-            alsoProvides(published, IBlocksTransformEnabled)
-        if getattr(published, '_p_changed', False):
-            # NOTE: This might be harmful for zope.containers because of
-            # https://bugs.launchpad.net/zope.container/+bug/185487
-            noLongerProvides(published, IBlocksTransformEnabled)
-            published._p_changed = False
-            logger.warning((
-                'Could not enable blocks transform for {0:s} '
-                'because it would have persisted an interface'
-            ).format(published))
+        alsoProvides(self.request, IBlocksTransformEnabled)
 
         # Merge macros to provide fallback macros form legacy main_template
         macros = {}
