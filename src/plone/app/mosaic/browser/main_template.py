@@ -14,7 +14,6 @@ from repoze.xmliter.utils import getHTMLSerializer
 from zExceptions import NotFound
 from zope.component import getMultiAdapter
 from zope.interface import implements
-from zope.interface import noLongerProvides
 from zope.interface import alsoProvides
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
