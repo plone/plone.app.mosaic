@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 from hashlib import md5
+import os
 import re
 import logging
 
 from lxml import etree
 from lxml import html
+import pkg_resources
 from plone.memoize import ram
 from plone.memoize import view
 from plone.memoize import volatile
@@ -114,11 +116,37 @@ class Macro(list):
         )
 
 
+def resolve_main_template():
+    # Plone 5
+    main_template = os.path.join(
+        'browser', 'templates', 'main_template.pt')
+    if pkg_resources.resource_exists('Products.CMFPlone', main_template):
+        filename = pkg_resources.resource_filename('Products.CMFPlone',
+                                                   main_template)
+        return ViewPageTemplateFile(filename)
+
+    # Plone 4 with Sunburst
+    sunburst_main_template = os.path.join(
+        'skins', 'sunburst_templates', 'main_template.pt')
+    if pkg_resources.resource_exists('plonetheme.sunburst',
+                                     sunburst_main_template):
+        filename = pkg_resources.resource_filename('plonetheme.sunburst',
+                                                   sunburst_main_template)
+        return ViewPageTemplateFile(filename)
+
+    # Fallback
+    skins_main_template = os.path.join(
+        'skins', 'plone_templates', 'main_template.pt')
+    if pkg_resources.resource_exists('Products.CMFPlone', skins_main_template):
+        filename = pkg_resources.resource_filename('Products.CMFPlone',
+                                                   skins_main_template)
+        return ViewPageTemplateFile(filename)
+
+
 class MainTemplate(BrowserView):
     implements(IMainTemplate, IBlocksTransformEnabled)
 
-    # XXX: This probably should be loaded as resource from plonetheme.sunburst
-    main_template = ViewPageTemplateFile('templates/main_template.pt')
+    main_template = resolve_main_template()
 
     def __call__(self):
         return self.template(self)
