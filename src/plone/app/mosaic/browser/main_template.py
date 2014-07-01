@@ -5,7 +5,6 @@ import logging
 
 from lxml import etree
 from lxml import html
-
 from plone.memoize import ram
 from plone.memoize import view
 from plone.memoize import volatile
@@ -13,11 +12,12 @@ from repoze.xmliter.utils import getHTMLSerializer
 from zExceptions import NotFound
 from zope.component import getMultiAdapter
 from zope.interface import implements
+from zope.interface import noLongerProvides
 from zope.interface import alsoProvides
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from plone.app.blocks.interfaces import IBlocksTransformEnabled
 
+from plone.app.blocks.interfaces import IBlocksTransformEnabled
 from plone.app.blocks.resource import cacheKey
 from plone.app.mosaic.browser.interfaces import IMainTemplate
 from plone.app.blocks.utils import panelXPath
@@ -147,7 +147,20 @@ class MainTemplate(BrowserView):
             self.request.set('PUBLISHED', self)
 
         # Enable blocks transform
-        alsoProvides(self.request.get('PUBLISHED'), IBlocksTransformEnabled)
+        published = self.request.get('PUBLISHED')
+        persistent = (getattr(published, '_p_jar', None)
+                      or getattr(published, '_p_changed', False))
+        if not persistent:
+            alsoProvides(published, IBlocksTransformEnabled)
+        if getattr(published, '_p_changed', False):
+            # NOTE: This might be harmful for zope.containers because of
+            # https://bugs.launchpad.net/zope.container/+bug/185487
+            noLongerProvides(published, IBlocksTransformEnabled)
+            published._p_changed = False
+            logger.warning((
+                'Could not enable blocks transform for {0:s} '
+                'because it would have persisted an interface'
+            ).format(published))
 
         # Merge macros to provide fallback macros form legacy main_template
         macros = {}
