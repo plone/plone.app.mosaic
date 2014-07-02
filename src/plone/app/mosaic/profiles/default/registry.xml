@@ -5,18 +5,10 @@
 
     <!-- Default (portal-wide) site layout -->
     <record name="plone.defaultSiteLayout">
-        <field type="plone.registry.field.ASCIILine">
-             <title>Default site layout</title>
-             <description>The site layout used</description>
-        </field>
         <value>/++sitelayout++default/site.html</value>
     </record>
 
     <record name="plone.defaultAjaxLayout">
-        <field type="plone.registry.field.ASCIILine">
-             <title>Default AJAX layout</title>
-             <description>The site layout used</description>
-        </field>
         <value>/++sitelayout++ajax/ajax.html</value>
     </record>
 
