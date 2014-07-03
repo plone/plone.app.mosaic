@@ -114,8 +114,11 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
         // Get dom tree
         content = $.mosaic.getDomTreeFromHtml(content);
         $.mosaic.options.layout = content.attr('data-layout');
+
         // Drop panels within panels (only the top level panels are editable)
-        $('[data-panel] [data-panel]').removeAttr('data-panel');
+        $('[data-panel] [data-panel]', $.mosaic.document)
+            .removeAttr('data-panel');
+
         // Find panels
         content.find("[data-panel]").each(function () {
 
@@ -123,6 +126,14 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
             var panel_id = $(this).attr("data-panel"), panel_attr_id,
                 target = $("[data-panel=" + panel_id + "]",
                 $.mosaic.document);
+
+            // Implicitly initialize required panels with id matching element
+            if (panel_id === 'content' && target.length === 0) {
+                $('#' + panel_id, $.mosaic.document).each(function() {
+                    target = $(this);
+                    target.attr('data-panel', panel_id);
+                });
+            }
 
             // If content, create a new div since the form data is in
             // this panel

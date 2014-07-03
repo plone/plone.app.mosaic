@@ -3,15 +3,6 @@
 
     <records interface="plone.app.blocks.interfaces.IBlocksSettings" />
 
-    <!-- Default (portal-wide) site layout -->
-    <record name="plone.defaultSiteLayout">
-        <value>/++sitelayout++default/site.html</value>
-    </record>
-
-    <record name="plone.defaultAjaxLayout">
-        <value>/++sitelayout++ajax/ajax.html</value>
-    </record>
-
     <!-- Primary actions -->
     <records prefix="plone.app.mosaic.primary_actions.save"
             interface='plone.app.mosaic.interfaces.IAction'>

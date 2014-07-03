@@ -115,6 +115,18 @@ class Macro(list):
         )
 
 
+def resolve_ajax_main_template():
+    # Plone 5
+    main_template = os.path.join(
+        'browser', 'templates', 'ajax_main_template.pt')
+    if pkg_resources.resource_exists('Products.CMFPlone', main_template):
+        filename = pkg_resources.resource_filename('Products.CMFPlone',
+                                                   main_template)
+        return ViewPageTemplateFile(filename)
+    else:
+        return resolve_main_template()
+
+
 def resolve_main_template():
     # Plone 5
     main_template = os.path.join(
@@ -145,25 +157,30 @@ def resolve_main_template():
 class MainTemplate(BrowserView):
     implements(IMainTemplate, IBlocksTransformEnabled)
 
+    ajax_template = resolve_ajax_main_template()
     main_template = resolve_main_template()
 
     def __call__(self):
-        return self.template(self)
+        if self.request.form.get('ajax_load'):
+            return self.ajax_template()
+        else:
+            return self.main_template()
 
     @property
     @volatile.cache(cacheKey, volatile.store_on_context)
     def template(self):
         try:
             layout = getMultiAdapter((self.context, self.request),
-                                     name='page-site-layout')()
-        except NotFound as e:
-            logger.warning('Missing layout {0:s}'.format(e))
-            return self.main_template
+                                     name='page-site-layout').index()
+        except NotFound:
+            if self.request.form.get('ajax_load'):
+                return self.ajax_template
+            else:
+                return self.main_template
 
         cooked = cook_layout(layout, self.request.get('ajax_load'))
         pt = ViewPageTemplateString(cooked)
         bound_pt = pt.__get__(self, type(self))
-
         return bound_pt
 
     @property
