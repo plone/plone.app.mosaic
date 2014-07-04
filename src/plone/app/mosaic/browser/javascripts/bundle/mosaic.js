@@ -886,6 +886,37 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
             }
         });
 
+        // Register page layout action
+        $.mosaic.registerAction('page-layout', {
+            exec: function () {
+                // Open overlay
+                var modal = require('mockup-patterns-modal');
+                var m = new modal($('.mosaic-original-content'), {
+                    'title': 'Layout options',
+                    'content': '#fieldset-layout'
+                });
+                m.on('show', function() {
+                    m.$modal
+                        .removeClass('mosaic-blur')
+                        .find('#formfield-form-widgets-ILayoutAware-content')
+                        .remove();
+                    m.$el.find('select').each(function() {
+                        var val = $(this).val(),
+                            id = $(this).attr('id');
+                        m.$modal.find('#' + id).val(val);
+                    });
+                });
+                m.on('hide', function() {
+                    m.$modal.find('select').each(function() {
+                        var val = $(this).val(),
+                            id = $(this).attr('id');
+                        m.$el.find('#' + id).val(val);
+                    });
+                });
+                m.show();
+            }
+        });
+
          // Register add tile action
         $.mosaic.registerAction('add-tile', {
             exec: function () {
