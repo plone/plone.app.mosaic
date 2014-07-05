@@ -36,9 +36,10 @@ def cook_layout_cachekey(func, layout, ajax):
 @ram.cache(cook_layout_cachekey)
 def cook_layout(layout, ajax):
     """Return main_template compatible layout"""
-    # Fix layouts with CR[+LF] line endings
+    # Fix XHTML layouts with CR[+LF] line endings
     layout = re.sub('\r', '\n', re.sub('\r\n', '\n', layout))
 
+    # Parse layout
     result = getHTMLSerializer([layout], encoding='utf-8')
 
     # Fix XHTML layouts with inline js (etree.tostring breaks all <![CDATA[)
