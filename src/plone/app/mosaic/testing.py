@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from Products.CMFPlone.testing import \
+    PRODUCTS_CMFPLONE_ROBOT_REMOTE_LIBRARY_FIXTURE
 from ZPublisher import HTTPResponse
 from plone.app.testing import PLONE_FIXTURE
 from plone.app.testing import IntegrationTesting
@@ -137,6 +139,6 @@ class PloneAppMosaicNoPAC(PloneSandboxLayer):
 PLONE_APP_MOSAIC_NO_PAC = PloneAppMosaicNoPAC()
 
 PLONE_APP_MOSAIC_NO_PAC_ROBOT = FunctionalTesting(
-    bases=(REMOTE_LIBRARY_BUNDLE_FIXTURE,
+    bases=(PRODUCTS_CMFPLONE_ROBOT_REMOTE_LIBRARY_FIXTURE,
            PLONE_APP_MOSAIC_NO_PAC, z2.ZSERVER_FIXTURE),
     name="PLONE_APP_MOSAIC_ROBOT")
