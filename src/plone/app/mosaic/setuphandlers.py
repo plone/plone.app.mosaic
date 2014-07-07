@@ -45,10 +45,12 @@ def enable_layout_behavior(portal):
         behaviors = tuple(set(behaviors))
         fti._updateProperty('behaviors', behaviors)
 
-        # Set the default content layout for all types
-        aliases = fti.getMethodAliases() or {}
-        aliases['++layout++default'] = '++contentlayout++default/content.html'
-        fti.setMethodAliases(aliases)
+        # Set the default content layout for supported types
+        if fti.id == 'Document':
+            aliases = fti.getMethodAliases() or {}
+            aliases['++layout++default'] = \
+                '++contentlayout++default-document/content.html'
+            fti.setMethodAliases(aliases)
 
         # Set the default view method
         view_methods = [i for i in fti.view_methods]
