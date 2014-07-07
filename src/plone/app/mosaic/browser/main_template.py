@@ -3,6 +3,7 @@ from hashlib import md5
 import os
 import re
 import logging
+from urlparse import unquote
 
 from lxml import etree
 from lxml import html
@@ -21,8 +22,10 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone.app.blocks.interfaces import IBlocksTransformEnabled
 from plone.app.blocks.resource import cacheKey
 from plone.app.mosaic.browser.interfaces import IMainTemplate
-from plone.app.blocks.utils import panelXPath
 
+
+NSMAP = {'metal': 'http://namespaces.zope.org/metal'}
+slotsXPath = etree.XPath("//*[@data-slots]")
 
 logger = logging.getLogger('plone.app.mosaic')
 
@@ -31,6 +34,78 @@ def cook_layout_cachekey(func, layout, ajax):
     if isinstance(layout, unicode):
         layout = layout.encode('utf-8', 'replace')
     return md5(layout).hexdigest(), ajax
+
+
+def parse_data_slots(value):
+    """Parse data-slots value into slots used to wrap node, prepend to node or
+    append to node.
+
+       >>> parse_data_slots('')
+       ([], [], [])
+
+       >>> parse_data_slots('foo bar')
+       (['foo', 'bar'], [], [])
+
+       >>> parse_data_slots('foo bar > foobar')
+       (['foo', 'bar'], ['foobar'], [])
+
+       >>> parse_data_slots('> foobar')
+       ([], ['foobar'], [])
+
+       >>> parse_data_slots('> foo * bar')
+       ([], ['foo'], ['bar'])
+
+       >>> parse_data_slots('foobar > foo * bar')
+       (['foobar'], ['foo'], ['bar'])
+
+       >>> parse_data_slots('foo > * bar')
+       (['foo'], [], ['bar'])
+
+    """
+    value = unquote(value)
+    if '>' in value:
+        wrappers, children = value.split('>', 1)
+    else:
+        wrappers = value
+        children = ''
+    if '*' in children:
+        prepends, appends = children.split('*', 1)
+    else:
+        prepends = children
+        appends = ''
+
+    wrappers = filter(bool, map(str.strip, wrappers.split()))
+    prepends = filter(bool, map(str.strip, prepends.split()))
+    appends = filter(bool, map(str.strip, appends.split()))
+
+    return wrappers, prepends, appends
+
+
+def wrap_append_prepend_slots(node, data_slots):
+    wrappers, prepends, appends = parse_data_slots(data_slots)
+
+    for panelId in wrappers:
+        slot = etree.Element('{%s}%s' % (NSMAP['metal'], panelId),
+                             nsmap=NSMAP)
+        slot.attrib['define-slot'] = panelId
+        slot_parent = node.getparent()
+        slot_parent_index = slot_parent.index(node)
+        slot.append(node)
+        slot_parent.insert(slot_parent_index, slot)
+
+    for panelId in prepends:
+        slot = etree.Element('{%s}%s' % (NSMAP['metal'], panelId),
+                             nsmap=NSMAP)
+        slot.attrib['define-slot'] = panelId
+        node.insert(0, slot)
+
+    for panelId in appends:
+        slot = etree.Element('{%s}%s' % (NSMAP['metal'], panelId),
+                             nsmap=NSMAP)
+        slot.attrib['define-slot'] = panelId
+        node.append(slot)
+
+    return wrappers + prepends + appends
 
 
 @ram.cache(cook_layout_cachekey)
@@ -46,28 +121,26 @@ def cook_layout(layout, ajax):
     if '<![CDATA[' in layout:
         result.serializer = html.tostring
 
-    nsmap = {'metal': 'http://namespaces.zope.org/metal'}
-
     # Wrap all panels with a metal:fill-slot -tag:
-    for layoutPanelNode in panelXPath(result.tree):
-        panelId = layoutPanelNode.attrib['data-panel']
-        slot = etree.Element('{%s}%s' % (nsmap['metal'], panelId), nsmap=nsmap)
-        slot.attrib['define-slot'] = panelId
-        slot_parent = layoutPanelNode.getparent()
-        slot_parent_index = slot_parent.index(layoutPanelNode)
-        slot.append(layoutPanelNode)
-        slot_parent.insert(slot_parent_index, slot)
+    all_slots = []
+    for layoutPanelNode in slotsXPath(result.tree):
+        data_slots = layoutPanelNode.attrib['data-slots']
+        all_slots += wrap_append_prepend_slots(layoutPanelNode, data_slots)
+        del layoutPanelNode.attrib['data-slots']
 
-        ## XXX: 'data-panel'-attributes are required for Deco-editor and could
-        ## only be removed for anonymous users (and that's not implemented yet)
-        # del layoutPanelNode.attrib['data-panel']
+    # When no slots are explicitly defined, try to inject the very default slots
+    if len(all_slots) == 0:
+        for node in result.tree.xpath('//*[data-panel="content"]'):
+            wrap_append_prepend_slots(
+                node, 'content > body header main * content-core')
 
+    # Append implicit slots
     head = result.tree.getroot().find('head')
     if not ajax and head is not None:
         for name in ['top_slot', 'head_slot',
                      'style_slot', 'javascript_head_slot']:
-            slot = etree.Element('{%s}%s' % (nsmap['metal'], name),
-                                 nsmap=nsmap)
+            slot = etree.Element('{%s}%s' % (NSMAP['metal'], name),
+                                 nsmap=NSMAP)
             slot.attrib['define-slot'] = name
             head.append(slot)
 
