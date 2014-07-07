@@ -98,9 +98,17 @@ class DisplayLayoutView(BrowserView):
 
 class HiddenDisplaySubMenuItem(DisplaySubMenuItem):
     adapts(ILayoutAware, IBrowserRequest)
+
     @view.memoize
     def available(self):
-        return False
+        layout_menu = getMultiAdapter((self.context, self.request),
+                                      IContentMenuItem,
+                                      name='plone.contentmenu.layout')
+        if layout_menu.available():
+            return False
+        else:
+            return super(HiddenDisplaySubMenuItem, self).available()
+
 
 
 class DisplayLayoutSubMenuItem(BrowserSubMenuItem):
