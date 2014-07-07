@@ -16,7 +16,7 @@
 </head>
 <body>
 <div id="edit-bar">
-  <!--<div data-tile="./@@plone.app.standardtiles.edit_bar"></div>-->
+  <div data-tile="./@@plone.app.standardtiles.edit_bar"></div>
 </div>
 <div id="visual-portal-wrapper">
 
@@ -33,7 +33,7 @@
   </div>
 
   <div id="portal-columns" data-grid='{"type": "row"}'>
-    <div id="portal-column-content" data-grid='{"type": "cell", "info":{"xs": "false", "sm": "False", "lg": "False", "pos": {"x":5, "width": 8}}}'>
+    <div id="portal-column-content" data-grid='{"type": "cell", "info":{"xs": "false", "sm": "False", "lg": "False", "pos": {"x":1, "width": 12}}}'>
       <div data-tile="./@@plone.app.standardtiles.path_bar"></div>
       <div data-tile="./@@plone.app.standardtiles.lockinfo"></div>
       <div data-tile="./@@plone.app.standardtiles.global_statusmessage"></div>
@@ -48,11 +48,6 @@
         </div>
       </div>
       <div data-tile="./@@plone.app.standardtiles.viewletmanager/below-content?manager=plone.belowcontent"></div>
-    </div>
-    <div data-grid='{"type": "cell", "info":{"xs": "false", "sm": "False", "lg": "False", "pos": {"x": 1, "width": 4}}}'>
-      <div id="portal-column-one" data-slots="portal-column-one">
-         <div data-tile="./@@plone.app.standardtiles.portletmanager/left-portlets?manager=plone.leftcolumn"></div>
-      </div>
     </div>
     <div data-grid='{"type": "cell", "info":{"xs": "false", "sm": "False", "lg": "False", "pos": {"x": 13, "width": 4}}}'>
       <div id="portal-column-two" data-slots="portal-column-two">
