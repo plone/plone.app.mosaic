@@ -182,9 +182,10 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
         $.mosaic.options.panels.find("[data-tile]").each(function () {
 
             // Local variables
-            var target, href, tile_content, tiletype, classes, url,
+            var target, base, href, tile_content, tiletype, classes, url,
                 tile_config, x, tile_group, y, fieldhtml, lines, i;
 
+            base = $($.mosaic.document).find('head > base').attr('href');
             href = $(this).attr("data-tile");
 
             // Get tile type
@@ -273,7 +274,8 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
 
             // Get data from app tile
             } else {
-                url = href;
+                url = base ? [base, href].join('/')
+                                         .replace(/\/+\.\//g, '/') : href;
                 if (tile_config.name ===
                     'plone.app.standardtiles.title' ||
                     tile_config.name ===
