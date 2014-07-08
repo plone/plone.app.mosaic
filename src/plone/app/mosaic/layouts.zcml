@@ -60,6 +60,10 @@
     <plone:static type="contentlayout"
                   name="default"
                   directory="layouts/plone-5/default" />
+
+    <plone:static type="contentlayout"
+                  name="default-document"
+                  directory="layouts/plone-5/default-document" />
   </configure>
 
 </configure>
