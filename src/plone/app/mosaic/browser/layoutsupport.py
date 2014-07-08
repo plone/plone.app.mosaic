@@ -3,15 +3,15 @@ from urllib import quote
 
 from Products.CMFCore.utils import getToolByName
 from Products.CMFDynamicViewFTI.interfaces import ISelectableBrowserDefault
+from Products.CMFPlone.utils import parent
 from Products.Five import BrowserView
 from plone.app.content.browser.interfaces import IContentsPage
 from plone.app.contentmenu.interfaces import IContentMenuItem
 from plone.app.contentmenu.menu import DisplaySubMenuItem
-from plone.app.blocks.interfaces import IBlocksTransformEnabled
-from plone.subrequest import ISubRequest
 from zExceptions import NotFound
 from zope.browsermenu.interfaces import IBrowserMenu
-from zope.browsermenu.menu import BrowserMenu, BrowserSubMenuItem
+from zope.browsermenu.menu import BrowserMenu
+from zope.browsermenu.menu import BrowserSubMenuItem
 from zope.component import adapts
 from zope.component import getMultiAdapter
 from zope.component import getUtility
@@ -22,11 +22,13 @@ from zope.traversing.interfaces import ITraversable
 from zope.traversing.namespace import SimpleHandler
 from plone.memoize import view
 
+from plone.app.blocks.interfaces import IBlocksTransformEnabled
 from plone.app.blocks.layoutbehavior import ILayoutAware
 from plone.app.blocks.utils import resolveResource
 from plone.app.mosaic.layoutsupport import absolute_path
 from plone.app.mosaic.layoutsupport import ContentLayoutTraverser
 from plone.app.mosaic.interfaces import _
+
 
 logger = logging.getLogger('plone.app.mosaic')
 
@@ -192,31 +194,98 @@ class DisplayLayoutSubMenuItem(BrowserSubMenuItem):
 
 class DisplayLayoutMenu(BrowserMenu):
     def getMenuItems(self, context, request):
-        vocab_factory = getUtility(IVocabularyFactory,
-                                   name='plone.availableDisplayLayouts')
-        vocab = vocab_factory(context)
+        # Get the current layout (and stop when no layout is available)
         context = ISelectableBrowserDefault(context, None)
         layout = context.getLayout()
         if context is None:
             return []
 
-        menu = getUtility(IBrowserMenu, 'plone_contentmenu_display')
-        results = menu.getMenuItems(context, request)
+        # Get layout vocabulary factory
+        vocab_factory = getUtility(IVocabularyFactory,
+                                   name='plone.availableDisplayLayouts')
 
-        # Add the predefined layout options
-        for term in vocab:
+        # Get context state API
+        context_state = getMultiAdapter((context, request),
+                                        name='plone_context_state')
+
+        # Get folder layout options when this is a default page
+        folder_results = []
+        folder_vocab = []
+        folder_url = ''
+        if context_state.is_default_page():
+            folder = ISelectableBrowserDefault(parent(context), None)
+            if folder is not None:
+                folder_vocab = vocab_factory(folder)
+                folder_url = folder.absolute_url()
+        for term in folder_vocab or []:
             is_selected = term.value == layout
-            results.append({
+            id_ = term.value.split('++')[-1]
+            folder_results.append({
                 'title': term.title,
                 'description': '',
                 'action': '%s/selectViewTemplate?templateId=%s' % (
-                    context.absolute_url(), quote(term.value),),
+                    folder_url, quote(term.value),),
                 'selected': is_selected,
                 'icon': None,
                 'extra': {
-                    'id': 'layout-' + term.value.split('++')[-1],
+                    'id': 'folder-layout-' + id_,
                     'separator': None,
                     'class': is_selected and 'actionMenuSelected' or ''},
                 'submenu': None,
             })
+
+        # Get context layout options
+        context_results = []
+        context_vocab = vocab_factory(context)
+        context_url = context.absolute_url()
+        for term in reversed(list(context_vocab)):
+            is_selected = term.value == layout
+            id_ = term.value.split('++')[-1]
+            context_results.append({
+                'title': term.title,
+                'description': '',
+                'action': '%s/selectViewTemplate?templateId=%s' % (
+                    context_url, quote(term.value),),
+                'selected': is_selected,
+                'icon': None,
+                'extra': {
+                    'id': 'plone-contentmenu-layout-' + id_,
+                    'separator': None,
+                    'class': is_selected and 'actionMenuSelected' or ''},
+                'submenu': None,
+            })
+
+        # Merge the results with the original display meny
+        menu = getUtility(IBrowserMenu, 'plone_contentmenu_display')
+
+        results = []
+        for result in menu.getMenuItems(context, request):
+            id_ = (result.get('extra') or {}).get('id')
+            sep = (result.get('extra') or {}).get('separator')
+
+            # Extend results with layouts
+            if id_ in ('folderHeader', 'contextHeader'):
+                pass
+            elif sep and id_.startswith('folder') and folder_results:
+                results.extend(folder_results)
+                folder_results = []
+            elif sep and id_.startswith('context') and context_results:
+                results.extend(context_results)
+                context_results = []
+
+            # Move 'Custom layout' into bottom
+            if id_ in ['folder-view', 'folder-@@view']:
+                folder_results.append(result)
+            elif id_ in ['plone-contentmenu-display-view',
+                         'plone-contentmenu-display-@@view']:
+                context_results.append(result)
+            else:
+                results.append(result)
+
+        # Flush the remaining options
+        if folder_results:
+            results.extend(folder_results)
+        if context_results:
+            results.extend(context_results)
+
         return results
