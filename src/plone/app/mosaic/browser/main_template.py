@@ -130,7 +130,7 @@ def cook_layout(layout, ajax):
 
     # When no slots are explicitly defined, try to inject the very default slots
     if len(all_slots) == 0:
-        for node in result.tree.xpath('//*[data-panel="content"]'):
+        for node in result.tree.xpath('//*[@data-panel="content"]'):
             wrap_append_prepend_slots(
                 node, 'content > body header main * content-core')
 
