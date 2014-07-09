@@ -27,6 +27,7 @@ from plone.app.blocks.layoutbehavior import ILayoutAware
 from plone.app.blocks.utils import resolveResource
 from plone.app.mosaic.layoutsupport import absolute_path
 from plone.app.mosaic.layoutsupport import ContentLayoutTraverser
+from plone.app.mosaic.interfaces import CONTENT_LAYOUT_DEFAULT_LAYOUT
 from plone.app.mosaic.interfaces import _
 
 
@@ -42,6 +43,14 @@ class DisplayLayoutTraverser(SimpleHandler):
         self.request = request
 
     def traverse(self, name, remaining):
+        try:
+            return self._traverse(name, remaining)
+        except NotFound as e:
+            logger.warning(e.message)
+            resource_path = absolute_path(CONTENT_LAYOUT_DEFAULT_LAYOUT)
+            return DisplayLayoutView(self.context, self.request, resource_path)
+
+    def _traverse(self, name, remaining):
         portal_type = getattr(self.context, 'portal_type', None)
         if not portal_type:
             raise NotFound(self.context, name, self.request)
