@@ -109,8 +109,22 @@ def AvailableDisplayLayoutsVocabularyFactory(context):
 
     items = []
     for term in vocab:
-        layout = layouts.get(term.value)
+        layout = layouts.pop(term.value, None)
         if layout is not None:
             items.append(SimpleTerm(layout, layout, term.title))
+
+    pc = getToolByName(context, 'portal_catalog')
+    try:
+        uids = pc._catalog.uids
+    except AttributeError:
+        return SimpleVocabulary(items)
+
+    for key, value in layouts.items():
+        rid = uids.get(key)
+        if rid is not None:
+            md = pc._catalog.getMetadataForRID(rid)
+            items.append(SimpleTerm(
+                value, value, unicode(md.get('Title') or key,
+                                      'utf-8', 'ignore')))
 
     return SimpleVocabulary(items)
