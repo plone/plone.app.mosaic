@@ -112,7 +112,6 @@ class HiddenDisplaySubMenuItem(DisplaySubMenuItem):
             return super(HiddenDisplaySubMenuItem, self).available()
 
 
-
 class DisplayLayoutSubMenuItem(BrowserSubMenuItem):
     implements(IContentMenuItem)
     adapts(ILayoutAware, IBrowserRequest)

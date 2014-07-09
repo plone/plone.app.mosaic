@@ -54,7 +54,7 @@ def getDefaultContentLayoutContent(adapter):
 
     aliases = fti.getMethodAliases() or {}
     layout = absolute_path(aliases.get('++layout++default',
-                                       '++contentlayout++default/content.html'))
+                                       '++contentlayout++default/basic.html'))
 
     if layout:
         try:
@@ -71,7 +71,7 @@ default_layout_content = ComputedWidgetAttribute(
 
 
 def getDefaultDisplayLayoutContent():
-    layout = '/++contentlayout++default/content.html'
+    layout = '/++contentlayout++default/basic.html'
     try:
         return resolveResource(layout)
     except NotFound:

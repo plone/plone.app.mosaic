@@ -49,7 +49,7 @@ def enable_layout_behavior(portal):
         if fti.id == 'Document':
             aliases = fti.getMethodAliases() or {}
             aliases['++layout++default'] = \
-                '++contentlayout++default-document/content.html'
+                '++contentlayout++default/document.html'
             fti.setMethodAliases(aliases)
 
         # Set the default view method

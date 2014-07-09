@@ -6,64 +6,20 @@
 
   <!-- Register default layouts for Plone 4 -->
   <configure zcml:condition="not-have plone-5">
-    <plone:static type="sitelayout"
-                  name="ajax"
-                  directory="layouts/plone-4/ajax" />
+    <plone:static type="sitelayout" name="default"
+                  directory="layouts/plone-4/site" />
 
-    <plone:static type="sitelayout"
-                  name="default"
-                  directory="layouts/plone-4/default" />
-
-    <plone:static type="sitelayout"
-                  name="default-full-width"
-                  directory="layouts/plone-4/default-full-width" />
-
-    <plone:static type="sitelayout"
-                  name="default-portlets-left"
-                  directory="layouts/plone-4/default-portlets-left" />
-
-    <plone:static type="sitelayout"
-                  name="default-portlets-right"
-                  directory="layouts/plone-4/default-portlets-right" />
-
-    <plone:static type="contentlayout"
-                  name="default"
-                  directory="layouts/plone-4/default" />
-
-    <plone:static type="contentlayout"
-                  name="default-document"
-                  directory="layouts/plone-4/default-document" />
+    <plone:static type="contentlayout" name="default"
+                  directory="layouts/plone-4/content" />
   </configure>
 
   <!-- Register default layouts for Plone 5 -->
   <configure zcml:condition="have plone-5">
-    <plone:static type="sitelayout"
-                  name="ajax"
-                  directory="layouts/plone-5/ajax" />
+    <plone:static type="sitelayout" name="default"
+                  directory="layouts/plone-5/site" />
 
-    <plone:static type="sitelayout"
-                  name="default"
-                  directory="layouts/plone-5/default" />
-
-    <plone:static type="sitelayout"
-                  name="default-full-width"
-                  directory="layouts/plone-5/default-full-width" />
-
-    <plone:static type="sitelayout"
-                  name="default-portlets-left"
-                  directory="layouts/plone-5/default-portlets-left" />
-
-    <plone:static type="sitelayout"
-                  name="default-portlets-right"
-                  directory="layouts/plone-5/default-portlets-right" />
-
-    <plone:static type="contentlayout"
-                  name="default"
-                  directory="layouts/plone-5/default" />
-
-    <plone:static type="contentlayout"
-                  name="default-document"
-                  directory="layouts/plone-5/default-document" />
+    <plone:static type="contentlayout" name="default"
+                  directory="layouts/plone-5/content" />
   </configure>
 
 </configure>
