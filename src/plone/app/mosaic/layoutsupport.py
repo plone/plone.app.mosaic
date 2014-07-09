@@ -119,11 +119,10 @@ def AvailableDisplayLayoutsVocabularyFactory(context):
         return SimpleVocabulary(items)
 
     for key, value in layouts.items():
-        rid = uids.get(key)
+        rid = uids.get(key) or uids.get(key[:key.rfind('/')])
         if rid is not None:
             md = pc._catalog.getMetadataForRID(rid)
             items.append(SimpleTerm(
                 value, value, unicode(md.get('Title') or key,
                                       'utf-8', 'ignore')))
-
     return SimpleVocabulary(items)
