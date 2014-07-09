@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<object name="portal_javascripts" meta_type="JavaScripts Registry">
+
+  <javascript id="form_tabbing.js"
+              bundle="deprecated" />
+
+</object>
