@@ -184,6 +184,15 @@
 
 /* @end */
 
+/* @group Placeholders */
+
+.mosaic-panel .documentFirstHeading,
+.mosaic-panel .documentDescription {
+    min-height: 1.1875em;
+}
+
+/* @end */
+
 /* @group Opacity icons */
 
 .mosaic-blur {
