@@ -15,6 +15,9 @@ CONTENT_LAYOUT_MANIFEST_FORMAT = ManifestFormat(
     parameterSections=['variants']
 )
 
+CONTENT_LAYOUT_DEFAULT_DISPLAY = '++layout++default'
+CONTENT_LAYOUT_DEFAULT_LAYOUT = '++contentlayout++default/basic.html'
+
 
 class IWeightedDict(Interface):
     name = schema.TextLine(title=_(u"Name"))

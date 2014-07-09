@@ -2,10 +2,7 @@
 import logging
 
 from Products.CMFCore.utils import getToolByName
-
-from plone.resource.manifest import getAllResources
 from plone.resource.traversal import ResourceTraverser
-from plone.subrequest import ISubRequest
 from z3c.form.interfaces import IGroup
 from z3c.form.widget import ComputedWidgetAttribute
 from zExceptions import NotFound
@@ -18,8 +15,10 @@ from plone.app.blocks.interfaces import ILayoutField
 from plone.app.blocks.layoutbehavior import ILayoutAware
 from plone.app.blocks.resource import AvailableLayoutsVocabulary
 from plone.app.blocks.utils import resolveResource
-from plone.app.mosaic.interfaces import CONTENT_LAYOUT_MANIFEST_FORMAT
+from plone.app.mosaic.interfaces import CONTENT_LAYOUT_DEFAULT_LAYOUT
+from plone.app.mosaic.interfaces import CONTENT_LAYOUT_DEFAULT_DISPLAY
 from plone.app.mosaic.interfaces import CONTENT_LAYOUT_FILE_NAME
+from plone.app.mosaic.interfaces import CONTENT_LAYOUT_MANIFEST_FORMAT
 from plone.app.mosaic.interfaces import CONTENT_LAYOUT_RESOURCE_NAME
 
 logger = logging.getLogger('plone.app.mosaic')
@@ -53,8 +52,8 @@ def getDefaultContentLayoutContent(adapter):
         return u''
 
     aliases = fti.getMethodAliases() or {}
-    layout = absolute_path(aliases.get('++layout++default',
-                                       '++contentlayout++default/basic.html'))
+    layout = absolute_path(aliases.get(CONTENT_LAYOUT_DEFAULT_DISPLAY,
+                                       CONTENT_LAYOUT_DEFAULT_LAYOUT))
 
     if layout:
         try:
@@ -71,7 +70,7 @@ default_layout_content = ComputedWidgetAttribute(
 
 
 def getDefaultDisplayLayoutContent():
-    layout = '/++contentlayout++default/basic.html'
+    layout = absolute_path(CONTENT_LAYOUT_DEFAULT_LAYOUT)
     try:
         return resolveResource(layout)
     except NotFound:

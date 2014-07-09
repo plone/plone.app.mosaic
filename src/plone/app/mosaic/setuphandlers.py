@@ -1,6 +1,16 @@
 # -*- coding: utf-8 -*-
 from Products.CMFCore.utils import getToolByName
+from StringIO import StringIO
 import pkg_resources
+from plone.resource.manifest import MANIFEST_FILENAME
+
+from plone.app.blocks.interfaces import SITE_LAYOUT_RESOURCE_NAME
+
+from plone.app.blocks.utils import resolveResource
+from plone.app.mosaic.interfaces import CONTENT_LAYOUT_RESOURCE_NAME
+from plone.app.mosaic.interfaces import CONTENT_LAYOUT_DEFAULT_DISPLAY
+from plone.app.mosaic.utils import getPersistentResourceDirectory
+
 
 try:
     pkg_resources.get_distribution('plone.app.contenttypes')
@@ -27,6 +37,7 @@ def step_setup_various(context):
             enable_layout_behavior(portal)
         except KeyError:
             pass
+    create_ttw_layout_examples(portal)
 
 
 def enable_layout_behavior(portal):
@@ -48,7 +59,7 @@ def enable_layout_behavior(portal):
         # Set the default content layout for supported types
         if fti.id == 'Document':
             aliases = fti.getMethodAliases() or {}
-            aliases['++layout++default'] = \
+            aliases[CONTENT_LAYOUT_DEFAULT_DISPLAY] = \
                 '++contentlayout++default/document.html'
             fti.setMethodAliases(aliases)
 
@@ -66,6 +77,36 @@ def enable_layout_view(portal):
     for fti in dx_ftis:
         if fti.getId() in ['Document']:
             fti.default_view = 'view'
+
+
+def create_ttw_layout_examples(portal):
+    sitelayout = getPersistentResourceDirectory(SITE_LAYOUT_RESOURCE_NAME)
+    custom = getPersistentResourceDirectory('custom', sitelayout)
+    custom.writeFile(MANIFEST_FILENAME, StringIO("""\
+[sitelayout]
+title = Plone layout (Custom)
+description = TTW customizable default layout
+file = site.html
+"""))
+    custom.writeFile(
+        'site.html',
+        StringIO(resolveResource('++sitelayout++default/default.html')
+                 .encode('utf-8'))
+    )
+
+    contentlayout = getPersistentResourceDirectory(CONTENT_LAYOUT_RESOURCE_NAME)
+    custom = getPersistentResourceDirectory('custom', contentlayout)
+    custom.writeFile(MANIFEST_FILENAME, StringIO("""\
+[content layout]
+title = Basic layout (Custom)
+description = TTW customizable content layout
+file = content.html
+"""))
+    custom.writeFile(
+        'content.html',
+        StringIO(resolveResource('++contentlayout++default/basic.html')
+                 .encode('utf-8'))
+    )
 
 
 def import_profile(portal, profile_name):
