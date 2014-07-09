@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from zope.globalrequest import setRequest
+from zope.globalrequest import clearRequest
 from Products.CMFPlone.testing import \
     PRODUCTS_CMFPLONE_ROBOT_REMOTE_LIBRARY_FIXTURE
 from ZPublisher import HTTPResponse
@@ -59,6 +61,10 @@ class PloneAppMosaic(PloneSandboxLayer):
                        context=configurationContext)
 
     def setUpPloneSite(self, portal):
+        # Configure five.globalrequest
+        portal.REQUEST['PARENTS'] = [portal.__parent__]
+        setRequest(portal.REQUEST)
+
         # Set the default workflow
         portal.portal_workflow.setDefaultChain("simple_publication_workflow")
 
@@ -70,6 +76,9 @@ class PloneAppMosaic(PloneSandboxLayer):
 
         ## This was a bad idea, because we want to run CMFPlone tests
         # enable_layout_view(portal)
+
+        # Clear globalrequest
+        clearRequest()
 
 
 PLONE_APP_MOSAIC = PloneAppMosaic()
@@ -126,6 +135,10 @@ class PloneAppMosaicNoPAC(PloneSandboxLayer):
                        context=configurationContext)
 
     def setUpPloneSite(self, portal):
+        # Configure five.globalrequest
+        portal.REQUEST['PARENTS'] = [portal.__parent__]
+        setRequest(portal.REQUEST)
+
         # Set the default workflow
         portal.portal_workflow.setDefaultChain("simple_publication_workflow")
 
@@ -135,6 +148,9 @@ class PloneAppMosaicNoPAC(PloneSandboxLayer):
 
         ## This was a bad idea, because we want to run CMFPlone tests
         # enable_layout_view(portal)
+
+        # Clear globalrequest
+        clearRequest()
 
 PLONE_APP_MOSAIC_NO_PAC = PloneAppMosaicNoPAC()
 
