@@ -8,11 +8,13 @@ install:
 - python bootstrap.py -c travis.cfg
 - bin/buildout -N -t 3 -c travis.cfg annotate
 - bin/buildout -N -t 3 -c travis.cfg
+- mkdir -p parts/test/_screenshots
 before_script:
 - gem install --version 0.8.9 faraday
 - gem install travis-artifacts
 script:
 - bin/test $OPTIONS
+- bin/pybot -d parts/test docs
 after_script:
 - bin/sphinx-build docs html
 - travis-artifacts upload --path html

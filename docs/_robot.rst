@@ -31,8 +31,9 @@
        Run keyword if  sys.argv[0].startswith('bin/robot')
        ...             Remote ZODB SetUp  ${FIXTURE}
 
-       ${language} =  Get environment variable  LANGUAGE  'en'
-       Set default language  ${language}
+   # XXX: Set default language -keyword breaks edit views.
+   #   ${language} =  Get environment variable  LANGUAGE  'en'
+   #   Set default language  ${language}
 
        Enable autologin as  Manager
        ${user_id} =  Translate  user_id
