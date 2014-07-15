@@ -981,7 +981,7 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
                     var modal = require('mockup-patterns-modal');
                     $.mosaic.overlay = new modal($('.mosaic-toolbar'),
                         {ajaxUrl: $.mosaic.options.context_url +
-                        '/@@add-tile?type=' + $(source).val() +
+                        '/@@add-tile?tiletype=' + $(source).val() +
                         '&form.button.Create=Create', 
                         loadLinksWithinModal: true
                     });
