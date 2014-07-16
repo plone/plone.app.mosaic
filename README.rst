@@ -1,11 +1,13 @@
 Plone Mosaic
 ============
 
-TL;DR; Plone Mosaic provides modern TTW content views for Dexterity content types and pluggable framework for smart layouts.
+**Plone Mosaic** allows you to define global site layouts and override them on specific contents or sections. You can then compose the content of the page using the Mosaic editor.
 
-This package provides modern layout editor with blocks_ and tiles_ based layouts for Dexterity content types for Plone 4.3 and newer.
+The Mosaic editor lets you insert blocks (a.k.a. tiles) into the content of the page so that you can easily build custom composite pages for your contents on the fly.
 
-The notable features (with the help of blocks_) include:
+**Plone Mosaic** works with Plone 4.3 and later.
+
+The notable features (with the help of tiles_ and blocks_) include:
 
 - custom layout behavior for Dexterity content types
 - WYSIWYG inline layout editor for custom content layouts
@@ -15,13 +17,13 @@ The notable features (with the help of blocks_) include:
 
 Please, `wait for the documentation`__ for more details about this package its usage.
 
-.. _blocks: https://pypi.python.org/pypi/plone.app.blocks
-.. _tiles: https://pypi.python.org/pypi/plone.app.tiles
+..  _blocks: https://pypi.python.org/pypi/plone.app.blocks
+..  _tiles: https://pypi.python.org/pypi/plone.app.tiles
 
-.. image:: https://secure.travis-ci.org/plone/plone.app.mosaic.png
-   :target: http://travis-ci.org/plone/plone.app.mosaic
+..  image:: https://secure.travis-ci.org/plone/plone.app.mosaic.png
+    :target: http://travis-ci.org/plone/plone.app.mosaic
 
-__ http://plone-app-mosaic.s3-website-us-east-1.amazonaws.com/latest/
+__  http://plone-app-mosaic.s3-website-us-east-1.amazonaws.com/latest/
 
 
 Try a demo
@@ -29,18 +31,18 @@ Try a demo
 
 Installation:
 
-.. code:: bash
+..  code:: bash
 
-   $ git clone https://github.com/plone/plone.app.mosaic
-   $ cd plone.app.mosaic
-   $ python bootstrap.py  # clean python 2.7 virtualenv recommended
-   $ bin/buildout
+    $ git clone https://github.com/plone/plone.app.mosaic
+    $ cd plone.app.mosaic
+    $ python bootstrap.py  # clean python 2.7 virtualenv recommended
+    $ bin/buildout
 
 Startup:
 
-.. code:: bash
+..  code:: bash
 
-   $ bin/demo
+    $ bin/demo
 
 To get started:
 
@@ -50,6 +52,8 @@ To get started:
 * from the **Display**-menu, select the new entry **Custom layout**
 * click **Edit** to see the new *Mosaic Editor*
 
+Alternatively you can also use ``bin/instance fg``.
+
 
 Javascript development
 ----------------------
@@ -58,13 +62,17 @@ The plone package uses a bundle.
 
 In order to update it while working on JS you need to install `bower` and `grunt` system wide:
 
-    sudo npm install -g bower grunt-cli
+..  code:: bash
+
+    $ sudo npm install -g bower grunt-cli
 
 Then you need to setup bower into `src/plone.app.mosaic`:
 
-    cd src/plone.app.mosaic
-    npm install
-    bower install
+..  code:: bash
+
+    $ cd src/plone.app.mosaic
+    $ npm install
+    $ bower install
 
 When developing just run `grunt` in the root of the package.
 This starts a watcher that compiles the bundle whenever you change
@@ -72,6 +80,33 @@ any of the javascript file of this package.
 
 When you run it you get:
 
+..  code:: bash
+
     # grunt
     Running "watch" task
     Waiting...
+
+
+Documentation screenshots
+-------------------------
+
+To script screenshots into the Sphinx documentation, use the development buildout:
+
+..  code:: bash
+
+    $ git clone https://github.com/plone/plone.app.mosaic
+    $ cd plone.app.mosaic
+    $ python bootstrap.py  # clean python 2.7 virtualenv recommended
+    $ bin/buildout -c develop.cfg
+
+To speed up your iterations, before compiling the docs, start the robot server with:
+
+..  code:: bash
+
+    $ bin/robot-server plone.app.mosaic.testing.PLONE_APP_MOSAIC_ROBOT -v
+
+With robot-server running, you can re-build the docs' screenshots relatively fast with:
+
+..  code:: bash
+
+    $ bin/robot-sphinx docs html

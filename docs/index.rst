@@ -6,10 +6,7 @@ Plone Mosaic
 
 The Mosaic editor lets you insert blocks (a.k.a. tiles) into the content of the page so that you can easily build custom composite pages for your contents on the fly.
 
-**Plone Mosaic** work on Plone 4.3 and later.
-
-.. ..  _blocks: https://pypi.python.org/pypi/plone.app.blocks
-.. ..  _tiles: https://pypi.python.org/pypi/plone.app.tiles
+**Plone Mosaic** works with Plone 4.3 and later.
 
 ..  include:: _robot.rst
 
