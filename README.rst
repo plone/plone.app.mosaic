@@ -18,12 +18,9 @@ The notable features (with the help of tiles_ and blocks_) include:
 ..  _blocks: https://pypi.python.org/pypi/plone.app.blocks
 ..  _tiles: https://pypi.python.org/pypi/plone.app.tiles
 
-Read `the Mosaic Sprint report`__ for more goals for **Plone Mosaic**
+Read `the Mosaic Sprint report`__ for more goals for **Plone Mosaic** and `the package documentation`__ for more details how to use this package.
 
-__ http://abstract-technology.com/lab/articles/plone-mosaic-sprint-final-report
-
-and `the package documentation`__ for more details the usage of this package.
-
+__  http://abstract-technology.com/lab/articles/plone-mosaic-sprint-final-report
 __  http://plone-app-mosaic.s3-website-us-east-1.amazonaws.com/latest/
 
 ..  image:: https://secure.travis-ci.org/plone/plone.app.mosaic.png
