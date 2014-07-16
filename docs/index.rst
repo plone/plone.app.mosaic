@@ -17,7 +17,7 @@ Quick Tour
 Installation
 ------------
 
-**Plone Mosaic** is installed just like any other Plone add-on by activating it from the Add-on control panel.
+**Plone Mosaic** is installed just like any other Plone add-on by activating it at the Add-on control panel.
 
 ..  figure:: _screenshots/mosaic-product-activated.png
 ..  code:: robotframework
@@ -38,7 +38,7 @@ Installation
         ...  _screenshots/mosaic-product-activated.png
         ...  id=addons-enabled
 
-After **Plone Mosaic** has been installed, everything should look normal, even each page is now being rendered through the Plone Mosaic composition chain.
+After **Plone Mosaic** has been installed, everything should look normal. Yet, each page is now being rendered through the Plone Mosaic composition chain.
 
 ..  figure:: _screenshots/mosaic-document-layout-default.png
 ..  code:: robotframework
@@ -165,7 +165,7 @@ and drag the appearing tile into the desired position.
         ...  _screenshots/mosaic-editor-drag-field-text-tile.png
         ...  css=html
 
-Finally, one click drops the tile and the page can be saved.
+Finally, a mouse click drops the tile into selected position and the page can be saved.
 
 ..  figure:: _screenshots/mosaic-editor-drop-field-text-tile.png
 ..  code:: robotframework
@@ -178,7 +178,7 @@ Finally, one click drops the tile and the page can be saved.
         ...  _screenshots/mosaic-editor-drop-field-text-tile.png
         ...  css=html
 
-And that's how we can build custom content layouts using Plone Mosaic.
+That's how we can build custom content layouts using Plone Mosaic.
 
 ..  figure:: _screenshots/mosaic-page-saved.png
 ..  code:: robotframework
@@ -193,37 +193,21 @@ And that's how we can build custom content layouts using Plone Mosaic.
         ...  css=html
 
 
-Design concepts
-===============
+.. Design concepts
+.. ===============
 
-The current, pre-mosaics, layouts (also known as templates or views) in Plone are usually created using only one site wide *main template*.
-The main template provides fillable content areas called *slots*, which are later filled with content from content type specific *view templates*.
+.. The current, pre-mosaic, layouts (also known as templates or views) in Plone are usually created using only one site wide *main template*.
+.. The main template provides fillable content areas called *slots*, which are later filled with content from content type specific *view templates*.
 
-Plone Mosaic replaces main template and view templates with the following concepts:
+.. Plone Mosaic replaces main template and view templates with the following concepts:
 
-Site layouts
-    Site layouts replace main template in providing the shared layout between content.
-    In other words: everithing from <html> to </html>.
-    There must always be at least one site layout, but there's no upper limit.
-    Site layouts defines *panels* (similar to main template slots), which a filled with context specific content.
+.. Site layouts
+..     Site layouts replace main template in providing the shared layout between content. In other words: everything from <html> to </html>. There must always be at least one site layout, but there's no upper limit. Site layouts defines *panels* (similar to main template slots), which a filled with context specific content.
+.. Content layouts
+.. Panels
+.. Tiles
 
-Content layouts
-    ...
-
-
-Custom layout behavior
-======================
-
-...
-
-Custom layout view option
-=========================
-
-...
-
-
-Binding layouts to content types
-================================
-
-...
+.. Custom layout behavior
+.. Custom layout view option
+.. Binding layouts to content types
 
