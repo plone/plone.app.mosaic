@@ -15,15 +15,19 @@ The notable features (with the help of tiles_ and blocks_) include:
 - site layouts can be assigned per content and per site section
 - global content layouts can be bound as named views for Dexterity content types
 
-Please, `wait for the documentation`__ for more details about this package its usage.
-
 ..  _blocks: https://pypi.python.org/pypi/plone.app.blocks
 ..  _tiles: https://pypi.python.org/pypi/plone.app.tiles
 
-..  image:: https://secure.travis-ci.org/plone/plone.app.mosaic.png
-    :target: http://travis-ci.org/plone/plone.app.mosaic
+Read `the Mosaic Sprint report`__ for more goals for **Plone Mosaic**
+
+__ http://abstract-technology.com/lab/articles/plone-mosaic-sprint-final-report
+
+and `the package documentation`__ for more details the usage of this package.
 
 __  http://plone-app-mosaic.s3-website-us-east-1.amazonaws.com/latest/
+
+..  image:: https://secure.travis-ci.org/plone/plone.app.mosaic.png
+    :target: http://travis-ci.org/plone/plone.app.mosaic
 
 
 Try a demo
