@@ -11,6 +11,7 @@ Dexterity type views
         Page should contain  Method Aliases
         Bootstrap jQuery
         Highlight  jquery=form tr:eq(2)
+        Update element style  jquery=form td:eq(3) input  width  250px
         Capture page screenshot
         ...  _screenshots/mosaic-layouts-as-aliases.png
 
