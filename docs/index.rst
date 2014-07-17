@@ -89,10 +89,12 @@ How the current content looks after the first time the **Custom layout** is acti
 ..  code:: robotframework
 
     Show how to custom layout view
-        Capture and crop page screenshot
+       Update element style  css=.managePortletsFallback  display  none
+       Capture and crop page screenshot
         ...  _screenshots/mosaic-custom-layout-enable-done.png
-        ...  id=edit-bar  id=plone-contentmenu-layout
+        ...  id=edit-bar  id=plone-contentmenu-layout  id=content
         ...  jquery=.portalMessage:visible
+        ...  jquery=#content > div:last
 
 
 Mosaic editor
