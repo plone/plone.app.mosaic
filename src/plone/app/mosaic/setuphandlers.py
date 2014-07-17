@@ -97,7 +97,7 @@ file = site.html
     contentlayout = getPersistentResourceDirectory(CONTENT_LAYOUT_RESOURCE_NAME)
     custom = getPersistentResourceDirectory('custom', contentlayout)
     custom.writeFile(MANIFEST_FILENAME, StringIO("""\
-[content layout]
+[contentlayout]
 title = Basic layout (Custom)
 description = TTW customizable content layout
 file = content.html
