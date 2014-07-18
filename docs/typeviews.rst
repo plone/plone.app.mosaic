@@ -1,11 +1,11 @@
-Dexterity type views
-====================
+Dexterity views with Mosaic
+===========================
 
 ..  include:: _robot.rst
 
 
-Binding layout to content type
-------------------------------
+Binding content layout to content type
+--------------------------------------
 
 ..  figure:: _screenshots/mosaic-layouts-as-aliases.png
 ..  code:: robotframework
@@ -20,8 +20,8 @@ Binding layout to content type
         ...  _screenshots/mosaic-layouts-as-aliases.png
 
 
-Selecting bound layout for content item
----------------------------------------
+Selecting bound layout for each content item
+--------------------------------------------
 
 ..  figure:: _screenshots/mosaic-layout-menu-default.png
 ..  code:: robotframework
@@ -46,8 +46,8 @@ Selecting bound layout for content item
         ...  css=#plone-contentmenu-layout dd
 
 
-Defining a new content layout TTW
----------------------------------
+Creating a new content layout through the web
+---------------------------------------------
 
 ..  figure:: _screenshots/mosaic-ttw-contentlayout-manifest.png
 ..  code:: robotframework

@@ -1,5 +1,5 @@
-Introduction
-============
+Getting started
+===============
 
 ..  include:: _robot.rst
 

@@ -11,15 +11,15 @@ The Mosaic editor lets you insert blocks (a.k.a. tiles) into the content of the 
 .. toctree::
    :maxdepth: 2
 
-   intro
+   getting-started
+   site-layouts
    typeviews
 
 
 About terminology
 =================
 
-**Plone Mosaic** changes how Plone page composition works, and the old way
-is replaced with some new terms:
+**Plone Mosaic** changes how Plone page composition works, and the new way comes with some new terms:
 
 +---------------------------+------------------------+
 | Plone                     | Mosaic                 |
@@ -35,3 +35,11 @@ is replaced with some new terms:
 | viewlets, providers,      |                        |
 | etc...                    |                        |
 +---------------------------+------------------------+
+
+In short:
+
+* For each page, a configured site layout is looked up (falling back to the old main template).
+
+* A site layout may contain one or more panels, which are later filled from the configured content layout (or custom content layout saved into the current content item).
+
+* Both site layout and content layout may contain one or more tiles to provide the actual context dependent content.
