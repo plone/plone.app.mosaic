@@ -176,7 +176,7 @@ That's how we can build custom content layouts using Plone Mosaic.
 
     Show how the custom layout looks after saving
 
-        Choose Ok On Next Confirmation
+        Choose ok on next confirmation
         Click button  css=.mosaic-button-save
         Page should contain  Changes saved
         Capture and crop page screenshot

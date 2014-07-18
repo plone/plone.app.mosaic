@@ -1,7 +1,11 @@
-Site layouts
-============
+Site layout management
+======================
 
 ..  include:: _robot.rst
+
+
+Changing the current site layout
+--------------------------------
 
 ..  figure:: _screenshots/mosaic-layout-page-site-layout.png
 ..  code:: robotframework
@@ -32,6 +36,33 @@ Site layouts
 
     Show section site layout option
         Highlight  id=formfield-form-widgets-ILayoutAware-sectionSiteLayout
+        Execute javascript  $('#form-widgets-ILayoutAware-sectionSiteLayout').attr('size', 6)
         Capture and crop page screenshot
                 ...  _screenshots/mosaic-layout-section-site-layout.png
                 ...  id=content-core
+        Choose ok on next confirmation
+        Click button  Cancel
+
+
+Creating a new site layout through the web
+------------------------------------------
+
+..  figure:: _screenshots/mosaic-ttw-sitelayout-manifest.png
+..  code:: robotframework
+
+    Show example TTW site layout manifest
+        Go to  ${PLONE_URL}/portal_resources/sitelayout/custom/manifest.cfg/manage_main
+        Choose ok on next confirmation
+        Page should contain  You can update the data for this file
+        Capture page screenshot
+        ...  _screenshots/mosaic-ttw-sitelayout-manifest.png
+
+
+..  figure:: _screenshots/mosaic-ttw-sitelayout-html.png
+..  code:: robotframework
+
+    Show example TTW site layout html
+        Go to  ${PLONE_URL}/portal_resources/sitelayout/custom/site.html/manage_main
+        Page should contain  You can update the data for this file
+        Capture page screenshot
+        ...  _screenshots/mosaic-ttw-sitelayout-html.png

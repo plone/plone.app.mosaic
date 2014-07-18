@@ -1,5 +1,5 @@
-Dexterity views with Mosaic
-===========================
+Content layouts as type views
+=============================
 
 ..  include:: _robot.rst
 
