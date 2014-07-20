@@ -16,8 +16,8 @@ The Mosaic editor lets you insert blocks (a.k.a. tiles) into the content of the 
    typeviews
 
 
-About terminology
-=================
+Terminology changes in Plone Mosaic
+===================================
 
 **Plone Mosaic** changes how Plone page composition works, and the new way comes with some new terms:
 

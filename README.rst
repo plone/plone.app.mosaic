@@ -111,3 +111,5 @@ With robot-server running, you can re-build the docs' screenshots relatively fas
 ..  code:: bash
 
     $ bin/robot-sphinx docs html
+
+Just add ``Debug`` keyword anywhere to pause the robot in the middle of the screenshot script and drop you into a Robot Framework REPL.
