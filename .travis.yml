@@ -42,3 +42,11 @@ env:
     - 'Change: %{compare_url}'
     - 'Details: %{build_url}'
     - 'Artifacts: http://plone-app-mosaic.s3-website-us-east-1.amazonaws.com/latest/'
+deploy:
+  provider: heroku
+  strategy: git
+  api_key:
+    secure: JS6CqKcNiztT0Oow9w/ClXu9vPoH1DNJjsPy+75iumo+g1qPzzSVRsdoW+d1ERJQfdMAgJPW0I56J2e2VzaH2HkbYtDgUScpsbrQDWpBvR+Ls0+Nuz0CaKIkEMcF/bvBeLBVfVwgGmgmmijcH161ewbcqMopvRHB7bStTAunui0=
+  app: plone-app-mosaic
+  on:
+    branch: master
