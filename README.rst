@@ -59,6 +59,7 @@ For impatient types, there is also an online demo installation available:
 http://plone-app-mosaic.herokuapp.com. It needs about 60 seconds to spin up and
 it will purge all changes after about an hour of non-usage.
 
+
 Javascript development
 ----------------------
 
