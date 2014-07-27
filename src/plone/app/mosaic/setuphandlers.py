@@ -37,6 +37,10 @@ def step_setup_various(context):
             enable_layout_behavior(portal)
         except KeyError:
             pass
+        try:
+            import_profile(portal, 'profile-plone.app.event.bbb:default')
+        except KeyError:
+            pass
     create_ttw_layout_examples(portal)
 
 
