@@ -42,6 +42,8 @@ env:
     - 'Change: %{compare_url}'
     - 'Details: %{build_url}'
     - 'Artifacts: http://plone-app-mosaic.s3-website-us-east-1.amazonaws.com/latest/'
+before_deploy:
+  - git fetch --unshallow
 deploy:
   provider: heroku
   strategy: git
