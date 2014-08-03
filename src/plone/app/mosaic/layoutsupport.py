@@ -6,7 +6,11 @@ from plone.resource.traversal import ResourceTraverser
 from z3c.form.interfaces import IGroup
 from z3c.form.widget import ComputedWidgetAttribute
 from zExceptions import NotFound
-from zope.component import adapter, getUtility
+from zope.component import adapter
+from zope.component import getUtility
+from zope.component import queryMultiAdapter
+from zope.component.hooks import getSite
+from zope.globalrequest import getRequest
 from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleVocabulary
 from zope.schema.vocabulary import SimpleTerm
@@ -100,7 +104,7 @@ def AvailableDisplayLayoutsVocabularyFactory(context):
     aliases = fti.getMethodAliases() or {}
     layouts = dict([(absolute_path(item[1]), item[0])
                     for item in aliases.items()
-                    if item[0].startswith('++layout++')])
+                    if item[0].startswith('++layout++') and item[1]])
 
     vocab_factory = getUtility(IVocabularyFactory,
                                name='plone.availableContentLayouts')
@@ -112,14 +116,37 @@ def AvailableDisplayLayoutsVocabularyFactory(context):
         if layout is not None:
             items.append(SimpleTerm(layout, layout, term.title))
 
+    # Return if more layout candidates
+    if not layouts:
+        return SimpleVocabulary(items)
+
+    # Append programmatic @@-prefixed layouts
+    request = getRequest()
+    for key, value in layouts.items():
+        if key.startswith('/@@'):  # '/' by absolute_path
+            value = layouts.pop(key)
+            name = key[3:].split('/')[0]
+            adapter = queryMultiAdapter((context, request), name=name)
+            if adapter:
+                items.append(SimpleTerm(value, value,
+                                        unicode(value[10:].capitalize())))
+
+    # Return if more layout candidates
+    if not layouts:
+        return SimpleVocabulary(items)
+
+    # Append layouts from the content space
     pc = getToolByName(context, 'portal_catalog')
+    site = getSite()
     try:
         uids = pc._catalog.uids
+        base = '/'.join(site.getPhysicalPath())
     except AttributeError:
         return SimpleVocabulary(items)
 
     for key, value in layouts.items():
-        rid = uids.get(key) or uids.get(key[:key.rfind('/')])
+        rid = (uids.get(base + key) or uids.get(key)
+               or uids.get(key[:key.rfind('/')]))
         if rid is not None:
             md = pc._catalog.getMetadataForRID(rid)
             items.append(SimpleTerm(
