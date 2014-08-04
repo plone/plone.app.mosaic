@@ -162,7 +162,7 @@ class DisplayLayoutSubMenuItem(BrowserSubMenuItem):
         else:
             if self.context_state.is_default_page():
                 return self.context_state.parent().absolute_url() + \
-                       '/select_default_view'
+                    '/select_default_view'
             else:
                 return self.context.absolute_url() + '/select_default_view'
 
@@ -246,7 +246,7 @@ class DisplayLayoutMenu(BrowserMenu):
         context_results = []
         context_vocab = vocab_factory(context)
         context_url = context.absolute_url()
-        for term in reversed(list(context_vocab)):
+        for term in context_vocab:
             is_selected = term.value == layout
             id_ = term.value.split('++')[-1]
             context_results.append({

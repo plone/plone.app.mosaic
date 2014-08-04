@@ -88,6 +88,24 @@ Creating a new content layout through the web
         Click button  name=submit
         Element text should be  name=aliases.new:record  ${EMPTY}
 
+..  figure:: _screenshots/mosaic-layouts-as-aliases-new-add-method.png
+..  code:: robotframework
+
+    Show how to condigure the new TTW layout as alias
+        Go to  ${PLONE_URL}/portal_types/Document/manage_propertiesForm
+        Page should contain  Available view methods
+        ${value} =  Get value  name=view_methods:lines
+        ${value} =  Catenate  SEPARATOR=\n  ++layout++custom  ${value}
+        Input text  name=view_methods:lines  ${value}
+        Focus  name=manage_editProperties:method
+
+        Bootstrap jQuery
+        Highlight  jquery=form tr:eq(14)
+        Capture page screenshot
+        ...  _screenshots/mosaic-layouts-as-aliases-new-add-method.png
+
+        Click button  Save Changes
+        Page should contain  Saved changes.
 
 ..  figure:: _screenshots/mosaic-layout-menu-custom.png
 ..  code:: robotframework

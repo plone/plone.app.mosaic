@@ -101,10 +101,12 @@ def AvailableDisplayLayoutsVocabularyFactory(context):
     if fti is None:
         return SimpleVocabulary([])
 
+    methods = fti.getAvailableViewMethods(context)
     aliases = fti.getMethodAliases() or {}
     layouts = dict([(absolute_path(item[1]), item[0])
                     for item in aliases.items()
-                    if item[0].startswith('++layout++') and item[1]])
+                    if (item[0].startswith('++layout++')
+                        and item[0] in methods and item[1])])
 
     vocab_factory = getUtility(IVocabularyFactory,
                                name='plone.availableContentLayouts')
@@ -117,8 +119,9 @@ def AvailableDisplayLayoutsVocabularyFactory(context):
             items.append(SimpleTerm(layout, layout, term.title))
 
     # Return if more layout candidates
+    sorted_key = lambda value: (getattr(value, 'title', None) or u'').lower()
     if not layouts:
-        return SimpleVocabulary(items)
+        return SimpleVocabulary(sorted(items, key=sorted_key))
 
     # Append programmatic @@-prefixed layouts
     request = getRequest()
@@ -133,7 +136,7 @@ def AvailableDisplayLayoutsVocabularyFactory(context):
 
     # Return if more layout candidates
     if not layouts:
-        return SimpleVocabulary(items)
+        return SimpleVocabulary(sorted(items, key=sorted_key))
 
     # Append layouts from the content space
     pc = getToolByName(context, 'portal_catalog')
@@ -142,7 +145,7 @@ def AvailableDisplayLayoutsVocabularyFactory(context):
         uids = pc._catalog.uids
         base = '/'.join(site.getPhysicalPath())
     except AttributeError:
-        return SimpleVocabulary(items)
+        return SimpleVocabulary(sorted(items, key=sorted_key))
 
     for key, value in layouts.items():
         rid = (uids.get(base + key) or uids.get(key)
@@ -152,4 +155,5 @@ def AvailableDisplayLayoutsVocabularyFactory(context):
             items.append(SimpleTerm(
                 value, value, unicode(md.get('Title') or key,
                                       'utf-8', 'ignore')))
-    return SimpleVocabulary(items)
+
+    return SimpleVocabulary(sorted(items, key=sorted_key))

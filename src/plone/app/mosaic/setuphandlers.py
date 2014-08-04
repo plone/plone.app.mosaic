@@ -68,7 +68,9 @@ def enable_layout_behavior(portal):
             fti.setMethodAliases(aliases)
 
         # Set the default view method
-        view_methods = [i for i in fti.view_methods]
+        view_methods = [i for i in fti.getAvailableViewMethods(portal)]
+        if fti.id == 'Document':
+            view_methods.append(CONTENT_LAYOUT_DEFAULT_DISPLAY)
         view_methods.append('view')
         fti.view_methods = list(set(view_methods))
 
