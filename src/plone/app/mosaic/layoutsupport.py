@@ -101,12 +101,10 @@ def AvailableDisplayLayoutsVocabularyFactory(context):
     if fti is None:
         return SimpleVocabulary([])
 
-    methods = fti.getAvailableViewMethods(context)
     aliases = fti.getMethodAliases() or {}
     layouts = dict([(absolute_path(item[1]), item[0])
                     for item in aliases.items()
-                    if (item[0].startswith('++layout++')
-                        and item[0] in methods and item[1])])
+                    if item[0].startswith('++layout++') and item[0]])
 
     vocab_factory = getUtility(IVocabularyFactory,
                                name='plone.availableContentLayouts')

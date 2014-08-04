@@ -200,12 +200,23 @@ class DisplayLayoutSubMenuItem(BrowserSubMenuItem):
             return True
 
 
+def getAvailableViewMethods(context):
+    portal_type = getattr(context, 'portal_type', None)
+    if portal_type is None:
+        return []
+
+    types_tool = getToolByName(context, 'portal_types')
+    fti = getattr(types_tool, portal_type, None)
+    if fti is None:
+        return []
+
+    return fti.getAvailableViewMethods(context)
+
+
 class DisplayLayoutMenu(BrowserMenu):
     def getMenuItems(self, context, request):
-        # Get the current layout (and stop when no layout is available)
-        context = ISelectableBrowserDefault(context, None)
-        layout = context.getLayout()
-        if context is None:
+        # Check required parameters
+        if context is None or request is None:
             return []
 
         # Get layout vocabulary factory
@@ -217,51 +228,63 @@ class DisplayLayoutMenu(BrowserMenu):
                                         name='plone_context_state')
 
         # Get folder layout options when this is a default page
+        folder_layout = ''
+        folder_methods = []
         folder_results = []
-        folder_vocab = []
         folder_url = ''
+        folder_vocab = []
         if context_state.is_default_page():
-            folder = ISelectableBrowserDefault(parent(context), None)
+            folder = parent(context)
             if folder is not None:
-                folder_vocab = vocab_factory(folder)
+                folder_methods = getAvailableViewMethods(folder)
                 folder_url = folder.absolute_url()
+                folder_vocab = vocab_factory(folder)
+                folder_default = ISelectableBrowserDefault(folder, None)
+                if folder_default is not None:
+                    folder_layout = folder_default.getLayout()
         for term in folder_vocab or []:
-            is_selected = term.value == layout
-            id_ = term.value.split('++')[-1]
-            folder_results.append({
-                'title': term.title,
-                'description': '',
-                'action': '%s/selectViewTemplate?templateId=%s' % (
-                    folder_url, quote(term.value),),
-                'selected': is_selected,
-                'icon': None,
-                'extra': {
-                    'id': 'folder-layout-' + id_,
-                    'separator': None,
-                    'class': is_selected and 'actionMenuSelected' or ''},
-                'submenu': None,
-            })
+            if term.value in folder_methods:
+                is_selected = term.value == folder_layout
+                id_ = term.value.split('++')[-1]
+                folder_results.append({
+                    'title': term.title,
+                    'description': '',
+                    'action': '%s/selectViewTemplate?templateId=%s' % (
+                        folder_url, quote(term.value),),
+                    'selected': is_selected,
+                    'icon': None,
+                    'extra': {
+                        'id': 'folder-layout-' + id_,
+                        'separator': None,
+                        'class': is_selected and 'actionMenuSelected' or ''},
+                    'submenu': None,
+                })
 
         # Get context layout options
+        context_methods = getAvailableViewMethods(context)
         context_results = []
-        context_vocab = vocab_factory(context)
         context_url = context.absolute_url()
+        context_vocab = vocab_factory(context)
+        context_default = ISelectableBrowserDefault(context, None)
+        if context_default is not None:
+            context_layout = context_default.getLayout()
         for term in context_vocab:
-            is_selected = term.value == layout
-            id_ = term.value.split('++')[-1]
-            context_results.append({
-                'title': term.title,
-                'description': '',
-                'action': '%s/selectViewTemplate?templateId=%s' % (
-                    context_url, quote(term.value),),
-                'selected': is_selected,
-                'icon': None,
-                'extra': {
-                    'id': 'plone-contentmenu-layout-' + id_,
-                    'separator': None,
-                    'class': is_selected and 'actionMenuSelected' or ''},
-                'submenu': None,
-            })
+            if term.value in context_methods:
+                is_selected = term.value == context_layout
+                id_ = term.value.split('++')[-1]
+                context_results.append({
+                    'title': term.title,
+                    'description': '',
+                    'action': '%s/selectViewTemplate?templateId=%s' % (
+                        context_url, quote(term.value),),
+                    'selected': is_selected,
+                    'icon': None,
+                    'extra': {
+                        'id': 'plone-contentmenu-layout-' + id_,
+                        'separator': None,
+                        'class': is_selected and 'actionMenuSelected' or ''},
+                    'submenu': None,
+                })
 
         # Merge the results with the original display meny
         menu = getUtility(IBrowserMenu, 'plone_contentmenu_display')
