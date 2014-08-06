@@ -15,6 +15,7 @@ from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleVocabulary
 from zope.schema.vocabulary import SimpleTerm
 
+from plone.autoform.interfaces import IWidgetsView
 from plone.app.blocks.interfaces import ILayoutField
 from plone.app.blocks.layoutbehavior import ILayoutAware
 from plone.app.blocks.resource import AvailableLayoutsVocabulary
@@ -75,6 +76,19 @@ default_layout_content = ComputedWidgetAttribute(
 
 def getDefaultDisplayLayoutContent():
     layout = absolute_path(CONTENT_LAYOUT_DEFAULT_LAYOUT)
+
+    # XXX: This is a workaround for a subrequest bug, where parent_app
+    # ends up being a view with publishTraverse returning always NotFound.
+    try:
+        request = getRequest()
+        parent_app = request.PARENTS[-1]
+        if IWidgetsView.providedBy(parent_app):
+            return u''
+    except AttributeError:
+        pass
+    except IndexError:
+        pass
+
     try:
         return resolveResource(layout)
     except NotFound:
