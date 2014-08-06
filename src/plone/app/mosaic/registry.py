@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
+from operator import itemgetter
+
+from Products.CMFCore.interfaces._content import IFolderish
+from plone.dexterity.utils import iterSchemataForType
+from plone.registry.interfaces import IRegistry
 from zope.component import adapts
 from zope.i18n import translate
 from zope.interface import implements
-from plone.registry.interfaces import IRegistry
-from plone.app.mosaic.interfaces import IMosaicRegistryAdapter
-from plone.dexterity.utils import iterSchemataForType
-from Products.CMFCore.interfaces._content import IFolderish
-from operator import itemgetter
 
+from plone.app.mosaic.interfaces import IMosaicRegistryAdapter
 from plone.app.mosaic.utils import extractFieldInformation
 
 
@@ -21,7 +22,7 @@ class DottedDict(dict):
         for x in k.split('.'):
             try:
                 val = val[x]
-            except:
+            except KeyError:
                 return default
         return val
 

@@ -36,6 +36,15 @@
       zcml:condition="not-have plone-5"
       />
 
+  <!-- Registry configuration for Mosaic Editor -->
+  <adapter factory=".registry.MosaicRegistry" />
+
+  <!-- Mosaic Editor Widget -->
+  <adapter
+      factory=".widget.LayoutFieldWidget"
+      zcml:condition="installed plone.app.widgets"
+      />
+
   <include package=".browser" />
 
   <!-- Register resource traverser for content layouts -->
@@ -60,6 +69,11 @@
       />
 
   <!-- Register default value adapter for layout aware content attribute -->
+  <!-- For zope.schema via special layout field specific adapter -->
+  <adapter
+      factory=".layoutsupport.layoutFieldDefaultValue"
+      />
+  <!-- For z3c.form -->
   <adapter
       name="default"
       factory=".layoutsupport.default_layout_content"

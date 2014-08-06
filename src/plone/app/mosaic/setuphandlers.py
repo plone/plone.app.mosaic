@@ -1,15 +1,23 @@
 # -*- coding: utf-8 -*-
-from Products.CMFCore.utils import getToolByName
 from StringIO import StringIO
+
+from Products.CMFCore.utils import getToolByName
 import pkg_resources
 from plone.resource.manifest import MANIFEST_FILENAME
 
 from plone.app.blocks.interfaces import SITE_LAYOUT_RESOURCE_NAME
-
 from plone.app.blocks.utils import resolveResource
 from plone.app.mosaic.interfaces import CONTENT_LAYOUT_RESOURCE_NAME
 from plone.app.mosaic.interfaces import CONTENT_LAYOUT_DEFAULT_DISPLAY
 from plone.app.mosaic.utils import getPersistentResourceDirectory
+
+
+try:
+    pkg_resources.get_distribution('plone.app.widgets')
+except pkg_resources.DistributionNotFound:
+    HAS_PLONE_APP_WIDGETS = False
+else:
+    HAS_PLONE_APP_WIDGETS = True
 
 
 try:
@@ -24,6 +32,11 @@ def step_setup_various(context):
     if context.readDataFile('plone.app.mosaic_default.txt') is None:
         return
     portal = context.getSite()
+    if HAS_PLONE_APP_WIDGETS:
+        try:
+            import_profile(portal, 'profile-plone.app.widgets:default')
+        except KeyError:
+            pass
     if HAS_PLONE_APP_CONTENTTYPES:
         if getattr(getattr(portal, 'front-page', None),
                    'meta_type', None) == 'ATDocument':

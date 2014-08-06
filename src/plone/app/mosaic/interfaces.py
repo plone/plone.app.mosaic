@@ -5,6 +5,7 @@ from zope import schema
 
 from plone.app.mosaic import PloneMessageFactory as _
 
+
 CONTENT_LAYOUT_RESOURCE_NAME = "contentlayout"
 CONTENT_LAYOUT_FILE_NAME = "content.html"
 
@@ -17,6 +18,15 @@ CONTENT_LAYOUT_MANIFEST_FORMAT = ManifestFormat(
 
 CONTENT_LAYOUT_DEFAULT_DISPLAY = '++layout++default'
 CONTENT_LAYOUT_DEFAULT_LAYOUT = '++contentlayout++default/basic.html'
+
+
+class IMosaicLayer(Interface):
+    """Plone Mosaic browser layer
+    """
+
+
+class IMosaicRegistryAdapter(Interface):
+    """Marker interface for the registry adapter"""
 
 
 class IWeightedDict(Interface):

@@ -11,15 +11,17 @@ from zope.component import getUtility
 from zope.component import queryMultiAdapter
 from zope.component.hooks import getSite
 from zope.globalrequest import getRequest
+from zope.interface import Interface, implementer
 from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleVocabulary
 from zope.schema.vocabulary import SimpleTerm
-
 from plone.autoform.interfaces import IWidgetsView
+
 from plone.app.blocks.interfaces import ILayoutField
-from plone.app.blocks.layoutbehavior import ILayoutAware
+from plone.app.blocks.interfaces import ILayoutFieldDefaultValue
 from plone.app.blocks.resource import AvailableLayoutsVocabulary
 from plone.app.blocks.utils import resolveResource
+from plone.app.mosaic.interfaces import IMosaicLayer
 from plone.app.mosaic.interfaces import CONTENT_LAYOUT_DEFAULT_LAYOUT
 from plone.app.mosaic.interfaces import CONTENT_LAYOUT_DEFAULT_DISPLAY
 from plone.app.mosaic.interfaces import CONTENT_LAYOUT_FILE_NAME
@@ -74,13 +76,16 @@ default_layout_content = ComputedWidgetAttribute(
     getDefaultContentLayoutContent, view=IGroup, field=ILayoutField)
 
 
-def getDefaultDisplayLayoutContent():
+@implementer(ILayoutFieldDefaultValue)
+@adapter(Interface, IMosaicLayer)
+def layoutFieldDefaultValue(context, request):
+    # XXX: Context cannot be used yet, because plone.dexterity does not
+    # bound fields to support context aware default factories
     layout = absolute_path(CONTENT_LAYOUT_DEFAULT_LAYOUT)
 
     # XXX: This is a workaround for a subrequest bug, where parent_app
     # ends up being a view with publishTraverse returning always NotFound.
     try:
-        request = getRequest()
         parent_app = request.PARENTS[-1]
         if IWidgetsView.providedBy(parent_app):
             return u''
@@ -93,8 +98,6 @@ def getDefaultDisplayLayoutContent():
         return resolveResource(layout)
     except NotFound:
         return u''
-
-ILayoutAware['content'].defaultFactory = getDefaultDisplayLayoutContent
 
 
 def absolute_path(path):
