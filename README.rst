@@ -27,6 +27,14 @@ __  http://plone-app-mosaic.s3-website-us-east-1.amazonaws.com/latest/
     :target: http://travis-ci.org/plone/plone.app.mosaic
 
 
+Screencasts
+-----------
+
+- Desiging `custom content layouts <http://youtu.be/43e18Az93ug>`_
+- `View prototyping <http://youtu.be/QFQON-YOO9Q>`_ layouts as Dexterity type views
+- `Multilingual view prototyping <http://youtu.be/eqsJ9pc_n4Y>`_ with p.a.multilingual
+- Theming with `themed site layouts <http://youtu.be/b9Okt01BGeI>`_
+
 Try a demo
 ----------
 
