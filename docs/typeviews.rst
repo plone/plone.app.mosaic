@@ -19,6 +19,19 @@ Binding content layout to content type
         Capture page screenshot
         ...  _screenshots/mosaic-layouts-as-aliases.png
 
+..  figure:: _screenshots/mosaic-layouts-as-aliases-add-method.png
+..  code:: robotframework
+
+    Show how to condigure the new TTW layout as alias
+        Go to  ${PLONE_URL}/portal_types/Document/manage_propertiesForm
+        Page should contain  Available view methods
+        Focus  name=manage_editProperties:method
+
+        Bootstrap jQuery
+        Highlight  jquery=form tr:eq(14)
+        Capture page screenshot
+        ...  _screenshots/mosaic-layouts-as-aliases-add-method.png
+
 
 Selecting bound layout for each content item
 --------------------------------------------
