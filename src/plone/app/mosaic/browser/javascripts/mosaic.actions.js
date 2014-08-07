@@ -528,10 +528,13 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
                     $.mosaic.overlay.on(
                         'formActionSuccess',
                         function (event, response, state, xhr, form) {
-                            $.mosaic.addAppTileHTML(
-                                $.mosaic.overlay._tile_type, response,
-                                xhr.getResponseHeader('X-Tile-Url')
-                            );
+                            var tileUrl = xhr.getResponseHeader('X-Tile-Url')
+                            if (tileUrl) {
+                                $.mosaic.addAppTileHTML(
+                                    $.mosaic.overlay._tile_type, response,
+                                    tileUrl
+                                );
+                            }
                         }
                     );
 
