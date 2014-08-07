@@ -4,12 +4,15 @@ from StringIO import StringIO
 from Products.CMFCore.utils import getToolByName
 import pkg_resources
 from plone.resource.manifest import MANIFEST_FILENAME
+from zope.globalrequest import getRequest
+from zope.interface import alsoProvides
 
 from plone.app.blocks.interfaces import SITE_LAYOUT_RESOURCE_NAME
 from plone.app.blocks.utils import resolveResource
 from plone.app.mosaic.interfaces import CONTENT_LAYOUT_RESOURCE_NAME
 from plone.app.mosaic.interfaces import CONTENT_LAYOUT_DEFAULT_DISPLAY
 from plone.app.mosaic.utils import getPersistentResourceDirectory
+from plone.app.mosaic.interfaces import IMosaicLayer
 
 
 try:
@@ -99,6 +102,9 @@ def enable_layout_view(portal):
 
 
 def create_ttw_layout_examples(portal):
+    request = getRequest()
+    alsoProvides(request, IMosaicLayer)
+
     sitelayout = getPersistentResourceDirectory(SITE_LAYOUT_RESOURCE_NAME)
     custom = getPersistentResourceDirectory('custom', sitelayout)
     custom.writeFile(MANIFEST_FILENAME, StringIO("""\

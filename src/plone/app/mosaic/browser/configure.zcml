@@ -6,21 +6,21 @@
     <include package=".bbb" />
     <!-- This is not in .bbb to avoid an extra browser layer just for that -->
     <browser:page
-        for="*"
         name="main_template"
+        for="*"
+        layer="..interfaces.IMosaicLayer"
         class=".main_template.MainTemplate"
         permission="zope.Public"
-        layer="plone.app.blocks.interfaces.IBlocksLayer"
         allowed_attributes="macros"
         />
   </configure>
 
   <configure zcml:condition="have plone-5">
     <browser:page
-        for="*"
         name="main_template"
+        for="*"
+        layer="..interfaces.IMosaicLayer"
         class=".main_template.MainTemplate"
-        layer="plone.app.blocks.interfaces.IBlocksLayer"
         permission="zope.Public"
         />
   </configure>
@@ -44,13 +44,15 @@
       />
 
   <adapter
-      for="plone.app.blocks.layoutbehavior.ILayoutAware *"
+      for="plone.app.blocks.layoutbehavior.ILayoutAware
+           ..interfaces.IMosaicLayer"
       name="plone.contentmenu.display"
       factory=".layoutsupport.HiddenDisplaySubMenuItem"
       provides="plone.app.contentmenu.interfaces.IContentMenuItem" />
 
   <adapter
-      for="plone.app.blocks.layoutbehavior.ILayoutAware *"
+      for="plone.app.blocks.layoutbehavior.ILayoutAware
+           ..interfaces.IMosaicLayer"
       name="plone.contentmenu.layout"
       factory=".layoutsupport.DisplayLayoutSubMenuItem"
       provides="plone.app.contentmenu.interfaces.IContentMenuItem" />
@@ -71,8 +73,9 @@
       />
 
   <browser:page
-      for="*"
       name="mosaic-upload"
+      for="*"
+      layer="..interfaces.IMosaicLayer"
       class=".browser.MosaicUploadView"
       permission="cmf.ModifyPortalContent"
       />

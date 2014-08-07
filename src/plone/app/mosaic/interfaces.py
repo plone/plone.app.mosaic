@@ -28,6 +28,9 @@ class IMosaicLayer(Interface):
 class IMosaicRegistryAdapter(Interface):
     """Marker interface for the registry adapter"""
 
+    def __call__(**kwargs):
+        """Perform a query for the registry and return results"""
+
 
 class IWeightedDict(Interface):
     name = schema.TextLine(title=_(u"Name"))

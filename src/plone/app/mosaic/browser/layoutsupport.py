@@ -4,7 +4,6 @@ from urllib import quote
 from Products.CMFCore.utils import getToolByName
 from Products.CMFDynamicViewFTI.interfaces import ISelectableBrowserDefault
 from Products.CMFPlone.utils import parent
-from Products.Five import BrowserView
 from plone.app.content.browser.interfaces import IContentsPage
 from plone.app.contentmenu.interfaces import IContentMenuItem
 from plone.app.contentmenu.menu import DisplaySubMenuItem
@@ -17,18 +16,19 @@ from zope.component import adapts
 from zope.component import getMultiAdapter
 from zope.component import getUtility
 from zope.interface import implements
-from zope.publisher.interfaces.browser import IBrowserRequest
 from zope.schema.interfaces import IVocabularyFactory
 from zope.traversing.interfaces import ITraversable
 from zope.traversing.namespace import SimpleHandler
 from plone.memoize import view
 
 from plone.app.blocks.interfaces import IBlocksTransformEnabled
+
 from plone.app.blocks.layoutbehavior import ILayoutAware
 from plone.app.blocks.utils import resolveResource
 from plone.app.mosaic.layoutsupport import absolute_path
 from plone.app.mosaic.layoutsupport import ContentLayoutTraverser
 from plone.app.mosaic.interfaces import CONTENT_LAYOUT_DEFAULT_LAYOUT
+from plone.app.mosaic.interfaces import IMosaicLayer
 from plone.app.mosaic.interfaces import _
 
 
@@ -37,7 +37,7 @@ logger = logging.getLogger('plone.app.mosaic')
 
 class DisplayLayoutTraverser(SimpleHandler):
     implements(ITraversable)
-    adapts(ILayoutAware, IBrowserRequest)
+    adapts(ILayoutAware, IMosaicLayer)
 
     def __init__(self, context, request):
         super(DisplayLayoutTraverser, self).__init__(context)
@@ -73,7 +73,7 @@ class DisplayLayoutTraverser(SimpleHandler):
 
 class DisplayContentLayoutTraverser(SimpleHandler):
     implements(ITraversable)
-    adapts(ILayoutAware, IBrowserRequest)
+    adapts(ILayoutAware, IMosaicLayer)
 
     def __init__(self, context, request):
         super(DisplayContentLayoutTraverser, self).__init__(context)
@@ -109,7 +109,7 @@ class DisplayLayoutView(DefaultView):
 
 
 class HiddenDisplaySubMenuItem(DisplaySubMenuItem):
-    adapts(ILayoutAware, IBrowserRequest)
+    adapts(ILayoutAware, IMosaicLayer)
 
     @view.memoize
     def available(self):
@@ -124,7 +124,7 @@ class HiddenDisplaySubMenuItem(DisplaySubMenuItem):
 
 class DisplayLayoutSubMenuItem(BrowserSubMenuItem):
     implements(IContentMenuItem)
-    adapts(ILayoutAware, IBrowserRequest)
+    adapts(ILayoutAware, IMosaicLayer)
 
     title = _(u'label_choose_display', default=u'Display')
     submenuId = 'plone_contentmenu_layout'

@@ -1,8 +1,6 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
-    xmlns:browser="http://namespaces.zope.org/browser"
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
-    xmlns:plone="http://namespaces.plone.org/plone"
     xmlns:zcml="http://namespaces.zope.org/zcml"
     i18n_domain="plone">
 
@@ -50,7 +48,7 @@
   <!-- Register resource traverser for content layouts -->
   <adapter
       name="contentlayout"
-      for="* zope.publisher.interfaces.IRequest"
+      for="* .interfaces.IMosaicLayer"
       provides="zope.traversing.interfaces.ITraversable"
       factory=".layoutsupport.ContentLayoutTraverser"
       />
@@ -70,9 +68,7 @@
 
   <!-- Register default value adapter for layout aware content attribute -->
   <!-- For zope.schema via special layout field specific adapter -->
-  <adapter
-      factory=".layoutsupport.layoutFieldDefaultValue"
-      />
+  <adapter factory=".layoutsupport.layoutFieldDefaultValue" />
   <!-- For z3c.form -->
   <adapter
       name="default"

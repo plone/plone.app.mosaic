@@ -8,7 +8,6 @@ from plone.registry.interfaces import IRegistry
 from z3c.form.browser.text import TextWidget as z3cform_TextWidget
 from z3c.form.interfaces import IFieldWidget
 from z3c.form.interfaces import IAddForm
-from z3c.form.interfaces import IFormLayer
 from z3c.form.interfaces import ITextWidget
 from z3c.form.util import getSpecification
 from z3c.form.widget import FieldWidget
@@ -19,11 +18,12 @@ from zope.interface import implementsOnly
 
 from plone.app.blocks.layoutbehavior import ILayoutAware
 from plone.app.mosaic.interfaces import IMosaicRegistryAdapter
+from plone.app.mosaic.interfaces import IMosaicLayer
 
 
 try:
     import json
-except:
+except ImportError:
     import simplejson as json
 
 
@@ -88,6 +88,7 @@ class LayoutWidget(BaseWidget, z3cform_TextWidget):
 
         # Disable Mosaic editor when the selected layout for the current
         # context is not custom layout
+        # XXX: This also always disables the editor outside the content space
         current_browser_layout = (
             self._add_form_portal_type_default_view()
             or self._context_selected_layout()
@@ -132,7 +133,7 @@ class LayoutWidget(BaseWidget, z3cform_TextWidget):
         return selectable_layout.getLayout()
 
 
-@adapter(getSpecification(ILayoutAware['content']), IFormLayer)
+@adapter(getSpecification(ILayoutAware['content']), IMosaicLayer)
 @implementer(IFieldWidget)
 def LayoutFieldWidget(field, request):
     return FieldWidget(field, LayoutWidget(request))
