@@ -42,7 +42,6 @@ require([
     init: function() {
       var self = this;
       self.options.data.$el = self.$el;
-      debugger;
       $.mosaic.init({'data': self.options.data});
 
     }
