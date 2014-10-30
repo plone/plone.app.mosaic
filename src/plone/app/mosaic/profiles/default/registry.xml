@@ -1052,4 +1052,75 @@
     </value>
   </record>
 
+  <records prefix="plone.resources/mosaic.actions"
+            interface='Products.CMFPlone.interfaces.IResourceRegistry'>
+      <value key="js">++plone++mosaic/js/mosaic.actions.js</value>
+  </records>
+
+  <records prefix="plone.resources/mosaic.upload"
+            interface='Products.CMFPlone.interfaces.IResourceRegistry'>
+      <value key="js">++plone++mosaic/js/mosaic.upload.js</value>
+  </records>
+
+  <records prefix="plone.resources/mosaic.editor"
+            interface='Products.CMFPlone.interfaces.IResourceRegistry'>
+      <value key="js">++plone++mosaic/js/mosaic.editor.js</value>
+      <value key="css">
+        <element>++plone++mosaic/css/authoring.css</element>
+      </value>
+  </records>
+
+  <records prefix="plone.resources/mosaic.undo"
+            interface='Products.CMFPlone.interfaces.IResourceRegistry'>
+      <value key="js">++plone++mosaic/js/mosaic.undo.js</value>
+  </records>
+
+  <records prefix="plone.resources/mosaic.overlaytriggers"
+            interface='Products.CMFPlone.interfaces.IResourceRegistry'>
+      <value key="js">++plone++mosaic/js/mosaic.overlaytriggers.js</value>
+  </records>
+
+  <records prefix="plone.resources/mosaic.toolbar"
+            interface='Products.CMFPlone.interfaces.IResourceRegistry'>
+      <value key="js">++plone++mosaic/js/mosaic.toolbar.js</value>
+      <value key="css">
+        <element>++plone++mosaic/css/toolbar.css</element>
+      </value>
+  </records>
+
+  <records prefix="plone.resources/mosaic.layout"
+            interface='Products.CMFPlone.interfaces.IResourceRegistry'>
+      <value key="js">++plone++mosaic/js/mosaic.layout.js</value>
+  </records>
+
+  <records prefix="plone.resources/mosaic.overlay"
+            interface='Products.CMFPlone.interfaces.IResourceRegistry'>
+      <value key="js">++plone++mosaic/js/mosaic.overlay.js</value>
+  </records>
+
+  <records prefix="plone.resources/mosaic.core"
+            interface='Products.CMFPlone.interfaces.IResourceRegistry'>
+      <value key="js">++plone++mosaic/js/mosaic.core.js</value>
+  </records>
+
+  <records prefix="plone.resources/mosaic"
+            interface='Products.CMFPlone.interfaces.IResourceRegistry'>
+      <value key="js">++plone++mosaic/js/mosaic.pattern.js</value>
+      <value key="css">
+        <element>++plone++mosaic/css/mosaic.less</element>
+      </value>
+  </records>
+
+  <records prefix="plone.bundles/mosaic"
+            interface='Products.CMFPlone.interfaces.IBundleRegistry'>
+    <value key="resources" purge="false">
+      <element>mosaic</element>
+    </value>
+    <value key="jscompilation">++plone++mosaic/plone-mosaic.js</value>
+    <value key="csscompilation">++plone++mosaic/plone-mosaic.css</value>
+    <value key="last_compilation">2014-08-14 00:00:00</value>
+    <value key="compile">True</value>
+    <value key="enabled">True</value>
+  </records>
+
 </registry>

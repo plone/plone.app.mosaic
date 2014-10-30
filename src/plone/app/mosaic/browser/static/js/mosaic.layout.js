@@ -30,6 +30,8 @@
 eqeqeq: true, plusplus: true, bitwise: true, regexp: true, newcap: true,
 immed: true, strict: true, maxlen: 80, maxerr: 9999 */
 
+define(['mosaic.core'], function() {
+
 (function ($) {
     "use strict";
 
@@ -413,17 +415,17 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
         };
 
         // Bind events
-        $(".mosaic-tile", $.mosaic.document).live("mousemove", TileMousemove);
-        $(".mosaic-tile", $.mosaic.document).live("dragover", TileMousemove);
+        $(".mosaic-tile", $.mosaic.document).on("mousemove", TileMousemove);
+        $(".mosaic-tile", $.mosaic.document).on("dragover", TileMousemove);
 
         // On click select the current tile
-        $(".mosaic-tile", $.mosaic.document).live("click", function () {
+        $(".mosaic-tile", $.mosaic.document).on("click", function () {
 
             // Select tile
             $(this).mosaicSelectTile();
         });
 
-        $(".mosaic-close-icon", $.mosaic.document).live("click", function () {
+        $(".mosaic-close-icon", $.mosaic.document).on("click", function () {
 
             // Get tile config
             var tile_config = $(this).parents(".mosaic-tile").mosaicGetTileConfig();
@@ -487,7 +489,7 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
 
 
         // On click open overlay
-        $(".mosaic-info-icon", $.mosaic.document).live("click", function () {
+        $(".mosaic-info-icon", $.mosaic.document).on("click", function () {
 
             // Get tile config
             var tile_config = $(this).parents(".mosaic-tile").mosaicGetTileConfig();
@@ -2115,3 +2117,5 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
     }
 
 }(jQuery));
+
+})
