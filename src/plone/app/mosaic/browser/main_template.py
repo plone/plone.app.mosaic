@@ -115,7 +115,10 @@ def cook_layout(layout, ajax):
     layout = re.sub('\r', '\n', re.sub('\r\n', '\n', layout))
 
     # Parse layout
-    result = getHTMLSerializer([layout], encoding='utf-8')
+    if isinstance(layout, unicode):
+        result = getHTMLSerializer([layout.encode('utf-8')], encoding='utf-8')
+    else:
+        result = getHTMLSerializer([layout], encoding='utf-8')
 
     # Fix XHTML layouts with inline js (etree.tostring breaks all <![CDATA[)
     if '<![CDATA[' in layout:
@@ -128,7 +131,8 @@ def cook_layout(layout, ajax):
         all_slots += wrap_append_prepend_slots(layoutPanelNode, data_slots)
         del layoutPanelNode.attrib['data-slots']
 
-    # When no slots are explicitly defined, try to inject the very default slots
+    # When no slots are explicitly defined, try to inject the very default
+    # slots
     if len(all_slots) == 0:
         for node in result.tree.xpath('//*[@data-panel="content"]'):
             wrap_append_prepend_slots(
