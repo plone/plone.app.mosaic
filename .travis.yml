@@ -5,9 +5,9 @@ before_install:
 - sh -e /etc/init.d/xvfb start
 install:
 - mkdir -p buildout-cache/downloads
-- python bootstrap.py -c travis.cfg
-- bin/buildout -N -t 3 -c travis.cfg annotate
-- bin/buildout -N -t 3 -c travis.cfg
+- python bootstrap.py -c travis$VERSION.cfg
+- bin/buildout -N -t 3 -c travis$VERSION.cfg annotate
+- bin/buildout -N -t 3 -c travis$VERSION.cfg
 - mkdir -p parts/test/_screenshots
 before_script:
 - gem install --version 0.8.9 faraday
@@ -25,7 +25,9 @@ after_script:
 - 'echo "Robot: http://plone-app-mosaic.s3-website-us-east-1.amazonaws.com/artifacts/${TRAVIS_BUILD_NUMBER}/${TRAVIS_JOB_NUMBER}/robot_report.html"'
 matrix:
   allow_failures:
-  - env: OPTIONS=--all
+  - env:
+    - OPTIONS=--all
+    - VERSION=5.x
 env:
   global:
   - ARTIFACTS_S3_BUCKET=plone-app-mosaic
@@ -34,6 +36,8 @@ env:
   matrix:
   - OPTIONS=
   - OPTIONS=--all
+  - VERSION=
+  - VERSION=5.x
   irc:
     channels:
     - irc.freenode.org#plone-testing
