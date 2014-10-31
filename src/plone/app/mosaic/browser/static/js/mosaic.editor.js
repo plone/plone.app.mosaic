@@ -30,6 +30,7 @@
 eqeqeq: true, plusplus: true, bitwise: true, regexp: true, newcap: true,
 immed: true, strict: true, maxlen: 80, maxerr: 9999 */
 
+define(['mosaic.core'], function() {
 (function ($) {
     "use strict";
 
@@ -157,3 +158,4 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
 
 })(jQuery);
 
+})

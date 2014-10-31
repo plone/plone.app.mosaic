@@ -16,8 +16,8 @@
   <stylesheet id="++resource++plone.app.event/event.css"
               bundle="widgets" />
 
-  <stylesheet title=""
-              id="++resource++plone.app.mosaic.stylesheets/authoring.css"
+  <stylesheet id="++resource++plone.app.mosaic/css/authoring.css"
+              title=""
               bundle="mosaic"
               applyPrefix="true"
               media="screen"
@@ -29,8 +29,8 @@
               enabled="1"
               expression=""/>
 
-  <stylesheet title=""
-              id="++resource++plone.app.mosaic.stylesheets/toolbar.css"
+  <stylesheet id="++resource++plone.app.mosaic/css/toolbar.css"
+              title=""
               bundle="mosaic"
               applyPrefix="true"
               media="screen"

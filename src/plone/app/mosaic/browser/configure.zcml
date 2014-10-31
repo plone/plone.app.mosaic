@@ -1,5 +1,6 @@
 <configure xmlns="http://namespaces.zope.org/zope"
            xmlns:zcml="http://namespaces.zope.org/zcml"
+           xmlns:plone="http://namespaces.plone.org/plone"
            xmlns:browser="http://namespaces.zope.org/browser">
 
   <configure zcml:condition="not-have plone-5">
@@ -57,19 +58,21 @@
       factory=".layoutsupport.DisplayLayoutSubMenuItem"
       provides="plone.app.contentmenu.interfaces.IContentMenuItem" />
 
+  <plone:static
+      directory="static"
+      type="plone"
+      name="mosaic"
+      />
+
   <browser:resourceDirectory
-      name="plone.app.mosaic.stylesheets"
-      directory="stylesheets"
+      name="plone.app.mosaic"
+      directory="static"
+      zcml:condition="not-have plone-5"
       />
 
   <browser:resourceDirectory
       name="plone.app.mosaic.images"
-      directory="images"
-      />
-
-  <browser:resourceDirectory
-      name="plone.app.mosaic.javascripts"
-      directory="javascripts"
+      directory="static/img"
       />
 
   <browser:page
