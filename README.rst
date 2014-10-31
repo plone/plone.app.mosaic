@@ -26,6 +26,10 @@ __  http://plone-app-mosaic.s3-website-us-east-1.amazonaws.com/latest/
 ..  image:: https://secure.travis-ci.org/plone/plone.app.mosaic.png
     :target: http://travis-ci.org/plone/plone.app.mosaic
 
+|Deploy|_
+
+.. |Deploy| image:: https://www.herokucdn.com/deploy/button.png
+   .. _Deploy: https://heroku.com/deploy?template=https://github.com/plone/plone.app.mosaic
 
 Screencasts
 -----------
