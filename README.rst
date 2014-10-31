@@ -89,7 +89,7 @@ a static bundle with:
 
    $ bin/instance run generate_gruntfile.py
    $ npm install
-   $ grunt build
+   $ grunt compile
 
 
 Documentation screenshots
