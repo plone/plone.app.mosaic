@@ -1200,4 +1200,19 @@
     <value>True</value>
   </record>
 
+  <record name="plone.bundles/mosaic.depends">
+    <field type="plone.registry.field.ASCIILine"/>
+    <value></value>
+  </record>
+
+  <record name="plone.bundles/mosaic.expression">
+    <field type="plone.registry.field.ASCIILine"/>
+    <value></value>
+  </record>
+
+  <record name="plone.bundles/mosaic.conditionalcomment">
+    <field type="plone.registry.field.ASCIILine"/>
+    <value></value>
+  </record>
+
 </registry>
