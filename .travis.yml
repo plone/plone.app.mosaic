@@ -5,7 +5,7 @@ before_install:
 - sh -e /etc/init.d/xvfb start
 install:
 - mkdir -p buildout-cache/downloads
-- python bootstrap.py -c travis-$PLONE_VERSION.cfg
+- python bootstrap.py -v 1.7.1 -c travis-$PLONE_VERSION.cfg
 - bin/buildout -N -t 3 -c travis-$PLONE_VERSION.cfg annotate
 - bin/buildout -N -t 3 -c travis-$PLONE_VERSION.cfg
 - mkdir -p parts/test/_screenshots
