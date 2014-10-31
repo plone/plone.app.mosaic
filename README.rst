@@ -71,33 +71,25 @@ Alternatively you can also use ``bin/instance fg``.
 Javascript development
 ----------------------
 
-The plone package uses a bundle.
+The plone package uses a bundle, which can be compiled with Plone 5.
+In order to update it while working on JS you need to work on Plone 5 branch of
+`buildout.coredev`_ and the Mosaic PLIP:
 
-In order to update it while working on JS you need to install `bower` and `grunt` system wide:
+.. code:: bash
 
-..  code:: bash
+   $ git clone https://github.com/plone/buildout.coredev
+   $ cd buildout.coredev
+   $ python bootstrap.py
+   $ bin/buildout -c plips/plip-mosaic.cfg
 
-    $ sudo npm install -g bower grunt-cli
+Once you have created a Plone 5 site with plone.app.mosaic, you can build
+a static bundle with:
 
-Then you need to setup bower into `src/plone.app.mosaic`:
+.. code:: bash
 
-..  code:: bash
-
-    $ cd src/plone.app.mosaic
-    $ npm install
-    $ bower install
-
-When developing just run `grunt` in the root of the package.
-This starts a watcher that compiles the bundle whenever you change
-any of the javascript file of this package.
-
-When you run it you get:
-
-..  code:: bash
-
-    # grunt
-    Running "watch" task
-    Waiting...
+   $ bin/instance run generate_gruntfile.py
+   $ npm install
+   $ grunt build
 
 
 Documentation screenshots
