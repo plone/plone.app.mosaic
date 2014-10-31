@@ -5,15 +5,15 @@ before_install:
 - sh -e /etc/init.d/xvfb start
 install:
 - mkdir -p buildout-cache/downloads
-- python bootstrap.py -c travis.cfg
-- bin/buildout -N -t 3 -c travis.cfg annotate
-- bin/buildout -N -t 3 -c travis.cfg
+- python bootstrap.py -c travis-$PLONE_VERSION.cfg
+- bin/buildout -N -t 3 -c travis-$PLONE_VERSION.cfg annotate
+- bin/buildout -N -t 3 -c travis-$PLONE_VERSION.cfg
 - mkdir -p parts/test/_screenshots
 before_script:
 - gem install --version 0.8.9 faraday
 - gem install travis-artifacts
 script:
-- bin/test $OPTIONS
+- bin/test $TEST_OPTIONS
 - bin/pybot -d parts/test docs
 after_script:
 - bin/sphinx-build docs html
@@ -25,15 +25,18 @@ after_script:
 - 'echo "Robot: http://plone-app-mosaic.s3-website-us-east-1.amazonaws.com/artifacts/${TRAVIS_BUILD_NUMBER}/${TRAVIS_JOB_NUMBER}/robot_report.html"'
 matrix:
   allow_failures:
-  - env: OPTIONS=--all
+  - env:
+    - TEST_OPTIONS=--all
+    - PLONE_VERSION=-5.x
 env:
   global:
   - ARTIFACTS_S3_BUCKET=plone-app-mosaic
   - secure: F9djE/1a4VvCidHCnWeF7qkwsUhVLZELv/ttSC1UamsbCCzIa0shUheF4MfAZBRcwtVVAlrid4VRnuYnxyDciy2jrL/qayLfze2ZKcZTfYKsNIrQzyZ4SUVZRB9ZSA6yUK3v+/GIie95as8MKM/UxRtn2RWw4doWGyKv8XBOL4U=
   - secure: buYYreaObmTNEuVTibj/kIyFnIoHCZdezeA8P0HwGHrTbIAwArBFfhG5PC1grT8MayN3f4sfY80d8sRhRATTPNX1smjjBfyni/Zon8OTpr6mGaGsHOg+HHHqocy3hZPlgg1yYLpUCfKCOc8pnq09lF06JwPxsIXAiV+oRHR446E=
   matrix:
-  - OPTIONS=
-  - OPTIONS=--all
+  - PLONE_VERSION=4.x
+  - PLONE_VERSION=4.x TEST_OPTIONS=--all
+  - PLONE_VERSION=5.x
   irc:
     channels:
     - irc.freenode.org#plone-testing
@@ -42,13 +45,13 @@ env:
     - 'Change: %{compare_url}'
     - 'Details: %{build_url}'
     - 'Artifacts: http://plone-app-mosaic.s3-website-us-east-1.amazonaws.com/latest/'
-before_deploy:
-  - git fetch --unshallow
-deploy:
-  provider: heroku
-  strategy: git
-  api_key:
-    secure: JS6CqKcNiztT0Oow9w/ClXu9vPoH1DNJjsPy+75iumo+g1qPzzSVRsdoW+d1ERJQfdMAgJPW0I56J2e2VzaH2HkbYtDgUScpsbrQDWpBvR+Ls0+Nuz0CaKIkEMcF/bvBeLBVfVwgGmgmmijcH161ewbcqMopvRHB7bStTAunui0=
-  app: plone-app-mosaic
-  on:
-    branch: master
+#before_deploy:
+#  - git fetch --unshallow
+#deploy:
+#  provider: heroku
+#  strategy: git
+#  api_key:
+#    secure: JS6CqKcNiztT0Oow9w/ClXu9vPoH1DNJjsPy+75iumo+g1qPzzSVRsdoW+d1ERJQfdMAgJPW0I56J2e2VzaH2HkbYtDgUScpsbrQDWpBvR+Ls0+Nuz0CaKIkEMcF/bvBeLBVfVwgGmgmmijcH161ewbcqMopvRHB7bStTAunui0=
+#  app: plone-app-mosaic
+#  on:
+#    branch: master

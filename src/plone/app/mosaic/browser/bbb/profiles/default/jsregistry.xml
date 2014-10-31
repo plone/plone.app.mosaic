@@ -4,4 +4,11 @@
   <javascript id="form_tabbing.js"
               bundle="deprecated" />
 
+  <javascript id="++resource++plone.app.mosaic/plone-mosaic.js"
+              cacheable="False"
+              compression="none"
+              cookable="False"
+              enabled="True"
+              inline="False" />
+
 </object>
