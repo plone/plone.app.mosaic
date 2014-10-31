@@ -24,7 +24,7 @@ after_script:
 - 'echo "Sphinx: http://plone-app-mosaic.s3-website-us-east-1.amazonaws.com/artifacts/${TRAVIS_BUILD_NUMBER}/${TRAVIS_JOB_NUMBER}/"'
 - 'echo "Robot: http://plone-app-mosaic.s3-website-us-east-1.amazonaws.com/artifacts/${TRAVIS_BUILD_NUMBER}/${TRAVIS_JOB_NUMBER}/robot_report.html"'
 matrix:
-  include
+  include:
   - env: PLONE_VERSION=4.x
   allow_failures:
   - env: PLONE_VERSION=4.x TEST_OPTIONS=--all
