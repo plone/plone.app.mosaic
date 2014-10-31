@@ -1089,130 +1089,75 @@
     </value>
   </record>
 
-  <record name="plone.resources/mosaic.actions.js">
-    <field type="plone.registry.field.ASCIILine"/>
-    <value>++plone++mosaic/js/mosaic.actions.js</value>
-  </record>
+  <records prefix="plone.resources/mosaic.actions"
+           interface='Products.CMFPlone.interfaces.IResourceRegistry'>
+    <value key="js">++plone++mosaic/js/mosaic.actions.js</value>
+  </records>
 
-  <record name="plone.resources/mosaic.upload.js">
-    <field type="plone.registry.field.ASCIILine"/>
-    <value>++plone++mosaic/js/mosaic.upload.js</value>
-  </record>
+  <records prefix="plone.resources/mosaic.upload"
+           interface='Products.CMFPlone.interfaces.IResourceRegistry'>
+    <value key="js">++plone++mosaic/js/mosaic.upload.js</value>
+  </records>
 
-  <record name="plone.resources/mosaic.editor.js">
-    <field type="plone.registry.field.ASCIILine"/>
-    <value>++plone++mosaic/js/mosaic.editor.js</value>
-  </record>
-
-  <record name="plone.resources/mosaic.editor.css">
-    <field type="plone.registry.field.List">
-      <value_type type="plone.registry.field.ASCIILine"/>
-    </field>
-    <value>
+  <records prefix="plone.resources/mosaic.editor"
+           interface='Products.CMFPlone.interfaces.IResourceRegistry'>
+    <value key="js">++plone++mosaic/js/mosaic.editor.js</value>
+    <value key="css">
       <element>++plone++mosaic/css/authoring.css</element>
     </value>
-  </record>
+  </records>
 
-  <record name="plone.resources/mosaic.undo.js">
-    <field type="plone.registry.field.ASCIILine"/>
-    <value>++plone++mosaic/js/mosaic.undo.js</value>
-  </record>
+  <records prefix="plone.resources/mosaic.undo"
+           interface='Products.CMFPlone.interfaces.IResourceRegistry'>
+    <value key="js">++plone++mosaic/js/mosaic.undo.js</value>
+  </records>
 
-  <record name="plone.resources/mosaic.overlaytriggers.js">
-    <field type="plone.registry.field.ASCIILine"/>
-    <value>++plone++mosaic/js/mosaic.overlaytriggers.js</value>
-  </record>
+  <records prefix="plone.resources/mosaic.overlaytriggers"
+           interface='Products.CMFPlone.interfaces.IResourceRegistry'>
+    <value key="js">++plone++mosaic/js/mosaic.overlaytriggers.js</value>
+  </records>
 
-  <record name="plone.resources/mosaic.toolbar.js">
-    <field type="plone.registry.field.ASCIILine"/>
-    <value>++plone++mosaic/js/mosaic.toolbar.js</value>
-  </record>
-
-  <record name="plone.resources/mosaic.toolbar.css">
-    <field type="plone.registry.field.List">
-      <value_type type="plone.registry.field.ASCIILine"/>
-    </field>
-    <value>
+  <records prefix="plone.resources/mosaic.toolbar"
+           interface='Products.CMFPlone.interfaces.IResourceRegistry'>
+    <value key="js">++plone++mosaic/js/mosaic.toolbar.js</value>
+    <value key="css">
       <element>++plone++mosaic/css/toolbar.css</element>
     </value>
-  </record>
+  </records>
 
-  <record name="plone.resources/mosaic.layout.js">
-    <field type="plone.registry.field.ASCIILine"/>
-    <value>++plone++mosaic/js/mosaic.layout.js</value>
-  </record>
+  <records prefix="plone.resources/mosaic.layout"
+           interface='Products.CMFPlone.interfaces.IResourceRegistry'>
+    <value key="js">++plone++mosaic/js/mosaic.layout.js</value>
+  </records>
 
-  <record name="plone.resources/mosaic.overlay.js">
-    <field type="plone.registry.field.ASCIILine"/>
-    <value>++plone++mosaic/js/mosaic.overlay.js</value>
-  </record>
+  <records prefix="plone.resources/mosaic.overlay"
+           interface='Products.CMFPlone.interfaces.IResourceRegistry'>
+    <value key="js">++plone++mosaic/js/mosaic.overlay.js</value>
+  </records>
 
-  <record name="plone.resources/mosaic.core.js">
-    <field type="plone.registry.field.ASCIILine"/>
-    <value>++plone++mosaic/js/mosaic.core.js</value>
-  </record>
+  <records prefix="plone.resources/mosaic.core"
+           interface='Products.CMFPlone.interfaces.IResourceRegistry'>
+    <value key="js">++plone++mosaic/js/mosaic.core.js</value>
+  </records>
 
-  <record name="plone.resources/mosaic.js">
-    <field type="plone.registry.field.ASCIILine"/>
-    <value>++plone++mosaic/js/mosaic.pattern.js</value>
-  </record>
-
-  <record name="plone.resources/mosaic.css">
-    <field type="plone.registry.field.List">
-      <value_type type="plone.registry.field.ASCIILine"/>
-    </field>
-    <value>
+  <records prefix="plone.resources/mosaic"
+           interface='Products.CMFPlone.interfaces.IResourceRegistry'>
+    <value key="js">++plone++mosaic/js/mosaic.pattern.js</value>
+    <value key="css">
       <element>++plone++mosaic/css/mosaic.less</element>
     </value>
-  </record>
+  </records>
 
-  <record name="plone.bundles/mosaic.resources">
-    <field type="plone.registry.field.List">
-      <value_type type="plone.registry.field.ASCIILine"/>
-    </field>
-    <value purge="false">
+  <records prefix="plone.bundles/mosaic"
+           interface='Products.CMFPlone.interfaces.IBundleRegistry'>
+    <value key="resources" purge="false">
       <element>mosaic</element>
     </value>
-  </record>
-
-  <record name="plone.bundles/mosaic.jscompilation">
-    <field type="plone.registry.field.ASCIILine"/>
-    <value>++plone++mosaic/plone-mosaic.js</value>
-  </record>
-
-  <record name="plone.bundles/mosaic.csscompilation">
-    <field type="plone.registry.field.ASCIILine"/>
-    <value>++plone++mosaic/plone-mosaic.css</value>
-  </record>
-
-  <record name="plone.bundles/mosaic.last_compilation">
-    <field type="plone.registry.field.Datetime"/>
-    <value>2014-08-14 00:00:00</value>
-  </record>
-
-  <record name="plone.bundles/mosaic.compile">
-    <field type="plone.registry.field.Bool"/>
-    <value>True</value>
-  </record>
-
-  <record name="plone.bundles/mosaic.enabled">
-    <field type="plone.registry.field.Bool"/>
-    <value>True</value>
-  </record>
-
-  <record name="plone.bundles/mosaic.depends">
-    <field type="plone.registry.field.ASCIILine"/>
-    <value></value>
-  </record>
-
-  <record name="plone.bundles/mosaic.expression">
-    <field type="plone.registry.field.ASCIILine"/>
-    <value></value>
-  </record>
-
-  <record name="plone.bundles/mosaic.conditionalcomment">
-    <field type="plone.registry.field.ASCIILine"/>
-    <value></value>
-  </record>
+    <value key="jscompilation">++plone++mosaic/plone-mosaic.js</value>
+    <value key="csscompilation">++plone++mosaic/plone-mosaic.css</value>
+    <value key="last_compilation">2014-08-14 00:00:00</value>
+    <value key="compile">True</value>
+    <value key="enabled">True</value>
+  </records>
 
 </registry>
