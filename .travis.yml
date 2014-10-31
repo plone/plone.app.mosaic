@@ -26,8 +26,8 @@ after_script:
 matrix:
   allow_failures:
   - env:
-    - TEST_OPTIONS=--all
-    - PLONE_VERSION=-5.x
+    - PLONE_VERSION=4.x TEST_OPTIONS=--all
+    - PLONE_VERSION=5.x
 env:
   global:
   - ARTIFACTS_S3_BUCKET=plone-app-mosaic
