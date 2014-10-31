@@ -58,16 +58,21 @@
       factory=".layoutsupport.DisplayLayoutSubMenuItem"
       provides="plone.app.contentmenu.interfaces.IContentMenuItem" />
 
-
   <plone:static
-    directory="static"
-    type="plone"
-    name="mosaic"
-    />
+      directory="static"
+      type="plone"
+      name="mosaic"
+      />
+
+  <browser:resourceDirectory
+      name="plone.app.mosaic"
+      directory="static"
+      zcml:condition="not-have plone-5"
+      />
 
   <browser:resourceDirectory
       name="plone.app.mosaic.images"
-      directory="images"
+      directory="static/img"
       />
 
   <browser:page

@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<object name="portal_css">
+
+  <stylesheet id="forms.css"
+              bundle="widgets" />
+
+  <stylesheet id="++resource++plone.app.widgets.css"
+              bundle="widgets" />
+
+  <stylesheet id="++resource++plone.formwidget.recurrence/jquery.recurrenceinput.css"
+              bundle="widgets" />
+
+  <stylesheet id="++resource++plone.formwidget.recurrence/integration.css"
+              bundle="widgets" />
+
+  <stylesheet id="++resource++plone.app.event/event.css"
+              bundle="widgets" />
+
+  <stylesheet id="++resource++plone.app.mosaic/css/authoring.css"
+              title=""
+              bundle="mosaic"
+              applyPrefix="true"
+              media="screen"
+              rel="stylesheet"
+              rendering="import"
+              cacheable="True"
+              compression="safe"
+              cookable="True"
+              enabled="1"
+              expression=""/>
+
+  <stylesheet id="++resource++plone.app.mosaic/css/toolbar.css"
+              title=""
+              bundle="mosaic"
+              applyPrefix="true"
+              media="screen"
+              rel="stylesheet"
+              rendering="import"
+              cacheable="True"
+              compression="safe"
+              cookable="True"
+              enabled="1"
+              expression=""/>
+
+</object>
