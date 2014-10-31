@@ -9,8 +9,8 @@
 
   <genericsetup:registerProfile
       name="default"
-      title="Plone App Mosaic profile"
-      description="Installs plone app mosaic."
+      title="Plone App Mosaic"
+      description="Installs Mosaic layout support"
       directory="profiles/default"
       for="Products.CMFPlone.interfaces.IPloneSiteRoot"
       provides="Products.GenericSetup.interfaces.EXTENSION"
