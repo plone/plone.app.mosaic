@@ -31,16 +31,22 @@ eqeqeq: true, plusplus: true, bitwise: true, regexp: true, newcap: true,
 immed: true, strict: true, maxlen: 80, maxerr: 9999 */
 
 define([
-    'jquery'
+    'jquery',
+    'mosaic.toolbar',
+    'mosaic.layout',
+    'mosaic.actions'
 ], function($) {
     "use strict";
 
     // Create the mosaic namespace
-    $.mosaic = {
-        "loaded": false,
-        "nrOfTiles": 0,
-        "tileInitCount": 0
-    };
+    if (typeof($.mosaic) === "undefined") {
+        $.mosaic = {};
+    }
+
+    // Set variables
+    $.mosaic.loaded = false;
+    $.mosaic.nrOfTiles = 0;
+    $.mosaic.tileInitCount = 0;
 
     /**
      * Called upon full initialization (that is: when all tiles have
@@ -135,6 +141,7 @@ define([
                     target.attr('data-panel', panel_id);
                 });
             }
+
             // If content, create a new div since the form data is in
             // this panel
             if (panel_id === 'content') {

@@ -49,7 +49,6 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
 
 define([
     'jquery',
-    'mosaic.core'
 ], function($) {
     'use strict';
 
