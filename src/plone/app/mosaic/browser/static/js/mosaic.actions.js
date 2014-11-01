@@ -30,8 +30,11 @@
 eqeqeq: true, plusplus: true, bitwise: true, regexp: true, newcap: true,
 immed: true, strict: true, maxlen: 80, maxerr: 9999 */
 
-(function ($) {
-    "use strict";
+define([
+    'jquery',
+    'mosaic.core'
+], function($) {
+    'use strict';
 
     // Define mosaic namespace if it doesn't exist
     if (typeof($.mosaic) === "undefined") {
@@ -595,4 +598,4 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
             return true;
         });
     };
-}(jQuery));
+});

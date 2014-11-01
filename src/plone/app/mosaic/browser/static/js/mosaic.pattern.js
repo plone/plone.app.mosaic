@@ -22,40 +22,39 @@
  */
 
 require([
-  'mockup-registry',
-  'mockup-patterns-base',
-  'mosaic.core',
-  'mosaic.layout',
-  'mosaic.toolbar',
-  'mosaic.actions',
-  'mosaic.upload',
-  'mosaic.editor',
-  'mosaic.undo',
-], function(Registry, Base) {
-  'use strict';
+    'jquery',
+    'mockup-registry',
+    'mockup-patterns-base',
+    'mosaic.core',
+    'mosaic.layout',
+    'mosaic.toolbar',
+    'mosaic.actions',
+    'mosaic.upload',
+    'mosaic.editor',
+    'mosaic.undo',
+    'mosaic.overlay',
+], function($, Registry, Base) {
+    'use strict';
 
-  var Layout = Base.extend({
-    name: 'layout',
-    defaults: {
-      attribute: 'class'
-    },
-    init: function() {
-      var self = this;
-      self.options.data.$el = self.$el;
-      $.mosaic.init({'data': self.options.data});
+    var Layout = Base.extend({
+        name: 'layout',
+        defaults: {
+            attribute: 'class'
+        },
+        init: function() {
+            var self = this;
+            self.options.data.$el = self.$el;
+            $.mosaic.init({'data': self.options.data});
+        }
+    });
 
+    // initialize only if we are in top frame
+    if (window.parent === window) {
+        $(document).ready(function() {
+            $('body').addClass('mosaic-enabled');
+            Registry.scan($('body'));
+        });
     }
 
-  });
-
-  // initialize only if we are in top frame
-  if (window.parent === window) {
-    $(document).ready(function() {
-      $('body').addClass('mosaic-enabled');
-      Registry.scan($('body'));
-    });
-  }
-
-  return Layout;
-
+    return Layout;
 });

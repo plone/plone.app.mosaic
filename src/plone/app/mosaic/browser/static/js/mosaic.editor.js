@@ -30,9 +30,11 @@
 eqeqeq: true, plusplus: true, bitwise: true, regexp: true, newcap: true,
 immed: true, strict: true, maxlen: 80, maxerr: 9999 */
 
-define(['mosaic.core'], function() {
-(function ($) {
-    "use strict";
+define([
+    'jquery',
+    'mosaic.core'
+], function($) {
+    'use strict';
 
     // Define mosaic namespace if it doesn't exist
     if (typeof($.mosaic) === "undefined") {
@@ -155,7 +157,4 @@ define(['mosaic.core'], function() {
         // Apply format
         tinymce.activeEditor.formatter.register(name, format);
     };
-
-})(jQuery);
-
-})
+});
