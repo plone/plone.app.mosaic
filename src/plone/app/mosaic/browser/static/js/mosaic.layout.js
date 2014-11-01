@@ -425,7 +425,7 @@ define([
             $(this).mosaicSelectTile();
         });
 
-        $(".mosaic-close-icon", $.mosaic.document).on("click", function () {
+        $($.mosaic.document).on("click", ".mosaic-close-icon", function () {
 
             // Get tile config
             var tile_config = $(this).parents(".mosaic-tile").mosaicGetTileConfig();
