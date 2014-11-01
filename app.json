@@ -1,6 +1,6 @@
 {
   "name": "Plone Mosaic on Heroku",
-  "description": "A simple Plone Mosaic site hosted on Heroku. Login with admin:admin.",
+  "description": "A Plone Mosaic preview site hosted on Heroku. Login with admin:secret.",
   "repository": "https://github.com/plone/plone.app.mosaic",
   "logo": "http://www.coactivate.org/projects/plone-marketing/plone-logo-guidelines/plone-vertical-logo.png",
   "keywords": ["plone", "python", "cms"],
