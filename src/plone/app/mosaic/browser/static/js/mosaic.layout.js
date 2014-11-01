@@ -1838,6 +1838,8 @@ define([
      * @return {String} Default value of the given tile
      */
     $.mosaic.getDefaultValue = function (tile_config) {
+        var editor_id;
+
         switch (tile_config.tile_type) {
         case "field":
             switch (tile_config.widget) {
@@ -1855,7 +1857,8 @@ define([
             case "plone.app.z3cform.wysiwyg.widget.WysiwygWidget":
             case "plone.app.z3cform.wysiwyg.widget.WysiwygFieldWidget":
             case "plone.app.widgets.dx.RichTextWidget":
-                return $("#" + tile_config.id, $.mosaic.document).find('textarea').attr('value');
+                editor_id = $('#' + tile_config.id).find('textarea').attr('id');
+                return tinymce.get(editor_id).getContent();
             default:
                 return '<div class="discreet">Placeholder for field:<br/><b>' + tile_config.label + '</b></div>';
             }
