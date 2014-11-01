@@ -170,7 +170,7 @@ define([
             visible_tabs = formtabs.children(':not(.mosaic-hidden)');
 
             // Select first tab
-            visible_tabs.eq(0).children('a').addClass('active');
+            visible_tabs.eq(0).addClass('active');
             form.find('#fieldset-' +
                 visible_tabs.eq(0).attr('href').split('-')[1])
                 .addClass('active');

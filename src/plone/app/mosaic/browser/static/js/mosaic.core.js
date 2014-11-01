@@ -270,6 +270,7 @@ define([
                     break;
                 case "plone.app.z3cform.wysiwyg.widget.WysiwygWidget":
                 case "plone.app.z3cform.wysiwyg.widget.WysiwygFieldWidget":
+                case "plone.app.widgets.dx.RichTextWidget":
                     fieldhtml = $("#" + tile_config.id)
                                     .find('textarea').attr('value');
                     break;
