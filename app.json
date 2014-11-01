@@ -6,7 +6,8 @@
   "keywords": ["plone", "python", "cms"],
   "website": "http://plone.org",
   "env": {
-    "BUILDPACK_URL": "https://github.com/niteoweb/heroku-buildpack-plone"
+    "BUILDPACK_URL": "https://github.com/niteoweb/heroku-buildpack-plone",
+    "BUILDOUT_CFG": "heroku.cfg"
   },
   "addons": [
     "heroku-postgresql:hobby-dev",
