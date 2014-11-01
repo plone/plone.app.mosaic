@@ -235,6 +235,7 @@ define([
                         case "TextAreaFieldWidget":
                         case "WysiwygWidget":
                         case "WysiwygFieldWidget":
+                        case "RichTextWidget":
                             tile_group.tiles[y].settings = false;
                             break;
                         default:
@@ -272,7 +273,7 @@ define([
                 case "plone.app.z3cform.wysiwyg.widget.WysiwygFieldWidget":
                 case "plone.app.widgets.dx.RichTextWidget":
                     fieldhtml = $("#" + tile_config.id)
-                                    .find('textarea').attr('value');
+                                    .find('textarea').val();
                     break;
                 default:
                     fieldhtml = '<div class="discreet">Placeholder ' +

@@ -725,15 +725,6 @@ define([
             // Get content
             var tile_content = $(this).children(".mosaic-tile-content");
             tile_content.focus();
-
-            // Check if rich text
-            if (tile_content.hasClass('mosaic-rich-text')) {
-
-                // Put cursor at the end
-                tinyMCE.activeEditor.selection.select(
-                    tinyMCE.activeEditor.getBody(), true);
-                tinyMCE.activeEditor.selection.collapse(false);
-            }
         });
     };
 
@@ -1883,6 +1874,7 @@ define([
      * @return {String} Default value of the given tile
      */
     $.mosaic.saveTileValueToForm = function (tiletype, tile_config) {
+        var editor_id;
 
         // Update field values if type is rich text
         if (tile_config && tile_config.tile_type === 'field' &&
@@ -1906,12 +1898,13 @@ define([
                     value += $(this).html() + "\n";
                 });
                 value = value.replace(/<br[^>]*>/ig, "\n");
-                $("#" + tile_config.id).find('textarea').attr('value', value);
+                $("#" + tile_config.id).find('textarea').val(value);
                 break;
             case "plone.app.z3cform.wysiwyg.widget.WysiwygWidget":
             case "plone.app.z3cform.wysiwyg.widget.WysiwygFieldWidget":
             case "plone.app.widgets.dx.RichTextWidget":
-                $(document.getElementById(tile_config.id)).find('textarea').attr('value', $('.mosaic-' + tiletype + '-tile', $.mosaic.document).find('.mosaic-tile-content').html());
+                editor_id = $(document.getElementById(tile_config.id)).find('textarea').attr('id');
+                tinymce.get(editor_id).setContent($('.mosaic-' + tiletype + '-tile', $.mosaic.document).find('.mosaic-tile-content').html());
                 break;
             }
         }
