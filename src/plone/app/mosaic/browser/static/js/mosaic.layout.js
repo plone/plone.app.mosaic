@@ -415,11 +415,11 @@ define([
         };
 
         // Bind events
-        $(".mosaic-tile", $.mosaic.document).on("mousemove", TileMousemove);
-        $(".mosaic-tile", $.mosaic.document).on("dragover", TileMousemove);
+        $($.mosaic.document).on("mousemove", ".mosaic-tile", TileMousemove);
+        $($.mosaic.document).on("dragover", ".mosaic-tile", TileMousemove);
 
         // On click select the current tile
-        $(".mosaic-tile", $.mosaic.document).on("click", function () {
+        $($.mosaic.document).on("click", ".mosaic-tile", function () {
 
             // Select tile
             $(this).mosaicSelectTile();
@@ -489,7 +489,7 @@ define([
 
 
         // On click open overlay
-        $(".mosaic-info-icon", $.mosaic.document).on("click", function () {
+        $($.mosaic.document).on("click", ".mosaic-info-icon", function () {
 
             // Get tile config
             var tile_config = $(this).parents(".mosaic-tile").mosaicGetTileConfig();
