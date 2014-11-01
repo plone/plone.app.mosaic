@@ -114,23 +114,19 @@ define([
         if (mode === 'all') {
 
             // Get form tabs
-            formtabs = form.find(".formTabs");
+            formtabs = form.find("nav");
 
             // Show form tabs
-            form.find(".formTabs").removeClass('mosaic-hidden');
+            formtabs.removeClass('mosaic-hidden');
 
             // Show all fields
             form.find("fieldset").children().removeClass('mosaic-hidden');
 
             // Hide all fieldsets
-            form.find('fieldset').hide();
+            form.find('fieldset').removeClass('active');
 
             // Deselect all tabs
-            formtabs.find('a').removeClass('selected');
-
-            // Remove first and last tab
-            formtabs.children('.firstFormTab').removeClass('firstFormTab');
-            formtabs.children('.lastFormTab').removeClass('lastFormTab');
+            formtabs.find('a').removeClass('active');
 
             // Hide layout field
             form.find('#formfield-form-widgets-ILayoutAware-content')
@@ -167,22 +163,18 @@ define([
                 if ($(this).children("div:not(.mosaic-hidden)").length === 0) {
                     $('a[href=#fieldsetlegend-' +
                         $(this).attr('id').split('-')[1] + ']')
-                        .parent().addClass('mosaic-hidden');
+                        .addClass('mosaic-hidden');
                 }
             });
 
             // Get visible tabs
             visible_tabs = formtabs.children(':not(.mosaic-hidden)');
 
-            // Add first and last form tab
-            visible_tabs.eq(0).addClass('firstFormTab');
-            visible_tabs.eq(visible_tabs.length - 1).addClass('lastFormTab');
-
             // Select first tab
-            visible_tabs.eq(0).children('a').addClass('selected');
+            visible_tabs.eq(0).children('a').addClass('active');
             form.find('#fieldset-' +
-                visible_tabs.eq(0).children('a').attr('href').split('-')[1])
-                .show();
+                visible_tabs.eq(0).attr('href').split('-')[1])
+                .addClass('active');
 
         } else if (mode === 'field') {
 
@@ -219,8 +211,7 @@ define([
             $(".mosaic-iframe-overlay", $.mosaic.document).remove();
         } else {
             // Expand the overlay
-            $('.overlay').hide();
-            forceContractMenu();
+            $('.mosaic-overlay').hide();
         }
     };
 
