@@ -91,16 +91,15 @@ define([
             field_tile, field, fieldset;
 
         // Expand the overlay
-        expandMenu();
-        $('.overlay').show();
+        $('.mosaic-overlay').show();
 
         // Get form
-        form = $(".overlay").find("form");
+        form = $(".mosaic-overlay").find("form");
 
         // Clear actions
         if ($(".mosaic-overlay-ok-button").length === 0) {
-            $(".overlay .formControls").children("input").hide();
-            $(".overlay .formControls").append(
+            $(".mosaic-overlay .formControls").children("input").hide();
+            $(".mosaic-overlay .formControls").append(
                 $(document.createElement("input")).attr({
                     'type': 'button',
                     'value': 'Ok'

@@ -312,8 +312,7 @@ define([
         });
 
         // Init overlay
-//                $('#content.mosaic-original-content',
-//                  $.mosaic.document).mosaicOverlay();
+        $('.mosaic-original-content', $.mosaic.document).mosaicOverlay();
 
         // Add toolbar div below menu
         $("body").prepend($(document.createElement("div"))
