@@ -194,7 +194,7 @@ define([
             field.removeClass('mosaic-hidden');
 
             // Hide form tabs
-            form.find(".formTabs").addClass('mosaic-hidden');
+            form.find("nav").addClass('mosaic-hidden');
         }
     };
 
