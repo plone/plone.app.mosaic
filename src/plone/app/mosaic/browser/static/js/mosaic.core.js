@@ -346,7 +346,7 @@ define([], function() {
                     if (!obj.hasClass('mosaic-panel') &&
                         !obj.hasClass('mosaic-toolbar') &&
                         !obj.hasClass('mosaic-notifications') &&
-                        obj.attr('id') !== 'plone-cmsui-menu') {
+                        obj.attr('id') !== 'edit-zone') {
 
                         // Check if inside panel or toolbar
                         if (obj.parents('.mosaic-panel, .mosaic-toolbar')
