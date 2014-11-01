@@ -28,9 +28,10 @@ matrix:
   - env: PLONE_VERSION=4.x TEST_OPTIONS=--all
   - env: PLONE_VERSION=5.x
 env:
-  - PLONE_VERSION=4.x
-  - PLONE_VERSION=4.x TEST_OPTIONS=--all
-  - PLONE_VERSION=5.x
+  matrix:
+    - PLONE_VERSION=4.x
+    - PLONE_VERSION=4.x TEST_OPTIONS=--all
+    - PLONE_VERSION=5.x
   global:
   - ARTIFACTS_S3_BUCKET=plone-app-mosaic
   - secure: F9djE/1a4VvCidHCnWeF7qkwsUhVLZELv/ttSC1UamsbCCzIa0shUheF4MfAZBRcwtVVAlrid4VRnuYnxyDciy2jrL/qayLfze2ZKcZTfYKsNIrQzyZ4SUVZRB9ZSA6yUK3v+/GIie95as8MKM/UxRtn2RWw4doWGyKv8XBOL4U=
