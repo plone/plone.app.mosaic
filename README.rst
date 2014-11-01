@@ -1,6 +1,9 @@
 Plone Mosaic
 ============
 
+..  image:: https://www.herokucdn.com/deploy/button.png
+    :target: https://heroku.com/deploy?template=https://github.com/plone/plone.app.mosaic
+
 **Plone Mosaic** allows you to define global site layouts and override them on specific contents or sections. You can then compose the content of the page using the Mosaic editor.
 
 The Mosaic editor lets you insert blocks (a.k.a. tiles) into the content of the page so that you can easily build custom composite pages for your contents on the fly.
@@ -25,9 +28,6 @@ __  http://plone-app-mosaic.s3-website-us-east-1.amazonaws.com/latest/
 
 ..  image:: https://secure.travis-ci.org/plone/plone.app.mosaic.png
     :target: http://travis-ci.org/plone/plone.app.mosaic
-
-..  image:: https://www.herokucdn.com/deploy/button.png
-    :target: https://heroku.com/deploy?template=https://github.com/plone/plone.app.mosaic
 
 Screencasts
 -----------
@@ -76,6 +76,8 @@ Javascript development
 The plone package uses a bundle, which can be compiled with Plone 5.
 In order to update it while working on JS you need to work on Plone 5 branch of
 `buildout.coredev`_ and the Mosaic PLIP:
+
+.. _buildout.coredev: https://github.com/plone/buildout.coredev
 
 .. code:: bash
 
