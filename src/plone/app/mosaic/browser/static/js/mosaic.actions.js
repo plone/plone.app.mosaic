@@ -31,8 +31,9 @@ eqeqeq: true, plusplus: true, bitwise: true, regexp: true, newcap: true,
 immed: true, strict: true, maxlen: 80, maxerr: 9999 */
 
 define([
-    'jquery'
-], function($) {
+    'jquery',
+    'mockup-patterns-modal'
+], function($, modal) {
     'use strict';
 
     // Define mosaic namespace if it doesn't exist
@@ -432,7 +433,6 @@ define([
         $.mosaic.registerAction('page-layout', {
             exec: function () {
                 // Open overlay
-                var modal = require('mockup-patterns-modal');
                 var m = new modal($('.mosaic-original-content'), {
                     'title': 'Layout options',
                     'content': '#fieldset-layout'
@@ -464,11 +464,10 @@ define([
             exec: function () {
 
                 // Open overlay
-                var modal = require('mockup-patterns-modal');
-                $.mosaic.overlay = new modal($('.mosaic-toolbar'),
+                var m = new modal($('.mosaic-toolbar'),
                     {ajaxUrl: $.mosaic.options.context_url +
                      '/@@add-tile?form.button.Create=Create'});
-                $.mosaic.overlay.show();
+                m.show();
             }
         });
 
@@ -518,22 +517,21 @@ define([
                 if (tile_config.tile_type === 'app') {
 
                     // Open overlay
-                    var modal = require('mockup-patterns-modal');
-                    $.mosaic.overlay = new modal($('.mosaic-toolbar'),
+                    $.mosaic.overlay.app = new modal($('.mosaic-toolbar'),
                         {ajaxUrl: $.mosaic.options.context_url +
                         '/@@add-tile?tiletype=' + $(source).val() +
                         '&form.button.Create=Create', 
                         loadLinksWithinModal: true
                     });
-                    $.mosaic.overlay._tile_type = $(source).val();
-                    $.mosaic.overlay.show();
-                    $.mosaic.overlay.on(
+                    $.mosaic.overlay.app._tile_type = $(source).val();
+                    $.mosaic.overlay.app.show();
+                    $.mosaic.overlay.app.on(
                         'formActionSuccess',
                         function (event, response, state, xhr, form) {
                             var tileUrl = xhr.getResponseHeader('X-Tile-Url')
                             if (tileUrl) {
                                 $.mosaic.addAppTileHTML(
-                                    $.mosaic.overlay._tile_type, response,
+                                    $.mosaic.overlay.app._tile_type, response,
                                     tileUrl
                                 );
                             }

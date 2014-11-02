@@ -1724,8 +1724,8 @@ define([
         var value;
 
         // Close overlay
-        $.mosaic.overlay.hide();
-        $.mosaic.overlay = null;
+        $.mosaic.overlay.app.hide();
+        $.mosaic.overlay.app = null;
         value = $.mosaic.getDomTreeFromHtml(response);
         $.mosaic.addHeadTags(url, value);
         $.mosaic.addTile(type,
