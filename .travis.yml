@@ -22,7 +22,7 @@ after_script:
 - travis-artifacts upload --target-path latest --path html
 - travis-artifacts upload --target-path latest --path parts/test
 - 'echo "Sphinx: http://plone-app-mosaic.s3-website-us-east-1.amazonaws.com/artifacts/${TRAVIS_BUILD_NUMBER}/${TRAVIS_JOB_NUMBER}/"'
-- 'echo "Robot: http://plone-app-mosaic.s3-website-us-east-1.amazonaws.com/artifacts/${TRAVIS_BUILD_NUMBER}/${TRAVIS_JOB_NUMBER}/robot_report.html"'
+- 'echo "Robot: http://plone-app-mosaic.s3-website-us-east-1.amazonaws.com/artifacts/${TRAVIS_BUILD_NUMBER}/${TRAVIS_JOB_NUMBER}/report.html"'
 matrix:
   allow_failures:
   - env: PLONE_VERSION=4.x TEST_OPTIONS=--all
