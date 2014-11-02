@@ -91,6 +91,7 @@ define([
 
         // Expand the overlay
         $('.mosaic-overlay').show();
+        $('.mosaic-overlay-blocker').show();
 
         // Get form
         form = $(".mosaic-overlay").find("form");
@@ -205,12 +206,8 @@ define([
      */
     $.mosaic.overlay.close = function () {
 
-        // Check if iframe is open
-        if ($(".mosaic-iframe-overlay", $.mosaic.document).length !== 0) {
-            $(".mosaic-iframe-overlay", $.mosaic.document).remove();
-        } else {
-            // Expand the overlay
-            $('.mosaic-overlay').hide();
-        }
+        // Hide overlay
+        $('.mosaic-overlay').hide();
+        $('.mosaic-overlay-blocker').hide();
     };
 });
