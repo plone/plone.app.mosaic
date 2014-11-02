@@ -14,6 +14,7 @@ from plone.app.testing import applyProfile
 from plone.testing import z2
 from zope.configuration import xmlconfig
 from plone.app.robotframework.testing import REMOTE_LIBRARY_BUNDLE_FIXTURE
+from plone.app.mosaic.interfaces import HAVE_PLONE_5
 
 
 class PloneAppMosaic(PloneSandboxLayer):
@@ -58,10 +59,7 @@ class PloneAppMosaic(PloneSandboxLayer):
                        context=configurationContext)
 
         # Import bbb profile only on Plone 4 without main_template view
-        main_template = os.path.join(
-            'browser', 'templates', 'main_template.pt')
-        if not pkg_resources.resource_exists('Products.CMFPlone',
-                                             main_template):
+        if not HAVE_PLONE_5:
             import plone.app.mosaic.browser.bbb
             xmlconfig.file('configure.zcml',
                            plone.app.mosaic.browser.bbb,
@@ -77,14 +75,10 @@ class PloneAppMosaic(PloneSandboxLayer):
 
         # Install into Plone site using portal_setup
         applyProfile(portal, 'plone.app.contenttypes:default')
-        applyProfile(portal, 'plone.app.widgets:default')
+        if not HAVE_PLONE_5:
+            applyProfile(portal, 'plone.app.widgets:default')
         applyProfile(portal, 'plone.app.mosaic:default')
-
-        # Import bbb profile only on Plone 4 without main_template view
-        main_template = os.path.join(
-            'browser', 'templates', 'main_template.pt')
-        if not pkg_resources.resource_exists('Products.CMFPlone',
-                                             main_template):
+        if not HAVE_PLONE_5:
             applyProfile(portal, 'plone.app.mosaic:bbb')
 
         ## This was a bad idea, because we want to run CMFPlone tests

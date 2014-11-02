@@ -9,6 +9,7 @@ from zope.interface import alsoProvides
 
 from plone.app.blocks.interfaces import SITE_LAYOUT_RESOURCE_NAME
 from plone.app.blocks.utils import resolveResource
+from plone.app.mosaic.interfaces import HAVE_PLONE_5
 from plone.app.mosaic.interfaces import CONTENT_LAYOUT_RESOURCE_NAME
 from plone.app.mosaic.interfaces import CONTENT_LAYOUT_DEFAULT_DISPLAY
 from plone.app.mosaic.utils import getPersistentResourceDirectory
@@ -53,10 +54,11 @@ def step_setup_various(context):
             enable_layout_behavior(portal)
         except KeyError:
             pass
-        try:
-            import_profile(portal, 'profile-plone.app.event.bbb:default')
-        except KeyError:
-            pass
+        if not HAVE_PLONE_5:
+            try:
+                import_profile(portal, 'profile-plone.app.event.bbb:default')
+            except KeyError:
+                pass
     create_ttw_layout_examples(portal)
 
 
