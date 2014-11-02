@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import os
+import pkg_resources
 from zope.globalrequest import setRequest
 from zope.globalrequest import clearRequest
 from Products.CMFPlone.testing import \
@@ -55,10 +57,15 @@ class PloneAppMosaic(PloneSandboxLayer):
                        plone.app.mosaic,
                        context=configurationContext)
 
-        import plone.app.mosaic.browser.bbb
-        xmlconfig.file('configure.zcml',
-                       plone.app.mosaic.browser.bbb,
-                       context=configurationContext)
+        # Import bbb profile only on Plone 4 without main_template view
+        main_template = os.path.join(
+            'browser', 'templates', 'main_template.pt')
+        if not pkg_resources.resource_exists('Products.CMFPlone',
+                                             main_template):
+            import plone.app.mosaic.browser.bbb
+            xmlconfig.file('configure.zcml',
+                           plone.app.mosaic.browser.bbb,
+                           context=configurationContext)
 
     def setUpPloneSite(self, portal):
         # Configure five.globalrequest
@@ -72,7 +79,13 @@ class PloneAppMosaic(PloneSandboxLayer):
         applyProfile(portal, 'plone.app.contenttypes:default')
         applyProfile(portal, 'plone.app.widgets:default')
         applyProfile(portal, 'plone.app.mosaic:default')
-        applyProfile(portal, 'plone.app.mosaic:bbb')
+
+        # Import bbb profile only on Plone 4 without main_template view
+        main_template = os.path.join(
+            'browser', 'templates', 'main_template.pt')
+        if not pkg_resources.resource_exists('Products.CMFPlone',
+                                             main_template):
+            applyProfile(portal, 'plone.app.mosaic:bbb')
 
         ## This was a bad idea, because we want to run CMFPlone tests
         # enable_layout_view(portal)
