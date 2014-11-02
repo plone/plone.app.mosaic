@@ -31,8 +31,9 @@ eqeqeq: true, plusplus: true, bitwise: true, regexp: true, newcap: true,
 immed: true, strict: true, maxlen: 80, maxerr: 9999 */
 
 define([
-    'jquery'
-], function($) {
+    'jquery',
+    'mockup-patterns-modal'
+], function($, modal) {
     'use strict';
 
     // Define mosaic namespace if it doesn't exist
@@ -512,7 +513,31 @@ define([
                 tile_url = tile_url.replace(/@@/, '@@edit-tile/');
 
                 // Open overlay
-                $.mosaic.overlay.openIframe(tile_url);
+                $.mosaic.overlay.app = new modal($('.mosaic-toolbar'),
+                    {ajaxUrl: tile_url,
+                    loadLinksWithinModal: true
+                });
+                $.mosaic.overlay.app.show();
+                $.mosaic.overlay.app.on(
+                    'formActionSuccess',
+                    function (event, response, state, xhr, form) {
+                        var tileUrl = xhr.getResponseHeader('X-Tile-Url'),
+                            value = $.mosaic.getDomTreeFromHtml(response);
+                        if (tileUrl) {
+
+                            // Remove head tags
+                            $.mosaic.removeHeadTags(tileUrl);
+
+                            // Add head tags
+                            $.mosaic.addHeadTags(tileUrl, value);
+
+                            // Update tile
+                            $('.mosaic-selected-tile .mosaic-tile-content',
+                              $.mosaic.document).html('<p class="hiddenStructure tileUrl">' + tileUrl + '</p>' + value.find('.temp_body_tag').html());
+                        }
+                        $.mosaic.overlay.app.hide();
+                    }
+                );
 
             } else {
 
