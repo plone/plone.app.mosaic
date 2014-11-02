@@ -213,32 +213,4 @@ define([
             $('.mosaic-overlay').hide();
         }
     };
-
-    /**
-     * Open an iframe overlay
-     *
-     * @id jQuery.mosaic.overlay.openIframe
-     * @param {String} url of the iframe
-     */
-    $.mosaic.overlay.openIframe = function (url) {
-
-        $(".mosaic-overlay-blocker", $.mosaic.document).show();
-
-        $($.mosaic.document.body).append(
-            $($.mosaic.document.createElement("iframe"))
-                .css({
-                    'position': 'absolute',
-                    'width': '900px',
-                    'height': '450px',
-                    'top': '130px',
-                    'z-index': '3000',
-                    'left': (($(window.parent).width() - 900) / 2),
-                    'border': '0px'
-                })
-                .attr({
-                    'src': url
-                })
-                .addClass("mosaic-iframe-overlay")
-        );
-    };
 });
