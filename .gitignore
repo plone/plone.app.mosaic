@@ -18,6 +18,9 @@
 /extras/
 /fake-eggs/
 /html/
+/include/
+/lib/
+/local/
 /parts/
 /var/
 bower_components
