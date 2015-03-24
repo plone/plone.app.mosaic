@@ -7,6 +7,7 @@
 *.pyo
 *.tmp*
 .*.cfg
+.DS_Store
 .idea
 /bin/
 /build/
