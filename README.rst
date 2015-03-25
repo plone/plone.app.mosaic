@@ -73,27 +73,20 @@ Alternatively you can also use ``bin/instance fg``.
 Javascript development
 ----------------------
 
-The plone package uses a bundle, which can be compiled with Plone 5.
-In order to update it while working on JS you need to work on Plone 5 branch of
-`buildout.coredev`_ and the Mosaic PLIP:
-
-.. _buildout.coredev: https://github.com/plone/buildout.coredev
+Plone Mosaic requirs a javascript bundle, which must be manually build for
+Plone 4.3.x as follows:
 
 .. code:: bash
 
-   $ git clone https://github.com/plone/buildout.coredev
-   $ cd buildout.coredev
-   $ python bootstrap.py
-   $ bin/buildout -c plips/plip-mosaic.cfg
-
-Once you have created a Plone 5 site with plone.app.mosaic, you can build
-a static bundle with:
-
-.. code:: bash
-
-   $ bin/instance run generate_gruntfile.py
    $ npm install
-   $ grunt compile
+   $ make clean all mode=release
+
+The bundle can also be built with sourcemaps and watched for changes with:
+
+.. code:: bash
+
+   $ npm install
+   $ make clean all watch
 
 
 Documentation screenshots
