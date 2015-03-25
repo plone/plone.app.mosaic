@@ -1,0 +1,8 @@
+{
+  "name": "plone-mosaic",
+  "version": "0.0.0",
+  "devDependencies": {
+    "requirejs": "^2.1.16",
+    "watch": "^0.14.0"
+  }
+}
