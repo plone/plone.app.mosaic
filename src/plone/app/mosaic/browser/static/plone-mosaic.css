@@ -1,3 +1,1155 @@
-@import url("toolbar.css");
-@import url("authoring.css");
-/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9hdHNvdWtrYS9Db2RlL2J1aWxkb3V0LmNvcmVkZXYuUGxvbmU1L3NyYy9wbG9uZS5hcHAubW9zYWljL3NyYy9wbG9uZS9hcHAvbW9zYWljL2Jyb3dzZXIvc3RhdGljL2Nzcy9tb3NhaWMubGVzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiWUFBWTtZQUNBIiwic291cmNlc0NvbnRlbnQiOlsiQGltcG9ydCB1cmwoXCJ0b29sYmFyLmNzc1wiKTtcbkBpbXBvcnQgdXJsKFwiYXV0aG9yaW5nLmNzc1wiKTtcbkBwaWNrZXI6J2NsYXNzaWMuY3NzJztAbW9ja3VwLXBhdHRlcm5zLXVwbG9hZDoncGF0dGVybi51cGxvYWQubGVzcyc7QG1vY2t1cC1wb3BvdmVyOidwb3BvdmVyLmxlc3MnO0ByZXNvdXJjZS1wbG9uZS1mb3Jtd2lkZ2V0LXJlY3VycmVuY2UtanF1ZXJ5OidqcXVlcnkucmVjdXJyZW5jZWlucHV0LmNzcyc7QG1vc2FpY19lZGl0b3I6J2F1dGhvcmluZy5jc3MnO0ByZXNvdXJjZS1wbG9uZS1hcHAtanF1ZXJ5dG9vbHMtZGF0ZWlucHV0LWNzczonanF1ZXJ5LnRvb2xzLmRhdGVpbnB1dC5jc3MnO0Btb2NrdXAtcGF0dGVybnMtdG9vbHRpcDoncGF0dGVybi50b29sdGlwLmxlc3MnO0BwbG9uZS10b29sYmFyLWZvbnQtcHJpbWFyeTonUm9ib3RvIENvbmRlbnNlZCcsIHNhbnMtc2VyaWY7QG1vY2t1cC1wYXR0ZXJucy1zZWxlY3QyOidwYXR0ZXJuLnNlbGVjdDIubGVzcyc7QGJvb3RzdHJhcC1wcm9ncmVzcy1iYXJzOidwcm9ncmVzcy1iYXJzLmxlc3MnO0Btb2NrdXAtcGF0dGVybnMtdGlueW1jZToncGF0dGVybi50aW55bWNlLmxlc3MnO0BwbG9uZS10b29sYmFyLXByaXZhdGUtY29sb3I6cmdiKDE5NiwyNCw2MCk7QHBsb25lLXNjcmVlbi1zbS1taW46NzY4cHg7QHJlc291cmNlLXBsb25lLWZvcm13aWRnZXQtcmVjdXJyZW5jZS1pbnRlZ3JhdGlvbjonaW50ZWdyYXRpb24uY3NzJztAbW9ja3VwLXBhdHRlcm5zLXJlbGF0ZWRpdGVtczoncGF0dGVybi5yZWxhdGVkaXRlbXMubGVzcyc7QHBsb25lLXRvb2xiYXItc3VibWVudS1oZWFkZXItY29sb3I6bGlnaHRlbigjMDAwLCA0Ni41JSk7QGJvb3RzdHJhcC12YXJpYWJsZXM6J3ZhcmlhYmxlcy5sZXNzJztAdGlueW1jZS12aXN1YWxibG9ja3M6J3Zpc3VhbGJsb2Nrcy5jc3MnO0BwbG9uZS10b29sYmFyLXB1Ymxpc2hlZC1jb2xvcjpyZ2JhKDAsMTIzLDE3OSwxKTtAbW9ja3VwbGVzc1BhdGg6J3NyYy9tb2NrdXAvbW9ja3VwLy4uL2xlc3MvJztAbW9ja3VwLXBhdHRlcm5zLXN0cnVjdHVyZToncGF0dGVybi5zdHJ1Y3R1cmUubGVzcyc7QHBsb25lLXRvb2xiYXItdGV4dC1jb2xvcjpyZ2JhKDI1NSwyNTUsMjU1LC45KTtAYm93ZXJQYXRoOidzcmMvUHJvZHVjdHMuQ01GUGxvbmUvUHJvZHVjdHMvQ01GUGxvbmUvc3RhdGljL2NvbXBvbmVudHMvJztAbW9zYWljX3Rvb2xiYXI6J3Rvb2xiYXIuY3NzJztAcGxvbmUtcGF0dGVybnMtdG9vbGJhcjondG9vbGJhci5wbG9uZS5sZXNzJztAYm9vdHN0cmFwLW1vZGFsOidtb2RhbHMubGVzcyc7QG1vY2t1cC1wYXR0ZXJucy1tb2RhbDoncGF0dGVybi5tb2RhbC5sZXNzJztAaXNQbG9uZTpmYWxzZTtAdGlueW1jZTonY29udGVudC5pbmxpbmUubWluLmNzcyc7QHBsb25lLXRvb2xiYXItaW50ZXJuYWwtY29sb3I6cmdiKDI1MCwxODQsNDIpO0BwbG9uZToncGxvbmUubGVzcyc7QHBsb25lLXRvb2xiYXItc3VibWVudS10ZXh0LWNvbG9yOmxpZ2h0ZW4oIzAwMCwgODAlKTtAcGxvbmUtdG9vbGJhci1pbnRlcm5hbGx5LXB1Ymxpc2hlZC1jb2xvcjpyZ2IoMTM2LDYxLDI1MCk7QGJvb3RzdHJhcC1nbHlwaGljb25zOidnbHlwaGljb25zLmxlc3MnO0Bib290c3RyYXAtbWl4aW5zOidtaXhpbnMubGVzcyc7QG1vY2t1cFBhdGg6J3NyYy9tb2NrdXAvbW9ja3VwLy4uL3BhdHRlcm5zLyc7QHBsb25lLXNjcmVlbi1zbS1tYXg6KEBwbG9uZS1zY3JlZW4tbWQtbWluICsgMSk7QHBsb25lLXNjcmVlbi1tZC1taW46OTkycHg7QHNpdGVQYXRoOicvJztAcGlja2VyX2RhdGU6J2NsYXNzaWMuZGF0ZS5jc3MnO0Bib290c3RyYXAtZHJvcGRvd246J2Ryb3Bkb3ducy5sZXNzJztAcGxvbmUtc2NyZWVuLWxnLW1pbjoxMjAwcHg7QG1vY2t1cC1wYXR0ZXJucy10cmVlOidwYXR0ZXJuLnRyZWUubGVzcyc7QG1vY2t1cC1wYXR0ZXJucy1hdXRvdG9jOidwYXR0ZXJuLmF1dG90b2MubGVzcyc7QGJvb3RzdHJhcC1idXR0b25zOidjbG9zZS5sZXNzJztAcGxvbmUtc2NyZWVuLW1kLW1heDooQHBsb25lLXNjcmVlbi1sZy1taW4gKyAxKTtAanF0cmVlOidqcXRyZWUuY3NzJztAcGxvbmUtdG9vbGJhci1mb250LXNlY3VuZGFyeTonUm9ib3RvJywgc2Fucy1zZXJpZjtAcGxvbmUtdG9vbGJhci1wZW5kaW5nLWNvbG9yOnJnYigyMjYsMjMxLDMzKTtAcGxvbmUtdG9vbGJhci1zZXBhcmF0b3ItY29sb3I6cmdiYSgyNTUsMjU1LDI1NSwuMTcpO0BwbG9uZS1ncmF5LWxpZ2h0ZXI6bGlnaHRlbigjMDAwLCA4MCUpO0ByZXNvdXJjZS1wbG9uZS1mb3Jtd2lkZ2V0LXF1ZXJ5c3RyaW5nLXF1ZXJ5d2lkZ2V0OidxdWVyeXdpZGdldC5jc3MnO0BwbG9uZS1ib2R5LWJnOiNmYWZhZmE7QGJvb3RzdHJhcC1idXR0b24tZ3JvdXBzOididXR0b24tZ3JvdXBzLmxlc3MnO0Btb2NrdXAtcGF0dGVybnMtcXVlcnlzdHJpbmc6J3BhdHRlcm4ucXVlcnlzdHJpbmcubGVzcyc7QHBsb25lLXNjcmVlbi14cy1taW46NDgwcHg7QHBsb25lLXRvb2xiYXItc3VibWVudS1iZzpyZ2JhKDIwLDIwLDIwLC45KTtAbW9ja3VwLXBhdHRlcm5zLXBpY2thZGF0ZToncGF0dGVybi5waWNrYWRhdGUubGVzcyc7QHJlc291cmNlLXBsb25lLWFwcC1qcXVlcnl0b29scy1vdmVybGF5cy1jc3M6J292ZXJsYXlzLmNzcyc7QHBsb25lLXNjcmVlbi14cy1tYXg6KEBwbG9uZS1zY3JlZW4tc20tbWluICsgMSk7QGRyb3B6b25lOidkcm9wem9uZS5jc3MnO0Bpc01vY2t1cDpmYWxzZTtAcmVzb3VyY2UtY29sbGVjdGlvbi1jc3M6J2NvbGxlY3Rpb24uY3NzJztAcGxvbmUtdG9vbGJhci1kcmFmdC1jb2xvcjpyZ2IoMjUwLDE4NCw0Mik7QGJvb3RzdHJhcC1iYXNpYzonbmF2YmFyLmxlc3MnO0BwbG9uZS10b29sYmFyLWxpbms6cmdiYSgwLDEyMywxNzksMSk7QGJvb3RzdHJhcC1iYWRnZXM6J2JhZGdlcy5sZXNzJztAc2VsZWN0Mjonc2VsZWN0Mi5jc3MnO0Btb3NhaWM6J21vc2FpYy5sZXNzJztAcGlja2VyX3RpbWU6J2NsYXNzaWMudGltZS5jc3MnO0BwbG9uZS1saW5rLWNvbG9yOnJnYmEoMCwxMjMsMTc5LDEpO0BiYXJjZWxvbmV0YTonYmFyY2Vsb25ldGEucGxvbmUubGVzcyc7QHBsb25lLXRvb2xiYXItYmc6cmdiYSgwLDAsMCwuOSk7QHBsb25lLWdyYXktbGlnaHQ6bGlnaHRlbigjMDAwLCA0Ni41JSk7Il19 */
+@media print {
+  .mosaic-toolbar {
+    display: none;
+  }
+}
+.thumbnail > img,
+.thumbnail a > img,
+.carousel-inner > .item > img,
+.carousel-inner > .item > a > img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+.mosaic-toolbar-content {
+  margin-right: auto;
+  margin-left: auto;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.mosaic-toolbar button {
+  display: inline-block;
+  margin-bottom: 0;
+  font-weight: normal;
+  text-align: center;
+  vertical-align: middle;
+  touch-action: manipulation;
+  cursor: pointer;
+  background-image: none;
+  border: 1px solid transparent;
+  white-space: nowrap;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 1.42857143;
+  border-radius: 4px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.mosaic-toolbar button {
+  color: #333333;
+  background-color: #ffffff;
+  border-color: #cccccc;
+}
+.mosaic-toolbar button.mosaic-button-save {
+  color: #ffffff;
+  background-color: #5cb85c;
+  border-color: #4cae4c;
+}
+.btn-group-lg > .btn {
+  padding: 10px 16px;
+  font-size: 18px;
+  line-height: 1.3333333;
+  border-radius: 6px;
+}
+.btn-group-sm > .btn {
+  padding: 5px 10px;
+  font-size: 12px;
+  line-height: 1.5;
+  border-radius: 3px;
+}
+.btn-group-xs > .btn {
+  padding: 1px 5px;
+  font-size: 12px;
+  line-height: 1.5;
+  border-radius: 3px;
+}
+.mosaic-toolbar {
+  position: relative;
+  min-height: 50px;
+  margin-bottom: 20px;
+  border: 1px solid transparent;
+}
+@media (min-width: 768px) {
+  .mosaic-toolbar {
+    border-radius: 4px;
+  }
+}
+.mosaic-toolbar {
+  position: fixed;
+  right: 0;
+  left: 0;
+  z-index: 1030;
+}
+@media (min-width: 768px) {
+  .mosaic-toolbar {
+    border-radius: 0;
+  }
+}
+.mosaic-toolbar {
+  top: 0;
+  border-width: 0 0 1px;
+}
+.mosaic-toolbar-primary-functions,
+.mosaic-toolbar-secondary-functions {
+  margin-left: -15px;
+  margin-right: -15px;
+  padding: 10px 15px;
+  border-top: 1px solid transparent;
+  border-bottom: 1px solid transparent;
+  -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 0 rgba(255, 255, 255, 0.1);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 0 rgba(255, 255, 255, 0.1);
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+@media (min-width: 768px) {
+  .mosaic-toolbar-primary-functions,
+  .mosaic-toolbar-secondary-functions {
+    width: auto;
+    border: 0;
+    margin-left: 0;
+    margin-right: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+  }
+}
+@media (min-width: 768px) {
+  .mosaic-toolbar-primary-functions {
+    float: left !important;
+  }
+  .mosaic-toolbar-secondary-functions {
+    float: right !important;
+    margin-right: -15px;
+  }
+}
+.dl-horizontal dd:before,
+.dl-horizontal dd:after,
+.container:before,
+.container:after,
+.container-fluid:before,
+.container-fluid:after,
+.row:before,
+.row:after,
+.form-horizontal .form-group:before,
+.form-horizontal .form-group:after,
+.btn-toolbar:before,
+.btn-toolbar:after,
+.btn-group-vertical > .btn-group:before,
+.btn-group-vertical > .btn-group:after,
+.nav:before,
+.nav:after,
+.navbar:before,
+.navbar:after,
+.navbar-header:before,
+.navbar-header:after,
+.navbar-collapse:before,
+.navbar-collapse:after,
+.pager:before,
+.pager:after,
+.panel-body:before,
+.panel-body:after,
+.modal-footer:before,
+.modal-footer:after,
+.mosaic-toolbar:before,
+.mosaic-toolbar:after,
+.mosaic-toolbar-content:before,
+.mosaic-toolbar-content:after {
+  content: " ";
+  display: table;
+}
+.dl-horizontal dd:after,
+.container:after,
+.container-fluid:after,
+.row:after,
+.form-horizontal .form-group:after,
+.btn-toolbar:after,
+.btn-group-vertical > .btn-group:after,
+.nav:after,
+.navbar:after,
+.navbar-header:after,
+.navbar-collapse:after,
+.pager:after,
+.panel-body:after,
+.modal-footer:after,
+.mosaic-toolbar:after,
+.mosaic-toolbar-content:after {
+  clear: both;
+}
+.mosaic-toolbar fieldset {
+  display: inline;
+  margin: 0 1em 0 0;
+  padding: 0;
+  border: 0;
+}
+.mosaic-toolbar button {
+  margin: 0 5px 0 0;
+}
+.mosaic-toolbar .mosaic-menu {
+  margin: 0 5px 0 0;
+}
+.mosaic-toolbar .mosaic-menu.mosaic-menu-insert {
+  margin-right: 0;
+}
+.mosaic-inline-toolbar {
+  position: relative;
+}
+.mosaic-toolbar-content {
+  background: #2c6596;
+  background-image: -moz-linear-gradient(top, #2c6596, #3272aa);
+  background-image: -ms-linear-gradient(top, #2c6596, #3272aa);
+  background-image: -o-linear-gradient(top, #2c6596, #3272aa);
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#2c6596), to(#3272aa));
+  background-image: -webkit-linear-gradient(top, #2c6596, #3272aa);
+  background-image: linear-gradient(top, #2c6596, #3272aa);
+  border-top: 1px solid #387fbe;
+  border-bottom: 1px solid #1b3d5b;
+}
+.mosaic-toolbar-primary-functions {
+  padding-left: 0;
+  box-shadow: none;
+}
+.mosaic-toolbar-secondary-functions {
+  box-shadow: none;
+}
+@media screen and (max-width: 768px) {
+  .mosaic-toolbar-primary-functions,
+  .mosaic-toolbar-secondary-functions {
+    padding: 0 15px;
+  }
+}
+/* Apply Select2 bootstrap3 styles */
+/*! Select2 Bootstrap 3 CSS v1.4.6 | MIT License | github.com/t0m/select2-bootstrap-css */
+/**
+ * Reset Bootstrap 3 .form-control styles which - if applied to the
+ * original <select>-element the Select2-plugin may be run against -
+ * are copied to the .select2-container.
+ *
+ * 1. Overwrite .select2-container's original display:inline-block
+ *    with Bootstrap 3's default for .form-control, display:block;
+ *    courtesy of @juristr (@see https://github.com/fk/select2-bootstrap-css/pull/1)
+ */
+.select2-container.form-control {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  display: block;
+  /* 1 */
+  margin: 0;
+  padding: 0;
+}
+/**
+ * Adjust Select2 inputs to fit Bootstrap 3 default .form-control appearance.
+ */
+.select2-container .select2-choices .select2-search-field input,
+.select2-container .select2-choice,
+.select2-container .select2-choices {
+  background: none;
+  padding: 0;
+  border-color: #cccccc;
+  border-radius: 4px;
+  color: #555555;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  background-color: #ffffff;
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}
+.select2-search input {
+  border-color: #cccccc;
+  border-radius: 4px;
+  color: #555555;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  background-color: #ffffff;
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}
+.select2-container .select2-choices .select2-search-field input {
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+/**
+ * Adjust Select2 input heights to match the Bootstrap default.
+ */
+.select2-container .select2-choice {
+  height: 34px;
+  line-height: 1.42857143;
+}
+/**
+ * Address Multi Select2's height which - depending on how many elements have been selected -
+ * may grown higher than their initial size.
+ */
+.select2-container.select2-container-multi.form-control {
+  height: auto;
+}
+/**
+ * Address Bootstrap 3 control sizing classes
+ * @see http://getbootstrap.com/css/#forms-control-sizes
+ */
+.select2-container.input-sm .select2-choice,
+.input-group-sm .select2-container .select2-choice {
+  height: 30px;
+  line-height: 1.5;
+  border-radius: 3px;
+}
+.select2-container.input-lg .select2-choice,
+.input-group-lg .select2-container .select2-choice {
+  height: 46px;
+  line-height: 1.3333333;
+  border-radius: 6px;
+}
+.select2-container-multi .select2-choices .select2-search-field input {
+  height: 32px;
+}
+.select2-container-multi.input-sm .select2-choices .select2-search-field input,
+.input-group-sm .select2-container-multi .select2-choices .select2-search-field input {
+  height: 28px;
+}
+.select2-container-multi.input-lg .select2-choices .select2-search-field input,
+.input-group-lg .select2-container-multi .select2-choices .select2-search-field input {
+  height: 44px;
+}
+/**
+ * Adjust height and line-height for .select2-search-field amd multi-select Select2 widgets.
+ *
+ * 1. Class repetition to address missing .select2-chosen in Select2 < 3.3.2.
+ */
+.select2-container-multi .select2-choices .select2-search-field input {
+  margin: 0;
+}
+.select2-chosen,
+.select2-choice > span:first-child,
+.select2-container .select2-choices .select2-search-field input {
+  padding: 6px 12px;
+}
+.input-sm .select2-chosen,
+.input-group-sm .select2-chosen,
+.input-sm .select2-choice > span:first-child,
+.input-group-sm .select2-choice > span:first-child,
+.input-sm .select2-choices .select2-search-field input,
+.input-group-sm .select2-choices .select2-search-field input {
+  padding: 5px 10px;
+}
+.input-lg .select2-chosen,
+.input-group-lg .select2-chosen,
+.input-lg .select2-choice > span:first-child,
+.input-group-lg .select2-choice > span:first-child,
+.input-lg .select2-choices .select2-search-field input,
+.input-group-lg .select2-choices .select2-search-field input {
+  padding: 10px 16px;
+}
+.select2-container-multi .select2-choices .select2-search-choice {
+  margin-top: 5px;
+  margin-bottom: 3px;
+}
+.select2-container-multi.input-sm .select2-choices .select2-search-choice,
+.input-group-sm .select2-container-multi .select2-choices .select2-search-choice {
+  margin-top: 3px;
+  margin-bottom: 2px;
+}
+.select2-container-multi.input-lg .select2-choices .select2-search-choice,
+.input-group-lg .select2-container-multi .select2-choices .select2-search-choice {
+  line-height: 24px;
+}
+/**
+ * Adjust the single Select2's dropdown arrow button appearance.
+ *
+ * 1. For Select2 v.3.3.2.
+ */
+.select2-container .select2-choice .select2-arrow,
+.select2-container .select2-choice div {
+  border-left: none;
+  background: none;
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+}
+.select2-dropdown-open .select2-choice .select2-arrow,
+.select2-dropdown-open .select2-choice div {
+  border-left-color: transparent;
+  background: none;
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+}
+/**
+ * Adjust the dropdown arrow button icon position for the single-select Select2 elements
+ * to make it line up vertically now that we increased the height of .select2-container.
+ *
+ * 1. Class repetition to address missing .select2-chosen in Select2 v.3.3.2.
+ */
+.select2-container .select2-choice .select2-arrow b,
+.select2-container .select2-choice div b {
+  background-position: 0 3px;
+}
+.select2-dropdown-open .select2-choice .select2-arrow b,
+.select2-dropdown-open .select2-choice div b {
+  background-position: -18px 3px;
+}
+.select2-container.input-sm .select2-choice .select2-arrow b,
+.input-group-sm .select2-container .select2-choice .select2-arrow b,
+.select2-container.input-sm .select2-choice div b,
+.input-group-sm .select2-container .select2-choice div b {
+  background-position: 0 1px;
+}
+.select2-dropdown-open.input-sm .select2-choice .select2-arrow b,
+.input-group-sm .select2-dropdown-open .select2-choice .select2-arrow b,
+.select2-dropdown-open.input-sm .select2-choice div b,
+.input-group-sm .select2-dropdown-open .select2-choice div b {
+  background-position: -18px 1px;
+}
+.select2-container.input-lg .select2-choice .select2-arrow b,
+.input-group-lg .select2-container .select2-choice .select2-arrow b,
+.select2-container.input-lg .select2-choice div b,
+.input-group-lg .select2-container .select2-choice div b {
+  background-position: 0 9px;
+}
+.select2-dropdown-open.input-lg .select2-choice .select2-arrow b,
+.input-group-lg .select2-dropdown-open .select2-choice .select2-arrow b,
+.select2-dropdown-open.input-lg .select2-choice div b,
+.input-group-lg .select2-dropdown-open .select2-choice div b {
+  background-position: -18px 9px;
+}
+/**
+ * Address Bootstrap's validation states and change Select2's border colors and focus states.
+ * Apply .has-warning, .has-danger or .has-succes to #select2-drop to match Bootstraps' colors.
+ */
+.has-warning .select2-choice,
+.has-warning .select2-choices {
+  border-color: #8a6d3b;
+}
+.has-warning .select2-container-active .select2-choice,
+.has-warning .select2-container-multi.select2-container-active .select2-choices {
+  border-color: #66512c;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #c0a16b;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #c0a16b;
+}
+.has-warning.select2-drop-active {
+  border-color: #66512c;
+}
+.has-warning.select2-drop-active.select2-drop.select2-drop-above {
+  border-top-color: #66512c;
+}
+.has-error .select2-choice,
+.has-error .select2-choices {
+  border-color: #a94442;
+}
+.has-error .select2-container-active .select2-choice,
+.has-error .select2-container-multi.select2-container-active .select2-choices {
+  border-color: #843534;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #ce8483;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #ce8483;
+}
+.has-error.select2-drop-active {
+  border-color: #843534;
+}
+.has-error.select2-drop-active.select2-drop.select2-drop-above {
+  border-top-color: #843534;
+}
+.has-success .select2-choice,
+.has-success .select2-choices {
+  border-color: #3c763d;
+}
+.has-success .select2-container-active .select2-choice,
+.has-success .select2-container-multi.select2-container-active .select2-choices {
+  border-color: #2b542c;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #67b168;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #67b168;
+}
+.has-success.select2-drop-active {
+  border-color: #2b542c;
+}
+.has-success.select2-drop-active.select2-drop.select2-drop-above {
+  border-top-color: #2b542c;
+}
+/**
+ * Make Select2's active-styles - applied to .select2-container when the widget receives focus -
+ * fit Bootstrap 3's .form-element:focus appearance.
+ */
+.select2-container-active .select2-choice,
+.select2-container-multi.select2-container-active .select2-choices {
+  border-color: #66afe9;
+  outline: none;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
+  -webkit-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+  -o-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+  transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+}
+.select2-drop-active {
+  border-color: #66afe9;
+}
+.select2-drop-auto-width,
+.select2-drop.select2-drop-above.select2-drop-active {
+  border-top-color: #66afe9;
+}
+/**
+ * Select2 widgets in Bootstrap Input Groups
+ *
+ * When Select2 widgets are combined with other elements using Bootstrap 3's
+ * "Input Group" component, we don't want specific edges of the Select2 container
+ * to have a border-radius.
+ *
+ * In Bootstrap 2, input groups required a markup where these style adjustments
+ * could be bound to a CSS-class identifying if the additional elements are appended,
+ * prepended or both.
+ *
+ * Bootstrap 3 doesn't rely on these classes anymore, so we have to use our own.
+ * Use .select2-bootstrap-prepend and .select2-bootstrap-append on a Bootstrap 3 .input-group
+ * to let the contained Select2 widget know which edges should not be rounded as they are
+ * directly followed by another element.
+ *
+ * @see http://getbootstrap.com/components/#input-groups
+ */
+.input-group.select2-bootstrap-prepend [class^="select2-choice"] {
+  border-bottom-left-radius: 0 !important;
+  border-top-left-radius: 0 !important;
+}
+.input-group.select2-bootstrap-append [class^="select2-choice"] {
+  border-bottom-right-radius: 0 !important;
+  border-top-right-radius: 0 !important;
+}
+.select2-dropdown-open [class^="select2-choice"] {
+  border-bottom-right-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+}
+.select2-dropdown-open.select2-drop-above [class^="select2-choice"] {
+  border-top-right-radius: 0 !important;
+  border-top-left-radius: 0 !important;
+  border-bottom-right-radius: 4px !important;
+  border-bottom-left-radius: 4px !important;
+  background: #ffffff;
+  filter: none;
+}
+.input-group.select2-bootstrap-prepend .select2-dropdown-open.select2-drop-above [class^="select2-choice"] {
+  border-bottom-left-radius: 0 !important;
+  border-top-left-radius: 0 !important;
+}
+.input-group.select2-bootstrap-append .select2-dropdown-open.select2-drop-above [class^="select2-choice"] {
+  border-bottom-right-radius: 0 !important;
+  border-top-right-radius: 0 !important;
+}
+.input-group.input-group-sm.select2-bootstrap-prepend .select2-dropdown-open.select2-drop-above [class^="select2-choice"] {
+  border-bottom-right-radius: 3px !important;
+}
+.input-group.input-group-lg.select2-bootstrap-prepend .select2-dropdown-open.select2-drop-above [class^="select2-choice"] {
+  border-bottom-right-radius: 6px !important;
+}
+.input-group.input-group-sm.select2-bootstrap-append .select2-dropdown-open.select2-drop-above [class^="select2-choice"] {
+  border-bottom-left-radius: 3px !important;
+}
+.input-group.input-group-lg.select2-bootstrap-append .select2-dropdown-open.select2-drop-above [class^="select2-choice"] {
+  border-bottom-left-radius: 6px !important;
+}
+/**
+ * Adjust Select2's choices hover and selected styles to match Bootstrap 3's default dropdown styles.
+ */
+.select2-results .select2-highlighted {
+  color: #ffffff;
+  background-color: #337ab7;
+}
+/**
+ * Adjust alignment of Bootstrap 3 buttons in Bootstrap 3 Input Groups to address
+ * Multi Select2's height which - depending on how many elements have been selected -
+ * may grown higher than their initial size.
+ */
+.select2-bootstrap-append .select2-container-multiple,
+.select2-bootstrap-prepend .select2-container-multiple,
+.select2-bootstrap-append .input-group-btn,
+.select2-bootstrap-prepend .input-group-btn,
+.select2-bootstrap-append .input-group-btn .btn,
+.select2-bootstrap-prepend .input-group-btn .btn {
+  vertical-align: top;
+}
+/**
+ * Make Multi Select2's choices match Bootstrap 3's default button styles.
+ */
+.select2-container-multi .select2-choices .select2-search-choice {
+  color: #555555;
+  background: #ffffff;
+  border-color: #cccccc;
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+.select2-container-multi .select2-choices .select2-search-choice-focus {
+  background: #ebebeb;
+  border-color: #adadad;
+  color: #333333;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+/**
+ * Address Multi Select2's choice close-button vertical alignment.
+ */
+.select2-search-choice-close {
+  margin-top: -7px;
+  top: 50%;
+}
+/**
+ * Adjust the single Select2's clear button position (used to reset the select box
+ * back to the placeholder value and visible once a selection is made
+ * activated by Select2's "allowClear" option).
+ */
+.select2-container .select2-choice abbr {
+  top: 50%;
+}
+/**
+ * Adjust "no results" and "selection limit" messages to make use
+ * of Bootstrap 3's default "Alert" style.
+ *
+ * @see http://getbootstrap.com/components/#alerts-default
+ */
+.select2-results .select2-no-results,
+.select2-results .select2-searching,
+.select2-results .select2-selection-limit {
+  background-color: #fcf8e3;
+  color: #8a6d3b;
+}
+/**
+ * Address disabled Select2 styles.
+ *
+ * 1. For Select2 v.3.3.2.
+ * 2. Revert border-left:0 inherited from Select2's CSS to prevent the arrow
+ *    from jumping when switching from disabled to enabled state and vice versa.
+ */
+.select2-container.select2-container-disabled .select2-choice,
+.select2-container.select2-container-disabled .select2-choices {
+  cursor: not-allowed;
+  background-color: #eeeeee;
+  border-color: #cccccc;
+}
+.select2-container.select2-container-disabled .select2-choice .select2-arrow,
+.select2-container.select2-container-disabled .select2-choices .select2-arrow,
+.select2-container.select2-container-disabled .select2-choice div,
+.select2-container.select2-container-disabled .select2-choices div {
+  background-color: transparent;
+  border-left: 1px solid transparent;
+  /* 2 */
+}
+/**
+ * Address Select2's loading indicator position - which should not stick
+ * to the right edge of Select2's search input.
+ *
+ * 1. in .select2-search input
+ * 2. in Multi Select2's .select2-search-field input
+ * 3. in the status-message of infinite-scroll with remote data (@see http://ivaynberg.github.io/select2/#infinite)
+ *
+ * These styles alter Select2's default background-position of 100%
+ * and supply the new background-position syntax to browsers which support it:
+ *
+ * 1. Android, Safari < 6/Mobile, IE<9: change to a relative background-position of 99%
+ * 2. Chrome 25+, Firefox 13+, IE 9+, Opera 10.5+: use the new CSS3-background-position syntax
+ *
+ * @see http://www.w3.org/TR/css3-background/#background-position
+ *
+ * @todo Since both Select2 and Bootstrap 3 only support IE8 and above,
+ * we could use the :after-pseudo-element to display the loading indicator.
+ * Alternatively, we could supply an altered loading indicator image which already
+ * contains an offset to the right.
+ */
+.select2-search input.select2-active,
+.select2-container-multi .select2-choices .select2-search-field input.select2-active,
+.select2-more-results.select2-active {
+  background-position: 99%;
+  /* 4 */
+  background-position: right 4px center;
+  /* 5 */
+}
+/**
+ * To support Select2 pre v3.4.2 in combination with Bootstrap v3.2.0,
+ * ensure that .select2-offscreen width, height and position can not be overwritten.
+ *
+ * This adresses changes in Bootstrap somewhere after the initial v3.0.0 which –
+ * in combination with Select2's pre-v3.4.2 CSS missing the "!important" after
+ * the following rules – allow Bootstrap to overwrite the latter, which results in
+ * the original <select> element Select2 is replacing not be properly being hidden
+ * when used in a "Bootstrap Input Group with Addon".
+ **/
+.select2-offscreen,
+.select2-offscreen:focus {
+  width: 1px !important;
+  height: 1px !important;
+  position: absolute !important;
+}
+.mosaic-enabled .select2-results {
+  max-height: none;
+}
+.mosaic-enabled .select2-results li.select2-disabled,
+.mosaic-enabled .select2-results li.mosaic-option.mosaic-option-none {
+  display: none;
+}
+/* Placeholders */
+.mosaic-panel .documentFirstHeading,
+.mosaic-panel .documentDescription {
+  min-height: 1.1875em;
+}
+/* Disable text selection */
+.mosaic-blur,
+.mosaic-panel-dragging {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+/* Opacity icons */
+.mosaic-blur {
+  opacity: 0.4;
+}
+/* Hover icons */
+.mosaic-tile-control {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  z-index: 500;
+  display: none;
+}
+.mosaic-drag-handle {
+  background: transparent none no-repeat center center;
+  top: 0px;
+  bottom: 0px;
+  height: auto;
+  width: auto;
+  left: 0px;
+  right: 0px;
+  cursor: move;
+}
+.mosaic-selected-tile .mosaic-drag-handle {
+  z-index: 1;
+}
+.mosaic-close-icon {
+  left: -18px;
+  top: -18px;
+  width: 30px;
+  height: 30px;
+  background: url(++resource++plone.app.mosaic.images/window.png) -12px 0px;
+  cursor: pointer;
+  z-index: 501;
+}
+.mosaic-info-icon {
+  right: 0px;
+  top: auto;
+  bottom: 0px;
+  background: url(++resource++plone.app.mosaic.images/window.png) -12px -56px;
+  cursor: pointer;
+}
+.mosaic-tile:hover .mosaic-field-label {
+  display: block !important;
+}
+.mosaic-field-label {
+  top: -2px;
+  left: -252px;
+  width: 250px;
+  color: white;
+  height: 24px;
+  text-align: right;
+}
+.mosaic-field-label-left {
+  float: right;
+  width: 6px;
+  height: 24px;
+  background: url(++resource++plone.app.mosaic.images/label.png) 0px -84px;
+}
+.mosaic-field-label-content {
+  height: 24px;
+  font-size: 80%;
+  font-weight: bold;
+  line-height: 24px;
+  background: url(++resource++plone.app.mosaic.images/label.png) 0px -108px;
+  float: right;
+  position: relative;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+.mosaic-info-icon:hover {
+  background-position: -28px -56px;
+}
+.mosaic-tile:hover .mosaic-tile-control {
+  display: none;
+}
+.mosaic-selected-tile .mosaic-tile-control {
+  display: block !important;
+}
+/* Show move icon while hovering over a tile */
+.mosaic-tile:hover .mosaic-drag-handle {
+  display: block;
+}
+/* Hide icons while dragging or resizing*/
+.mosaic-panel-dragging .mosaic-tile:hover .mosaic-tile-control {
+  display: none;
+}
+.mosaic-panel-resizing .mosaic-tile:hover .mosaic-tile-control {
+  display: none;
+}
+/* Show move icon on helper */
+.mosaic-helper-tile .mosaic-drag-handle {
+  display: block !important;
+}
+.mosaic-divider {
+  position: absolute;
+  z-index: 600;
+  display: none;
+}
+.mosaic-divider-top {
+  width: auto;
+  height: 12px;
+  top: -6px;
+  left: -5px;
+  right: 0px;
+  background: url(++resource++plone.app.mosaic.images/divider_horizontal.png) 0px -12px;
+}
+.mosaic-divider-bottom {
+  width: auto;
+  height: 12px;
+  left: -5px;
+  right: 0px;
+  top: auto;
+  bottom: -6px;
+  background: url(++resource++plone.app.mosaic.images/divider_horizontal.png) 0px -12px;
+}
+.mosaic-divider-right {
+  width: 12px;
+  height: auto;
+  left: auto;
+  right: -6px;
+  top: -5px;
+  bottom: 0px;
+  background: url(++resource++plone.app.mosaic.images/divider_vertical.png) -12px 0px;
+}
+.mosaic-divider-left {
+  width: 12px;
+  height: auto;
+  left: -6px;
+  top: -5px;
+  bottom: 0px;
+  background: url(++resource++plone.app.mosaic.images/divider_vertical.png) -12px 0px;
+}
+.mosaic-divider-left .mosaic-divider-dot,
+.mosaic-divider-right .mosaic-divider-dot {
+  background-image: url(++resource++plone.app.mosaic.images/divider_vertical.png);
+  width: 12px;
+  height: 12px;
+}
+.mosaic-divider-top .mosaic-divider-dot,
+.mosaic-divider-bottom .mosaic-divider-dot {
+  background-image: url(++resource++plone.app.mosaic.images/divider_horizontal.png);
+  width: 12px;
+  height: 12px;
+}
+.mosaic-selected-divider {
+  display: block !important;
+}
+.mosaic-panel-dragging .mosaic-resize-handle {
+  display: none;
+}
+.mosaic-panel-resizing .mosaic-resize-handle-one:hover {
+  display: none;
+}
+.mosaic-panel-resizing .mosaic-resize-handle-two:hover {
+  display: none;
+}
+.mosaic-panel-resizing {
+  cursor: ew-resize;
+}
+.mosaic-row-resizing .mosaic-tile {
+  opacity: 0.5 !important;
+}
+.mosaic-resize-handle {
+  position: absolute;
+  height: auto;
+  top: 0px;
+  bottom: 0px;
+  width: 12px;
+  left: -6px;
+  z-index: 500;
+  cursor: ew-resize;
+}
+.mosaic-resize-handle:hover {
+  background-image: url(++resource++plone.app.mosaic.images/window.png);
+}
+.mosaic-resize-handle-left:hover {
+  background-position: -40px 0px;
+}
+.mosaic-resize-handle-center:hover {
+  background-position: -45px 0px;
+}
+.mosaic-resize-handle-right:hover {
+  background-position: -50px 0px;
+}
+.mosaic-resize-handle.mosaic-resize-handle-helper {
+  background: url(++resource++plone.app.mosaic.images/window.png) 0px 0px;
+}
+.mosaic-resize-placeholder {
+  position: absolute;
+  height: 100%;
+}
+.mosaic-resize-placeholder-inner-border {
+  position: absolute;
+  border: dotted 1px #888;
+  width: auto;
+  height: auto;
+  z-index: 40;
+  right: 0px;
+  left: 0px;
+  top: 0px;
+  bottom: 0px;
+}
+.mosaic-resize-leftmost {
+  margin-left: 0%;
+}
+.mosaic-resize-third {
+  margin-left: 33.33%;
+}
+.mosaic-resize-two-thirds {
+  margin-left: 66.67%;
+}
+.mosaic-resize-quarter {
+  margin-left: 25%;
+}
+.mosaic-resize-half {
+  margin-left: 50%;
+}
+.mosaic-resize-three-quarters {
+  margin-left: 75%;
+}
+.mosaic-hidden {
+  display: none !important;
+}
+.mosaic-overlay-blocker {
+  z-index: 2999;
+  width: 100%;
+  height: 100%;
+  opacity: 0.4;
+  background-color: black;
+  display: none;
+  top: 0px;
+  left: 0px;
+  position: fixed;
+}
+.mosaic-overlay {
+  display: block;
+  top: 99px;
+  position: fixed;
+  z-index: 3000;
+  padding: 1em;
+  background-color: white;
+}
+.mosaic-panel {
+  position: relative;
+}
+/* Outer border */
+.mosaic-panel .mosaic-tile-outer-border {
+  position: absolute;
+  border: solid 2px transparent;
+  width: auto;
+  height: auto;
+  z-index: 40;
+  right: -2px;
+  left: -2px;
+  top: -2px;
+  bottom: -2px;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+}
+/* Inner border */
+.mosaic-panel .mosaic-tile-inner-border {
+  position: absolute;
+  border: solid 1px transparent;
+  width: auto;
+  height: auto;
+  z-index: 40;
+  right: 0px;
+  left: 0px;
+  top: 0px;
+  bottom: 0px;
+}
+/* Border on mouse over */
+.mosaic-panel .mosaic-tile:hover .mosaic-tile-outer-border {
+  border: dashed 2px #3469d0;
+}
+/* Hide hover border when dragging or resizing*/
+.mosaic-panel .mosaic-panel-dragging .mosaic-tile:hover .mosaic-tile-outer-border {
+  border: solid 2px transparent;
+}
+.mosaic-panel .mosaic-panel-resizing .mosaic-tile:hover .mosaic-tile-outer-border {
+  border: solid 2px transparent;
+}
+.mosaic-panel .mosaic-panel-resizing .mosaic-selected-tile.mosaic-tile .mosaic-tile-outer-border {
+  border: solid 2px transparent;
+  background-color: transparent;
+}
+.mosaic-panel .mosaic-panel-resizing .mosaic-selected-tile.mosaic-tile:hover .mosaic-tile-outer-border {
+  border: solid 2px transparent;
+  background-color: transparent;
+}
+.mosaic-panel .mosaic-panel-resizing .mosaic-selected-tile.mosaic-tile .mosaic-tile-control {
+  display: none !important;
+}
+/* Selected tile */
+.mosaic-panel .mosaic-selected-tile .mosaic-tile-outer-border {
+  border: 2px solid #3469d0;
+  background-color: #FFFFE1;
+}
+.mosaic-panel .mosaic-selected-tile.mosaic-read-only-tile .mosaic-tile-outer-border {
+  border: 2px solid #3469d0;
+  background-color: #F0F0EE;
+}
+.mosaic-panel .mosaic-selected-tile.mosaic-read-only-tile:hover .mosaic-tile-outer-border {
+  border: 2px solid #3469d0;
+  background-color: #F0F0EE;
+}
+/* Selected tile hover */
+.mosaic-panel .mosaic-selected-tile:hover .mosaic-tile-outer-border {
+  border: 2px solid #3469d0;
+  background-color: #FFFFE1;
+}
+/* Other tiles while dragging */
+.mosaic-panel .mosaic-panel-dragging .mosaic-tile .mosaic-tile-inner-border {
+  border: 1px dotted #888;
+}
+/* Hide inner border of helper while dragging */
+.mosaic-panel .mosaic-panel-dragging .mosaic-helper-tile .mosaic-tile-inner-border {
+  border: 1px transparent;
+}
+.mosaic-panel .mosaic-panel-dragging-new {
+  cursor: crosshair !important;
+}
+.mosaic-panel .mosaic-panel-dragging-new:hover {
+  cursor: crosshair !important;
+}
+/* Rich text */
+.mosaic-panel .mosaic-rich-text-textarea {
+  width: 100%;
+  border: 0;
+}
+/* Images will never be bigger then a tile */
+.mosaic-panel img {
+  max-width: 100%;
+}
+/* Uploadprogress */
+.mosaic-tile-uploadprogress {
+  background: rgba(0, 0, 0, 0.6) url(++resource++plone.app.mosaic.images/loading.gif) no-repeat center;
+  position: absolute;
+  z-index: 501;
+  width: auto;
+  height: auto;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+}
+/* Helper border */
+.mosaic-panel .mosaic-tile.mosaic-helper-tile {
+  border: 2px solid #3469d0;
+  z-index: 1000;
+  opacity: 0.5;
+  position: absolute;
+}
+.mosaic-panel .mosaic-empty-row .mosaic-tile-outer-border {
+  background: url(++resource++plone.app.mosaic.images/divider_horizontal.png) 0px -12px;
+  border: 0px;
+  height: 12px;
+  width: auto;
+  left: -5px;
+  right: 0px;
+}
+.mosaic-panel .mosaic-empty-row .mosaic-tile-outer-border .mosaic-divider-dot {
+  background-image: url(++resource++plone.app.mosaic.images/divider_horizontal.png);
+  width: 12px;
+  height: 12px;
+}
+.mosaic-panel .mosaic-tile {
+  position: relative;
+  z-index: 100;
+}
+.mosaic-panel .mosaic-tile .mosaic-tile-content {
+  position: relative;
+  z-index: 100;
+}
+.mosaic-panel .mosaic-tile-content textarea,
+.mosaic-tile-content input[type=text] {
+  width: 100%;
+}
+.mosaic-panel .mosaic-tile-align-left {
+  float: left;
+  z-index: 200;
+}
+.mosaic-panel .mosaic-tile-align-right {
+  float: right;
+  z-index: 200;
+}
+.mosaic-panel .mosaic-panel-dragging .mosaic-tile-align-left {
+  z-index: 50;
+}
+.mosaic-panel .mosaic-panel-dragging .mosaic-tile-align-right {
+  z-index: 50;
+}
+.mosaic-panel .mosaic-original-tile {
+  opacity: 0.5;
+}
+/* Empty row */
+.mosaic-panel .mosaic-empty-row {
+  height: 12px;
+}
+.mosaic-panel .mosaic-empty-row .mosaic-grid-cell {
+  height: 12px;
+  display: none;
+}
+.mosaic-panel .mosaic-empty-row .mosaic-grid-cell > div {
+  position: relative;
+  height: 12px;
+}
+/* @end */
+/* Grid classes, these can also be nested */
+.mosaic-grid-row {
+  float: left;
+  width: 100%;
+  display: block;
+  position: relative;
+}
+.mosaic-grid-cell {
+  position: relative;
+  float: left;
+  left: 100%;
+}
+/* Widths, these are abstracted out so that pixel-based layouts or other
+   similar approaches can be retrofitted without changing the markup,
+   or if you want to apply rules like the Golden Ratio to your layouts */
+.mosaic-width-full {
+  width: 100%;
+}
+.mosaic-width-half {
+  width: 50%;
+}
+.mosaic-width-quarter {
+  width: 25%;
+}
+.mosaic-width-three-quarters {
+  width: 75%;
+}
+.mosaic-width-third {
+  width: 33.33%;
+}
+.mosaic-width-two-thirds {
+  width: 66.67%;
+}
+/* Positioning classes, these are subtracting from a rightmost position */
+.mosaic-position-leftmost {
+  margin-left: -100%;
+}
+.mosaic-position-third {
+  margin-left: -66.67%;
+}
+.mosaic-position-two-thirds {
+  margin-left: -33.33%;
+}
+.mosaic-position-quarter {
+  margin-left: -75%;
+}
+.mosaic-position-half {
+  margin-left: -50%;
+}
+.mosaic-position-three-quarters {
+  margin-left: -25%;
+}
