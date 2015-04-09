@@ -38,6 +38,7 @@ require([
 
     var Layout = Base.extend({
         name: 'layout',
+        trigger: '.pat-layout',
         defaults: {
             attribute: 'class'
         },

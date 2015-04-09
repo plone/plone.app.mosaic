@@ -1146,11 +1146,6 @@
     <value key="js">++plone++mosaic/js/mosaic.undo.js</value>
   </records>
 
-  <records prefix="plone.resources/mosaic.overlaytriggers"
-           interface='Products.CMFPlone.interfaces.IResourceRegistry'>
-    <value key="js">++plone++mosaic/js/mosaic.overlaytriggers.js</value>
-  </records>
-
   <records prefix="plone.resources/mosaic.toolbar"
            interface='Products.CMFPlone.interfaces.IResourceRegistry'>
     <value key="js">++plone++mosaic/js/mosaic.toolbar.js</value>
