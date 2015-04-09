@@ -1,0 +1,78 @@
+@import (reference) "../../../../../../../bower_components/bootstrap/less/bootstrap.less";
+
+.mosaic-toolbar {
+    &:extend(.navbar);
+    &:extend(.navbar-fixed-top);
+
+    fieldset {
+        display: inline;
+
+        margin: 0 1em 0 0;
+        padding: 0;
+        border: 0;
+    }
+
+    button {
+        &:extend(.btn);
+        &:extend(.btn-default);
+        margin: 0 5px 0 0;
+
+        &.mosaic-button-save {
+            &:extend(.btn-success);
+        }
+    }
+
+    .mosaic-menu {
+        margin: 0 5px 0 0;
+        &.mosaic-menu-insert {
+            margin-right: 0;
+        }
+    }
+}
+
+.mosaic-inline-toolbar {
+    position: relative;
+}
+
+.mosaic-toolbar-content {
+    &:extend(.container-fluid);
+    background: #2c6596;
+    background-image: -moz-linear-gradient(top, #2c6596, #3272aa);
+    background-image: -ms-linear-gradient(top, #2c6596, #3272aa);
+    background-image: -o-linear-gradient(top, #2c6596, #3272aa);
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#2c6596), to(#3272aa));
+    background-image: -webkit-linear-gradient(top, #2c6596, #3272aa);
+    background-image: linear-gradient(top, #2c6596, #3272aa);
+    border-top: 1px solid #387fbe;
+    border-bottom: 1px solid #1b3d5b;
+}
+
+.mosaic-toolbar-primary-functions {
+    &:extend(.navbar-form);
+    &:extend(.navbar-left);
+    padding-left: 0;
+    box-shadow: none;
+}
+
+.mosaic-toolbar-secondary-functions {
+    &:extend(.navbar-form);
+    &:extend(.navbar-right);
+    box-shadow: none;
+}
+
+@media screen and (max-width: 768px) {
+    .mosaic-toolbar-primary-functions,
+    .mosaic-toolbar-secondary-functions {
+        padding: 0 15px;
+    }
+}
+
+/* Apply Select2 bootstrap3 styles */
+@import "../../../../../../../bower_components/select2-bootstrap-css/lib/select2-bootstrap.less";
+.mosaic-enabled .select2-results {
+    max-height: none;
+    li.select2-disabled,
+    li.mosaic-option.mosaic-option-none {
+        display: none;
+    }
+}

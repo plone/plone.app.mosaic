@@ -1,0 +1,200 @@
+.mosaic-panel {
+    position: relative;
+}
+
+/* Outer border */
+.mosaic-panel .mosaic-tile-outer-border {
+    position: absolute;
+    border: solid 2px transparent;
+    width: auto;
+    height: auto;
+    z-index: 40;
+    right: -2px;
+    left: -2px;
+    top: -2px;
+    bottom: -2px;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+}
+
+/* Inner border */
+.mosaic-panel .mosaic-tile-inner-border {
+    position: absolute;
+    border: solid 1px transparent;
+    width: auto;
+    height: auto;
+    z-index: 40;
+    right: 0px;
+    left: 0px;
+    top: 0px;
+    bottom: 0px;
+}
+
+/* Border on mouse over */
+.mosaic-panel .mosaic-tile:hover .mosaic-tile-outer-border {
+    border: dashed 2px #3469d0;
+}
+
+/* Hide hover border when dragging or resizing*/
+.mosaic-panel .mosaic-panel-dragging .mosaic-tile:hover .mosaic-tile-outer-border {
+    border: solid 2px transparent;
+}
+
+.mosaic-panel .mosaic-panel-resizing .mosaic-tile:hover .mosaic-tile-outer-border {
+    border: solid 2px transparent;
+}
+
+.mosaic-panel .mosaic-panel-resizing .mosaic-selected-tile.mosaic-tile .mosaic-tile-outer-border {
+    border: solid 2px transparent;
+    background-color: transparent;
+}
+
+.mosaic-panel .mosaic-panel-resizing .mosaic-selected-tile.mosaic-tile:hover .mosaic-tile-outer-border {
+    border: solid 2px transparent;
+    background-color: transparent;
+}
+
+.mosaic-panel .mosaic-panel-resizing .mosaic-selected-tile.mosaic-tile .mosaic-tile-control {
+    display: none !important;
+}
+
+/* Selected tile */
+.mosaic-panel .mosaic-selected-tile .mosaic-tile-outer-border {
+    border: 2px solid #3469d0;
+    background-color: #FFFFE1;
+}
+
+.mosaic-panel .mosaic-selected-tile.mosaic-read-only-tile .mosaic-tile-outer-border {
+    border: 2px solid #3469d0;
+    background-color: #F0F0EE;
+}
+
+.mosaic-panel .mosaic-selected-tile.mosaic-read-only-tile:hover .mosaic-tile-outer-border {
+    border: 2px solid #3469d0;
+    background-color: #F0F0EE;
+}
+
+/* Selected tile hover */
+.mosaic-panel .mosaic-selected-tile:hover .mosaic-tile-outer-border {
+    border: 2px solid #3469d0;
+    background-color: #FFFFE1;
+}
+
+/* Other tiles while dragging */
+.mosaic-panel .mosaic-panel-dragging .mosaic-tile .mosaic-tile-inner-border {
+    border: 1px dotted #888;
+}
+
+/* Hide inner border of helper while dragging */
+.mosaic-panel .mosaic-panel-dragging .mosaic-helper-tile .mosaic-tile-inner-border {
+    border: 1px transparent;
+}
+
+.mosaic-panel .mosaic-panel-dragging-new {
+    cursor: crosshair !important;
+}
+
+.mosaic-panel .mosaic-panel-dragging-new:hover {
+    cursor: crosshair !important;
+}
+
+/* Rich text */
+.mosaic-panel .mosaic-rich-text-textarea {
+    width: 100%;
+    border: 0;
+}
+
+/* Images will never be bigger then a tile */
+.mosaic-panel img {
+    max-width: 100%;
+}
+
+/* Uploadprogress */
+.mosaic-tile-uploadprogress {
+    background: rgba(0,0,0,0.6) url(++resource++plone.app.mosaic.images/loading.gif) no-repeat center;
+    position: absolute;
+    z-index: 501;
+    width: auto;
+    height: auto;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+}
+
+
+/* Helper border */
+.mosaic-panel .mosaic-tile.mosaic-helper-tile {
+    border: 2px solid #3469d0;
+    z-index: 1000;
+    opacity: 0.5;
+    position: absolute;
+}
+
+.mosaic-panel .mosaic-empty-row .mosaic-tile-outer-border {
+    background: url(++resource++plone.app.mosaic.images/divider_horizontal.png) 0px -12px;
+    border: 0px;
+    height: 12px;
+    width: auto;
+    left: -5px;
+    right: 0px;
+}
+
+.mosaic-panel .mosaic-empty-row .mosaic-tile-outer-border .mosaic-divider-dot {
+    background-image: url(++resource++plone.app.mosaic.images/divider_horizontal.png);
+    width: 12px;
+    height: 12px;
+}
+
+.mosaic-panel .mosaic-tile {
+    position: relative;
+    z-index: 100;
+}
+
+.mosaic-panel .mosaic-tile .mosaic-tile-content {
+    position: relative;
+    z-index: 100;
+}
+
+.mosaic-panel .mosaic-tile-content textarea, .mosaic-tile-content input[type=text] {
+    width: 100%;
+}
+
+.mosaic-panel .mosaic-tile-align-left {
+    float: left;
+    z-index: 200;
+}
+
+.mosaic-panel .mosaic-tile-align-right {
+    float: right;
+    z-index: 200;
+}
+
+.mosaic-panel .mosaic-panel-dragging .mosaic-tile-align-left {
+    z-index: 50;
+}
+
+.mosaic-panel .mosaic-panel-dragging .mosaic-tile-align-right {
+    z-index: 50;
+}
+
+.mosaic-panel .mosaic-original-tile {
+    opacity: 0.5;
+}
+
+/* Empty row */
+.mosaic-panel .mosaic-empty-row {
+    height: 12px;
+}
+
+.mosaic-panel .mosaic-empty-row .mosaic-grid-cell {
+    height: 12px;
+    display: none;
+}
+
+.mosaic-panel .mosaic-empty-row .mosaic-grid-cell > div {
+    position: relative;
+    height: 12px;
+}
+/* @end */

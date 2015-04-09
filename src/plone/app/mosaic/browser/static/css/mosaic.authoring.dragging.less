@@ -1,0 +1,125 @@
+/* Placeholders */
+.mosaic-panel .documentFirstHeading,
+.mosaic-panel .documentDescription {
+    min-height: 1.1875em;
+}
+
+/* Disable text selection */
+.mosaic-blur, .mosaic-panel-dragging {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+
+/* Opacity icons */
+.mosaic-blur {
+    opacity: 0.4;
+}
+
+/* Hover icons */
+.mosaic-tile-control {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    z-index: 500;
+    display: none;
+}
+
+.mosaic-drag-handle {
+    background: transparent none no-repeat center center;
+    top: 0px;
+    bottom: 0px;
+    height: auto;
+    width: auto;
+    left: 0px;
+    right: 0px;
+    cursor: move;
+}
+
+.mosaic-selected-tile .mosaic-drag-handle {
+    z-index: 1;
+}
+
+.mosaic-close-icon {
+    left: -18px;
+    top: -18px;
+    width: 30px;
+    height: 30px;
+    background: url(++resource++plone.app.mosaic.images/window.png) -12px 0px;
+    cursor: pointer;
+    z-index: 501;
+}
+
+.mosaic-info-icon {
+    right: 0px;
+    top: auto;
+    bottom: 0px;
+    background: url(++resource++plone.app.mosaic.images/window.png) -12px -56px;
+    cursor: pointer;
+}
+
+.mosaic-tile:hover .mosaic-field-label {
+    display: block !important;
+}
+
+.mosaic-field-label {
+    top: -2px;
+    left: -252px;
+    width: 250px;
+    color: white;
+    height: 24px;
+    text-align: right;
+}
+
+.mosaic-field-label-left {
+    float: right;
+    width: 6px;
+    height: 24px;
+    background: url(++resource++plone.app.mosaic.images/label.png) 0px -84px;
+}
+
+.mosaic-field-label-content {
+    height: 24px;
+    font-size: 80%;
+    font-weight: bold;
+    line-height: 24px;
+    background: url(++resource++plone.app.mosaic.images/label.png) 0px -108px;
+    float: right;
+    position: relative;
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
+.mosaic-info-icon:hover {
+    background-position: -28px -56px;
+}
+
+.mosaic-tile:hover .mosaic-tile-control {
+    display: none;
+}
+
+.mosaic-selected-tile .mosaic-tile-control {
+    display: block !important;
+}
+
+/* Show move icon while hovering over a tile */
+.mosaic-tile:hover .mosaic-drag-handle {
+    display: block;
+}
+
+/* Hide icons while dragging or resizing*/
+.mosaic-panel-dragging .mosaic-tile:hover .mosaic-tile-control {
+    display: none;
+}
+
+.mosaic-panel-resizing .mosaic-tile:hover .mosaic-tile-control {
+    display: none;
+}
+
+/* Show move icon on helper */
+.mosaic-helper-tile .mosaic-drag-handle {
+    display: block !important;
+}

@@ -16,30 +16,7 @@
   <stylesheet id="++resource++plone.app.event/event.css"
               bundle="widgets" />
 
-  <stylesheet id="++resource++plone.app.mosaic/css/authoring.css"
-              title=""
-              bundle="mosaic"
-              applyPrefix="true"
-              media="screen"
-              rel="stylesheet"
-              rendering="import"
-              cacheable="True"
-              compression="safe"
-              cookable="True"
-              enabled="1"
-              expression=""/>
-
-  <stylesheet id="++resource++plone.app.mosaic/css/toolbar.css"
-              title=""
-              bundle="mosaic"
-              applyPrefix="true"
-              media="screen"
-              rel="stylesheet"
-              rendering="import"
-              cacheable="True"
-              compression="safe"
-              cookable="True"
-              enabled="1"
-              expression=""/>
+  <stylesheet id="++resource++plone.app.mosaic/plone-mosaic.css"
+              bundle="mosaic" />
 
 </object>
