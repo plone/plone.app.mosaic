@@ -3,7 +3,7 @@ from Products.CMFDynamicViewFTI.interfaces import ISelectableBrowserDefault
 from Products.CMFCore.utils import getToolByName
 from plone.app.widgets.base import InputWidget
 from plone.app.widgets.base import dict_merge
-from plone.app.widgets.dx import BaseWidget
+from plone.app.z3cform.widget import BaseWidget
 from plone.registry.interfaces import IRegistry
 from z3c.form.browser.text import TextWidget as z3cform_TextWidget
 from z3c.form.interfaces import IFieldWidget
