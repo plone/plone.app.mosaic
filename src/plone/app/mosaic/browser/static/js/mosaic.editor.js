@@ -73,9 +73,10 @@ define([
             inline: true,
             schema: "html5",
             add_unload_trigger: false,
-            toolbar: false,
+            toolbar: "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image     | print preview media",
             statusbar: false,
             menubar: false,
+            fixed_toolbar_container: ".mosic-editor-toolbar",
             formats : {
                 strong : {inline : 'strong'},
                 em : {inline : 'em'},

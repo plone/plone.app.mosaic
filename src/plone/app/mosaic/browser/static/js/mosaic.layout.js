@@ -514,8 +514,9 @@ define([
 
                 // Open overlay
                 $.mosaic.overlay.app = new modal($('.mosaic-toolbar'),
-                    {ajaxUrl: tile_url,
-                    loadLinksWithinModal: true
+                    {
+                        ajaxUrl: tile_url,
+                        loadLinksWithinModal: true
                 });
                 $.mosaic.overlay.app.show();
                 $.mosaic.overlay.app.on(
