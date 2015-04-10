@@ -113,9 +113,9 @@ define([
 
                 // Create menu
                 parent.append($(document.createElement("select"))
-                    .addClass("mosaic-menu pat-select2 mosaic-menu-" +
+                    .addClass("mosaic-menu mosaic-menu-" +
                               action.name.replace(/_/g, "-"))
-                    .data("pat-select2", "width: 10em; minimumResultsForSearch: 99;")
+                    // .data("pat-select2", "width: 10em; minimumResultsForSearch: 99;")
                     .data("action", action.action)
                     .change(function () {
                         $(this).mosaicExecAction();

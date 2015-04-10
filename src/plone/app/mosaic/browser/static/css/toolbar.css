@@ -109,3 +109,11 @@ mosaic-toolbar button, x:-moz-any-link, X:default {
 .mosaic-hidden {
     display: none !important;
 }
+
+.mosaic-enabled .select2-results {
+    max-height: none;
+    li.select2-disabled,
+    li.mosaic-option.mosaic-option-none {
+        display: none;
+    }
+}
