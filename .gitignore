@@ -5,6 +5,7 @@
 *.mo
 *.pyc
 *.pyo
+*.js.map
 *.tmp*
 .*.cfg
 .DS_Store
