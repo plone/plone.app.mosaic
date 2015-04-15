@@ -15,7 +15,6 @@
     "tests"
   ],
   "dependencies": {
-    "select2-bootstrap-css": "~1.4.6",
     "bootstrap": "~3.3.4"
   }
 }

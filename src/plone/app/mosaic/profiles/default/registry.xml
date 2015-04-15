@@ -1136,9 +1136,6 @@
   <records prefix="plone.resources/mosaic.editor"
            interface='Products.CMFPlone.interfaces.IResourceRegistry'>
     <value key="js">++plone++mosaic/js/mosaic.editor.js</value>
-    <value key="css">
-      <element>++plone++mosaic/css/authoring.css</element>
-    </value>
   </records>
 
   <records prefix="plone.resources/mosaic.undo"
@@ -1149,9 +1146,6 @@
   <records prefix="plone.resources/mosaic.toolbar"
            interface='Products.CMFPlone.interfaces.IResourceRegistry'>
     <value key="js">++plone++mosaic/js/mosaic.toolbar.js</value>
-    <value key="css">
-      <element>++plone++mosaic/css/toolbar.css</element>
-    </value>
   </records>
 
   <records prefix="plone.resources/mosaic.layout"
@@ -1173,7 +1167,7 @@
            interface='Products.CMFPlone.interfaces.IResourceRegistry'>
     <value key="js">++plone++mosaic/js/mosaic.pattern.js</value>
     <value key="css">
-      <element>++plone++mosaic/css/mosaic.less</element>
+      <element>++plone++mosaic/css/mosaic.pattern.less</element>
     </value>
   </records>
 
