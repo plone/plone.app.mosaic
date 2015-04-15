@@ -258,7 +258,7 @@ e(t).each(function(){var e=this.match(/^mosaic-(.*)-tile$/);null!==e&&"selected"
 window.DEBUG = true;
 require([
     'jquery',
-    'mockup-registry',
+    'pat-registry',
     'mockup-patterns-base',
     'mosaic.core',
     'mosaic.layout',
