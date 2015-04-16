@@ -5,6 +5,9 @@
   "logo": "http://www.coactivate.org/projects/plone-marketing/plone-logo-guidelines/plone-vertical-logo.png",
   "keywords": ["plone", "python", "cms"],
   "website": "http://plone.org",
+  "env": {
+      "BUILDPACK_URL": "https://github.com/plone/plone.app.mosaic"
+  },
   "addons": [
     "heroku-postgresql:hobby-dev",
     "mailgun"
