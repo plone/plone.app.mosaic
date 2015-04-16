@@ -1,5 +1,6 @@
-@import (reference) "/++plone++static/components/bootstrap/less/navbar.less";
-@import (reference) "/++plone++static/components/bootstrap/less/navbar.less";
+@plone-mosaic-bootstrap: "++plone++static/components/bootstrap";
+@import (reference) "@{plone-mosaic-bootstrap}/less/bootstrap.less";
+
 @import "mosaic.toolbar.less";
 @import "mosaic.authoring.dragging.less";
 @import "mosaic.authoring.dividers.less";
@@ -7,6 +8,3 @@
 @import "mosaic.authoring.overlays.less";
 @import "mosaic.authoring.tiles.less";
 @import "mosaic.grid.less";
-
-/* Apply Select2 bootstrap3 styles */
-@import "../../../../../../../bower_components/select2-bootstrap-css/lib/select2-bootstrap.less";

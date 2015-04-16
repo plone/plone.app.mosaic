@@ -8,6 +8,7 @@ SOURCE_JS = $(shell find $(STATIC)/js -name "*.js")
 BUNDLE_JS = $(STATIC)/plone-mosaic.js
 SOURCE_LESS = $(STATIC)/css/mosaic.pattern.less
 BUNDLE_LESS = $(STATIC)/plone-mosaic.css
+LESS_OPTS = '--modify-var=plone-mosaic-bootstrap="bower_components/bootstrap"'
 
 # if mode variable is empty, setting debug build mode
 ifeq ($(mode),release)
@@ -31,12 +32,12 @@ endif
 	rm $(BUNDLE_JS).tmp
 
 $(BUNDLE_LESS): $(SOURCE_LESS)
-	$(LESS_CMD) $(SOURCE_LESS) > $(BUNDLE_LESS)
+	$(LESS_CMD) $(LESS_OPTS) $(SOURCE_LESS) > $(BUNDLE_LESS)
 
 watch:
 	$(WATCH_CMD) make $(STATIC)
 
 clean:
-	rm -f $(BUNDLE_JS) $(BUNDLE_LESS)
+	rm -f $(BUNDLE_JS) $(BUNDLE_JS).map $(BUNDLE_LESS)
 
 .PHONY: clean $(RJS_CMD)
