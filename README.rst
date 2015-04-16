@@ -29,10 +29,11 @@ __  http://plone-app-mosaic.s3-website-us-east-1.amazonaws.com/latest/
 ..  image:: https://secure.travis-ci.org/plone/plone.app.mosaic.png
     :target: http://travis-ci.org/plone/plone.app.mosaic
 
+
 Screencasts
 -----------
 
-- Desiging `custom content layouts <http://youtu.be/43e18Az93ug>`_
+- Designing `custom content layouts <http://youtu.be/43e18Az93ug>`_
 - `View prototyping <http://youtu.be/QFQON-YOO9Q>`_ layouts as Dexterity type views
 - `Multilingual view prototyping <http://youtu.be/eqsJ9pc_n4Y>`_ with p.a.multilingual
 - Theming with `themed site layouts <http://youtu.be/b9Okt01BGeI>`_
@@ -73,15 +74,16 @@ Alternatively you can also use ``bin/instance fg``.
 Javascript development
 ----------------------
 
-Plone Mosaic requirs a javascript bundle, which must be manually build for
-Plone 4.3.x as follows:
+Plone Mosaic requires javascript and css bundles, which are automatically
+build for Plone 5.x, but which must be manually build for Plone 4.3.x as
+follows:
 
 .. code:: bash
 
    $ npm install
    $ make clean all mode=release
 
-The bundle can also be built with sourcemaps and watched for changes with:
+The bundle can also be built with source maps and watched for changes with:
 
 .. code:: bash
 
