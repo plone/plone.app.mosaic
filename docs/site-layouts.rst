@@ -4,44 +4,44 @@ Site layout management
 ..  include:: _robot.rst
 
 
-Changing the current site layout
---------------------------------
+..  Changing the current site layout
+    --------------------------------
 
-..  figure:: _screenshots/mosaic-layout-page-site-layout.png
-..  code:: robotframework
+    ..  figure:: _screenshots/mosaic-layout-page-site-layout.png
+    ..  code:: robotframework
 
-    Show page site layout option
-        Create content  type=Document
-        ...  id=example-document
-        ...  title=Example Document
-        ...  description=This is an example document
-        ...  text=<p>This document will soon have a custom layout.</p>
-        Go to  ${PLONE_URL}/example-document/edit
+        Show page site layout option
+            Create content  type=Document
+            ...  id=example-document
+            ...  title=Example Document
+            ...  description=This is an example document
+            ...  text=<p>This document will soon have a custom layout.</p>
+            Go to  ${PLONE_URL}/example-document/edit
 
-        Page should contain  Layout
-        Click link  Layout
+            Page should contain  Layout
+            Click link  Layout
 
-        Highlight  id=formfield-form-widgets-ILayoutAware-pageSiteLayout
-        Execute javascript  $('#form-widgets-ILayoutAware-pageSiteLayout').attr('size', 6)
+            Highlight  id=formfield-form-widgets-ILayoutAware-pageSiteLayout
+            Execute javascript  $('#form-widgets-ILayoutAware-pageSiteLayout').attr('size', 6)
 
-        Capture and crop page screenshot
-        ...  _screenshots/mosaic-layout-page-site-layout.png
-        ...  id=content-core
+            Capture and crop page screenshot
+            ...  _screenshots/mosaic-layout-page-site-layout.png
+            ...  id=content-core
 
-        Clear highlight  id=formfield-form-widgets-ILayoutAware-pageSiteLayout
-        Execute javascript  $('#form-widgets-ILayoutAware-pageSiteLayout').attr('size', 1)
+            Clear highlight  id=formfield-form-widgets-ILayoutAware-pageSiteLayout
+            Execute javascript  $('#form-widgets-ILayoutAware-pageSiteLayout').attr('size', 1)
 
-..  figure:: _screenshots/mosaic-layout-section-site-layout.png
-..  code:: robotframework
+    ..  figure:: _screenshots/mosaic-layout-section-site-layout.png
+    ..  code:: robotframework
 
-    Show section site layout option
-        Highlight  id=formfield-form-widgets-ILayoutAware-sectionSiteLayout
-        Execute javascript  $('#form-widgets-ILayoutAware-sectionSiteLayout').attr('size', 6)
-        Capture and crop page screenshot
-                ...  _screenshots/mosaic-layout-section-site-layout.png
-                ...  id=content-core
-        Choose ok on next confirmation
-        Click button  Cancel
+        Show section site layout option
+            Highlight  id=formfield-form-widgets-ILayoutAware-sectionSiteLayout
+            Execute javascript  $('#form-widgets-ILayoutAware-sectionSiteLayout').attr('size', 6)
+            Capture and crop page screenshot
+                    ...  _screenshots/mosaic-layout-section-site-layout.png
+                    ...  id=content-core
+            Choose ok on next confirmation
+            Click button  Cancel
 
 
 Creating a new site layout through the web

@@ -30,7 +30,7 @@
            interface='plone.app.mosaic.interfaces.IAction'>
     <value key="name">page_properties</value>
     <value key="fieldset"></value>
-    <value key="label">Page properties</value>
+    <value key="label">Properties</value>
     <value key="action">page-properties</value>
     <value key="icon">False</value>
     <value key="menu">False</value>
@@ -141,7 +141,6 @@
       <element>save</element>
       <element>cancel</element>
       <element>page-properties</element>
-      <element>page-layout</element>
       <element>add-tile</element>
       <element>format</element>
       <element>insert</element>
