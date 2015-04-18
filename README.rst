@@ -1,10 +1,12 @@
 Plone Mosaic
 ============
 
+**Plone Mosaic** allows you to define global site layouts and override them on specific contents or sections. You can then compose the content of the page using the Mosaic editor.
+
+Deploy your own Plone 5 based Mosaic technology preview to Heroku now:
+
 ..  image:: https://www.herokucdn.com/deploy/button.png
     :target: https://heroku.com/deploy?template=https://github.com/plone/plone.app.mosaic
-
-**Plone Mosaic** allows you to define global site layouts and override them on specific contents or sections. You can then compose the content of the page using the Mosaic editor.
 
 The Mosaic editor lets you insert blocks (a.k.a. tiles) into the content of the page so that you can easily build custom composite pages for your contents on the fly.
 
@@ -38,8 +40,11 @@ Screencasts
 - `Multilingual view prototyping <http://youtu.be/eqsJ9pc_n4Y>`_ with p.a.multilingual
 - Theming with `themed site layouts <http://youtu.be/b9Okt01BGeI>`_
 
-Try a demo
-----------
+Try a demo (Plone 4)
+--------------------
+
+(Plone 5 version of Mosaic technology preview is available via
+``plips/plip-mosaic.cfg`` at Plone 5 coredev-buildout.)
 
 Installation:
 
@@ -59,7 +64,7 @@ Startup:
 To get started:
 
 * open a browser at ``http://localhost:55001/plone/++add++Document``
-* login as ``admin`` with password ``secret``
+* login as ``admin`` with password ``admin``
 * save the new page
 * from the **Display**-menu, select the new entry **Custom layout**
 * click **Edit** to see the new *Mosaic Editor*
@@ -71,8 +76,8 @@ Alternatively you can also use ``bin/instance fg``.
    it will purge all changes after about an hour of non-usage.
 
 
-Javascript development
-----------------------
+Frontend development
+--------------------
 
 Plone Mosaic requires javascript and css bundles, which are automatically
 build for Plone 5.x, but which must be manually build for Plone 4.3.x as
