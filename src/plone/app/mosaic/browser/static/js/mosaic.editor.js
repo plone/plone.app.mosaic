@@ -76,7 +76,7 @@ define([
             toolbar: "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image     | print preview media",
             statusbar: false,
             menubar: false,
-            fixed_toolbar_container: ".mosic-editor-toolbar",
+            fixed_toolbar_container: ".mosaic-toolbar-editor-functions",
             formats : {
                 strong : {inline : 'strong'},
                 em : {inline : 'em'},
