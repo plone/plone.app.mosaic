@@ -1,12 +1,10 @@
 Plone Mosaic
 ============
 
-**Plone Mosaic** allows you to define global site layouts and override them on specific contents or sections. You can then compose the content of the page using the Mosaic editor.
-
-Deploy your own Plone 5 based Mosaic technology preview to Heroku now:
-
 ..  image:: https://www.herokucdn.com/deploy/button.png
     :target: https://heroku.com/deploy?template=https://github.com/plone/plone.app.mosaic
+
+**Plone Mosaic** allows you to define global site layouts and override them on specific contents or sections. You can then compose the content of the page using the Mosaic editor.
 
 The Mosaic editor lets you insert blocks (a.k.a. tiles) into the content of the page so that you can easily build custom composite pages for your contents on the fly.
 
