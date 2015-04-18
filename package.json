@@ -2,6 +2,7 @@
   "name": "plone-mosaic",
   "version": "0.0.0",
   "devDependencies": {
+    "less": "^2.5.0",
     "requirejs": "^2.1.16",
     "watch": "^0.14.0"
   }
