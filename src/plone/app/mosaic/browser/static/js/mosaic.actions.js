@@ -423,13 +423,13 @@ define([
         });
 
         // Register page properties action
-        $.mosaic.registerAction('page-properties', {
+        $.mosaic.registerAction('properties', {
             exec: function () {
                 $.mosaic.overlay.open('all');
             }
         });
 
-        // Register page layout action
+        // Register page layout action // XXX: deprecated
         $.mosaic.registerAction('page-layout', {
             exec: function () {
                 // Open overlay

@@ -26,23 +26,12 @@
     <value key="weight">20</value>
   </records>
 
-  <records prefix="plone.app.mosaic.primary_actions.page_properties"
+  <records prefix="plone.app.mosaic.primary_actions.properties"
            interface='plone.app.mosaic.interfaces.IAction'>
-    <value key="name">page_properties</value>
+    <value key="name">properties</value>
     <value key="fieldset"></value>
     <value key="label">Properties</value>
-    <value key="action">page-properties</value>
-    <value key="icon">False</value>
-    <value key="menu">False</value>
-    <value key="weight">30</value>
-  </records>
-
-  <records prefix="plone.app.mosaic.primary_actions.page_layout"
-           interface='plone.app.mosaic.interfaces.IAction'>
-    <value key="name">page_layout</value>
-    <value key="fieldset"></value>
-    <value key="label">Page layout</value>
-    <value key="action">page-layout</value>
+    <value key="action">properties</value>
     <value key="icon">False</value>
     <value key="menu">False</value>
     <value key="weight">30</value>
@@ -140,8 +129,7 @@
     <value>
       <element>save</element>
       <element>cancel</element>
-      <element>page-properties</element>
-      <element>add-tile</element>
+      <element>properties</element>
       <element>format</element>
       <element>insert</element>
     </value>
