@@ -610,6 +610,7 @@ define([
                    tile_config.widget === 'z3c.form.browser.text.TextFieldWidget' ||
                    tile_config.widget === 'z3c.form.browser.textarea.TextAreaWidget' ||
                    tile_config.widget === 'z3c.form.browser.textarea.TextAreaFieldWidget' ||
+                   tile_config.widget === 'plone.app.z3cform.widget.RichTextFieldWidget' ||
                    tile_config.widget === 'plone.app.z3cform.wysiwyg.widget.WysiwygWidget' ||
                    tile_config.widget === 'plone.app.z3cform.wysiwyg.widget.WysiwygFieldWidget' ||
                    tile_config.widget === 'plone.app.widgets.dx.RichTextWidget')))) {
@@ -1880,6 +1881,7 @@ define([
                     return_string += '<div>' + lines[i] + '</div>';
                 }
                 return return_string;
+            case "plone.app.z3cform.widget.RichTextFieldWidget":
             case "plone.app.z3cform.wysiwyg.widget.WysiwygWidget":
             case "plone.app.z3cform.wysiwyg.widget.WysiwygFieldWidget":
             case "plone.app.widgets.dx.RichTextWidget":
@@ -1912,6 +1914,7 @@ define([
              tile_config.widget === 'z3c.form.browser.text.TextFieldWidget' ||
              tile_config.widget === 'z3c.form.browser.textarea.TextAreaWidget' ||
              tile_config.widget === 'z3c.form.browser.textarea.TextAreaFieldWidget' ||
+             tile_config.widget === 'plone.app.z3cform.widget.RichTextFieldWidget' ||
              tile_config.widget === 'plone.app.z3cform.wysiwyg.widget.WysiwygWidget' ||
              tile_config.widget === 'plone.app.z3cform.wysiwyg.widget.WysiwygFieldWidget' ||
              tile_config.widget === 'plone.app.widgets.dx.RichTextWidget')) {
@@ -1929,6 +1932,7 @@ define([
                 value = value.replace(/<br[^>]*>/ig, "\n");
                 $("#" + tile_config.id).find('textarea').val(value);
                 break;
+            case "plone.app.z3cform.widget.RichTextFieldWidget":
             case "plone.app.z3cform.wysiwyg.widget.WysiwygWidget":
             case "plone.app.z3cform.wysiwyg.widget.WysiwygFieldWidget":
             case "plone.app.widgets.dx.RichTextWidget":
