@@ -1,25 +1,24 @@
 # -*- coding: utf-8 -*-
-from plone.autoform.interfaces import OMITTED_KEY
+from plone.app.blocks.interfaces import IOmittedField
+from plone.app.blocks.utils import PermissionChecker
+from plone.app.blocks.utils import isVisible
 from plone.autoform.interfaces import MODES_KEY
-
-from plone.autoform.interfaces import WIDGETS_KEY
+from plone.autoform.interfaces import OMITTED_KEY
 from plone.autoform.interfaces import READ_PERMISSIONS_KEY
+from plone.autoform.interfaces import WIDGETS_KEY
 from plone.autoform.interfaces import WRITE_PERMISSIONS_KEY
 from plone.autoform.utils import mergedTaggedValuesForIRO
+from plone.autoform.widgets import ParameterizedWidget
 from plone.resource.interfaces import IResourceDirectory
 from plone.supermodel.utils import mergedTaggedValueDict
+from z3c.form.interfaces import DISPLAY_MODE
+from z3c.form.interfaces import HIDDEN_MODE
 from z3c.form.interfaces import IEditForm
 from z3c.form.interfaces import IFieldWidget
-from z3c.form.interfaces import HIDDEN_MODE
-from z3c.form.interfaces import DISPLAY_MODE
 from zope.component import getMultiAdapter
 from zope.component import getUtility
 from zope.interface import Interface
 from zope.schema.interfaces import IField
-
-from plone.app.blocks.interfaces import IOmittedField
-from plone.app.blocks.utils import PermissionChecker
-from plone.app.blocks.utils import isVisible
 
 
 def _getWidgetName(field, widgets, request):
@@ -29,7 +28,9 @@ def _getWidgetName(field, widgets, request):
         factory = getMultiAdapter((field, request), IFieldWidget)
     if isinstance(factory, basestring):
         return factory
-    if not isinstance(factory, type):
+    elif isinstance(factory, ParameterizedWidget):
+        factory = factory.widget_factory
+    elif not isinstance(factory, type):
         factory = factory.__class__
     return '%s.%s' % (factory.__module__, factory.__name__)
 
