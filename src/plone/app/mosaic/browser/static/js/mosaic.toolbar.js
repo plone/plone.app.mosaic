@@ -218,9 +218,6 @@ define([
             content.append($(document.createElement("div"))
                 .addClass("mosaic-toolbar-secondary-functions")
             );
-            content.append($(document.createElement("div"))
-                .addClass("mosaic-toolbar-editor-functions")
-            );
             actions.secondary_actions =
                 content.children(".mosaic-toolbar-secondary-functions");
 

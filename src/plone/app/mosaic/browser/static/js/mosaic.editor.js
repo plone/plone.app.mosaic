@@ -73,10 +73,10 @@ define([
             inline: true,
             schema: "html5",
             add_unload_trigger: false,
-            toolbar: "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image     | print preview media",
+            toolbar: false,
             statusbar: false,
             menubar: false,
-            fixed_toolbar_container: ".mosaic-toolbar-editor-functions",
+            fixed_toolbar_container: null,
             formats : {
                 strong : {inline : 'strong'},
                 em : {inline : 'em'},
