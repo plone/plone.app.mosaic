@@ -6,7 +6,7 @@ STATIC = src/plone/app/mosaic/browser/static
 
 SOURCE_JS = $(shell find $(STATIC)/js -name "*.js")
 BUNDLE_JS = $(STATIC)/plone-mosaic.js
-SOURCE_LESS = $(STATIC)/css/mosaic.pattern.less
+SOURCE_LESS = $(shell find $(STATIC)/css -name "*.less")
 BUNDLE_LESS = $(STATIC)/plone-mosaic.css
 LESS_OPTS = '--modify-var=plone-mosaic-bootstrap="bower_components/bootstrap"'
 
@@ -32,7 +32,7 @@ endif
 	rm $(BUNDLE_JS).tmp
 
 $(BUNDLE_LESS): $(SOURCE_LESS)
-	$(LESS_CMD) $(LESS_OPTS) $(SOURCE_LESS) > $(BUNDLE_LESS)
+	$(LESS_CMD) $(LESS_OPTS) $(STATIC)/css/mosaic.pattern.less > $(BUNDLE_LESS)
 
 watch:
 	$(WATCH_CMD) make $(STATIC)
