@@ -188,7 +188,7 @@ define([
             // Local variables
             var obj, content, actions, a, x, action_group, elm_action_group, y,
             elm_select_insert, tile, elm_select_format, action,
-            RepositionToolbar, SelectedTileChange;
+            RepositionToolbar, SelectedTileChange, select2_format;
 
             // Get current object
             obj = $(this);
@@ -474,6 +474,16 @@ define([
 
             // Set default actions
             $(this).trigger("selectedtilechange");
+
+            // Apply select2 for menus
+            $(".mosaic-menu").each(function() {
+                $(this).select2({
+                    width: 'style',
+                    dropdownCssClass: 'mosaic-dropdown mosaic-dropdown-' + $(this).data("action"),
+                    dropdownAutoWidth: true,
+                    minimumResultsForSearch: 99
+                });
+            });
         });
     };
 });

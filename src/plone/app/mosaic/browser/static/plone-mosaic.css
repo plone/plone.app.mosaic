@@ -1,5 +1,6 @@
 @media print {
-  .mosaic-toolbar {
+  .mosaic-toolbar,
+  .mosaic-dropdown {
     display: none;
   }
 }
@@ -11,7 +12,8 @@
   max-width: 100%;
   height: auto;
 }
-.mosaic-toolbar-content {
+.mosaic-toolbar-content,
+.mosaic-dropdown {
   margin-right: auto;
   margin-left: auto;
   padding-left: 15px;
@@ -35,7 +37,8 @@
   -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
   transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
 }
-.mosaic-toolbar button {
+.mosaic-toolbar button,
+.mosaic-toolbar .mosaic-menu.select2-container a.select2-choice {
   display: inline-block;
   margin-bottom: 0;
   font-weight: normal;
@@ -55,10 +58,21 @@
   -ms-user-select: none;
   user-select: none;
 }
-.mosaic-toolbar button {
+.mosaic-toolbar button,
+.mosaic-toolbar .mosaic-menu.select2-container a.select2-choice {
   color: #333333;
   background-color: #ffffff;
   border-color: #cccccc;
+}
+.mosaic-toolbar .mosaic-menu.select2-container.select2-dropdown-open,
+.mosaic-toolbar .mosaic-menu.select2-container.select2-dropdown-open a.select2-choice {
+  color: #333333;
+  background-color: #e6e6e6;
+  border-color: #adadad;
+}
+.mosaic-toolbar .mosaic-menu.select2-container.select2-dropdown-open,
+.mosaic-toolbar .mosaic-menu.select2-container.select2-dropdown-open a.select2-choice {
+  background-image: none;
 }
 .mosaic-toolbar button.mosaic-button-save {
   color: #ffffff;
@@ -83,14 +97,29 @@
   line-height: 1.5;
   border-radius: 3px;
 }
-.mosaic-toolbar {
+.mosaic-toolbar .mosaic-menu.select2-container a.select2-choice .select2-arrow b {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  margin-left: 2px;
+  vertical-align: middle;
+  border-top: 4px dashed;
+  border-right: 4px solid transparent;
+  border-left: 4px solid transparent;
+}
+.mosaic-toolbar .mosaic-menu.select2-container {
+  position: relative;
+}
+.mosaic-toolbar,
+.mosaic-dropdown {
   position: relative;
   min-height: 50px;
   margin-bottom: 20px;
   border: 1px solid transparent;
 }
 @media (min-width: 768px) {
-  .mosaic-toolbar {
+  .mosaic-toolbar,
+  .mosaic-dropdown {
     border-radius: 4px;
   }
 }
@@ -174,7 +203,11 @@
 .mosaic-toolbar:before,
 .mosaic-toolbar:after,
 .mosaic-toolbar-content:before,
-.mosaic-toolbar-content:after {
+.mosaic-toolbar-content:after,
+.mosaic-dropdown:before,
+.mosaic-dropdown:after,
+.mosaic-dropdown:before,
+.mosaic-dropdown:after {
   content: " ";
   display: table;
 }
@@ -193,9 +226,60 @@
 .panel-body:after,
 .modal-footer:after,
 .mosaic-toolbar:after,
-.mosaic-toolbar-content:after {
+.mosaic-toolbar-content:after,
+.mosaic-dropdown:after,
+.mosaic-dropdown:after {
   clear: both;
 }
+@font-face {
+  font-family: 'mosaic';
+  src: url('++plone++mosaic/font/mosaic.eot?45697344');
+  src: url('++plone++mosaic/font/mosaic.eot?45697344#iefix') format('embedded-opentype'), url('++plone++mosaic/font/mosaic.woff?45697344') format('woff'), url('++plone++mosaic/font/mosaic.ttf?45697344') format('truetype'), url('++plone++mosaic/font/mosaic.svg?45697344#mosaic') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+/* Chrome hack: SVG is rendered more smooth in Windozze. 100% magic, uncomment if you need it. */
+/* Note, that will break hinting! In other OS-es font will be not as sharp as it could be */
+/*
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  @font-face {
+    font-family: 'mosaic';
+    src: url('../font/mosaic.svg?45697344#mosaic') format('svg');
+  }
+}
+*/
+[class^="mosaic-icon-"]:before,
+[class*=" mosaic-icon-"]:before {
+  font-family: "mosaic";
+  font-style: normal;
+  font-weight: normal;
+  speak: none;
+  display: inline-block;
+  text-decoration: inherit;
+  width: 1em;
+  margin-right: .2em;
+  text-align: center;
+  /* opacity: .8; */
+  /* For safety - reset parent styles, that can break glyph codes*/
+  font-variant: normal;
+  text-transform: none;
+  /* fix buttons height, for twitter bootstrap */
+  line-height: 1em;
+  /* Animation center compensation - margins should be symmetric */
+  /* remove if not needed */
+  margin-left: .2em;
+  /* you can be more comfortable with increased icons size */
+  /* font-size: 120%; */
+  /* Font smoothing. That was taken from TWBS */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* Uncomment for 3D effect */
+  /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
+}
+.mosaic-icon-file-image:before {
+  content: '\e803';
+}
+/* '' */
 .mosaic-toolbar fieldset {
   display: inline;
   margin: 0 1em 0 0;
@@ -206,7 +290,7 @@
   margin: 0 5px 0 0;
 }
 .mosaic-toolbar .mosaic-menu {
-  display: inline;
+  display: inline-block;
   margin: 0 5px 0 0;
   width: auto;
 }
@@ -216,7 +300,8 @@
 .mosaic-inline-toolbar {
   position: relative;
 }
-.mosaic-toolbar-content {
+.mosaic-toolbar-content,
+.mosaic-dropdown {
   background: #2c6596;
   background-image: -moz-linear-gradient(top, #2c6596, #3272aa);
   background-image: -ms-linear-gradient(top, #2c6596, #3272aa);
@@ -240,19 +325,60 @@
     padding: 0 15px;
   }
 }
+/* Apply bootstrap styles for select2 menus */
+.mosaic-toolbar .mosaic-menu.select2-container a.select2-choice {
+  border: 0;
+  padding: 0;
+  box-shadow: none;
+}
+.mosaic-toolbar .mosaic-menu.select2-container a.select2-choice .select2-arrow {
+  border: 0;
+  background: none;
+}
+/* Hide mosaic-menu labels with select2 */
+.mosaic-enabled .select2-results {
+  max-height: none;
+}
+.mosaic-enabled .select2-results li.select2-disabled,
+.mosaic-enabled .select2-results li.mosaic-option.mosaic-option-none {
+  display: none !important;
+}
+/* Apply bootstrap toolbar styles for select2 results */
+.mosaic-dropdown {
+  background: white;
+  /* Fix dropdown positioning */
+  position: fixed !important;
+  top: 53px !important;
+  left: auto !important;
+  right: 0 !important;
+  /* Layout menu items in horizontally aligned groups */
+  /* Fix border to better fit with navbar */
+  /* Avoid select2 from stealing TinyMCE focus */
+}
+.mosaic-dropdown > ul {
+  float: right;
+}
+.mosaic-dropdown > ul > li {
+  float: left;
+  margin-right: 5px;
+}
+.mosaic-dropdown.select2-drop-auto-width {
+  border-top: none;
+}
+.mosaic-dropdown .select2-focusser,
+.mosaic-dropdown .select2-search,
+.mosaic-dropdown .select2-search input {
+  display: none !important;
+}
+@media screen and (max-width: 768px) {
+  .mosaic-dropdown {
+    top: 99px !important;
+  }
+}
 /* Placeholders */
 .mosaic-panel .documentFirstHeading,
 .mosaic-panel .documentDescription {
   min-height: 1.1875em;
-}
-/* Disable text selection */
-.mosaic-blur,
-.mosaic-panel-dragging {
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
 }
 /* Opacity icons */
 .mosaic-blur {
@@ -714,4 +840,19 @@
 }
 .mosaic-position-three-quarters {
   margin-left: -25%;
+}
+/* Disable user-select outside currently selected tile */
+.mosaic-enabled {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.mosaic-enabled .mosaic-selected-tile {
+  -webkit-touch-callout: default;
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
 }
