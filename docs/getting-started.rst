@@ -129,7 +129,7 @@ To add a new tile in the **Mosaic editor**, select the tile from the rightmost m
         Mouse over  css=.mosaic-option-IRichText-text
         Capture and crop page screenshot
         ...  _screenshots/mosaic-editor-menu-insert.png
-        ...  css=.mosaic-menu-insert
+        ...  css=.mosaic-dropdown-insert
         Mouse up  css=.mosaic-toolbar
         Execute javascript  $('.mosaic-menu-insert').attr('size', 1)
 
