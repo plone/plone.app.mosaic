@@ -480,7 +480,7 @@ define([
                     .mosaicExecAction();
 
                 // Reset menu
-                $(source).val("none");
+                $(source).select2("val", "none"); // $(source).val("none");
             }
         });
 
@@ -546,7 +546,7 @@ define([
                 }
 
                 // Reset menu
-                $(source).val("none");
+                $(source).select2("val", "none"); // $(source).val("none");
 
                 // Normal exit
                 return true;
