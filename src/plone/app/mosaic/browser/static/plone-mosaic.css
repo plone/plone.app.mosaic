@@ -343,6 +343,9 @@
 .mosaic-enabled .select2-results li.mosaic-option.mosaic-option-none {
   display: none !important;
 }
+.mosaic-enabled .select2-hidden-accessible {
+  display: none;
+}
 /* Apply bootstrap toolbar styles for select2 results */
 .mosaic-dropdown {
   background: white;
