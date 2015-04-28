@@ -288,8 +288,10 @@ require([
     // initialize only if we are in top frame
     if (window.parent === window) {
         $(document).ready(function() {
-            $('body').addClass('mosaic-enabled');
             Registry.scan($('body'));
+            if ($('.mosaic-toolbar').length > 0) {
+                $('body').addClass('mosaic-enabled');
+            }
         });
     }
 
