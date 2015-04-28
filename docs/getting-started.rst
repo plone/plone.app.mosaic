@@ -114,32 +114,18 @@ When the **Custom layout** has been enabled, the **Mosaic editor** is opened by 
 To add a new tile in the **Mosaic editor**, select the tile from the rightmost menu
 
 ..  figure:: _screenshots/mosaic-editor-select-field-text-tile.png
-..  figure:: _screenshots/mosaic-editor-menu-insert.png
-    :align: right
 ..  code:: robotframework
 
     Show how to select a new tile from menu
         Element should be visible  css=.mosaic-toolbar
 
-        # XXX: Because Selenium cannot capture open dropdown menu from Firefox,
-        # we need to hack a bit to get a shot. Later, change to Select2 widget
-        # or something else instead of native dropdown will fix that.
-        Execute javascript  $('.mosaic-menu-insert').attr('size', 20)
-        Mouse down  css=.mosaic-menu-insert
-        Mouse over  css=.mosaic-option-IRichText-text
-        Capture and crop page screenshot
-        ...  _screenshots/mosaic-editor-menu-insert.png
-        ...  css=.mosaic-dropdown-insert
-        Mouse up  css=.mosaic-toolbar
-        Execute javascript  $('.mosaic-menu-insert').attr('size', 1)
-
         Highlight  css=.mosaic-menu-insert
-        Mouse down  css=.mosaic-menu-insert
-        Mouse over  css=.mosaic-option-IRichText-text
+        Click element  css=.mosaic-menu-insert a
+        Mouse over  css=.mosaic-dropdown .mosaic-option-IRichText-text
 
         Capture and crop page screenshot
         ...  _screenshots/mosaic-editor-select-field-text-tile.png
-        ...  css=.mosaic-toolbar
+        ...  css=.mosaic-toolbar  css=.mosaic-dropdown-insert
 
         Clear highlight  css=.mosaic-menu-insert
 
@@ -150,7 +136,7 @@ and drag the appearing tile into the desired position.
 
     Show how to drag a new tile into its initial position
 
-        Mouse up  css=.mosaic-option-IRichText-text
+        Click element  css=.mosaic-dropdown .mosaic-option-IRichText-text
         Mouse over  css=.mosaic-tile.removable
         Capture and crop page screenshot
         ...  _screenshots/mosaic-editor-drag-field-text-tile.png
