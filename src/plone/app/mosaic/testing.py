@@ -58,12 +58,6 @@ class PloneAppMosaic(PloneSandboxLayer):
                        plone.app.mosaic,
                        context=configurationContext)
 
-        # Import bbb mockup widgets bundle on Plone 4
-        if not HAVE_PLONE_5:
-            xmlconfig.includeOverrides(configurationContext,
-                                       'overrides.zcml',
-                                       package=plone.app.mosaic)
-
         # Import bbb profile only on Plone 4 without main_template view
         if not HAVE_PLONE_5:
             import plone.app.mosaic.browser.bbb
