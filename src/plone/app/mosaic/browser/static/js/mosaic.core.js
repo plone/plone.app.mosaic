@@ -236,6 +236,7 @@ define([
                         case "WysiwygWidget":
                         case "WysiwygFieldWidget":
                         case "RichTextWidget":
+                        case "RichTextFieldWidget":
                             tile_group.tiles[y].settings = false;
                             break;
                         default:

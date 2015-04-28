@@ -602,6 +602,48 @@
     <value>plone.app.z3cform.wysiwyg.widget.WysiwygWidget</value>
   </record>
 
+  <record field="actions" interface="plone.app.mosaic.interfaces.IWidgetAction"
+          name="plone.app.mosaic.widget_actions.plone_app_z3cform_widget_RichTextFieldWidget.actions">
+    <field type="plone.registry.field.List">
+      <title>Actions</title>
+      <value_type type="plone.registry.field.TextLine" />
+    </field>
+    <value>
+      <element>tile-align-block</element>
+      <element>tile-align-left</element>
+      <element>tile-align-right</element>
+      <element>html</element>
+      <element>strong</element>
+      <element>em</element>
+      <element>paragraph</element>
+      <element>heading</element>
+      <element>subheading</element>
+      <element>discreet</element>
+      <element>literal</element>
+      <element>quote</element>
+      <element>callout</element>
+      <element>highlight</element>
+      <element>sub</element>
+      <element>sup</element>
+      <element>remove-format</element>
+      <element>pagebreak</element>
+      <element>ul</element>
+      <element>ol</element>
+      <element>justify-left</element>
+      <element>justify-center</element>
+      <element>justify-right</element>
+      <element>justify-justify</element>
+    </value>
+  </record>
+
+  <record field="name" interface="plone.app.mosaic.interfaces.IWidgetAction"
+          name="plone.app.mosaic.widget_actions.plone_app_z3cform_widget_RichTextFieldWidget.name">
+    <field type="plone.registry.field.TextLine">
+      <title>Name</title>
+    </field>
+    <value>plone.app.z3cform.widget.RichTextFieldWidget</value>
+  </record>
+
   <!-- Tile categories -->
   <records interface="plone.app.mosaic.interfaces.IWeightedDict"
            prefix="plone.app.mosaic.tiles_categories.structure">
