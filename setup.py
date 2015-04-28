@@ -43,7 +43,7 @@ setup(name='plone.app.mosaic',
       ],
       extras_require={'test': ['plone.app.testing',
                                'plone.app.contenttypes',
-                               'plone.app.widgets',
+                               'plone.app.widgets>=1.8.0.dev0',
                                'plone.app.robotframework']},
       entry_points="""
       # -*- Entry points: -*-
