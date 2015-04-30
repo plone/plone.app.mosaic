@@ -500,17 +500,10 @@ define([
 
                 // Get url
                 var tile_url = $(this).parents(".mosaic-tile").find('.tileUrl').html();
-                if (tile_url.indexOf('?') != -1) {
-                    var match = tile_url.split("?");
-                    var start_url = match[0];
-                    var parameters = match[1];
-                    parameters = parameters.split("&");
-                    for (var i = 0; i < parameters.length; i += 1) {
-                        parameters[i] = '"' + parameters[i].replace('=', '":"') + '"';
-                    }
-                    tile_url = start_url + '?_tiledata={' + parameters.join(",") + '}';
-                }
                 tile_url = tile_url.replace(/@@/, '@@edit-tile/');
+
+                // Annotate the edited tile, because overlay will steal its focus
+                $(this).parents(".mosaic-tile").addClass('mosaic-edited-tile');
 
                 // Open overlay
                 $.mosaic.overlay.app = new modal($('.mosaic-toolbar'),
@@ -519,6 +512,7 @@ define([
                         loadLinksWithinModal: true
                 });
                 $.mosaic.overlay.app.show();
+                $.mosaic.overlay.app.$el.off('formActionSuccess');
                 $.mosaic.overlay.app.on(
                     'formActionSuccess',
                     function (event, response, state, xhr, form) {
@@ -533,10 +527,14 @@ define([
                             $.mosaic.addHeadTags(tileUrl, value);
 
                             // Update tile
-                            $('.mosaic-selected-tile .mosaic-tile-content',
-                              $.mosaic.document).html('<p class="hiddenStructure tileUrl">' + tileUrl + '</p>' + value.find('.temp_body_tag').html());
+                            $('.mosaic-edited-tile .mosaic-tile-content',
+                              $.mosaic.document).html('<p class="hiddenStructure tileUrl">' + tileUrl.replace(/&/gim, '&amp;') + '</p>' + value.find('.temp_body_tag').html());
                         }
-                        $.mosaic.overlay.app.hide();
+                        // Close if still available
+                        if ($.mosaic.overlay.app) { $.mosaic.overlay.app.hide(); }
+
+                        // Remove edited annotation
+                        $('.mosaic-edited-tile', $.mosaic.document).removeClass('mosaic-edited-tile');
                     }
                 );
 
@@ -1740,7 +1738,7 @@ define([
 
                 // Add tile
                 $.mosaic.addTile(type,
-                    '<p class="hiddenStructure tileUrl">' + url + '</p>' +
+                    '<p class="hiddenStructure tileUrl">' + url.replace(/&/gim, '&amp;') + '</p>' +
                         value.find('.temp_body_tag').html());
             }
         });
@@ -1764,7 +1762,7 @@ define([
         value = $.mosaic.getDomTreeFromHtml(response);
         $.mosaic.addHeadTags(url, value);
         $.mosaic.addTile(type,
-            '<p class="hiddenStructure tileUrl">' + url + '</p>' +
+            '<p class="hiddenStructure tileUrl">' + url.replace(/&/gim, '&amp;') + '</p>' +
                 value.find('.temp_body_tag').html());
     };
 
@@ -1802,7 +1800,7 @@ define([
 
                 // Update tile
                 $('.mosaic-selected-tile .mosaic-tile-content',
-                  $.mosaic.document).html('<p class="hiddenStructure tileUrl">' + url + '</p>' + value.find('.temp_body_tag').html());
+                  $.mosaic.document).html('<p class="hiddenStructure tileUrl">' + url.replace(/&/gim, '&amp;') + '</p>' + value.find('.temp_body_tag').html());
             }
         });
     };

@@ -525,6 +525,7 @@ define([
                     });
                     $.mosaic.overlay.app._tile_type = $(source).val();
                     $.mosaic.overlay.app.show();
+                    $.mosaic.overlay.app.$el.off('formActionSuccess');
                     $.mosaic.overlay.app.on(
                         'formActionSuccess',
                         function (event, response, state, xhr, form) {

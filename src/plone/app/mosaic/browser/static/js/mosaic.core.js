@@ -309,7 +309,7 @@ define([
 
                         tile_content
                             .html('<p class="hiddenStructure ' +
-                                'tileUrl">' + href + '</p>' +
+                                'tileUrl">' + href.replace(/&/gim, '&amp;') + '</p>' +
                                 value.find('.temp_body_tag').html());
 
                         $.mosaic.tileInitCount += 1;
