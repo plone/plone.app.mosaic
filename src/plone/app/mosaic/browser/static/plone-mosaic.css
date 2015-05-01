@@ -339,7 +339,6 @@
 .mosaic-enabled .select2-results {
   max-height: none;
 }
-.mosaic-enabled .select2-results li.select2-disabled,
 .mosaic-enabled .select2-results li.mosaic-option.mosaic-option-none {
   display: none !important;
 }
@@ -357,6 +356,10 @@
   /* Layout menu items in horizontally aligned groups */
   /* Fix border to better fit with navbar */
   /* Avoid select2 from stealing TinyMCE focus */
+}
+.mosaic-dropdown li.select2-disabled {
+  background: none;
+  color: #888888;
 }
 .mosaic-dropdown > ul {
   float: right;

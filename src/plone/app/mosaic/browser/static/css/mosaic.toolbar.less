@@ -101,7 +101,6 @@
 /* Hide mosaic-menu labels with select2 */
 .mosaic-enabled .select2-results {
   max-height: none;
-  li.select2-disabled,
   li.mosaic-option.mosaic-option-none {
     display: none !important;
   }
@@ -114,6 +113,11 @@
   &:extend(.navbar);
   &:extend(.mosaic-toolbar-content);
   background: white;
+
+  li.select2-disabled {
+    background: none;
+    color: #888888;
+  }
 
   /* Fix dropdown positioning */
   position: fixed !important;
