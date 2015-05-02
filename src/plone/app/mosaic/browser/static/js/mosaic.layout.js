@@ -444,21 +444,31 @@ define([
                 var url = tile_url.split('?')[0];
                 url = url.split('@@');
                 var tile_type_id = url[1].split('/');
-                url = url[0] + '@@delete-tile?type=' + tile_type_id[0] + '&id=' + tile_type_id[1] + '&confirm=true';
+                url = url[0] + '@@delete-tile/' + tile_type_id[0] + '/' + tile_type_id[1];
 
                 // Ajax call to remove tile
                 $.ajax({
                     type: "GET",
                     url: url,
                     success: function (value) {
-
-/*
-                        $.plone.notify({
-                            title: "Info",
-                            message: "Application tile removed",
-                            sticky: false
-                        });
-*/
+                        var authenticator = $(value).find('[name="_authenticator"]').val();
+                        $.ajax({
+                            type: "POST",
+                            url: url,
+                            data: {
+                                'buttons.delete': 'Delete',
+                                '_authenticator': authenticator
+                            },
+                            success: function(value) {
+                                /*
+                                 $.plone.notify({
+                                     title: "Info",
+                                     message: "Application tile removed",
+                                     sticky: false
+                                 });
+                                */
+                            }
+                        })
                     }
                 });
             }
