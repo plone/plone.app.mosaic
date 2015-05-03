@@ -639,22 +639,22 @@ define([
 
             // If tile is field tile
             if (tile_config && tile_config.tile_type === "field") {
-
-                // Add label
-                $(this).prepend(
-                    $($.mosaic.document.createElement("div"))
-                        .addClass("mosaic-tile-control mosaic-field-label")
-                        .append(
-                            $($.mosaic.document.createElement("div"))
-                                .addClass("mosaic-field-label-content")
-                                .html(tile_config.label)
-                        )
-                        .append(
-                            $($.mosaic.document.createElement("div"))
-                                .addClass("mosaic-field-label-left")
-                        )
-                );
             }
+
+            // Add label
+            $(this).prepend(
+                $($.mosaic.document.createElement("div"))
+                    .addClass("mosaic-tile-control mosaic-tile-label")
+                    .append(
+                    $($.mosaic.document.createElement("div"))
+                        .addClass("mosaic-tile-label-content")
+                        .html(tile_config.label)
+                )
+                    .append(
+                    $($.mosaic.document.createElement("div"))
+                        .addClass("mosaic-tile-label-left")
+                )
+            );
 
             // If the tile is movable
             if ($(this).hasClass("movable") && $.mosaic.options.can_change_layout) {
