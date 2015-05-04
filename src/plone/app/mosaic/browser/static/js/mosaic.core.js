@@ -386,6 +386,7 @@ define([
         // $.mosaic.initUpload();
         $.mosaic.undo.init();
 
+        $('body').addClass('mosaic-enabled');
     };
 
     /**
