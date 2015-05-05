@@ -4,6 +4,8 @@ sudo: false
 cache:
   directories:
   - eggs
+  - node_modules
+  - bower_components
 before_install:
 - export DISPLAY=:99.0
 - sh -e /etc/init.d/xvfb start
@@ -12,6 +14,9 @@ install:
 - bin/buildout -N -t 3 -c test-$PLONE_VERSION.cfg annotate
 - bin/buildout -N -t 3 -c test-$PLONE_VERSION.cfg
 - mkdir -p parts/test/_screenshots
+- npm install
+- node_modules/bower/bin/bower install
+- make clean all mode=release
 before_script:
 - gem install --version 0.8.9 faraday
 - gem install travis-artifacts
@@ -28,12 +33,10 @@ after_script:
 - 'echo "Robot: http://plone-app-mosaic.s3-website-us-east-1.amazonaws.com/artifacts/${TRAVIS_BUILD_NUMBER}/${TRAVIS_JOB_NUMBER}/report.html"'
 matrix:
   allow_failures:
-  - env: PLONE_VERSION=4.x TEST_OPTIONS=--all
   - env: PLONE_VERSION=5.x
 env:
   matrix:
     - PLONE_VERSION=4.x
-    - PLONE_VERSION=4.x TEST_OPTIONS=--all
     - PLONE_VERSION=5.x
   global:
   - ARTIFACTS_S3_BUCKET=plone-app-mosaic
