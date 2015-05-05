@@ -10,6 +10,7 @@ before_install:
 - export DISPLAY=:99.0
 - sh -e /etc/init.d/xvfb start
 install:
+- rm -rf eggs/plone.app.locales*
 - python bootstrap.py -v 1.7.1 -c test-$PLONE_VERSION.cfg
 - bin/buildout -N -t 3 -c test-$PLONE_VERSION.cfg annotate
 - bin/buildout -N -t 3 -c test-$PLONE_VERSION.cfg
