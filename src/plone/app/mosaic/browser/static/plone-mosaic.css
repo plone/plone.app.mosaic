@@ -869,3 +869,6 @@
   -ms-user-select: none;
   user-select: none;
 }
+.mosaic-enabled .mosaic-panel .mosaic-tile {
+  min-height: 20px;
+}
