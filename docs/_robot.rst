@@ -6,6 +6,8 @@
     Resource  plone/app/robotframework/keywords.robot
     Resource  Selenium2Screenshots/keywords.robot
 
+    Resource  ${RESOURCE_DIR}/_selectors.robot
+
     Library  OperatingSystem
 
     Suite Setup  Run keywords  Suite Setup  Test Setup
@@ -15,6 +17,7 @@
 
     ${FIXTURE}  plone.app.mosaic.testing.PLONE_APP_MOSAIC_ROBOT
     @{DIMENSIONS}  800  800
+    ${RESOURCE_DIR}  ${CURDIR}
 
     *** Keywords ***
 
@@ -23,6 +26,8 @@
         ...             Setup Plone site  ${FIXTURE}
         Run keyword if  sys.argv[0].startswith('bin/robot')
         ...             Open test browser
+        Run keyword if  '${CMFPLONE_VERSION}'.startswith('5.')
+        ...             Import resource  ${RESOURCE_DIR}/_selectors-5.x.robot
         Run keyword and ignore error  Set window size  @{DIMENSIONS}
 
     Test Setup
