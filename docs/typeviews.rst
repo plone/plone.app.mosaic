@@ -22,7 +22,7 @@ Binding content layout to content type
 ..  figure:: _screenshots/mosaic-layouts-as-aliases-add-method.png
 ..  code:: robotframework
 
-    Show how to condigure the new TTW layout as alias
+    Show how to configure the new TTW layout as alias
         Go to  ${PLONE_URL}/portal_types/Document/manage_propertiesForm
         Page should contain  Available view methods
         Focus  name=manage_editProperties:method
@@ -48,15 +48,16 @@ Selecting bound layout for each content item
         Go to  ${PLONE_URL}/example-document
 
         Element should be visible  id=plone-contentmenu-layout
-        Click element  css=#plone-contentmenu-layout dt a
+        Click element  ${SELECTOR_CONTENTMENU_LAYOUT_LINK}
         Element should be visible  id=plone-contentmenu-layout-default
 
         Update element style  css=.managePortletsFallback  display  none
         Highlight  id=plone-contentmenu-layout-default
         Capture and crop page screenshot
         ...  _screenshots/mosaic-layout-menu-default.png
-        ...  id=edit-bar  id=plone-contentmenu-layout
-        ...  css=#plone-contentmenu-layout dd
+        ...  css=#portal-breadcrumbs
+        ...  ${SELECTOR_TOOLBAR}  id=plone-contentmenu-layout
+        ...  ${SELECTOR_CONTENTMENU_LAYOUT_ITEMS}
 
 
 Creating a new content layout through the web
@@ -85,7 +86,7 @@ Creating a new content layout through the web
 ..  figure:: _screenshots/mosaic-layouts-as-aliases-new-new.png
 ..  code:: robotframework
 
-    Show how to condigure the new TTW layout as alias
+    Show how to configure the new TTW layout as alias
         Go to  ${PLONE_URL}/portal_types/Document/manage_aliases
         Page should contain  Method Aliases
         Input text  name=aliases.new:record  ++layout++custom
@@ -127,12 +128,13 @@ Creating a new content layout through the web
         Go to  ${PLONE_URL}/example-document
 
         Element should be visible  id=plone-contentmenu-layout
-        Click element  css=#plone-contentmenu-layout dt a
+        Click element  ${SELECTOR_CONTENTMENU_LAYOUT_LINK}
         Element should be visible  id=plone-contentmenu-layout-custom
 
         Update element style  css=.managePortletsFallback  display  none
         Highlight  id=plone-contentmenu-layout-custom
         Capture and crop page screenshot
         ...  _screenshots/mosaic-layout-menu-custom.png
-        ...  id=edit-bar  id=plone-contentmenu-layout
-        ...  css=#plone-contentmenu-layout dd
+        ...  css=#portal-breadcrumbs
+        ...  ${SELECTOR_TOOLBAR}  id=plone-contentmenu-layout
+        ...  ${SELECTOR_CONTENTMENU_LAYOUT_ITEMS}

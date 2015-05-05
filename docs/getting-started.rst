@@ -14,18 +14,11 @@ Installation
     Show Plone Mosaic activation
         Go to  ${PLONE_URL}/prefs_install_products_form
 
-        Page should contain element  id=plone.app.mosaic
-        Assign id to element
-        ...  xpath=//*[@id='plone.app.mosaic']/parent::*
-        ...  addons-plone-app-mosaic
-        Assign id to element
-        ...  xpath=//*[@id='plone.app.mosaic']/ancestor::form
-        ...  addons-enabled
-
-        Highlight  addons-plone-app-mosaic
+        Element should contain  ${SELECTOR_ADDONS_MOSAIC}  Plone Mosaic
+        Highlight  ${SELECTOR_ADDONS_MOSAIC}
         Capture and crop page screenshot
         ...  _screenshots/mosaic-product-activated.png
-        ...  id=addons-enabled
+        ...  ${SELECTOR_ADDONS_ENABLED}
 
 After **Plone Mosaic** has been installed, everything should look normal. Yet, each page is now being rendered through the Plone Mosaic composition chain.
 
@@ -58,19 +51,28 @@ The most prominent feature provided by **Plone Mosaic** is the new **Layout-beha
 
     Show how to select the custom layout option
         Element should be visible  id=plone-contentmenu-layout
-        Click element  css=#plone-contentmenu-layout dt a
+        Click element  ${SELECTOR_CONTENTMENU_LAYOUT_LINK}
         Element should be visible  id=plone-contentmenu-display-view
 
         Update element style  css=.managePortletsFallback  display  none
         Highlight  id=plone-contentmenu-display-view
         Capture and crop page screenshot
         ...  _screenshots/mosaic-custom-layout-enable.png
-        ...  id=edit-bar  id=plone-contentmenu-layout
-        ...  css=#plone-contentmenu-layout dd
+        ...  css=#portal-breadcrumbs
+        ...  ${SELECTOR_TOOLBAR}  id=plone-contentmenu-layout
+        ...  ${SELECTOR_CONTENTMENU_LAYOUT_ITEMS}
 
         Mouse over  id=plone-contentmenu-display-view
         Click element  id=plone-contentmenu-display-view
-        Page should contain  View changed.
+
+        Run keyword if  '${CMFPLONE_VERSION}'.startswith('4.')
+        ...  Page should contain  View changed.
+
+        Run keyword if  '${CMFPLONE_VERSION}'.startswith('5.')
+        ...  Click element  ${SELECTOR_CONTENTMENU_LAYOUT_LINK}
+        Run keyword if  '${CMFPLONE_VERSION}'.startswith('5.')
+        ...  Page should contain element
+        ...  css=#plone-contentmenu-display-view.actionMenuSelected
 
 How the current content looks after the first time the **Custom layout** is activated, depends on the configured defaults for its portal type. Still, at least the title and the description should be always displayed.
 
@@ -81,8 +83,8 @@ How the current content looks after the first time the **Custom layout** is acti
        Update element style  css=.managePortletsFallback  display  none
        Capture and crop page screenshot
         ...  _screenshots/mosaic-custom-layout-enable-done.png
-        ...  id=edit-bar  id=plone-contentmenu-layout  id=content
-        ...  jquery=.portalMessage:visible
+        ...  css=#portal-breadcrumbs
+        ...  ${SELECTOR_TOOLBAR}  id=plone-contentmenu-layout  id=content
         ...  jquery=#content > div:last
 
 
@@ -99,7 +101,8 @@ When the **Custom layout** has been enabled, the **Mosaic editor** is opened by 
         Highlight  id=contentview-edit
         Capture and crop page screenshot
         ...  _screenshots/mosaic-editor-open.png
-        ...  id=edit-bar  id=plone-contentmenu-layout
+        ...  css=#portal-breadcrumbs
+        ...  ${SELECTOR_TOOLBAR}  id=plone-contentmenu-layout
 
 ..  figure:: _screenshots/mosaic-editor-overview.png
 ..  code:: robotframework
