@@ -631,6 +631,10 @@
 .mosaic-panel {
   position: relative;
 }
+.mosaic-panel .mosaic-tile .hiddenStructure,
+#content .mosaic-panel .mosaic-tile .hiddenStructure {
+  display: none;
+}
 /* Outer border */
 .mosaic-panel .mosaic-tile-outer-border {
   position: absolute;
@@ -795,6 +799,11 @@
   height: 12px;
 }
 /* @end */
+/* Empty tile */
+.mosaic-enabled .mosaic-panel .mosaic-tile {
+  min-height: 20px;
+}
+/* @end */
 /* Grid classes, these can also be nested */
 .mosaic-grid-row {
   float: left;
@@ -868,7 +877,4 @@
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-}
-.mosaic-enabled .mosaic-panel .mosaic-tile {
-  min-height: 20px;
 }
