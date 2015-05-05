@@ -107,6 +107,20 @@ def absolute_path(path):
     return path
 
 
+def decode(s):
+    if isinstance(s, unicode):
+        return s
+    else:
+        return unicode(str(s), 'utf-8', 'ignore')
+
+
+def encode(s):
+    if isinstance(s, unicode):
+        return s.encode('utf-8', 'ignore')
+    else:
+        return str(s)
+
+
 @adapter(IVocabularyFactory)
 def AvailableDisplayLayoutsVocabularyFactory(context):
     portal_type = getattr(context, 'portal_type', None)
@@ -131,7 +145,8 @@ def AvailableDisplayLayoutsVocabularyFactory(context):
     for term in vocab:
         layout = layouts.pop(term.value, None)
         if layout is not None:
-            items.append(SimpleTerm(layout, layout, term.title))
+            items.append(SimpleTerm(encode(layout), encode(layout),
+                                    decode(term.title)))
 
     # Return if more layout candidates
     sorted_key = lambda value: (getattr(value, 'title', None) or u'').lower()
@@ -146,8 +161,8 @@ def AvailableDisplayLayoutsVocabularyFactory(context):
             name = key[3:].split('/')[0]
             adapter = queryMultiAdapter((context, request), name=name)
             if adapter:
-                items.append(SimpleTerm(value, value,
-                                        unicode(value[10:].capitalize())))
+                items.append(SimpleTerm(encode(value), encode(value),
+                                        decode(value[10:].capitalize())))
 
     # Return if more layout candidates
     if not layouts:
@@ -167,8 +182,7 @@ def AvailableDisplayLayoutsVocabularyFactory(context):
                or uids.get(key[:key.rfind('/')]))
         if rid is not None:
             md = pc._catalog.getMetadataForRID(rid)
-            items.append(SimpleTerm(
-                value, value, unicode(md.get('Title') or key,
-                                      'utf-8', 'ignore')))
+            items.append(SimpleTerm(encode(value), encode(value),
+                                    decode(md.get('Title') or key)))
 
     return SimpleVocabulary(sorted(items, key=sorted_key))
