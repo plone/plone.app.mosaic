@@ -31,6 +31,12 @@ from plone.app.mosaic.interfaces import CONTENT_LAYOUT_DEFAULT_LAYOUT
 from plone.app.mosaic.interfaces import IMosaicLayer
 from plone.app.mosaic.interfaces import _
 
+try:
+    from plone.protect.utils import addTokenToUrl
+    HAS_PLONE_PROTECT = True
+except ImportError:
+    HAS_PLONE_PROTECT = False
+
 
 logger = logging.getLogger('plone.app.mosaic')
 
@@ -247,11 +253,14 @@ class DisplayLayoutMenu(BrowserMenu):
             if term.value in folder_methods:
                 is_selected = term.value == folder_layout
                 id_ = term.value.split('++')[-1]
+                actionUrl = '%s/selectViewTemplate?templateId=%s' % (
+                    folder_url, quote(term.value),),
+                if HAS_PLONE_PROTECT:
+                    actionUrl = addTokenToUrl(actionUrl, request)
                 folder_results.append({
                     'title': term.title,
                     'description': '',
-                    'action': '%s/selectViewTemplate?templateId=%s' % (
-                        folder_url, quote(term.value),),
+                    'action': actionUrl,
                     'selected': is_selected,
                     'icon': None,
                     'extra': {
@@ -273,11 +282,14 @@ class DisplayLayoutMenu(BrowserMenu):
             if term.value in context_methods:
                 is_selected = term.value == context_layout
                 id_ = term.value.split('++')[-1]
+                actionUrl = '%s/selectViewTemplate?templateId=%s' % (
+                    context_url, quote(term.value),)
+                if HAS_PLONE_PROTECT:
+                    actionUrl = addTokenToUrl(actionUrl, request)
                 context_results.append({
                     'title': term.title,
                     'description': '',
-                    'action': '%s/selectViewTemplate?templateId=%s' % (
-                        context_url, quote(term.value),),
+                    'action': actionUrl,
                     'selected': is_selected,
                     'icon': None,
                     'extra': {
