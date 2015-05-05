@@ -26,7 +26,7 @@
   <!-- Backwards compatibility profile -->
   <genericsetup:registerProfile
       name="bbb"
-      title="Mosaic Mosaic for Plone 4"
+      title="Plone Mosaic for Plone 4"
       directory="browser/bbb/profiles/default"
       description="Installs Mosaic layout support for Dexterity content types"
       for="Products.CMFPlone.interfaces.IPloneSiteRoot"
