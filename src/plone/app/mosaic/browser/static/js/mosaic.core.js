@@ -265,7 +265,7 @@ define([
                 case "z3c.form.browser.textarea.TextAreaFieldWidget":
                     lines = $("#" + tile_config.id)
                                 .find('textarea')
-                                .attr('value').split('\n');
+                                .val().split('\n');
                     for (i = 0; i < lines.length; i += 1) {
                         fieldhtml += '<div>' + lines[i] + '</div>';
                     }

@@ -1891,7 +1891,7 @@ define([
                 return '<div>' + $("#" + tile_config.id, $.mosaic.document).find('input').attr('value') + '</div>';
             case "z3c.form.browser.textarea.TextAreaWidget":
             case "z3c.form.browser.textarea.TextAreaFieldWidget":
-                var lines = $("#" + tile_config.id, $.mosaic.document).find('textarea').attr('value').split('\n');
+                var lines = $("#" + tile_config.id, $.mosaic.document).find('textarea').val().split('\n');
                 var return_string = "";
                 for (var i = 0; i < lines.length; i += 1) {
                     return_string += '<div>' + lines[i] + '</div>';
@@ -1937,7 +1937,7 @@ define([
             switch (tile_config.widget) {
             case "z3c.form.browser.text.TextWidget":
             case "z3c.form.browser.text.TextFieldWidget":
-                $("#" + tile_config.id).find('input').attr('value', $('.mosaic-' + tiletype + '-tile', $.mosaic.document).find('.mosaic-tile-content > *').html());
+                $("#" + tile_config.id).find('input').attr('value', $('.mosaic-' + tiletype + '-tile', $.mosaic.document).find('.mosaic-tile-content > *').text());
                 break;
             case "z3c.form.browser.textarea.TextAreaWidget":
             case "z3c.form.browser.textarea.TextAreaFieldWidget":
