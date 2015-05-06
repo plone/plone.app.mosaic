@@ -1098,10 +1098,10 @@
     </value>
   </record>
 
-  <records prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_proxy"
+  <records prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_existingcontent"
            interface="plone.app.mosaic.interfaces.ITile">
-    <value key="name">plone.app.standardtiles.proxy</value>
-    <value key="label">Proxy</value>
+    <value key="name">plone.app.standardtiles.existingcontent</value>
+    <value key="label">Existing Content</value>
     <value key="category">advanced</value>
     <value key="tile_type">app</value>
     <value key="default_value"></value>
@@ -1112,9 +1112,9 @@
     <value key="weight">20</value>
   </records>
 
-  <record name="plone.app.mosaic.app_tiles.plone_app_standardtiles_proxy.available_actions">
+  <record name="plone.app.mosaic.app_tiles.plone_app_standardtiles_existingcontent.available_actions">
     <field type="plone.registry.field.List">
-      <title>Available actions for the Proxy tile</title>
+      <title>Available actions for the Existing Content tile</title>
       <value_type type="plone.registry.field.TextLine" />
     </field>
     <value>
