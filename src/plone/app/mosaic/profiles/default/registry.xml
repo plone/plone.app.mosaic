@@ -158,23 +158,23 @@
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IWeightedDict"
-           prefix="plone.app.mosaic.format_categories.styles">
-    <value key="name">styles</value>
-    <value key="label">Styles</value>
-    <value key="weight">40</value>
-  </records>
-
-  <records interface="plone.app.mosaic.interfaces.IWeightedDict"
            prefix="plone.app.mosaic.format_categories.lists">
     <value key="name">lists</value>
     <value key="label">Lists</value>
-    <value key="weight">50</value>
+    <value key="weight">40</value>
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IWeightedDict"
            prefix="plone.app.mosaic.format_categories.justify">
     <value key="name">justify</value>
     <value key="label">Justify</value>
+    <value key="weight">50</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IWeightedDict"
+           prefix="plone.app.mosaic.format_categories.styles">
+    <value key="name">styles</value>
+    <value key="label">Styles</value>
     <value key="weight">60</value>
   </records>
 
