@@ -2055,11 +2055,11 @@ define([
                                 // Save title and description
                                 if (tile_config.name === 'plone.app.standardtiles.title') {
                                     $('.mosaic-plone\\.app\\.standardtiles\\.title-tile .mosaic-tile-content .hiddenStructure', $.mosaic.document).remove();
-                                    $("#formfield-form-widgets-IDublinCore-title").find('input').val($.trim($('.mosaic-plone\\.app\\.standardtiles\\.title-tile .mosaic-tile-content', $.mosaic.document).text()));
+                                    $("#formfield-form-widgets-IDublinCore-title").find('input').val($.trim($('.mosaic-plone\\.app\\.standardtiles\\.title-tile .mosaic-tile-content', $.mosaic.document).first().text()));
                                 }
                                 if (tile_config.name === 'plone.app.standardtiles.description') {
                                     $('.mosaic-plone\\.app\\.standardtiles\\.description-tile .mosaic-tile-content .hiddenStructure', $.mosaic.document).remove();
-                                    $("#formfield-form-widgets-IDublinCore-description").find('textarea').val($.trim($('.mosaic-plone\\.app\\.standardtiles\\.description-tile .mosaic-tile-content', $.mosaic.document).text()));
+                                    $("#formfield-form-widgets-IDublinCore-description").find('textarea').val($.trim($('.mosaic-plone\\.app\\.standardtiles\\.description-tile .mosaic-tile-content', $.mosaic.document).first().text()));
                                 }
 
                                 break;
