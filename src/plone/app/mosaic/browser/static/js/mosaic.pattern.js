@@ -48,5 +48,24 @@ require([
         }
     });
 
+    // XXX: This is defined in jquery.form.js, but for some reason is still
+    // not always defined. Re-defining it here fixes issues where $.fieldValue
+    // is not a function.
+    $.fn.fieldValue = function(successful) {
+        for (var val=[], i=0, max=this.length; i < max; i++) {
+            var el = this[i];
+            var v = $.fieldValue(el, successful);
+            if (v === null || typeof v == 'undefined' || (v.constructor == Array && !v.length)) {
+                continue;
+            }
+            if (v.constructor == Array) {
+                $.merge(val, v);
+            } else {
+                val.push(v);
+            }
+        }
+        return val;
+    };
+
     return Layout;
 });
