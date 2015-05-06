@@ -143,6 +143,25 @@ define([
      */
     $.mosaic.initActions = function () {
 
+        // Register generic re-usable apply format action
+        $.mosaic.registerAction('apply-format', {
+            exec: function () {
+                if (arguments.length > 0 && arguments[0].value) {
+                    $.mosaic.editor.applyFormat(arguments[0].value);
+                }
+            }
+        });
+
+        // Register generic re-usable toggle tile class format action
+        $.mosaic.registerAction('tile-toggle-class', {
+             exec: function () {
+                 if (arguments.length > 0 && arguments[0].value) {
+                     $(".mosaic-selected-tile", $.mosaic.document)
+                         .toggleClass(arguments[0].value);
+                 }
+             }
+         });
+
         // Register strong action
         $.mosaic.registerAction('strong', {
             exec: function () {
