@@ -155,12 +155,50 @@ define([
         // Register generic re-usable toggle tile class format action
         $.mosaic.registerAction('tile-toggle-class', {
              exec: function () {
+                 var name;
                  if (arguments.length > 0 && arguments[0].value) {
+                     // Prefix action name with 'mosaic' to create class name
+                     if (arguments[0].value.indexOf('-') > -1) {
+                         // dash-spaced-class-name
+                         name = 'mosaic-' + arguments[0].value;
+                     } else {
+                         // camelCaseClassName
+                         name = arguments[0].value;
+                         name = name.charAt(0).toUpperCase() + name.slice(1);
+                         name = 'mosaic' + name;
+                     }
                      $(".mosaic-selected-tile", $.mosaic.document)
-                         .toggleClass(arguments[0].value);
+                         .toggleClass(name);
                  }
              }
          });
+
+        // Register generic re-usable toggle tile class format action
+        $.mosaic.registerAction('tile-remove-format', {
+            exec: function () {
+                var i, j, group, action, name;
+                for (i = 0; i < $.mosaic.options.formats.length; i++) {
+                    group = $.mosaic.options.formats[i];
+                    for (j = 0; j < group.actions.length; j++) {
+                        action = group.actions[j];
+                        if (action.category === 'tile') {
+                            // Prefix action name with 'mosaic' to create class name
+                            if (arguments[0].value.indexOf('-') > -1) {
+                                // dash-spaced-class-name
+                                name = 'mosaic-' + action.name;
+                            } else {
+                                // camelCaseClassName
+                                name = action.name;
+                                name = name.charAt(0).toUpperCase() + name.slice(1);
+                                name = 'mosaic' + name;
+                            }
+                            $(".mosaic-selected-tile", $.mosaic.document)
+                                .removeClass(name);
+                        }
+                    }
+                }
+            }
+        });
 
         // Register strong action
         $.mosaic.registerAction('strong', {

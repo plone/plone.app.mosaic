@@ -352,6 +352,52 @@
     <value key="weight">110</value>
   </records>
 
+  <!-- Disabled in favor of 'remove-tile-format'
+  <records interface="plone.app.mosaic.interfaces.IFormat"
+           prefix="plone.app.mosaic.formats.tile_align_block">
+    <value key="name">tile-align-block</value>
+    <value key="category">tile</value>
+    <value key="label">Display block</value>
+    <value key="action">tile-align-block</value>
+    <value key="icon">true</value>
+    <value key="favorite">false</value>
+    <value key="weight">200</value>
+  </records>
+  -->
+
+  <records interface="plone.app.mosaic.interfaces.IFormat"
+           prefix="plone.app.mosaic.formats.tile_align_left">
+    <value key="name">tile-align-left</value>
+    <value key="category">tile</value>
+    <value key="label">Float left</value>
+    <value key="action">tile-align-left</value>
+    <value key="icon">true</value>
+    <value key="favorite">false</value>
+    <value key="weight">210</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IFormat"
+           prefix="plone.app.mosaic.formats.tile_remove_format">
+    <value key="name">tile-remove-format</value>
+    <value key="category">tile</value>
+    <value key="label">(remove format)</value>
+    <value key="action">tile-remove-format</value>
+    <value key="icon">true</value>
+    <value key="favorite">false</value>
+    <value key="weight">900</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IFormat"
+           prefix="plone.app.mosaic.formats.tile_align_right">
+    <value key="name">tile-align-right</value>
+    <value key="category">tile</value>
+    <value key="label">Float right</value>
+    <value key="action">tile-align-right</value>
+    <value key="icon">true</value>
+    <value key="favorite">false</value>
+    <value key="weight">220</value>
+  </records>
+
   <records interface="plone.app.mosaic.interfaces.IFormat"
            prefix="plone.app.mosaic.formats.ul">
     <value key="name">ul</value>
@@ -419,39 +465,6 @@
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.formats.tile_align_block">
-    <value key="name">tile-align-block</value>
-    <value key="category">tile</value>
-    <value key="label">Display block</value>
-    <value key="action">tile-align-block</value>
-    <value key="icon">true</value>
-    <value key="favorite">false</value>
-    <value key="weight">200</value>
-  </records>
-
-  <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.formats.tile_align_left">
-    <value key="name">tile-align-left</value>
-    <value key="category">tile</value>
-    <value key="label">Float left</value>
-    <value key="action">tile-align-left</value>
-    <value key="icon">true</value>
-    <value key="favorite">false</value>
-    <value key="weight">210</value>
-  </records>
-
-  <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.formats.tile_align_right">
-    <value key="name">tile-align-right</value>
-    <value key="category">tile</value>
-    <value key="label">Float right</value>
-    <value key="action">tile-align-right</value>
-    <value key="icon">true</value>
-    <value key="favorite">false</value>
-    <value key="weight">220</value>
-  </records>
-
-  <records interface="plone.app.mosaic.interfaces.IFormat"
            prefix="plone.app.mosaic.formats.pagebreak">
     <value key="name">pagebreak</value>
     <value key="category">print</value>
@@ -510,9 +523,9 @@
     <value>
       <element>tile-padding-right</element>
       <element>tile-padding-bottom</element>
-      <element>tile-align-block</element>
       <element>tile-align-left</element>
       <element>tile-align-right</element>
+      <element>tile-remove-format</element>
     </value>
   </record>
 
@@ -525,9 +538,9 @@
     <value>
       <element>tile-padding-right</element>
       <element>tile-padding-bottom</element>
-      <element>tile-align-block</element>
       <element>tile-align-left</element>
       <element>tile-align-right</element>
+      <element>tile-remove-format</element>
       <element>html</element>
       <element>strong</element>
       <element>em</element>
@@ -561,9 +574,9 @@
     <value>
       <element>tile-padding-right</element>
       <element>tile-padding-bottom</element>
-      <element>tile-align-block</element>
       <element>tile-align-left</element>
       <element>tile-align-right</element>
+      <element>tile-remove-format</element>
       <element>html</element>
       <element>strong</element>
       <element>em</element>
@@ -605,9 +618,9 @@
     <value>
       <element>tile-padding-right</element>
       <element>tile-padding-bottom</element>
-      <element>tile-align-block</element>
       <element>tile-align-left</element>
       <element>tile-align-right</element>
+      <element>tile-remove-format</element>
       <element>html</element>
       <element>strong</element>
       <element>em</element>
@@ -649,9 +662,9 @@
     <value>
       <element>tile-padding-right</element>
       <element>tile-padding-bottom</element>
-      <element>tile-align-block</element>
       <element>tile-align-left</element>
       <element>tile-align-right</element>
+      <element>tile-remove-format</element>
       <element>html</element>
       <element>strong</element>
       <element>em</element>
@@ -771,9 +784,9 @@
       <element>justify-justify</element>
       <element>tile-padding-right</element>
       <element>tile-padding-bottom</element>
-      <element>tile-align-block</element>
       <element>tile-align-left</element>
       <element>tile-align-right</element>
+      <element>tile-remove-format</element>
     </value>
   </record>
 
@@ -800,9 +813,9 @@
       <element>blur</element>
       <element>tile-padding-right</element>
       <element>tile-padding-bottom</element>
-      <element>tile-align-block</element>
-      <element>tile-align-right</element>
       <element>tile-align-left</element>
+      <element>tile-align-right</element>
+      <element>tile-remove-format</element>
     </value>
   </record>
 
@@ -829,9 +842,9 @@
       <element>blur</element>
       <element>tile-padding-right</element>
       <element>tile-padding-bottom</element>
-      <element>tile-align-block</element>
-      <element>tile-align-right</element>
       <element>tile-align-left</element>
+      <element>tile-align-right</element>
+      <element>tile-remove-format</element>
     </value>
   </record>
 
@@ -858,9 +871,9 @@
       <element>blur</element>
       <element>tile-padding-right</element>
       <element>tile-padding-bottom</element>
-      <element>tile-align-block</element>
-      <element>tile-align-right</element>
       <element>tile-align-left</element>
+      <element>tile-align-right</element>
+      <element>tile-remove-format</element>
     </value>
   </record>
 
@@ -887,9 +900,9 @@
       <element>blur</element>
       <element>tile-padding-right</element>
       <element>tile-padding-bottom</element>
-      <element>tile-align-block</element>
-      <element>tile-align-right</element>
       <element>tile-align-left</element>
+      <element>tile-align-right</element>
+      <element>tile-remove-format</element>
     </value>
   </record>
 
@@ -916,9 +929,9 @@
       <element>blur</element>
       <element>tile-padding-right</element>
       <element>tile-padding-bottom</element>
-      <element>tile-align-block</element>
-      <element>tile-align-right</element>
       <element>tile-align-left</element>
+      <element>tile-align-right</element>
+      <element>tile-remove-format</element>
     </value>
   </record>
 
@@ -944,9 +957,9 @@
     <value>
       <element>tile-padding-right</element>
       <element>tile-padding-bottom</element>
-      <element>tile-align-block</element>
-      <element>tile-align-right</element>
       <element>tile-align-left</element>
+      <element>tile-align-right</element>
+      <element>tile-remove-format</element>
     </value>
   </record>
 
@@ -972,9 +985,9 @@
     <value>
       <element>tile-padding-right</element>
       <element>tile-padding-bottom</element>
-      <element>tile-align-block</element>
-      <element>tile-align-right</element>
       <element>tile-align-left</element>
+      <element>tile-align-right</element>
+      <element>tile-remove-format</element>
     </value>
   </record>
 
@@ -1001,9 +1014,9 @@
       <element>blur</element>
       <element>tile-padding-right</element>
       <element>tile-padding-bottom</element>
-      <element>tile-align-block</element>
-      <element>tile-align-right</element>
       <element>tile-align-left</element>
+      <element>tile-align-right</element>
+      <element>tile-remove-format</element>
     </value>
   </record>
 
@@ -1030,9 +1043,9 @@
       <element>blur</element>
       <element>tile-padding-right</element>
       <element>tile-padding-bottom</element>
-      <element>tile-align-block</element>
-      <element>tile-align-right</element>
       <element>tile-align-left</element>
+      <element>tile-align-right</element>
+      <element>tile-remove-format</element>
     </value>
   </record>
 
@@ -1073,9 +1086,9 @@
       <element>blur</element>
       <element>tile-padding-right</element>
       <element>tile-padding-bottom</element>
-      <element>tile-align-block</element>
-      <element>tile-align-right</element>
       <element>tile-align-left</element>
+      <element>tile-align-right</element>
+      <element>tile-remove-format</element>
     </value>
   </record>
 
@@ -1102,9 +1115,9 @@
       <element>blur</element>
       <element>tile-padding-right</element>
       <element>tile-padding-bottom</element>
-      <element>tile-align-block</element>
-      <element>tile-align-right</element>
       <element>tile-align-left</element>
+      <element>tile-align-right</element>
+      <element>tile-remove-format</element>
     </value>
   </record>
 
@@ -1131,9 +1144,9 @@
       <element>blur</element>
       <element>tile-padding-right</element>
       <element>tile-padding-bottom</element>
-      <element>tile-align-block</element>
-      <element>tile-align-right</element>
       <element>tile-align-left</element>
+      <element>tile-align-right</element>
+      <element>tile-remove-format</element>
     </value>
   </record>
 
@@ -1160,9 +1173,9 @@
       <element>blur</element>
       <element>tile-padding-right</element>
       <element>tile-padding-bottom</element>
-      <element>tile-align-block</element>
-      <element>tile-align-right</element>
       <element>tile-align-left</element>
+      <element>tile-align-right</element>
+      <element>tile-remove-format</element>
     </value>
   </record>
 
@@ -1189,9 +1202,9 @@
       <element>blur</element>
       <element>tile-padding-right</element>
       <element>tile-padding-bottom</element>
-      <element>tile-align-block</element>
-      <element>tile-align-right</element>
       <element>tile-align-left</element>
+      <element>tile-align-right</element>
+      <element>tile-remove-format</element>
     </value>
   </record>
 
@@ -1218,9 +1231,9 @@
       <element>blur</element>
       <element>tile-padding-right</element>
       <element>tile-padding-bottom</element>
-      <element>tile-align-block</element>
-      <element>tile-align-right</element>
       <element>tile-align-left</element>
+      <element>tile-align-right</element>
+      <element>tile-remove-format</element>
     </value>
   </record>
 
