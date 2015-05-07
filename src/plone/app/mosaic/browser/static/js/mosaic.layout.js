@@ -1823,7 +1823,6 @@ define([
      * @param {String} value Value of the application tile
      */
     $.mosaic.addTile = function (type, value) {
-
         // Set dragging state
         $.mosaic.options.panels.addClass("mosaic-panel-dragging mosaic-panel-dragging-new");
 
@@ -1881,22 +1880,34 @@ define([
      * @return {String} Default value of the given tile
      */
     $.mosaic.getDefaultValue = function (tile_config) {
-        var editor_id;
+        var editor_id, start, end;
+
+        // Wrap title and description fields for proper styles
+        if (tile_config.name === 'IDublinCore-title') {
+            start = '<h1 class="documentFirstHeading">';
+            end = '</h1>';
+        } else if (tile_config.name === 'IDublinCore-description') {
+            start = '<p class="documentDescription">';
+            end = '</p>';
+        } else {
+            start = '<div>';
+            end = '</div>';
+        }
 
         switch (tile_config.tile_type) {
         case "field":
             switch (tile_config.widget) {
             case "z3c.form.browser.text.TextWidget":
             case "z3c.form.browser.text.TextFieldWidget":
-                return '<div>' + $("#" + tile_config.id, $.mosaic.document).find('input').attr('value') + '</div>';
+                return start + $("#" + tile_config.id, $.mosaic.document).find('input').attr('value') + end;
             case "z3c.form.browser.textarea.TextAreaWidget":
             case "z3c.form.browser.textarea.TextAreaFieldWidget":
                 var lines = $("#" + tile_config.id, $.mosaic.document).find('textarea').val().split('\n');
                 var return_string = "";
                 for (var i = 0; i < lines.length; i += 1) {
-                    return_string += '<div>' + lines[i] + '</div>';
+                    return_string += lines[i] + "<br/>";
                 }
-                return return_string;
+                return start + return_string + end;
             case "plone.app.z3cform.widget.RichTextFieldWidget":
             case "plone.app.z3cform.wysiwyg.widget.WysiwygWidget":
             case "plone.app.z3cform.wysiwyg.widget.WysiwygFieldWidget":
@@ -1921,7 +1932,7 @@ define([
      * @return {String} Default value of the given tile
      */
     $.mosaic.saveTileValueToForm = function (tiletype, tile_config) {
-        var editor_id;
+        var editor_id, value, newline;
 
         // Update field values if type is rich text
         if (tile_config && tile_config.tile_type === 'field' &&
@@ -1941,11 +1952,17 @@ define([
                 break;
             case "z3c.form.browser.textarea.TextAreaWidget":
             case "z3c.form.browser.textarea.TextAreaFieldWidget":
-                var value = "";
+                value = "";
+                if (tile_config.name === 'IDublinCore-description') {
+                    newline = " ";  // otherwise Plone would replace \n with ''
+                } else {
+                    newline = "\n";
+                }
                 $('.mosaic-' + tiletype + '-tile', $.mosaic.document).find('.mosaic-tile-content > *').each(function () {
-                    value += $(this).html() + "\n";
+                    value += $(this).html() + newline;
                 });
-                value = value.replace(/<br[^>]*>/ig, "\n");
+                value = value.replace(/<br[^>]*>/ig, newline);
+                value = value.replace(/^\s+|\s+$/g, '');
                 $("#" + tile_config.id).find('textarea').val(value);
                 break;
             case "plone.app.z3cform.widget.RichTextFieldWidget":
@@ -2051,17 +2068,6 @@ define([
                                 body += '          <div data-tile="' + tile_url + '"></div>\n';
                                 body += '          </div>\n';
                                 body += '          </div>\n';
-
-                                // Save title and description
-                                if (tile_config.name === 'plone.app.standardtiles.title') {
-                                    $('.mosaic-plone\\.app\\.standardtiles\\.title-tile .mosaic-tile-content .hiddenStructure', $.mosaic.document).remove();
-                                    $("#formfield-form-widgets-IDublinCore-title").find('input').val($.trim($('.mosaic-plone\\.app\\.standardtiles\\.title-tile .mosaic-tile-content', $.mosaic.document).first().text()));
-                                }
-                                if (tile_config.name === 'plone.app.standardtiles.description') {
-                                    $('.mosaic-plone\\.app\\.standardtiles\\.description-tile .mosaic-tile-content .hiddenStructure', $.mosaic.document).remove();
-                                    $("#formfield-form-widgets-IDublinCore-description").find('textarea').val($.trim($('.mosaic-plone\\.app\\.standardtiles\\.description-tile .mosaic-tile-content', $.mosaic.document).first().text()));
-                                }
-
                                 break;
                             case "field":
                                 body += '          <div class="' + $(this).attr("class") + '">\n';

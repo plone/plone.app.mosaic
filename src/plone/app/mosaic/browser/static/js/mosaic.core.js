@@ -168,7 +168,6 @@ define([
         // Pre-fill new panels from the layout
         $("[data-panel]", $.mosaic.document).each(function () {
             if (!$(this).hasClass('mosaic-panel')) {
-                console.log($(this));
                 $(this).addClass('mosaic-panel');
                 $(this).children().wrap($(
                     '<div class="mosaic-grid-row">' +
@@ -192,7 +191,7 @@ define([
 
             // Local variables
             var target, base, href, tile_content, tiletype, classes, url,
-                tile_config, x, tile_group, y, fieldhtml, lines, i;
+                tile_config, x, tile_group, y, fieldhtml, lines, i, start, end;
 
             base = $($.mosaic.document).find('head > base').attr('href');
             href = $(this).attr("data-tile");
@@ -254,21 +253,35 @@ define([
 
                 fieldhtml = '';
 
+                // Wrap title and description fields for proper styles
+                if (tile_config.name === 'IDublinCore-title') {
+                    start = '<h1 class="documentFirstHeading">';
+                    end = '</h1>';
+                } else if (tile_config.name === 'IDublinCore-description') {
+                    start = '<p class="documentDescription">';
+                    end = '</p>';
+                } else {
+                    start = '<div>';
+                    end = '</div>';
+                }
+
                 switch (tile_config.widget) {
                 case "z3c.form.browser.text.TextWidget":
                 case "z3c.form.browser.text.TextFieldWidget":
-                    fieldhtml = '<div>' +
+                    fieldhtml = start +
                         $("#" + tile_config.id)
-                              .find('input').attr('value') + '</div>';
+                              .find('input').attr('value') + end;
                     break;
                 case "z3c.form.browser.textarea.TextAreaWidget":
                 case "z3c.form.browser.textarea.TextAreaFieldWidget":
                     lines = $("#" + tile_config.id)
                                 .find('textarea')
                                 .val().split('\n');
+                    fieldhtml += start; + lines[i] + end;
                     for (i = 0; i < lines.length; i += 1) {
-                        fieldhtml += '<div>' + lines[i] + '</div>';
+                        fieldhtml += lines[i] + '<br/>';
                     }
+                    fieldhtml += end;
                     break;
                 case "plone.app.z3cform.widget.RichTextFieldWidget":
                 case "plone.app.z3cform.wysiwyg.widget.WysiwygWidget":

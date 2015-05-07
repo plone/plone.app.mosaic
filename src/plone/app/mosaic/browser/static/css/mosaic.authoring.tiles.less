@@ -7,6 +7,20 @@
     display: none;
 }
 
+.mosaic-panel .mosaic-tile {
+  position: relative;
+  z-index: 100;
+}
+
+.mosaic-panel .mosaic-tile .mosaic-tile-content {
+  position: relative;
+  z-index: 100;
+}
+
+.mosaic-panel .mosaic-tile-content textarea, .mosaic-tile-content input[type=text] {
+  width: 100%;
+}
+
 /* Outer border */
 .mosaic-panel .mosaic-tile-outer-border {
     position: absolute;
@@ -110,6 +124,11 @@
     border: 0;
 }
 
+/* Line break in description tile */
+.mosaic-panel .documentDescription + .documentDescription {
+    margin-top: -10px;
+}
+
 /* Images will never be bigger then a tile */
 .mosaic-panel img {
     max-width: 100%;
@@ -127,7 +146,6 @@
     right: 0;
     bottom: 0;
 }
-
 
 /* Helper border */
 .mosaic-panel .mosaic-tile.mosaic-helper-tile {
