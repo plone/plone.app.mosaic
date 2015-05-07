@@ -757,26 +757,6 @@
   width: 12px;
   height: 12px;
 }
-.mosaic-panel .mosaic-tile {
-  position: relative;
-  z-index: 100;
-}
-.mosaic-panel .mosaic-tile .mosaic-tile-content {
-  position: relative;
-  z-index: 100;
-}
-.mosaic-panel .mosaic-tile-content textarea,
-.mosaic-tile-content input[type=text] {
-  width: 100%;
-}
-.mosaic-panel .mosaic-tile-align-left {
-  float: left;
-  z-index: 200;
-}
-.mosaic-panel .mosaic-tile-align-right {
-  float: right;
-  z-index: 200;
-}
 .mosaic-panel .mosaic-panel-dragging .mosaic-tile-align-left {
   z-index: 50;
 }
@@ -804,6 +784,26 @@
   min-height: 20px;
 }
 /* @end */
+.mosaic-panel .mosaic-tile {
+  position: relative;
+  z-index: 100;
+}
+.mosaic-panel .mosaic-tile .mosaic-tile-content {
+  position: relative;
+  z-index: 100;
+}
+.mosaic-panel .mosaic-tile-content textarea,
+.mosaic-tile-content input[type=text] {
+  width: 100%;
+}
+.mosaic-panel .mosaic-tile-align-left {
+  float: left;
+  z-index: 200;
+}
+.mosaic-panel .mosaic-tile-align-right {
+  float: right;
+  z-index: 200;
+}
 .mosaic-tile.tile-padding-right {
   padding-right: 1em;
 }

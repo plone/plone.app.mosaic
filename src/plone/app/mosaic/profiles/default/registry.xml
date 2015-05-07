@@ -172,18 +172,19 @@
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IWeightedDict"
-           prefix="plone.app.mosaic.format_categories.styles">
-    <value key="name">styles</value>
-    <value key="label">Styles</value>
+           prefix="plone.app.mosaic.format_categories.print">
+    <value key="name">print</value>
+    <value key="label">Print</value>
     <value key="weight">60</value>
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IWeightedDict"
-           prefix="plone.app.mosaic.format_categories.print">
-    <value key="name">print</value>
-    <value key="label">Print</value>
+           prefix="plone.app.mosaic.format_categories.tile">
+    <value key="name">tile</value>
+    <value key="label">Tile</value>
     <value key="weight">70</value>
   </records>
+
 
   <!-- Formats -->
   <records interface="plone.app.mosaic.interfaces.IFormat"
@@ -332,8 +333,8 @@
   <records interface="plone.app.mosaic.interfaces.IFormat"
            prefix="plone.app.mosaic.formats.tile_padding_right">
     <value key="name">tile-padding-right</value>
-    <value key="category">styles</value>
-    <value key="label">Tile padding right</value>
+    <value key="category">tile</value>
+    <value key="label">Padding right</value>
     <value key="action">tile-toggle-class</value>
     <value key="icon">true</value>
     <value key="favorite">false</value>
@@ -343,8 +344,8 @@
   <records interface="plone.app.mosaic.interfaces.IFormat"
            prefix="plone.app.mosaic.formats.tile_padding_bottom">
     <value key="name">tile-padding-bottom</value>
-    <value key="category">styles</value>
-    <value key="label">Tile padding bottom</value>
+    <value key="category">tile</value>
+    <value key="label">Padding bottom</value>
     <value key="action">tile-toggle-class</value>
     <value key="icon">true</value>
     <value key="favorite">false</value>
@@ -420,8 +421,8 @@
   <records interface="plone.app.mosaic.interfaces.IFormat"
            prefix="plone.app.mosaic.formats.tile_align_block">
     <value key="name">tile-align-block</value>
-    <value key="category">justify</value>
-    <value key="label">Tile block</value>
+    <value key="category">tile</value>
+    <value key="label">Display block</value>
     <value key="action">tile-align-block</value>
     <value key="icon">true</value>
     <value key="favorite">false</value>
@@ -431,8 +432,8 @@
   <records interface="plone.app.mosaic.interfaces.IFormat"
            prefix="plone.app.mosaic.formats.tile_align_left">
     <value key="name">tile-align-left</value>
-    <value key="category">justify</value>
-    <value key="label">Tile left</value>
+    <value key="category">tile</value>
+    <value key="label">Float left</value>
     <value key="action">tile-align-left</value>
     <value key="icon">true</value>
     <value key="favorite">false</value>
@@ -442,8 +443,8 @@
   <records interface="plone.app.mosaic.interfaces.IFormat"
            prefix="plone.app.mosaic.formats.tile_align_right">
     <value key="name">tile-align-right</value>
-    <value key="category">justify</value>
-    <value key="label">Tile right</value>
+    <value key="category">tile</value>
+    <value key="label">Float right</value>
     <value key="action">tile-align-right</value>
     <value key="icon">true</value>
     <value key="favorite">false</value>
