@@ -507,10 +507,6 @@
       <element>plone.app.dexterity.behaviors.metadata.IOwnership.creators</element>
       <element>plone.app.dexterity.behaviors.metadata.IOwnership.contributors</element>
       <element>plone.app.dexterity.behaviors.metadata.IOwnership.rights</element>
-
-      <!-- SHOULD BE REMOVED WHEN WE GET RID OF THE METADATA APP TILES -->
-      <element>plone.app.dexterity.behaviors.metadata.IDublinCore.title</element>
-      <element>plone.app.dexterity.behaviors.metadata.IDublinCore.description</element>
     </value>
   </record>
 
@@ -927,62 +923,6 @@
     </field>
     <value>
       <element>blur</element>
-      <element>tile-padding-right</element>
-      <element>tile-padding-bottom</element>
-      <element>tile-align-left</element>
-      <element>tile-align-right</element>
-      <element>tile-remove-format</element>
-    </value>
-  </record>
-
-  <records prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_title"
-           interface="plone.app.mosaic.interfaces.ITile">
-    <value key="name">plone.app.standardtiles.title</value>
-    <value key="label">Title</value>
-    <value key="category">fields</value>
-    <value key="tile_type">app</value>
-    <value key="default_value"></value>
-    <value key="read_only">false</value>
-    <value key="settings">false</value>
-    <value key="favorite">false</value>
-    <value key="rich_text">true</value>
-    <value key="weight">10</value>
-  </records>
-
-  <record name="plone.app.mosaic.app_tiles.plone_app_standardtiles_title.available_actions">
-    <field type="plone.registry.field.List">
-      <title>Available actions for the Title tile</title>
-      <value_type type="plone.registry.field.TextLine" />
-    </field>
-    <value>
-      <element>tile-padding-right</element>
-      <element>tile-padding-bottom</element>
-      <element>tile-align-left</element>
-      <element>tile-align-right</element>
-      <element>tile-remove-format</element>
-    </value>
-  </record>
-
-  <records prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_description"
-           interface="plone.app.mosaic.interfaces.ITile">
-    <value key="name">plone.app.standardtiles.description</value>
-    <value key="label">Description</value>
-    <value key="category">fields</value>
-    <value key="tile_type">app</value>
-    <value key="default_value"></value>
-    <value key="read_only">false</value>
-    <value key="settings">false</value>
-    <value key="favorite">false</value>
-    <value key="rich_text">true</value>
-    <value key="weight">20</value>
-  </records>
-
-  <record name="plone.app.mosaic.app_tiles.plone_app_standardtiles_description.available_actions">
-    <field type="plone.registry.field.List">
-      <title>Available actions for the Description tile</title>
-      <value_type type="plone.registry.field.TextLine" />
-    </field>
-    <value>
       <element>tile-padding-right</element>
       <element>tile-padding-bottom</element>
       <element>tile-align-left</element>
