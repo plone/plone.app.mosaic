@@ -380,7 +380,7 @@
            prefix="plone.app.mosaic.formats.tile_remove_format">
     <value key="name">tile-remove-format</value>
     <value key="category">tile</value>
-    <value key="label">(remove format)</value>
+    <value key="label">(Remove format)</value>
     <value key="action">tile-remove-format</value>
     <value key="icon">true</value>
     <value key="favorite">false</value>
