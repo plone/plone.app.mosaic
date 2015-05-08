@@ -185,6 +185,12 @@
     <value key="weight">70</value>
   </records>
 
+  <records interface="plone.app.mosaic.interfaces.IWeightedDict"
+           prefix="plone.app.mosaic.format_categories.row">
+    <value key="name">row</value>
+    <value key="label">Row</value>
+    <value key="weight">80</value>
+  </records>
 
   <!-- Formats -->
   <records interface="plone.app.mosaic.interfaces.IFormat"
@@ -399,6 +405,28 @@
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
+           prefix="plone.app.mosaic.formats.grid_row_dark">
+    <value key="name">grid-row-dark</value>
+    <value key="category">row</value>
+    <value key="label">Dark background</value>
+    <value key="action">row-toggle-class</value>
+    <value key="icon">true</value>
+    <value key="favorite">false</value>
+    <value key="weight">100</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IFormat"
+           prefix="plone.app.mosaic.formats.grid_row_remove_format">
+    <value key="name">grid-row-remove-format</value>
+    <value key="category">row</value>
+    <value key="label">(Remove format)</value>
+    <value key="action">row-remove-format</value>
+    <value key="icon">true</value>
+    <value key="favorite">false</value>
+    <value key="weight">900</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IFormat"
            prefix="plone.app.mosaic.formats.ul">
     <value key="name">ul</value>
     <value key="category">lists</value>
@@ -522,6 +550,8 @@
       <element>tile-align-left</element>
       <element>tile-align-right</element>
       <element>tile-remove-format</element>
+      <element>grid-row-dark</element>
+      <element>grid-row-remove-format</element>
     </value>
   </record>
 
@@ -537,6 +567,8 @@
       <element>tile-align-left</element>
       <element>tile-align-right</element>
       <element>tile-remove-format</element>
+      <element>grid-row-dark</element>
+      <element>grid-row-remove-format</element>
       <element>html</element>
       <element>strong</element>
       <element>em</element>
@@ -573,6 +605,8 @@
       <element>tile-align-left</element>
       <element>tile-align-right</element>
       <element>tile-remove-format</element>
+      <element>grid-row-dark</element>
+      <element>grid-row-remove-format</element>
       <element>html</element>
       <element>strong</element>
       <element>em</element>
@@ -617,6 +651,8 @@
       <element>tile-align-left</element>
       <element>tile-align-right</element>
       <element>tile-remove-format</element>
+      <element>grid-row-dark</element>
+      <element>grid-row-remove-format</element>
       <element>html</element>
       <element>strong</element>
       <element>em</element>
@@ -661,6 +697,8 @@
       <element>tile-align-left</element>
       <element>tile-align-right</element>
       <element>tile-remove-format</element>
+      <element>grid-row-dark</element>
+      <element>grid-row-remove-format</element>
       <element>html</element>
       <element>strong</element>
       <element>em</element>
@@ -783,6 +821,8 @@
       <element>tile-align-left</element>
       <element>tile-align-right</element>
       <element>tile-remove-format</element>
+      <element>grid-row-dark</element>
+      <element>grid-row-remove-format</element>
     </value>
   </record>
 
@@ -812,6 +852,8 @@
       <element>tile-align-left</element>
       <element>tile-align-right</element>
       <element>tile-remove-format</element>
+      <element>grid-row-dark</element>
+      <element>grid-row-remove-format</element>
     </value>
   </record>
 
@@ -841,6 +883,8 @@
       <element>tile-align-left</element>
       <element>tile-align-right</element>
       <element>tile-remove-format</element>
+      <element>grid-row-dark</element>
+      <element>grid-row-remove-format</element>
     </value>
   </record>
 
@@ -870,6 +914,8 @@
       <element>tile-align-left</element>
       <element>tile-align-right</element>
       <element>tile-remove-format</element>
+      <element>grid-row-dark</element>
+      <element>grid-row-remove-format</element>
     </value>
   </record>
 
@@ -899,6 +945,8 @@
       <element>tile-align-left</element>
       <element>tile-align-right</element>
       <element>tile-remove-format</element>
+      <element>grid-row-dark</element>
+      <element>grid-row-remove-format</element>
     </value>
   </record>
 
@@ -928,6 +976,8 @@
       <element>tile-align-left</element>
       <element>tile-align-right</element>
       <element>tile-remove-format</element>
+      <element>grid-row-dark</element>
+      <element>grid-row-remove-format</element>
     </value>
   </record>
 
@@ -957,6 +1007,8 @@
       <element>tile-align-left</element>
       <element>tile-align-right</element>
       <element>tile-remove-format</element>
+      <element>grid-row-dark</element>
+      <element>grid-row-remove-format</element>
     </value>
   </record>
 
@@ -986,6 +1038,8 @@
       <element>tile-align-left</element>
       <element>tile-align-right</element>
       <element>tile-remove-format</element>
+      <element>grid-row-dark</element>
+      <element>grid-row-remove-format</element>
     </value>
   </record>
 
@@ -1029,6 +1083,8 @@
       <element>tile-align-left</element>
       <element>tile-align-right</element>
       <element>tile-remove-format</element>
+      <element>grid-row-dark</element>
+      <element>grid-row-remove-format</element>
     </value>
   </record>
 
@@ -1058,6 +1114,8 @@
       <element>tile-align-left</element>
       <element>tile-align-right</element>
       <element>tile-remove-format</element>
+      <element>grid-row-dark</element>
+      <element>grid-row-remove-format</element>
     </value>
   </record>
 
@@ -1087,6 +1145,8 @@
       <element>tile-align-left</element>
       <element>tile-align-right</element>
       <element>tile-remove-format</element>
+      <element>grid-row-dark</element>
+      <element>grid-row-remove-format</element>
     </value>
   </record>
 
@@ -1116,6 +1176,8 @@
       <element>tile-align-left</element>
       <element>tile-align-right</element>
       <element>tile-remove-format</element>
+      <element>grid-row-dark</element>
+      <element>grid-row-remove-format</element>
     </value>
   </record>
 
@@ -1145,6 +1207,8 @@
       <element>tile-align-left</element>
       <element>tile-align-right</element>
       <element>tile-remove-format</element>
+      <element>grid-row-dark</element>
+      <element>grid-row-remove-format</element>
     </value>
   </record>
 
@@ -1174,6 +1238,8 @@
       <element>tile-align-left</element>
       <element>tile-align-right</element>
       <element>tile-remove-format</element>
+      <element>grid-row-dark</element>
+      <element>grid-row-remove-format</element>
     </value>
   </record>
 
