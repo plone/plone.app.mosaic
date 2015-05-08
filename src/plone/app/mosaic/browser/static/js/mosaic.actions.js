@@ -578,11 +578,13 @@ define([
             exec: function (source) {
 
                 // Local variables
-                var tile_config, tile_group, x, y;
+                var tile_config, tile_group, tile_type, x, y;
 
                 // Check if value selected
                 if ($(source).val() === "none") {
                     return false;
+                } else {
+                    tile_type = $(source).val();
                 }
 
                 // Deselect tiles
@@ -597,42 +599,85 @@ define([
                 for (x = 0; x < $.mosaic.options.tiles.length; x += 1) {
                     tile_group = $.mosaic.options.tiles[x];
                     for (y = 0; y < tile_group.tiles.length; y += 1) {
-                        if (tile_group.tiles[y].name === $(source).val()) {
+                        if (tile_group.tiles[y].name === tile_type) {
                             tile_config = tile_group.tiles[y];
                         }
                     }
                 }
 
+                // Create new app tile
                 if (tile_config.tile_type === 'app') {
+                    // Load add form form selected tiletype
+                    $.ajax({
+                        type: "GET",
+                        url: $.mosaic.options.context_url +
+                            '/@@add-tile?tiletype=' + tile_type +
+                            '&form.button.Create=Create',
+                        success: function(value, xhr) {
+                            var $value, action_url, authenticator, modalFunc;
 
-                    // Open overlay
-                    $.mosaic.overlay.app = new modal($('.mosaic-toolbar'),
-                        {ajaxUrl: $.mosaic.options.context_url +
-                        '/@@add-tile?tiletype=' + $(source).val() +
-                        '&form.button.Create=Create', 
-                        loadLinksWithinModal: true
-                    });
-                    $.mosaic.overlay.app._tile_type = $(source).val();
-                    $.mosaic.overlay.app.show();
-                    $.mosaic.overlay.app.$el.off('formActionSuccess');
-                    $.mosaic.overlay.app.on(
-                        'formActionSuccess',
-                        function (event, response, state, xhr, form) {
-                            var tileUrl = xhr.getResponseHeader('X-Tile-Url')
-                            if (tileUrl) {
-                                $.mosaic.addAppTileHTML(
-                                    $.mosaic.overlay.app._tile_type, response,
-                                    tileUrl
+                            // Read form
+                            $value = $(value);
+                            action_url = $value.find('form').attr('action');
+                            authenticator = $value.find('[name="_authenticator"]').val();
+
+                            // Open add form in modal when requires user input
+                            modalFunc = function(html) {
+                                $.mosaic.overlay.app = new modal($('.mosaic-toolbar'), {
+                                    html: html,
+                                    loadLinksWithinModal: true
+                                });
+                                $.mosaic.overlay.app.show();
+                                $.mosaic.overlay.app.$el.off('formActionSuccess');
+                                $.mosaic.overlay.app.on(
+                                    'formActionSuccess',
+                                    function (event, response, state, xhr) {
+                                        console.log('onSuccess');
+                                        var tileUrl = xhr.getResponseHeader('X-Tile-Url')
+                                        if (tileUrl) {
+                                            $.mosaic.addAppTileHTML(
+                                                tile_type, response, tileUrl);
+                                        }
+                                        // Close overlay
+                                        $.mosaic.overlay.app.hide();
+                                        $.mosaic.overlay.app = null;
+                                    }
                                 );
+                            };
+
+                            // Auto-submit add-form when all required fields are filled
+                            if ($("form .required", $value).filter(function() {
+                                    return $(this).parents(".field").first()
+                                                  .find("input, select, textarea").last()
+                                                  .val().length == 0 }).length > 0) {
+                                modalFunc(value);
+                            } else if (action_url) {
+                                $("form", $value).ajaxSubmit({
+                                    type: "POST",
+                                    url: action_url,
+                                    data: {
+                                        'buttons.save': 'Save',
+                                        '_authenticator': authenticator
+                                    },
+                                    success: function(value, state, xhr) {
+                                        var tileUrl = xhr.getResponseHeader('X-Tile-Url')
+                                        if (tileUrl) {
+                                            $.mosaic.addAppTileHTML(
+                                                tile_type, value, tileUrl);
+                                        } else {
+                                            modalFunc(value);
+                                        }
+                                    }
+                                });
                             }
                         }
-                    );
+                    });
 
                 } else {
 
                     // Add tile
-                    $.mosaic.addTile($(source).val(),
-                        $.mosaic.getDefaultValue(tile_config));
+                    $.mosaic.addTile(
+                        tile_type, $.mosaic.getDefaultValue(tile_config));
                 }
 
                 // Reset menu
