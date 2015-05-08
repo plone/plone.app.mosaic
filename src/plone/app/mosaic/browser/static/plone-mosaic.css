@@ -814,6 +814,17 @@
 .mosaic-tile-padding-bottom {
   padding-bottom: 1ex;
 }
+.mosaic-grid-row-dark {
+  background: #ccc;
+  padding: 1ex 1em;
+  color: #2c2c2c;
+}
+.mosaic-grid-row-dark + .mosaic-grid-row {
+  padding-top: 1ex;
+}
+.mosaic-grid-row-dark + .mosaic-grid-row-dark {
+  padding-top: 0;
+}
 /* Grid classes, these can also be nested */
 .mosaic-grid-row {
   float: left;

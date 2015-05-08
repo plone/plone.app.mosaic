@@ -1067,6 +1067,7 @@ define([
             // Replace empty with normal row class
             drop
                 .removeClass("mosaic-empty-row")
+                .attr('class', original_tile.parents('.mosaic-grid-row').first().attr('class'))
                 .unbind('mousemove');
 
             // Clean cell
@@ -1987,6 +1988,7 @@ define([
         // Content
         var content,
             body = "",
+            classNames = "",
             tilecount = 0,
             panel_id = "";
 
@@ -2010,7 +2012,8 @@ define([
                 if ($(this).hasClass("mosaic-empty-row") === false) {
 
                     // Add row open tag
-                    body += '      <div class="mosaic-grid-row">\n';
+                    classNames = $(this).attr("class");
+                    body += '      <div class="' + classNames + '">\n';
 
                     // Loop through rows
                     $(this).children(".mosaic-grid-cell").each(function () {

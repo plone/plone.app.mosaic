@@ -137,6 +137,24 @@ define([
     };
 
     /**
+     * Build mosaic-prefixed class name so that 'foo-bar' becomes
+     * 'mosaic-foo-bar' and 'fooBar' becomes 'mosaicFooBar'.
+     *
+     * @id jQuery.mosaic.getPrefixedClassName
+     * @name {String} class name
+     * @return {String} class name
+     */
+    $.mosaic.getPrefixedClassName = function (name) {
+        if (name.indexOf('-') > -1) {
+            // dash-spaced-class-name
+            return 'mosaic-' + name;
+        } else {
+            // camelCaseClassName
+            return 'mosaic' + name.charAt(0).toUpperCase() + name.slice(1);
+        }
+    };
+
+    /**
      * Initialize the action manager
      *
      * @id jQuery.mosaic.initActions
@@ -157,16 +175,7 @@ define([
              exec: function () {
                  var name;
                  if (arguments.length > 0 && arguments[0].value) {
-                     // Prefix action name with 'mosaic' to create class name
-                     if (arguments[0].value.indexOf('-') > -1) {
-                         // dash-spaced-class-name
-                         name = 'mosaic-' + arguments[0].value;
-                     } else {
-                         // camelCaseClassName
-                         name = arguments[0].value;
-                         name = name.charAt(0).toUpperCase() + name.slice(1);
-                         name = 'mosaic' + name;
-                     }
+                     name = $.mosaic.getPrefixedClassName(arguments[0].value);
                      $(".mosaic-selected-tile", $.mosaic.document)
                          .toggleClass(name);
                  }
@@ -182,17 +191,40 @@ define([
                     for (j = 0; j < group.actions.length; j++) {
                         action = group.actions[j];
                         if (action.category === 'tile') {
-                            // Prefix action name with 'mosaic' to create class name
-                            if (arguments[0].value.indexOf('-') > -1) {
-                                // dash-spaced-class-name
-                                name = 'mosaic-' + action.name;
-                            } else {
-                                // camelCaseClassName
-                                name = action.name;
-                                name = name.charAt(0).toUpperCase() + name.slice(1);
-                                name = 'mosaic' + name;
-                            }
+                            name = $.mosaic.getPrefixedClassName(action.name);
                             $(".mosaic-selected-tile", $.mosaic.document)
+                                .removeClass(name);
+                        }
+                    }
+                }
+            }
+        });
+
+        // Register generic re-usable toggle row class format action
+        $.mosaic.registerAction('row-toggle-class', {
+            exec: function () {
+                var name;
+                if (arguments.length > 0 && arguments[0].value) {
+                    name = $.mosaic.getPrefixedClassName(arguments[0].value);
+                    $(".mosaic-selected-tile", $.mosaic.document)
+                        .parents('.mosaic-grid-row').first()
+                        .toggleClass(name);
+                }
+            }
+        });
+
+        // Register generic re-usable toggle row class format action
+        $.mosaic.registerAction('row-remove-format', {
+            exec: function () {
+                var i, j, group, action, name;
+                for (i = 0; i < $.mosaic.options.formats.length; i++) {
+                    group = $.mosaic.options.formats[i];
+                    for (j = 0; j < group.actions.length; j++) {
+                        action = group.actions[j];
+                        if (action.category === 'row') {
+                            name = $.mosaic.getPrefixedClassName(action.name);
+                            $(".mosaic-selected-tile", $.mosaic.document)
+                                .parents('.mosaic-grid-row').first()
                                 .removeClass(name);
                         }
                     }
