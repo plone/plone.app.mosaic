@@ -825,6 +825,15 @@
 .mosaic-grid-row-dark + .mosaic-grid-row-dark {
   padding-top: 0;
 }
+.mosaic-tile #commenting {
+  font-size: 100%;
+}
+.mosaic-tile .comment {
+  font-size: 100%;
+}
+#content .mosaic-tile .discussion div.documentByLine {
+  font-size: 100%;
+}
 /* Grid classes, these can also be nested */
 .mosaic-grid-row {
   float: left;
