@@ -632,7 +632,6 @@ define([
                                 $.mosaic.overlay.app.on(
                                     'formActionSuccess',
                                     function (event, response, state, xhr) {
-                                        console.log('onSuccess');
                                         var tileUrl = xhr.getResponseHeader('X-Tile-Url')
                                         if (tileUrl) {
                                             $.mosaic.addAppTileHTML(
@@ -648,7 +647,8 @@ define([
                             // Auto-submit add-form when all required fields are filled
                             if ($("form .required", $value).filter(function() {
                                     return $(this).parents(".field").first()
-                                                  .find("input, select, textarea").last()
+                                                  .find("input, select, textarea")
+                                                  .not('[type="hidden"]').last()
                                                   .val().length == 0 }).length > 0) {
                                 modalFunc(value);
                             } else if (action_url) {
