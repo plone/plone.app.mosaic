@@ -1153,6 +1153,7 @@
     </value>
   </record>
 
+  <!-- Is broken and could probably be replaced with portlet tile
   <records prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_calendar"
            interface="plone.app.mosaic.interfaces.ITile">
     <value key="name">plone.app.standardtiles.calendar</value>
@@ -1183,6 +1184,7 @@
       <element>grid-row-remove-format</element>
     </value>
   </record>
+  -->
 
   <records prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_discussion"
            interface="plone.app.mosaic.interfaces.ITile">
