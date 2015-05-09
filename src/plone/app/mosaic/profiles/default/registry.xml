@@ -521,20 +521,27 @@
       <value_type type="plone.registry.field.TextLine" />
     </field>
     <value>
-      <element>plone.app.dexterity.behaviors.metadata.IDublinCore.subjects</element>
-      <element>plone.app.dexterity.behaviors.metadata.IDublinCore.language</element>
+      <element>plone.app.contenttypes.behaviors.tableofcontents.ITableOfContents.table_of_contents</element>
+      <element>plone.app.dexterity.behaviors.exclfromnav.IExcludeFromNavigation.exclude_from_nav</element>
+      <element>plone.app.dexterity.behaviors.discussion.IAllowDiscussion.allow_discussion</element>
+      <element>plone.app.dexterity.behaviors.id.IShortName.id</element>
+      <element>plone.app.dexterity.behaviors.metadata.ICategorization.language</element>
+      <element>plone.app.dexterity.behaviors.metadata.ICategorization.subjects</element>
+      <element>plone.app.dexterity.behaviors.metadata.IDublinCore.contributors</element>
+      <element>plone.app.dexterity.behaviors.metadata.IDublinCore.creators</element>
       <element>plone.app.dexterity.behaviors.metadata.IDublinCore.effective</element>
       <element>plone.app.dexterity.behaviors.metadata.IDublinCore.expires</element>
-      <element>plone.app.dexterity.behaviors.metadata.IDublinCore.creators</element>
-      <element>plone.app.dexterity.behaviors.metadata.IDublinCore.contributors</element>
+      <element>plone.app.dexterity.behaviors.metadata.IDublinCore.language</element>
       <element>plone.app.dexterity.behaviors.metadata.IDublinCore.rights</element>
-      <element>plone.app.dexterity.behaviors.metadata.ICategorization.subjects</element>
-      <element>plone.app.dexterity.behaviors.metadata.ICategorization.language</element>
+      <element>plone.app.dexterity.behaviors.metadata.IDublinCore.subjects</element>
+      <element>plone.app.dexterity.behaviors.metadata.IOwnership.contributors</element>
+      <element>plone.app.dexterity.behaviors.metadata.IOwnership.creators</element>
+      <element>plone.app.dexterity.behaviors.metadata.IOwnership.rights</element>
       <element>plone.app.dexterity.behaviors.metadata.IPublication.effective</element>
       <element>plone.app.dexterity.behaviors.metadata.IPublication.expires</element>
-      <element>plone.app.dexterity.behaviors.metadata.IOwnership.creators</element>
-      <element>plone.app.dexterity.behaviors.metadata.IOwnership.contributors</element>
-      <element>plone.app.dexterity.behaviors.metadata.IOwnership.rights</element>
+      <element>plone.app.dexterity.behaviors.nextprevious.INextPreviousToggle.nextPreviousEnabled</element>
+      <element>plone.app.relationfield.behavior.IRelatedItems.relatedItems</element>
+      <element>plone.app.versioningbehavior.behaviors.IVersionable.changeNote</element>
     </value>
   </record>
 
