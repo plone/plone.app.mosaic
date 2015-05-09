@@ -516,38 +516,49 @@ define([
                 $(this).parents(".mosaic-tile").addClass('mosaic-edited-tile');
 
                 // Open overlay
-                $.mosaic.overlay.app = new modal($('.mosaic-toolbar'),
-                    {
-                        ajaxUrl: tile_url,
-                        loadLinksWithinModal: true
+                $.mosaic.overlay.app = new modal($('.mosaic-toolbar'), {
+                    ajaxUrl: tile_url,
+                    loadLinksWithinModal: true,
+                    buttons: '.formControls > input[type="submit"], .actionButtons > input[type="submit"]'
+                });
+                $.mosaic.overlay.app.$el.off('after-render');
+                $.mosaic.overlay.app.on('after-render', function(event) {
+                    $('input[name*="cancel"]',
+                      $.mosaic.overlay.app.$modal)
+                      .off('click').on('click', function() {
+                          // Close overlay
+                          $.mosaic.overlay.app.hide();
+                          $.mosaic.overlay.app = null;
+
+                          // Remove edited annotation
+                          $('.mosaic-edited-tile', $.mosaic.document).removeClass('mosaic-edited-tile');
+                    });
                 });
                 $.mosaic.overlay.app.show();
                 $.mosaic.overlay.app.$el.off('formActionSuccess');
-                $.mosaic.overlay.app.on(
-                    'formActionSuccess',
-                    function (event, response, state, xhr, form) {
-                        var tileUrl = xhr.getResponseHeader('X-Tile-Url'),
-                            value = $.mosaic.getDomTreeFromHtml(response);
-                        if (tileUrl) {
+                $.mosaic.overlay.app.on('formActionSuccess', function (event, response, state, xhr, form) {
+                    var tileUrl = xhr.getResponseHeader('X-Tile-Url'),
+                        value = $.mosaic.getDomTreeFromHtml(response);
+                    if (tileUrl) {
 
-                            // Remove head tags
-                            $.mosaic.removeHeadTags(tileUrl);
+                        // Remove head tags
+                        $.mosaic.removeHeadTags(tileUrl);
 
-                            // Add head tags
-                            $.mosaic.addHeadTags(tileUrl, value);
+                        // Add head tags
+                        $.mosaic.addHeadTags(tileUrl, value);
 
-                            // Update tile
-                            $('.mosaic-edited-tile .mosaic-tile-content',
-                              $.mosaic.document).html('<p class="hiddenStructure tileUrl">' + tileUrl.replace(/&/gim, '&amp;') + '</p>' + value.find('.temp_body_tag').html());
-                        }
-                        // Close if still available
-                        if ($.mosaic.overlay.app) { $.mosaic.overlay.app.hide(); }
+                        // Update tile
+                        $('.mosaic-edited-tile .mosaic-tile-content',
+                          $.mosaic.document).html('<p class="hiddenStructure tileUrl">' + tileUrl.replace(/&/gim, '&amp;') + '</p>' + value.find('.temp_body_tag').html());
 
-                        // Remove edited annotation
-                        $('.mosaic-edited-tile', $.mosaic.document).removeClass('mosaic-edited-tile');
+                        // Close overlay
+                        $.mosaic.overlay.app.hide();
+                        $.mosaic.overlay.app = null;
                     }
-                );
 
+                    // Remove edited annotation
+                    $('.mosaic-edited-tile', $.mosaic.document).removeClass('mosaic-edited-tile');
+                });
             } else {
 
                 // Edit field

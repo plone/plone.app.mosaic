@@ -625,8 +625,22 @@ define([
                             modalFunc = function(html) {
                                 $.mosaic.overlay.app = new modal($('.mosaic-toolbar'), {
                                     html: html,
-                                    loadLinksWithinModal: true
+                                    loadLinksWithinModal: true,
+                                    buttons: '.formControls > input[type="submit"], .actionButtons > input[type="submit"]'
                                 });
+                                $.mosaic.overlay.app.$el.off('after-render');
+                                $.mosaic.overlay.app.on(
+                                    'after-render',
+                                    function(event) {
+                                        $('input[name*="cancel"]',
+                                          $.mosaic.overlay.app.$modal)
+                                          .off('click').on('click', function() {
+                                              // Close overlay
+                                              $.mosaic.overlay.app.hide();
+                                              $.mosaic.overlay.app = null;
+                                        });
+                                    }
+                                );
                                 $.mosaic.overlay.app.show();
                                 $.mosaic.overlay.app.$el.off('formActionSuccess');
                                 $.mosaic.overlay.app.on(
@@ -636,10 +650,9 @@ define([
                                         if (tileUrl) {
                                             $.mosaic.addAppTileHTML(
                                                 tile_type, response, tileUrl);
+                                            $.mosaic.overlay.app.hide();
+                                            $.mosaic.overlay.app = null;
                                         }
-                                        // Close overlay
-                                        $.mosaic.overlay.app.hide();
-                                        $.mosaic.overlay.app = null;
                                     }
                                 );
                             };
