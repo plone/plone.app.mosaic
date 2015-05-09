@@ -555,46 +555,16 @@
     </value>
   </record>
 
-  <record field="actions" interface="plone.app.mosaic.interfaces.IWidgetAction"
-          name="plone.app.mosaic.widget_actions.plone_app_z3cform_wysiwyg_widget_WysiwygFieldWidget.actions">
-    <field type="plone.registry.field.List">
-      <title>Actions</title>
-      <value_type type="plone.registry.field.TextLine" />
+  <record field="name" interface="plone.app.mosaic.interfaces.IWidgetAction"
+          name="plone.app.mosaic.widget_actions.WysiwygWidget.name">
+    <field type="plone.registry.field.TextLine">
+      <title>Name</title>
     </field>
-    <value>
-      <element>tile-padding-right</element>
-      <element>tile-padding-bottom</element>
-      <element>tile-align-right</element>
-      <element>tile-align-left</element>
-      <element>tile-remove-format</element>
-      <element>grid-row-dark</element>
-      <element>grid-row-remove-format</element>
-      <element>html</element>
-      <element>strong</element>
-      <element>em</element>
-      <element>paragraph</element>
-      <element>heading</element>
-      <element>subheading</element>
-      <element>discreet</element>
-      <element>literal</element>
-      <element>quote</element>
-      <element>callout</element>
-      <element>highlight</element>
-      <element>sub</element>
-      <element>sup</element>
-      <element>remove-format</element>
-      <element>pagebreak</element>
-      <element>ul</element>
-      <element>ol</element>
-      <element>justify-left</element>
-      <element>justify-center</element>
-      <element>justify-right</element>
-      <element>justify-justify</element>
-    </value>
+    <value>plone.app.z3cform.wysiwyg.widget.WysiwygWidget</value>
   </record>
 
   <record field="actions" interface="plone.app.mosaic.interfaces.IWidgetAction"
-          name="plone.app.mosaic.widget_actions.plone_app_widgets_dx_RichTextWidget.actions">
+          name="plone.app.mosaic.widget_actions.plone_app_z3cform_wysiwyg_widget_WysiwygWidget.actions">
     <field type="plone.registry.field.List">
       <title>Actions</title>
       <value_type type="plone.registry.field.TextLine" />
@@ -640,7 +610,7 @@
   </record>
 
   <record field="actions" interface="plone.app.mosaic.interfaces.IWidgetAction"
-          name="plone.app.mosaic.widget_actions.plone_app_z3cform_wysiwyg_widget_WysiwygWidget.actions">
+          name="plone.app.mosaic.widget_actions.plone_app_z3cform_wysiwyg_widget_WysiwygFieldWidget.actions">
     <field type="plone.registry.field.List">
       <title>Actions</title>
       <value_type type="plone.registry.field.TextLine" />
@@ -678,15 +648,15 @@
   </record>
 
   <record field="name" interface="plone.app.mosaic.interfaces.IWidgetAction"
-          name="plone.app.mosaic.widget_actions.WysiwygWidget.name">
+          name="plone.app.mosaic.widget_actions.plone_app_widgets_dx_RichTextWidget.name">
     <field type="plone.registry.field.TextLine">
       <title>Name</title>
     </field>
-    <value>plone.app.z3cform.wysiwyg.widget.WysiwygWidget</value>
+    <value>plone.app.widgets.dx.RichTextWidget</value>
   </record>
 
   <record field="actions" interface="plone.app.mosaic.interfaces.IWidgetAction"
-          name="plone.app.mosaic.widget_actions.plone_app_z3cform_widget_RichTextFieldWidget.actions">
+          name="plone.app.mosaic.widget_actions.plone_app_widgets_dx_RichTextWidget.actions">
     <field type="plone.registry.field.List">
       <title>Actions</title>
       <value_type type="plone.registry.field.TextLine" />
@@ -729,6 +699,44 @@
       <title>Name</title>
     </field>
     <value>plone.app.z3cform.widget.RichTextFieldWidget</value>
+  </record>
+
+  <record field="actions" interface="plone.app.mosaic.interfaces.IWidgetAction"
+          name="plone.app.mosaic.widget_actions.plone_app_z3cform_widget_RichTextFieldWidget.actions">
+    <field type="plone.registry.field.List">
+      <title>Actions</title>
+      <value_type type="plone.registry.field.TextLine" />
+    </field>
+    <value>
+      <element>tile-padding-right</element>
+      <element>tile-padding-bottom</element>
+      <element>tile-align-right</element>
+      <element>tile-align-left</element>
+      <element>tile-remove-format</element>
+      <element>grid-row-dark</element>
+      <element>grid-row-remove-format</element>
+      <element>html</element>
+      <element>strong</element>
+      <element>em</element>
+      <element>paragraph</element>
+      <element>heading</element>
+      <element>subheading</element>
+      <element>discreet</element>
+      <element>literal</element>
+      <element>quote</element>
+      <element>callout</element>
+      <element>highlight</element>
+      <element>sub</element>
+      <element>sup</element>
+      <element>remove-format</element>
+      <element>pagebreak</element>
+      <element>ul</element>
+      <element>ol</element>
+      <element>justify-left</element>
+      <element>justify-center</element>
+      <element>justify-right</element>
+      <element>justify-justify</element>
+    </value>
   </record>
 
   <!-- Tile categories -->
@@ -775,9 +783,89 @@
   </records>
 
   <!-- Tiles -->
+  <records prefix="plone.app.mosaic.structure_tiles.heading"
+           interface="plone.app.mosaic.interfaces.ITile">
+    <value key="default_value">&lt;h2&gt;Lorem ipsum dolor sit amet&lt;/h2&gt;</value>
+    <value key="category">structure</value>
+    <value key="read_only">False</value>
+    <value key="name">heading</value>
+    <value key="settings">False</value>
+    <value key="favorite">False</value>
+    <value key="label">Heading</value>
+    <value key="tile_type">text</value>
+    <value key="rich_text">True</value>
+    <value key="weight">10</value>
+  </records>
+
+  <record name="plone.app.mosaic.structure_tiles.heading.available_actions">
+    <field type="plone.registry.field.List">
+      <title>Available actions for the Heading structure tile</title>
+      <value_type type="plone.registry.field.TextLine" />
+    </field>
+    <value>
+      <element>html</element>
+      <element>strong</element>
+      <element>em</element>
+      <element>heading</element>
+      <element>remove-format</element>
+      <element>pagebreak</element>
+      <element>justify-left</element>
+      <element>justify-center</element>
+      <element>justify-right</element>
+      <element>justify-justify</element>
+      <element>tile-padding-right</element>
+      <element>tile-padding-bottom</element>
+      <element>tile-align-right</element>
+      <element>tile-align-left</element>
+      <element>tile-remove-format</element>
+      <element>grid-row-dark</element>
+      <element>grid-row-remove-format</element>
+    </value>
+  </record>
+
+  <records prefix="plone.app.mosaic.structure_tiles.subheading"
+           interface="plone.app.mosaic.interfaces.ITile">
+    <value key="default_value">&lt;h3&gt;Sed posuere interdum sem&lt;/h3&gt;</value>
+    <value key="category">structure</value>
+    <value key="read_only">False</value>
+    <value key="name">subheading</value>
+    <value key="settings">False</value>
+    <value key="favorite">False</value>
+    <value key="label">Subheading</value>
+    <value key="tile_type">text</value>
+    <value key="rich_text">True</value>
+    <value key="weight">20</value>
+  </records>
+
+  <record name="plone.app.mosaic.structure_tiles.subheading.available_actions">
+    <field type="plone.registry.field.List">
+      <title>Available actions for the Subheading structure tile</title>
+      <value_type type="plone.registry.field.TextLine" />
+    </field>
+    <value>
+      <element>html</element>
+      <element>strong</element>
+      <element>em</element>
+      <element>subheading</element>
+      <element>remove-format</element>
+      <element>pagebreak</element>
+      <element>justify-left</element>
+      <element>justify-center</element>
+      <element>justify-right</element>
+      <element>justify-justify</element>
+      <element>tile-padding-right</element>
+      <element>tile-padding-bottom</element>
+      <element>tile-align-right</element>
+      <element>tile-align-left</element>
+      <element>tile-remove-format</element>
+      <element>grid-row-dark</element>
+      <element>grid-row-remove-format</element>
+    </value>
+  </record>
+
   <records prefix="plone.app.mosaic.structure_tiles.text"
            interface="plone.app.mosaic.interfaces.ITile">
-    <value key="default_value">&lt;p&gt;New block&lt;/p&gt;</value>
+    <value key="default_value">&lt;p&gt;Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Sed posuere interdum sem. Quisque ligula eros ullamcorper quis, lacinia quis facilisis sed sapien. Mauris varius diam vitae arcu. Sed arcu lectus auctor vitae, consectetuer et venenatis eget velit. Sed augue orci, lacinia eu tincidunt et eleifend nec lacus.&lt;/p&gt;&lt;p&gt;Donec ultricies nisl ut felis, suspendisse potenti. Lorem ipsum ligula ut hendrerit mollis, ipsum erat vehicula risus, eu suscipit sem libero nec erat. Aliquam erat volutpat. Sed congue augue vitae neque. Nulla consectetuer porttitor pede. Fusce purus morbi tortor magna condimentum vel, placerat id blandit sit amet tortor.&lt;/p&gt;</value>
     <value key="category">structure</value>
     <value key="read_only">False</value>
     <value key="name">text</value>
@@ -786,7 +874,7 @@
     <value key="label">Text</value>
     <value key="tile_type">text</value>
     <value key="rich_text">True</value>
-    <value key="weight">10</value>
+    <value key="weight">30</value>
   </records>
 
   <record name="plone.app.mosaic.structure_tiles.text.available_actions">
@@ -826,6 +914,90 @@
     </value>
   </record>
 
+  <records prefix="plone.app.mosaic.structure_tiles.bullets"
+           interface="plone.app.mosaic.interfaces.ITile">
+    <value key="default_value">&lt;ul&gt;&lt;li&gt;Nam molestie nec tortor&lt;/li&gt;&lt;li&gt;Donec placerat leo sit amet velit&lt;/li&gt;&lt;li&gt;Vestibulum id justo ut vitae massa&lt;/li&gt;&lt;/ul&gt;</value>
+    <value key="category">structure</value>
+    <value key="read_only">False</value>
+    <value key="name">bullets</value>
+    <value key="settings">False</value>
+    <value key="favorite">False</value>
+    <value key="label">Bulleted list</value>
+    <value key="tile_type">text</value>
+    <value key="rich_text">True</value>
+    <value key="weight">40</value>
+  </records>
+
+  <record name="plone.app.mosaic.structure_tiles.bullets.available_actions">
+    <field type="plone.registry.field.List">
+      <title>Available actions for the Bulleted list structure tile</title>
+      <value_type type="plone.registry.field.TextLine" />
+    </field>
+    <value>
+      <element>html</element>
+      <element>strong</element>
+      <element>em</element>
+      <element>sub</element>
+      <element>sup</element>
+      <element>remove-format</element>
+      <element>pagebreak</element>
+      <element>ul</element>
+      <element>justify-left</element>
+      <element>justify-center</element>
+      <element>justify-right</element>
+      <element>justify-justify</element>
+      <element>tile-padding-right</element>
+      <element>tile-padding-bottom</element>
+      <element>tile-align-right</element>
+      <element>tile-align-left</element>
+      <element>tile-remove-format</element>
+      <element>grid-row-dark</element>
+      <element>grid-row-remove-format</element>
+    </value>
+  </record>
+
+  <records prefix="plone.app.mosaic.structure_tiles.numbers"
+           interface="plone.app.mosaic.interfaces.ITile">
+    <value key="default_value">&lt;ol&gt;&lt;li&gt;Nam molestie nec tortor&lt;/li&gt;&lt;li&gt;Donec placerat leo sit amet velit&lt;/li&gt;&lt;li&gt;Vestibolum id justo ut vitae massa&lt;/li&gt;&lt;/ol&gt;</value>
+    <value key="category">structure</value>
+    <value key="read_only">False</value>
+    <value key="name">numbers</value>
+    <value key="settings">False</value>
+    <value key="favorite">False</value>
+    <value key="label">Numbered list</value>
+    <value key="tile_type">text</value>
+    <value key="rich_text">True</value>
+    <value key="weight">50</value>
+  </records>
+
+  <record name="plone.app.mosaic.structure_tiles.numbers.available_actions">
+    <field type="plone.registry.field.List">
+      <title>Available actions for the Numbered list structure tile</title>
+      <value_type type="plone.registry.field.TextLine" />
+    </field>
+    <value>
+      <element>html</element>
+      <element>strong</element>
+      <element>em</element>
+      <element>sub</element>
+      <element>sup</element>
+      <element>remove-format</element>
+      <element>pagebreak</element>
+      <element>ol</element>
+      <element>justify-left</element>
+      <element>justify-center</element>
+      <element>justify-right</element>
+      <element>justify-justify</element>
+      <element>tile-padding-right</element>
+      <element>tile-padding-bottom</element>
+      <element>tile-align-right</element>
+      <element>tile-align-left</element>
+      <element>tile-remove-format</element>
+      <element>grid-row-dark</element>
+      <element>grid-row-remove-format</element>
+    </value>
+  </record>
+
   <records prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_tableofcontents"
            interface="plone.app.mosaic.interfaces.ITile">
     <value key="name">plone.app.standardtiles.tableofcontents</value>
@@ -837,7 +1009,7 @@
     <value key="settings">true</value>
     <value key="favorite">false</value>
     <value key="rich_text">false</value>
-    <value key="weight">20</value>
+    <value key="weight">100</value>
   </records>
 
   <record name="plone.app.mosaic.app_tiles.plone_app_standardtiles_tableofcontents.available_actions">
@@ -868,7 +1040,7 @@
     <value key="settings">true</value>
     <value key="favorite">false</value>
     <value key="rich_text">false</value>
-    <value key="weight">30</value>
+    <value key="weight">110</value>
   </records>
 
   <record name="plone.app.mosaic.app_tiles.plone_app_standardtiles_navigation.available_actions">
