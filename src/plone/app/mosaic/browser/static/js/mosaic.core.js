@@ -414,12 +414,18 @@ define([
         // Remove doctype and replace html, head and body tag since the are
         // stripped when converting to jQuery object
         content = content.replace(/<!DOCTYPE[\w\s\- .\/\":]+>/, '');
-        content = content.replace(/<html/, "<div class=\"temp_html_tag\"");
-        content = content.replace(/<\/html/, "</div");
-        content = content.replace(/<head/, "<div class=\"temp_head_tag\"");
-        content = content.replace(/<\/head/, "</div");
-        content = content.replace(/<body/, "<div class=\"temp_body_tag\"");
-        content = content.replace(/<\/body/, "</div");
+        content = content.replace(/<html>/, "<div class=\"temp_html_tag\">");
+        content = content.replace(/<\/html>/, "</div>");
+        content = content.replace(/<html\s/, "<div class=\"temp_html_tag\" ");
+        content = content.replace(/<\/html\s/, "</div ");
+        content = content.replace(/<head>/, "<div class=\"temp_head_tag\">");
+        content = content.replace(/<\/head>/, "</div>");
+        content = content.replace(/<head\s/, "<div class=\"temp_head_tag\" ");
+        content = content.replace(/<\/head\s/, "</div ");
+        content = content.replace(/<body>/, "<div class=\"temp_body_tag\">");
+        content = content.replace(/<\/body>/, "</div>");
+        content = content.replace(/<body\s/, "<div class=\"temp_body_tag\" ");
+        content = content.replace(/<\/body\s/, "</div ");
         return $($(content)[0]);
     };
 
