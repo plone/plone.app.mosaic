@@ -621,7 +621,7 @@ define([
             }
 
             // Init rich text
-            if (tile_config &&
+            if (tile_config && $(this).hasClass('mosaic-read-only-tile') === false &&
                 ((tile_config.tile_type === 'text' && tile_config.rich_text) ||
                  (tile_config.tile_type === 'app' && tile_config.rich_text) ||
                  (tile_config.tile_type === 'field' && tile_config.read_only === false &&
@@ -742,7 +742,8 @@ define([
         return this.each(function () {
 
             // Check if not already selected
-            if ($(this).hasClass("mosaic-selected-tile") === false) {
+            if ($(this).hasClass("mosaic-selected-tile") === false
+                && $(this).hasClass("mosaic-read-only-tile") === false) {
 
                 $(".mosaic-selected-tile", $.mosaic.document)
                     .removeClass("mosaic-selected-tile")

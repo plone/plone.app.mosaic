@@ -678,6 +678,9 @@
 .mosaic-panel .mosaic-tile:hover .mosaic-tile-outer-border {
   border: dashed 2px #3469d0;
 }
+.mosaic-panel .mosaic-tile.mosaic-read-only-tile:hover .mosaic-tile-outer-border {
+  border: dashed 2px #d0d0d0;
+}
 /* Hide hover border when dragging or resizing*/
 .mosaic-panel .mosaic-panel-dragging .mosaic-tile:hover .mosaic-tile-outer-border {
   border: solid 2px transparent;
