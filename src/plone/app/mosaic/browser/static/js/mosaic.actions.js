@@ -448,7 +448,7 @@ define([
             exec: function () {
                 $("#form-widgets-ILayoutAware-content, " +
                   "[name='form.widgets.ILayoutAware.content']")
-                      .attr("value", $.mosaic.getPageContent());
+                      .val($.mosaic.getPageContent());
 
                 $("#form-buttons-save").click();
             },

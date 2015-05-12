@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 from Products.CMFDynamicViewFTI.interfaces import ISelectableBrowserDefault
 from Products.CMFCore.utils import getToolByName
-from plone.app.widgets.base import InputWidget
+from plone.app.widgets.base import TextareaWidget
 from plone.app.widgets.base import dict_merge
 from plone.registry.interfaces import IRegistry
-from z3c.form.browser.text import TextWidget as z3cform_TextWidget
+from z3c.form.browser.textarea import TextAreaWidget
 from z3c.form.interfaces import IFieldWidget
 from z3c.form.interfaces import IAddForm
-from z3c.form.interfaces import ITextWidget
+from z3c.form.interfaces import ITextAreaWidget
 from z3c.form.util import getSpecification
 from z3c.form.widget import FieldWidget
 from zope.component import adapter
@@ -31,14 +31,14 @@ except ImportError:
     import simplejson as json
 
 
-class ILayoutWidget(ITextWidget):
+class ILayoutWidget(ITextAreaWidget):
     """Marker interface for the LayoutWidget."""
 
 
-class LayoutWidget(BaseWidget, z3cform_TextWidget):
+class LayoutWidget(BaseWidget, TextAreaWidget):
     """Layout widget for z3c.form."""
 
-    _base = InputWidget
+    _base = TextareaWidget
 
     implementsOnly(ILayoutWidget)
 
@@ -91,13 +91,12 @@ class LayoutWidget(BaseWidget, z3cform_TextWidget):
             args['pattern_options'])
 
         # Disable Mosaic editor when the selected layout for the current
-        # context is not custom layout
-        # XXX: This also always disables the editor outside the content space
+        # ILayoutAware or DX add form context is not custom layout
         current_browser_layout = (
             self._add_form_portal_type_default_view()
             or self._context_selected_layout()
         )
-        if current_browser_layout not in ['view', '@@view']:
+        if current_browser_layout not in ['', 'view', '@@view']:
             args['pattern'] = self.pattern + '-disabled'
 
         return args
@@ -120,7 +119,7 @@ class LayoutWidget(BaseWidget, z3cform_TextWidget):
             return ''
 
         behaviors = getattr(fti, 'behaviors', None) or []
-        if not 'plone.app.blocks.layoutbehavior.ILayoutAware' in behaviors:
+        if 'plone.app.blocks.layoutbehavior.ILayoutAware' not in behaviors:
             return ''
 
         return fti.default_view
