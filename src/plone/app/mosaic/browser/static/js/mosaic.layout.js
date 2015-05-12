@@ -2066,7 +2066,7 @@ define([
                             case "text":
                                 body += '          <div class="' + $(this).attr("class") + '">\n';
                                 body += '          <div class="mosaic-tile-content">\n';
-                                body += $(this).children(".mosaic-tile-content").html() + "\n";
+                                body += $(this).children(".mosaic-tile-content").html().replace(/^\s+|\s+$/g, '') + "\n";
                                 body += '          </div>\n';
                                 body += '          </div>\n';
                                 break;
