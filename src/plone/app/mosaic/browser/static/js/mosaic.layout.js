@@ -2078,6 +2078,9 @@ define([
                                 tile_url = $(this).find('.tileUrl').html();
                                 if (tile_url === null) {
                                     break;
+                                } else {
+                                    // Fix absolute url into a relative one
+                                    tile_url = tile_url.replace($.mosaic.options.context_url, '.');
                                 }
                                 body += '          <div data-tile="' + tile_url + '"></div>\n';
                                 body += '          </div>\n';
