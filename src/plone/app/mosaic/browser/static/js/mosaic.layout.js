@@ -1980,9 +1980,10 @@ define([
                     newline = "\n";
                 }
                 $('.mosaic-' + tiletype + '-tile', $.mosaic.document).find('.mosaic-tile-content > *').each(function () {
-                    value += $(this).html() + newline;
+                    value += $(this).html()
+                        .replace(/<br[^>]*>/ig, newline)
+                        .replace(/^\s+|\s+$/g, '') + newline;
                 });
-                value = value.replace(/<br[^>]*>/ig, newline);
                 value = value.replace(/^\s+|\s+$/g, '');
                 $("#" + tile_config.id).find('textarea').val(value);
                 break;
