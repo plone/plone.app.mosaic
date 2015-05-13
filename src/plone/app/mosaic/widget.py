@@ -51,6 +51,9 @@ class LayoutWidget(BaseWidget, TextAreaWidget):
         """
         if 'type' in self.request.form:
             return self.request.form['type']
+        elif IAddForm.providedBy(getattr(self.form, '__parent__', None)):
+            return getattr(getattr(
+                self.form, '__parent__', self.form), 'portal_type', None)
         else:
             if hasattr(self.context, 'portal_type'):
                 return self.context.portal_type

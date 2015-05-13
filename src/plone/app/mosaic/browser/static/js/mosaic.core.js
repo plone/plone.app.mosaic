@@ -251,7 +251,7 @@ define([
             }
 
             // Check if a field tile
-            if (tile_config.tile_type === 'field') {
+            if (tile_config && tile_config.tile_type === 'field') {
 
                 fieldhtml = '';
 
@@ -303,16 +303,9 @@ define([
                 tile_content.html(fieldhtml);
 
             // Get data from app tile
-            } else {
+            } else if (tile_config) {
                 url = base ? [base, href].join('/')
                                          .replace(/\/+\.\//g, '/') : href;
-                if (tile_config.name ===
-                    'plone.app.standardtiles.title' ||
-                    tile_config.name ===
-                    'plone.app.standardtiles.description') {
-                    url += '?ignore_context=' +
-                        $.mosaic.options.ignore_context;
-                }
                 $.ajax({
                     type: "GET",
                     url: url,

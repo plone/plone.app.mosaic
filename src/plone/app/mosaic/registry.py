@@ -172,7 +172,7 @@ class MosaicRegistry(object):
     def mapTiles(self, settings, config, tile_category):
         tiles = settings.get('%s.%s' % (self.prefix, tile_category), {})
         for key, tile in tiles.items():
-            if not 'category' in tile:
+            if 'category' not in tile:
                 continue
             index = getCategoryIndex(config['tiles'], tile['category'])
             config['tiles'][index]['tiles'].append(tile)
