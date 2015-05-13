@@ -232,6 +232,8 @@ define([
                         case "TextFieldWidget":
                         case "TextAreaWidget":
                         case "TextAreaFieldWidget":
+                        case "TextLinesWidget":
+                        case "TextLinesFieldWidget":
                         case "WysiwygWidget":
                         case "WysiwygFieldWidget":
                         case "RichTextWidget":
@@ -274,6 +276,8 @@ define([
                     break;
                 case "z3c.form.browser.textarea.TextAreaWidget":
                 case "z3c.form.browser.textarea.TextAreaFieldWidget":
+                case "z3c.form.browser.textlines.TextLinesWidget":
+                case "z3c.form.browser.textlines.TextLinesFieldWidget":
                     lines = $("#" + tile_config.id)
                                 .find('textarea')
                                 .val().split('\n');

@@ -629,6 +629,8 @@ define([
                    tile_config.widget === 'z3c.form.browser.text.TextFieldWidget' ||
                    tile_config.widget === 'z3c.form.browser.textarea.TextAreaWidget' ||
                    tile_config.widget === 'z3c.form.browser.textarea.TextAreaFieldWidget' ||
+                   tile_config.widget === 'z3c.form.browser.textlines.TextLinesWidget' ||
+                   tile_config.widget === 'z3c.form.browser.textlines.TextLinesFieldWidget' ||
                    tile_config.widget === 'plone.app.z3cform.widget.RichTextFieldWidget' ||
                    tile_config.widget === 'plone.app.z3cform.wysiwyg.widget.WysiwygWidget' ||
                    tile_config.widget === 'plone.app.z3cform.wysiwyg.widget.WysiwygFieldWidget' ||
@@ -1914,6 +1916,8 @@ define([
                 return start + $("#" + tile_config.id, $.mosaic.document).find('input').attr('value') + end;
             case "z3c.form.browser.textarea.TextAreaWidget":
             case "z3c.form.browser.textarea.TextAreaFieldWidget":
+            case "z3c.form.browser.textlines.TextLinesWidget":
+            case "z3c.form.browser.textlines.TextLinesFieldWidget":
                 var lines = $("#" + tile_config.id, $.mosaic.document).find('textarea').val().split('\n');
                 var return_string = "";
                 for (var i = 0; i < lines.length; i += 1) {
@@ -1953,6 +1957,8 @@ define([
              tile_config.widget === 'z3c.form.browser.text.TextFieldWidget' ||
              tile_config.widget === 'z3c.form.browser.textarea.TextAreaWidget' ||
              tile_config.widget === 'z3c.form.browser.textarea.TextAreaFieldWidget' ||
+             tile_config.widget === 'z3c.form.browser.textlines.TextLinesWidget' ||
+             tile_config.widget === 'z3c.form.browser.textlines.TextLinesFieldWidget' ||
              tile_config.widget === 'plone.app.z3cform.widget.RichTextFieldWidget' ||
              tile_config.widget === 'plone.app.z3cform.wysiwyg.widget.WysiwygWidget' ||
              tile_config.widget === 'plone.app.z3cform.wysiwyg.widget.WysiwygFieldWidget' ||
@@ -1964,6 +1970,8 @@ define([
                 break;
             case "z3c.form.browser.textarea.TextAreaWidget":
             case "z3c.form.browser.textarea.TextAreaFieldWidget":
+            case "z3c.form.browser.textlines.TextLinesWidget":
+            case "z3c.form.browser.textlines.TextLinesFieldWidget":
                 value = "";
                 if (tile_config.name === 'IDublinCore-description') {
                     newline = " ";  // otherwise Plone would replace \n with ''
