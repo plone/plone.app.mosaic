@@ -85,9 +85,16 @@ def enable_layout_behavior(portal):
                 '++contentlayout++default/document.html'
             fti.setMethodAliases(aliases)
 
+        # Set the default content layout for supported types
+        if fti.id == 'Event':
+            aliases = fti.getMethodAliases() or {}
+            aliases[CONTENT_LAYOUT_DEFAULT_DISPLAY] = \
+                '++contentlayout++default/event.html'
+            fti.setMethodAliases(aliases)
+
         # Set the default view method
         view_methods = [i for i in fti.getAvailableViewMethods(portal)]
-        if fti.id == 'Document':
+        if fti.id in ['Document', 'Event']:
             view_methods.append(CONTENT_LAYOUT_DEFAULT_DISPLAY)
         view_methods.append('view')
         fti.view_methods = list(set(view_methods))
@@ -128,10 +135,24 @@ file = site.html
 title = Basic layout (Custom)
 description = TTW customizable content layout
 file = content.html
+
+[contentlayout:variants]
+document_layout = document.html
+event_layout = event.html
 """))
     custom.writeFile(
         'content.html',
         StringIO(resolveResource('++contentlayout++default/basic.html')
+                 .encode('utf-8'))
+    )
+    custom.writeFile(
+        'document.html',
+        StringIO(resolveResource('++contentlayout++default/document.html')
+                 .encode('utf-8'))
+    )
+    custom.writeFile(
+        'event.html',
+        StringIO(resolveResource('++contentlayout++default/event.html')
                  .encode('utf-8'))
     )
 
