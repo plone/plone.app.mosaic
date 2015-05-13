@@ -78,13 +78,15 @@ define([
             menubar: false,
             fixed_toolbar_container: null,
             setup: function(editor) {
-                editor.on('change', function(e) {
+                var placeholder = function() {
                     if (obj.text().replace(/^\s+|\s+$/g, '').length === 0) {
                         obj.addClass('mosaic-tile-content-empty');
                     } else {
                         obj.removeClass('mosaic-tile-content-empty');
                     }
-                });
+                };
+                editor.on('change', placeholder);
+                placeholder();
             },
             formats : {
                 strong : {inline : 'strong'},

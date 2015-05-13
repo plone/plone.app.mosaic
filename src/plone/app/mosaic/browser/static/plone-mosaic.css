@@ -643,12 +643,12 @@
   position: relative;
   z-index: 100;
 }
-.mosaic-panel .mosaic-tile .mosaic-tile-content-empty:before {
+.mosaic-panel .mosaic-tile .mosaic-tile-content-empty > *:first-child:before {
   float: left;
   content: "\2026";
   opacity: 0.5;
 }
-.mosaic-panel .mosaic-tile.mosaic-selected-tile .mosaic-tile-content-empty:before {
+.mosaic-panel .mosaic-selected-tile .mosaic-tile-content-empty > *:first-child:before {
   display: none;
 }
 .mosaic-panel .mosaic-tile-content textarea,
