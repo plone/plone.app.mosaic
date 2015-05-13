@@ -689,7 +689,8 @@ define([
             }
 
             // Add settings icon
-            if (tile_config && tile_config.settings) {
+            if (tile_config && tile_config.settings
+                    && $(this).hasClass('mosaic-read-only-tile') === false) {
                 $(this).prepend(
                     $($.mosaic.document.createElement("div"))
                         .addClass("mosaic-tile-control mosaic-info-icon")
