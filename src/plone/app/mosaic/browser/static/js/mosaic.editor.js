@@ -77,6 +77,15 @@ define([
             statusbar: false,
             menubar: false,
             fixed_toolbar_container: null,
+            setup: function(editor) {
+                editor.on('change', function(e) {
+                    if (obj.text().replace(/^\s+|\s+$/g, '').length === 0) {
+                        obj.addClass('mosaic-tile-content-empty');
+                    } else {
+                        obj.removeClass('mosaic-tile-content-empty');
+                    }
+                });
+            },
             formats : {
                 strong : {inline : 'strong'},
                 em : {inline : 'em'},

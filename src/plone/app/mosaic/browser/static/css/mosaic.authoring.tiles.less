@@ -17,6 +17,16 @@
   z-index: 100;
 }
 
+.mosaic-panel .mosaic-tile .mosaic-tile-content-empty:before {
+  float: left;
+  content: "\2026";
+  opacity: 0.5;
+}
+
+.mosaic-panel .mosaic-tile.mosaic-selected-tile .mosaic-tile-content-empty:before {
+  display: none;
+}
+
 .mosaic-panel .mosaic-tile-content textarea, .mosaic-tile-content input[type=text] {
   width: 100%;
 }
