@@ -445,6 +445,10 @@ define([
                 url = url.split('@@');
                 var tile_type_id = url[1].split('/');
                 url = url[0] + '@@delete-tile/' + tile_type_id[0] + '/' + tile_type_id[1];
+                // Calc absolute delete url
+                if (url.match(/^\.\/.*/)) {
+                    url = $.mosaic.options.context_url + url.replace(/^\./, '');
+                }
 
                 // Ajax call to remove tile
                 $.ajax({
@@ -2090,7 +2094,8 @@ define([
                                     break;
                                 } else {
                                     // Fix absolute url into a relative one
-                                    tile_url = tile_url.replace($.mosaic.options.context_url, '.');
+                                    tile_url = tile_url.replace($.mosaic.options.context_url, './');
+                                    tile_url = tile_url.replace(/^\.\/\//, './');
                                 }
                                 body += '          <div data-tile="' + tile_url + '"></div>\n';
                                 body += '          </div>\n';
