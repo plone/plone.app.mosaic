@@ -74,6 +74,7 @@ def enable_layout_behavior(portal):
         behaviors = [i for i in fti.behaviors]
         behaviors.extend([
             'plone.app.blocks.layoutbehavior.ILayoutAware',
+            'plone.app.drafts.interfaces.IDraftable',
         ])
         behaviors = tuple(set(behaviors))
         fti._updateProperty('behaviors', behaviors)

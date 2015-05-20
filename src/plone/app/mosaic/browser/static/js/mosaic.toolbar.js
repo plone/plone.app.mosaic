@@ -484,6 +484,17 @@ define([
                     minimumResultsForSearch: 99
                 });
             });
+
+            // Trigger inline validation draft auto save
+            var lastChange = (new Date()).getTime();
+            $(this).on('selectedtilechange', function () {
+                if ((new Date()).getTime() - lastChange > 1000) {
+                    $("#form-widgets-ILayoutAware-content, " +
+                        "[name='form.widgets.ILayoutAware.content']")
+                        .val($.mosaic.getPageContent()).blur();
+                    lastChange = (new Date()).getTime();
+                }
+            });
         });
     };
 });
