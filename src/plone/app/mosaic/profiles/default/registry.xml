@@ -1224,6 +1224,8 @@
     </value>
   </record>
 
+  <!-- Portlet tile is disabled by default, because it will leave dangling
+       portlets too easily
   <records prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_portlet"
            interface="plone.app.mosaic.interfaces.ITile">
     <value key="name">plone.app.standardtiles.portlet</value>
@@ -1237,6 +1239,7 @@
     <value key="rich_text">false</value>
     <value key="weight">20</value>
   </records>
+  -->
 
   <records prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_document_byline"
            interface="plone.app.mosaic.interfaces.ITile">
