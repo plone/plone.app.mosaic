@@ -427,7 +427,9 @@
   background: url(++resource++plone.app.mosaic.images/window.png) -12px -56px;
   cursor: pointer;
 }
-.mosaic-tile:hover .mosaic-tile-label {
+.mosaic-selected-tile .mosaic-tile-label,
+.mosaic-tile:hover .mosaic-tile-label,
+.mosaic-tile:focus .mosaic-tile-label {
   display: block !important;
 }
 .mosaic-tile-label {
