@@ -1098,10 +1098,10 @@
     </value>
   </record>
 
-  <records prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_video"
+  <records prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_embed"
            interface="plone.app.mosaic.interfaces.ITile">
-    <value key="name">plone.app.standardtiles.video</value>
-    <value key="label">Video</value>
+    <value key="name">plone.app.standardtiles.embed</value>
+    <value key="label">Embed</value>
     <value key="category">media</value>
     <value key="tile_type">app</value>
     <value key="default_value"></value>
@@ -1112,9 +1112,9 @@
     <value key="weight">20</value>
   </records>
 
-  <record name="plone.app.mosaic.app_tiles.plone_app_standardtiles_video.available_actions">
+  <record name="plone.app.mosaic.app_tiles.plone_app_standardtiles_embed.available_actions">
     <field type="plone.registry.field.List">
-      <title>Available actions for the Video tile</title>
+      <title>Available actions for the Embed tile</title>
       <value_type type="plone.registry.field.TextLine" />
     </field>
     <value>
