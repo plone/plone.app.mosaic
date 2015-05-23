@@ -5,9 +5,9 @@ try:
 except:
     import simplejson as json
 
-from Products.CMFCore.utils import getToolByName
+from plone import api
 
-from plone.app.mosaic import PloneMessageFactory as _
+from plone.app.mosaic import _PMF as _
 
 
 class MosaicUploadView(BrowserView):
@@ -20,14 +20,14 @@ class MosaicUploadView(BrowserView):
         # Set header to json
         request.response.setHeader('Content-Type', 'application/json')
 
-        ctr_tool = getToolByName(self.context, 'content_type_registry')
+        ctr_tool = api.portal.get_tool('content_type_registry')
         id = request['uploadfile'].filename
 
         content_type = request['uploadfile'].headers["Content-Type"]
         typename = ctr_tool.findTypeName(id, content_type, "")
 
         # 1) check if we are allowed to create an Image in folder
-        if not typename in [t.id for t in context.getAllowedTypes()]:
+        if typename not in [t.id for t in context.getAllowedTypes()]:
             error = {}
             error['status'] = 1
             error['message'] =\

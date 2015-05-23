@@ -5,7 +5,7 @@ from plone.resource.manifest import ManifestFormat
 from zope.interface import Interface
 from zope import schema
 
-from plone.app.mosaic import PloneMessageFactory as _
+from plone.app.mosaic import _PMF as _
 
 
 HAVE_PLONE_5 = \

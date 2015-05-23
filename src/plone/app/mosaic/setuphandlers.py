@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from StringIO import StringIO
 
-from Products.CMFCore.utils import getToolByName
+from plone import api
 import pkg_resources
 from plone.resource.manifest import MANIFEST_FILENAME
 from zope.globalrequest import getRequest
@@ -159,6 +159,6 @@ event_layout = event.html
 
 
 def import_profile(portal, profile_name):
-    setup_tool = getToolByName(portal, 'portal_setup')
+    setup_tool = api.portal.get_tool('portal_setup')
     if not setup_tool.getProfileImportDate(profile_name):
         setup_tool.runAllImportStepsFromProfile(profile_name)

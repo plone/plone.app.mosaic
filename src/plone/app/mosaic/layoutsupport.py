@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import logging
 
-from Products.CMFCore.utils import getToolByName
+from plone import api
 from plone.resource.traversal import ResourceTraverser
 from z3c.form.interfaces import IGroup
 from z3c.form.widget import ComputedWidgetAttribute
@@ -53,7 +53,7 @@ def getDefaultContentLayoutContent(adapter):
     if portal_type is None:
         return u''
 
-    types_tool = getToolByName(adapter.context, 'portal_types')
+    types_tool = api.portal.get_tool('portal_types')
     fti = getattr(types_tool, portal_type, None)
     if fti is None:
         return u''
@@ -127,7 +127,7 @@ def AvailableDisplayLayoutsVocabularyFactory(context):
     if portal_type is None:
         return SimpleVocabulary([])
 
-    types_tool = getToolByName(context, 'portal_types')
+    types_tool = api.portal.get_tool('portal_types')
     fti = getattr(types_tool, portal_type, None)
     if fti is None:
         return SimpleVocabulary([])
@@ -169,7 +169,7 @@ def AvailableDisplayLayoutsVocabularyFactory(context):
         return SimpleVocabulary(sorted(items, key=sorted_key))
 
     # Append layouts from the content space
-    pc = getToolByName(context, 'portal_catalog')
+    pc = api.portal.get_tool('portal_catalog')
     site = getSite()
     try:
         uids = pc._catalog.uids
