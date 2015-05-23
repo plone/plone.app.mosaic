@@ -102,7 +102,7 @@ define([
             $(".mosaic-overlay .formControls").append(
                 $(document.createElement("input")).attr({
                     'type': 'button',
-                    'value': 'Ok'
+                    'value': 'Close'
                 })
                 .addClass('button-field context mosaic-overlay-ok-button')
                 .click(function () {
