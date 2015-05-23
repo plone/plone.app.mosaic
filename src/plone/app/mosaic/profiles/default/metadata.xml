@@ -2,6 +2,7 @@
 <metadata>
   <version>0001</version>
   <dependencies>
+    <dependency>profile-plone.app.drafts:default</dependency>
     <dependency>profile-plone.app.standardtiles:default</dependency>
   </dependencies>
 </metadata>

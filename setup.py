@@ -38,6 +38,7 @@ setup(name='plone.app.mosaic',
           'setuptools',
           'plone.app.blocks',
           'plone.app.tiles',
+          'plone.app.drafts',
           'plone.app.standardtiles',
           # -*- Extra requirements: -*-
       ],

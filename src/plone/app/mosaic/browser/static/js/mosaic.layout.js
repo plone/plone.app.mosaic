@@ -515,6 +515,10 @@ define([
                 // Get url
                 var tile_url = $(this).parents(".mosaic-tile").find('.tileUrl').html();
                 tile_url = tile_url.replace(/@@/, '@@edit-tile/');
+                // Calc absolute edit url
+                if (tile_url.match(/^\.\/.*/)) {
+                    tile_url = $.mosaic.options.context_url + tile_url.replace(/^\./, '');
+                }
 
                 // Annotate the edited tile, because overlay will steal its focus
                 $(this).parents(".mosaic-tile").addClass('mosaic-edited-tile');
