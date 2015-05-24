@@ -4,47 +4,113 @@ Plone Mosaic
 ..  image:: https://www.herokucdn.com/deploy/button.png
     :target: https://heroku.com/deploy?template=https://github.com/plone/plone.app.mosaic
 
-**Plone Mosaic** allows you to define global site layouts and override them on specific contents or sections. You can then compose the content of the page using the Mosaic editor.
+**Plone Mosaic** is a new layout solution for Plone. It's built for Plone 5,
+but should also work on Plone 4.3 with plone.app.widgets. Read this
+introduction and `the package documentation`__ for more details how to use this
+package.
 
-The Mosaic editor lets you insert blocks (a.k.a. tiles) into the content of the page so that you can easily build custom composite pages for your contents on the fly.
-
-**Plone Mosaic** works with Plone 4.3 and later.
-
-The notable features (with the help of tiles_ and blocks_) include:
-
-- custom layout behavior for Dexterity content types
-- WYSIWYG inline layout editor for custom content layouts
-- separation of layouts into site layouts and content layout
-- site layouts can be assigned per content and per site section
-- global content layouts can be bound as named views for Dexterity content types
-
-..  _blocks: https://pypi.python.org/pypi/plone.app.blocks
-..  _tiles: https://pypi.python.org/pypi/plone.app.tiles
-
-Read `the Mosaic Sprint report`__ for more goals for **Plone Mosaic** and `the package documentation`__ for more details how to use this package.
-
-__  http://abstract-technology.com/lab/articles/plone-mosaic-sprint-final-report
 __  http://plone-app-mosaic.s3-website-us-east-1.amazonaws.com/latest/
 
 ..  image:: https://secure.travis-ci.org/plone/plone.app.mosaic.png
     :target: http://travis-ci.org/plone/plone.app.mosaic
 
 
-Screencasts
------------
+Concepts
+--------
 
-- Designing `custom content layouts <http://youtu.be/43e18Az93ug>`_
-- `View prototyping <http://youtu.be/QFQON-YOO9Q>`_ layouts as Dexterity type views
-- `Multilingual view prototyping <http://youtu.be/eqsJ9pc_n4Y>`_ with p.a.multilingual
-- Theming with `themed site layouts <http://youtu.be/b9Okt01BGeI>`_
+Mosaic, Blocks_ and Tiles_ provide a simple, yet powerful way to manage the pages
+on your Plone website. At their core, they rely on semantic HTML and resources
+with valid, publishable URLs.
 
-Try a demo (Plone 4)
---------------------
+**Mosaic Editor** editor is a visual editor for pages rendered using Blocks. It
+relies on a grid system to place tiles onto a page in an intuitive, WYSIWYG,
+drag-and-drop manner. Using Mosaic Editor, it is easy to compose pages with
+complex, balanced and visually appealing layouts.
+- custom layout behavior for Dexterity content types
 
-(Plone 5 version of Mosaic technology preview is available via
-``plips/plip-mosaic.cfg`` at Plone 5 coredev-buildout.)
+Currently, the Mosaic Editor is activated, when any content with *Custom
+layout* view active is being edited. (Custom layout is available for any
+content with *Layout support* behavior enabled.)
 
-Installation:
+**Blocks** is a rendering algorithm based on HTML markup conventions. A page
+managed by Mosaic Editor is stored as a simple HTML document representing the
+actual content of that page as a standalone, publishable resource devoid of any
+site layout content (e.g. global navigation elements). This is referred to as
+*content layout*.
+
+**Tiles** represent the dynamic portions of a page. At its most basic level, a
+tile is simply an HTML document with a publishable URL.
+
+In practice, tiles are usually implemented as browser views deriving from the
+``Tile`` base class and registered with the ``<plone:tile />`` ZCML directive.
+This allows tiles to have some basic metadata and automatically generated edit
+forms for any configurable aspects , which Deco will expose to users. See
+`plone.tiles`_ for examples.
+
+When work with tiles in Mosaic Editor, there are three types of tiles:
+
+Text tiles
+    Static HTML markup (WYSIWYG-edited text) placed into the content or site
+    layout. Strictly speaking, text tiles are not tiles in that they do not
+    involve any tile fetching or merging - instead they are stored as part of
+    the page or site layout. To the user, however, a text tile can be moved
+    around and managed like any other.
+
+Field tiles
+    Render the value of a metadata field such as the title or description. The
+    values of field tiles may be edited in-place in the page, but the value is
+    stored in the underlying field and can be indexed in the catalog, used for
+    navigation and so on. In practice, a field tile is an instance of the
+    special tile ``plone.app.standardtiles.fields`` with the field name passed
+    as a parameter.
+
+App tiles
+    Any other type of dynamic tile. Examples may include a folder listing,
+    a media player, a poll or pretty much anything else you can think of.
+
+..  _Blocks: https://pypi.python.org/pypi/plone.app.blocks
+..  _Tiles: https://pypi.python.org/pypi/plone.app.tiles
+..  _plone.tiles: https://pypi.python.org/pypi/plone.tiles
+
+
+Installation
+------------
+
+**Plone Mosaic** is installed by building a Plone site with package
+**plone.app.mosaic** and activating its **Plone Mosaic** add-on. The
+package has following dependencies::
+
+    plone.tiles >= 1.4.0
+    plone.app.tiles >= 2.1.0
+    plone.app.standardtiles >= 1.0a1
+    plone.app.blocks >= 2.1.0
+    plone.app.drafts >= 1.0b1
+    plone.app.widgets >= 1.8.0
+
+After the add-on activation, the new content layout and editor support can be
+enabled for any content type by enabling behaviors **Layout support** and
+**Drafting support**.
+
+
+Status
+------
+
+**Plone Mosaic** is considered to be in alpha phase. Not all the features
+of Plone Mosaic have yet easily accessible UI (e.g. layouts can be created 
+into *portal_resources* and bound to content types as named views only
+through Zope Management Interface, ZMI).
+
+
+Backend development
+-------------------
+
+Plone 5 version of Plone Mosaic is available for development using
+``plips/plip-mosaic.cfg`` at Plone 5 coredev-buildout.
+
+Plone 4 version of Plone Mosaic can be developed by cloning the product
+directly.
+
+Clone and build:
 
 ..  code:: bash
 
@@ -59,13 +125,13 @@ Startup:
 
     $ bin/demo
 
-To get started:
+Get started:
 
 * open a browser at ``http://localhost:55001/plone/++add++Document``
 * login as ``admin`` with password ``admin``
 * save the new page
-* from the **Display**-menu, select the new entry **Custom layout**
-* click **Edit** to see the new *Mosaic Editor*
+* from the *Display*-menu, select the new entry *Custom layout*
+* click *Edit* to see the new *Mosaic Editor*
 
 Alternatively you can also use ``bin/instance fg``.
 
@@ -118,4 +184,5 @@ With robot-server running, you can re-build the docs' screenshots relatively fas
 
     $ bin/robot-sphinx docs html
 
-Just add ``Debug`` keyword anywhere to pause the robot in the middle of the screenshot script and drop you into a Robot Framework REPL.
+Just add ``Debug`` keyword anywhere to pause the robot in the middle of the
+screenshot script and drop you into a Robot Framework REPL.
