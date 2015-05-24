@@ -1,5 +1,6 @@
 recursive-include docs *
 recursive-include src *
 include LICENSE *.txt *.rst *.GPL *.py
-exclude Makefile *.cfg *.in *.nix *.sh
 global-exclude *.pyc
+exclude Makefile *.cfg *.in *.nix *.sh *.conf *.js *.json Procfile .jshintrc bin tests
+exclude tests/* bin/*
