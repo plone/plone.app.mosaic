@@ -39,7 +39,7 @@ class LayoutWidget(BaseWidget, TextAreaWidget):
     pattern = 'layout'
     pattern_options = BaseWidget.pattern_options.copy()
 
-    def obtainType(self): # noqa
+    def obtainType(self):  # noqa
         """
         Obtains the type of the context object or of the object we are adding
         """
@@ -135,5 +135,5 @@ class LayoutWidget(BaseWidget, TextAreaWidget):
 
 @adapter(getSpecification(ILayoutAware['content']), IMosaicLayer)
 @implementer(IFieldWidget)
-def LayoutFieldWidget(field, request): # noqa
+def LayoutFieldWidget(field, request):  # noqa
     return FieldWidget(field, LayoutWidget(request))
