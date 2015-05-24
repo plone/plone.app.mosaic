@@ -488,7 +488,7 @@ define([
             // Trigger inline validation draft auto save
             var lastChange = (new Date()).getTime();
             $(this).on('selectedtilechange', function () {
-                if ((new Date()).getTime() - lastChange > 1000) {
+                if ((new Date()).getTime() - lastChange > 2000) {
                     $("#form-widgets-ILayoutAware-content, " +
                         "[name='form.widgets.ILayoutAware.content']")
                         .val($.mosaic.getPageContent()).blur();
