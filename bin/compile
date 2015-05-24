@@ -12,9 +12,9 @@ CACHE_DIR=$2  # -> use this dir for caching between compiles
 ENV_DIR=$3  # -> environment variables are stored as files inside here
 INSTALL_DIR="$BUILD_DIR/.heroku/vendor/buildout"  # -> after buildout is
 # finished, copy results to this dir so they get compressed into a Heroku slug
-UI_URL=https://launchpad.net/plone/5.0/5.0b1/+download/Plone-5.0b1-UnifiedInstaller.tgz
-UI_TARBALL=Plone-5.0b1-UnifiedInstaller.tgz
-UI_DIR=Plone-5.0b1-UnifiedInstaller
+UI_URL=https://launchpad.net/plone/5.0/5.0b2/+download/Plone-5.0b2-UnifiedInstaller.tgz
+UI_TARBALL=Plone-5.0b2-UnifiedInstaller.tgz
+UI_DIR=Plone-5.0b2-UnifiedInstaller
 
 
 # make sure dirs exist
