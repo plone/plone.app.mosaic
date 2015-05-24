@@ -16,7 +16,14 @@
         margin: 0 5px 0 0;
 
         &.mosaic-button-save {
-            &:extend(.btn-success);
+          &:extend(.btn-success);
+          &:hover {
+            &:extend(.btn-success:hover);
+          }
+        }
+
+        &:hover {
+          &:extend(.btn-default:hover);
         }
     }
 
@@ -85,6 +92,13 @@
           border: 0;
           background: none;
           b { &:extend(.caret); }
+        }
+      }
+
+      &:hover {
+        &:extend(.btn-default:hover);
+        a.select2-choice {
+          &:extend(.btn-default:hover);
         }
       }
 

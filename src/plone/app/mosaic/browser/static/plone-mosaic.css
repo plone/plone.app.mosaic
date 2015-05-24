@@ -38,7 +38,8 @@
   transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
 }
 .mosaic-toolbar button,
-.mosaic-toolbar .mosaic-menu.select2-container a.select2-choice {
+.mosaic-toolbar .mosaic-menu.select2-container a.select2-choice,
+.mosaic-overlay-ok-button {
   display: inline-block;
   margin-bottom: 0;
   font-weight: normal;
@@ -59,13 +60,18 @@
   user-select: none;
 }
 .mosaic-toolbar button,
-.mosaic-toolbar .mosaic-menu.select2-container a.select2-choice {
+.mosaic-toolbar .mosaic-menu.select2-container a.select2-choice,
+.mosaic-overlay-ok-button {
   color: #333333;
   background-color: #ffffff;
   border-color: #cccccc;
 }
+.mosaic-toolbar button:hover,
+.mosaic-toolbar .mosaic-menu.select2-container:hover,
+.mosaic-toolbar .mosaic-menu.select2-container:hover a.select2-choice,
 .mosaic-toolbar .mosaic-menu.select2-container.select2-dropdown-open,
-.mosaic-toolbar .mosaic-menu.select2-container.select2-dropdown-open a.select2-choice {
+.mosaic-toolbar .mosaic-menu.select2-container.select2-dropdown-open a.select2-choice,
+.mosaic-overlay-ok-button:hover {
   color: #333333;
   background-color: #e6e6e6;
   border-color: #adadad;
@@ -78,6 +84,11 @@
   color: #ffffff;
   background-color: #5cb85c;
   border-color: #4cae4c;
+}
+.mosaic-toolbar button.mosaic-button-save:hover {
+  color: #ffffff;
+  background-color: #449d44;
+  border-color: #398439;
 }
 .btn-group-lg > .btn {
   padding: 10px 16px;
