@@ -109,6 +109,16 @@ define([
                     $.mosaic.overlay.close();
                 })
             );
+            $(".mosaic-overlay").prepend(
+                $(document.createElement("button")).attr({
+                    'title': 'Close',
+                })
+                .addClass('mosaic-overlay-close')
+                .html('&times;')
+                .click(function () {
+                    $.mosaic.overlay.close();
+                })
+            );
         }
 
         if (mode === 'all') {

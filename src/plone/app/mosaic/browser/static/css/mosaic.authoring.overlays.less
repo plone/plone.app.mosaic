@@ -27,10 +27,21 @@
     background-color: white;
 }
 
+.mosaic-overlay-close {
+  &:extend(.close);
+  &:extend(button.close);
+  &:hover {
+    &:extend(.close:hover);
+  }
+  &:focus{
+    &:extend(.close:focus);
+  }
+}
+
 .mosaic-overlay-ok-button {
-    &:extend(.btn);
-    &:extend(.btn-default);
-    &:hover {
-      &:extend(.btn-default:hover);
-    }
+  &:extend(.btn);
+  &:extend(.btn-primary);
+  &:hover {
+    &:extend(.btn-primary:hover);
+  }
 }
