@@ -1,8 +1,7 @@
 Changelog
 =========
 
-0.1-dev (unreleased)
---------------------
+1.0a1 (unreleased)
+------------------
 
-- Package created using templer
-  []
+- First technology preview release.
