@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from Products.CMFDynamicViewFTI.interfaces import ISelectableBrowserDefault
-from Products.CMFCore.utils import getToolByName
+from plone import api
 from plone.app.widgets.base import TextareaWidget
 from plone.app.widgets.base import dict_merge
 from plone.registry.interfaces import IRegistry
@@ -25,12 +25,6 @@ except ImportError:
     from plone.app.widgets.dx import BaseWidget
 
 
-try:
-    import json
-except ImportError:
-    import simplejson as json
-
-
 class ILayoutWidget(ITextAreaWidget):
     """Marker interface for the LayoutWidget."""
 
@@ -45,7 +39,7 @@ class LayoutWidget(BaseWidget, TextAreaWidget):
     pattern = 'layout'
     pattern_options = BaseWidget.pattern_options.copy()
 
-    def obtainType(self):
+    def obtainType(self):  # noqa
         """
         Obtains the type of the context object or of the object we are adding
         """
@@ -116,7 +110,7 @@ class LayoutWidget(BaseWidget, TextAreaWidget):
         if portal_type is None:
             return ''
 
-        types_tool = getToolByName(self.context, 'portal_types')
+        types_tool = api.portal.get_tool('portal_types')
         fti = getattr(types_tool, portal_type, None)
         if fti is None:
             return ''
@@ -141,5 +135,5 @@ class LayoutWidget(BaseWidget, TextAreaWidget):
 
 @adapter(getSpecification(ILayoutAware['content']), IMosaicLayer)
 @implementer(IFieldWidget)
-def LayoutFieldWidget(field, request):
+def LayoutFieldWidget(field, request):  # noqa
     return FieldWidget(field, LayoutWidget(request))

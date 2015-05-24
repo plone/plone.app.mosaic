@@ -108,7 +108,7 @@ define([
                 });
 
                 // Hide overlay
-                $.mosaic.overlay.hide();
+                $.mosaic.overlay.app.hide();
                 // $.mosaic.overlay.$el.trigger('destroy.modal.patterns');;
             }
         };
@@ -1757,7 +1757,7 @@ define([
     $.mosaic.addAppTile = function (type, url, id) {
 
         // Close overlay
-        $.mosaic.overlay.hide();
+        $.mosaic.overlay.app.hide();
         // $.mosaic.overlay.trigger('destroy.modal.patterns');
 
         // Get value

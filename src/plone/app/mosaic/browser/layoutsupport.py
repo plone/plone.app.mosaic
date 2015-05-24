@@ -1,7 +1,7 @@
 import logging
 from urllib import quote
 
-from Products.CMFCore.utils import getToolByName
+from plone import api
 from Products.CMFDynamicViewFTI.interfaces import ISelectableBrowserDefault
 from Products.CMFPlone.utils import parent
 from plone.app.content.browser.interfaces import IContentsPage
@@ -62,7 +62,7 @@ class DisplayLayoutTraverser(SimpleHandler):
         if not portal_type:
             raise NotFound(self.context, name, self.request)
 
-        types_tool = getToolByName(self.context, 'portal_types')
+        types_tool = api.portal.get_tool('portal_types')
         fti = getattr(types_tool, portal_type, None)
         if fti is None:
             raise NotFound(self.context, name, self.request)
@@ -212,7 +212,7 @@ def getAvailableViewMethods(context):
     if portal_type is None:
         return []
 
-    types_tool = getToolByName(context, 'portal_types')
+    types_tool = api.portal.get_tool('portal_types')
     fti = getattr(types_tool, portal_type, None)
     if fti is None:
         return []
