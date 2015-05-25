@@ -2001,6 +2001,7 @@ define([
             case "plone.app.widgets.dx.RichTextWidget":
                 editor_id = $(document.getElementById(tile_config.id)).find('textarea').attr('id');
                 tinymce.get(editor_id).setContent($('.mosaic-' + tiletype + '-tile', $.mosaic.document).find('.mosaic-tile-content').html());
+                $(document.getElementById(tile_config.id)).find('textarea').val(tinymce.get(editor_id).getContent());
                 break;
             }
         }
