@@ -1143,11 +1143,11 @@ define([
             }
 
             // Notify user
-            $.plone.notify({
-                title: "Info",
-                message: "You can't have more then 4 columns",
-                sticky: false
-            });
+            //$.plone.notify({
+            //    title: "Info",
+            //    message: "You can't have more then 4 columns",
+            //    sticky: false
+            //});
 
         // Dropped on row
         } else {
