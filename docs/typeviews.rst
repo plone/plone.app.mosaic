@@ -86,7 +86,7 @@ Creating a new content layout through the web
 ..  figure:: _screenshots/mosaic-layouts-as-aliases-new-new.png
 ..  code:: robotframework
 
-    Show how to configure the new TTW layout as alias
+    Show how to configure the other new TTW layout as alias
         Go to  ${PLONE_URL}/portal_types/Document/manage_aliases
         Page should contain  Method Aliases
         Input text  name=aliases.new:record  ++layout++custom
