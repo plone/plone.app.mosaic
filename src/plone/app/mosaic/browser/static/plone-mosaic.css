@@ -683,7 +683,8 @@
   content: "\2026";
   opacity: 0.5;
 }
-.mosaic-panel .mosaic-selected-tile .mosaic-tile-content-empty > *:first-child:before {
+.mosaic-panel .mosaic-selected-tile .mosaic-tile-content-empty > *:first-child:before,
+.mosaic-panel .mosaic-tile .mosaic-tile-content-empty.mce-edit-focus > *:first-child:before {
   display: none;
 }
 .mosaic-panel .mosaic-tile-content textarea,

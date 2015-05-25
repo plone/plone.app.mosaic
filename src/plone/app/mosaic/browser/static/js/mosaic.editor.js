@@ -127,6 +127,14 @@ define([
             }
         });
 
+        // Ensure tile select on editor focus change
+        tinymce.get('mosaic-rich-text-init-' + random_id).on('focus', function(e) {
+            if (e.target.id) {
+                $('#' + e.target.id).parents('.mosaic-tile').first()
+                    .mosaicSelectTile();
+            }
+        });
+
         // Set editor class
         obj.addClass('mosaic-rich-text');
     };
