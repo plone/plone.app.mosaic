@@ -2057,6 +2057,7 @@ define([
                             // Get tile type
                             var tiletype = '',
                                 classes = $(this).attr('class').split(" ");
+
                             $(classes).each(function () {
                                 var classname = this.match(/^mosaic-(.*)-tile$/);
                                 if (classname !== null) {
@@ -2065,6 +2066,17 @@ define([
                                     }
                                 }
                             });
+                            classes = $(classes).filter(function() {
+                                switch (this) {
+                                    case "mosaic-new-tile":
+                                    case "mosaic-helper-tile":
+                                    case "mosaic-original-tile":
+                                    case "mosaic-selected-tile":
+                                        return false;
+                                    default:
+                                        return true;
+                                }
+                            }).toArray();
 
                             // Get tile config
                             var tile_config;
@@ -2082,14 +2094,14 @@ define([
 
                             switch (tile_config.tile_type) {
                             case "text":
-                                body += '          <div class="' + $(this).attr("class") + '">\n';
+                                body += '          <div class="' + classes.join(' ') + '">\n';
                                 body += '          <div class="mosaic-tile-content">\n';
                                 body += $(this).children(".mosaic-tile-content").html().replace(/^\s+|\s+$/g, '') + "\n";
                                 body += '          </div>\n';
                                 body += '          </div>\n';
                                 break;
                             case "app":
-                                body += '          <div class="' + $(this).attr("class") + '">\n';
+                                body += '          <div class="' + classes.join(' ') + '">\n';
                                 body += '          <div class="mosaic-tile-content">\n';
 
                                 // Get url
@@ -2106,7 +2118,7 @@ define([
                                 body += '          </div>\n';
                                 break;
                             case "field":
-                                body += '          <div class="' + $(this).attr("class") + '">\n';
+                                body += '          <div class="' + classes.join(' ') + '">\n';
                                 body += '          <div class="mosaic-tile-content">\n';
 
                                 // Calc url
