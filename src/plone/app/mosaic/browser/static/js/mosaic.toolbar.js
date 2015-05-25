@@ -488,6 +488,7 @@ define([
             // Trigger inline validation draft auto save
             var lastChange = (new Date()).getTime();
             $(this).on('selectedtilechange', function () {
+                if ($.mosaic.overlay.app) { return; }
                 if ((new Date()).getTime() - lastChange > 2000) {
                     $("#form-widgets-ILayoutAware-content, " +
                         "[name='form.widgets.ILayoutAware.content']")
