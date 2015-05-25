@@ -98,7 +98,12 @@ def enable_layout_behavior(portal):
         if fti.id in ['Document', 'Event']:
             view_methods.append(CONTENT_LAYOUT_DEFAULT_DISPLAY)
         view_methods.append('view')
-        fti.default_view = 'view'
+
+        # XXX: Set the default view of some types into Custom layout for
+        # demo purposes while we are in alpha:
+        if fti.id in ['Folder', 'Document', 'News Item', 'Event']:
+            fti.default_view = 'view'
+
         fti.view_methods = list(set(view_methods))
 
 
