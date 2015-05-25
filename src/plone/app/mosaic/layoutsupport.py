@@ -19,6 +19,7 @@ from plone.autoform.interfaces import IWidgetsView
 
 from plone.app.blocks.interfaces import ILayoutField
 from plone.app.blocks.interfaces import ILayoutFieldDefaultValue
+from plone.app.blocks.layoutbehavior import ILayoutAware
 from plone.app.blocks.resource import AvailableLayoutsVocabulary
 from plone.app.blocks.utils import resolveResource
 from plone.app.mosaic.interfaces import IMosaicLayer
@@ -47,12 +48,7 @@ AvailableContentLayoutsVocabularyFactory = AvailableLayoutsVocabulary(
 )
 
 
-def getDefaultContentLayoutContent(adapter):
-    portal_type = getattr(getattr(
-        adapter.view, '__parent__', adapter.view), 'portal_type', None)
-    if portal_type is None:
-        return u''
-
+def getPortalTypeDefaultContentLayoutContent(portal_type):
     types_tool = api.portal.get_tool('portal_types')
     fti = getattr(types_tool, portal_type, None)
     if fti is None:
@@ -69,6 +65,15 @@ def getDefaultContentLayoutContent(adapter):
             logger.warning('Missing layout {0:s}'.format(e))
     return u''
 
+
+def getDefaultContentLayoutContent(adapter):
+    portal_type = getattr(getattr(
+        adapter.view, '__parent__', adapter.view), 'portal_type', None)
+    if portal_type is None:
+        return u''
+    return getPortalTypeDefaultContentLayoutContent(portal_type)
+
+
 # XXX: It would be best to register this for IAddForm, but if the field
 # is moved into fieldset using plone.supermodel.directives.fieldset, its
 # form is actually IGroup, not IAddForm.
@@ -79,6 +84,9 @@ default_layout_content = ComputedWidgetAttribute(
 @implementer(ILayoutFieldDefaultValue)
 @adapter(Interface, IMosaicLayer)
 def layoutFieldDefaultValue(context, request):
+    if context and ILayoutAware(context, None):
+        return getPortalTypeDefaultContentLayoutContent(context.portal_type)
+
     # XXX: Context cannot be used yet, because plone.dexterity does not
     # bound fields to support context aware default factories
     layout = absolute_path(CONTENT_LAYOUT_DEFAULT_LAYOUT)
