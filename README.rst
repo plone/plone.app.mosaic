@@ -94,10 +94,13 @@ enabled for any content type by enabling behaviors **Layout support** and
 Status
 ------
 
-**Plone Mosaic** is considered to be in alpha phase. Not all the features
-of Plone Mosaic have yet easily accessible UI (e.g. layouts can be created 
-into *portal_resources* and bound to content types as named views only
-through Zope Management Interface, ZMI).
+**Plone Mosaic** is considered to be in alpha phase.
+`There are bugs, which should be reported.`__
+Not all the features of Plone Mosaic have yet easily accessible UI (e.g.
+layouts can be created into *portal_resources* and bound to content types as
+named views only through Zope Management Interface, ZMI).
+
+__ https://github.com/plone/plone.app.mosaic/milestones/1.0.0
 
 
 Backend development
