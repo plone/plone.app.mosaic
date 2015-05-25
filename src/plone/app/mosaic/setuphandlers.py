@@ -98,6 +98,7 @@ def enable_layout_behavior(portal):
         if fti.id in ['Document', 'Event']:
             view_methods.append(CONTENT_LAYOUT_DEFAULT_DISPLAY)
         view_methods.append('view')
+        fti.default_view = 'view'
         fti.view_methods = list(set(view_methods))
 
 

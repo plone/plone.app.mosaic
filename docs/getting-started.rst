@@ -79,7 +79,7 @@ How the current content looks after the first time the **Custom layout** is acti
 ..  figure:: _screenshots/mosaic-custom-layout-enable-done.png
 ..  code:: robotframework
 
-    Show how to custom layout view
+    Show how to select custom layout view
        Update element style  css=.managePortletsFallback  display  none
        Capture and crop page screenshot
         ...  _screenshots/mosaic-custom-layout-enable-done.png
@@ -97,12 +97,19 @@ When the **Custom layout** has been enabled, the **Mosaic editor** is opened by 
 ..  code:: robotframework
 
     Show how Mosaic editor is opened
+        Delete content  /plone/example-document
+        Create content  type=News Item
+        ...  id=example-document
+        ...  title=Example Document
+        ...  description=This is an example document
+        ...  text=<p>This document will soon have a custom layout.</p>
+
         Go to  ${PLONE_URL}/example-document
         Highlight  id=contentview-edit
         Capture and crop page screenshot
         ...  _screenshots/mosaic-editor-open.png
         ...  css=#portal-breadcrumbs
-        ...  ${SELECTOR_TOOLBAR}  id=plone-contentmenu-layout
+        ...  ${SELECTOR_TOOLBAR}  id=contentview-edit
 
 ..  figure:: _screenshots/mosaic-editor-overview.png
 ..  code:: robotframework
