@@ -1903,7 +1903,7 @@ define([
      * @return {String} Default value of the given tile
      */
     $.mosaic.getDefaultValue = function (tile_config) {
-        var editor_id, start, end;
+        var editor_id, editor, start, end;
 
         // Wrap title and description fields for proper styles
         if (tile_config.name === 'IDublinCore-title') {
@@ -1938,7 +1938,12 @@ define([
             case "plone.app.z3cform.wysiwyg.widget.WysiwygFieldWidget":
             case "plone.app.widgets.dx.RichTextWidget":
                 editor_id = $('#' + tile_config.id).find('textarea').attr('id');
-                return tinymce.get(editor_id).getContent();
+                editor = tinymce.get(editor_id);
+                if (editor) {
+                    return editor.getContent();
+                } else {
+                    return '';
+                }
             default:
                 return '<div class="discreet">Placeholder for field:<br/><b>' + tile_config.label + '</b></div>';
             }
@@ -1957,7 +1962,7 @@ define([
      * @return {String} Default value of the given tile
      */
     $.mosaic.saveTileValueToForm = function (tiletype, tile_config) {
-        var editor_id, value, newline;
+        var editor_id, editor, value, newline;
 
         // Update field values if type is rich text
         if (tile_config && tile_config.tile_type === 'field' &&
@@ -2000,8 +2005,11 @@ define([
             case "plone.app.z3cform.wysiwyg.widget.WysiwygFieldWidget":
             case "plone.app.widgets.dx.RichTextWidget":
                 editor_id = $(document.getElementById(tile_config.id)).find('textarea').attr('id');
-                tinymce.get(editor_id).setContent($('.mosaic-' + tiletype + '-tile', $.mosaic.document).find('.mosaic-tile-content').html());
-                $(document.getElementById(tile_config.id)).find('textarea').val(tinymce.get(editor_id).getContent());
+                editor = tinymce.get(editor_id);
+                if (editor) {
+                    editor.setContent($('.mosaic-' + tiletype + '-tile', $.mosaic.document).find('.mosaic-tile-content').html());
+                    $(document.getElementById(tile_config.id)).find('textarea').val(editor.getContent());
+                }
                 break;
             }
         }

@@ -150,7 +150,9 @@ define([
     $.mosaic.execCommand = function (command, ui, value) {
 
         // Exec command
-        tinymce.activeEditor.execCommand(command, ui, value);
+        if (tinymce.activeEditor) {
+            tinymce.activeEditor.execCommand(command, ui, value);
+        }
     };
 
     /**
@@ -162,7 +164,9 @@ define([
     $.mosaic.editor.applyFormat = function (format) {
 
         // Apply format
-        tinyMCE.activeEditor.formatter.apply(format);
+        if (tinymce.activeEditor) {
+            tinyMCE.activeEditor.formatter.apply(format);
+        }
     };
 
     /**
@@ -175,6 +179,8 @@ define([
     $.mosaic.editor.registerFormat = function (name, format) {
 
         // Apply format
-        tinymce.activeEditor.formatter.register(name, format);
+        if (tinymce.activeEditor) {
+            tinymce.activeEditor.formatter.register(name, format);
+        }
     };
 });
