@@ -81,7 +81,7 @@ package has following dependencies::
 
     plone.tiles >= 1.4.0
     plone.app.tiles >= 2.1.0
-    plone.app.standardtiles >= 1.0a2
+    plone.app.standardtiles >= 1.0a3
     plone.app.blocks >= 2.1.0
     plone.app.drafts >= 1.0b1
     plone.app.widgets >= 1.8.0
