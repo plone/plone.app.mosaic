@@ -130,7 +130,7 @@ Startup:
 Get started:
 
 * open a browser at ``http://localhost:55001/plone/++add++Document``
-* login as ``admin`` with password ``admin``
+* login as ``admin`` with password ``secret``
 * save the new page
 * from the *Display*-menu, select the new entry *Custom layout*
 * click *Edit* to see the new *Mosaic Editor*
