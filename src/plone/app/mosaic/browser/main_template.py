@@ -245,7 +245,6 @@ class MainTemplate(BrowserView):
             return self.main_template()
 
     @property
-    @volatile.cache(cacheKey, volatile.store_on_context)
     def template(self):
         try:
             layout = getMultiAdapter((self.context, self.request),
@@ -256,6 +255,10 @@ class MainTemplate(BrowserView):
             else:
                 return self.main_template
 
+        return self._cooked_template(layout)
+
+    @volatile.cache(cacheKey, volatile.store_on_context)
+    def _cooked_template(self, layout):
         cooked = cook_layout(layout, self.request.get('ajax_load'))
         pt = ViewPageTemplateString(cooked)
         bound_pt = pt.__get__(self, type(self))
