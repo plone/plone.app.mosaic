@@ -141,10 +141,10 @@ define([
             // Hide layout field
             form.find('#formfield-form-widgets-ILayoutAware-content')
                 .addClass('mosaic-hidden');
-            form.find('#formfield-form-widgets-ILayoutAware-pageSiteLayout')
-                .addClass('mosaic-hidden');
-            form.find('#formfield-form-widgets-ILayoutAware-sectionSiteLayout')
-                .addClass('mosaic-hidden');
+            //form.find('#formfield-form-widgets-ILayoutAware-pageSiteLayout')
+            //    .addClass('mosaic-hidden');
+            //form.find('#formfield-form-widgets-ILayoutAware-sectionSiteLayout')
+            //    .addClass('mosaic-hidden');
 
             // Hide title and description
             form.find('#formfield-form-widgets-IDublinCore-title')
