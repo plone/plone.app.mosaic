@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from Products.CMFDynamicViewFTI.interfaces import ISelectableBrowserDefault
+from plone.memoize.view import memoize
 from plone import api
 from plone.app.widgets.base import TextareaWidget
 from plone.app.widgets.base import dict_merge
@@ -38,6 +39,20 @@ class LayoutWidget(BaseWidget, TextAreaWidget):
 
     pattern = 'layout'
     pattern_options = BaseWidget.pattern_options.copy()
+
+    @property
+    @memoize
+    def enabled(self):
+        # Disable Mosaic editor when the selected layout for the current
+        # ILayoutAware or DX add form context is not custom layout
+        current_browser_layout = (
+            self._add_form_portal_type_default_view()
+            or self._context_selected_layout()
+        )
+        if current_browser_layout not in ['', 'view', '@@view']:
+            return False
+        return True
+
 
     def obtainType(self):  # noqa
         """
@@ -87,13 +102,7 @@ class LayoutWidget(BaseWidget, TextAreaWidget):
             self.get_options(),
             args['pattern_options'])
 
-        # Disable Mosaic editor when the selected layout for the current
-        # ILayoutAware or DX add form context is not custom layout
-        current_browser_layout = (
-            self._add_form_portal_type_default_view()
-            or self._context_selected_layout()
-        )
-        if current_browser_layout not in ['', 'view', '@@view']:
+        if not self.enabled:
             args['pattern'] = self.pattern + '-disabled'
 
         return args
