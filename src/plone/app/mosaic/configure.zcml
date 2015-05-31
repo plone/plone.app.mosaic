@@ -4,8 +4,12 @@
     xmlns:zcml="http://namespaces.zope.org/zcml"
     i18n_domain="plone">
 
-  <!-- Include our dependencies -->
-  <includeDependencies package="." />
+  <!-- Include dependencies -->
+  <include package="plone.tiles" />
+  <include package="plone.app.tiles" />
+  <include package="plone.app.standardtiles" />
+  <include package="plone.app.blocks" />
+  <include package="plone.app.drafts" />
 
   <genericsetup:registerProfile
       name="default"
