@@ -43,6 +43,13 @@
       zcml:condition="installed plone.app.widgets"
       />
 
+  <!-- HTTPHeaders transform, because main_template may not be rendered -->
+  <adapter
+      for="* .interfaces.IMosaicLayer"
+      name="plone.httpheaders"
+      factory=".transform.HTTPHeaders"
+      />
+
   <include package=".browser" />
 
   <!-- Register resource traverser for content layouts -->
