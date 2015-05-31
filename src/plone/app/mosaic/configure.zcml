@@ -54,6 +54,13 @@
       factory=".transform.HTTPHeaders"
       />
 
+  <!-- HTML language transform to fix language attribute in site layout -->
+  <adapter
+      for="* .interfaces.IMosaicLayer"
+      name="plone.app.mosaic.language"
+      factory=".transform.HTMLLanguage"
+      />
+
   <include package=".browser" />
 
   <!-- Register resource traverser for content layouts -->
