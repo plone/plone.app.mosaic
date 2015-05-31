@@ -23,6 +23,10 @@ class HTTPHeaders(object):
         self.request = request
 
     def _setHeaders(self):
+        content_type = self.request.response.getHeader('Content-Type')
+        if content_type is None or not content_type.startswith('text/html'):
+            return None
+
         context = aq_parent(aq_base(self.published))
         manager = queryMultiAdapter(
             (context, self.request, self.published),
@@ -34,9 +38,9 @@ class HTTPHeaders(object):
                 (context, self.request, self.published, manager),
                 IViewlet
             ):
+                viewlet.update()
                 for key, value in viewlet.getHeaders():
                     if key.lower() not in headers:
-                        print self.request.URL, key, value
                         self.request.response.setHeader(key, value)
 
     def transformString(self, result, encoding):
