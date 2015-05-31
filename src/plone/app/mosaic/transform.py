@@ -16,15 +16,14 @@ class HTTPHeaders(object):
     is not called (e.g. with pure-HTML site layouts).
     """
 
-    order = 9000
+    order = 8950
 
     def __init__(self, published, request):
         self.published = published
         self.request = request
 
     def _setHeaders(self):
-        content_type = self.request.response.getHeader('Content-Type')
-        if content_type is None or not content_type.startswith('text/html'):
+        if not self.request.get('plone.app.blocks.enabled', False):
             return None
 
         context = aq_parent(aq_base(self.published))
