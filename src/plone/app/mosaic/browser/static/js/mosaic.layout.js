@@ -108,8 +108,10 @@ define([
                 });
 
                 // Hide overlay
-                $.mosaic.overlay.app.hide();
-                // $.mosaic.overlay.$el.trigger('destroy.modal.patterns');;
+                if ($.mosaic.overlay.app) {
+                    $.mosaic.overlay.app.hide();
+                    // $.mosaic.overlay.$el.trigger('destroy.modal.patterns');;
+                }
             }
         };
 
@@ -1757,8 +1759,10 @@ define([
     $.mosaic.addAppTile = function (type, url, id) {
 
         // Close overlay
-        $.mosaic.overlay.app.hide();
-        // $.mosaic.overlay.trigger('destroy.modal.patterns');
+        if ($.mosaic.overlay.app) {
+            $.mosaic.overlay.app.hide();
+            // $.mosaic.overlay.trigger('destroy.modal.patterns');
+        }
 
         // Get value
         $.ajax({
