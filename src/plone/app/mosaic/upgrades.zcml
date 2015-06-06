@@ -2,16 +2,20 @@
     xmlns="http://namespaces.zope.org/zope"
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup">
 
-  <!--
-  <genericsetup:upgradeSteps
+  <genericsetup:upgradeStep
+      profile="plone.app.mosaic:default"
+      source="0001"
+      destination="2"
+      title="Upgrade example layouts; Reinstall plone.app.standardtiles"
+      handler=".upgrades.upgrade_1_to_2"
+      />
+
+  <genericsetup:upgradeStep
+      profile="plone.app.mosaic.bbb:default"
       source="1"
       destination="2"
-      profile="plone.app.standardtiles:default">
-    <genericsetup:upgradeDepends
-        title=""
-        import_profile="plone.app.standardtiles:upgrade_to_2"
-        />
-  </genericsetup:upgradeSteps>
-  -->
+      title="Upgrade example layouts; Reinstall plone.app.standardtiles"
+      handler=".upgrades.upgrade_1_to_2"
+      />
 
 </configure>

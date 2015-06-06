@@ -1,20 +1,17 @@
 # -*- coding: utf-8 -*-
-import os
-import pkg_resources
-from zope.globalrequest import setRequest
-from zope.globalrequest import clearRequest
-from Products.CMFPlone.testing import \
-    PRODUCTS_CMFPLONE_ROBOT_REMOTE_LIBRARY_FIXTURE
+from Products.CMFPlone.testing import PRODUCTS_CMFPLONE_ROBOT_REMOTE_LIBRARY_FIXTURE  # noqa
 from ZPublisher import HTTPResponse
-from plone.app.testing import PLONE_FIXTURE
-from plone.app.testing import IntegrationTesting
+from plone.app.mosaic.interfaces import HAVE_PLONE_5
+from plone.app.robotframework.testing import REMOTE_LIBRARY_BUNDLE_FIXTURE
 from plone.app.testing import FunctionalTesting
+from plone.app.testing import IntegrationTesting
+from plone.app.testing import PLONE_FIXTURE
 from plone.app.testing import PloneSandboxLayer
 from plone.app.testing import applyProfile
 from plone.testing import z2
 from zope.configuration import xmlconfig
-from plone.app.robotframework.testing import REMOTE_LIBRARY_BUNDLE_FIXTURE
-from plone.app.mosaic.interfaces import HAVE_PLONE_5
+from zope.globalrequest import clearRequest
+from zope.globalrequest import setRequest
 
 
 class PloneAppMosaic(PloneSandboxLayer):

@@ -103,4 +103,7 @@
   <!-- Register default layouts -->
   <include file="layouts.zcml" />
 
+  <!-- Register upgrades -->
+  <include file="upgrades.zcml" />
+
 </configure>
