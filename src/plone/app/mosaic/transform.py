@@ -17,14 +17,15 @@ class HTTPHeaders(object):
     is not called (e.g. with pure-HTML site layouts).
     """
 
-    order = 8950
+    order = 8800
 
     def __init__(self, published, request):
         self.published = published
         self.request = request
 
     def _setHeaders(self):
-        if not self.request.get('plone.app.blocks.enabled', False):
+        if self.published is None or \
+                not self.request.get('plone.app.blocks.enabled', False):
             return None
 
         context = aq_parent(aq_base(self.published))
@@ -60,7 +61,7 @@ class HTTPHeaders(object):
 class HTMLLanguage(object):
     """Set HTML tag language attributes"""
 
-    order = 8950
+    order = 8800
 
     def __init__(self, published, request):
         self.published = published
@@ -73,14 +74,53 @@ class HTMLLanguage(object):
         return None
 
     def transformIterable(self, result, encoding):
-        if not self.request.get('plone.app.blocks.enabled', False) or \
+        if self.published is None or \
+                not self.request.get('plone.app.blocks.enabled', False) or \
                 not isinstance(result, XMLSerializer):
             return None
 
-        # TODO: Any better (yet simple) way to figure out current language?
-        lang = getattr(self.request, 'LANGUAGE', 'en')
+        context = aq_parent(aq_base(self.published))
+        state = queryMultiAdapter((context, self.request),
+                                  name='plone_portal_state')
+
         root = result.tree.getroot()
-        if root is not None:
-            root.attrib['lang'] = lang
+        if state and root is not None:
+            root.attrib['lang'] = state.language()
+
+        return result
+
+
+@implementer(ITransform)
+class BodyClass(object):
+    """Set body tag class"""
+
+    order = 8800
+
+    def __init__(self, published, request):
+        self.published = published
+        self.request = request
+
+    def transformString(self, result, encoding):
+        return None
+
+    def transformUnicode(self, result, encoding):
+        return None
+
+    def transformIterable(self, result, encoding):
+        if self.published is None or \
+                not self.request.get('plone.app.blocks.enabled', False) or \
+                not isinstance(result, XMLSerializer):
+            return None
+
+        context = aq_parent(aq_base(self.published))
+        layout = queryMultiAdapter((context, self.request),
+                                   name='plone_layout')
+        root = result.tree.getroot()
+        body = root.find('body')
+
+        if layout and body is not None:
+            class_ = layout.bodyClass(None, self.published)
+            body.attrib['class'] = ' '.join(
+                body.attrib.get('class', '').split() + class_.split())
 
         return result

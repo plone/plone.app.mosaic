@@ -50,7 +50,7 @@
   <!-- HTTPHeaders transform, because main_template may not be rendered -->
   <adapter
       for="* .interfaces.IMosaicLayer"
-      name="plone.httpheaders"
+      name="plone.app.mosaic.httpheaders"
       factory=".transform.HTTPHeaders"
       />
 
@@ -59,6 +59,13 @@
       for="* .interfaces.IMosaicLayer"
       name="plone.app.mosaic.language"
       factory=".transform.HTMLLanguage"
+      />
+
+  <!-- Body class transform to add traditional Plone body class -->
+  <adapter
+      for="* .interfaces.IMosaicLayer"
+      name="plone.app.mosaic.bodyclass"
+      factory=".transform.BodyClass"
       />
 
   <include package=".browser" />
