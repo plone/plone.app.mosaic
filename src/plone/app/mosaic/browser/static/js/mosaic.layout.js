@@ -879,6 +879,25 @@ define([
                     }
                 }
             });
+
+            if ($(this).find(".mosaic-grid-row").length === 0) {
+                $(this).append(
+                    $($.mosaic.document.createElement("div"))
+                        .addClass("mosaic-grid-row mosaic-empty-row")
+                        .append($($.mosaic.document.createElement("div"))
+                            .addClass("mosaic-grid-cell mosaic-width-full mosaic-position-leftmost")
+                            .append($($.mosaic.document.createElement("div"))
+                                .append($($.mosaic.document.createElement("div"))
+                                    .addClass("mosaic-tile-outer-border")
+                                    .append($($.mosaic.document.createElement("div"))
+                                            .addClass("mosaic-divider-dot")
+                                    )
+                                )
+                            )
+                        )
+                        .mosaicAddMouseMoveEmptyRow()
+                );
+            }
         });
     };
 
