@@ -4,6 +4,8 @@ Changelog
 1.0a2 (unreleased)
 ------------------
 
+- Add 'Center tile content' tile style to allow e.g. centering of image tiles
+  [datakurre]
 - Add site and page layout fields to be available on properties overlay
   [datakurre]
 - Add HTML tag language transform to set correct langauge for HTML site layouts
