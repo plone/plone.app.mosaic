@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.0a2 (unreleased)
+1.0a2 (2015-06-08)
 ------------------
 
 - Add 'Center tile content' tile style to allow e.g. centering of image tiles
