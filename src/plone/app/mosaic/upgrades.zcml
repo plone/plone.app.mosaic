@@ -21,7 +21,7 @@
       />
 
   <genericsetup:upgradeStep
-      profile="plone.app.mosaic.bbb:default"
+      profile="plone.app.mosaic:bbb"
       source="1"
       destination="2"
       title="Upgrade example layouts; Reinstall plone.app.standardtiles"
@@ -29,7 +29,7 @@
       />
 
   <genericsetup:upgradeDepends
-      profile="plone.app.mosaic.bbb:default"
+      profile="plone.app.mosaic:bbb"
       source="1"
       destination="2"
       title="Add 'tile-align-center' tile style"
