@@ -514,6 +514,17 @@
 .mosaic-helper-tile .mosaic-drag-handle {
   display: block !important;
 }
+/* Empty row */
+.mosaic-panel-dragging .mosaic-empty-row {
+  height: 12px;
+}
+.mosaic-panel-dragging .mosaic-empty-row .mosaic-grid-cell {
+  height: 12px;
+}
+.mosaic-panel-dragging .mosaic-empty-row .mosaic-grid-cell > div {
+  height: 12px;
+}
+/* @end */
 .mosaic-divider {
   position: absolute;
   z-index: 600;
@@ -826,16 +837,11 @@
   opacity: 0.5;
 }
 /* Empty row */
-.mosaic-panel .mosaic-empty-row {
-  height: 12px;
-}
 .mosaic-panel .mosaic-empty-row .mosaic-grid-cell {
-  height: 12px;
   display: none;
 }
 .mosaic-panel .mosaic-empty-row .mosaic-grid-cell > div {
   position: relative;
-  height: 12px;
 }
 /* @end */
 /* Empty tile */
@@ -846,6 +852,9 @@
 /* Images will never be bigger then a tile */
 .mosaic-tile img {
   max-width: 100%;
+}
+.mosaic-tile-align-center {
+  text-align: center;
 }
 .mosaic-tile-align-left {
   float: left;
