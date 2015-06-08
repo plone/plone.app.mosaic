@@ -1089,6 +1089,11 @@ define([
         var new_tile = $(".mosaic-helper-tile-new", $.mosaic.document).length > 0;
         var original_tile = $(".mosaic-original-tile", $.mosaic.document);
 
+        // If divider is not found or not sane drop, act like esc is pressed
+        if (divider.length === 0 || drop.hasClass('mosaic-helper-tile')) {
+            original_tile.addClass("mosaic-drag-cancel");
+        }
+
         // Check if esc is pressed
         if (original_tile.hasClass("mosaic-drag-cancel")) {
 
