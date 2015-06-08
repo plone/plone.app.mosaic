@@ -48,8 +48,10 @@ Changing the current site layout
         Capture and crop page screenshot
         ...  _screenshots/mosaic-layout-section-site-layout.png
         ...  id=content-core
-        Choose ok on next confirmation
         Click button  Close
+
+        Choose ok on next confirmation
+        Click button  css=.mosaic-button-save
 
 
 Creating a new site layout through the web
@@ -60,7 +62,6 @@ Creating a new site layout through the web
 
     Show example TTW site layout manifest
         Go to  ${PLONE_URL}/portal_resources/sitelayout/custom/manifest.cfg/manage_main
-        Choose ok on next confirmation
         Page should contain  You can update the data for this file
         Capture page screenshot
         ...  _screenshots/mosaic-ttw-sitelayout-manifest.png
