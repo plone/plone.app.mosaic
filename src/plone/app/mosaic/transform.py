@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from Acquisition import aq_base
 from Acquisition import aq_parent
+from plone import api
 from plone.transformchain.interfaces import ITransform
 from repoze.xmliter.serializer import XMLSerializer
 from zope.component import getAdapters
@@ -28,7 +29,7 @@ class HTTPHeaders(object):
                 not self.request.get('plone.app.blocks.enabled', False):
             return None
 
-        context = aq_parent(aq_base(self.published))
+        context = aq_parent(aq_base(self.published)) or api.portal.get()
         manager = queryMultiAdapter(
             (context, self.request, self.published),
             IViewletManager, name='plone.httpheaders'
@@ -79,7 +80,7 @@ class HTMLLanguage(object):
                 not isinstance(result, XMLSerializer):
             return None
 
-        context = aq_parent(aq_base(self.published))
+        context = aq_parent(aq_base(self.published)) or api.portal.get()
         state = queryMultiAdapter((context, self.request),
                                   name='plone_portal_state')
 
@@ -112,7 +113,7 @@ class BodyClass(object):
                 not isinstance(result, XMLSerializer):
             return None
 
-        context = aq_parent(aq_base(self.published))
+        context = aq_parent(aq_base(self.published)) or api.portal.get()
         layout = queryMultiAdapter((context, self.request),
                                    name='plone_layout')
         root = result.tree.getroot()
