@@ -5,7 +5,7 @@ Site layout management
 ..  code:: robotframework
 
     Set layout management window size
-        Set window size  900  600
+        Set window size  900  800
 
 
 
