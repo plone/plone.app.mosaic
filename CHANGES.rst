@@ -19,7 +19,7 @@ Changelog
   [datakurre]
 - Fix to only cache site layout when it's not the default main_template
   [datakurre]
-- Upgrade to plone.app.drafts >= 1.0b2 and plone.app.standardtiles >= 1.0a4
+- Upgrade to plone.app.drafts >= 1.0b2 and plone.app.standardtiles >= 1.0b1
   [datakurre]
 
 1.0a1 (2015-05-27)
