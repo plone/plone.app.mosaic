@@ -11,6 +11,7 @@ import pkg_resources
 from plone.memoize import ram
 from plone.memoize import view
 from plone.memoize import volatile
+from plone.resource.interfaces import IResourceDirectory
 from repoze.xmliter.utils import getHTMLSerializer
 from zExceptions import NotFound
 from zope.component import getMultiAdapter
@@ -269,8 +270,12 @@ class MainTemplate(BrowserView):
     @property
     @view.memoize
     def macros(self):
-        # Enable blocks transform
-        alsoProvides(self.request, IBlocksTransformEnabled)
+        # Enable blocks transform when not below resource directory
+        if not any(map(
+            IResourceDirectory.providedBy,
+            self.request.get('PARENTS') or []
+        )):
+            alsoProvides(self.request, IBlocksTransformEnabled)
 
         # Merge macros to provide fallback macros form legacy main_template
         macros = {}
