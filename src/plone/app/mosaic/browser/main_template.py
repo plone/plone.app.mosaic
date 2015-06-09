@@ -150,17 +150,19 @@ def cook_layout(layout, ajax):
 
     template = """\
 <metal:page define-macro="master"
-            tal:define="portal_state python: context.restrictedTraverse('@@plone_portal_state');
-                        context_state python: context.restrictedTraverse('@@plone_context_state');
-                        plone_view python: context.restrictedTraverse('@@plone');
+            tal:define="portal_state context/@@plone_portal_state;
+                        context_state context/@@plone_context_state;
+                        plone_view context/@@plone;
+                        plone_layout context/@@plone_layout | nothing;
                         lang portal_state/language;
                         view nocall: view | nocall: plone_view;
                         dummy python:plone_view.mark_view(view);
                         portal_url portal_state/portal_url;
                         checkPermission nocall: context/portal_membership/checkPermission;
                         site_properties nocall: context/portal_properties/site_properties;
-                        ajax_load request/ajax_load | nothing;
                         ajax_include_head request/ajax_include_head | nothing;
+                        ajax_load request/ajax_load | python: False;
+                        toolbar_class python:request.cookies.get('plone-toolbar', 'plone-toolbar-left pat-toolbar');
                         dummy python:request.RESPONSE.setHeader('X-UA-Compatible', 'IE=edge,chrome=1');">
 %s
 </metal:page>"""
