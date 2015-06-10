@@ -45,7 +45,7 @@ setup(
         'plone.tiles>=1.4.0',
         'plone.app.blocks>=2.1.0',
         'plone.app.tiles>=1.4.0',
-        'plone.app.drafts>=1.0b2',
+        'plone.app.drafts>=1.0b3',
         'plone.app.standardtiles>=1.0b1',
     ],
     extras_require={'test': [

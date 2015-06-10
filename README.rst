@@ -83,7 +83,7 @@ package has following dependencies::
     plone.app.tiles >= 2.1.0
     plone.app.standardtiles >= 1.0b1
     plone.app.blocks >= 2.1.0
-    plone.app.drafts >= 1.0b2
+    plone.app.drafts >= 1.0b3
     plone.app.widgets >= 1.8.0
 
 After the add-on activation, the new content layout and editor support can be
