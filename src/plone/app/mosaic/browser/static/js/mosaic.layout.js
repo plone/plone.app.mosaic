@@ -2126,11 +2126,14 @@ define([
                             case "mosaic-width-three-quarters":
                                 size = 9;
                                 break;
+                            case "mosaic-width-full":
+                                size = 12;
+                                break;
                         }
 
                         // Add cell start tag
                         body += '        <div class="' + $(this).attr("class") + '"\n';
-                        body += '             data-grid=\'{"type": "cell", "info":{"xs": "true", "sm": "true", "lg": "true", "pos": {"x": ' + position + ', "width": ' + size + '}}}\'">\n';
+                        body += '             data-grid=\'{"type": "cell", "info":{"xs": "true", "sm": "true", "lg": "true", "pos": {"x": ' + position + ', "width": ' + size + '}}}\'>\n';
 
                         // Loop through tiles
                         $(this).children(".mosaic-tile").each(function () {
