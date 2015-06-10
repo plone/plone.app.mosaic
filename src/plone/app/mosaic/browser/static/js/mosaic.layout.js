@@ -2053,6 +2053,8 @@ define([
 
         // Content
         var content,
+            position = 1,
+            size = 12,
             body = "",
             classNames = "",
             tilecount = 0,
@@ -2079,14 +2081,56 @@ define([
 
                     // Add row open tag
                     classNames = $(this).attr("class");
-                    body += '      <div class="' + classNames + '">\n';
+                    body += '      <div class="' + classNames + '"\n';
+                    body += '           data-grid=\'{"type": "row"}\'>\n';
 
                     // Loop through rows
                     $(this).children(".mosaic-grid-cell").each(function () {
 
+                        // Add column size
+                        switch ($(this).mosaicGetPositionClass()) {
+                            case "mosaic-position-leftmost":
+                                position = 1;
+                                break;
+                            case "mosaic-position-quarter":
+                                position = 4;
+                                break;
+                            case "mosaic-position-third":
+                                position = 5;
+                                break;
+                            case "mosaic-position-half":
+                                position = 7;
+                                break;
+                            case "mosaic-position-two-thirds":
+                                position = 9;
+                                break;
+                            case "mosaic-position-three-quarters":
+                                position = 10;
+                                break;
+                        }
+
+                        // Add column size
+                        switch ($(this).mosaicGetWidthClass()) {
+                            case "mosaic-width-half":
+                                size = 6;
+                                break;
+                            case "mosaic-width-quarter":
+                                size = 3;
+                                break;
+                            case "mosaic-width-third":
+                                size = 4;
+                                break;
+                            case "mosaic-width-two-thirds":
+                                size = 8;
+                                break;
+                            case "mosaic-width-three-quarters":
+                                size = 9;
+                                break;
+                        }
+
                         // Add cell start tag
-                        body += '        <div class="' +
-                            $(this).attr("class") + '">\n';
+                        body += '        <div class="' + $(this).attr("class") + '"\n';
+                        body += '             data-grid=\'{"type": "cell", "info":{"xs": "true", "sm": "true", "lg": "true", "pos": {"x": ' + position + ', "width": ' + size + '}}}\'">\n';
 
                         // Loop through tiles
                         $(this).children(".mosaic-tile").each(function () {
