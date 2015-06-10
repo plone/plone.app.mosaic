@@ -153,12 +153,18 @@ define([
                     .hide();
                 target.before($(document.createElement("div"))
                     .attr("id", panel_attr_id)
+                    .attr("class",
+                        content.find("[data-panel=" +
+                        panel_id + "]").attr("class"))
                     .addClass('mosaic-panel')
                     .attr('data-panel', 'content')
                     .html(content.find("[data-panel=" +
                         panel_id + "]").html())
                 );
             } else {
+                target.attr("class",
+                    content.find("[data-panel=" +
+                    panel_id + "]").attr("class"))
                 target.addClass('mosaic-panel');
                 target.html(content.find("[data-panel=" +
                     panel_id + "]").html());
