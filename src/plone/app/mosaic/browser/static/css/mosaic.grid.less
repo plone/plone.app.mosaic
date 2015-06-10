@@ -1,54 +1,56 @@
-/* Grid classes, these can also be nested */
-.mosaic-grid-row {
+.mosaic-enabled, .mosaic-grid {
+  /* Grid classes, these can also be nested */
+  .mosaic-grid-row {
     float: left;
     width: 100%;
     display: block;
     position: relative;
-}
-.mosaic-grid-cell {
+  }
+  .mosaic-grid-cell {
     position: relative;
     float: left;
     left: 100%;
-}
+  }
 
-/* Widths, these are abstracted out so that pixel-based layouts or other
-   similar approaches can be retrofitted without changing the markup,
-   or if you want to apply rules like the Golden Ratio to your layouts */
-.mosaic-width-full {
+  /* Widths, these are abstracted out so that pixel-based layouts or other
+     similar approaches can be retrofitted without changing the markup,
+     or if you want to apply rules like the Golden Ratio to your layouts */
+  .mosaic-width-full {
     width: 100%;
-}
-.mosaic-width-half {
+  }
+  .mosaic-width-half {
     width: 50%;
-}
-.mosaic-width-quarter {
+  }
+  .mosaic-width-quarter {
     width: 25%;
-}
-.mosaic-width-three-quarters {
+  }
+  .mosaic-width-three-quarters {
     width: 75%;
-}
-.mosaic-width-third {
+  }
+  .mosaic-width-third {
     width: 33.33%;
-}
-.mosaic-width-two-thirds {
+  }
+  .mosaic-width-two-thirds {
     width: 66.67%;
-}
+  }
 
-/* Positioning classes, these are subtracting from a rightmost position */
-.mosaic-position-leftmost {
+  /* Positioning classes, these are subtracting from a rightmost position */
+  .mosaic-position-leftmost {
     margin-left: -100%;
-}
-.mosaic-position-third {
+  }
+  .mosaic-position-third {
     margin-left: -66.67%;
-}
-.mosaic-position-two-thirds {
+  }
+  .mosaic-position-two-thirds {
     margin-left: -33.33%;
-}
-.mosaic-position-quarter {
+  }
+  .mosaic-position-quarter {
     margin-left: -75%;
-}
-.mosaic-position-half {
+  }
+  .mosaic-position-half {
     margin-left: -50%;
-}
-.mosaic-position-three-quarters {
+  }
+  .mosaic-position-three-quarters {
     margin-left: -25%;
+  }
 }

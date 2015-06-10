@@ -9,6 +9,8 @@ from zope.component import queryMultiAdapter
 from zope.interface import implementer
 from zope.viewlet.interfaces import IViewlet
 from zope.viewlet.interfaces import IViewletManager
+from plone.app.blocks.utils import xpath1
+from plone.app.blocks.utils import gridXPath
 
 
 @implementer(ITransform)
@@ -123,5 +125,10 @@ class BodyClass(object):
             class_ = layout.bodyClass(None, self.published)
             body.attrib['class'] = ' '.join(
                 body.attrib.get('class', '').split() + class_.split())
+
+        gridSystem = xpath1(gridXPath, result.tree)
+        if body and not gridSystem:
+            body.attrib['class'] = ' '.join((
+                body.attrib.get('class', ' '), 'mosaic-grid'))
 
         return result
