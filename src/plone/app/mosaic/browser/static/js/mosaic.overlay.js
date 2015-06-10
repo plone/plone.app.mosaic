@@ -63,7 +63,7 @@ define([
             obj
                 .hide()
                 .css({
-                    'position': 'absolute',
+                    'position': 'fixed',
                     'width': '900px',
                     'left': (($(window.parent).width() - 900) / 2)
                 })
