@@ -4,8 +4,16 @@ Changelog
 1.0a3 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Add "Bootstrap 3 Demo" example site layouts for Plone 5
+  [datakurre]
+- Add support for plone.app.blocks' generic data grid transform
+  [datakurre]
+- Change the default site layouts in Plone 5 to use 12 column deco grids
+  [datakurre]
+- Fix various site layout support related issues
+  [datakurre]
+- Upgrade to plone.app.drafts >= 1.0b3 and plone.app.blocks >= 2.1.2
+  [datakurre]
 
 1.0a2 (2015-06-08)
 ------------------

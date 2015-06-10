@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <metadata>
-  <version>2</version>
+  <version>3</version>
   <dependencies>
     <dependency>profile-plone.app.mosaic:default</dependency>
   </dependencies>

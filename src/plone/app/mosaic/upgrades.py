@@ -9,3 +9,7 @@ def upgrade_1_to_2(context):
     qi.reinstallProducts(['plone.app.standardtiles'])
 
     create_ttw_layout_examples(api.portal.get())
+
+
+def upgrade_2_to_3(context):
+    create_ttw_layout_examples(api.portal.get())
