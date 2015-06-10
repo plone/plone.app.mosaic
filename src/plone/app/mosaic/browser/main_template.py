@@ -1,29 +1,25 @@
 # -*- coding: utf-8 -*-
-from hashlib import md5
-import os
-import re
-import logging
-from urlparse import unquote
-
-from lxml import etree
-from lxml import html
-import pkg_resources
-from plone.memoize import ram
-from plone.memoize import view
-from plone.memoize import volatile
-from plone.resource.interfaces import IResourceDirectory
-from repoze.xmliter.utils import getHTMLSerializer
-from zExceptions import NotFound
-from zope.component import getMultiAdapter
-from zope.interface import implements
-from zope.interface import alsoProvides
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-
+from hashlib import md5
+from lxml import etree
+from lxml import html
 from plone.app.blocks.interfaces import IBlocksTransformEnabled
-from plone.app.blocks.resource import cacheKey
 from plone.app.mosaic.browser.interfaces import IMainTemplate
-
+from plone.dexterity.browser.add import DefaultAddView
+from plone.memoize import ram
+from plone.memoize import view
+from plone.resource.interfaces import IResourceDirectory
+from repoze.xmliter.utils import getHTMLSerializer
+from urlparse import unquote
+from zExceptions import NotFound
+from zope.component import getMultiAdapter
+from zope.interface import alsoProvides
+from zope.interface import implements
+import logging
+import os
+import pkg_resources
+import re
 
 NSMAP = {'metal': 'http://namespaces.zope.org/metal'}
 slotsXPath = etree.XPath("//*[@data-slots]")
@@ -258,10 +254,14 @@ class MainTemplate(BrowserView):
                 return self.main_template
 
     @property
-    @volatile.cache(cacheKey, volatile.store_on_context)
     def layout(self):
-        layout = getMultiAdapter((self.context, self.request),
-                                 name='page-site-layout').index()
+        published = self.request.get('PUBLISHED')
+        if isinstance(published, DefaultAddView):
+            layout = getMultiAdapter((self.context, self.request),
+                                     name='default-site-layout').index()
+        else:
+            layout = getMultiAdapter((self.context, self.request),
+                                     name='page-site-layout').index()
         cooked = cook_layout(layout, self.request.get('ajax_load'))
         pt = ViewPageTemplateString(cooked)
         bound_pt = pt.__get__(self, type(self))
