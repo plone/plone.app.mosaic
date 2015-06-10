@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.0a3 (unreleased)
+1.0a3 (2015-06-10)
 ------------------
 
 - Add "Bootstrap 3 Demo" example site layouts for Plone 5
