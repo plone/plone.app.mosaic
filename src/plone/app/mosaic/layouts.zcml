@@ -18,6 +18,9 @@
     <plone:static type="sitelayout" name="default"
                   directory="layouts/plone-5/site" />
 
+    <plone:static type="sitelayout" name="bs3demo"
+                  directory="layouts/plone-5/bs3demo" />
+
     <plone:static type="contentlayout" name="default"
                   directory="layouts/plone-5/content" />
   </configure>

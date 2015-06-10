@@ -1,0 +1,50 @@
+<rules
+    xmlns="http://namespaces.plone.org/diazo"
+    xmlns:css="http://namespaces.plone.org/diazo/css"
+    xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+
+  <replace css:theme-children="ul.navbar-nav"
+           css:content-children="ul#portal-globalnav" />
+
+  <xsl:template match="li[@class='selected']">
+    <xsl:copy>
+      <xsl:attribute name="class"><xsl:text>active</xsl:text></xsl:attribute>
+      <xsl:apply-templates select="@*|node()"/>
+    </xsl:copy>
+  </xsl:template>
+
+  <replace css:theme-children="a.navbar-brand"
+           css:content-children="#portal-logo" />
+
+  <copy css:theme="a.navbar-brand"
+        css:content="a#portal-logo"
+        attributes="href title"/>
+
+  <replace css:theme-children="ul.sidebar.nav"
+           css:content-children="ul.navTree.navTreeLevel0" />
+
+  <xsl:template match="@class[contains(., 'navTree')]">
+    <xsl:attribute name="class"><xsl:value-of select="concat('nav ', .)"></xsl:value-of></xsl:attribute>
+  </xsl:template>
+
+  <xsl:template match="@class[contains(., 'navTreeCurrentNode')]">
+    <xsl:attribute name="class"><xsl:value-of select="concat('active ', .)"></xsl:value-of></xsl:attribute>
+  </xsl:template>
+
+  <replace css:theme="ol.breadcrumb"
+           css:content="#portal-breadcrumbs" />
+
+  <replace css:content="#portal-breadcrumbs">
+    <ol class="breadcrumb">
+      <xsl:for-each select="div/ol/li/a|div/ol/li/span[@id='breadcrumbs-current']">
+        <li>
+          <xsl:copy>
+            <xsl:copy-of select="@*" />
+            <xsl:apply-templates />
+          </xsl:copy>
+        </li>
+      </xsl:for-each>
+    </ol>
+  </replace>
+
+</rules>

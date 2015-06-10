@@ -5,6 +5,8 @@ from hashlib import md5
 from lxml import etree
 from lxml import html
 from plone.app.blocks.interfaces import IBlocksTransformEnabled
+from plone.app.blocks.layoutbehavior import ILayoutAware
+from plone.app.blocks.utils import resolveResource
 from plone.app.mosaic.browser.interfaces import IMainTemplate
 from plone.dexterity.browser.add import DefaultAddView
 from plone.memoize import ram
@@ -12,6 +14,7 @@ from plone.memoize import view
 from plone.resource.interfaces import IResourceDirectory
 from repoze.xmliter.utils import getHTMLSerializer
 from urlparse import unquote
+from urlparse import urljoin
 from zExceptions import NotFound
 from zope.component import getMultiAdapter
 from zope.interface import alsoProvides
@@ -257,8 +260,18 @@ class MainTemplate(BrowserView):
     def layout(self):
         published = self.request.get('PUBLISHED')
         if isinstance(published, DefaultAddView):
-            layout = getMultiAdapter((self.context, self.request),
-                                     name='default-site-layout').index()
+            # Handle the special case of DX add form of layout aware context
+            layout = None
+            adapter = ILayoutAware(self.context, None)
+            if adapter is not None:
+                if getattr(adapter, 'sectionSiteLayout', None):
+                    layout = adapter.sectionSiteLayout
+            if layout:
+                layout = urljoin(self.context.absolute_url_path(), layout)
+                layout = resolveResource(layout)
+            if not layout:
+                layout = getMultiAdapter((self.context, self.request),
+                                         name='default-site-layout').index()
         else:
             layout = getMultiAdapter((self.context, self.request),
                                      name='page-site-layout').index()
