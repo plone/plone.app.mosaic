@@ -127,7 +127,7 @@ class BodyClass(object):
                 body.attrib.get('class', '').split() + class_.split())
 
         gridSystem = xpath1(gridXPath, result.tree)
-        if body and not gridSystem:
+        if body is not None and gridSystem is not None:
             body.attrib['class'] = ' '.join((
                 body.attrib.get('class', ' '), 'mosaic-grid'))
 
