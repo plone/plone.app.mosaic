@@ -31,8 +31,10 @@ immed: true, strict: true, maxlen: 140, maxerr: 9999, quotmark: false */
 
 define([
     'jquery',
-    'mockup-patterns-modal'
-], function($, modal) {
+    'mockup-patterns-modal',
+    'mockup-patterns-tinymce',
+    'mockup-patterns-tinymce-url/js/links'
+], function($, modal, TinyMCE, LinkModal) {
     'use strict';
 
     // Define mosaic namespace if it doesn't exist
@@ -248,6 +250,66 @@ define([
         $.mosaic.registerAction('em', {
             exec: function () {
                 $.mosaic.editor.applyFormat("em");
+            }
+        });
+
+        // Register link action
+        $.mosaic.registerAction('plonelink', {
+            exec: function () {
+                if (tinymce.activeEditor) {
+                    var $el, tinypattern = {
+                        $el: $.mosaic.options.$el,
+                        tiny: tinymce.activeEditor,
+                        options: $.extend(true, {},{
+                            appendToUrl: '',
+                            prependToUrl: '',
+                            linkAttribute: 'path',
+                            prependToScalePart: '/imagescale/',
+                            text: TinyMCE.prototype.defaults.text
+                        }, $.mosaic.options.tinymce),
+                        generateUrl: function(data) {
+                            var self = this;
+                            var part = data[self.options.linkAttribute];
+                            return self.options.prependToUrl + part + self.options.appendToUrl;
+                        },
+                        stripGeneratedUrl: function(url) {
+                            var self = this;
+                            url = url.split(self.options.prependToScalePart, 2)[0];
+                            if (self.options.prependToUrl) {
+                                var parts = url.split(self.options.prependToUrl, 2);
+                                if (parts.length === 2) {
+                                    url = parts[1];
+                                }
+                            }
+                            if (self.options.appendToUrl) {
+                                url = url.split(self.options.appendToUrl)[0];
+                            }
+                            return url;
+                        }
+                    };
+                    $el = tinypattern.$el.find('#' + tinypattern.tiny.id);
+                    if ($el.length === 0) {
+                        $el = $('<div id="' + tinypattern.tiny.id + '"/>').insertAfter(tinypattern.$el);
+                        $el.modal = new LinkModal($el,
+                            $.extend(true, {}, tinypattern.options, {
+                                tinypattern: tinypattern,
+                                linkTypes: ['internal', 'external', 'email', 'anchor'],
+                                upload: false
+                            })
+                        );
+                        $el.modal.show();
+                    } else {
+                        $el[0].modal.reinitialize();
+                        $el[0].modal.show();
+                    }
+                }
+            }
+        });
+
+        // Register unlink action
+        $.mosaic.registerAction('unlink', {
+            exec: function () {
+                $.mosaic.execCommand("unlink");
             }
         });
 

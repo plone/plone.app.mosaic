@@ -72,4 +72,22 @@
       run_deps="false"
       />
 
+  <genericsetup:upgradeStep
+      profile="plone.app.mosaic:default"
+      source="5004"
+      destination="5005"
+      title="Add 'link' and 'unlink' actions"
+      handler=".upgrades.upgrade_4_to_5"
+      />
+
+  <genericsetup:upgradeDepends
+      profile="plone.app.mosaic:bbb"
+      source="4004"
+      destination="4005"
+      title="Add 'link' and 'unlink' actions"
+      import_profile="plone.app.mosaic:default"
+      import_steps="plone.app.registry"
+      run_deps="false"
+      />
+
 </configure>

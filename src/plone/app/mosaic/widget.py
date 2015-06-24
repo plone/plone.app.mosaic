@@ -1,13 +1,17 @@
 # -*- coding: utf-8 -*-
 from Products.CMFDynamicViewFTI.interfaces import ISelectableBrowserDefault
-from plone.memoize.view import memoize
 from plone import api
+from plone.app.blocks.layoutbehavior import ILayoutAware
+from plone.app.mosaic.interfaces import IMosaicLayer
+from plone.app.mosaic.interfaces import IMosaicRegistryAdapter
 from plone.app.widgets.base import TextareaWidget
 from plone.app.widgets.base import dict_merge
+from plone.app.widgets.utils import get_tinymce_options
+from plone.memoize.view import memoize
 from plone.registry.interfaces import IRegistry
 from z3c.form.browser.textarea import TextAreaWidget
-from z3c.form.interfaces import IFieldWidget
 from z3c.form.interfaces import IAddForm
+from z3c.form.interfaces import IFieldWidget
 from z3c.form.interfaces import ITextAreaWidget
 from z3c.form.util import getSpecification
 from z3c.form.widget import FieldWidget
@@ -15,10 +19,6 @@ from zope.component import adapter
 from zope.component import queryUtility
 from zope.interface import implementer
 from zope.interface import implementsOnly
-
-from plone.app.blocks.layoutbehavior import ILayoutAware
-from plone.app.mosaic.interfaces import IMosaicRegistryAdapter
-from plone.app.mosaic.interfaces import IMosaicLayer
 
 try:
     from plone.app.z3cform.widget import BaseWidget
@@ -53,7 +53,6 @@ class LayoutWidget(BaseWidget, TextAreaWidget):
             return False
         return True
 
-
     def obtainType(self):  # noqa
         """
         Obtains the type of the context object or of the object we are adding
@@ -79,6 +78,8 @@ class LayoutWidget(BaseWidget, TextAreaWidget):
         result = adapted(**kwargs)
         result['can_change_layout'] = True
         result['context_url'] = self.context.absolute_url()
+        result['tinymce'] = get_tinymce_options(
+            self.context, self.field, self.request)['pattern_options']
         return {'data': result}
 
     def _base_args(self):
