@@ -151,7 +151,7 @@ follows:
 
 .. code:: bash
 
-   $ npm install
+   $ make install
    $ make clean all mode=release
 
 The bundle can also be built with source maps and watched for changes with:
