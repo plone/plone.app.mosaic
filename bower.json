@@ -16,9 +16,11 @@
   ],
   "dependencies": {
     "bootstrap": "~3.3.4",
-    "patternslib": "2.0.9"
+    "patternslib": "~2.0.9",
+    "jquery": "~1.11.2"
   },
+  "devDependencies": {},
   "resolutions": {
-    "jquery": "1.11.2"
+    "jquery": "~1.11.2"
   }
 }
