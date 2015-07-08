@@ -25,18 +25,21 @@
  * @version 0.1
  */
 
-/*global tiledata: false, jQuery: false, window: false */
-/*jslint white: true, browser: true, onevar: true, undef: true, nomen: true,
+/* global window: false */
+/*jslint white: true, browser: true, onevar: true, nomen: true,
 eqeqeq: true, plusplus: true, bitwise: true, regexp: true, newcap: true,
-immed: true, strict: true, maxlen: 80, maxerr: 9999 */
+immed: true, strict: true, maxlen: 120, maxerr: 9999, quotmark: false */
 
 define([
     'jquery',
+    'pat-logger',
     'mosaic.toolbar',
     'mosaic.layout',
     'mosaic.actions'
-], function($) {
+], function($, logger) {
     "use strict";
+
+    var log = logger.getLogger('pat-structure');
 
     // Create the mosaic namespace
     if (typeof($.mosaic) === "undefined") {
@@ -159,8 +162,7 @@ define([
                     .hide();
             } else {
                 target.attr("class",
-                    content.find("[data-panel=" +
-                    panel_id + "]").attr("class"))
+                    content.find("[data-panel=" + panel_id + "]").attr("class"));
                 target.addClass('mosaic-panel');
                 target.html(content.find("[data-panel=" +
                     panel_id + "]").html());
@@ -170,6 +172,7 @@ define([
         // Pre-fill new panels from the layout
         $("[data-panel]", $.mosaic.document).each(function () {
             if (!$(this).hasClass('mosaic-panel')) {
+                log.info($(this));
                 $(this).addClass('mosaic-panel');
                 $(this).children().wrap($(
                     '<div class="mosaic-grid-row">' +
@@ -192,68 +195,20 @@ define([
         $.mosaic.options.panels.find("[data-tile]").each(function () {
 
             // Local variables
-            var target, base, href, tile_content, tiletype, classes, url,
-                tile_config, x, tile_group, y, fieldhtml, lines, i, start, end;
+            var base, href, tile_content, url, start, end,
+                tile_config, fieldhtml, lines;
 
             base = $($.mosaic.document).find('head > base').attr('href');
             href = $(this).attr("data-tile");
 
             // Get tile type
             tile_content = $(this).parent();
-            tiletype = '';
-            classes = tile_content.parents('.mosaic-tile').attr('class')
-                .split(" ");
-            $(classes).each(function () {
-
-                // Local variables
-                var classname;
-
-                classname = this.match(/^mosaic-([\w.\-]+)-tile$/);
-                if (classname !== null) {
-                    if ((classname[1] !== 'selected') &&
-                        (classname[1] !== 'new') &&
-                        (classname[1] !== 'read-only') &&
-                        (classname[1] !== 'helper') &&
-                        (classname[1] !== 'original')) {
-                        tiletype = classname[1];
-                    }
-                }
-            });
-
-            // Get tile config
-            for (x = 0; x < $.mosaic.options.tiles.length; x += 1) {
-                tile_group = $.mosaic.options.tiles[x];
-                for (y = 0; y < tile_group.tiles.length; y += 1) {
-
-                    // Set settings value
-                    if (tile_group.tiles[y].tile_type === 'field') {
-                        var widget = tile_group.tiles[y].widget.split('.');
-                        widget = widget[widget.length - 1];
-                        switch(widget) {
-                        case "TextWidget":
-                        case "TextFieldWidget":
-                        case "TextAreaWidget":
-                        case "TextAreaFieldWidget":
-                        case "TextLinesWidget":
-                        case "TextLinesFieldWidget":
-                        case "WysiwygWidget":
-                        case "WysiwygFieldWidget":
-                        case "RichTextWidget":
-                        case "RichTextFieldWidget":
-                            tile_group.tiles[y].settings = false;
-                            break;
-                        default:
-                            tile_group.tiles[y].settings = true;
-                        }
-                    }
-                    if (tile_group.tiles[y].name === tiletype) {
-                        tile_config = tile_group.tiles[y];
-                    }
-                }
+            tile_config = $.mosaic.getTileConfig(tile_content);
+            if(!tile_config){
+                return;
             }
-
             // Check if a field tile
-            if (tile_config && tile_config.tile_type === 'field') {
+            if (tile_config.tile_type === 'field') {
 
                 fieldhtml = '';
 
@@ -283,8 +238,8 @@ define([
                     lines = $("#" + tile_config.id)
                                 .find('textarea')
                                 .val().split('\n');
-                    fieldhtml += start; + lines[i] + end;
-                    for (i = 0; i < lines.length; i += 1) {
+                    fieldhtml += start;
+                    for (var i = 0; i < lines.length; i += 1) {
                         fieldhtml += lines[i] + '<br/>';
                     }
                     fieldhtml += end;
@@ -399,6 +354,103 @@ define([
         $.mosaic.undo.init();
 
         $('body').addClass('mosaic-enabled');
+    };
+
+    /**
+     * Get the tile type for the wrapped dom node
+     *
+     * @id jQuery.mosaic.getTileType
+     * @param {$DOM} element to get tile type for
+     * @return {string} name of tile type
+     */
+    $.mosaic.getTileType = function ($el) {
+        var tiletype = '';
+        if(!$el.is('.mosaic-tile')){
+            $el = $el.parents('.mosaic-tile');
+        }
+        var classes = $el.attr('class').split(" ");
+        $(classes).each(function () {
+
+            // Local variables
+            var classname;
+
+            classname = this.match(/^mosaic-([\w.\-]+)-tile$/);
+            if (classname !== null) {
+                if ((classname[1] !== 'selected') &&
+                    (classname[1] !== 'new') &&
+                    (classname[1] !== 'read-only') &&
+                    (classname[1] !== 'helper') &&
+                    (classname[1] !== 'original')) {
+                    tiletype = classname[1];
+                }
+            }
+        });
+
+        if(!tiletype){
+            log.error('Could not find tile type on element with classes: ' + classes.join(', '));
+        }
+
+        return tiletype;
+    };
+
+    /**
+     * Get the tile config for tile type
+     *
+     * @id jQuery.mosaic.getTileConfig
+     * @param {string|$DOM} element to get tile type for or a string for the tile type
+     * @return {object} name of tile type
+     */
+    $.mosaic.getTileConfig = function (tiletype) {
+        var tile_config;
+        if(typeof(tiletype) !== 'string'){
+            /* assuming this is a dom node */
+            tiletype = $.mosaic.getTileType(tiletype);
+        }
+        // Get tile config
+        for (var x = 0; x < $.mosaic.options.tiles.length; x += 1) {
+            var found = false;
+            var tile_group = $.mosaic.options.tiles[x];
+            for (var y = 0; y < tile_group.tiles.length; y += 1) {
+
+                // Set settings value
+                if (tile_group.tiles[y].tile_type === 'field') {
+                    var widget = tile_group.tiles[y].widget.split('.');
+                    widget = widget[widget.length - 1];
+                    switch(widget) {
+                    case "TextWidget":
+                    case "TextFieldWidget":
+                    case "TextAreaWidget":
+                    case "TextAreaFieldWidget":
+                    case "TextLinesWidget":
+                    case "TextLinesFieldWidget":
+                    case "WysiwygWidget":
+                    case "WysiwygFieldWidget":
+                    case "RichTextWidget":
+                    case "RichTextFieldWidget":
+                        tile_group.tiles[y].settings = false;
+                        break;
+                    default:
+                        tile_group.tiles[y].settings = true;
+                    }
+                }
+                if (tile_group.tiles[y].name === tiletype) {
+                    tile_config = tile_group.tiles[y];
+                    found = true;
+                    break;
+                }
+            }
+            if(found){
+                break;
+            }
+        }
+
+
+        if(!tile_config){
+            // dive out of here, something went wrong finding tile config
+            log.error('Could not load tile config for tile type: ' + tiletype);
+            return;
+        }
+        return tile_config;
     };
 
     /**

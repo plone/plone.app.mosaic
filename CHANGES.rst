@@ -4,8 +4,9 @@ Changelog
 1.0a4 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- fix situation where tile can not be registered. Prevents tile editor borking
+  when there are tile problems
+  [vangheem]
 
 1.0a3 (2015-06-10)
 ------------------

@@ -25,10 +25,10 @@
  *          this page.
  */
 
-/*global jQuery: false, window: false */
-/*jslint white: true, browser: true, onevar: true, undef: true, nomen: true,
+/* global window: false, tinyMCE: false */
+/* jslint white: true, browser: true, onevar: true, nomen: true,
 eqeqeq: true, plusplus: true, bitwise: true, regexp: true, newcap: true,
-immed: true, strict: true, maxlen: 80, maxerr: 9999 */
+immed: true, strict: true, maxlen: 150, maxerr: 9999, quotmark: false */
 
 define([
     'jquery',
@@ -251,7 +251,8 @@ define([
                     if (resize_handle_index === 1) {
 
                         // Check if resize
-                        if ((helper.data("column_sizes").split(" ")[$(this).data("resize_handle_index") - 1] !== snap) && (parseInt(snap, 10) <= 50)) {
+                        if ((helper.data("column_sizes").split(" ")[$(this).data("resize_handle_index") - 1] !== snap) &&
+                                (parseInt(snap, 10) <= 50)) {
 
                             // Get columns
                             columns = row.children(".mosaic-resize-placeholder");
@@ -291,7 +292,8 @@ define([
                     } else {
 
                         // Check if resize
-                        if ((helper.data("column_sizes").split(" ")[$(this).data("resize_handle_index")] !== (100 - snap)) && (parseInt(snap, 10) >= 50)) {
+                        if ((helper.data("column_sizes").split(" ")[$(this).data("resize_handle_index")] !== (100 - snap)) &&
+                                (parseInt(snap, 10) >= 50)) {
 
                             // Get columns
                             columns = row.children(".mosaic-resize-placeholder");
@@ -474,7 +476,7 @@ define([
                                  });
                                 */
                             }
-                        })
+                        });
                     }
                 });
             }
@@ -559,7 +561,7 @@ define([
 
                         // Update tile
                         $('.mosaic-edited-tile .mosaic-tile-content',
-                          $.mosaic.document).html('<p class="hiddenStructure tileUrl">' + tileUrl.replace(/&/gim, '&amp;') + '</p>' + value.find('.temp_body_tag').html());
+                          $.mosaic.document).html('<p class="hiddenStructure tileUrl">' + tileUrl.replace(/&/gim, '&amp;') + '</p>' + value.find('.temp_body_tag').html());  // jshint ignore:line
 
                         // Close overlay
                         $.mosaic.overlay.app.hide();
@@ -619,7 +621,7 @@ define([
 
             // Get layout object
             var tile = $(this);
-            var obj = tile.parents("[data-panel]");
+            var obj = tile.parents("[data-panel]");  // jshint ignore:line
 
             var tile_config = $(this).mosaicGetTileConfig();
 
@@ -802,7 +804,7 @@ define([
         return this.each(function () {
 
             // Mouse move event
-            $(this).mousemove(function (e) {
+            $(this).mousemove(function (/* e */) {
 
                 // Get layout object
                 var obj = $(this).parents("[data-panel]");
@@ -1062,7 +1064,7 @@ define([
     $.fn.mosaicHandleDragEnd = function () {
 
         // Get layout object
-        var obj = $(this).parents("[data-panel]");
+        var obj = $(this).parents("[data-panel]");  // jshint ignore:line
 
         // Remove dragging class from content
         $.mosaic.options.panels.removeClass("mosaic-panel-dragging mosaic-panel-dragging-new");
@@ -1256,7 +1258,7 @@ define([
                                 .append(
                                     original_tile
                                         .clone(true)
-                                        .removeClass("mosaic-original-tile mosaic-helper-tile mosaic-helper-tile-new mosaic-tile-align-right mosaic-tile-align-left")
+                                        .removeClass("mosaic-original-tile mosaic-helper-tile mosaic-helper-tile-new mosaic-tile-align-right mosaic-tile-align-left")  // jshint ignore:line
                                         .css({width: "", left: "", top: ""})
                                         .mosaicAddDrag()
                                         .addClass("mosaic-new-tile")
@@ -1270,7 +1272,7 @@ define([
                                 .append(
                                     original_tile
                                         .clone(true)
-                                        .removeClass("mosaic-original-tile mosaic-helper-tile mosaic-helper-tile-new mosaic-tile-align-right mosaic-tile-align-left")
+                                        .removeClass("mosaic-original-tile mosaic-helper-tile mosaic-helper-tile-new mosaic-tile-align-right mosaic-tile-align-left")  // jshint ignore:line
                                         .css({width: "", left: "", top: ""})
                                         .mosaicAddDrag()
                                         .addClass("mosaic-new-tile")
@@ -1292,7 +1294,7 @@ define([
                                 .append(
                                     original_tile
                                         .clone(true)
-                                        .removeClass("mosaic-original-tile mosaic-helper-tile mosaic-helper-tile-new mosaic-tile-align-right mosaic-tile-align-left")
+                                        .removeClass("mosaic-original-tile mosaic-helper-tile mosaic-helper-tile-new mosaic-tile-align-right mosaic-tile-align-left")  // jshint ignore:line
                                         .css({width: "", left: "", top: ""})
                                         .mosaicAddDrag()
                                         .addClass("mosaic-new-tile")
@@ -1305,7 +1307,7 @@ define([
                                 .append(
                                     original_tile
                                         .clone(true)
-                                        .removeClass("mosaic-original-tile mosaic-helper-tile mosaic-helper-tile-new mosaic-tile-align-right mosaic-tile-align-left")
+                                        .removeClass("mosaic-original-tile mosaic-helper-tile mosaic-helper-tile-new mosaic-tile-align-right mosaic-tile-align-left")  // jshint ignore:line
                                         .css({width: "", left: "", top: ""})
                                         .mosaicAddDrag()
                                         .addClass("mosaic-new-tile")
@@ -1443,19 +1445,19 @@ define([
             switch (nr_of_columns) {
             case 2:
                 $(this).append($($.mosaic.document.createElement("div"))
-                    .addClass("mosaic-resize-handle mosaic-resize-handle-center mosaic-resize-handle-one " + $($(this).children(".mosaic-grid-cell").get(1))
+                    .addClass("mosaic-resize-handle mosaic-resize-handle-center mosaic-resize-handle-one " + $($(this).children(".mosaic-grid-cell").get(1))  // jshint ignore:line
                         .mosaicGetPositionClass().replace("position", "resize")
                     )
                 );
                 break;
             case 3:
                 $(this).append($($.mosaic.document.createElement("div"))
-                    .addClass("mosaic-resize-handle mosaic-resize-handle-center mosaic-resize-handle-one " + $($(this).children(".mosaic-grid-cell").get(1))
+                    .addClass("mosaic-resize-handle mosaic-resize-handle-center mosaic-resize-handle-one " + $($(this).children(".mosaic-grid-cell").get(1))  // jshint ignore:line
                         .mosaicGetPositionClass().replace("position", "resize")
                     )
                 );
                 $(this).append($($.mosaic.document.createElement("div"))
-                    .addClass("mosaic-resize-handle mosaic-resize-handle-center mosaic-resize-handle-two " + $($(this).children(".mosaic-grid-cell").get(2))
+                    .addClass("mosaic-resize-handle mosaic-resize-handle-center mosaic-resize-handle-two " + $($(this).children(".mosaic-grid-cell").get(2))  // jshint ignore:line
                         .mosaicGetPositionClass().replace("position", "resize")
                     )
                 );
@@ -1463,7 +1465,7 @@ define([
             }
 
             // Mouse down handler on resize handle
-            $(this).children(".mosaic-resize-handle").mousedown(function (e) {
+            $(this).children(".mosaic-resize-handle").mousedown(function (/* e */) {
 
                 // Get number of columns and current sizes
                 var column_sizes = [];
@@ -1490,7 +1492,7 @@ define([
 
                     // Add placeholder
                     $(this).parent().append($($.mosaic.document.createElement("div"))
-                        .addClass("mosaic-resize-placeholder " + $(this).mosaicGetWidthClass() + " " + $(this).mosaicGetPositionClass().replace("position", "resize"))
+                        .addClass("mosaic-resize-placeholder " + $(this).mosaicGetWidthClass() + " " + $(this).mosaicGetPositionClass().replace("position", "resize"))  // jshint ignore:line
                         .append($($.mosaic.document.createElement("div"))
                             .addClass("mosaic-resize-placeholder-inner-border")
                         )
@@ -1571,7 +1573,8 @@ define([
             }
 
             // Check if prev row exists and if both rows only have 1 column
-            if ((original_row.prevAll(".mosaic-grid-row").length > 0) && (original_row.children(".mosaic-grid-cell").length === 1) && (original_row.prev().children(".mosaic-grid-cell").length === 1)) {
+            if ((original_row.prevAll(".mosaic-grid-row").length > 0) && (original_row.children(".mosaic-grid-cell").length === 1) &&
+                    (original_row.prev().children(".mosaic-grid-cell").length === 1)) {
 
                 // Merge rows
                 original_row.children(".mosaic-grid-cell").prepend(
@@ -1583,7 +1586,8 @@ define([
             }
 
             // Check if next row exists and if both rows only have 1 column
-            if ((original_row.nextAll(".mosaic-grid-row").length > 0) && (original_row.children(".mosaic-grid-cell").length === 1) && (original_row.next().children(".mosaic-grid-cell").length === 1)) {
+            if ((original_row.nextAll(".mosaic-grid-row").length > 0) && (original_row.children(".mosaic-grid-cell").length === 1) &&
+                    (original_row.next().children(".mosaic-grid-cell").length === 1)) {
 
                 // Merge rows
                 original_row.children(".mosaic-grid-cell").append(
@@ -1664,32 +1668,7 @@ define([
      * @return {Object} config of the tile
      */
     $.fn.mosaicGetTileConfig = function () {
-
-        // Get tile type
-        var tiletype = '';
-        var classes = $(this).attr('class').split(" ");
-        $(classes).each(function () {
-            var classname = this.match(/^mosaic-(.*)-tile$/);
-            if (classname !== null) {
-                if ((classname[1] !== 'selected') && (classname[1] !== 'new') && (classname[1] !== 'read-only') && (classname[1] !== 'helper') && (classname[1] !== 'original')) {
-                    tiletype = classname[1];
-                }
-            }
-        });
-
-        // Get tile config
-        var tile_config;
-        for (var x = 0; x < $.mosaic.options.tiles.length; x += 1) {
-            var tile_group = $.mosaic.options.tiles[x];
-            for (var y = 0; y < tile_group.tiles.length; y += 1) {
-                if (tile_group.tiles[y].name === tiletype) {
-                    tile_config = tile_group.tiles[y];
-                }
-            }
-        }
-
-        // Return config
-        return tile_config;
+        return $.mosaic.getTileConfig($(this));
     };
 
     /**
@@ -1780,7 +1759,7 @@ define([
      * @param {String} url Url of the application tile
      * @param {String} id Id of the application tile
      */
-    $.mosaic.addAppTile = function (type, url, id) {
+    $.mosaic.addAppTile = function (type, url /*, id */) {
 
         // Close overlay
         if ($.mosaic.overlay.app) {
@@ -1861,7 +1840,7 @@ define([
 
                 // Update tile
                 $('.mosaic-selected-tile .mosaic-tile-content',
-                  $.mosaic.document).html('<p class="hiddenStructure tileUrl">' + url.replace(/&/gim, '&amp;') + '</p>' + value.find('.temp_body_tag').html());
+                  $.mosaic.document).html('<p class="hiddenStructure tileUrl">' + url.replace(/&/gim, '&amp;') + '</p>' + value.find('.temp_body_tag').html());  // jshint ignore:line
             }
         });
     };
@@ -1972,6 +1951,7 @@ define([
                 } else {
                     return '';
                 }
+                break;
             default:
                 return '<div class="discreet">Placeholder for field:<br/><b>' + tile_config.label + '</b></div>';
             }
@@ -2008,7 +1988,8 @@ define([
             switch (tile_config.widget) {
             case "z3c.form.browser.text.TextWidget":
             case "z3c.form.browser.text.TextFieldWidget":
-                $("#" + tile_config.id).find('input').attr('value', $('.mosaic-' + tiletype + '-tile', $.mosaic.document).find('.mosaic-tile-content > *').text());
+                $("#" + tile_config.id).find('input').attr('value', $('.mosaic-' + tiletype + '-tile',
+                  $.mosaic.document).find('.mosaic-tile-content > *').text());
                 break;
             case "z3c.form.browser.textarea.TextAreaWidget":
             case "z3c.form.browser.textarea.TextAreaFieldWidget":
@@ -2057,7 +2038,6 @@ define([
             size = 12,
             body = "",
             classNames = "",
-            tilecount = 0,
             panel_id = "";
 
         // Disable edit html source
@@ -2133,7 +2113,7 @@ define([
 
                         // Add cell start tag
                         body += '        <div class="' + $(this).attr("class") + '"\n';
-                        body += '             data-grid=\'{"type": "cell", "info":{"xs": "true", "sm": "true", "lg": "true", "pos": {"x": ' + position + ', "width": ' + size + '}}}\'>\n';
+                        body += '             data-grid=\'{"type": "cell", "info":{"xs": "true", "sm": "true", "lg": "true", "pos": {"x": ' + position + ', "width": ' + size + '}}}\'>\n';  // jshint ignore:line
 
                         // Loop through tiles
                         $(this).children(".mosaic-tile").each(function () {
@@ -2142,14 +2122,7 @@ define([
                             var tiletype = '',
                                 classes = $(this).attr('class').split(" ");
 
-                            $(classes).each(function () {
-                                var classname = this.match(/^mosaic-(.*)-tile$/);
-                                if (classname !== null) {
-                                    if ((classname[1] !== 'selected') && (classname[1] !== 'new') && (classname[1] !== 'read-only') && (classname[1] !== 'helper') && (classname[1] !== 'original')) {
-                                        tiletype = classname[1];
-                                    }
-                                }
-                            });
+                            tiletype = $.mosaic.getTileType($(this));
                             classes = $(classes).filter(function() {
                                 switch (this) {
                                     case "mosaic-new-tile":
@@ -2163,15 +2136,7 @@ define([
                             }).toArray();
 
                             // Get tile config
-                            var tile_config;
-                            for (var x = 0; x < $.mosaic.options.tiles.length; x += 1) {
-                                var tile_group = $.mosaic.options.tiles[x];
-                                for (var y = 0; y < tile_group.tiles.length; y += 1) {
-                                    if (tile_group.tiles[y].name === tiletype) {
-                                        tile_config = tile_group.tiles[y];
-                                    }
-                                }
-                            }
+                            var tile_config = $.mosaic.getTileConfig(tiletype);
 
                             // Predefine vars
                             var tile_url;
@@ -2234,7 +2199,7 @@ define([
         // Add close tag
         body += "  </body>\n";
 
-        content = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">\n<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" data-layout="' + $.mosaic.options.layout + '">\n';
+        content = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">\n<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" data-layout="' + $.mosaic.options.layout + '">\n';  // jshint ignore:line
         content += body;
         content += '</html>\n';
         return content;
