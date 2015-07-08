@@ -15,7 +15,7 @@ install:
 - bin/buildout -N -t 3 -c test-$PLONE_VERSION.cfg annotate
 - bin/buildout -N -t 3 -c test-$PLONE_VERSION.cfg
 - mkdir -p parts/test/_screenshots
-- npm install
+- make install
 - node_modules/bower/bin/bower install
 - make clean all mode=release
 script:
