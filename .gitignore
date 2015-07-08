@@ -26,5 +26,5 @@
 /local/
 /parts/
 /var/
-bower_components
+components
 node_modules

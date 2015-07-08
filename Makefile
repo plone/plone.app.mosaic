@@ -8,16 +8,23 @@ SOURCE_JS = $(shell find $(STATIC)/js -name "*.js")
 BUNDLE_JS = $(STATIC)/plone-mosaic.js
 SOURCE_LESS = $(shell find $(STATIC)/css -name "*.less")
 BUNDLE_LESS = $(STATIC)/plone-mosaic.css
-LESS_OPTS = '--modify-var=plone-mosaic-bootstrap="bower_components/bootstrap"'
+CURRENT_DIR = $(shell pwd)
+LESS_OPTS = '--modify-var=staticPath="$(CURRENT_DIR)"'
+RJS_OPTIONS = paths.pat-logger=$(CURRENT_DIR)/components/patternslib/src/core/logger paths.logging=$(CURRENT_DIR)/components/logging/src/logging
+
 
 # if mode variable is empty, setting debug build mode
 ifeq ($(mode),release)
-    RJS_ARGS = -o build.js generateSourceMaps=false preserveLicenseComments=true
+    RJS_ARGS = -o build.js generateSourceMaps=false preserveLicenseComments=true $(RJS_OPTIONS)
 else
-    RJS_ARGS = -o build.js
+    RJS_ARGS = -o build.js $(RJS_OPTIONS)
 endif
 
 all: $(BUNDLE_JS) $(BUNDLE_LESS)
+
+install:
+	npm install
+	./node_modules/.bin/bower install
 
 $(BUNDLE_JS): $(SOURCE_JS)
 	$(RJS_CMD) $(RJS_ARGS)

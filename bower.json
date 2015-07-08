@@ -10,11 +10,15 @@
   "ignore": [
     "**/.*",
     "node_modules",
-    "bower_components",
+    "components",
     "test",
     "tests"
   ],
   "dependencies": {
-    "bootstrap": "~3.3.4"
+    "bootstrap": "~3.3.4",
+    "patternslib": "2.0.9"
+  },
+  "resolutions": {
+    "jquery": "1.11.2"
   }
 }
