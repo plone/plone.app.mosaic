@@ -4,6 +4,10 @@ Changelog
 1.0a4 (unreleased)
 ------------------
 
+- fix case where title field tile and content tile being use on same page
+  would cause weird issues with saving title values
+  [vangheem]
+
 - fix situation where tile can not be registered. Prevents tile editor borking
   when there are tile problems
   [vangheem]

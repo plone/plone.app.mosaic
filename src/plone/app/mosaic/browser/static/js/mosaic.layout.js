@@ -1988,8 +1988,17 @@ define([
             switch (tile_config.widget) {
             case "z3c.form.browser.text.TextWidget":
             case "z3c.form.browser.text.TextFieldWidget":
-                $("#" + tile_config.id).find('input').attr('value', $('.mosaic-' + tiletype + '-tile',
-                  $.mosaic.document).find('.mosaic-tile-content > *').text());
+                var $el = $('.mosaic-' + tiletype + '-tile', $.mosaic.document);
+                if($el.size() > 1){
+                    // XXX weird case here.
+                    // if you use content tile, it'll render a title field tile that matches this
+                    // and you get weird issues saving data. This is to distinguish this case
+                    $el = $el.filter(function(){
+                        return $('.mosaic-tile-control', this).length > 0;
+                    });
+                }
+                var val = $el.find('.mosaic-tile-content > *').text();
+                $("#" + tile_config.id).find('input').attr('value', val);
                 break;
             case "z3c.form.browser.textarea.TextAreaWidget":
             case "z3c.form.browser.textarea.TextAreaFieldWidget":
