@@ -25,10 +25,10 @@
  *          this page.
  */
 
-/*global jQuery: false, window: false */
-/*jslint white: true, browser: true, onevar: true, undef: true, nomen: true,
+/* global window: false */
+/*jslint white: true, browser: true, onevar: true, nomen: true,
 eqeqeq: true, plusplus: true, bitwise: true, regexp: true, newcap: true,
-immed: true, strict: true, maxlen: 80, maxerr: 9999 */
+immed: true, strict: true, maxlen: 140, maxerr: 9999, quotmark: false */
 
 define([
     'jquery',
@@ -79,17 +79,20 @@ define([
                                 // Check if child objects
                                 if (action.items[z].items !== undefined) {
                                     $(this).append($(document.createElement("optgroup"))
-                                        .addClass("mosaic-option-group mosaic-option-group-" + action.items[z].value.replace(/_/g, "-").replace(/\//g, "-"))
+                                        .addClass("mosaic-option-group mosaic-option-group-" +
+                                                  action.items[z].value.replace(/_/g, "-").replace(/\//g, "-"))
                                         .attr("label", action.items[z].label)
                                     );
-                                    elm = $(this).find(".mosaic-option-group-" + action.items[z].value.replace(/_/g, "-").replace(/\//g, "-"));
+                                    elm = $(this).find(".mosaic-option-group-" +
+                                                       action.items[z].value.replace(/_/g, "-").replace(/\//g, "-"));
 
                                     // Add child nodes
                                     for (y in action.items[z].items) {
                                         elm.append(
                                             $(document.createElement("option"))
                                                 .attr('value', action.items[z].items[y].value)
-                                                .addClass('mosaic-option mosaic-option-' + action.items[z].items[y].value.replace(/\//g, "-"))
+                                                .addClass('mosaic-option mosaic-option-' +
+                                                          action.items[z].items[y].value.replace(/\//g, "-"))
                                                 .html(action.items[z].items[y].label)
                                         );
                                     }
@@ -128,7 +131,8 @@ define([
                             // Check if child objects
                             if (action.items[z].items !== undefined) {
                                 $(this).append($(document.createElement("optgroup"))
-                                    .addClass("mosaic-option-group mosaic-option-group-" + action.items[z].value.replace(/_/g, "-").replace(/\//g, "-"))
+                                    .addClass("mosaic-option-group mosaic-option-group-" +
+                                               action.items[z].value.replace(/_/g, "-").replace(/\//g, "-"))
                                     .attr("label", action.items[z].label)
                                 );
                                 elm = $(this).find(".mosaic-option-group-" + action.items[z].value.replace(/_/g, "-").replace(/\//g, "-"));
@@ -188,7 +192,7 @@ define([
             // Local variables
             var obj, content, actions, a, x, action_group, elm_action_group, y,
             elm_select_insert, tile, elm_select_format, action,
-            RepositionToolbar, SelectedTileChange, select2_format;
+            RepositionToolbar, SelectedTileChange;
 
             // Get current object
             obj = $(this);

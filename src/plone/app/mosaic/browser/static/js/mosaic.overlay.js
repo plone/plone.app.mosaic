@@ -25,10 +25,10 @@
  * @version 0.1
  */
 
-/*global jQuery: false, window: false */
-/*jslint white: true, browser: true, onevar: true, undef: true, nomen: true,
+/* global window: false */
+/*jslint white: true, browser: true, onevar: true, nomen: true,
 eqeqeq: true, plusplus: true, bitwise: true, regexp: true, newcap: true,
-immed: true, strict: true, maxlen: 80, maxerr: 9999 */
+immed: true, strict: true, maxlen: 150, maxerr: 9999, quotmark: false */
 
 define([
     'jquery'
@@ -87,7 +87,7 @@ define([
     $.mosaic.overlay.open = function (mode, tile_config) {
 
         // Local variables
-        var form, formtabs, tile_group, x, visible_tabs, offset_top,
+        var form, formtabs, tile_group, x, visible_tabs,
             field_tile, field, fieldset;
 
         // Expand the overlay

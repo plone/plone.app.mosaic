@@ -25,10 +25,9 @@
  *          this page.
  */
 
-/*global jQuery: false, window: false */
-/*jslint white: true, browser: true, onevar: true, undef: true, nomen: true,
+/*jslint white: true, browser: true, onevar: true, nomen: true,
 eqeqeq: true, plusplus: true, bitwise: true, regexp: true, newcap: true,
-immed: true, strict: true, maxlen: 80, maxerr: 9999 */
+immed: true, strict: true, maxlen: 140, maxerr: 9999, quotmark: false */
 
 define([
     'jquery',
@@ -646,7 +645,7 @@ define([
                                 $.mosaic.overlay.app.on(
                                     'formActionSuccess',
                                     function (event, response, state, xhr) {
-                                        var tileUrl = xhr.getResponseHeader('X-Tile-Url')
+                                        var tileUrl = xhr.getResponseHeader('X-Tile-Url');
                                         if (tileUrl) {
                                             $.mosaic.addAppTileHTML(
                                                 tile_type, response, tileUrl);
@@ -673,7 +672,7 @@ define([
                                         '_authenticator': authenticator
                                     },
                                     success: function(value, state, xhr) {
-                                        var tileUrl = xhr.getResponseHeader('X-Tile-Url')
+                                        var tileUrl = xhr.getResponseHeader('X-Tile-Url');
                                         if (tileUrl) {
                                             $.mosaic.addAppTileHTML(
                                                 tile_type, value, tileUrl);
