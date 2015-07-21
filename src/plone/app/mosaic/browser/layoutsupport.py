@@ -4,7 +4,7 @@ from urllib import quote
 from plone import api
 from Products.CMFDynamicViewFTI.interfaces import ISelectableBrowserDefault
 from Products.CMFPlone.utils import parent
-from plone.app.content.browser.interfaces import IContentsPage
+from plone.app.content.browser.interfaces import IFolderContentsView
 from plone.app.contentmenu.interfaces import IContentMenuItem
 from plone.app.contentmenu.menu import DisplaySubMenuItem
 from plone.dexterity.browser.view import DefaultView
@@ -196,7 +196,7 @@ class DisplayLayoutSubMenuItem(BrowserSubMenuItem):
     @view.memoize
     def disabled(self):
         # From: plone.app.contentmenu.menu.DisplayMenuSubMenuItem.disabled:
-        if IContentsPage.providedBy(self.request):
+        if IFolderContentsView.providedBy(self.request):
             return True
         context = self.context
         if not getattr(context, 'isPrincipiaFolderish', False):
