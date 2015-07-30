@@ -4,6 +4,9 @@ Changelog
 1.0a4 (unreleased)
 ------------------
 
+- do not require grid system for example layouts
+  [vangheem]
+
 - set bs3 as default grid system when installing on Plone 5
   [vangheem]
 
