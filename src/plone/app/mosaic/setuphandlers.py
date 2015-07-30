@@ -1,20 +1,21 @@
 # -*- coding: utf-8 -*-
 from StringIO import StringIO
 
-from plone import api
 import pkg_resources
-from plone.resource.manifest import MANIFEST_FILENAME
-from zope.globalrequest import getRequest
-from zope.interface import alsoProvides
-
+from plone import api
+from plone.app.blocks.interfaces import IBlocksSettings
 from plone.app.blocks.interfaces import SITE_LAYOUT_RESOURCE_NAME
 from plone.app.blocks.utils import resolveResource
-from plone.app.mosaic.interfaces import HAVE_PLONE_5
-from plone.app.mosaic.interfaces import CONTENT_LAYOUT_RESOURCE_NAME
 from plone.app.mosaic.interfaces import CONTENT_LAYOUT_DEFAULT_DISPLAY
-from plone.app.mosaic.utils import getPersistentResourceDirectory
+from plone.app.mosaic.interfaces import CONTENT_LAYOUT_RESOURCE_NAME
+from plone.app.mosaic.interfaces import HAVE_PLONE_5
 from plone.app.mosaic.interfaces import IMosaicLayer
-
+from plone.app.mosaic.utils import getPersistentResourceDirectory
+from plone.registry.interfaces import IRegistry
+from plone.resource.manifest import MANIFEST_FILENAME
+from zope.component import getUtility
+from zope.globalrequest import getRequest
+from zope.interface import alsoProvides
 
 try:
     pkg_resources.get_distribution('plone.app.widgets')
@@ -59,6 +60,10 @@ def step_setup_various(context):
                 import_profile(portal, 'profile-plone.app.event.bbb:default')
             except KeyError:
                 pass
+        else:
+            registry = getUtility(IRegistry)
+            block_settings = registry.forInterface(IBlocksSettings)
+            block_settings.default_grid_system = 'bs3'
     create_ttw_layout_examples(portal)
 
 

@@ -4,6 +4,9 @@ Changelog
 1.0a4 (unreleased)
 ------------------
 
+- set bs3 as default grid system when installing on Plone 5
+  [vangheem]
+
 - fix case where title field tile and content tile being use on same page
   would cause weird issues with saving title values
   [vangheem]
