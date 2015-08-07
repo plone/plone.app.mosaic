@@ -54,4 +54,12 @@
       handler=".upgrades.upgrade_2_to_3"
       />
 
+  <genericsetup:upgradeStep
+      profile="plone.app.mosaic:default"
+      source="5003"
+      destination="5004"
+      title="Upgrade layout editor"
+      handler=".upgrades.upgrade_3_to_4"
+      />
+
 </configure>
