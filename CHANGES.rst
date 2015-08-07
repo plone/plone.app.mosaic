@@ -4,6 +4,9 @@ Changelog
 1.0a4 (unreleased)
 ------------------
 
+- provide layout editor control panel
+  [vangheem]
+
 - do not require grid system for example layouts
   [vangheem]
 

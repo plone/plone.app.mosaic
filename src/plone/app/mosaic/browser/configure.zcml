@@ -107,4 +107,12 @@
 
   </configure>
 
+  <browser:page
+      name="layouts-editor"
+      for="Products.CMFPlone.interfaces.siteroot.IPloneSiteRoot"
+      class=".browser.LayoutsEditor"
+      permission="plone.resourceeditor.ManageSources"
+      template="templates/layouts-editor.pt"
+      />
+
 </configure>
