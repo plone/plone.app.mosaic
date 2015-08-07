@@ -1,0 +1,59 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/prefs_main_template/macros/master"
+      i18n:domain="plone">
+
+<metal:block fill-slot="top_slot">
+        <metal:override define-slot="top_slot">
+            <tal:defines tal:define="dummy python:request.set('disable_toolbar',1);
+                                     disable_column_one python:request.set('disable_plone.leftcolumn', 1);
+                                     disable_column_two python:request.set('disable_plone.rightcolumn', 1);"/>
+        </metal:override>
+    </metal:block>
+
+<body>
+
+
+<metal:main metal:fill-slot="prefs_configlet_main" i18n:domain="plone">
+
+    <a href=""
+       id="setup-link"
+       tal:attributes="href string:$portal_url/@@overview-controlpanel"
+       i18n:translate="">
+       Site Setup
+    </a>
+    <h1 class="documentFirstHeading"
+        i18n:translate="">Layouts Editor</h1>
+
+    <div class="documentDescription"
+       i18n:translate="">
+      Edit content and site layouts
+    </div>
+
+   <div id="content-core">
+      <span tal:replace="structure context/@@authenticator/authenticator"/>
+      <div data-pat-autotoc="levels: .tab; section: .tab-content; className: autotabs" class="pat-autotoc layouts-editor">
+        <div class="tab-content" id="contentlayouts">
+          <h2 class="tab">Content Layouts</h2>
+          <div class="pat-filemanager" tal:attributes="data-pat-filemanager view/content_config">
+          </div>
+        </div>
+        <div class="tab-content">
+          <h2 class="tab" id="sitelayout">Site Layouts</h2>
+          <div class="pat-filemanager" tal:attributes="data-pat-filemanager view/site_config">
+          </div>
+        </div>
+        <div class="tab-content" id="assign">
+          <h2 class="tab">Assign</h2>
+          <div id="assign-container" />
+        </div>
+      </div>
+    </div>
+</metal:main>
+
+</body>
+</html>
+
