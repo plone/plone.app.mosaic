@@ -216,6 +216,28 @@
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
+           prefix="plone.app.mosaic.formats.plonelink">
+    <value key="name">plonelink</value>
+    <value key="category">text</value>
+    <value key="label">Link</value>
+    <value key="action">plonelink</value>
+    <value key="icon">false</value>
+    <value key="favorite">true</value>
+    <value key="weight">25</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IFormat"
+           prefix="plone.app.mosaic.formats.unlink">
+    <value key="name">unlink</value>
+    <value key="category">text</value>
+    <value key="label">Unlink</value>
+    <value key="action">unlink</value>
+    <value key="icon">false</value>
+    <value key="favorite">true</value>
+    <value key="weight">26</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IFormat"
            prefix="plone.app.mosaic.formats.paragraph">
     <value key="name">paragraph</value>
     <value key="category">text</value>
@@ -600,6 +622,8 @@
       <element>html</element>
       <element>strong</element>
       <element>em</element>
+      <element>plonelink</element>
+      <element>unlink</element>
       <element>paragraph</element>
       <element>heading</element>
       <element>subheading</element>
@@ -647,6 +671,8 @@
       <element>html</element>
       <element>strong</element>
       <element>em</element>
+      <element>plonelink</element>
+      <element>unlink</element>
       <element>paragraph</element>
       <element>heading</element>
       <element>subheading</element>
@@ -694,6 +720,8 @@
       <element>html</element>
       <element>strong</element>
       <element>em</element>
+      <element>plonelink</element>
+      <element>unlink</element>
       <element>paragraph</element>
       <element>heading</element>
       <element>subheading</element>
@@ -741,6 +769,8 @@
       <element>html</element>
       <element>strong</element>
       <element>em</element>
+      <element>plonelink</element>
+      <element>unlink</element>
       <element>paragraph</element>
       <element>heading</element>
       <element>subheading</element>
@@ -911,6 +941,8 @@
       <element>html</element>
       <element>strong</element>
       <element>em</element>
+      <element>plonelink</element>
+      <element>unlink</element>
       <element>paragraph</element>
       <element>heading</element>
       <element>subheading</element>

@@ -4,6 +4,9 @@ Changelog
 1.0a4 (unreleased)
 ------------------
 
+- Add link and unlink actions
+  [datakurre]
+
 - provide layout editor control panel
   [vangheem]
 
