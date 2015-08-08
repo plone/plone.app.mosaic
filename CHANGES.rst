@@ -4,6 +4,9 @@ Changelog
 1.0a4 (unreleased)
 ------------------
 
+- Replace Mosaic text formatting actions with TinyMCE inline toolbar actions
+  [datakurre]
+
 - Add link and unlink actions
   [datakurre]
 

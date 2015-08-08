@@ -145,6 +145,25 @@ class MosaicRegistry(object):
             format['actions'].sort(key=itemgetter('weight'))
         return config
 
+    def mapTinyMCEToolbarCategories(self, settings, config):
+        config['tinymce_toolbar'] = config.get('tinymce_toolbar', [])
+        categories = settings.get("%s.tinymce_categories" % self.prefix, {})
+        sorted_categories = [(x, categories[x]) for x in categories.keys()]
+        sorted_categories.sort(cmp=weightedSort)
+        for key, category in sorted_categories:
+            category['actions'] = []
+            config['tinymce_toolbar'].append(category)
+        return config
+
+    def mapTinyMCEToolbarFormats(self, settings, config):
+        tinymce_actions = settings.get('%s.tinymce_toolbar' % self.prefix, {})
+        for key, action in tinymce_actions.items():
+            index = getCategoryIndex(config['tinymce_toolbar'], action['category'])  # noqa
+            config['tinymce_toolbar'][index]['actions'].append(action)
+        for group in config['tinymce_toolbar']:
+            group['actions'].sort(key=itemgetter('weight'))
+        return config
+
     #def mapStructureTiles(self, settings, config):
     #    # Structure Tiles
     #    tiles = settings.get('%s.structure_tiles' % self.prefix, {})
@@ -272,6 +291,8 @@ class MosaicRegistry(object):
         config = {}
         config = self.mapFormatCategories(settings, config)
         config = self.mapFormats(settings, config)
+        config = self.mapTinyMCEToolbarCategories(settings, config)
+        config = self.mapTinyMCEToolbarFormats(settings, config)
         config = self.mapActions(settings, config)
         config = self.mapTilesCategories(settings, config)
         for tile_category in ['structure_tiles', 'app_tiles']:

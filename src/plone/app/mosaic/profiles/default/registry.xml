@@ -137,227 +137,20 @@
 
   <!-- Format categories -->
   <records interface="plone.app.mosaic.interfaces.IWeightedDict"
-           prefix="plone.app.mosaic.format_categories.actions">
-    <value key="name">actions</value>
-    <value key="label">Actions</value>
-    <value key="weight">10</value>
-  </records>
-
-  <records interface="plone.app.mosaic.interfaces.IWeightedDict"
-           prefix="plone.app.mosaic.format_categories.text">
-    <value key="name">text</value>
-    <value key="label">Text</value>
-    <value key="weight">20</value>
-  </records>
-
-  <records interface="plone.app.mosaic.interfaces.IWeightedDict"
-           prefix="plone.app.mosaic.format_categories.selection">
-    <value key="name">selection</value>
-    <value key="label">Selection</value>
-    <value key="weight">30</value>
-  </records>
-
-  <records interface="plone.app.mosaic.interfaces.IWeightedDict"
-           prefix="plone.app.mosaic.format_categories.lists">
-    <value key="name">lists</value>
-    <value key="label">Lists</value>
-    <value key="weight">40</value>
-  </records>
-
-  <records interface="plone.app.mosaic.interfaces.IWeightedDict"
-           prefix="plone.app.mosaic.format_categories.justify">
-    <value key="name">justify</value>
-    <value key="label">Justify</value>
-    <value key="weight">50</value>
-  </records>
-
-  <records interface="plone.app.mosaic.interfaces.IWeightedDict"
-           prefix="plone.app.mosaic.format_categories.print">
-    <value key="name">print</value>
-    <value key="label">Print</value>
-    <value key="weight">60</value>
-  </records>
-
-  <records interface="plone.app.mosaic.interfaces.IWeightedDict"
            prefix="plone.app.mosaic.format_categories.tile">
     <value key="name">tile</value>
     <value key="label">Tile</value>
-    <value key="weight">70</value>
+    <value key="weight">10</value>
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IWeightedDict"
            prefix="plone.app.mosaic.format_categories.row">
     <value key="name">row</value>
     <value key="label">Row</value>
-    <value key="weight">80</value>
-  </records>
-
-  <!-- Formats -->
-  <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.formats.strong">
-    <value key="name">strong</value>
-    <value key="category">text</value>
-    <value key="label">B</value>
-    <value key="action">strong</value>
-    <value key="icon">false</value>
-    <value key="favorite">true</value>
-    <value key="weight">10</value>
-  </records>
-
-  <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.formats.em">
-    <value key="name">em</value>
-    <value key="category">text</value>
-    <value key="label">I</value>
-    <value key="action">em</value>
-    <value key="icon">false</value>
-    <value key="favorite">true</value>
-    <value key="weight">20</value>
-  </records>
-
-  <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.formats.plonelink">
-    <value key="name">plonelink</value>
-    <value key="category">text</value>
-    <value key="label">Link</value>
-    <value key="action">plonelink</value>
-    <value key="icon">false</value>
-    <value key="favorite">true</value>
-    <value key="weight">25</value>
-  </records>
-
-  <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.formats.unlink">
-    <value key="name">unlink</value>
-    <value key="category">text</value>
-    <value key="label">Unlink</value>
-    <value key="action">unlink</value>
-    <value key="icon">false</value>
-    <value key="favorite">true</value>
-    <value key="weight">26</value>
-  </records>
-
-  <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.formats.paragraph">
-    <value key="name">paragraph</value>
-    <value key="category">text</value>
-    <value key="label">Paragraph</value>
-    <value key="action">paragraph</value>
-    <value key="icon">true</value>
-    <value key="favorite">false</value>
-    <value key="weight">30</value>
-  </records>
-
-  <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.formats.heading">
-    <value key="name">heading</value>
-    <value key="category">text</value>
-    <value key="label">Heading</value>
-    <value key="action">heading</value>
-    <value key="icon">true</value>
-    <value key="favorite">false</value>
-    <value key="weight">40</value>
-  </records>
-
-  <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.formats.subheading">
-    <value key="name">subheading</value>
-    <value key="category">text</value>
-    <value key="label">Subheading</value>
-    <value key="action">subheading</value>
-    <value key="icon">true</value>
-    <value key="favorite">false</value>
-    <value key="weight">50</value>
-  </records>
-
-  <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.formats.discreet">
-    <value key="name">discreet</value>
-    <value key="category">text</value>
-    <value key="label">Discreet</value>
-    <value key="action">discreet</value>
-    <value key="icon">true</value>
-    <value key="favorite">false</value>
-    <value key="weight">60</value>
-  </records>
-
-  <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.formats.literal">
-    <value key="name">literal</value>
-    <value key="category">text</value>
-    <value key="label">Literal</value>
-    <value key="action">literal</value>
-    <value key="icon">true</value>
-    <value key="favorite">false</value>
-    <value key="weight">70</value>
-  </records>
-
-  <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.formats.quote">
-    <value key="name">quote</value>
-    <value key="category">text</value>
-    <value key="label">Quote</value>
-    <value key="action">quote</value>
-    <value key="icon">true</value>
-    <value key="favorite">false</value>
-    <value key="weight">80</value>
-  </records>
-
-  <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.formats.callout">
-    <value key="name">callout</value>
-    <value key="category">text</value>
-    <value key="label">Callout</value>
-    <value key="action">callout</value>
-    <value key="icon">true</value>
-    <value key="favorite">false</value>
     <value key="weight">90</value>
   </records>
 
-  <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.formats.highlight">
-    <value key="name">highlight</value>
-    <value key="category">selection</value>
-    <value key="label">Highlight</value>
-    <value key="action">highlight</value>
-    <value key="icon">true</value>
-    <value key="favorite">false</value>
-    <value key="weight">100</value>
-  </records>
-
-  <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.formats.sub">
-    <value key="name">sub</value>
-    <value key="category">selection</value>
-    <value key="label">Subscript</value>
-    <value key="action">sub</value>
-    <value key="icon">true</value>
-    <value key="favorite">false</value>
-    <value key="weight">110</value>
-  </records>
-
-  <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.formats.sup">
-    <value key="name">sup</value>
-    <value key="category">selection</value>
-    <value key="label">Superscript</value>
-    <value key="action">sup</value>
-    <value key="icon">true</value>
-    <value key="favorite">false</value>
-    <value key="weight">120</value>
-  </records>
-
-  <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.formats.remove_format">
-    <value key="name">remove-format</value>
-    <value key="category">selection</value>
-    <value key="label">(Remove format)</value>
-    <value key="action">remove-format</value>
-    <value key="icon">true</value>
-    <value key="favorite">false</value>
-    <value key="weight">130</value>
-  </records>
-
+  <!-- Formats -->
   <records interface="plone.app.mosaic.interfaces.IFormat"
            prefix="plone.app.mosaic.formats.tile_align_center">
     <value key="name">tile-align-center</value>
@@ -459,92 +252,282 @@
     <value key="weight">900</value>
   </records>
 
+  <!-- TinyMCE toolbar groups -->
+  <records interface="plone.app.mosaic.interfaces.IWeightedDict"
+           prefix="plone.app.mosaic.tinymce_categories.actions">
+    <value key="name">actions</value>
+    <value key="label">Actions</value>
+    <value key="weight">10</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IWeightedDict"
+           prefix="plone.app.mosaic.tinymce_categories.styles">
+    <value key="name">styles</value>
+    <value key="label">Styles</value>
+    <value key="weight">20</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IWeightedDict"
+           prefix="plone.app.mosaic.tinymce_categories.text">
+    <value key="name">text</value>
+    <value key="label">Text</value>
+    <value key="weight">30</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IWeightedDict"
+           prefix="plone.app.mosaic.tinymce_categories.justify">
+    <value key="name">justify</value>
+    <value key="label">Justify</value>
+    <value key="weight">40</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IWeightedDict"
+           prefix="plone.app.mosaic.tinymce_categories.lists">
+    <value key="name">lists</value>
+    <value key="label">Lists</value>
+    <value key="weight">50</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IWeightedDict"
+           prefix="plone.app.mosaic.tinymce_categories.table">
+    <value key="name">table</value>
+    <value key="label">Table</value>
+    <value key="weight">60</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IWeightedDict"
+           prefix="plone.app.mosaic.tinymce_categories.selection">
+    <value key="name">selection</value>
+    <value key="label">Selection</value>
+    <value key="weight">70</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IWeightedDict"
+           prefix="plone.app.mosaic.tinymce_categories.history">
+    <value key="name">history</value>
+    <value key="label">History</value>
+    <value key="weight">80</value>
+  </records>
+
+  <!-- TinyMCE toolbar actions -->
   <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.formats.ul">
-    <value key="name">ul</value>
-    <value key="category">lists</value>
-    <value key="label">Unordered list</value>
-    <value key="action">ul</value>
-    <value key="icon">true</value>
+           prefix="plone.app.mosaic.tinymce_toolbar.undo">
+    <value key="name">undo</value>
+    <value key="category">history</value>
+    <value key="label">Undo</value>
+    <value key="action">undo</value>
+    <value key="icon">false</value>
     <value key="favorite">false</value>
-    <value key="weight">140</value>
+    <value key="weight">810</value>
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.formats.ol">
-    <value key="name">ol</value>
-    <value key="category">lists</value>
-    <value key="label">Ordered list</value>
-    <value key="action">ol</value>
-    <value key="icon">true</value>
+           prefix="plone.app.mosaic.tinymce_toolbar.redo">
+    <value key="name">redo</value>
+    <value key="category">history</value>
+    <value key="label">Redo</value>
+    <value key="action">redo</value>
+    <value key="icon">false</value>
     <value key="favorite">false</value>
-    <value key="weight">150</value>
+    <value key="weight">820</value>
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.formats.justify_left">
-    <value key="name">justify-left</value>
+           prefix="plone.app.mosaic.tinymce_toolbar.styleselect">
+    <value key="name">styleselect</value>
+    <value key="category">styles</value>
+    <value key="label">Styles</value>
+    <value key="action">styleselect</value>
+    <value key="icon">false</value>
+    <value key="favorite">true</value>
+    <value key="weight">210</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IFormat"
+           prefix="plone.app.mosaic.tinymce_toolbar.styleselect">
+    <value key="name">styleselect</value>
+    <value key="category">styles</value>
+    <value key="label">Styles</value>
+    <value key="action">styleselect</value>
+    <value key="icon">false</value>
+    <value key="favorite">false</value>
+    <value key="weight">210</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IFormat"
+           prefix="plone.app.mosaic.tinymce_toolbar.bold">
+    <value key="name">bold</value>
+    <value key="category">text</value>
+    <value key="label">B</value>
+    <value key="action">bold</value>
+    <value key="icon">false</value>
+    <value key="favorite">false</value>
+    <value key="weight">310</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IFormat"
+           prefix="plone.app.mosaic.tinymce_toolbar.italic">
+    <value key="name">italic</value>
+    <value key="category">text</value>
+    <value key="label">I</value>
+    <value key="action">italic</value>
+    <value key="icon">false</value>
+    <value key="favorite">false</value>
+    <value key="weight">320</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IFormat"
+           prefix="plone.app.mosaic.tinymce_toolbar.removeformat">
+    <value key="name">removeformat</value>
+    <value key="category">styles</value>
+    <value key="label">Remove formatting</value>
+    <value key="action">removeformat</value>
+    <value key="icon">false</value>
+    <value key="favorite">false</value>
+    <value key="weight">330</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IFormat"
+           prefix="plone.app.mosaic.tinymce_toolbar.alignleft">
+    <value key="name">alignleft</value>
     <value key="category">justify</value>
     <value key="label">Left-aligned</value>
-    <value key="action">justify-left</value>
+    <value key="action">alignleft</value>
     <value key="icon">true</value>
     <value key="favorite">false</value>
-    <value key="weight">160</value>
+    <value key="weight">410</value>
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.formats.justify_center">
-    <value key="name">justify-center</value>
+           prefix="plone.app.mosaic.tinymce_toolbar.aligncenter">
+    <value key="name">aligncenter</value>
     <value key="category">justify</value>
     <value key="label">Center</value>
-    <value key="action">justify-center</value>
+    <value key="action">aligncenter</value>
     <value key="icon">true</value>
     <value key="favorite">false</value>
-    <value key="weight">170</value>
+    <value key="weight">420</value>
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.formats.justify_right">
-    <value key="name">justify-right</value>
+           prefix="plone.app.mosaic.tinymce_toolbar.alignright">
+    <value key="name">alignright</value>
     <value key="category">justify</value>
     <value key="label">Right-aligned</value>
-    <value key="action">justify-right</value>
+    <value key="action">alignright</value>
     <value key="icon">true</value>
     <value key="favorite">false</value>
-    <value key="weight">180</value>
+    <value key="weight">430</value>
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.formats.justify_justify">
-    <value key="name">justify-justify</value>
+           prefix="plone.app.mosaic.tinymce_toolbar.alignjustify">
+    <value key="name">alignjustify</value>
     <value key="category">justify</value>
     <value key="label">Justified</value>
-    <value key="action">justify-justify</value>
+    <value key="action">alignjustify</value>
     <value key="icon">true</value>
     <value key="favorite">false</value>
-    <value key="weight">190</value>
+    <value key="weight">440</value>
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.formats.pagebreak">
-    <value key="name">pagebreak</value>
-    <value key="category">print</value>
-    <value key="label">Page break</value>
-    <value key="action">pagebreak</value>
+           prefix="plone.app.mosaic.tinymce_toolbar.bullist">
+    <value key="name">bullist</value>
+    <value key="category">lists</value>
+    <value key="label">Unordered list</value>
+    <value key="action">bullist</value>
     <value key="icon">true</value>
     <value key="favorite">false</value>
-    <value key="weight">230</value>
+    <value key="weight">510</value>
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.formats.pagebreak">
-    <value key="name">pagebreak</value>
-    <value key="category">print</value>
-    <value key="label">Page break</value>
-    <value key="action">pagebreak</value>
+           prefix="plone.app.mosaic.tinymce_toolbar.numlist">
+    <value key="name">numlist</value>
+    <value key="category">lists</value>
+    <value key="label">Ordered list</value>
+    <value key="action">numlist</value>
     <value key="icon">true</value>
     <value key="favorite">false</value>
-    <value key="weight">240</value>
+    <value key="weight">520</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IFormat"
+           prefix="plone.app.mosaic.tinymce_toolbar.outdent">
+    <value key="name">outdent</value>
+    <value key="category">lists</value>
+    <value key="label">Outdent</value>
+    <value key="action">outdent</value>
+    <value key="icon">true</value>
+    <value key="favorite">false</value>
+    <value key="weight">530</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IFormat"
+           prefix="plone.app.mosaic.tinymce_toolbar.indent">
+    <value key="name">indent</value>
+    <value key="category">lists</value>
+    <value key="label">Indent</value>
+    <value key="action">indent</value>
+    <value key="icon">true</value>
+    <value key="favorite">false</value>
+    <value key="weight">540</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IFormat"
+           prefix="plone.app.mosaic.tinymce_toolbar.table">
+    <value key="name">table</value>
+    <value key="category">table</value>
+    <value key="label">Table</value>
+    <value key="action">table</value>
+    <value key="icon">true</value>
+    <value key="favorite">false</value>
+    <value key="weight">610</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IFormat"
+           prefix="plone.app.mosaic.tinymce_toolbar.ploneimage">
+    <value key="name">ploneimage</value>
+    <value key="category">selection</value>
+    <value key="label">Image</value>
+    <value key="action">ploneimage</value>
+    <value key="icon">false</value>
+    <value key="favorite">false</value>
+    <value key="weight">710</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IFormat"
+           prefix="plone.app.mosaic.tinymce_toolbar.unlink">
+    <value key="name">unlink</value>
+    <value key="category">selection</value>
+    <value key="label">Unlink</value>
+    <value key="action">unlink</value>
+    <value key="icon">false</value>
+    <value key="favorite">false</value>
+    <value key="weight">720</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IFormat"
+           prefix="plone.app.mosaic.tinymce_toolbar.plonelink">
+    <value key="name">plonelink</value>
+    <value key="category">selection</value>
+    <value key="label">Link</value>
+    <value key="action">plonelink</value>
+    <value key="icon">false</value>
+    <value key="favorite">false</value>
+    <value key="weight">730</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IFormat"
+           prefix="plone.app.mosaic.tinymce_toolbar.anchor">
+    <value key="name">anchor</value>
+    <value key="category">selection</value>
+    <value key="label">Anchor</value>
+    <value key="action">anchor</value>
+    <value key="icon">false</value>
+    <value key="favorite">false</value>
+    <value key="weight">740</value>
   </records>
 
   <!-- Omitted fields -->
@@ -611,6 +594,20 @@
       <value_type type="plone.registry.field.TextLine" />
     </field>
     <value>
+      <element>html</element>
+      <element>undo</element>
+      <element>redo</element>
+      <element>styleselect</element>
+      <element>bold</element>
+      <element>italic</element>
+      <element>alignleft</element>
+      <element>aligncenter</element>
+      <element>alignright</element>
+      <element>alignjustify</element>
+      <element>bullist</element>
+      <element>numlist</element>
+      <element>unlink</element>
+      <element>plonelink</element>
       <element>tile-align-center</element>
       <element>tile-padding-right</element>
       <element>tile-padding-bottom</element>
@@ -619,29 +616,6 @@
       <element>tile-remove-format</element>
       <element>grid-row-dark</element>
       <element>grid-row-remove-format</element>
-      <element>html</element>
-      <element>strong</element>
-      <element>em</element>
-      <element>plonelink</element>
-      <element>unlink</element>
-      <element>paragraph</element>
-      <element>heading</element>
-      <element>subheading</element>
-      <element>discreet</element>
-      <element>literal</element>
-      <element>quote</element>
-      <element>callout</element>
-      <element>highlight</element>
-      <element>sub</element>
-      <element>sup</element>
-      <element>remove-format</element>
-      <element>pagebreak</element>
-      <element>ul</element>
-      <element>ol</element>
-      <element>justify-left</element>
-      <element>justify-center</element>
-      <element>justify-right</element>
-      <element>justify-justify</element>
     </value>
   </record>
 
@@ -660,6 +634,20 @@
       <value_type type="plone.registry.field.TextLine" />
     </field>
     <value>
+      <element>html</element>
+      <element>undo</element>
+      <element>redo</element>
+      <element>styleselect</element>
+      <element>bold</element>
+      <element>italic</element>
+      <element>alignleft</element>
+      <element>aligncenter</element>
+      <element>alignright</element>
+      <element>alignjustify</element>
+      <element>bullist</element>
+      <element>numlist</element>
+      <element>unlink</element>
+      <element>plonelink</element>
       <element>tile-align-center</element>
       <element>tile-padding-right</element>
       <element>tile-padding-bottom</element>
@@ -668,29 +656,6 @@
       <element>tile-remove-format</element>
       <element>grid-row-dark</element>
       <element>grid-row-remove-format</element>
-      <element>html</element>
-      <element>strong</element>
-      <element>em</element>
-      <element>plonelink</element>
-      <element>unlink</element>
-      <element>paragraph</element>
-      <element>heading</element>
-      <element>subheading</element>
-      <element>discreet</element>
-      <element>literal</element>
-      <element>quote</element>
-      <element>callout</element>
-      <element>highlight</element>
-      <element>sub</element>
-      <element>sup</element>
-      <element>remove-format</element>
-      <element>pagebreak</element>
-      <element>ul</element>
-      <element>ol</element>
-      <element>justify-left</element>
-      <element>justify-center</element>
-      <element>justify-right</element>
-      <element>justify-justify</element>
     </value>
   </record>
 
@@ -709,6 +674,20 @@
       <value_type type="plone.registry.field.TextLine" />
     </field>
     <value>
+      <element>html</element>
+      <element>undo</element>
+      <element>redo</element>
+      <element>styleselect</element>
+      <element>bold</element>
+      <element>italic</element>
+      <element>alignleft</element>
+      <element>aligncenter</element>
+      <element>alignright</element>
+      <element>alignjustify</element>
+      <element>bullist</element>
+      <element>numlist</element>
+      <element>unlink</element>
+      <element>plonelink</element>
       <element>tile-align-center</element>
       <element>tile-padding-right</element>
       <element>tile-padding-bottom</element>
@@ -717,29 +696,6 @@
       <element>tile-remove-format</element>
       <element>grid-row-dark</element>
       <element>grid-row-remove-format</element>
-      <element>html</element>
-      <element>strong</element>
-      <element>em</element>
-      <element>plonelink</element>
-      <element>unlink</element>
-      <element>paragraph</element>
-      <element>heading</element>
-      <element>subheading</element>
-      <element>discreet</element>
-      <element>literal</element>
-      <element>quote</element>
-      <element>callout</element>
-      <element>highlight</element>
-      <element>sub</element>
-      <element>sup</element>
-      <element>remove-format</element>
-      <element>pagebreak</element>
-      <element>ul</element>
-      <element>ol</element>
-      <element>justify-left</element>
-      <element>justify-center</element>
-      <element>justify-right</element>
-      <element>justify-justify</element>
     </value>
   </record>
 
@@ -758,6 +714,20 @@
       <value_type type="plone.registry.field.TextLine" />
     </field>
     <value>
+      <element>html</element>
+      <element>undo</element>
+      <element>redo</element>
+      <element>styleselect</element>
+      <element>bold</element>
+      <element>italic</element>
+      <element>alignleft</element>
+      <element>aligncenter</element>
+      <element>alignright</element>
+      <element>alignjustify</element>
+      <element>bullist</element>
+      <element>numlist</element>
+      <element>unlink</element>
+      <element>plonelink</element>
       <element>tile-align-center</element>
       <element>tile-padding-right</element>
       <element>tile-padding-bottom</element>
@@ -766,29 +736,6 @@
       <element>tile-remove-format</element>
       <element>grid-row-dark</element>
       <element>grid-row-remove-format</element>
-      <element>html</element>
-      <element>strong</element>
-      <element>em</element>
-      <element>plonelink</element>
-      <element>unlink</element>
-      <element>paragraph</element>
-      <element>heading</element>
-      <element>subheading</element>
-      <element>discreet</element>
-      <element>literal</element>
-      <element>quote</element>
-      <element>callout</element>
-      <element>highlight</element>
-      <element>sub</element>
-      <element>sup</element>
-      <element>remove-format</element>
-      <element>pagebreak</element>
-      <element>ul</element>
-      <element>ol</element>
-      <element>justify-left</element>
-      <element>justify-center</element>
-      <element>justify-right</element>
-      <element>justify-justify</element>
     </value>
   </record>
 
@@ -857,15 +804,8 @@
     </field>
     <value>
       <element>html</element>
-      <element>strong</element>
-      <element>em</element>
-      <element>heading</element>
-      <element>remove-format</element>
-      <element>pagebreak</element>
-      <element>justify-left</element>
-      <element>justify-center</element>
-      <element>justify-right</element>
-      <element>justify-justify</element>
+      <element>undo</element>
+      <element>redo</element>
       <element>tile-align-center</element>
       <element>tile-padding-right</element>
       <element>tile-padding-bottom</element>
@@ -898,15 +838,6 @@
     </field>
     <value>
       <element>html</element>
-      <element>strong</element>
-      <element>em</element>
-      <element>subheading</element>
-      <element>remove-format</element>
-      <element>pagebreak</element>
-      <element>justify-left</element>
-      <element>justify-center</element>
-      <element>justify-right</element>
-      <element>justify-justify</element>
       <element>tile-align-center</element>
       <element>tile-padding-right</element>
       <element>tile-padding-bottom</element>
@@ -939,28 +870,19 @@
     </field>
     <value>
       <element>html</element>
-      <element>strong</element>
-      <element>em</element>
-      <element>plonelink</element>
+      <element>undo</element>
+      <element>redo</element>
+      <element>styleselect</element>
+      <element>bold</element>
+      <element>italic</element>
+      <element>alignleft</element>
+      <element>aligncenter</element>
+      <element>alignright</element>
+      <element>alignjustify</element>
+      <element>bullist</element>
+      <element>numlist</element>
       <element>unlink</element>
-      <element>paragraph</element>
-      <element>heading</element>
-      <element>subheading</element>
-      <element>discreet</element>
-      <element>literal</element>
-      <element>quote</element>
-      <element>callout</element>
-      <element>highlight</element>
-      <element>sub</element>
-      <element>sup</element>
-      <element>remove-format</element>
-      <element>pagebreak</element>
-      <element>ul</element>
-      <element>ol</element>
-      <element>justify-left</element>
-      <element>justify-center</element>
-      <element>justify-right</element>
-      <element>justify-justify</element>
+      <element>plonelink</element>
       <element>tile-align-center</element>
       <element>tile-padding-right</element>
       <element>tile-padding-bottom</element>
@@ -993,17 +915,19 @@
     </field>
     <value>
       <element>html</element>
-      <element>strong</element>
-      <element>em</element>
-      <element>sub</element>
-      <element>sup</element>
-      <element>remove-format</element>
-      <element>pagebreak</element>
-      <element>ul</element>
-      <element>justify-left</element>
-      <element>justify-center</element>
-      <element>justify-right</element>
-      <element>justify-justify</element>
+      <element>undo</element>
+      <element>redo</element>
+      <element>styleselect</element>
+      <element>bold</element>
+      <element>italic</element>
+      <element>alignleft</element>
+      <element>aligncenter</element>
+      <element>alignright</element>
+      <element>alignjustify</element>
+      <element>bullist</element>
+      <element>numlist</element>
+      <element>unlink</element>
+      <element>plonelink</element>
       <element>tile-align-center</element>
       <element>tile-padding-right</element>
       <element>tile-padding-bottom</element>
@@ -1036,17 +960,19 @@
     </field>
     <value>
       <element>html</element>
-      <element>strong</element>
-      <element>em</element>
-      <element>sub</element>
-      <element>sup</element>
-      <element>remove-format</element>
-      <element>pagebreak</element>
-      <element>ol</element>
-      <element>justify-left</element>
-      <element>justify-center</element>
-      <element>justify-right</element>
-      <element>justify-justify</element>
+      <element>undo</element>
+      <element>redo</element>
+      <element>styleselect</element>
+      <element>bold</element>
+      <element>italic</element>
+      <element>alignleft</element>
+      <element>aligncenter</element>
+      <element>alignright</element>
+      <element>alignjustify</element>
+      <element>bullist</element>
+      <element>numlist</element>
+      <element>unlink</element>
+      <element>plonelink</element>
       <element>tile-align-center</element>
       <element>tile-padding-right</element>
       <element>tile-padding-bottom</element>
@@ -1078,7 +1004,6 @@
       <value_type type="plone.registry.field.TextLine" />
     </field>
     <value>
-      <element>blur</element>
       <element>tile-align-center</element>
       <element>tile-padding-right</element>
       <element>tile-padding-bottom</element>
@@ -1110,7 +1035,6 @@
       <value_type type="plone.registry.field.TextLine" />
     </field>
     <value>
-      <element>blur</element>
       <element>tile-align-center</element>
       <element>tile-padding-right</element>
       <element>tile-padding-bottom</element>
@@ -1142,7 +1066,6 @@
       <value_type type="plone.registry.field.TextLine" />
     </field>
     <value>
-      <element>blur</element>
       <element>tile-align-center</element>
       <element>tile-padding-right</element>
       <element>tile-padding-bottom</element>
@@ -1174,7 +1097,6 @@
       <value_type type="plone.registry.field.TextLine" />
     </field>
     <value>
-      <element>blur</element>
       <element>tile-align-center</element>
       <element>tile-padding-right</element>
       <element>tile-padding-bottom</element>
@@ -1206,7 +1128,6 @@
       <value_type type="plone.registry.field.TextLine" />
     </field>
     <value>
-      <element>blur</element>
       <element>tile-align-center</element>
       <element>tile-padding-right</element>
       <element>tile-padding-bottom</element>
@@ -1239,7 +1160,6 @@
       <value_type type="plone.registry.field.TextLine" />
     </field>
     <value>
-      <element>blur</element>
       <element>tile-align-center</element>
       <element>tile-padding-right</element>
       <element>tile-padding-bottom</element>
@@ -1272,7 +1192,6 @@
       <value_type type="plone.registry.field.TextLine" />
     </field>
     <value>
-      <element>blur</element>
       <element>tile-align-center</element>
       <element>tile-padding-right</element>
       <element>tile-padding-bottom</element>
@@ -1321,7 +1240,6 @@
       <value_type type="plone.registry.field.TextLine" />
     </field>
     <value>
-      <element>blur</element>
       <element>tile-align-center</element>
       <element>tile-padding-right</element>
       <element>tile-padding-bottom</element>
@@ -1353,7 +1271,6 @@
       <value_type type="plone.registry.field.TextLine" />
     </field>
     <value>
-      <element>blur</element>
       <element>tile-align-center</element>
       <element>tile-padding-right</element>
       <element>tile-padding-bottom</element>
@@ -1385,7 +1302,6 @@
       <value_type type="plone.registry.field.TextLine" />
     </field>
     <value>
-      <element>blur</element>
       <element>tile-align-center</element>
       <element>tile-padding-right</element>
       <element>tile-padding-bottom</element>
@@ -1417,7 +1333,6 @@
       <value_type type="plone.registry.field.TextLine" />
     </field>
     <value>
-      <element>blur</element>
       <element>tile-align-center</element>
       <element>tile-padding-right</element>
       <element>tile-padding-bottom</element>
@@ -1449,7 +1364,6 @@
       <value_type type="plone.registry.field.TextLine" />
     </field>
     <value>
-      <element>blur</element>
       <element>tile-align-center</element>
       <element>tile-padding-right</element>
       <element>tile-padding-bottom</element>
@@ -1481,7 +1395,6 @@
       <value_type type="plone.registry.field.TextLine" />
     </field>
     <value>
-      <element>blur</element>
       <element>tile-align-center</element>
       <element>tile-padding-right</element>
       <element>tile-padding-bottom</element>

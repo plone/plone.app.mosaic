@@ -32,8 +32,9 @@ immed: true, strict: true, maxlen: 80, maxerr: 9999 */
 
 define([
     'jquery',
-    'tinymce'
-], function($, tinymce) {
+    'tinymce',
+    'mockup-patterns-tinymce'
+], function($, tinymce, TinyMCE) {
     'use strict';
 
     // Define mosaic namespace if it doesn't exist
@@ -53,87 +54,110 @@ define([
     * @return {Object} Returns a new mosaic editor object.
     */
     $.fn.mosaicEditor = function () {
-        var obj;
+        var obj, pattern;
 
         // Get element
         obj = $(this);
 
-        // Generate random id
+        // Remove existing pattern
+        if (obj.data("pattern-tinymce")) {
+            obj.data("pattern-tinymce").destroy();
+            obj.removeData("pattern-tinymce");
+        }
+
+        // Generate random id to make sure TinyMCE is unique
         var random_id = 1 + Math.floor(100000 * Math.random());
         while ($("#mosaic-rich-text-init-" + random_id,
                $.mosaic.document).length > 0) {
             random_id = 1 + Math.floor(100000 * Math.random());
         }
-        $(this).attr('id', 'mosaic-rich-text-init-' + random_id);
+        obj.attr('id', 'mosaic-rich-text-init-' + random_id);
+        obj.siblings('.mosaic-rich-text-toolbar').remove();
+        obj.before($('<div class="mosaic-rich-text-toolbar"></div>')
+            .attr('id', obj.attr('id') + '-panel'));
+
+        // Build toolbar
+        var tiletype, classes, classname, actions, group, x, y, toolbar;
+
+        // Get tiletype
+        tiletype = "";
+        classes = obj.parents('.mosaic-tile').first().attr('class').split(" ");
+        $(classes).each(function () {
+            classname = this.match(/^mosaic-(.*)-tile$/);
+            if (classname !== null) {
+                if ((classname[1] !== 'selected') &&
+                    (classname[1] !== 'new') &&
+                    (classname[1] !== 'read-only') &&
+                    (classname[1] !== 'helper') &&
+                    (classname[1] !== 'original')) {
+                    tiletype = classname[1];
+                }
+            }
+        });
+
+        // Get actions
+        actions = $.mosaic.options.default_available_actions;
+        for (x = 0; x < $.mosaic.options.tiles.length; x += 1) {
+            group = $.mosaic.options.tiles[x];
+            for (y = 0; y < group.tiles.length; y += 1) {
+                if (group.tiles[y].name === tiletype) {
+                    actions = actions
+                        .concat(group.tiles[y].available_actions);
+                }
+            }
+        }
+
+        // Build toolbar
+        toolbar = [];
+        for (x = 0; x < $.mosaic.options.tinymce_toolbar.length; x += 1) {
+            group = $.mosaic.options.tinymce_toolbar[x];
+            for (y = 0; y < group.actions.length; y += 1) {
+                if ($.inArray(group.actions[y].name, actions) > -1) {
+                    toolbar.push(group.actions[y].name);
+                }
+            }
+            if (toolbar.length && toolbar[toolbar.length - 1] != '|') {
+                toolbar.push('|');
+            }
+        }
+        if (toolbar.length && toolbar[toolbar.length - 1] == '|') {
+            toolbar.pop();
+        }
+
+        var placeholder = function() {
+            if (obj.text().replace(/^\s+|\s+$/g, '').length === 0) {
+                obj.addClass('mosaic-tile-content-empty');
+            } else {
+                obj.removeClass('mosaic-tile-content-empty');
+            }
+        };
+
+        // XXX: Required to override global settings in Plone 5
+        $("body").removeAttr("data-pat-tinymce");
 
         // Init rich editor
-        tinymce.init({
+        pattern = TinyMCE.init(obj, $.extend(
+            true, {}, $.mosaic.options.tinymce, { tiny: {
             selector: "#" + "mosaic-rich-text-init-" + random_id,
             theme: "modern",
             inline: true,
-            schema: "html5",
-            add_unload_trigger: false,
-            toolbar: false,
+            toolbar: toolbar.join(' ') || false,
             statusbar: false,
             menubar: false,
-            fixed_toolbar_container: null,
+            fixed_toolbar_container: '#' + obj.attr('id') + '-panel',
+            add_unload_trigger: false,
             setup: function(editor) {
-                var placeholder = function() {
-                    if (obj.text().replace(/^\s+|\s+$/g, '').length === 0) {
-                        obj.addClass('mosaic-tile-content-empty');
-                    } else {
-                        obj.removeClass('mosaic-tile-content-empty');
+                editor.on('focus', function(e) {
+                    if (e.target.id) {
+                        $('#' + e.target.id)
+                            .parents('.mosaic-tile').first()
+                            .mosaicSelectTile();
                     }
-                };
+                });
                 editor.on('change', placeholder);
                 placeholder();
-            },
-            formats : {
-                strong : {inline : 'strong'},
-                em : {inline : 'em'},
-                h2 : {block : 'h2', remove : 'all'},
-                h3 : {block : 'h3', remove : 'all'},
-                p : {block : 'p', remove : 'all'},
-                sub : {inline : 'sub', remove : 'all'},
-                sup : {inline : 'sup', remove : 'all'},
-                discreet : {block : 'p',
-                            attributes : {'class' : 'discreet'},
-                            remove : 'all'},
-                pre : {block : 'pre', remove : 'all'},
-                pullquote : {block: 'q',
-                             attributes: {'class' : 'pullquote'},
-                             remove: 'all'},
-                callout : {block: 'p',
-                           attributes: {'class' : 'callout'},
-                           remove: 'all'},
-                highlight : {inline: 'span',
-                             attributes: {'class' : 'visualHighlight'},
-                             remove: 'all'},
-                pagebreak : {block: 'p',
-                             attributes: {'class' : 'pagebreak'},
-                             remove: 'all'},
-                'justify-left' : {selector: 'p,h2,h3,pre,q',
-                                  attributes: {'class' : 'justify-left'},
-                                  remove: 'all'},
-                'justify-center' : {selector: 'p,h2,h3,pre,q',
-                                    attributes: {'class' : 'justify-center'},
-                                    remove: 'all'},
-                'justify-right' : {selector: 'p,h2,h3,pre,q',
-                                   attributes: {'class' : 'justify-right'},
-                                   remove: 'all'},
-                'justify-justify' : {selector: 'p,h2,h3,pre,q',
-                                     attributes: {'class' : 'justify-justify'},
-                                     remove: 'all'}
             }
-        });
-
-        // Ensure tile select on editor focus change
-        tinymce.get('mosaic-rich-text-init-' + random_id).on('focus', function(e) {
-            if (e.target.id) {
-                $('#' + e.target.id).parents('.mosaic-tile').first()
-                    .mosaicSelectTile();
-            }
-        });
+        }}));
 
         // Set editor class
         obj.addClass('mosaic-rich-text');

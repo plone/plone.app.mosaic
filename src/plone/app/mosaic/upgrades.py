@@ -26,3 +26,18 @@ def upgrade_3_to_4(context):
 def upgrade_4_to_5(context):
     setup = getToolByName(context, 'portal_setup')
     setup.runImportStepFromProfile(PROFILE_ID, 'plone.app.registry')
+
+
+def upgrade_5_to_6(context):
+    from plone.registry.interfaces import IRegistry
+    from zope.component import getUtility
+
+    registry = getUtility(IRegistry)
+    for key in tuple(registry.records):
+        if key.startswith('plone.app.mosaic.format'):
+            del registry.records[key]
+        elif key.startswith('plone.app.mosaic.tinymce'):
+            del registry.records[key]
+
+    setup = getToolByName(context, 'portal_setup')
+    setup.runImportStepFromProfile(PROFILE_ID, 'plone.app.registry')

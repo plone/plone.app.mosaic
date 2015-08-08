@@ -90,4 +90,12 @@
       run_deps="false"
       />
 
+  <genericsetup:upgradeStep
+      profile="plone.app.mosaic:default"
+      source="5005"
+      destination="5006"
+      title="Refactor rich text formatting into inline TinyMCE toolbar"
+      handler=".upgrades.upgrade_5_to_6"
+      />
+
 </configure>
