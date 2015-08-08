@@ -58,8 +58,18 @@
       profile="plone.app.mosaic:default"
       source="5003"
       destination="5004"
-      title="Upgrade layout editor"
+      title="Add layout editor controlpanel"
       handler=".upgrades.upgrade_3_to_4"
+      />
+
+  <genericsetup:upgradeDepends
+      profile="plone.app.mosaic:bbb"
+      source="4003"
+      destination="4004"
+      title="Add layout editor controlpanel (disabled)"
+      import_profile="plone.app.mosaic:bbb"
+      import_steps="controlpanel"
+      run_deps="false"
       />
 
 </configure>
