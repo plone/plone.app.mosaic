@@ -4,7 +4,7 @@
   <configlet title="Mosaic Layout Editor" action_id="mosaic-layout-editor"
              appId="plone.app.mosaic"
              category="Products" condition_expr=""
-             url_expr="string:${portal_url}/@@layouts-editor" visible="True"
+             url_expr="string:${portal_url}/@@layouts-editor" visible="False"
              i18n:attributes="title">
     <permission>Manage portal</permission>
   </configlet>
