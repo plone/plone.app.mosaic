@@ -1,22 +1,21 @@
 # -*- coding: utf-8 -*-
-from operator import itemgetter
-
 from Products.CMFCore.interfaces._content import IFolderish
+from copy import deepcopy
+from operator import itemgetter
+from plone.app.mosaic.interfaces import IMosaicRegistryAdapter
+from plone.app.mosaic.utils import extractFieldInformation
 from plone.dexterity.utils import iterSchemataForType
 from plone.registry.interfaces import IRegistry
 from zope.component import adapts
 from zope.i18n import translate
 from zope.interface import implements
 
-from plone.app.mosaic.interfaces import IMosaicRegistryAdapter
-from plone.app.mosaic.utils import extractFieldInformation
-
 
 class DottedDict(dict):
     """A dictionary where you can access nested dicts with dotted names"""
 
     def get(self, k, default=None):
-        if not '.' in k:
+        if '.' not in k:
             return super(DottedDict, self).get(k, default)
         val = self
         for x in k.split('.'):
@@ -145,22 +144,33 @@ class MosaicRegistry(object):
             format['actions'].sort(key=itemgetter('weight'))
         return config
 
-    def mapTinyMCEToolbarCategories(self, settings, config):
+    def mapTinyMCEActionCategories(self, settings, config):
         config['tinymce_toolbar'] = config.get('tinymce_toolbar', [])
+        config['tinymce_contextmenu'] = config.get('tinymce_contextmenu', [])
         categories = settings.get("%s.tinymce_categories" % self.prefix, {})
         sorted_categories = [(x, categories[x]) for x in categories.keys()]
         sorted_categories.sort(cmp=weightedSort)
         for key, category in sorted_categories:
             category['actions'] = []
             config['tinymce_toolbar'].append(category)
+        config['tinymce_contextmenu'] = deepcopy(config['tinymce_toolbar'])
         return config
 
     def mapTinyMCEToolbarFormats(self, settings, config):
-        tinymce_actions = settings.get('%s.tinymce_toolbar' % self.prefix, {})
-        for key, action in tinymce_actions.items():
+        actions = settings.get('%s.tinymce_toolbar' % self.prefix, {})
+        for key, action in actions.items():
             index = getCategoryIndex(config['tinymce_toolbar'], action['category'])  # noqa
             config['tinymce_toolbar'][index]['actions'].append(action)
         for group in config['tinymce_toolbar']:
+            group['actions'].sort(key=itemgetter('weight'))
+        return config
+
+    def mapTinyMCEContextMenuFormats(self, settings, config):
+        actions = settings.get('%s.tinymce_contextmenu' % self.prefix, {})
+        for key, action in actions.items():
+            index = getCategoryIndex(config['tinymce_contextmenu'], action['category'])  # noqa
+            config['tinymce_contextmenu'][index]['actions'].append(action)
+        for group in config['tinymce_contextmenu']:
             group['actions'].sort(key=itemgetter('weight'))
         return config
 
@@ -291,8 +301,9 @@ class MosaicRegistry(object):
         config = {}
         config = self.mapFormatCategories(settings, config)
         config = self.mapFormats(settings, config)
-        config = self.mapTinyMCEToolbarCategories(settings, config)
+        config = self.mapTinyMCEActionCategories(settings, config)
         config = self.mapTinyMCEToolbarFormats(settings, config)
+        config = self.mapTinyMCEContextMenuFormats(settings, config)
         config = self.mapActions(settings, config)
         config = self.mapTilesCategories(settings, config)
         for tile_category in ['structure_tiles', 'app_tiles']:

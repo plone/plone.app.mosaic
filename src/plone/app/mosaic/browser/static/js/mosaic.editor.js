@@ -76,8 +76,9 @@ define([
         obj.before($('<div class="mosaic-rich-text-toolbar"></div>')
             .attr('id', obj.attr('id') + '-panel'));
 
-        // Build toolbar
-        var tiletype, classes, classname, actions, group, x, y, toolbar;
+        // Build toolbar and contextmenu
+        var tiletype, classes, classname, actions, group, x, y,
+            toolbar, cmenu;
 
         // Get tiletype
         tiletype = "";
@@ -113,7 +114,7 @@ define([
             group = $.mosaic.options.tinymce_toolbar[x];
             for (y = 0; y < group.actions.length; y += 1) {
                 if ($.inArray(group.actions[y].name, actions) > -1) {
-                    toolbar.push(group.actions[y].name);
+                    toolbar.push(group.actions[y].action);
                 }
             }
             if (toolbar.length && toolbar[toolbar.length - 1] != '|') {
@@ -124,6 +125,24 @@ define([
             toolbar.pop();
         }
 
+        // Build contextmenu
+        cmenu = [];
+        for (x = 0; x < $.mosaic.options.tinymce_contextmenu.length; x += 1) {
+            group = $.mosaic.options.tinymce_contextmenu[x];
+            for (y = 0; y < group.actions.length; y += 1) {
+                if ($.inArray(group.actions[y].name, actions) > -1) {
+                    cmenu.push(group.actions[y].action);
+                }
+            }
+            if (cmenu.length && cmenu[cmenu.length - 1] != '|') {
+                cmenu.push('|');
+            }
+        }
+        if (cmenu.length && cmenu[cmenu.length - 1] == '|') {
+            cmenu.pop();
+        }
+
+        // Define placeholder updater
         var placeholder = function() {
             if (obj.text().replace(/^\s+|\s+$/g, '').length === 0) {
                 obj.addClass('mosaic-tile-content-empty');
@@ -139,13 +158,15 @@ define([
         pattern = TinyMCE.init(obj, $.extend(
             true, {}, $.mosaic.options.tinymce, { tiny: {
             selector: "#" + "mosaic-rich-text-init-" + random_id,
-            theme: "modern",
             inline: true,
+            fixed_toolbar_container: '#' + obj.attr('id') + '-panel',
+            menubar: false,
             toolbar: toolbar.join(' ') || false,
             statusbar: false,
-            menubar: false,
-            fixed_toolbar_container: '#' + obj.attr('id') + '-panel',
-            add_unload_trigger: false,
+            contextmenu: cmenu.join(' ') || false,
+            plugins: $.mosaic.options.tinymce.tiny.plugins.concat(
+                cmenu.length ? ['contextmenu'] : []
+            ),
             setup: function(editor) {
                 editor.on('focus', function(e) {
                     if (e.target.id) {
