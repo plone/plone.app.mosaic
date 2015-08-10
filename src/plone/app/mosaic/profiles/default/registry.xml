@@ -132,6 +132,14 @@
       <element>properties</element>
       <element>format</element>
       <element>insert</element>
+      <element>tile-align-center</element>
+      <element>tile-padding-right</element>
+      <element>tile-padding-bottom</element>
+      <element>tile-align-right</element>
+      <element>tile-align-left</element>
+      <element>tile-remove-format</element>
+      <element>grid-row-dark</element>
+      <element>grid-row-remove-format</element>
     </value>
   </record>
 
@@ -310,9 +318,10 @@
   </records>
 
   <!-- TinyMCE toolbar actions -->
+
   <records interface="plone.app.mosaic.interfaces.IFormat"
            prefix="plone.app.mosaic.tinymce_toolbar.undo">
-    <value key="name">undo</value>
+    <value key="name">toolbar-undo</value>
     <value key="category">history</value>
     <value key="label">Undo</value>
     <value key="action">undo</value>
@@ -323,7 +332,7 @@
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
            prefix="plone.app.mosaic.tinymce_toolbar.redo">
-    <value key="name">redo</value>
+    <value key="name">toolbar-redo</value>
     <value key="category">history</value>
     <value key="label">Redo</value>
     <value key="action">redo</value>
@@ -334,7 +343,7 @@
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
            prefix="plone.app.mosaic.tinymce_toolbar.styleselect">
-    <value key="name">styleselect</value>
+    <value key="name">toolbar-styleselect</value>
     <value key="category">styles</value>
     <value key="label">Styles</value>
     <value key="action">styleselect</value>
@@ -345,7 +354,7 @@
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
            prefix="plone.app.mosaic.tinymce_toolbar.styleselect">
-    <value key="name">styleselect</value>
+    <value key="name">toolbar-styleselect</value>
     <value key="category">styles</value>
     <value key="label">Styles</value>
     <value key="action">styleselect</value>
@@ -356,7 +365,7 @@
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
            prefix="plone.app.mosaic.tinymce_toolbar.bold">
-    <value key="name">bold</value>
+    <value key="name">toolbar-bold</value>
     <value key="category">text</value>
     <value key="label">B</value>
     <value key="action">bold</value>
@@ -367,7 +376,7 @@
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
            prefix="plone.app.mosaic.tinymce_toolbar.italic">
-    <value key="name">italic</value>
+    <value key="name">toolbar-italic</value>
     <value key="category">text</value>
     <value key="label">I</value>
     <value key="action">italic</value>
@@ -378,7 +387,7 @@
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
            prefix="plone.app.mosaic.tinymce_toolbar.removeformat">
-    <value key="name">removeformat</value>
+    <value key="name">toolbar-removeformat</value>
     <value key="category">styles</value>
     <value key="label">Remove formatting</value>
     <value key="action">removeformat</value>
@@ -389,7 +398,7 @@
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
            prefix="plone.app.mosaic.tinymce_toolbar.alignleft">
-    <value key="name">alignleft</value>
+    <value key="name">toolbar-alignleft</value>
     <value key="category">justify</value>
     <value key="label">Left-aligned</value>
     <value key="action">alignleft</value>
@@ -400,7 +409,7 @@
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
            prefix="plone.app.mosaic.tinymce_toolbar.aligncenter">
-    <value key="name">aligncenter</value>
+    <value key="name">toolbar-aligncenter</value>
     <value key="category">justify</value>
     <value key="label">Center</value>
     <value key="action">aligncenter</value>
@@ -411,7 +420,7 @@
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
            prefix="plone.app.mosaic.tinymce_toolbar.alignright">
-    <value key="name">alignright</value>
+    <value key="name">toolbar-alignright</value>
     <value key="category">justify</value>
     <value key="label">Right-aligned</value>
     <value key="action">alignright</value>
@@ -422,7 +431,7 @@
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
            prefix="plone.app.mosaic.tinymce_toolbar.alignjustify">
-    <value key="name">alignjustify</value>
+    <value key="name">toolbar-alignjustify</value>
     <value key="category">justify</value>
     <value key="label">Justified</value>
     <value key="action">alignjustify</value>
@@ -433,7 +442,7 @@
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
            prefix="plone.app.mosaic.tinymce_toolbar.bullist">
-    <value key="name">bullist</value>
+    <value key="name">toolbar-bullist</value>
     <value key="category">lists</value>
     <value key="label">Unordered list</value>
     <value key="action">bullist</value>
@@ -444,7 +453,7 @@
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
            prefix="plone.app.mosaic.tinymce_toolbar.numlist">
-    <value key="name">numlist</value>
+    <value key="name">toolbar-numlist</value>
     <value key="category">lists</value>
     <value key="label">Ordered list</value>
     <value key="action">numlist</value>
@@ -455,7 +464,7 @@
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
            prefix="plone.app.mosaic.tinymce_toolbar.outdent">
-    <value key="name">outdent</value>
+    <value key="name">toolbar-outdent</value>
     <value key="category">lists</value>
     <value key="label">Outdent</value>
     <value key="action">outdent</value>
@@ -466,7 +475,7 @@
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
            prefix="plone.app.mosaic.tinymce_toolbar.indent">
-    <value key="name">indent</value>
+    <value key="name">toolbar-indent</value>
     <value key="category">lists</value>
     <value key="label">Indent</value>
     <value key="action">indent</value>
@@ -477,7 +486,7 @@
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
            prefix="plone.app.mosaic.tinymce_toolbar.table">
-    <value key="name">table</value>
+    <value key="name">toolbar-table</value>
     <value key="category">table</value>
     <value key="label">Table</value>
     <value key="action">table</value>
@@ -488,7 +497,7 @@
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
            prefix="plone.app.mosaic.tinymce_toolbar.ploneimage">
-    <value key="name">ploneimage</value>
+    <value key="name">toolbar-ploneimage</value>
     <value key="category">selection</value>
     <value key="label">Image</value>
     <value key="action">ploneimage</value>
@@ -499,7 +508,7 @@
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
            prefix="plone.app.mosaic.tinymce_toolbar.unlink">
-    <value key="name">unlink</value>
+    <value key="name">toolbar-unlink</value>
     <value key="category">selection</value>
     <value key="label">Unlink</value>
     <value key="action">unlink</value>
@@ -510,7 +519,7 @@
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
            prefix="plone.app.mosaic.tinymce_toolbar.plonelink">
-    <value key="name">plonelink</value>
+    <value key="name">toolbar-plonelink</value>
     <value key="category">selection</value>
     <value key="label">Link</value>
     <value key="action">plonelink</value>
@@ -521,7 +530,7 @@
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
            prefix="plone.app.mosaic.tinymce_toolbar.anchor">
-    <value key="name">anchor</value>
+    <value key="name">toolbar-anchor</value>
     <value key="category">selection</value>
     <value key="label">Anchor</value>
     <value key="action">anchor</value>
@@ -534,7 +543,7 @@
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
            prefix="plone.app.mosaic.tinymce_contextmenu.tableprops">
-    <value key="name">tableprops</value>
+    <value key="name">contextmenu-tableprops</value>
     <value key="category">table</value>
     <value key="label">Table properties</value>
     <value key="action">tableprops</value>
@@ -545,7 +554,7 @@
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
            prefix="plone.app.mosaic.tinymce_contextmenu.cell">
-    <value key="name">cell</value>
+    <value key="name">contextmenu-cell</value>
     <value key="category">table</value>
     <value key="label">Cell</value>
     <value key="action">cell</value>
@@ -556,7 +565,7 @@
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
            prefix="plone.app.mosaic.tinymce_contextmenu.row">
-    <value key="name">row</value>
+    <value key="name">contextmenu-row</value>
     <value key="category">table</value>
     <value key="label">Row</value>
     <value key="action">row</value>
@@ -567,7 +576,7 @@
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
            prefix="plone.app.mosaic.tinymce_contextmenu.column">
-    <value key="name">column</value>
+    <value key="name">contextmenu-column</value>
     <value key="category">table</value>
     <value key="label">Column</value>
     <value key="action">column</value>
@@ -614,14 +623,6 @@
       <value_type type="plone.registry.field.TextLine" />
     </field>
     <value>
-      <element>tile-align-center</element>
-      <element>tile-padding-right</element>
-      <element>tile-padding-bottom</element>
-      <element>tile-align-right</element>
-      <element>tile-align-left</element>
-      <element>tile-remove-format</element>
-      <element>grid-row-dark</element>
-      <element>grid-row-remove-format</element>
     </value>
   </record>
 
@@ -640,28 +641,19 @@
       <value_type type="plone.registry.field.TextLine" />
     </field>
     <value>
-      <element>html</element>
-      <element>undo</element>
-      <element>redo</element>
-      <element>styleselect</element>
-      <element>bold</element>
-      <element>italic</element>
-      <element>alignleft</element>
-      <element>aligncenter</element>
-      <element>alignright</element>
-      <element>alignjustify</element>
-      <element>bullist</element>
-      <element>numlist</element>
-      <element>unlink</element>
-      <element>plonelink</element>
-      <element>tile-align-center</element>
-      <element>tile-padding-right</element>
-      <element>tile-padding-bottom</element>
-      <element>tile-align-right</element>
-      <element>tile-align-left</element>
-      <element>tile-remove-format</element>
-      <element>grid-row-dark</element>
-      <element>grid-row-remove-format</element>
+      <element>toolbar-styleselect</element>
+      <element>toolbar-bold</element>
+      <element>toolbar-italic</element>
+      <element>toolbar-alignleft</element>
+      <element>toolbar-aligncenter</element>
+      <element>toolbar-alignright</element>
+      <element>toolbar-alignjustify</element>
+      <element>toolbar-bullist</element>
+      <element>toolbar-numlist</element>
+      <element>toolbar-unlink</element>
+      <element>toolbar-plonelink</element>
+      <element>toolbar-undo</element>
+      <element>toolbar-redo</element>
     </value>
   </record>
 
@@ -680,28 +672,19 @@
       <value_type type="plone.registry.field.TextLine" />
     </field>
     <value>
-      <element>html</element>
-      <element>undo</element>
-      <element>redo</element>
-      <element>styleselect</element>
-      <element>bold</element>
-      <element>italic</element>
-      <element>alignleft</element>
-      <element>aligncenter</element>
-      <element>alignright</element>
-      <element>alignjustify</element>
-      <element>bullist</element>
-      <element>numlist</element>
-      <element>unlink</element>
-      <element>plonelink</element>
-      <element>tile-align-center</element>
-      <element>tile-padding-right</element>
-      <element>tile-padding-bottom</element>
-      <element>tile-align-right</element>
-      <element>tile-align-left</element>
-      <element>tile-remove-format</element>
-      <element>grid-row-dark</element>
-      <element>grid-row-remove-format</element>
+      <element>toolbar-styleselect</element>
+      <element>toolbar-bold</element>
+      <element>toolbar-italic</element>
+      <element>toolbar-alignleft</element>
+      <element>toolbar-aligncenter</element>
+      <element>toolbar-alignright</element>
+      <element>toolbar-alignjustify</element>
+      <element>toolbar-bullist</element>
+      <element>toolbar-numlist</element>
+      <element>toolbar-unlink</element>
+      <element>toolbar-plonelink</element>
+      <element>toolbar-undo</element>
+      <element>toolbar-redo</element>
     </value>
   </record>
 
@@ -720,28 +703,19 @@
       <value_type type="plone.registry.field.TextLine" />
     </field>
     <value>
-      <element>html</element>
-      <element>undo</element>
-      <element>redo</element>
-      <element>styleselect</element>
-      <element>bold</element>
-      <element>italic</element>
-      <element>alignleft</element>
-      <element>aligncenter</element>
-      <element>alignright</element>
-      <element>alignjustify</element>
-      <element>bullist</element>
-      <element>numlist</element>
-      <element>unlink</element>
-      <element>plonelink</element>
-      <element>tile-align-center</element>
-      <element>tile-padding-right</element>
-      <element>tile-padding-bottom</element>
-      <element>tile-align-right</element>
-      <element>tile-align-left</element>
-      <element>tile-remove-format</element>
-      <element>grid-row-dark</element>
-      <element>grid-row-remove-format</element>
+      <element>toolbar-styleselect</element>
+      <element>toolbar-bold</element>
+      <element>toolbar-italic</element>
+      <element>toolbar-alignleft</element>
+      <element>toolbar-aligncenter</element>
+      <element>toolbar-alignright</element>
+      <element>toolbar-alignjustify</element>
+      <element>toolbar-bullist</element>
+      <element>toolbar-numlist</element>
+      <element>toolbar-unlink</element>
+      <element>toolbar-plonelink</element>
+      <element>toolbar-undo</element>
+      <element>toolbar-redo</element>
     </value>
   </record>
 
@@ -760,28 +734,19 @@
       <value_type type="plone.registry.field.TextLine" />
     </field>
     <value>
-      <element>html</element>
-      <element>undo</element>
-      <element>redo</element>
-      <element>styleselect</element>
-      <element>bold</element>
-      <element>italic</element>
-      <element>alignleft</element>
-      <element>aligncenter</element>
-      <element>alignright</element>
-      <element>alignjustify</element>
-      <element>bullist</element>
-      <element>numlist</element>
-      <element>unlink</element>
-      <element>plonelink</element>
-      <element>tile-align-center</element>
-      <element>tile-padding-right</element>
-      <element>tile-padding-bottom</element>
-      <element>tile-align-right</element>
-      <element>tile-align-left</element>
-      <element>tile-remove-format</element>
-      <element>grid-row-dark</element>
-      <element>grid-row-remove-format</element>
+      <element>toolbar-styleselect</element>
+      <element>toolbar-bold</element>
+      <element>toolbar-italic</element>
+      <element>toolbar-alignleft</element>
+      <element>toolbar-aligncenter</element>
+      <element>toolbar-alignright</element>
+      <element>toolbar-alignjustify</element>
+      <element>toolbar-bullist</element>
+      <element>toolbar-numlist</element>
+      <element>toolbar-unlink</element>
+      <element>toolbar-plonelink</element>
+      <element>toolbar-undo</element>
+      <element>toolbar-redo</element>
     </value>
   </record>
 
@@ -849,15 +814,6 @@
       <value_type type="plone.registry.field.TextLine" />
     </field>
     <value>
-      <element>html</element>
-      <element>tile-align-center</element>
-      <element>tile-padding-right</element>
-      <element>tile-padding-bottom</element>
-      <element>tile-align-right</element>
-      <element>tile-align-left</element>
-      <element>tile-remove-format</element>
-      <element>grid-row-dark</element>
-      <element>grid-row-remove-format</element>
     </value>
   </record>
 
@@ -881,15 +837,6 @@
       <value_type type="plone.registry.field.TextLine" />
     </field>
     <value>
-      <element>html</element>
-      <element>tile-align-center</element>
-      <element>tile-padding-right</element>
-      <element>tile-padding-bottom</element>
-      <element>tile-align-right</element>
-      <element>tile-align-left</element>
-      <element>tile-remove-format</element>
-      <element>grid-row-dark</element>
-      <element>grid-row-remove-format</element>
     </value>
   </record>
 
@@ -913,28 +860,19 @@
       <value_type type="plone.registry.field.TextLine" />
     </field>
     <value>
-      <element>html</element>
-      <element>undo</element>
-      <element>redo</element>
-      <element>styleselect</element>
-      <element>bold</element>
-      <element>italic</element>
-      <element>alignleft</element>
-      <element>aligncenter</element>
-      <element>alignright</element>
-      <element>alignjustify</element>
-      <element>bullist</element>
-      <element>numlist</element>
-      <element>unlink</element>
-      <element>plonelink</element>
-      <element>tile-align-center</element>
-      <element>tile-padding-right</element>
-      <element>tile-padding-bottom</element>
-      <element>tile-align-right</element>
-      <element>tile-align-left</element>
-      <element>tile-remove-format</element>
-      <element>grid-row-dark</element>
-      <element>grid-row-remove-format</element>
+      <element>toolbar-styleselect</element>
+      <element>toolbar-bold</element>
+      <element>toolbar-italic</element>
+      <element>toolbar-alignleft</element>
+      <element>toolbar-aligncenter</element>
+      <element>toolbar-alignright</element>
+      <element>toolbar-alignjustify</element>
+      <element>toolbar-bullist</element>
+      <element>toolbar-numlist</element>
+      <element>toolbar-unlink</element>
+      <element>toolbar-plonelink</element>
+      <element>toolbar-undo</element>
+      <element>toolbar-redo</element>
     </value>
   </record>
 
@@ -958,19 +896,10 @@
       <value_type type="plone.registry.field.TextLine" />
     </field>
     <value>
-      <element>html</element>
-      <element>tableprops</element>
-      <element>cell</element>
-      <element>row</element>
-      <element>column</element>
-      <element>tile-align-center</element>
-      <element>tile-padding-right</element>
-      <element>tile-padding-bottom</element>
-      <element>tile-align-right</element>
-      <element>tile-align-left</element>
-      <element>tile-remove-format</element>
-      <element>grid-row-dark</element>
-      <element>grid-row-remove-format</element>
+      <element>contextmenu-tableprops</element>
+      <element>contextmenu-cell</element>
+      <element>contextmenu-row</element>
+      <element>contextmenu-column</element>
     </value>
   </record>
 
@@ -994,27 +923,9 @@
       <value_type type="plone.registry.field.TextLine" />
     </field>
     <value>
-      <element>html</element>
-      <element>undo</element>
-      <element>redo</element>
-      <element>styleselect</element>
-      <element>bold</element>
-      <element>italic</element>
-      <element>alignleft</element>
-      <element>aligncenter</element>
-      <element>alignright</element>
-      <element>alignjustify</element>
-      <element>bullist</element>
-      <element>unlink</element>
-      <element>plonelink</element>
-      <element>tile-align-center</element>
-      <element>tile-padding-right</element>
-      <element>tile-padding-bottom</element>
-      <element>tile-align-right</element>
-      <element>tile-align-left</element>
-      <element>tile-remove-format</element>
-      <element>grid-row-dark</element>
-      <element>grid-row-remove-format</element>
+      <element>toolbar-bullist</element>
+      <element>toolbar-indent</element>
+      <element>toolbar-outdent</element>
     </value>
   </record>
 
@@ -1038,27 +949,9 @@
       <value_type type="plone.registry.field.TextLine" />
     </field>
     <value>
-      <element>html</element>
-      <element>undo</element>
-      <element>redo</element>
-      <element>styleselect</element>
-      <element>bold</element>
-      <element>italic</element>
-      <element>alignleft</element>
-      <element>aligncenter</element>
-      <element>alignright</element>
-      <element>alignjustify</element>
-      <element>numlist</element>
-      <element>unlink</element>
-      <element>plonelink</element>
-      <element>tile-align-center</element>
-      <element>tile-padding-right</element>
-      <element>tile-padding-bottom</element>
-      <element>tile-align-right</element>
-      <element>tile-align-left</element>
-      <element>tile-remove-format</element>
-      <element>grid-row-dark</element>
-      <element>grid-row-remove-format</element>
+      <element>toolbar-numlist</element>
+      <element>toolbar-indent</element>
+      <element>toolbar-outdent</element>
     </value>
   </record>
 
@@ -1082,14 +975,6 @@
       <value_type type="plone.registry.field.TextLine" />
     </field>
     <value>
-      <element>tile-align-center</element>
-      <element>tile-padding-right</element>
-      <element>tile-padding-bottom</element>
-      <element>tile-align-right</element>
-      <element>tile-align-left</element>
-      <element>tile-remove-format</element>
-      <element>grid-row-dark</element>
-      <element>grid-row-remove-format</element>
     </value>
   </record>
 
@@ -1113,14 +998,6 @@
       <value_type type="plone.registry.field.TextLine" />
     </field>
     <value>
-      <element>tile-align-center</element>
-      <element>tile-padding-right</element>
-      <element>tile-padding-bottom</element>
-      <element>tile-align-right</element>
-      <element>tile-align-left</element>
-      <element>tile-remove-format</element>
-      <element>grid-row-dark</element>
-      <element>grid-row-remove-format</element>
     </value>
   </record>
 
@@ -1144,14 +1021,6 @@
       <value_type type="plone.registry.field.TextLine" />
     </field>
     <value>
-      <element>tile-align-center</element>
-      <element>tile-padding-right</element>
-      <element>tile-padding-bottom</element>
-      <element>tile-align-right</element>
-      <element>tile-align-left</element>
-      <element>tile-remove-format</element>
-      <element>grid-row-dark</element>
-      <element>grid-row-remove-format</element>
     </value>
   </record>
 
@@ -1175,14 +1044,6 @@
       <value_type type="plone.registry.field.TextLine" />
     </field>
     <value>
-      <element>tile-align-center</element>
-      <element>tile-padding-right</element>
-      <element>tile-padding-bottom</element>
-      <element>tile-align-right</element>
-      <element>tile-align-left</element>
-      <element>tile-remove-format</element>
-      <element>grid-row-dark</element>
-      <element>grid-row-remove-format</element>
     </value>
   </record>
 
@@ -1206,14 +1067,6 @@
       <value_type type="plone.registry.field.TextLine" />
     </field>
     <value>
-      <element>tile-align-center</element>
-      <element>tile-padding-right</element>
-      <element>tile-padding-bottom</element>
-      <element>tile-align-right</element>
-      <element>tile-align-left</element>
-      <element>tile-remove-format</element>
-      <element>grid-row-dark</element>
-      <element>grid-row-remove-format</element>
     </value>
   </record>
 
@@ -1238,14 +1091,6 @@
       <value_type type="plone.registry.field.TextLine" />
     </field>
     <value>
-      <element>tile-align-center</element>
-      <element>tile-padding-right</element>
-      <element>tile-padding-bottom</element>
-      <element>tile-align-right</element>
-      <element>tile-align-left</element>
-      <element>tile-remove-format</element>
-      <element>grid-row-dark</element>
-      <element>grid-row-remove-format</element>
     </value>
   </record>
   -->
@@ -1270,14 +1115,6 @@
       <value_type type="plone.registry.field.TextLine" />
     </field>
     <value>
-      <element>tile-align-center</element>
-      <element>tile-padding-right</element>
-      <element>tile-padding-bottom</element>
-      <element>tile-align-right</element>
-      <element>tile-align-left</element>
-      <element>tile-remove-format</element>
-      <element>grid-row-dark</element>
-      <element>grid-row-remove-format</element>
     </value>
   </record>
 
@@ -1318,14 +1155,6 @@
       <value_type type="plone.registry.field.TextLine" />
     </field>
     <value>
-      <element>tile-align-center</element>
-      <element>tile-padding-right</element>
-      <element>tile-padding-bottom</element>
-      <element>tile-align-right</element>
-      <element>tile-align-left</element>
-      <element>tile-remove-format</element>
-      <element>grid-row-dark</element>
-      <element>grid-row-remove-format</element>
     </value>
   </record>
 
@@ -1349,14 +1178,6 @@
       <value_type type="plone.registry.field.TextLine" />
     </field>
     <value>
-      <element>tile-align-center</element>
-      <element>tile-padding-right</element>
-      <element>tile-padding-bottom</element>
-      <element>tile-align-right</element>
-      <element>tile-align-left</element>
-      <element>tile-remove-format</element>
-      <element>grid-row-dark</element>
-      <element>grid-row-remove-format</element>
     </value>
   </record>
 
@@ -1380,14 +1201,6 @@
       <value_type type="plone.registry.field.TextLine" />
     </field>
     <value>
-      <element>tile-align-center</element>
-      <element>tile-padding-right</element>
-      <element>tile-padding-bottom</element>
-      <element>tile-align-right</element>
-      <element>tile-align-left</element>
-      <element>tile-remove-format</element>
-      <element>grid-row-dark</element>
-      <element>grid-row-remove-format</element>
     </value>
   </record>
 
@@ -1411,14 +1224,6 @@
       <value_type type="plone.registry.field.TextLine" />
     </field>
     <value>
-      <element>tile-align-center</element>
-      <element>tile-padding-right</element>
-      <element>tile-padding-bottom</element>
-      <element>tile-align-right</element>
-      <element>tile-align-left</element>
-      <element>tile-remove-format</element>
-      <element>grid-row-dark</element>
-      <element>grid-row-remove-format</element>
     </value>
   </record>
 
@@ -1442,14 +1247,6 @@
       <value_type type="plone.registry.field.TextLine" />
     </field>
     <value>
-      <element>tile-align-center</element>
-      <element>tile-padding-right</element>
-      <element>tile-padding-bottom</element>
-      <element>tile-align-right</element>
-      <element>tile-align-left</element>
-      <element>tile-remove-format</element>
-      <element>grid-row-dark</element>
-      <element>grid-row-remove-format</element>
     </value>
   </record>
 
@@ -1473,14 +1270,6 @@
       <value_type type="plone.registry.field.TextLine" />
     </field>
     <value>
-      <element>tile-align-center</element>
-      <element>tile-padding-right</element>
-      <element>tile-padding-bottom</element>
-      <element>tile-align-right</element>
-      <element>tile-align-left</element>
-      <element>tile-remove-format</element>
-      <element>grid-row-dark</element>
-      <element>grid-row-remove-format</element>
     </value>
   </record>
 

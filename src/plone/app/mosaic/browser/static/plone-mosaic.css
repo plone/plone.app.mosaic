@@ -754,6 +754,11 @@
   width: 100%;
   border: 0;
 }
+.mosaic-panel table.mce-item-table th,
+.mosaic-panel table.mce-item-table td {
+  border: 1px dotted #ccc;
+  min-width: 1em;
+}
 /* Line break in description tile */
 .mosaic-panel .documentDescription + .documentDescription {
   margin-top: -10px;
