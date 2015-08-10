@@ -84,6 +84,17 @@
     <value key="weight">50</value>
   </records>
 
+  <records prefix="plone.app.mosaic.secondary_actions.remove"
+           interface='plone.app.mosaic.interfaces.IAction'>
+    <value key="name">remove</value>
+    <value key="fieldset"></value>
+    <value key="label">Remove</value>
+    <value key="action">remove</value>
+    <value key="icon">False</value>
+    <value key="menu">False</value>
+    <value key="weight">10</value>
+  </records>
+
   <records prefix="plone.app.mosaic.secondary_actions.format"
            interface='plone.app.mosaic.interfaces.IAction'>
     <value key="name">format</value>
@@ -132,6 +143,7 @@
       <element>properties</element>
       <element>format</element>
       <element>insert</element>
+      <element>remove</element>
       <element>tile-align-center</element>
       <element>tile-padding-right</element>
       <element>tile-padding-bottom</element>

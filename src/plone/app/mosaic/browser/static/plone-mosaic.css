@@ -91,6 +91,16 @@
   background-color: #449d44;
   border-color: #398439;
 }
+.mosaic-toolbar button.mosaic-button-remove {
+  color: #ffffff;
+  background-color: #d9534f;
+  border-color: #d43f3a;
+}
+.mosaic-toolbar button.mosaic-button-remove:hover {
+  color: #ffffff;
+  background-color: #c9302c;
+  border-color: #ac2925;
+}
 .btn-group-lg > .btn {
   padding: 10px 16px;
   font-size: 18px;
@@ -734,6 +744,10 @@
 .mosaic-panel .mosaic-selected-tile:hover .mosaic-tile-outer-border {
   border: 2px solid #3469d0;
   background-color: #FFFFE1;
+}
+/* Selected tile on remove button hover */
+.mosaic-panel .mosaic-remove-target {
+  outline: 5px solid #d9534f;
 }
 /* Other tiles while dragging */
 .mosaic-panel .mosaic-panel-dragging .mosaic-tile .mosaic-tile-inner-border {

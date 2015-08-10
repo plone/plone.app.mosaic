@@ -4,6 +4,9 @@ Changelog
 1.0a4 (unreleased)
 ------------------
 
+- Replace tile hover removal icon with remove button on Mosaic toolbar
+  [datakurre]
+
 - Replace Mosaic text formatting actions with TinyMCE inline toolbar actions
   [datakurre]
 

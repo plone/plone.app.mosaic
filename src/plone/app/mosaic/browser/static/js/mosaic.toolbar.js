@@ -418,6 +418,11 @@ define([
                         }
                     }
                 }
+                if (!selected_tile.hasClass('removable')) {
+                    actions = $(actions).filter(function() {
+                        return this !== 'remove';
+                    })
+                }
 
                 // Show option groups
                 obj.find(".mosaic-option-group").show();
@@ -472,6 +477,18 @@ define([
                     }
                 });
             };
+
+            // Remove highlight
+            $(".mosaic-button-remove").hover(
+                function() {
+                    $(".mosaic-selected-tile .mosaic-tile-content")
+                        .addClass('mosaic-remove-target')
+                },
+                function() {
+                    $(".mosaic-selected-tile .mosaic-tile-content")
+                        .removeClass('mosaic-remove-target')
+                }
+            );
 
             // Bind method and add to array
             $(this).bind("selectedtilechange", SelectedTileChange);

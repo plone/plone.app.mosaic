@@ -374,6 +374,86 @@ define([
         });
 
         // Register page-insert action
+        $.mosaic.registerAction('remove', {
+            exec: function (source) {
+                $(".mosaic-selected-tile", $.mosaic.document).each(function() {
+                    // Get tile config
+                    var tile_config = $(this).mosaicGetTileConfig();
+
+                    // Check if app tile
+                    if (tile_config.tile_type === 'app') {
+
+                        // Get ur
+                        var tile_url = $(this).find('.tileUrl').html();
+
+                        // Remove tags
+                        $.mosaic.removeHeadTags(tile_url);
+
+                        // Calc delete url
+                        var url = tile_url.split('?')[0];
+                        url = url.split('@@');
+                        var tile_type_id = url[1].split('/');
+                        url = url[0] + '@@delete-tile/' + tile_type_id[0] + '/' + tile_type_id[1];
+                        // Calc absolute delete url
+                        if (url.match(/^\.\/.*/)) {
+                            url = $.mosaic.options.context_url + url.replace(/^\./, '');
+                        }
+
+                        // Ajax call to remove tile
+                        $.ajax({
+                            type: "GET",
+                            url: url,
+                            success: function (value) {
+                                var authenticator = $(value).find('[name="_authenticator"]').val();
+                                $.ajax({
+                                    type: "POST",
+                                    url: url,
+                                    data: {
+                                        'buttons.delete': 'Delete',
+                                        '_authenticator': authenticator
+                                    },
+                                    success: function(value) {
+                                        /*
+                                         $.plone.notify({
+                                         title: "Info",
+                                         message: "Application tile removed",
+                                         sticky: false
+                                         });
+                                         */
+                                    }
+                                });
+                            }
+                        });
+                    }
+
+                    // Remove empty rows
+                    $.mosaic.options.panels.find(".mosaic-empty-row").remove();
+
+                    // Get original row
+                    var original_row = $(this).parent().parent();
+
+                    // Save tile value
+                    $.mosaic.saveTileValueToForm(tile_config.name, tile_config);
+
+                    // Remove current tile
+                    $(this).remove();
+
+                    $.mosaic.undo.snapshot();
+
+                    // Cleanup original row
+                    original_row.mosaicCleanupRow();
+
+                    // Add empty rows
+                    $.mosaic.options.panels.mosaicAddEmptyRows();
+
+                    // Set toolbar
+                    $.mosaic.options.toolbar.trigger("selectedtilechange");
+                    $.mosaic.options.toolbar.mosaicSetResizeHandleLocation();
+                });
+            }
+        });
+
+        // Register page-insert action
         $.mosaic.registerAction('insert', {
             exec: function (source) {
 
