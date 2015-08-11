@@ -32,6 +32,9 @@ Changelog
 - Fix situation where layout editor broke with broken or missing tiles
   [vangheem]
 
+- Fix issue where check could not add tile with requried selection field
+  [datakurre]
+
 1.0a3 (2015-06-10)
 ------------------
 
