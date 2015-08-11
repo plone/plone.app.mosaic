@@ -93,11 +93,6 @@
   <!-- Register default value adapter for layout aware content attribute -->
   <!-- For zope.schema via special layout field specific adapter -->
   <adapter factory=".layoutsupport.layoutFieldDefaultValue" />
-  <!-- For z3c.form -->
-  <adapter
-      name="default"
-      factory=".layoutsupport.default_layout_content"
-      />
 
   <!-- Register default layouts -->
   <include file="layouts.zcml" />

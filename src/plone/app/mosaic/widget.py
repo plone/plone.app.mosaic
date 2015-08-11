@@ -2,8 +2,10 @@
 from Products.CMFDynamicViewFTI.interfaces import ISelectableBrowserDefault
 from plone import api
 from plone.app.blocks.layoutbehavior import ILayoutAware
+from plone.app.blocks.resource import getLayoutsFromResources
 from plone.app.mosaic.interfaces import IMosaicLayer
 from plone.app.mosaic.interfaces import IMosaicRegistryAdapter
+from plone.app.mosaic.interfaces import CONTENT_LAYOUT_MANIFEST_FORMAT
 from plone.app.widgets.base import TextareaWidget
 from plone.app.widgets.base import dict_merge
 from plone.app.widgets.utils import get_tinymce_options
@@ -19,6 +21,7 @@ from zope.component import adapter
 from zope.component import queryUtility
 from zope.interface import implementer
 from zope.interface import implementsOnly
+
 
 try:
     from plone.app.z3cform.widget import BaseWidget
@@ -80,6 +83,9 @@ class LayoutWidget(BaseWidget, TextAreaWidget):
         result['context_url'] = self.context.absolute_url()
         result['tinymce'] = get_tinymce_options(
             self.context, self.field, self.request)['pattern_options']
+        result['content_selector'] = '[name="%s"]' % self.name
+        result['available_layouts'] = getLayoutsFromResources(CONTENT_LAYOUT_MANIFEST_FORMAT)
+
         return {'data': result}
 
     def _base_args(self):

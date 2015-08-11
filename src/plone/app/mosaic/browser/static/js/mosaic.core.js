@@ -33,11 +33,15 @@ immed: true, strict: true, maxlen: 120, maxerr: 9999, quotmark: false */
 define([
     'jquery',
     'pat-logger',
+    'mockup-patterns-modal',
+    'underscore',
     'mosaic.toolbar',
     'mosaic.layout',
     'mosaic.actions'
-], function($, logger) {
+], function($, logger, Modal, _) {
     "use strict";
+
+
 
     var log = logger.getLogger('pat-structure');
 
@@ -50,6 +54,21 @@ define([
     $.mosaic.loaded = false;
     $.mosaic.nrOfTiles = 0;
     $.mosaic.tileInitCount = 0;
+
+    $.mosaic.selectLayoutTemplate = _.template('<div>' +
+        '<h1>Select Layout</h1>' +
+        '<div class="mosaic-select-layout">' +
+            '<ul>' +
+                '<% _.each(_.keys(available_layouts), function(key){ ' +
+                    'var layout = available_layouts[key]; %>' +
+                    '<li><a href="#" data-value="<%- key %>"><%- layout.title %></a></li>' +
+                '<% }); %>' +
+            '</ul>' +
+        '</div>' +
+        '<div class="buttons">' +
+            '<!-- <button class="plone-btn plone-btn-default">Select</button> -->' +
+        '</div>' +
+    '</div>');
 
     /**
      * Called upon full initialization (that is: when all tiles have
@@ -103,27 +122,30 @@ define([
             options.ignore_context = true;
         }
 
-
-        // Local variables
-        var content;
-
         // Add global options
         $.mosaic.options = options.data;
         $.mosaic.options.url = options.url;
         $.mosaic.options.ignore_context = options.ignore_context;
         $.mosaic.options.tileheadelements = [];
 
-        content = $('[name="form.widgets.ILayoutAware.content"]').val();
+        var contentRaw = $($.mosaic.options.content_selector).val();
 
         // Check if no layout
-        if (content === '') {
-
+        if (contentRaw === '') {
             // Exit
             return;
         }
 
-        // Get dom tree
-        content = $.mosaic.getDomTreeFromHtml(content);
+        var $content = $.mosaic.getDomTreeFromHtml(contentRaw);
+        if($content.attr('id') === "no-layout"){
+            $.mosaic.selectLayout();
+        }else{
+            $.mosaic._init($content);
+        }
+    };
+
+    $.mosaic._init = function (content) {
+
         $.mosaic.options.layout = content.attr('data-layout');
 
         // Drop panels within panels (only the top level panels are editable)
@@ -300,9 +322,6 @@ define([
         // Add the toolbar to the options
         $.mosaic.options.toolbar = $(".mosaic-toolbar");
 
-        // Add page url to the options
-        $.mosaic.options.url = options.url;
-
         // Init toolbar
         $.mosaic.options.toolbar.mosaicToolbar();
 
@@ -354,6 +373,29 @@ define([
         $.mosaic.undo.init();
 
         $('body').addClass('mosaic-enabled');
+    };
+
+    $.mosaic.selectLayout = function(){
+        var $el = $('<div/>').appendTo('body');
+        var modal = new Modal($el, {
+            html: $.mosaic.selectLayoutTemplate($.mosaic.options),
+            content: null,
+            buttons: '.plone-btn'
+        });
+        modal.on('shown', function() {
+            $('li a', modal.$modal).off('click').on('click', function(e){
+                e.preventDefault();
+                var layout = $.mosaic.options.available_layouts[$(this).attr('data-value')];
+                modal.hide();
+                $.ajax({
+                    url: $.mosaic.options.context_url + '/++contentlayout++' + layout.directory + '/' + layout.file
+                }).done(function(layoutHtml){
+                    var $content = $.mosaic.getDomTreeFromHtml(layoutHtml);
+                    $.mosaic._init($content);
+                });
+            });
+        });
+        modal.show();
     };
 
     /**

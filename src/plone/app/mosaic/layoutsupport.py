@@ -3,9 +3,6 @@ import logging
 
 from plone import api
 from plone.resource.traversal import ResourceTraverser
-from z3c.form.interfaces import IGroup
-from z3c.form.widget import ComputedWidgetAttribute
-from zExceptions import NotFound
 from zope.component import adapter
 from zope.component import getUtility
 from zope.component import queryMultiAdapter
@@ -15,16 +12,10 @@ from zope.interface import Interface, implementer
 from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleVocabulary
 from zope.schema.vocabulary import SimpleTerm
-from plone.autoform.interfaces import IWidgetsView
 
-from plone.app.blocks.interfaces import ILayoutField
 from plone.app.blocks.interfaces import ILayoutFieldDefaultValue
-from plone.app.blocks.layoutbehavior import ILayoutAware
 from plone.app.blocks.resource import AvailableLayoutsVocabulary
-from plone.app.blocks.utils import resolveResource
 from plone.app.mosaic.interfaces import IMosaicLayer
-from plone.app.mosaic.interfaces import CONTENT_LAYOUT_DEFAULT_LAYOUT
-from plone.app.mosaic.interfaces import CONTENT_LAYOUT_DEFAULT_DISPLAY
 from plone.app.mosaic.interfaces import CONTENT_LAYOUT_FILE_NAME
 from plone.app.mosaic.interfaces import CONTENT_LAYOUT_MANIFEST_FORMAT
 from plone.app.mosaic.interfaces import CONTENT_LAYOUT_RESOURCE_NAME
@@ -48,64 +39,20 @@ AvailableContentLayoutsVocabularyFactory = AvailableLayoutsVocabulary(
 )
 
 
-def getPortalTypeDefaultContentLayoutContent(portal_type):
-    types_tool = api.portal.get_tool('portal_types')
-    fti = getattr(types_tool, portal_type, None)
-    if fti is None:
-        return u''
-
-    aliases = fti.getMethodAliases() or {}
-    layout = absolute_path(aliases.get(CONTENT_LAYOUT_DEFAULT_DISPLAY,
-                                       CONTENT_LAYOUT_DEFAULT_LAYOUT))
-
-    if layout:
-        try:
-            return resolveResource(layout)
-        except NotFound as e:
-            logger.warning('Missing layout {0:s}'.format(e))
-    return u''
-
-
-def getDefaultContentLayoutContent(adapter):
-    portal_type = getattr(getattr(
-        adapter.view, '__parent__', adapter.view), 'portal_type', None)
-    if portal_type is None:
-        return u''
-    return getPortalTypeDefaultContentLayoutContent(portal_type)
-
-
-# XXX: It would be best to register this for IAddForm, but if the field
-# is moved into fieldset using plone.supermodel.directives.fieldset, its
-# form is actually IGroup, not IAddForm.
-default_layout_content = ComputedWidgetAttribute(
-    getDefaultContentLayoutContent, view=IGroup, field=ILayoutField)
-
-
 @implementer(ILayoutFieldDefaultValue)
 @adapter(Interface, IMosaicLayer)
 def layoutFieldDefaultValue(context, request):
-    if context and ILayoutAware(context, None):
-        return getPortalTypeDefaultContentLayoutContent(context.portal_type)
-
-    # XXX: Context cannot be used yet, because plone.dexterity does not
-    # bound fields to support context aware default factories
-    layout = absolute_path(CONTENT_LAYOUT_DEFAULT_LAYOUT)
-
-    # XXX: This is a workaround for a subrequest bug, where parent_app
-    # ends up being a view with publishTraverse returning always NotFound.
-    try:
-        parent_app = request.PARENTS[-1]
-        if IWidgetsView.providedBy(parent_app):
-            return u''
-    except AttributeError:
-        pass
-    except IndexError:
-        pass
-
-    try:
-        return resolveResource(layout)
-    except NotFound:
-        return u''
+    # XXX We return a special layout here that tells the layout
+    # editor to allow the user to select from available content
+    # layouts
+    return u"""
+<!DOCTYPE html>
+<html lang="en" data-layout="./@@page-site-layout" id="no-layout">
+<body>
+<div data-panel="content">
+</div>
+</body>
+</html>"""
 
 
 def absolute_path(path):

@@ -16,11 +16,10 @@ CONTENT_LAYOUT_FILE_NAME = "content.html"
 
 CONTENT_LAYOUT_MANIFEST_FORMAT = ManifestFormat(
     CONTENT_LAYOUT_RESOURCE_NAME,
-    keys=('title', 'description', 'file'),
-    defaults={'file': CONTENT_LAYOUT_FILE_NAME},
+    keys=('title', 'description', 'file', 'icon'),
+    defaults={'file': CONTENT_LAYOUT_FILE_NAME}
 )
 
-CONTENT_LAYOUT_DEFAULT_DISPLAY = '++layout++default'
 CONTENT_LAYOUT_DEFAULT_LAYOUT = '++contentlayout++default/basic.html'
 
 

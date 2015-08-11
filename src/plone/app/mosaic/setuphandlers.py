@@ -6,7 +6,6 @@ from plone import api
 from plone.app.blocks.interfaces import IBlocksSettings
 from plone.app.blocks.interfaces import SITE_LAYOUT_RESOURCE_NAME
 from plone.app.blocks.utils import resolveResource
-from plone.app.mosaic.interfaces import CONTENT_LAYOUT_DEFAULT_DISPLAY
 from plone.app.mosaic.interfaces import CONTENT_LAYOUT_RESOURCE_NAME
 from plone.app.mosaic.interfaces import HAVE_PLONE_5
 from plone.app.mosaic.interfaces import IMosaicLayer
@@ -84,30 +83,9 @@ def enable_layout_behavior(portal):
         behaviors = tuple(set(behaviors))
         fti._updateProperty('behaviors', behaviors)
 
-        # Set the default content layout for supported types
-        if fti.id == 'Document':
-            aliases = fti.getMethodAliases() or {}
-            aliases[CONTENT_LAYOUT_DEFAULT_DISPLAY] = \
-                '++contentlayout++default/document.html'
-            fti.setMethodAliases(aliases)
-
-        # Set the default content layout for supported types
-        if fti.id == 'Event':
-            aliases = fti.getMethodAliases() or {}
-            aliases[CONTENT_LAYOUT_DEFAULT_DISPLAY] = \
-                '++contentlayout++default/event.html'
-            fti.setMethodAliases(aliases)
-
         # Set the default view method
         view_methods = [i for i in fti.getAvailableViewMethods(portal)]
-        if fti.id in ['Document', 'Event']:
-            view_methods.append(CONTENT_LAYOUT_DEFAULT_DISPLAY)
         view_methods.append('view')
-
-        # XXX: Set the default view of some types into Custom layout for
-        # demo purposes while we are in alpha:
-        if fti.id in ['Document', 'News Item', 'Event']:
-            fti.default_view = 'view'
 
         fti.view_methods = list(set(view_methods))
 
