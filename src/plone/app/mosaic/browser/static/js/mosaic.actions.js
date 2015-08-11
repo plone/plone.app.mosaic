@@ -539,10 +539,10 @@ define([
 
                             // Auto-submit add-form when all required fields are filled
                             if ($("form .required", $value).filter(function() {
-                                    return $(this).parents(".field").first()
-                                                  .find("input, select, textarea")
-                                                  .not('[type="hidden"]').last()
-                                                  .val().length == 0 }).length > 0) {
+                                    var val = $(this).parents(".field").first()
+                                        .find("input, select, textarea")
+                                        .not('[type="hidden"]').last().val();
+                                    return val === null || val.length == 0}).length > 0) {
                                 modalFunc(value);
                             } else if (action_url) {
                                 $("form", $value).ajaxSubmit({
