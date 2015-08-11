@@ -18,8 +18,7 @@
         'jquery': 'empty:',
         'tinymce': 'empty:',
         'mockup-patterns-modal': 'empty:',
-        'mockup-patterns-tinymce': 'empty:',
-        'mockup-patterns-tinymce-url/js/links': 'empty:',
+        'mockup-patterns-tinymce': 'empty:'
     }
 })
 

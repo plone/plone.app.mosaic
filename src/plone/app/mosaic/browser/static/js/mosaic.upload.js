@@ -247,9 +247,7 @@ define([
 
                 // Remove tile if no supported filetypes
                 if (first) {
-                    $(".mosaic-selected-tile", $.mosaic.document)
-                        .find(".mosaic-close-icon")
-                        .trigger("click");
+                    $(".mosaic-button.remove").mosaicExecAction();
                 }
             },
             false

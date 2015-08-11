@@ -32,6 +32,11 @@
   width: 100%;
 }
 
+.mosaic-panel .mosaic-rich-text-toolbar{
+    position: absolute;
+    margin-top: -40px;
+}
+
 /* Outer border */
 .mosaic-panel .mosaic-tile-outer-border {
     position: absolute;
@@ -115,6 +120,11 @@
     background-color: #FFFFE1;
 }
 
+/* Selected tile on remove button hover */
+.mosaic-panel .mosaic-remove-target {
+    outline: 5px solid @brand-danger;
+}
+
 /* Other tiles while dragging */
 .mosaic-panel .mosaic-panel-dragging .mosaic-tile .mosaic-tile-inner-border {
     border: 1px dotted #888;
@@ -137,6 +147,13 @@
 .mosaic-panel .mosaic-rich-text-textarea {
     width: 100%;
     border: 0;
+}
+
+.mosaic-panel table.mce-item-table {
+    th, td {
+        border: 1px dotted #ccc;
+        min-width: 1em;
+    }
 }
 
 /* Line break in description tile */

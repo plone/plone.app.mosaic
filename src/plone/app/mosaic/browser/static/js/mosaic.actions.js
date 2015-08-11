@@ -32,9 +32,7 @@ immed: true, strict: true, maxlen: 140, maxerr: 9999, quotmark: false */
 define([
     'jquery',
     'mockup-patterns-modal',
-    'mockup-patterns-tinymce',
-    'mockup-patterns-tinymce-url/js/links'
-], function($, modal, TinyMCE, LinkModal) {
+], function($, modal) {
     'use strict';
 
     // Define mosaic namespace if it doesn't exist
@@ -162,15 +160,6 @@ define([
      */
     $.mosaic.initActions = function () {
 
-        // Register generic re-usable apply format action
-        $.mosaic.registerAction('apply-format', {
-            exec: function () {
-                if (arguments.length > 0 && arguments[0].value) {
-                    $.mosaic.editor.applyFormat(arguments[0].value);
-                }
-            }
-        });
-
         // Register generic re-usable toggle tile class format action
         $.mosaic.registerAction('tile-toggle-class', {
              exec: function () {
@@ -230,226 +219,6 @@ define([
                         }
                     }
                 }
-            }
-        });
-
-        // Register strong action
-        $.mosaic.registerAction('strong', {
-            exec: function () {
-                $.mosaic.editor.applyFormat("strong");
-            },
-            shortcut: {
-                ctrl: true,
-                alt: false,
-                shift: false,
-                key: 'b'
-            }
-        });
-
-        // Register emphasis action
-        $.mosaic.registerAction('em', {
-            exec: function () {
-                $.mosaic.editor.applyFormat("em");
-            }
-        });
-
-        // Register link action
-        $.mosaic.registerAction('plonelink', {
-            exec: function () {
-                if (tinymce.activeEditor) {
-                    var $el, tinypattern = {
-                        $el: $.mosaic.options.$el,
-                        tiny: tinymce.activeEditor,
-                        options: $.extend(true, {},{
-                            appendToUrl: '',
-                            prependToUrl: '',
-                            linkAttribute: 'path',
-                            prependToScalePart: '/imagescale/',
-                            text: TinyMCE.prototype.defaults.text
-                        }, $.mosaic.options.tinymce),
-                        generateUrl: function(data) {
-                            var self = this;
-                            var part = data[self.options.linkAttribute];
-                            return self.options.prependToUrl + part + self.options.appendToUrl;
-                        },
-                        stripGeneratedUrl: function(url) {
-                            var self = this;
-                            url = url.split(self.options.prependToScalePart, 2)[0];
-                            if (self.options.prependToUrl) {
-                                var parts = url.split(self.options.prependToUrl, 2);
-                                if (parts.length === 2) {
-                                    url = parts[1];
-                                }
-                            }
-                            if (self.options.appendToUrl) {
-                                url = url.split(self.options.appendToUrl)[0];
-                            }
-                            return url;
-                        }
-                    };
-                    $el = tinypattern.$el.find('#' + tinypattern.tiny.id);
-                    if ($el.length === 0) {
-                        $el = $('<div id="' + tinypattern.tiny.id + '"/>').insertAfter(tinypattern.$el);
-                        $el.modal = new LinkModal($el,
-                            $.extend(true, {}, tinypattern.options, {
-                                tinypattern: tinypattern,
-                                linkTypes: ['internal', 'external', 'email', 'anchor'],
-                                upload: false
-                            })
-                        );
-                        $el.modal.show();
-                    } else {
-                        $el[0].modal.reinitialize();
-                        $el[0].modal.show();
-                    }
-                }
-            }
-        });
-
-        // Register unlink action
-        $.mosaic.registerAction('unlink', {
-            exec: function () {
-                $.mosaic.execCommand("unlink");
-            }
-        });
-
-        // Register unordered list action
-        $.mosaic.registerAction('ul', {
-            exec: function () {
-                $.mosaic.execCommand("InsertUnorderedList");
-            }
-        });
-
-        // Register ordered list action
-        $.mosaic.registerAction('ol', {
-            exec: function () {
-                $.mosaic.execCommand("InsertOrderedList");
-            }
-        });
-
-        // Register undo action
-        $.mosaic.registerAction('undo', {
-            exec: function () {
-                $.mosaic.execCommand("Undo");
-            }
-        });
-
-        // Register redo action
-        $.mosaic.registerAction('redo', {
-            exec: function () {
-                $.mosaic.execCommand("Redo");
-            }
-        });
-
-        // Register paragraph action
-        $.mosaic.registerAction('paragraph', {
-            exec: function () {
-                $.mosaic.editor.applyFormat("p");
-            }
-        });
-
-        // Register heading action
-        $.mosaic.registerAction('heading', {
-            exec: function () {
-                $.mosaic.editor.applyFormat("h2");
-            }
-        });
-
-        // Register subheading action
-        $.mosaic.registerAction('subheading', {
-            exec: function () {
-                $.mosaic.editor.applyFormat("h3");
-            }
-        });
-
-        // Register discreet action
-        $.mosaic.registerAction('discreet', {
-            exec: function () {
-                $.mosaic.editor.applyFormat("discreet");
-            }
-        });
-
-        // Register literal action
-        $.mosaic.registerAction('literal', {
-            exec: function () {
-                $.mosaic.editor.applyFormat("pre");
-            }
-        });
-
-        // Register quote action
-        $.mosaic.registerAction('quote', {
-            exec: function () {
-                $.mosaic.editor.applyFormat("pullquote");
-            }
-        });
-
-        // Register callout action
-        $.mosaic.registerAction('callout', {
-            exec: function () {
-                $.mosaic.editor.applyFormat("callout");
-            }
-        });
-
-        // Register highlight action
-        $.mosaic.registerAction('highlight', {
-            exec: function () {
-                $.mosaic.editor.applyFormat("highlight");
-            }
-        });
-
-        // Register sub action
-        $.mosaic.registerAction('sub', {
-            exec: function () {
-                $.mosaic.editor.applyFormat("sub");
-            }
-        });
-
-        // Register sup action
-        $.mosaic.registerAction('sup', {
-            exec: function () {
-                $.mosaic.editor.applyFormat("sup");
-            }
-        });
-
-        // Register remove format action
-        $.mosaic.registerAction('remove-format', {
-            exec: function () {
-                $.mosaic.editor.applyFormat("removeformat");
-            }
-        });
-
-        // Register pagebreak action
-        $.mosaic.registerAction('pagebreak', {
-            exec: function () {
-                $.mosaic.editor.applyFormat("pagebreak");
-            }
-        });
-
-        // Register justify left action
-        $.mosaic.registerAction('justify-left', {
-            exec: function () {
-                $.mosaic.editor.applyFormat("justify-left");
-            }
-        });
-
-        // Register justify center action
-        $.mosaic.registerAction('justify-center', {
-            exec: function () {
-                $.mosaic.editor.applyFormat("justify-center");
-            }
-        });
-
-        // Register justify right action
-        $.mosaic.registerAction('justify-right', {
-            exec: function () {
-                $.mosaic.editor.applyFormat("justify-right");
-            }
-        });
-
-        // Register justify full action
-        $.mosaic.registerAction('justify-justify', {
-            exec: function () {
-                $.mosaic.editor.applyFormat("justify-justify");
             }
         });
 
@@ -579,37 +348,7 @@ define([
             }
         });
 
-        // Register page layout action // XXX: deprecated
-        $.mosaic.registerAction('page-layout', {
-            exec: function () {
-                // Open overlay
-                var m = new modal($('.mosaic-original-content'), {
-                    'title': 'Layout options',
-                    'content': '#fieldset-layout'
-                });
-                m.on('show', function() {
-                    m.$modal
-                        .removeClass('mosaic-blur')
-                        .find('#formfield-form-widgets-ILayoutAware-content')
-                        .remove();
-                    m.$el.find('select').each(function() {
-                        var val = $(this).val(),
-                            id = $(this).attr('id');
-                        m.$modal.find('#' + id).val(val);
-                    });
-                });
-                m.on('hide', function() {
-                    m.$modal.find('select').each(function() {
-                        var val = $(this).val(),
-                            id = $(this).attr('id');
-                        m.$el.find('#' + id).val(val);
-                    });
-                });
-                m.show();
-            }
-        });
-
-         // Register add tile action
+        // Register add tile action
         $.mosaic.registerAction('add-tile', {
             exec: function () {
 
@@ -631,6 +370,86 @@ define([
 
                 // Reset menu
                 $(source).select2("val", "none"); // $(source).val("none");
+            }
+        });
+
+        // Register page-insert action
+        $.mosaic.registerAction('remove', {
+            exec: function (source) {
+                $(".mosaic-selected-tile", $.mosaic.document).each(function() {
+                    // Get tile config
+                    var tile_config = $(this).mosaicGetTileConfig();
+
+                    // Check if app tile
+                    if (tile_config.tile_type === 'app') {
+
+                        // Get ur
+                        var tile_url = $(this).find('.tileUrl').html();
+
+                        // Remove tags
+                        $.mosaic.removeHeadTags(tile_url);
+
+                        // Calc delete url
+                        var url = tile_url.split('?')[0];
+                        url = url.split('@@');
+                        var tile_type_id = url[1].split('/');
+                        url = url[0] + '@@delete-tile/' + tile_type_id[0] + '/' + tile_type_id[1];
+                        // Calc absolute delete url
+                        if (url.match(/^\.\/.*/)) {
+                            url = $.mosaic.options.context_url + url.replace(/^\./, '');
+                        }
+
+                        // Ajax call to remove tile
+                        $.ajax({
+                            type: "GET",
+                            url: url,
+                            success: function (value) {
+                                var authenticator = $(value).find('[name="_authenticator"]').val();
+                                $.ajax({
+                                    type: "POST",
+                                    url: url,
+                                    data: {
+                                        'buttons.delete': 'Delete',
+                                        '_authenticator': authenticator
+                                    },
+                                    success: function(value) {
+                                        /*
+                                         $.plone.notify({
+                                         title: "Info",
+                                         message: "Application tile removed",
+                                         sticky: false
+                                         });
+                                         */
+                                    }
+                                });
+                            }
+                        });
+                    }
+
+                    // Remove empty rows
+                    $.mosaic.options.panels.find(".mosaic-empty-row").remove();
+
+                    // Get original row
+                    var original_row = $(this).parent().parent();
+
+                    // Save tile value
+                    $.mosaic.saveTileValueToForm(tile_config.name, tile_config);
+
+                    // Remove current tile
+                    $(this).remove();
+
+                    $.mosaic.undo.snapshot();
+
+                    // Cleanup original row
+                    original_row.mosaicCleanupRow();
+
+                    // Add empty rows
+                    $.mosaic.options.panels.mosaicAddEmptyRows();
+
+                    // Set toolbar
+                    $.mosaic.options.toolbar.trigger("selectedtilechange");
+                    $.mosaic.options.toolbar.mosaicSetResizeHandleLocation();
+                });
             }
         });
 
