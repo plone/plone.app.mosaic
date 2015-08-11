@@ -128,12 +128,12 @@ file = basic.html
 
 [contentlayout]
 title = Document layout (Custom)
-description = Default document layout
+description = TTW customizable content layout
 file = document.html
 
 [contentlayout]
 title = Event layout (Custom)
-description = Default event layout
+description = TTW customizable content layout
 file = event.html
 """))
     custom.writeFile(

@@ -26,18 +26,21 @@
         />
   </configure>
 
-  <!-- Register content layout traverser for shared layout support -->
+  <!-- Register content layout traverser for shared layout support
   <adapter
       name="layout"
       factory=".layoutsupport.DisplayLayoutTraverser"
       />
+  -->
 
-  <!-- Register resource traverser for content layouts -->
+  <!-- Register resource traverser for content layouts 
   <adapter
       name="contentlayout"
       factory=".layoutsupport.DisplayContentLayoutTraverser"
       />
+  -->
 
+  <!--
   <browser:menu
       id="plone_contentmenu_layout"
       title="The 'layout' menu - allows the user to select the predefined layout of an object"
@@ -57,7 +60,7 @@
       name="plone.contentmenu.layout"
       factory=".layoutsupport.DisplayLayoutSubMenuItem"
       provides="plone.app.contentmenu.interfaces.IContentMenuItem" />
-
+-->
   <plone:static
       directory="static"
       type="plone"
