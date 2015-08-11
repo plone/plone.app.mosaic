@@ -4,30 +4,32 @@ Changelog
 1.0a4 (unreleased)
 ------------------
 
-- Replace tile hover removal icon with remove button on Mosaic toolbar
+- Change text formatting actions from top toolbar to inline TinyMCE toolbars
   [datakurre]
 
-- Replace Mosaic text formatting actions with TinyMCE inline toolbar actions
+- Change remove tile icon from inline close icons to top toolbar button
   [datakurre]
+
+- Change BS3 as default grid system on Plone 5
+  [vangheem]
+
+- Add layout editor control panel for Plone 5
+  [vangheem]
 
 - Add link and unlink actions
   [datakurre]
 
-- provide layout editor control panel
+- Add table tile
+  [datakurre]
+
+- Remove grid system from example layouts (to use configured default grid)
   [vangheem]
 
-- do not require grid system for example layouts
-  [vangheem]
-
-- set bs3 as default grid system when installing on Plone 5
-  [vangheem]
-
-- fix case where title field tile and content tile being use on same page
+- Fix issue where title field tile and content tile being use on same page
   would cause weird issues with saving title values
   [vangheem]
 
-- fix situation where tile can not be registered. Prevents tile editor borking
-  when there are tile problems
+- Fix situation where layout editor broke with broken or missing tiles
   [vangheem]
 
 1.0a3 (2015-06-10)
