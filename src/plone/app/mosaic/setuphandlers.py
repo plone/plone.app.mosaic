@@ -144,13 +144,19 @@ file = site.html
     custom = getPersistentResourceDirectory('custom', contentlayout)
     custom.writeFile(MANIFEST_FILENAME, StringIO("""\
 [contentlayout]
-title = Basic layout (Custom)
-description = TTW customizable content layout
-file = content.html
+title = Basic (Custom)
+description = Default content layout
+file = basic.html
 
-[contentlayout:variants]
-document_layout = document.html
-event_layout = event.html
+[contentlayout]
+title = Document (Custom)
+description = Default document layout
+file = document.html
+
+[contentlayout]
+title = Event (Custom)
+description = Default event layout
+file = event.html
 """))
     custom.writeFile(
         'content.html',

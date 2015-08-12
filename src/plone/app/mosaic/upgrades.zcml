@@ -98,4 +98,28 @@
       handler=".upgrades.upgrade_5_to_6"
       />
 
+  <genericsetup:upgradeStep
+      profile="plone.app.mosaic:bbb"
+      source="4005"
+      destination="4006"
+      title="Refactor rich text formatting into inline TinyMCE toolbar"
+      handler=".upgrades.upgrade_5_to_6"
+      />
+
+  <genericsetup:upgradeStep
+      profile="plone.app.mosaic:default"
+      source="5006"
+      destination="5007"
+      title="Upgrade TTW layout examples"
+      handler=".upgrades.upgrade_6_to_7"
+      />
+
+  <genericsetup:upgradeStep
+      profile="plone.app.mosaic:default"
+      source="4006"
+      destination="4007"
+      title="Upgrade TTW layout examples"
+      handler=".upgrades.upgrade_6_to_7"
+      />
+
 </configure>

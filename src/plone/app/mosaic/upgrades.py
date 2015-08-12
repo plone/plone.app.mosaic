@@ -41,3 +41,10 @@ def upgrade_5_to_6(context):
 
     setup = getToolByName(context, 'portal_setup')
     setup.runImportStepFromProfile(PROFILE_ID, 'plone.app.registry')
+
+
+def upgrade_6_to_7(context):
+    qi = getToolByName(context, 'portal_quickinstaller')
+    qi.reinstallProducts(['plone.app.standardtiles'])
+
+    create_ttw_layout_examples(api.portal.get())
