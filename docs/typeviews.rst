@@ -90,7 +90,7 @@ Creating a new content layout through the web
         Go to  ${PLONE_URL}/portal_types/Document/manage_aliases
         Page should contain  Method Aliases
         Input text  name=aliases.new:record  ++layout++custom
-        Input text  name=methods.new:record  ++contentlayout++custom/content.html
+        Input text  name=methods.new:record  ++contentlayout++custom/basic.html
         Focus  name=submit
 
         Bootstrap jQuery
