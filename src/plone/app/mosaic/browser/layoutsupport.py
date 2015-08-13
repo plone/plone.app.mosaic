@@ -1,13 +1,31 @@
-import logging
-from urllib import quote
-
-from plone import api
+# -*- coding: utf-8 -*-
+from lxml import html
 from Products.CMFDynamicViewFTI.interfaces import ISelectableBrowserDefault
 from Products.CMFPlone.utils import parent
+# from plone.dexterity.browser.add import DefaultAddView
+from plone.dexterity.browser.edit import DefaultEditForm
+from plone import api
+from plone.app.blocks.interfaces import IBlocksTransformEnabled
+from plone.app.blocks.layoutbehavior import ContentLayoutView
+from plone.app.blocks.layoutbehavior import ILayoutAware
+# from plone.app.blocks.resource import DefaultSiteLayout
+from plone.app.blocks.resource import PageSiteLayout
+from plone.app.blocks.utils import panelXPath
+from plone.app.blocks.utils import replace_content
+from plone.app.blocks.utils import resolveResource
 from plone.app.content.browser.interfaces import IFolderContentsView
 from plone.app.contentmenu.interfaces import IContentMenuItem
 from plone.app.contentmenu.menu import DisplaySubMenuItem
+from plone.app.mosaic.browser.main_template import MainTemplate
+from plone.app.mosaic.interfaces import CONTENT_LAYOUT_DEFAULT_LAYOUT
+from plone.app.mosaic.interfaces import IMosaicLayer
+from plone.app.mosaic.interfaces import _
+from plone.app.mosaic.layoutsupport import ContentLayoutTraverser
+from plone.app.mosaic.layoutsupport import absolute_path
 from plone.dexterity.browser.view import DefaultView
+from plone.memoize import view
+from repoze.xmliter.utils import getHTMLSerializer
+from urllib import quote
 from zExceptions import NotFound
 from zope.browsermenu.interfaces import IBrowserMenu
 from zope.browsermenu.menu import BrowserMenu
@@ -19,17 +37,7 @@ from zope.interface import implements
 from zope.schema.interfaces import IVocabularyFactory
 from zope.traversing.interfaces import ITraversable
 from zope.traversing.namespace import SimpleHandler
-from plone.memoize import view
-
-from plone.app.blocks.interfaces import IBlocksTransformEnabled
-
-from plone.app.blocks.layoutbehavior import ILayoutAware
-from plone.app.blocks.utils import resolveResource
-from plone.app.mosaic.layoutsupport import absolute_path
-from plone.app.mosaic.layoutsupport import ContentLayoutTraverser
-from plone.app.mosaic.interfaces import CONTENT_LAYOUT_DEFAULT_LAYOUT
-from plone.app.mosaic.interfaces import IMosaicLayer
-from plone.app.mosaic.interfaces import _
+import logging
 
 try:
     from plone.protect.utils import addTokenToUrl
@@ -58,6 +66,18 @@ class DisplayLayoutTraverser(SimpleHandler):
             return DisplayLayoutView(self.context, self.request, resource_path)
 
     def _traverse(self, name, remaining):
+        # For the main use-case this traverser is just a placeholder to
+        # make display menu work. Here we return the default content
+        # layout view and let the site layout view to merge the selected
+        # layout for content layout view.
+        return ContentLayoutView(self.context, self.request)
+
+
+class DisplayStaticLayoutTraverser(DisplayLayoutTraverser):
+    implements(ITraversable)
+    adapts(ILayoutAware, IMosaicLayer)
+
+    def _traverse(self, name, remaining):
         portal_type = getattr(self.context, 'portal_type', None)
         if not portal_type:
             raise NotFound(self.context, name, self.request)
@@ -74,7 +94,7 @@ class DisplayLayoutTraverser(SimpleHandler):
         if resource_path is None:
             raise NotFound(self.context, name, self.request)
         else:
-            return DisplayLayoutView(self.context, self.request, resource_path)
+            return DisplayLayoutView(self.context, self.request, resource_path)  # noqa
 
 
 class DisplayContentLayoutTraverser(SimpleHandler):
@@ -112,6 +132,130 @@ class DisplayLayoutView(DefaultView):
         except NotFound as e:
             logger.warning('Missing layout {0:s}'.format(e))
             raise
+
+
+def getPageLayout(context):
+    """Return absolute path to the page/content layout mapped fo the
+    selected browser default page layout on context or raise NotFound
+
+    """
+    browser_default = ISelectableBrowserDefault(context, None)
+    if browser_default is None:
+        raise NotFound('Unable to resolve layout')
+
+    layout = browser_default.getLayout()
+
+    if layout is None or not layout.startswith('++layout++'):
+        raise NotFound('Unable to resolve layout')
+
+    portal_type = getattr(context, 'portal_type', None)
+    if portal_type is None:
+        raise NotFound('Unable to resolve layout')
+
+    types_tool = api.portal.get_tool('portal_types')
+    fti = getattr(types_tool, portal_type, None)
+    if fti is None:
+        raise NotFound('Unable to resolve layout')
+
+    aliases = fti.getMethodAliases() or {}
+    if layout not in aliases:
+        raise NotFound('Unable to resolve layout')
+
+    return absolute_path(aliases.get(layout))
+
+
+def safeGetHTMLSerializer(data):
+    """Return HTML serializer for given html"""
+    # Parse layout
+    if isinstance(data, unicode):
+        serializer = getHTMLSerializer([data.encode('utf-8')], encoding='utf-8')
+    else:
+        serializer = getHTMLSerializer([data], encoding='utf-8')
+
+    # Fix XHTML layouts with inline js (etree.tostring breaks all <![CDATA[)
+    if '<![CDATA[' in data:
+        serializer.serializer = html.tostring
+
+    return serializer
+
+
+def mergePageIntoLayout(page, layout):
+    """Merge given page layout into given site layout and return the merged
+    site layout
+
+    """
+    page = safeGetHTMLSerializer(page)
+    layout = safeGetHTMLSerializer(layout)
+
+    pagePanels = {}
+    for node in panelXPath(page.tree):
+        # Only add the first panel with same name to allow nested panels
+        if node.attrib['data-panel'] not in pagePanels:
+            pagePanels[node.attrib['data-panel']] = node
+
+    layoutPanels = dict(
+        (node.attrib['data-panel'], node)
+        for node in panelXPath(layout.tree)
+    )
+
+    # Site layout should always have element with data-panel="content"
+    # Note: This could be more generic, but that would empower editors too much
+    if 'content' in pagePanels and 'content' not in layoutPanels:
+        for node in layout.tree.xpath('//*[@id="content"]'):
+            node.attrib['data-panel'] = 'content'
+            layoutPanels['content'] = node
+            break
+
+    for panelId, layoutPanelNode in layoutPanels.items():
+        pagePanelNode = pagePanels.get(panelId, None)
+        if pagePanelNode is not None:
+            replace_content(layoutPanelNode, pagePanelNode)
+            del layoutPanelNode.attrib['data-panel']
+
+    return ''.join(layout)
+
+
+class PageSiteLayoutView(PageSiteLayout):
+    """Special page-site-layout to allow merging content layouts into
+    site layouts to enable pre-defined and centrally managed content
+    layouts with freely editable areas.
+
+    """
+    # index is called from "legacy" views like edit forms by main_template's
+    # master macro
+    def index(self):
+        try:
+            return super(PageSiteLayoutView, self).index()
+        except NotFound as e:
+            published = self.request.get('PUBLISHED')
+            if not isinstance(getattr(published, 'form_instance', None),
+                              DefaultEditForm):
+                raise e
+            try:
+                resource_path = getPageLayout(self.context)
+                page = resolveResource(resource_path)
+            except NotFound:
+                raise e  # raise the original exception
+
+        # XXX: We really should not render main_templates here, but
+        # refactoring to properly read, parse and merge that template
+        # with page layout could take anything from hours to days.
+        if self.request.form.get('ajax_load'):
+            layout = MainTemplate(self.context, self.request).ajax_template()
+        else:
+            layout = MainTemplate(self.context, self.request).main_template()
+
+        return mergePageIntoLayout(page, layout)
+
+    # __call__ is called by panelMerge subrequest when the view is rendered
+    def __call__(self):
+        layout = super(PageSiteLayout, self).__call__()
+        try:
+            resource_path = getPageLayout(self.context)
+            page = resolveResource(resource_path)
+            return mergePageIntoLayout(page, layout)
+        except NotFound:
+            return layout
 
 
 class HiddenDisplaySubMenuItem(DisplaySubMenuItem):

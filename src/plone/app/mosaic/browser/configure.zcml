@@ -32,10 +32,25 @@
       factory=".layoutsupport.DisplayLayoutTraverser"
       />
 
+  <!-- Register content layout traverser for shared static layout support -->
+  <adapter
+      name="staticlayout"
+      factory=".layoutsupport.DisplayStaticLayoutTraverser"
+      />
+
   <!-- Register resource traverser for content layouts -->
   <adapter
       name="contentlayout"
       factory=".layoutsupport.DisplayContentLayoutTraverser"
+      />
+
+  <!-- Customize page-site-layout to merge content layout -->
+  <browser:view
+      name="page-site-layout"
+      for="*"
+      layer="..interfaces.IMosaicLayer"
+      class=".layoutsupport.PageSiteLayoutView"
+      permission="zope.Public"
       />
 
   <browser:menu
