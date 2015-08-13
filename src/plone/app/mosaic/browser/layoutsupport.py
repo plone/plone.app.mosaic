@@ -1,14 +1,13 @@
 # -*- coding: utf-8 -*-
+from lxml import etree
 from lxml import html
 from Products.CMFDynamicViewFTI.interfaces import ISelectableBrowserDefault
 from Products.CMFPlone.utils import parent
-# from plone.dexterity.browser.add import DefaultAddView
 from plone.dexterity.browser.edit import DefaultEditForm
 from plone import api
 from plone.app.blocks.interfaces import IBlocksTransformEnabled
 from plone.app.blocks.layoutbehavior import ContentLayoutView
 from plone.app.blocks.layoutbehavior import ILayoutAware
-# from plone.app.blocks.resource import DefaultSiteLayout
 from plone.app.blocks.resource import PageSiteLayout
 from plone.app.blocks.utils import panelXPath
 from plone.app.blocks.utils import replace_content
@@ -187,25 +186,48 @@ def mergePageIntoLayout(page, layout):
     page = safeGetHTMLSerializer(page)
     layout = safeGetHTMLSerializer(layout)
 
-    pagePanels = {}
-    for node in panelXPath(page.tree):
-        # Only add the first panel with same name to allow nested panels
-        if node.attrib['data-panel'] not in pagePanels:
-            pagePanels[node.attrib['data-panel']] = node
+    pagePanels = dict(
+        (node.attrib['data-panel'], node)
+        for node in panelXPath(page.tree)
+    )
 
     layoutPanels = dict(
         (node.attrib['data-panel'], node)
         for node in panelXPath(layout.tree)
     )
 
-    # Site layout should always have element with data-panel="content"
-    # Note: This could be more generic, but that would empower editors too much
-    if 'content' in pagePanels and 'content' not in layoutPanels:
+    # Ensure that site layout has element with data-panel="content"
+    if 'content' not in layoutPanels:
         for node in layout.tree.xpath('//*[@id="content"]'):
             node.attrib['data-panel'] = 'content'
             layoutPanels['content'] = node
             break
 
+    # Clear panels, because their content may not work as expected when
+    # rendered in site layout
+    for node in pagePanels.values():
+        for child in node.getchildren():
+            node.remove(child)
+
+    # Wrap all content into merged data-panel="content"
+    for node in etree.XPath('/html/body')(page.tree):
+        div = etree.Element('div')
+        div.attrib['data-panel'] = 'content'
+        div.extend(node.getchildren())
+        node.append(div)
+
+        # Ensure that the new site layout will have data-panel="content"
+        if 'content' not in pagePanels:
+            panel = etree.Element('div')
+            panel.attrib['data-panel'] = 'content'
+            div.append(panel)
+
+        pagePanels = {'content': div}
+
+        break
+
+    # Still iterate over all possible layout panels, because we may want
+    # to support merging more than just "content" panel later
     for panelId, layoutPanelNode in layoutPanels.items():
         pagePanelNode = pagePanels.get(panelId, None)
         if pagePanelNode is not None:
