@@ -77,7 +77,7 @@ Creating a new content layout through the web
 ..  code:: robotframework
 
     Show example TTW content layout html
-        Go to  ${PLONE_URL}/portal_resources/contentlayout/custom/content.html/manage_main
+        Go to  ${PLONE_URL}/portal_resources/contentlayout/custom/basic.html/manage_main
         Page should contain  You can update the data for this file
         Capture page screenshot
         ...  _screenshots/mosaic-ttw-contentlayout-html.png
