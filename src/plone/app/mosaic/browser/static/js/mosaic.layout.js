@@ -1908,7 +1908,7 @@ define([
             switch (tile_config.widget) {
             case "z3c.form.browser.text.TextWidget":
             case "z3c.form.browser.text.TextFieldWidget":
-                var $el = $('.mosaic-' + tiletype + '-tile', $.mosaic.document);
+                var $el = $('.mosaic-panel .mosaic-' + tiletype + '-tile', $.mosaic.document);
                 if($el.size() > 1){
                     // XXX weird case here.
                     // if you use content tile, it'll render a title field tile that matches this
@@ -1930,7 +1930,7 @@ define([
                 } else {
                     newline = "\n";
                 }
-                $('.mosaic-' + tiletype + '-tile', $.mosaic.document).find('.mosaic-tile-content > *').each(function () {
+                $('.mosaic-panel .mosaic-' + tiletype + '-tile', $.mosaic.document).find('.mosaic-tile-content > *').each(function () {
                     value += $(this).html()
                         .replace(/<br[^>]*>/ig, newline)
                         .replace(/^\s+|\s+$/g, '') + newline;
