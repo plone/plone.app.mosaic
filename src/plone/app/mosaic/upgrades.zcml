@@ -1,6 +1,7 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
-    xmlns:genericsetup="http://namespaces.zope.org/genericsetup">
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    xmlns:zcml="http://namespaces.zope.org/zcml">
 
   <genericsetup:upgradeStep
       profile="plone.app.mosaic:default"
@@ -26,6 +27,7 @@
       destination="2"
       title="Upgrade example layouts; Reinstall plone.app.standardtiles"
       handler=".upgrades.upgrade_1_to_2"
+      zcml:condition="not-have plone-5"
       />
 
   <genericsetup:upgradeDepends
@@ -36,6 +38,7 @@
       import_profile="plone.app.mosaic:default"
       import_steps="plone.app.registry"
       run_deps="false"
+      zcml:condition="not-have plone-5"
       />
 
   <genericsetup:upgradeStep
@@ -52,6 +55,7 @@
       destination="4003"
       title="Upgrade example layouts"
       handler=".upgrades.upgrade_2_to_3"
+      zcml:condition="not-have plone-5"
       />
 
   <genericsetup:upgradeStep
@@ -70,6 +74,7 @@
       import_profile="plone.app.mosaic:bbb"
       import_steps="controlpanel"
       run_deps="false"
+      zcml:condition="not-have plone-5"
       />
 
   <genericsetup:upgradeStep
@@ -88,6 +93,7 @@
       import_profile="plone.app.mosaic:default"
       import_steps="plone.app.registry"
       run_deps="false"
+      zcml:condition="not-have plone-5"
       />
 
   <genericsetup:upgradeStep
@@ -104,6 +110,7 @@
       destination="4006"
       title="Refactor rich text formatting into inline TinyMCE toolbar"
       handler=".upgrades.upgrade_5_to_6"
+      zcml:condition="not-have plone-5"
       />
 
   <genericsetup:upgradeStep
@@ -115,11 +122,12 @@
       />
 
   <genericsetup:upgradeStep
-      profile="plone.app.mosaic:default"
+      profile="plone.app.mosaic:bbb"
       source="4006"
       destination="4007"
       title="Upgrade TTW layout examples"
       handler=".upgrades.upgrade_6_to_7"
+      zcml:condition="not-have plone-5"
       />
 
 </configure>
