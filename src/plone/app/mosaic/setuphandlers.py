@@ -159,7 +159,7 @@ description = Default event layout
 file = event.html
 """))
     custom.writeFile(
-        'content.html',
+        'basic.html',
         StringIO(resolveResource('++contentlayout++default/basic.html')
                  .encode('utf-8'))
     )
