@@ -32,7 +32,8 @@ immed: true, strict: true, maxlen: 140, maxerr: 9999, quotmark: false */
 define([
     'jquery',
     'mockup-patterns-modal',
-], function($, modal) {
+    'mosaic.layout'
+], function($, Modal, _layout) {
     'use strict';
 
     // Define mosaic namespace if it doesn't exist
@@ -379,7 +380,7 @@ define([
             exec: function () {
 
                 // Open overlay
-                var m = new modal($('.mosaic-toolbar'),
+                var m = new Modal($('.mosaic-toolbar'),
                     {ajaxUrl: $.mosaic.options.context_url +
                      '/@@add-tile?form.button.Create=Create'});
                 m.show();
@@ -404,13 +405,13 @@ define([
             exec: function (source) {
                 $(".mosaic-selected-tile", $.mosaic.document).each(function() {
                     // Get tile config
-                    var tile_config = $(this).mosaicGetTileConfig();
+                    var tile_config = (new _layout.Tile(this)).getConfig();
 
                     // Check if app tile
                     if (tile_config.tile_type === 'app') {
 
                         // Get url
-                        var tile_url = $.mosaic.getTileUrl(this);
+                        var tile_url = (new _layout.Tile(this)).getUrl();
 
                         // Remove tags
                         $.mosaic.removeHeadTags(tile_url);
@@ -529,7 +530,7 @@ define([
 
                             // Open add form in modal when requires user input
                             modalFunc = function(html) {
-                                $.mosaic.overlay.app = new modal($('.mosaic-toolbar'), {
+                                $.mosaic.overlay.app = new Modal($('.mosaic-toolbar'), {
                                     html: html,
                                     loadLinksWithinModal: true,
                                     buttons: '.formControls > input[type="submit"], .actionButtons > input[type="submit"]'

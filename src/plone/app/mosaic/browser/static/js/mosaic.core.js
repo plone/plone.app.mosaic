@@ -35,15 +35,14 @@ define([
     'pat-logger',
     'mockup-patterns-modal',
     'underscore',
+    'mosaic.layout',
     'mosaic.toolbar',
     'mosaic.layout',
     'mosaic.actions'
-], function($, logger, Modal, _) {
+], function($, logger, Modal, _, _layout) {
     "use strict";
 
-
-
-    var log = logger.getLogger('pat-structure');
+    var log = logger.getLogger('pat-mosaic');
 
     // Create the mosaic namespace
     if (typeof($.mosaic) === "undefined") {
@@ -439,43 +438,6 @@ define([
     };
 
     /**
-     * Get the tile type for the wrapped dom node
-     *
-     * @id jQuery.mosaic.getTileType
-     * @param {$DOM} element to get tile type for
-     * @return {string} name of tile type
-     */
-    $.mosaic.getTileType = function ($el) {
-        var tiletype = '';
-        if(!$el.is('.mosaic-tile')){
-            $el = $el.parents('.mosaic-tile');
-        }
-        var classes = $el.attr('class').split(" ");
-        $(classes).each(function () {
-
-            // Local variables
-            var classname;
-
-            classname = this.match(/^mosaic-([\w.\-]+)-tile$/);
-            if (classname !== null) {
-                if ((classname[1] !== 'selected') &&
-                    (classname[1] !== 'new') &&
-                    (classname[1] !== 'read-only') &&
-                    (classname[1] !== 'helper') &&
-                    (classname[1] !== 'original')) {
-                    tiletype = classname[1];
-                }
-            }
-        });
-
-        if(!tiletype){
-            log.error('Could not find tile type on element with classes: ' + classes.join(', '));
-        }
-
-        return tiletype;
-    };
-
-    /**
      * Get the tile config for tile type
      *
      * @id jQuery.mosaic.getTileConfig
@@ -486,7 +448,7 @@ define([
         var tile_config;
         if(typeof(tiletype) !== 'string'){
             /* assuming this is a dom node */
-            tiletype = $.mosaic.getTileType(tiletype);
+            tiletype = (new _layout.Tile(tiletype)).getType();
         }
         // Get tile config
         for (var x = 0; x < $.mosaic.options.tiles.length; x += 1) {
@@ -526,7 +488,6 @@ define([
             }
         }
 
-
         if(!tile_config){
             // dive out of here, something went wrong finding tile config
             log.error('Could not load tile config for tile type: ' + tiletype);
@@ -535,18 +496,6 @@ define([
         return tile_config;
     };
 
-    $.mosaic.getTileUrl = function(el){
-        var $el = $(el);
-        var tile_url = $el.find('.tileUrl').html();
-        if (!tile_url) {
-            tile_url = $el.find('[data-tile]').attr('data-tile');
-        }
-        if(tile_url){
-            tile_url = tile_url.replace($.mosaic.options.context_url, './');
-            tile_url = tile_url.replace(/^\.\/\//, './');
-        }
-        return tile_url;
-    };
 
     /**
      * Get the dom tree of the specified content
