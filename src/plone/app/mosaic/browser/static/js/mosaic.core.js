@@ -52,8 +52,6 @@ define([
 
     // Set variables
     $.mosaic.loaded = false;
-    $.mosaic.nrOfTiles = 0;
-    $.mosaic.tileInitCount = 0;
 
     $.mosaic.selectLayoutTemplate = _.template('<div>' +
         '<h1>Select Layout</h1>' +
@@ -127,25 +125,42 @@ define([
         $.mosaic.options.url = options.url;
         $.mosaic.options.ignore_context = options.ignore_context;
         $.mosaic.options.tileheadelements = [];
+        $.mosaic.staticLayout = true;
 
-        var contentRaw = $($.mosaic.options.content_selector).val();
-
-        // Check if no layout
-        if (contentRaw === '') {
-            // Exit
-            return;
-        }
-
-        var $content = $.mosaic.getDomTreeFromHtml(contentRaw);
-        if($content.attr('id') === "no-layout"){
-            $.mosaic.selectLayout();
+        var staticLayout = $.mosaic.getSelectedStaticLayout();
+        if(staticLayout){
+            $.mosaic.applyLayout(staticLayout);
         }else{
-            $.mosaic._init($content);
+            var contentRaw = $($.mosaic.options.content_field_selector).val();
+            if(!contentRaw){
+                $.mosaic.selectLayout();
+            }else{
+                var $content = $.mosaic.getDomTreeFromHtml(contentRaw);
+                if($content.attr('id') === "no-layout"){
+                    $.mosaic.selectLayout();
+                }else{
+                    $.mosaic.staticLayout = false;
+                    $.mosaic._init($content);
+                }
+            }
         }
     };
 
-    $.mosaic._init = function (content) {
+    $.mosaic.getSelectedStaticLayout = function(){
+        return $($.mosaic.options.staticLayout_field_selector).val();
+    };
 
+    $.mosaic.setSelectedStaticLayout = function(value){
+        if(value){
+            $.mosaic.staticLayout = true;
+        }else{
+            $.mosaic.staticLayout = false;
+        }
+        return $($.mosaic.options.staticLayout_field_selector).attr('value', value);
+    };
+
+
+    $.mosaic._initPanels = function (content){
         $.mosaic.options.layout = content.attr('data-layout');
 
         // Drop panels within panels (only the top level panels are editable)
@@ -171,17 +186,27 @@ define([
             // this panel
             if (panel_id === 'content') {
                 panel_attr_id = target.attr('id');
-                target.before($(document.createElement("div"))
-                    .attr("id", panel_attr_id)
-                    .attr("class", target.attr("class"))
-                    .addClass('mosaic-panel')
-                    .attr('data-panel', 'content')
-                    .html(content.find("[data-panel=" + panel_id + "]").html()));
-                target
-                    .removeAttr('data-panel')
-                    .removeAttr('id')
-                    .addClass('mosaic-original-content')
-                    .hide();
+                if($('.mosaic-original-content', $.mosaic.document).size() === 0){
+                    target.before($(document.createElement("div"))
+                        .attr("id", panel_attr_id)
+                        .attr("class", target.attr("class"))
+                        .addClass('mosaic-panel')
+                        .attr('data-panel', 'content')
+                        .html(content.find("[data-panel=" + panel_id + "]").html()));
+                    target
+                        .removeAttr('data-panel')
+                        .removeAttr('id')
+                        .addClass('mosaic-original-content')
+                        .hide();
+                }else{
+                    // re-initializing, so we just have to replace existing
+                    target.replaceWith($(document.createElement("div"))
+                        .attr("id", panel_attr_id)
+                        .attr("class", target.attr("class"))
+                        .addClass('mosaic-panel')
+                        .attr('data-panel', 'content')
+                        .html(content.find("[data-panel=" + panel_id + "]").html()));
+                }
             } else {
                 target.attr("class",
                     content.find("[data-panel=" + panel_id + "]").attr("class"));
@@ -211,8 +236,6 @@ define([
 
         // Init app tiles
         $.mosaic.options.panels = $(".mosaic-panel", $.mosaic.document);
-        $.mosaic.nrOfTiles =
-            $.mosaic.options.panels.find("[data-tile]").size();
 
         $.mosaic.options.panels.find("[data-tile]").each(function () {
 
@@ -300,16 +323,15 @@ define([
                             .html('<p class="hiddenStructure ' +
                                 'tileUrl">' + href.replace(/&/gim, '&amp;') + '</p>' +
                                 value.find('.temp_body_tag').html());
-
-                        $.mosaic.tileInitCount += 1;
-
-                        if ($.mosaic.tileInitCount >= $.mosaic.nrOfTiles) {
-                            $.mosaic.initialized();
-                        }
                     }
                 });
             }
         });
+    };
+
+    $.mosaic._init = function (content) {
+        
+        $.mosaic._initPanels(content);
 
         // Init overlay
         $('.mosaic-original-content', $.mosaic.document).mosaicOverlay();
@@ -325,9 +347,9 @@ define([
         // Init toolbar
         $.mosaic.options.toolbar.mosaicToolbar();
 
-        // Init panel
+        // Init layout
         $.mosaic.options.panels.mosaicLayout();
-
+        
         // Add blur to the rest of the content
         $("*", $.mosaic.document).each(function () {
 
@@ -373,6 +395,28 @@ define([
         $.mosaic.undo.init();
 
         $('body').addClass('mosaic-enabled');
+
+        $.mosaic.initialized();
+    };
+
+    $.mosaic.applyLayout = function(layoutPath, callback){
+        if(callback === undefined){
+            callback = function(){};
+        }
+        $.ajax({
+            url: $.mosaic.options.context_url + '/' + layoutPath
+        }).done(function(layoutHtml){
+            var $content = $.mosaic.getDomTreeFromHtml(layoutHtml);
+            $.mosaic.setSelectedStaticLayout(layoutPath);
+            if($.mosaic.loaded){
+                // initialize panels
+                $.mosaic._initPanels($content);
+                // and setup layout for the new panels
+                $.mosaic.options.panels.mosaicLayout();
+            }else{
+                $.mosaic._init($content);
+            }
+        });
     };
 
     $.mosaic.selectLayout = function(){
@@ -386,13 +430,9 @@ define([
             $('li a', modal.$modal).off('click').on('click', function(e){
                 e.preventDefault();
                 var layout = $.mosaic.options.available_layouts[$(this).attr('data-value')];
+                var layoutPath = '++contentlayout++' + layout.directory + '/' + layout.file;
                 modal.hide();
-                $.ajax({
-                    url: $.mosaic.options.context_url + '/++contentlayout++' + layout.directory + '/' + layout.file
-                }).done(function(layoutHtml){
-                    var $content = $.mosaic.getDomTreeFromHtml(layoutHtml);
-                    $.mosaic._init($content);
-                });
+                $.mosaic.applyLayout(layoutPath);
             });
         });
         modal.show();

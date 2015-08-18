@@ -37,50 +37,25 @@
     <value key="weight">30</value>
   </records>
 
-  <!-- secondary actions -->
-  <records prefix="plone.app.mosaic.secondary_actions.layout"
+  <records prefix="plone.app.mosaic.primary_actions.customizelayout"
            interface='plone.app.mosaic.interfaces.IAction'>
-    <value key="name">layout</value>
+    <value key="name">customizelayout</value>
     <value key="fieldset"></value>
-    <value key="label">Layout</value>
-    <value key="action">layout</value>
+    <value key="label">Customize Layout</value>
+    <value key="action">customizelayout</value>
     <value key="icon">False</value>
-    <value key="menu">True</value>
-    <value key="weight">10</value>
-  </records>
-
-  <records interface="plone.app.mosaic.interfaces.IWeightedDict"
-           prefix="plone.app.mosaic.secondary_actions.layout.items.layout">
-    <value key="name">none</value>
-    <value key="label">Layout</value>
-    <value key="weight">10</value>
-  </records>
-
-  <records interface="plone.app.mosaic.interfaces.IWeightedDict"
-           prefix="plone.app.mosaic.secondary_actions.layout.items.newslisting">
-    <value key="name">newslisting</value>
-    <value key="label">News listing</value>
-    <value key="weight">20</value>
-  </records>
-
-  <records interface="plone.app.mosaic.interfaces.IWeightedDict"
-           prefix="plone.app.mosaic.secondary_actions.layout.items.gallery">
-    <value key="name">gallery</value>
-    <value key="label">Gallery</value>
-    <value key="weight">30</value>
-  </records>
-
-  <records interface="plone.app.mosaic.interfaces.IWeightedDict"
-           prefix="plone.app.mosaic.secondary_actions.layout.items.another">
-    <value key="name">another</value>
-    <value key="label">Choose another...</value>
+    <value key="menu">False</value>
     <value key="weight">40</value>
   </records>
 
-  <records interface="plone.app.mosaic.interfaces.IWeightedDict"
-           prefix="plone.app.mosaic.secondary_actions.layout.items.template">
-    <value key="name">template</value>
-    <value key="label">Save as template...</value>
+  <records prefix="plone.app.mosaic.primary_actions.changelayout"
+           interface='plone.app.mosaic.interfaces.IAction'>
+    <value key="name">changelayout</value>
+    <value key="fieldset"></value>
+    <value key="label">Change Layout</value>
+    <value key="action">changelayout</value>
+    <value key="icon">False</value>
+    <value key="menu">False</value>
     <value key="weight">50</value>
   </records>
 
@@ -141,6 +116,8 @@
       <element>save</element>
       <element>cancel</element>
       <element>properties</element>
+      <element>customizelayout</element>
+      <element>changelayout</element>
       <element>format</element>
       <element>insert</element>
       <element>remove</element>

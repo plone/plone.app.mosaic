@@ -140,8 +140,8 @@ define([
             formtabs.find('a').removeClass('active');
 
             // Hide layout field
-            form.find('#formfield-form-widgets-ILayoutAware-content')
-                .addClass('mosaic-hidden');
+            form.find($.mosaic.options.content_selector).addClass('mosaic-hidden');
+            form.find($.mosaic.options.staticLayout_selector).addClass('mosaic-hidden');
             //form.find('#formfield-form-widgets-ILayoutAware-pageSiteLayout')
             //    .addClass('mosaic-hidden');
             //form.find('#formfield-form-widgets-ILayoutAware-sectionSiteLayout')

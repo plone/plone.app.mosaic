@@ -88,6 +88,7 @@ def enable_layout_behavior(portal):
         view_methods.append('view')
 
         fti.view_methods = list(set(view_methods))
+        fti.default_view = 'view'
 
 
 def enable_layout_view(portal):

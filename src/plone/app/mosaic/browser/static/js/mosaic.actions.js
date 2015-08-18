@@ -348,6 +348,32 @@ define([
             }
         });
 
+        // register customize layout button
+        $.mosaic.registerAction('customizelayout', {
+            exec: function () {
+                $.mosaic.setSelectedStaticLayout('');  // clear selected layout, will use stored layout then
+                $('.mosaic-toolbar-secondary-functions').show();
+                $('.mosaic-button-customizelayout').hide();
+            },
+            visible: function(){
+                return $.mosaic.staticLayout;
+            }
+        });
+
+        // register change layout button
+        $.mosaic.registerAction('changelayout', {
+            exec: function () {
+                var yes = $.mosaic.staticLayout;
+                if(!yes){
+                    yes = confirm('Changing your will destroy all existing custom layout ' +
+                                  'settings you have in place. Are you sure you want to continue?');
+                }
+                if(yes){
+                    $.mosaic.selectLayout();
+                }
+            }
+        });
+
         // Register add tile action
         $.mosaic.registerAction('add-tile', {
             exec: function () {

@@ -116,7 +116,7 @@ define([
         };
 
         // Bind event and add to array
-        $($.mosaic.document).bind('keydown', DocumentKeydown);
+        $($.mosaic.document).off('keydown').on('keydown', DocumentKeydown);
 
         // Add deselect
         var DocumentMousedown = function (e) {
@@ -163,7 +163,7 @@ define([
         };
 
         // Bind event and add to array
-        $($.mosaic.document).bind('mousedown', DocumentMousedown);
+        $($.mosaic.document).off('mousedown').on('mousedown', DocumentMousedown);
 
         // Handle mouse move event
         var DocumentMousemove = function (e) {
@@ -340,8 +340,8 @@ define([
         };
 
         // Bind event and add to array
-        $($.mosaic.document).bind('mousemove', DocumentMousemove);
-        $($.mosaic.document).bind('dragover', DocumentMousemove);
+        $($.mosaic.document).off('mousemove').on('mousemove', DocumentMousemove);
+        $($.mosaic.document).off('dragover').on('dragover', DocumentMousemove);
 
         // Handle mouse up event
         var DocumentMouseup = function (e) {
@@ -383,7 +383,7 @@ define([
         };
 
         // Bind event and add to array
-        $($.mosaic.document).bind('mouseup', DocumentMouseup);
+        $($.mosaic.document).off('mouseup').on('mouseup', DocumentMouseup);
 
         // Handle mousemove on tile
         var TileMousemove = function (e) {
@@ -425,18 +425,18 @@ define([
         };
 
         // Bind events
-        $($.mosaic.document).on("mousemove", ".mosaic-tile", TileMousemove);
-        $($.mosaic.document).on("dragover", ".mosaic-tile", TileMousemove);
+        $($.mosaic.document).off("mousemove", ".mosaic-tile").on("mousemove", ".mosaic-tile", TileMousemove);
+        $($.mosaic.document).off("dragover", ".mosaic-tile").on("dragover", ".mosaic-tile", TileMousemove);
 
         // On click select the current tile
-        $($.mosaic.document).on("click", ".mosaic-tile", function () {
+        $($.mosaic.document).off("click", ".mosaic-tile").on("click", ".mosaic-tile", function () {
 
             // Select tile
             $(this).mosaicSelectTile();
         });
 
         // On click open overlay
-        $($.mosaic.document).on("click", ".mosaic-info-icon", function () {
+        $($.mosaic.document).off("click", ".mosaic-info-icon").on("click", ".mosaic-info-icon", function () {
 
             // Get tile config
             var tile_config = $(this).parents(".mosaic-tile").mosaicGetTileConfig();
@@ -590,10 +590,6 @@ define([
                     )
             );
 
-            // If tile is field tile
-            if (tile_config && tile_config.tile_type === "field") {
-            }
-
             // Add label
             if (tile_config) {
                 $(this).prepend(
@@ -612,7 +608,8 @@ define([
             }
 
             // If the tile is movable
-            if ($(this).hasClass("movable") && $.mosaic.options.can_change_layout) {
+            if ($(this).hasClass("movable") && $.mosaic.options.can_change_layout &&
+                    !$.mosaic.staticLayout) {
 
                 // Add drag handle
                 $(this).prepend(
@@ -622,8 +619,8 @@ define([
             }
 
             // Add settings icon
-            if (tile_config && tile_config.settings
-                    && $(this).hasClass('mosaic-read-only-tile') === false) {
+            if (tile_config && tile_config.settings &&
+                    $(this).hasClass('mosaic-read-only-tile') === false) {
                 $(this).prepend(
                     $($.mosaic.document.createElement("div"))
                         .addClass("mosaic-tile-control mosaic-info-icon")
@@ -678,8 +675,8 @@ define([
         return this.each(function () {
 
             // Check if not already selected
-            if ($(this).hasClass("mosaic-selected-tile") === false
-                && $(this).hasClass("mosaic-read-only-tile") === false) {
+            if ($(this).hasClass("mosaic-selected-tile") === false &&
+                    $(this).hasClass("mosaic-read-only-tile") === false) {
 
                 $(".mosaic-selected-tile", $.mosaic.document)
                     .removeClass("mosaic-selected-tile")
