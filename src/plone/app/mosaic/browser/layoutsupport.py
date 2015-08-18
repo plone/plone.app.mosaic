@@ -10,6 +10,7 @@ from plone.app.blocks.layoutbehavior import ContentLayoutView
 from plone.app.blocks.layoutbehavior import ILayoutAware
 from plone.app.blocks.resource import PageSiteLayout
 from plone.app.blocks.utils import panelXPath
+from plone.app.blocks.utils import bodyTileXPath
 from plone.app.blocks.utils import replace_content
 from plone.app.blocks.utils import resolveResource
 from plone.app.content.browser.interfaces import IFolderContentsView
@@ -178,13 +179,20 @@ def safeGetHTMLSerializer(data):
     return serializer
 
 
-def mergePageIntoLayout(page, layout):
+def mergePageIntoLayout(page, layout, static_tiles=False):
     """Merge given page layout into given site layout and return the merged
     site layout
 
     """
     page = safeGetHTMLSerializer(page)
     layout = safeGetHTMLSerializer(layout)
+
+    # Prevent static tiles from being rendered when on edit form to make
+    # them available to be editable with the Mosaic editor
+    if static_tiles:
+        for tile in bodyTileXPath(page.tree):
+            tile.attrib['data-static-tile'] = tile.attrib['data-tile']
+            del tile.attrib['data-tile']
 
     pagePanels = dict(
         (node.attrib['data-panel'], node)
@@ -202,12 +210,6 @@ def mergePageIntoLayout(page, layout):
             node.attrib['data-panel'] = 'content'
             layoutPanels['content'] = node
             break
-
-    # Clear panels, because their content may not work as expected when
-    # rendered in site layout
-    for node in pagePanels.values():
-        for child in node.getchildren():
-            node.remove(child)
 
     # Wrap all content into merged data-panel="content"
     for node in etree.XPath('/html/body')(page.tree):
@@ -244,7 +246,7 @@ class PageSiteLayoutView(PageSiteLayout):
 
     """
     # index is called from "legacy" views like edit forms by main_template's
-    # master macro
+    # master macro (this only intercepts DX edit forms)
     def index(self):
         try:
             return super(PageSiteLayoutView, self).index()
@@ -267,7 +269,7 @@ class PageSiteLayoutView(PageSiteLayout):
         else:
             layout = MainTemplate(self.context, self.request).main_template()
 
-        return mergePageIntoLayout(page, layout)
+        return mergePageIntoLayout(page, layout, static_tiles=True)
 
     # __call__ is called by panelMerge subrequest when the view is rendered
     def __call__(self):

@@ -187,12 +187,23 @@ define([
             }
         });
 
+        // Get static tiles
+        var staticTiles = $("[data-static-tile]",
+                            $.mosaic.document).each(function() {
+            $(this).attr('data-tile', $(this).attr('data-static-tile'));
+        });
+        var staticMosaicTiles = staticTiles.map(function() {
+            return $(this).parents('.mosaic-tile').first();
+        });
+
         // Init app tiles
         $.mosaic.options.panels = $(".mosaic-panel", $.mosaic.document);
         $.mosaic.nrOfTiles =
-            $.mosaic.options.panels.find("[data-tile]").size();
+            $.mosaic.options.panels.find("[data-tile]").size()
+            + staticTiles.size();
 
-        $.mosaic.options.panels.find("[data-tile]").each(function () {
+        $.merge($.mosaic.options.panels.find("[data-tile]"),
+                staticTiles).each(function () {
 
             // Local variables
             var base, href, tile_content, url, start, end,
@@ -347,6 +358,13 @@ define([
                     }
                 }
             }
+        });
+
+        // Init static tiles
+        staticMosaicTiles.each(function() {
+            this.removeClass('removable').removeClass('movable');
+            this.parents('.mosaic-blur').removeClass('mosaic-blur').addClass('mosaic-panel');
+            this.mosaicInitTile();
         });
 
         // Init upload
