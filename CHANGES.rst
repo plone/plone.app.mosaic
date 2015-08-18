@@ -4,6 +4,9 @@ Changelog
 1.0a4 (unreleased)
 ------------------
 
+- Removed "for" in register default profile for sane installation state.
+  [agitator]
+
 - Change text formatting actions from top toolbar to inline TinyMCE toolbars
   [datakurre]
 
