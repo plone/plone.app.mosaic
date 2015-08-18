@@ -409,8 +409,8 @@ define([
                     // Check if app tile
                     if (tile_config.tile_type === 'app') {
 
-                        // Get ur
-                        var tile_url = $(this).find('.tileUrl').html();
+                        // Get url
+                        var tile_url = $.mosaic.getTileUrl(this);
 
                         // Remove tags
                         $.mosaic.removeHeadTags(tile_url);

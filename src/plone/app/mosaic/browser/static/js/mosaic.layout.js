@@ -445,7 +445,7 @@ define([
             if (tile_config.tile_type === 'app') {
 
                 // Get url
-                var tile_url = $(this).parents(".mosaic-tile").find('.tileUrl').html();
+                var tile_url = $.mosaic.getTileUrl($(this).parents(".mosaic-tile"));
                 tile_url = tile_url.replace(/@@/, '@@edit-tile/');
                 // Calc absolute edit url
                 if (tile_url.match(/^\.\/.*/)) {
@@ -2078,17 +2078,7 @@ define([
                             case "app":
                                 body += '          <div class="' + classes.join(' ') + '">\n';
                                 body += '          <div class="mosaic-tile-content">\n';
-
-                                // Get url
-                                tile_url = $(this).find('.tileUrl').html();
-                                if (tile_url === null) {
-                                    break;
-                                } else {
-                                    // Fix absolute url into a relative one
-                                    tile_url = tile_url.replace($.mosaic.options.context_url, './');
-                                    tile_url = tile_url.replace(/^\.\/\//, './');
-                                }
-                                body += '          <div data-tile="' + tile_url + '"></div>\n';
+                                body += '          <div data-tile="' + $.mosaic.getTileUrl(this) + '"></div>\n';
                                 body += '          </div>\n';
                                 body += '          </div>\n';
                                 break;

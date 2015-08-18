@@ -535,6 +535,19 @@ define([
         return tile_config;
     };
 
+    $.mosaic.getTileUrl = function(el){
+        var $el = $(el);
+        var tile_url = $el.find('.tileUrl').html();
+        if (!tile_url) {
+            tile_url = $el.find('[data-tile]').attr('data-tile');
+        }
+        if(tile_url){
+            tile_url = tile_url.replace($.mosaic.options.context_url, './');
+            tile_url = tile_url.replace(/^\.\/\//, './');
+        }
+        return tile_url;
+    };
+
     /**
      * Get the dom tree of the specified content
      *
@@ -583,8 +596,10 @@ define([
 
         // Remove head elements
         headelements = $.mosaic.options.tileheadelements[html_id];
-        for (i = 0; i < headelements.length; i += 1) {
-            $(headelements[i], $.mosaic.document).remove();
+        if(headelements){
+            for (i = 0; i < headelements.length; i += 1) {
+                $(headelements[i], $.mosaic.document).remove();
+            }
         }
         $.mosaic.options.tileheadelements[html_id] = [];
     };
