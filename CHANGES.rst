@@ -7,6 +7,12 @@ Changelog
 - Removed "for" in register default profile for sane installation state.
   [agitator]
 
+- Change view method alias support for ++layout++-traversed content layouts
+  so that instead of rendering them as static views, the currently selected
+  content layout is merged to the current site layout before panel merge
+  to allow centrally managed content layouts with layout editor managed areas
+  [datakurre]
+
 - Change text formatting actions from top toolbar to inline TinyMCE toolbars
   [datakurre]
 
