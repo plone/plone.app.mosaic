@@ -16,7 +16,6 @@
       title="Plone Mosaic"
       description="Installs Mosaic layout support for Dexterity content types"
       directory="profiles/default"
-      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
