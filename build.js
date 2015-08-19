@@ -17,6 +17,7 @@
     paths: {
         'jquery': 'empty:',
         'tinymce': 'empty:',
+        'underscore': 'empty:',
         'mockup-patterns-modal': 'empty:',
         'mockup-patterns-tinymce': 'empty:'
     }
