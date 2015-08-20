@@ -28,13 +28,14 @@
 /*global jQuery: false, window: false */
 /*jslint white: true, browser: true, onevar: true, undef: true, nomen: true,
 eqeqeq: true, plusplus: true, bitwise: true, regexp: true, newcap: true,
-immed: true, strict: true, maxlen: 80, maxerr: 9999 */
+immed: true, strict: true, maxlen: 80, maxerr: 9999, quotmark: false */
 
 define([
     'jquery',
     'tinymce',
-    'mockup-patterns-tinymce'
-], function($, tinymce, TinyMCE) {
+    'mockup-patterns-tinymce',
+    'mosaic-url/mosaic.tile'
+], function($, tinymce, TinyMCE, Tile) {
     'use strict';
 
     // Define mosaic namespace if it doesn't exist
@@ -60,9 +61,11 @@ define([
         obj = $(this);
 
         // Remove existing pattern
-        if (obj.data("pattern-tinymce")) {
+        try{
             obj.data("pattern-tinymce").destroy();
             obj.removeData("pattern-tinymce");
+        }catch(e){
+            // this can fail...
         }
 
         // Generate random id to make sure TinyMCE is unique
@@ -77,24 +80,12 @@ define([
             .attr('id', obj.attr('id') + '-panel'));
 
         // Build toolbar and contextmenu
-        var tiletype, classes, classname, actions, group, x, y,
+        var actions, group, x, y,
             toolbar, cmenu;
 
         // Get tiletype
-        tiletype = "";
-        classes = obj.parents('.mosaic-tile').first().attr('class').split(" ");
-        $(classes).each(function () {
-            classname = this.match(/^mosaic-(.*)-tile$/);
-            if (classname !== null) {
-                if ((classname[1] !== 'selected') &&
-                    (classname[1] !== 'new') &&
-                    (classname[1] !== 'read-only') &&
-                    (classname[1] !== 'helper') &&
-                    (classname[1] !== 'original')) {
-                    tiletype = classname[1];
-                }
-            }
-        });
+        var $tile = obj.parents('.mosaic-tile');
+        var tiletype = (new Tile($tile)).getType();
 
         // Get actions
         actions = $.mosaic.options.default_available_actions;
@@ -155,7 +146,7 @@ define([
         $("body").removeAttr("data-pat-tinymce");
 
         // Init rich editor
-        pattern = TinyMCE.init(obj, $.extend(
+        pattern = new TinyMCE(obj, $.extend(
             true, {}, $.mosaic.options.tinymce, { tiny: {
             selector: "#" + "mosaic-rich-text-init-" + random_id,
             inline: true,

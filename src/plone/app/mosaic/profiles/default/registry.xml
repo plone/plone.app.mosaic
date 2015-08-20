@@ -1252,6 +1252,20 @@
     <value key="weight">30</value>
   </records>
 
+    <records prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_richtext"
+           interface="plone.app.mosaic.interfaces.ITile">
+    <value key="name">plone.app.standardtiles.richtext</value>
+    <value key="label">Rich Text</value>
+    <value key="category">structure</value>
+    <value key="tile_type">app</value>
+    <value key="default_value"></value>
+    <value key="read_only">false</value>
+    <value key="settings">false</value>
+    <value key="favorite">false</value>
+    <value key="rich_text">true</value>
+    <value key="weight">110</value>
+  </records>
+
   <record name="plone.app.mosaic.app_tiles.plone_app_standardtiles_rss.available_actions">
     <field type="plone.registry.field.List">
       <title>Available actions for the RSS tile</title>

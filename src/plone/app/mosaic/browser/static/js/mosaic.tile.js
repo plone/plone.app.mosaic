@@ -165,17 +165,12 @@ define([
       return body;
     };
 
-    Tile.prototype.initialize = function(){
-      var tile_config = this.getConfig();
-
-      // Check read only
-      if (tile_config && tile_config.read_only) {
-        // Set read only
-        this.$el.addClass("mosaic-read-only-tile");
+    Tile.prototype.isRichText = function(tile_config){
+      if(tile_config === undefined){
+        tile_config = this.getConfig();
       }
-
-      // Init rich text
       if (tile_config && this.$el.hasClass('mosaic-read-only-tile') === false &&
+          !this.$el.hasClass('mosaic-tile-loading') &&
           ((tile_config.tile_type === 'text' && tile_config.rich_text) ||
            (tile_config.tile_type === 'app' && tile_config.rich_text) ||
            (tile_config.tile_type === 'field' && tile_config.read_only === false &&
@@ -189,7 +184,23 @@ define([
              tile_config.widget === 'plone.app.z3cform.wysiwyg.widget.WysiwygWidget' ||
              tile_config.widget === 'plone.app.z3cform.wysiwyg.widget.WysiwygFieldWidget' ||
              tile_config.widget === 'plone.app.widgets.dx.RichTextWidget')))) {
+        return true;
+      }else{
+        return false;
+      }
+    };
 
+    Tile.prototype.initialize = function(){
+      var tile_config = this.getConfig();
+
+      // Check read only
+      if (tile_config && tile_config.read_only) {
+        // Set read only
+        this.$el.addClass("mosaic-read-only-tile");
+      }
+
+      // Init rich text
+      if (this.isRichText()) {
         // Init rich editor
         this.$el.children('.mosaic-tile-content').mosaicWysiwygEditor();
       }
@@ -324,21 +335,35 @@ define([
         that.fillContent(fieldhtml);
       // Get data from app tile
       } else if (tile_config) {
+        that.$el.addClass('mosaic-tile-loading');
         url = base ? [base, href].join('/')
                                  .replace(/\/+\.\//g, '/') : href;
         $.ajax({
           type: "GET",
           url: url,
           success: function (value) {
+            that.$el.removeClass('mosaic-tile-loading');
             // Get dom tree
             value = $.mosaic.getDomTreeFromHtml(value);
 
             // Add head tags
             $.mosaic.addHeadTags(href, value);
+            var tileUrlHtml = '<p class="hiddenStructure ' +
+              'tileUrl">' + href.replace(/&/gim, '&amp;') + '</p>';
+            var tileHtml = value.find('.temp_body_tag').html();
+            that.fillContent(tileUrlHtml + tileHtml);
 
-            that.fillContent('<p class="hiddenStructure ' +
-                    'tileUrl">' + href.replace(/&/gim, '&amp;') + '</p>' +
-                    value.find('.temp_body_tag').html());
+            if(that.isRichText()){
+              // a little gymnastics to make wysiwyg work here
+              // Init rich editor
+              var $content = that.$el.children('.mosaic-tile-content');
+              $content.mosaicWysiwygEditor();
+            }else{
+              that.fillContent(tileUrlHtml + tileHtml);
+            }
+          },
+          error: function(){
+            that.$el.removeClass('mosaic-tile-loading');
           }
         });
       }
