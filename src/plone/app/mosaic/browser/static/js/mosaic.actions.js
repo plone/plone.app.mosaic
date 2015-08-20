@@ -32,8 +32,8 @@ immed: true, strict: true, maxlen: 140, maxerr: 9999, quotmark: false */
 define([
     'jquery',
     'mockup-patterns-modal',
-    'mosaic.layout'
-], function($, Modal, _layout) {
+    'mosaic-url/mosaic.tile'
+], function($, Modal, Tile) {
     'use strict';
 
     // Define mosaic namespace if it doesn't exist
@@ -352,19 +352,19 @@ define([
         // register customize layout button
         $.mosaic.registerAction('customizelayout', {
             exec: function () {
-                $.mosaic.setSelectedStaticLayout('');  // clear selected layout, will use stored layout then
+                $.mosaic.setSelectedContentLayout('');  // clear selected layout, will use stored layout then
                 $('.mosaic-toolbar-secondary-functions').show();
                 $('.mosaic-button-customizelayout').hide();
             },
             visible: function(){
-                return $.mosaic.staticLayout;
+                return $.mosaic.hasContentLayout;
             }
         });
 
         // register change layout button
         $.mosaic.registerAction('changelayout', {
             exec: function () {
-                var yes = $.mosaic.staticLayout;
+                var yes = $.mosaic.hasContentLayout;
                 if(!yes){
                     yes = confirm('Changing your will destroy all existing custom layout ' +
                                   'settings you have in place. Are you sure you want to continue?');
@@ -405,13 +405,13 @@ define([
             exec: function (source) {
                 $(".mosaic-selected-tile", $.mosaic.document).each(function() {
                     // Get tile config
-                    var tile_config = (new _layout.Tile(this)).getConfig();
+                    var tile_config = (new Tile(this)).getConfig();
 
                     // Check if app tile
                     if (tile_config.tile_type === 'app') {
 
                         // Get url
-                        var tile_url = (new _layout.Tile(this)).getUrl();
+                        var tile_url = (new Tile(this)).getUrl();
 
                         // Remove tags
                         $.mosaic.removeHeadTags(tile_url);
@@ -477,6 +477,9 @@ define([
                     $.mosaic.options.toolbar.trigger("selectedtilechange");
                     $.mosaic.options.toolbar.mosaicSetResizeHandleLocation();
                 });
+            },
+            visible: function(){
+                return $.mosaic.hasContentLayout;
             }
         });
 

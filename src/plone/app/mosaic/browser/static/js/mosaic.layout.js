@@ -32,214 +32,18 @@ immed: true, strict: true, maxlen: 150, maxerr: 9999, quotmark: false */
 
 define([
     'jquery',
+    'mosaic-url/mosaic.tile',
     'mockup-patterns-modal',
     'pat-logger',
     'underscore'
-], function($, Modal, logger, _) {
+], function($, Tile, Modal, logger, _) {
     'use strict';
 
-    var log = logger.getLogger('pat-mosaic');
 
     // Define mosaic namespace if it doesn't exist
     if (typeof($.mosaic) === "undefined") {
         $.mosaic = {};
     }
-
-    /* Tile class */
-    var Tile = function(el){
-        this.$el = $(el);
-        if(!this.$el.is('.mosaic-tile')){
-            this.$el = this.$el.parents('.mosaic-tile');
-        }
-    };
-
-    Tile.prototype.getUrl = function(){
-        var tile_url = this.$el.find('.tileUrl').html();
-        if (!tile_url) {
-            tile_url = this.$el.find('[data-tile]').attr('data-tile');
-        }
-        if(tile_url){
-            tile_url = tile_url.replace($.mosaic.options.context_url, './');
-            tile_url = tile_url.replace(/^\.\/\//, './');
-        }
-        return tile_url;
-    };
-    Tile.prototype.getType = function(){
-        // previously $.mosaic.getTileType
-        var tiletype = '';
-        var $el = this.$el;
-        var classes = $el.attr('class').split(" ");
-        $(classes).each(function () {
-
-            // Local variables
-            var classname;
-
-            classname = this.match(/^mosaic-([\w.\-]+)-tile$/);
-            if (classname !== null) {
-                if ((classname[1] !== 'selected') &&
-                    (classname[1] !== 'new') &&
-                    (classname[1] !== 'read-only') &&
-                    (classname[1] !== 'helper') &&
-                    (classname[1] !== 'original')) {
-                    tiletype = classname[1];
-                }
-            }
-        });
-
-        if(!tiletype){
-            log.error('Could not find tile type on element with classes: ' + classes.join(', '));
-        }
-
-        return tiletype;
-    };
-    Tile.prototype.getConfig = function(){
-        return $.mosaic.getTileConfig(this.getType());
-    };
-    Tile.prototype.getHtmlBody = function(){
-        var body = '';
-        // Get tile type
-        var tiletype = '',
-            classes = this.$el.attr('class').split(" ");
-
-        tiletype = this.getType();
-        classes = $(classes).filter(function() {
-            switch (this) {
-                case "mosaic-new-tile":
-                case "mosaic-helper-tile":
-                case "mosaic-original-tile":
-                case "mosaic-selected-tile":
-                    return false;
-                default:
-                    return true;
-            }
-        }).toArray();
-
-        // Get tile config
-        var tile_config = $.mosaic.getTileConfig(tiletype);
-
-        // Predefine vars
-        var tile_url;
-
-        switch (tile_config.tile_type) {
-            case "text":
-                body += '          <div class="' + classes.join(' ') + '">\n';
-                body += '          <div class="mosaic-tile-content">\n';
-                body += this.$el.children(".mosaic-tile-content").html().replace(/^\s+|\s+$/g, '') + "\n";
-                body += '          </div>\n';
-                body += '          </div>\n';
-                break;
-            case "app":
-                body += '          <div class="' + classes.join(' ') + '">\n';
-                body += '          <div class="mosaic-tile-content">\n';
-                body += '          <div data-tile="' + this.getUrl() + '"></div>\n';
-                body += '          </div>\n';
-                body += '          </div>\n';
-                break;
-            case "field":
-                body += '          <div class="' + classes.join(' ') + '">\n';
-                body += '          <div class="mosaic-tile-content">\n';
-
-                // Calc url
-                tile_url = './@@plone.app.standardtiles.field?field=' + tiletype;
-
-                body += '          <div data-tile="' + tile_url + '"></div>\n';
-                body += '          </div>\n';
-                body += '          </div>\n';
-
-                // Update field values if type is rich text
-                $.mosaic.saveTileValueToForm(tiletype, tile_config);
-                break;
-        }
-        return body;
-    };
-    Tile.prototype.initialize = function(){
-        var tile_config = this.getConfig();
-
-        // Check read only
-        if (tile_config && tile_config.read_only) {
-            // Set read only
-            this.$el.addClass("mosaic-read-only-tile");
-        }
-
-        // Init rich text
-        if (tile_config && this.$el.hasClass('mosaic-read-only-tile') === false &&
-            ((tile_config.tile_type === 'text' && tile_config.rich_text) ||
-             (tile_config.tile_type === 'app' && tile_config.rich_text) ||
-             (tile_config.tile_type === 'field' && tile_config.read_only === false &&
-              (tile_config.widget === 'z3c.form.browser.text.TextWidget' ||
-               tile_config.widget === 'z3c.form.browser.text.TextFieldWidget' ||
-               tile_config.widget === 'z3c.form.browser.textarea.TextAreaWidget' ||
-               tile_config.widget === 'z3c.form.browser.textarea.TextAreaFieldWidget' ||
-               tile_config.widget === 'z3c.form.browser.textlines.TextLinesWidget' ||
-               tile_config.widget === 'z3c.form.browser.textlines.TextLinesFieldWidget' ||
-               tile_config.widget === 'plone.app.z3cform.widget.RichTextFieldWidget' ||
-               tile_config.widget === 'plone.app.z3cform.wysiwyg.widget.WysiwygWidget' ||
-               tile_config.widget === 'plone.app.z3cform.wysiwyg.widget.WysiwygFieldWidget' ||
-               tile_config.widget === 'plone.app.widgets.dx.RichTextWidget')))) {
-
-            // Init rich editor
-            this.$el.children('.mosaic-tile-content').mosaicEditor();
-        }
-
-        // Add border divs
-        this.$el.prepend(
-            $($.mosaic.document.createElement("div"))
-                .addClass("mosaic-tile-outer-border")
-                .append(
-                    $($.mosaic.document.createElement("div"))
-                        .addClass("mosaic-tile-inner-border")
-                )
-        );
-
-        // Add label
-        if (tile_config) {
-            this.$el.prepend(
-                $($.mosaic.document.createElement("div"))
-                    .addClass("mosaic-tile-control mosaic-tile-label")
-                    .append(
-                    $($.mosaic.document.createElement("div"))
-                        .addClass("mosaic-tile-label-content")
-                        .html(tile_config.label)
-                )
-                    .append(
-                    $($.mosaic.document.createElement("div"))
-                        .addClass("mosaic-tile-label-left")
-                )
-            );
-        }
-
-        // If the tile is movable
-        if (this.$el.hasClass("movable") && $.mosaic.options.can_change_layout &&
-                !$.mosaic.staticLayout) {
-            // Add drag handle
-            this.$el.prepend(
-                $($.mosaic.document.createElement("div"))
-                    .addClass("mosaic-tile-control mosaic-drag-handle")
-            );
-        }
-
-        // Add settings icon
-        if (tile_config && tile_config.settings &&
-                this.$el.hasClass('mosaic-read-only-tile') === false) {
-            this.$el.prepend(
-                $($.mosaic.document.createElement("div"))
-                    .addClass("mosaic-tile-control mosaic-info-icon")
-            );
-        }
-
-        var that = this;
-        _.each(['top', 'bottom', 'right', 'left'], function(pos){
-            that.$el.prepend(
-                $($.mosaic.document.createElement("div"))
-                .addClass("mosaic-divider mosaic-divider-" + pos)
-                .append(
-                    $($.mosaic.document.createElement("div"))
-                        .addClass("mosaic-divider-dot")
-                )
-            );
-        });
-    };
-
 
     // Define the layout namespace
     $.mosaic.layout = {
@@ -1332,7 +1136,7 @@ define([
         // Re-init rich text editor after tile has been moved in DOM
         $(".mosaic-new-tile .mosaic-rich-text").each(function () {
             if ($(this).data("pattern-tinymce")) {
-                $(this).mosaicEditor();
+                $(this).mosaicWysiwygEditor();
             }
         });
 
@@ -1730,7 +1534,7 @@ define([
             tilecontent = $(this).parent();
             tilecontent
                 .html(text)
-                .mosaicEditor();
+                .mosaicWysiwygEditor();
         });
     };
 

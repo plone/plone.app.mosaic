@@ -32,7 +32,7 @@ immed: true, strict: true, maxlen: 140, maxerr: 9999, quotmark: false */
 
 define([
     'jquery',
-    'mosaic.layout'
+    'mosaic-url/mosaic.layout'
 ], function($) {
     'use strict';
 
@@ -348,7 +348,7 @@ define([
             }
 
             obj._mosaicToolbarLayoutEditor(actions);
-            if($.mosaic.staticLayout){
+            if($.mosaic.hasContentLayout){
                 // hide these options if static
                 $('.mosaic-toolbar-secondary-functions', this).hide();
             }

@@ -47,13 +47,13 @@ define([
     };
 
     /**
-    * Create a new instance of the mosaic editor.
+    * Create a new instance of the mosaic wysiwyg editor.
     *
     * @constructor
-    * @id jQuery.fn.mosaicEditor
+    * @id jQuery.fn.mosaicWysiwygEditor
     * @return {Object} Returns a new mosaic editor object.
     */
-    $.fn.mosaicEditor = function () {
+    $.fn.mosaicWysiwygEditor = function () {
         var obj, pattern;
 
         // Get element
