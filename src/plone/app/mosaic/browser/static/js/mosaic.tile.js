@@ -21,10 +21,6 @@ define([
     }
 
     that.$el.children(".mosaic-tile-content").off('blur').on('blur', function(){
-      if(!$.mosaic.hasContentLayout){
-        // only save if not a custom layout. Custom layout it'll get saved to layout
-        return;
-      }
       var tiletype = that.getType();
       if(tiletype === 'plone.app.standardtiles.rawhtml'){
         // need to save tile
@@ -276,15 +272,7 @@ define([
         );
       }
 
-      // If the tile is movable
-      if (this.$el.hasClass("movable") && $.mosaic.options.can_change_layout &&
-            !$.mosaic.hasContentLayout) {
-        // Add drag handle
-        this.$el.prepend(
-            $($.mosaic.document.createElement("div"))
-                .addClass("mosaic-tile-control mosaic-drag-handle")
-        );
-      }
+      this.makeMovable();
 
       // Add settings icon
       if (tile_config && tile_config.settings &&
@@ -306,6 +294,18 @@ define([
             )
         );
       });
+    };
+
+    Tile.prototype.makeMovable = function(){
+      // If the tile is movable
+      if (this.$el.hasClass("movable") && $.mosaic.options.can_change_layout &&
+          !$.mosaic.hasContentLayout) {
+        // Add drag handle
+        this.$el.prepend(
+          $($.mosaic.document.createElement("div"))
+              .addClass("mosaic-tile-control mosaic-drag-handle")
+        );
+      }
     };
 
     Tile.prototype.initializeContent = function(){

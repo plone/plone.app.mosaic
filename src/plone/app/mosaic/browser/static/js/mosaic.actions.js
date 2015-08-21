@@ -360,6 +360,12 @@ define([
                 $.mosaic.setSelectedContentLayout('');  // clear selected layout, will use stored layout then
                 $('.mosaic-toolbar-secondary-functions').show();
                 $('.mosaic-button-customizelayout').hide();
+                // go through each tile and add movable
+                $('.mosaic-panel .mosaic-tile', $.mosaic.document).each(function(){
+                    var tile = new Tile(this);
+                    tile.makeMovable();
+                    tile.$el.mosaicAddDrag();
+                });
             },
             visible: function(){
                 return $.mosaic.hasContentLayout;
