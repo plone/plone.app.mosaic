@@ -6,6 +6,7 @@
       'mosaic.editor',
       'mosaic.layout',
       'mosaic.overlay',
+      'mosaic.tile',
       'mosaic.toolbar',
       'mosaic.undo',
       'mosaic.upload'
@@ -18,8 +19,10 @@
         'jquery': 'empty:',
         'tinymce': 'empty:',
         'underscore': 'empty:',
+        'mockup-utils': 'empty:',
         'mockup-patterns-modal': 'empty:',
-        'mockup-patterns-tinymce': 'empty:'
+        'mockup-patterns-tinymce': 'empty:',
+        'mosaic-url': ''
     }
 })
 
