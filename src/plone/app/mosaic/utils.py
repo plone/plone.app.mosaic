@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 from plone.app.blocks.interfaces import IOmittedField
+from plone.app.blocks.resource import getLayoutsFromResources
 from plone.app.blocks.utils import PermissionChecker
 from plone.app.blocks.utils import isVisible
+from plone.app.mosaic.interfaces import CONTENT_LAYOUT_MANIFEST_FORMAT
 from plone.autoform.interfaces import MODES_KEY
 from plone.autoform.interfaces import OMITTED_KEY
 from plone.autoform.interfaces import READ_PERMISSIONS_KEY
@@ -85,3 +87,15 @@ def extractFieldInformation(schema, context, request, prefix):
                     'widget': _getWidgetName(schema[name], widgets, request),
                     'readonly': name in read_only,
                 }
+
+
+def getContentLayoutsForType(pt):
+    result = []
+    for key, value in getLayoutsFromResources(CONTENT_LAYOUT_MANIFEST_FORMAT).items():
+        _for = [v for v in (value.get('for') or '').split(',') if v]
+        if _for and pt not in _for:
+            continue
+        value['path'] = key
+        result.append(value)
+    result.sort(key=lambda l: l.get('title', ''))
+    return result

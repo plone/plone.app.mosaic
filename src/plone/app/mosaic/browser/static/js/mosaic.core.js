@@ -57,9 +57,13 @@ define([
         '<h1>Select Layout</h1>' +
         '<div class="mosaic-select-layout">' +
             '<ul>' +
-                '<% _.each(_.keys(available_layouts), function(key){ ' +
-                    'var layout = available_layouts[key]; %>' +
-                    '<li><a href="#" data-value="<%- key %>"><%- layout.title %></a></li>' +
+                '<% _.each(available_layouts, function(layout){ ' +
+                    'var screenshot = layout.screenshot;' +
+                    'if(!screenshot){' +
+                        'screenshot = "++resource++plone.app.mosaic.images/default-layout-screenshot.png";' +
+                    '} %>' +
+                    '<li><a href="#" data-value="<%- layout.path %>">' +
+                        '<p><%- layout.title %></p><img src="<%- screenshot %>"></a></li>' +
                 '<% }); %>' +
             '</ul>' +
         '</div>' +
@@ -288,7 +292,13 @@ define([
         modal.on('shown', function() {
             $('li a', modal.$modal).off('click').on('click', function(e){
                 e.preventDefault();
-                var layout = $.mosaic.options.available_layouts[$(this).attr('data-value')];
+                var layout;
+                var layout_id = $(this).attr('data-value');
+                _.each($.mosaic.options.available_layouts, function(l){
+                    if(l.path === layout_id){
+                        layout = l;
+                    }
+                });
                 var layoutPath = '++contentlayout++' + layout.directory + '/' + layout.file;
                 modal.hide();
                 $.mosaic.applyLayout(layoutPath);

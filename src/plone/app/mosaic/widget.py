@@ -2,10 +2,9 @@
 from Products.CMFDynamicViewFTI.interfaces import ISelectableBrowserDefault
 from plone import api
 from plone.app.blocks.layoutbehavior import ILayoutAware
-from plone.app.blocks.resource import getLayoutsFromResources
 from plone.app.mosaic.interfaces import IMosaicLayer
 from plone.app.mosaic.interfaces import IMosaicRegistryAdapter
-from plone.app.mosaic.interfaces import CONTENT_LAYOUT_MANIFEST_FORMAT
+from plone.app.mosaic.utils import getContentLayoutsForType
 from plone.app.widgets.base import TextareaWidget
 from plone.app.widgets.base import dict_merge
 from plone.app.widgets.utils import get_tinymce_options
@@ -73,8 +72,9 @@ class LayoutWidget(BaseWidget, TextAreaWidget):
     def get_options(self):
         registry = queryUtility(IRegistry)
         adapted = IMosaicRegistryAdapter(registry)
+        pt = self.obtainType()
         kwargs = {
-            'type': self.obtainType(),
+            'type': pt,
             'context': self.context,
             'request': self.request,
         }
@@ -91,7 +91,7 @@ class LayoutWidget(BaseWidget, TextAreaWidget):
         result['contentLayout_field_selector'] = '[name="%s"]' % (
             self.name.replace('.content', '.contentLayout'))
 
-        result['available_layouts'] = getLayoutsFromResources(CONTENT_LAYOUT_MANIFEST_FORMAT)
+        result['available_layouts'] = getContentLayoutsForType(pt)
 
         return {'data': result}
 
