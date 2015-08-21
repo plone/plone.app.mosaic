@@ -90,10 +90,6 @@
       name="plone.availableDisplayLayouts"
       />
 
-  <!-- Register default value adapter for layout aware content attribute -->
-  <!-- For zope.schema via special layout field specific adapter -->
-  <adapter factory=".layoutsupport.layoutFieldDefaultValue" />
-
   <!-- Register default layouts -->
   <include file="layouts.zcml" />
 

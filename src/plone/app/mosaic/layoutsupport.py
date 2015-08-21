@@ -8,14 +8,11 @@ from zope.component import getUtility
 from zope.component import queryMultiAdapter
 from zope.component.hooks import getSite
 from zope.globalrequest import getRequest
-from zope.interface import Interface, implementer
 from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleVocabulary
 from zope.schema.vocabulary import SimpleTerm
 
-from plone.app.blocks.interfaces import ILayoutFieldDefaultValue
 from plone.app.blocks.resource import AvailableLayoutsVocabulary
-from plone.app.mosaic.interfaces import IMosaicLayer
 from plone.app.mosaic.interfaces import CONTENT_LAYOUT_FILE_NAME
 from plone.app.mosaic.interfaces import CONTENT_LAYOUT_MANIFEST_FORMAT
 from plone.app.mosaic.interfaces import CONTENT_LAYOUT_RESOURCE_NAME
@@ -37,22 +34,6 @@ AvailableContentLayoutsVocabularyFactory = AvailableLayoutsVocabulary(
     CONTENT_LAYOUT_MANIFEST_FORMAT,
     CONTENT_LAYOUT_FILE_NAME,
 )
-
-
-@implementer(ILayoutFieldDefaultValue)
-@adapter(Interface, IMosaicLayer)
-def layoutFieldDefaultValue(context, request):
-    # XXX We return a special layout here that tells the layout
-    # editor to allow the user to select from available content
-    # layouts
-    return u"""
-<!DOCTYPE html>
-<html lang="en" data-layout="./@@page-site-layout" id="no-layout">
-<body>
-<div data-panel="content">
-</div>
-</body>
-</html>"""
 
 
 def absolute_path(path):

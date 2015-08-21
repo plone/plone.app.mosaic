@@ -1252,7 +1252,7 @@
     <value key="weight">30</value>
   </records>
 
-    <records prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_rawhtml"
+  <records prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_rawhtml"
            interface="plone.app.mosaic.interfaces.ITile">
     <value key="name">plone.app.standardtiles.rawhtml</value>
     <value key="label">Rich Text</value>
@@ -1273,6 +1273,15 @@
     </field>
     <value>
     </value>
+  </record>
+
+  <record name="plone.app.blocks.default_layout.Document">
+    <field type="plone.registry.field.TextLine" />
+    <value>++contentlayout++default/document.html</value>
+  </record>
+  <record name="plone.app.blocks.default_layout.Event">
+    <field type="plone.registry.field.TextLine" />
+    <value>++contentlayout++default/event.html</value>
   </record>
 
   <records prefix="plone.resources/mosaic-base"
