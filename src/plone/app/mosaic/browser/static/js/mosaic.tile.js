@@ -5,18 +5,50 @@ immed: true, strict: true, maxlen: 150, maxerr: 9999, quotmark: false */
 define([
   'jquery',
   'pat-logger',
-  'underscore'
-], function($, logger, _) {
+  'underscore',
+  'mockup-utils'
+], function($, logger, _, utils) {
   'use strict';
 
   var log = logger.getLogger('pat-mosaic');
 
   /* Tile class */
   var Tile = function(el){
-    this.$el = $(el);
-    if(!this.$el.is('.mosaic-tile')){
-      this.$el = this.$el.parents('.mosaic-tile');
+    var that = this;
+    that.$el = $(el);
+    if(!that.$el.is('.mosaic-tile')){
+      that.$el = that.$el.parents('.mosaic-tile');
     }
+
+    that.$el.children(".mosaic-tile-content").off('blur').on('blur', function(){
+      if(!$.mosaic.hasContentLayout){
+        // only save if not a custom layout. Custom layout it'll get saved to layout
+        return;
+      }
+      var tiletype = that.getType();
+      if(tiletype === 'plone.app.standardtiles.rawhtml'){
+        // need to save tile
+        $.ajax({
+          url: that.getEditUrl(),
+          method: 'POST',
+          data: {
+            'plone.app.standardtiles.rawhtml.content': that.$el.children('.mosaic-tile-content').html(),
+            _authenticator: utils.getAuthenticator(),
+            'buttons.save': 'Save'
+          }
+        });
+      }
+    });
+  };
+
+  Tile.prototype.getEditUrl = function(){
+    var tile_url = this.getUrl();
+    tile_url = tile_url.replace(/@@/, '@@edit-tile/');
+    // Calc absolute edit url
+    if (tile_url.match(/^\.\/.*/)) {
+      tile_url = $.mosaic.options.context_url + tile_url.replace(/^\./, '');
+    }
+    return tile_url;
   };
 
   Tile.prototype.getUrl = function(){
@@ -27,6 +59,18 @@ define([
     if(tile_url){
       tile_url = tile_url.replace($.mosaic.options.context_url, './');
       tile_url = tile_url.replace(/^\.\/\//, './');
+      if($.mosaic.hasContentLayout){
+        if(tile_url.indexOf('X-Tile-Persistent') === -1){
+          if(tile_url.indexOf('?') === -1){
+            tile_url += '?';
+          }else{
+            tile_url += '&';
+          }
+          tile_url += 'X-Tile-Persistent=yes';
+        }
+      }else if(tile_url.indexOf('X-Tile-Persistent') !== -1){
+        tile_url = tile_url.replace('X-Tile-Persistent=yes', '').replace('&&', '&');
+      }
     }
     return tile_url;
   };
@@ -353,13 +397,12 @@ define([
             var tileHtml = value.find('.temp_body_tag').html();
             that.fillContent(tileUrlHtml + tileHtml);
 
-            if(that.isRichText()){
+            var tiletype = that.getType();
+            if(tiletype === 'plone.app.standardtiles.rawhtml'){
               // a little gymnastics to make wysiwyg work here
               // Init rich editor
               var $content = that.$el.children('.mosaic-tile-content');
               $content.mosaicWysiwygEditor();
-            }else{
-              that.fillContent(tileUrlHtml + tileHtml);
             }
           },
           error: function(){

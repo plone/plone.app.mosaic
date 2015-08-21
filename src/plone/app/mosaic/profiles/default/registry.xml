@@ -1252,9 +1252,9 @@
     <value key="weight">30</value>
   </records>
 
-    <records prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_richtext"
+    <records prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_rawhtml"
            interface="plone.app.mosaic.interfaces.ITile">
-    <value key="name">plone.app.standardtiles.richtext</value>
+    <value key="name">plone.app.standardtiles.rawhtml</value>
     <value key="label">Rich Text</value>
     <value key="category">structure</value>
     <value key="tile_type">app</value>

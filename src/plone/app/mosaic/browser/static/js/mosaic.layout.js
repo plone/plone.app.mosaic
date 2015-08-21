@@ -451,12 +451,7 @@ define([
             if (tile_config.tile_type === 'app') {
 
                 // Get url
-                var tile_url = tile.getUrl();
-                tile_url = tile_url.replace(/@@/, '@@edit-tile/');
-                // Calc absolute edit url
-                if (tile_url.match(/^\.\/.*/)) {
-                    tile_url = $.mosaic.options.context_url + tile_url.replace(/^\./, '');
-                }
+                var tile_url = tile.getEditUrl();
 
                 // Annotate the edited tile, because overlay will steal its focus
                 $(this).parents(".mosaic-tile").addClass('mosaic-edited-tile');
@@ -479,6 +474,10 @@ define([
                           // Remove edited annotation
                           $('.mosaic-edited-tile', $.mosaic.document).removeClass('mosaic-edited-tile');
                     });
+                    if($.mosaic.hasContentLayout){
+                        // not a custom layout, make sure the form knows
+                        $('form', $.mosaic.overlay.app.$modal).append($('<input type="hidden" name="X-Tile-Persistent" value="yes" />'));
+                    }
                 });
                 $.mosaic.overlay.app.show();
                 $.mosaic.overlay.app.$el.off('formActionSuccess');

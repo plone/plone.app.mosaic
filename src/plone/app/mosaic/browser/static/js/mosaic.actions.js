@@ -277,9 +277,14 @@ define([
         // Register save action
         $.mosaic.registerAction('save', {
             exec: function () {
-                $("#form-widgets-ILayoutAware-content, " +
-                  "[name='form.widgets.ILayoutAware.content']")
-                      .val($.mosaic.getPageContent());
+                // XXX save rich text tiles first?
+                var $customLayout = $("#form-widgets-ILayoutAware-content, " +
+                                  "[name='form.widgets.ILayoutAware.content']");
+                if($.mosaic.hasContentLayout){
+                    $customLayout.val('');
+                }else{
+                    $customLayout.val($.mosaic.getPageContent());
+                }
 
                 $("#form-buttons-save").click();
             },

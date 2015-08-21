@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from Products.CMFCore.utils import getToolByName
 from zope.publisher.browser import BrowserView
 try:
     import json
@@ -8,7 +7,6 @@ except:
 
 from plone import api
 from plone.protect.authenticator import createToken
-from plone.app.mosaic.layoutsupport import AvailableContentLayoutsVocabularyFactory
 
 from plone.app.mosaic import _PMF as _
 
@@ -116,10 +114,6 @@ class MosaicUploadView(BrowserView):
 class LayoutsEditor(BrowserView):
 
     def __call__(self):
-        if self.request.get('assign-data') == 'yes':
-            return json.dumps(self.get_assign_config())
-        elif self.request.get('assign-save') == 'yes':
-            self.save_assignments()
         from Products.CMFPlone.resources import add_bundle_on_request
         add_bundle_on_request(self.request, 'layouts-editor')
         return super(LayoutsEditor, self).__call__()
@@ -127,83 +121,6 @@ class LayoutsEditor(BrowserView):
     def get_layout_id(self, layout):
         return '++layout++' + layout.replace(
             '++contentlayout++', '').replace('/', '-').replace('.html', '')
-
-    def save_assignments(self):
-        portal_types = getToolByName(self.context, 'portal_types')
-        for key, selected_layouts in self.request.form.items():
-            if isinstance(selected_layouts, basestring):
-                selected_layouts = [selected_layouts]
-
-            try:
-                fti = portal_types[key]
-            except (KeyError, AttributeError):
-                continue
-
-            aliases = fti.getMethodAliases() or {}
-            aliases_inverse = {v: k for k, v in aliases.items()}
-            view_methods = [i for i in fti.getAvailableViewMethods(self.context)]
-
-            for layout in selected_layouts:
-                # make sure all selected views on in
-                # ++contentlayout++default/document.html
-                if layout in aliases_inverse:
-                    _id = aliases_inverse[layout]
-                else:
-                    _id = self.get_layout_id(layout)
-                aliases[_id] = layout
-                if _id not in view_methods:
-                    view_methods.append(_id)
-
-            for _id, layout in aliases.items():
-                # remove unselected layouts
-                if '++layout++' not in _id:
-                    continue
-                if layout not in selected_layouts:
-                    del aliases[_id]
-                    if _id in view_methods:
-                        view_methods.remove(_id)
-
-            for method in view_methods[:]:
-                # finally, cleanup any potential remaining defined
-                # layout views
-                if '++layout++' not in method:
-                    continue
-                if method not in aliases:
-                    view_methods.remove(method)
-
-            fti.setMethodAliases(aliases)
-            fti.view_methods = list(set(view_methods))
-
-    def get_assign_config(self):
-        available = []
-        for layout in AvailableContentLayoutsVocabularyFactory(self.context):
-            available.append({
-                'title': layout.title,
-                'value': layout.value.lstrip('/')
-            })
-
-        portal_types = getToolByName(self.context, 'portal_types')
-        types = []
-        for pt_id in portal_types.objectIds():
-            fti = portal_types[pt_id]
-            try:
-                if 'plone.app.blocks.layoutbehavior.ILayoutAware' in fti.behaviors:
-                    aliases = fti.getMethodAliases() or {}
-                    view_methods = []
-                    for method in fti.getAvailableViewMethods(self.context):
-                        if '++layout++' in method and method in aliases:
-                            view_methods.append(aliases[method].lstrip('/'))
-                    types.append({
-                        'id': pt_id,
-                        'title': fti.Title(),
-                        'layouts': view_methods})
-            except AttributeError:
-                pass
-
-        return {
-            'available': available,
-            'types': types
-        }
 
     @property
     def content_config(self):
