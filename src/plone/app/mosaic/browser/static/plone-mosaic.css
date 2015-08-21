@@ -66,11 +66,7 @@
 }
 .mosaic-toolbar button:hover,
 .mosaic-toolbar .mosaic-menu.select2-container:hover,
-.mosaic-toolbar .mosaic-menu.select2-container:hover a.select2-choice {
-  color: #333333;
-  background-color: #e6e6e6;
-  border-color: #adadad;
-}
+.mosaic-toolbar .mosaic-menu.select2-container:hover a.select2-choice,
 .mosaic-toolbar .mosaic-menu.select2-container.select2-dropdown-open,
 .mosaic-toolbar .mosaic-menu.select2-container.select2-dropdown-open a.select2-choice {
   color: #333333;
@@ -126,7 +122,6 @@
   margin-left: 2px;
   vertical-align: middle;
   border-top: 4px dashed;
-  border-top: 4px solid \9;
   border-right: 4px solid transparent;
   border-left: 4px solid transparent;
 }
@@ -374,6 +369,26 @@
 .mosaic-dropdown .select2-search,
 .mosaic-dropdown .select2-search input {
   display: none !important;
+}
+.mosaic-select-layout ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.mosaic-select-layout ul li {
+  float: left;
+  padding: 5px;
+}
+.mosaic-select-layout ul li img {
+  max-height: 300px;
+  max-width: 300px;
+}
+.mosaic-select-layout ul li p {
+  text-align: center;
+  font-size: 125%;
+}
+.plone-modal-footer {
+  clear: both;
 }
 @media screen and (max-width: 768px) {
   .mosaic-dropdown {
@@ -965,3 +980,4 @@
   -ms-user-select: none;
   user-select: none;
 }
+/*# sourceMappingURL=plone-mosaic.css.map */
