@@ -277,7 +277,8 @@ define([
         // Register save action
         $.mosaic.registerAction('save', {
             exec: function () {
-                // XXX save rich text tiles first?
+                $.mosaic.options.toolbar.trigger("selectedtilechange");
+
                 var $customLayout = $("#form-widgets-ILayoutAware-content, " +
                                   "[name='form.widgets.ILayoutAware.content']");
                 if($.mosaic.hasContentLayout){

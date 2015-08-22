@@ -1905,7 +1905,6 @@ define([
                         // Loop through tiles
                         $(this).children(".mosaic-tile").each(function () {
                             var tile = new Tile(this);
-
                             body += tile.getHtmlBody();
                         });
 

@@ -32,8 +32,9 @@ immed: true, strict: true, maxlen: 140, maxerr: 9999, quotmark: false */
 
 define([
     'jquery',
+    'mosaic-url/mosaic.tile',
     'mosaic-url/mosaic.layout'
-], function($) {
+], function($, Tile) {
     'use strict';
 
     // Define mosaic namespace if it doesn't exist
@@ -395,7 +396,7 @@ define([
             // Bind selected tile change event
             SelectedTileChange = function () {
                 // Local variables
-                var obj, tiletype, selected_tile, classes, actions, x,
+                var obj, tiletype, actions, x,
                 tile_group, y;
 
                 // Disable edit html source
@@ -404,23 +405,10 @@ define([
                 // Get object
                 obj = $(this);
 
-                // Get selected tile and tiletype
-                tiletype = "";
-                selected_tile = $(".mosaic-selected-tile", $.mosaic.document);
-                if (selected_tile.length > 0) {
-                    classes = selected_tile.attr('class').split(" ");
-                    $(classes).each(function () {
-                        var classname = this.match(/^mosaic-(.*)-tile$/);
-                        if (classname !== null) {
-                            if ((classname[1] !== 'selected') &&
-                                (classname[1] !== 'new') &&
-                                (classname[1] !== 'read-only') &&
-                                (classname[1] !== 'helper') &&
-                                (classname[1] !== 'original')) {
-                                tiletype = classname[1];
-                            }
-                        }
-                    });
+                var $selected_tile = $(".mosaic-selected-tile", $.mosaic.document);
+                if($selected_tile.length > 0){
+                    var tile = new Tile($selected_tile);
+                    tiletype = tile.getType();
                 }
 
                 // Get actions
@@ -434,7 +422,7 @@ define([
                         }
                     }
                 }
-                if (!selected_tile.hasClass('removable')) {
+                if (!$selected_tile.hasClass('removable')) {
                     actions = $(actions).filter(function() {
                         return this !== 'remove';
                     });
