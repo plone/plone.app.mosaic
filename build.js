@@ -1,16 +1,6 @@
 ({
     baseUrl: 'src/plone/app/mosaic/browser/static/js',
-    name: 'mosaic.core',
-    include: [
-      'mosaic.actions',
-      'mosaic.editor',
-      'mosaic.layout',
-      'mosaic.overlay',
-      'mosaic.tile',
-      'mosaic.toolbar',
-      'mosaic.undo',
-      'mosaic.upload'
-    ],
+    name: 'mosaic.pattern',
     out: 'src/plone/app/mosaic/browser/static/plone-mosaic.js',
     optimize: 'uglify2',
     generateSourceMaps: true,
@@ -19,9 +9,11 @@
         'jquery': 'empty:',
         'tinymce': 'empty:',
         'underscore': 'empty:',
-        'mockup-utils': 'empty:',
+        'pat-logger': 'empty:',
+        'mockup-patterns-base': 'empty:',
         'mockup-patterns-modal': 'empty:',
         'mockup-patterns-tinymce': 'empty:',
+        'mockup-utils': 'empty:',
         'mosaic-url': ''
     }
 })

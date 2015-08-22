@@ -4,7 +4,7 @@ WATCH_CMD = node_modules/watch/cli.js
 
 STATIC = src/plone/app/mosaic/browser/static
 
-SOURCE_JS = $(shell find $(STATIC)/js -name "*.js")
+SOURCE_JS = build.js $(shell find $(STATIC)/js -name "*.js")
 BUNDLE_JS = $(STATIC)/plone-mosaic.js
 SOURCE_LESS = $(shell find $(STATIC)/css -name "*.less")
 BUNDLE_LESS = $(STATIC)/plone-mosaic.css
@@ -30,7 +30,6 @@ $(BUNDLE_JS): $(SOURCE_JS)
 	$(RJS_CMD) $(RJS_ARGS)
 	cp $(BUNDLE_JS) $(BUNDLE_JS).tmp
 	grep -v sourceMapping $(BUNDLE_JS).tmp > $(BUNDLE_JS)
-	cat $(STATIC)/js/mosaic.pattern.js >> $(BUNDLE_JS)
 ifeq ($(mode),release)
 else
 	echo '' >> $(BUNDLE_JS)
