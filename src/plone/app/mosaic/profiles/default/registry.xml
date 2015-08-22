@@ -1252,6 +1252,15 @@
     <value key="weight">30</value>
   </records>
 
+  <record name="plone.app.mosaic.app_tiles.plone_app_standardtiles_rss.available_actions">
+    <field type="plone.registry.field.List">
+      <title>Available actions for the RSS tile</title>
+      <value_type type="plone.registry.field.TextLine" />
+    </field>
+    <value>
+    </value>
+  </record>
+
   <records prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_rawhtml"
            interface="plone.app.mosaic.interfaces.ITile">
     <value key="name">plone.app.standardtiles.rawhtml</value>
@@ -1266,12 +1275,25 @@
     <value key="weight">110</value>
   </records>
 
-  <record name="plone.app.mosaic.app_tiles.plone_app_standardtiles_rss.available_actions">
+  <record name="plone.app.mosaic.app_tiles.plone_app_standardtiles_rawhtml.available_actions">
     <field type="plone.registry.field.List">
-      <title>Available actions for the RSS tile</title>
+      <title>Available actions for the raw html tile</title>
       <value_type type="plone.registry.field.TextLine" />
     </field>
     <value>
+      <element>toolbar-undo</element>
+      <element>toolbar-redo</element>
+      <element>toolbar-styleselect</element>
+      <element>toolbar-bold</element>
+      <element>toolbar-italic</element>
+      <element>toolbar-alignleft</element>
+      <element>toolbar-aligncenter</element>
+      <element>toolbar-alignright</element>
+      <element>toolbar-alignjustify</element>
+      <element>toolbar-bullist</element>
+      <element>toolbar-numlist</element>
+      <element>toolbar-unlink</element>
+      <element>toolbar-plonelink</element>
     </value>
   </record>
 
