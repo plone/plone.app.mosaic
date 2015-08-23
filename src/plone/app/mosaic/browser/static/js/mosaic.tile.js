@@ -316,7 +316,7 @@ define([
 
       var base = $('body', $.mosaic.document).attr('data-base-url');
       if(!base){
-        $('head > base', $.mosaic.document).attr('href');
+        base = $('head > base', $.mosaic.document).attr('href');
       }
       var href = this.getUrl();
 
