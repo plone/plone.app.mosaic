@@ -29,48 +29,4 @@ require([
 ], function($, utils, _) {
   'use strict';
 
-  var assignTemplate = _.template('<form method="POST">' +
-    '<input type="hidden" name="_authenticator" value="<%- _authenticator %>" />' +
-    '<input type="hidden" name="assign-save" value="yes" />' +
-    '<% _.each(types, function(type){ %>' +
-      '<div class="field">' +
-        '<label class="horizontal"><%- type.title %></label>' +
-        '<select multiple="true" name="<%- type.id %>">' +
-          '<% _.each(available, function(view){ %>' +
-            '<option value="<%- view.value %>"' +
-              '<% if(_.contains(type.layouts, view.value)){ %> selected="selected" <% } %> ><%- view.title %> (<%- view.value %>)' +
-            '</option>' +
-          '<% }) %>' +
-        '</select>' +
-      '</div>' +
-    '<% }) %>' +
-    '<input type="submit" class="plone-btn plone-btn-primary" value="Save" />' +
-  '</form>');
-
-  var loadAssignForm = function(data){
-    $('#assign-container').html(assignTemplate($.extend(data, {
-      _authenticator: utils.getAuthenticator()
-    })));
-  };
-
-  var patternsLoaded = function(){
-    $('#assign').click(function(){
-      utils.loading.show();
-      $.ajax({
-        url: window.location.href + '?assign-data=yes',
-        dataType: 'json'
-      }).done(function(data){
-        loadAssignForm(data);
-      });
-    });
-  };
-
-  var _checkLoaded = function(){
-    if($('body').hasClass('patterns-loaded')){
-      patternsLoaded();
-    }else{
-      setTimeout(_checkLoaded, 100);
-    }
-  };
-  _checkLoaded();
 });

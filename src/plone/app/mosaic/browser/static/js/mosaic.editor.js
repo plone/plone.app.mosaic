@@ -28,7 +28,7 @@
 /*global jQuery: false, window: false */
 /*jslint white: true, browser: true, onevar: true, undef: true, nomen: true,
 eqeqeq: true, plusplus: true, bitwise: true, regexp: true, newcap: true,
-immed: true, strict: true, maxlen: 80, maxerr: 9999, quotmark: false */
+immed: true, strict: true, maxlen: 100, maxerr: 9999, quotmark: false */
 
 define([
     'jquery',
@@ -74,7 +74,8 @@ define([
                $.mosaic.document).length > 0) {
             random_id = 1 + Math.floor(100000 * Math.random());
         }
-        obj.attr('id', 'mosaic-rich-text-init-' + random_id);
+        var id = 'mosaic-rich-text-init-' + random_id;
+        obj.attr('id', id);
         obj.siblings('.mosaic-rich-text-toolbar').remove();
         obj.before($('<div class="mosaic-rich-text-toolbar"></div>')
             .attr('id', obj.attr('id') + '-panel'));
@@ -148,9 +149,10 @@ define([
         // Init rich editor
         pattern = new TinyMCE(obj, $.extend(
             true, {}, $.mosaic.options.tinymce, { tiny: {
-            selector: "#" + "mosaic-rich-text-init-" + random_id,
+            body_id: id,
+            selector: "#" + id,
             inline: true,
-            fixed_toolbar_container: '#' + obj.attr('id') + '-panel',
+            fixed_toolbar_container: '#' + id + '-panel',
             menubar: false,
             toolbar: toolbar.join(' ') || false,
             statusbar: false,
@@ -161,9 +163,11 @@ define([
             setup: function(editor) {
                 editor.on('focus', function(e) {
                     if (e.target.id) {
-                        $('#' + e.target.id)
-                            .parents('.mosaic-tile').first()
-                            .mosaicSelectTile();
+                        var $tile = $('#' + e.target.id).parents('.mosaic-tile').first();
+                        if($tile.size() > 0){
+                            var tile = new Tile($tile);
+                            tile.select();
+                        }
                     }
                 });
                 editor.on('change', placeholder);

@@ -491,7 +491,7 @@ define([
                 });
             },
             visible: function(){
-                return $.mosaic.hasContentLayout;
+                return !$.mosaic.hasContentLayout;
             }
         });
 

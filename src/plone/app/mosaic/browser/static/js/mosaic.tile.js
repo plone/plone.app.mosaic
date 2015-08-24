@@ -417,5 +417,33 @@ define([
       this.$el.find('[data-tile]').parent().html(html);
     };
 
+    Tile.prototype.select = function(){
+      if (this.$el.hasClass("mosaic-selected-tile") === false &&
+          this.$el.hasClass("mosaic-read-only-tile") === false) {
+
+        // un-select existing
+        var $tile = $(".mosaic-selected-tile", $.mosaic.document);
+        if($tile.size() === 1){
+          var tile = new Tile($tile);
+          tile.blur();
+        }
+        this.$el.addClass("mosaic-selected-tile");
+
+        // Set actions
+        $.mosaic.options.toolbar.trigger("selectedtilechange");
+        $.mosaic.options.panels.mosaicSetResizeHandleLocation();
+
+        this.focus();
+      }
+    };
+
+    Tile.prototype.blur = function(){
+      this.$el.removeClass("mosaic-selected-tile").children(".mosaic-tile-content").blur();
+    };
+
+    Tile.prototype.focus = function(){
+      this.$el.children(".mosaic-tile-content").focus();
+    };
+
     return Tile;
 });

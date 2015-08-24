@@ -379,8 +379,11 @@ define([
                 // Set resize handles
                 $(this).parent().mosaicSetResizeHandles();
                 panel.mosaicSetResizeHandleLocation();
-                panel.find(".mosaic-selected-tile").mosaicFocusTileContent();
-
+                var $tile = panel.find(".mosaic-selected-tile");
+                if($tile.size() > 0){
+                    var tile = new Tile($tile);
+                    tile.focus();
+                }
                 // Remove helper
                 $(this).remove();
             });
@@ -434,9 +437,8 @@ define([
 
         // On click select the current tile
         $($.mosaic.document).off("click", ".mosaic-tile").on("click", ".mosaic-tile", function () {
-
-            // Select tile
-            $(this).mosaicSelectTile();
+            var tile = new Tile(this);
+            tile.select();
         });
 
         // On click open overlay
@@ -538,55 +540,12 @@ define([
                 });
 
                 // Select first tile in biggest panel
-                $.mosaic.options.panels.eq(index).find('.mosaic-tile:first').mosaicSelectTile();
+                var $tile = $.mosaic.options.panels.eq(index).find('.mosaic-tile:first');
+                if($tile.size() > 0){
+                    var tile = new Tile($tile);
+                    tile.select();
+                }
             }
-        });
-    };
-
-    /**
-     * Select the matched tile
-     *
-     * @id jQuery.mosaicSelectTile
-     * @return {Object} jQuery object
-     */
-    $.fn.mosaicSelectTile = function () {
-
-        // Loop through matched elements
-        return this.each(function () {
-
-            // Check if not already selected
-            if ($(this).hasClass("mosaic-selected-tile") === false &&
-                    $(this).hasClass("mosaic-read-only-tile") === false) {
-
-                $(".mosaic-selected-tile", $.mosaic.document)
-                    .removeClass("mosaic-selected-tile")
-                    .children(".mosaic-tile-content").blur();
-                $(this).addClass("mosaic-selected-tile");
-
-                // Set actions
-                $.mosaic.options.toolbar.trigger("selectedtilechange");
-                $.mosaic.options.panels.mosaicSetResizeHandleLocation();
-
-                // Focus the tile content field
-                $(this).mosaicFocusTileContent();
-            }
-        });
-    };
-
-    /**
-     * Focus the tile content
-     *
-     * @id jQuery.mosaicFocusTileContent
-     * @return {Object} jQuery object
-     */
-    $.fn.mosaicFocusTileContent = function () {
-
-        // Loop through matched elements
-        return this.each(function () {
-
-            // Get content
-            var tile_content = $(this).children(".mosaic-tile-content");
-            tile_content.focus();
         });
     };
 
@@ -860,7 +819,6 @@ define([
      * @return {Object} jQuery object
      */
     $.fn.mosaicHandleDragEnd = function () {
-
         // Get layout object
         var obj = $(this).parents("[data-panel]");  // jshint ignore:line
 
@@ -871,18 +829,11 @@ define([
         var divider = $(".mosaic-selected-divider", $.mosaic.document);
         var drop = divider.parent();
         var dir = "";
-        if (divider.hasClass("mosaic-divider-top")) {
-            dir = "top";
-        }
-        if (divider.hasClass("mosaic-divider-bottom")) {
-            dir = "bottom";
-        }
-        if (divider.hasClass("mosaic-divider-left")) {
-            dir = "left";
-        }
-        if (divider.hasClass("mosaic-divider-right")) {
-            dir = "right";
-        }
+        _.each(['top', 'bottom', 'left', 'right'], function(_dir){
+            if(divider.hasClass("mosaic-divider-" + _dir)){
+                dir = _dir;
+            }
+        });
         divider.removeClass("mosaic-selected-divider");
 
         // True if new tile is inserted
@@ -967,13 +918,6 @@ define([
                     .removeClass("mosaic-original-tile")
                     .addClass("mosaic-new-tile");
             }
-
-            // Notify user
-            //$.plone.notify({
-            //    title: "Info",
-            //    message: "You can't have more then 4 columns",
-            //    sticky: false
-            //});
 
         // Dropped on row
         } else {
@@ -1133,17 +1077,17 @@ define([
         $.mosaic.options.panels.mosaicAddEmptyRows();
 
         // Re-init rich text editor after tile has been moved in DOM
-        $(".mosaic-new-tile .mosaic-rich-text").each(function () {
-            if ($(this).data("pattern-tinymce")) {
-                $(this).mosaicWysiwygEditor();
-            }
+        $(".mosaic-rich-text").each(function () {
+            $(this).mosaicWysiwygEditor();
         });
+
+        var $tile = $(".mosaic-new-tile", $.mosaic.document);
+        $tile.removeClass("mosaic-new-tile");
 
         // Select new tile
         if (new_tile) {
-            $(".mosaic-new-tile", $.mosaic.document).removeClass("mosaic-new-tile").mosaicSelectTile();
-        } else {
-            $(".mosaic-new-tile", $.mosaic.document).removeClass("mosaic-new-tile");
+            var tile = new Tile($tile);
+            tile.select();
         }
     };
 
