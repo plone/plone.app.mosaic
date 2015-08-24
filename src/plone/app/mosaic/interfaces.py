@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import pkg_resources
 
-from plone.resource.manifest import ManifestFormat
 from zope.interface import Interface
 from zope import schema
 
@@ -10,17 +9,6 @@ from plone.app.mosaic import _PMF as _
 
 HAVE_PLONE_5 = \
     int(pkg_resources.get_distribution('Products.CMFPlone').version[0]) > 4
-
-CONTENT_LAYOUT_RESOURCE_NAME = "contentlayout"
-CONTENT_LAYOUT_FILE_NAME = "content.html"
-
-CONTENT_LAYOUT_MANIFEST_FORMAT = ManifestFormat(
-    CONTENT_LAYOUT_RESOURCE_NAME,
-    keys=('title', 'description', 'file', 'screenshot', 'for'),
-    defaults={'file': CONTENT_LAYOUT_FILE_NAME}
-)
-
-CONTENT_LAYOUT_DEFAULT_LAYOUT = '++contentlayout++default/basic.html'
 
 
 class IMosaicLayer(Interface):

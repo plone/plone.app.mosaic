@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
+from plone.app.blocks.interfaces import CONTENT_LAYOUT_MANIFEST_FORMAT
 from plone.app.blocks.interfaces import IOmittedField
 from plone.app.blocks.resource import getLayoutsFromResources
 from plone.app.blocks.utils import PermissionChecker
 from plone.app.blocks.utils import isVisible
-from plone.app.mosaic.interfaces import CONTENT_LAYOUT_MANIFEST_FORMAT
 from plone.autoform.interfaces import MODES_KEY
 from plone.autoform.interfaces import OMITTED_KEY
 from plone.autoform.interfaces import READ_PERMISSIONS_KEY

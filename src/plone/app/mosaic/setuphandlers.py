@@ -3,10 +3,10 @@ from StringIO import StringIO
 
 import pkg_resources
 from plone import api
+from plone.app.blocks.interfaces import CONTENT_LAYOUT_RESOURCE_NAME
 from plone.app.blocks.interfaces import IBlocksSettings
 from plone.app.blocks.interfaces import SITE_LAYOUT_RESOURCE_NAME
 from plone.app.blocks.utils import resolveResource
-from plone.app.mosaic.interfaces import CONTENT_LAYOUT_RESOURCE_NAME
 from plone.app.mosaic.interfaces import HAVE_PLONE_5
 from plone.app.mosaic.interfaces import IMosaicLayer
 from plone.app.mosaic.utils import getPersistentResourceDirectory
@@ -22,7 +22,6 @@ except pkg_resources.DistributionNotFound:
     HAS_PLONE_APP_WIDGETS = False
 else:
     HAS_PLONE_APP_WIDGETS = True
-
 
 try:
     pkg_resources.get_distribution('plone.app.contenttypes')

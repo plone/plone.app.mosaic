@@ -69,27 +69,6 @@
 
   <include package=".browser" />
 
-  <!-- Register resource traverser for content layouts -->
-  <adapter
-      name="contentlayout"
-      for="* .interfaces.IMosaicLayer"
-      provides="zope.traversing.interfaces.ITraversable"
-      factory=".layoutsupport.ContentLayoutTraverser"
-      />
-
-  <!-- Register vocabulary all available content layouts-->
-  <utility
-      component=".layoutsupport.AvailableContentLayoutsVocabularyFactory"
-      name="plone.availableContentLayouts"
-      />
-
-  <!-- Register vocabulary for display layouts available for given context -->
-  <utility
-      component=".layoutsupport.AvailableDisplayLayoutsVocabularyFactory"
-      provides="zope.schema.interfaces.IVocabularyFactory"
-      name="plone.availableDisplayLayouts"
-      />
-
   <!-- Register default layouts -->
   <include file="layouts.zcml" />
 
