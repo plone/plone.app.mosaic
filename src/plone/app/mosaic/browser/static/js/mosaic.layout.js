@@ -82,18 +82,12 @@ define([
                             $(document).trigger("mouseup");
                         }
                     });
-
                 // Deselect tile
                 } else {
-
-                    // Deselect tiles
-                    $(".mosaic-selected-tile", $.mosaic.document)
-                        .removeClass("mosaic-selected-tile")
-                        .children(".mosaic-tile-content").blur();
-
-                    // Set actions
-                    $.mosaic.options.toolbar.trigger("selectedtilechange");
-                    $.mosaic.options.panels.mosaicSetResizeHandleLocation();
+                    $(".mosaic-selected-tile", $.mosaic.document).each(function(){
+                        var tile = new Tile(this);
+                        tile.blur();
+                    });
                 }
 
                 // Find resize helper
@@ -1076,17 +1070,17 @@ define([
         // Add empty rows
         $.mosaic.options.panels.mosaicAddEmptyRows();
 
-        // Re-init rich text editor after tile has been moved in DOM
-        $(".mosaic-rich-text").each(function () {
-            $(this).mosaicWysiwygEditor();
-        });
-
         var $tile = $(".mosaic-new-tile", $.mosaic.document);
         $tile.removeClass("mosaic-new-tile");
+        var tile = new Tile($tile);
+
+        // Re-init rich text editor after tile has been moved in DOM
+        if($(".mosaic-rich-text", $tile).size() > 0){
+            tile.setupWysiwyg();
+        }
 
         // Select new tile
         if (new_tile) {
-            var tile = new Tile($tile);
             tile.select();
         }
     };
@@ -1475,9 +1469,9 @@ define([
             // Get text and tilecontent
             text = $(this).val();
             tilecontent = $(this).parent();
-            tilecontent
-                .html(text)
-                .mosaicWysiwygEditor();
+            tilecontent.html(text);
+            var tile = new Tile($(this).parent());
+            tile.setupWysiwyg();
         });
     };
 
