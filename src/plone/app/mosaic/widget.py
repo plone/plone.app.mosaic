@@ -80,7 +80,7 @@ class LayoutWidget(BaseWidget, TextAreaWidget):
             'request': self.request,
         }
         result = adapted(**kwargs)
-        import pdb; pdb.set_trace()
+
         result['canChangeLayout'] = checkPermission(
             'plone.CustomizeContentLayouts', self.context)
         result['context_url'] = self.context.absolute_url()
