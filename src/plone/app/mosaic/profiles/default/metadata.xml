@@ -4,5 +4,6 @@
   <dependencies>
     <dependency>profile-plone.app.drafts:default</dependency>
     <dependency>profile-plone.app.standardtiles:default</dependency>
+    <dependency>profile-plone.app.blocks:default</dependency>
   </dependencies>
 </metadata>
