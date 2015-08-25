@@ -369,7 +369,7 @@ define([
                 });
             },
             visible: function(){
-                return $.mosaic.hasContentLayout;
+                return $.mosaic.hasContentLayout && $.mosaic.options.canChangeLayout;
             }
         });
 

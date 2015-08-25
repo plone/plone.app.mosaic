@@ -20,6 +20,7 @@ from zope.component import adapter
 from zope.component import queryUtility
 from zope.interface import implementer
 from zope.interface import implementsOnly
+from zope.security import checkPermission
 
 
 try:
@@ -79,7 +80,9 @@ class LayoutWidget(BaseWidget, TextAreaWidget):
             'request': self.request,
         }
         result = adapted(**kwargs)
-        result['can_change_layout'] = True
+        import pdb; pdb.set_trace()
+        result['canChangeLayout'] = checkPermission(
+            'plone.CustomizeContentLayouts', self.context)
         result['context_url'] = self.context.absolute_url()
         result['tinymce'] = get_tinymce_options(
             self.context, self.field, self.request)['pattern_options']

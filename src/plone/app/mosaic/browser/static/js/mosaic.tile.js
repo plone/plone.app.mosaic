@@ -300,7 +300,7 @@ define([
 
     Tile.prototype.makeMovable = function(){
       // If the tile is movable
-      if (this.$el.hasClass("movable") && $.mosaic.options.can_change_layout &&
+      if (this.$el.hasClass("movable") && $.mosaic.options.canChangeLayout &&
           !$.mosaic.hasContentLayout) {
         // Add drag handle
         this.$el.prepend(
