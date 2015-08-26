@@ -8525,7 +8525,7 @@ define('mockup-i18n',[
     if (!self.baseUrl) {
       self.baseUrl = '/plonejsi18n';
     }
-    self.currentLanguage = $('html').attr('lang') || 'en';
+    self.currentLanguage = $('html').attr('lang') || 'en-us';
     self.storage = null;
     self.catalogs = {};
     self.ttl = 24 * 3600 * 1000;
@@ -39111,7 +39111,7 @@ define('mockup-patterns-upload',[
       self.dropzone.on('error', function(file, response, xmlhr) {
         if (typeof(xmlhr) !== 'undefined' && xmlhr.status !== 403){
           // If error other than 403, just print a generic message
-          $('.dz-error-message span', file.previewElement).html(_('The file transfer failed'));
+          $('.dz-error-message span', file.previewElement).html(_t('The file transfer failed'));
         }
       });
 
@@ -39775,6 +39775,7 @@ define('mockup-patterns-filemanager',[
     },
     handleClick: function(event) {
       var self = this;
+      self.closeActivePopovers();
       self.openFile(event);
     },
     closeActiveTab: function() {
@@ -39811,6 +39812,13 @@ define('mockup-patterns-filemanager',[
         }
       });
     },
+    closeActivePopovers: function() {
+      var self = this;
+      var active = $('.navbar a.active');
+      $(active).each(function() {
+        $(this).click();
+      });
+    },
     createTab: function(path) {
       var self = this;
       var $item = $(self.tabItemTemplate({path: path}));
@@ -39819,6 +39827,7 @@ define('mockup-patterns-filemanager',[
       $('.remove', $item).click(function(e){
         e.preventDefault();
         e.stopPropagation();
+        self.closeActivePopovers();
         if ($(this).parent().hasClass('active'))
         {
           self.closeActiveTab();
@@ -39831,6 +39840,7 @@ define('mockup-patterns-filemanager',[
         e.preventDefault();
         $('li', self.$tabs).removeClass('active');
         var $li = $(this).parent();
+        self.closeActivePopovers();
         $li.addClass('active');
       });
     },
@@ -39980,7 +39990,9 @@ define('mockup-patterns-filemanager',[
       else if( typeof self.fileData[path].info !== 'undefined' )
       {
           var preview = self.fileData[path].info;
-          self.ace.editor.off();
+          if( self.ace.editor !== undefined ) {
+              self.ace.editor.off();
+          }
           $('.ace_editor').empty().append(preview);
       }
       else
@@ -40150,50 +40162,6 @@ require([
 ], function($, utils, _) {
   
 
-  var assignTemplate = _.template('<form method="POST">' +
-    '<input type="hidden" name="_authenticator" value="<%- _authenticator %>" />' +
-    '<input type="hidden" name="assign-save" value="yes" />' +
-    '<% _.each(types, function(type){ %>' +
-      '<div class="field">' +
-        '<label class="horizontal"><%- type.title %></label>' +
-        '<select multiple="true" name="<%- type.id %>">' +
-          '<% _.each(available, function(view){ %>' +
-            '<option value="<%- view.value %>"' +
-              '<% if(_.contains(type.layouts, view.value)){ %> selected="selected" <% } %> ><%- view.title %> (<%- view.value %>)' +
-            '</option>' +
-          '<% }) %>' +
-        '</select>' +
-      '</div>' +
-    '<% }) %>' +
-    '<input type="submit" class="plone-btn plone-btn-primary" value="Save" />' +
-  '</form>');
-
-  var loadAssignForm = function(data){
-    $('#assign-container').html(assignTemplate($.extend(data, {
-      _authenticator: utils.getAuthenticator()
-    })));
-  };
-
-  var patternsLoaded = function(){
-    $('#assign').click(function(){
-      utils.loading.show();
-      $.ajax({
-        url: window.location.href + '?assign-data=yes',
-        dataType: 'json'
-      }).done(function(data){
-        loadAssignForm(data);
-      });
-    });
-  };
-
-  var _checkLoaded = function(){
-    if($('body').hasClass('patterns-loaded')){
-      patternsLoaded();
-    }else{
-      setTimeout(_checkLoaded, 100);
-    }
-  };
-  _checkLoaded();
 });
 
 define("/Users/nathan/code/fbigov.policy/src/plone.app.mosaic/src/plone/app/mosaic/browser/static/js/layouts-editor.js", function(){});
