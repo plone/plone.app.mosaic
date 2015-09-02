@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from setuptools import setup, find_packages
 
-version = '1.0a4.dev0'
+version = '1.1a0.dev0'
 
 long_description = (
     open('README.rst').read()
@@ -43,7 +43,7 @@ setup(
         'setuptools',
         'plone.api',
         'plone.tiles>=1.4.0',
-        'plone.app.blocks>=2.1.2',
+        'plone.app.blocks>=3.0.0',
         'plone.app.tiles>=1.4.0',
         'plone.app.drafts>=1.0b3',
         'plone.app.standardtiles>=1.0b1',

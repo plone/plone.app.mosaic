@@ -4,6 +4,9 @@ Changelog
 1.0a4 (unreleased)
 ------------------
 
+- Work with latest plone.app.blocks static layouts
+  [vangheem]
+
 - Removed "for" in register default profile for sane installation state.
   [agitator]
 
