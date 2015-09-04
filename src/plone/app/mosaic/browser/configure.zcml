@@ -36,7 +36,8 @@
     <browser:menuItems
         for="plone.app.blocks.layoutbehavior.ILayoutAware"
         layer="..interfaces.IMosaicLayer"
-        menu="plone_displayviews">
+        menu="plone_displayviews"
+        zcml:condition="not-have mosaic-layoutmenu">
       <browser:menuItem
           title="Mosaic layout"
           action="view"

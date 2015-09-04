@@ -20,6 +20,9 @@ Changelog
   is set
   [datakurre]
 
+- Change *Custom layout* menu item to be called *Mosaic layout*
+  [datakurre]
+
 - Add layout editor control panel for Plone 5
   [vangheem]
 
