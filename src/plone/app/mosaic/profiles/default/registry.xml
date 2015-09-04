@@ -1301,6 +1301,12 @@
     <field type="plone.registry.field.TextLine" />
     <value>++contentlayout++default/document.html</value>
   </record>
+
+  <record name="plone.app.blocks.default_layout.News-Item">
+    <field type="plone.registry.field.TextLine" />
+    <value>++contentlayout++default/basic.html</value>
+  </record>
+
   <record name="plone.app.blocks.default_layout.Event">
     <field type="plone.registry.field.TextLine" />
     <value>++contentlayout++default/event.html</value>

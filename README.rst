@@ -186,5 +186,11 @@ With robot-server running, you can re-build the docs' screenshots relatively fas
 
     $ bin/robot-sphinx docs html
 
+Or simply run the embedded screenshots as robot tests from a single document with:
+
+..  code:: bash
+
+    $ bin/robot docs/getting-started.rst
+
 Just add ``Debug`` keyword anywhere to pause the robot in the middle of the
 screenshot script and drop you into a Robot Framework REPL.
