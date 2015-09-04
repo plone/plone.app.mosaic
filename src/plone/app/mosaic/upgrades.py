@@ -48,3 +48,21 @@ def upgrade_6_to_7(context):
     qi.reinstallProducts(['plone.app.standardtiles'])
 
     create_ttw_layout_examples(api.portal.get())
+
+
+def upgrade_7_to_8(context):
+    from plone.registry.interfaces import IRegistry
+    from zope.component import getUtility
+
+    registry = getUtility(IRegistry)
+    for key in tuple(registry.records):
+        if key.startswith('plone.app.mosaic.tinymce'):
+            del registry.records[key]
+
+    setup = getToolByName(context, 'portal_setup')
+    setup.runImportStepFromProfile(PROFILE_ID, 'plone.app.registry')
+
+    qi = getToolByName(context, 'portal_quickinstaller')
+    qi.reinstallProducts(['plone.app.standardtiles'])
+
+    create_ttw_layout_examples(api.portal.get())

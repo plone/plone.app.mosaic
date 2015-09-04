@@ -32,7 +32,8 @@ immed: true, strict: true, maxlen: 140, maxerr: 9999, quotmark: false */
 define([
     'jquery',
     'mockup-patterns-modal',
-], function($, modal) {
+    'mosaic-url/mosaic.tile'
+], function($, Modal, Tile) {
     'use strict';
 
     // Define mosaic namespace if it doesn't exist
@@ -276,9 +277,15 @@ define([
         // Register save action
         $.mosaic.registerAction('save', {
             exec: function () {
-                $("#form-widgets-ILayoutAware-content, " +
-                  "[name='form.widgets.ILayoutAware.content']")
-                      .val($.mosaic.getPageContent());
+                $.mosaic.options.toolbar.trigger("selectedtilechange");
+
+                var $customLayout = $("#form-widgets-ILayoutAware-content, " +
+                                  "[name='form.widgets.ILayoutAware.content']");
+                if($.mosaic.hasContentLayout){
+                    $customLayout.val('');
+                }else{
+                    $customLayout.val($.mosaic.getPageContent());
+                }
 
                 $("#form-buttons-save").click();
             },
@@ -348,12 +355,44 @@ define([
             }
         });
 
+        // register customize layout button
+        $.mosaic.registerAction('customizelayout', {
+            exec: function () {
+                $.mosaic.setSelectedContentLayout('');  // clear selected layout, will use stored layout then
+                $('.mosaic-toolbar-secondary-functions').show();
+                $('.mosaic-button-customizelayout').hide();
+                // go through each tile and add movable
+                $('.mosaic-panel .mosaic-tile', $.mosaic.document).each(function(){
+                    var tile = new Tile(this);
+                    tile.makeMovable();
+                    tile.$el.mosaicAddDrag();
+                });
+            },
+            visible: function(){
+                return $.mosaic.hasContentLayout && $.mosaic.options.canChangeLayout;
+            }
+        });
+
+        // register change layout button
+        $.mosaic.registerAction('changelayout', {
+            exec: function () {
+                var yes = $.mosaic.hasContentLayout;
+                if(!yes){
+                    yes = confirm('Changing your will destroy all existing custom layout ' +
+                                  'settings you have in place. Are you sure you want to continue?');
+                }
+                if(yes){
+                    $.mosaic.selectLayout();
+                }
+            }
+        });
+
         // Register add tile action
         $.mosaic.registerAction('add-tile', {
             exec: function () {
 
                 // Open overlay
-                var m = new modal($('.mosaic-toolbar'),
+                var m = new Modal($('.mosaic-toolbar'),
                     {ajaxUrl: $.mosaic.options.context_url +
                      '/@@add-tile?form.button.Create=Create'});
                 m.show();
@@ -378,13 +417,13 @@ define([
             exec: function (source) {
                 $(".mosaic-selected-tile", $.mosaic.document).each(function() {
                     // Get tile config
-                    var tile_config = $(this).mosaicGetTileConfig();
+                    var tile_config = (new Tile(this)).getConfig();
 
                     // Check if app tile
                     if (tile_config.tile_type === 'app') {
 
-                        // Get ur
-                        var tile_url = $(this).find('.tileUrl').html();
+                        // Get url
+                        var tile_url = (new Tile(this)).getUrl();
 
                         // Remove tags
                         $.mosaic.removeHeadTags(tile_url);
@@ -450,6 +489,9 @@ define([
                     $.mosaic.options.toolbar.trigger("selectedtilechange");
                     $.mosaic.options.toolbar.mosaicSetResizeHandleLocation();
                 });
+            },
+            visible: function(){
+                return !$.mosaic.hasContentLayout;
             }
         });
 
@@ -503,7 +545,7 @@ define([
 
                             // Open add form in modal when requires user input
                             modalFunc = function(html) {
-                                $.mosaic.overlay.app = new modal($('.mosaic-toolbar'), {
+                                $.mosaic.overlay.app = new Modal($('.mosaic-toolbar'), {
                                     html: html,
                                     loadLinksWithinModal: true,
                                     buttons: '.formControls > input[type="submit"], .actionButtons > input[type="submit"]'

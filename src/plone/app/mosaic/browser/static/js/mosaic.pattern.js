@@ -24,14 +24,14 @@ window.DEBUG = true;
 require([
     'jquery',
     'mockup-patterns-base',
-    'mosaic.core',
-    'mosaic.layout',
-    'mosaic.toolbar',
-    'mosaic.actions',
-    'mosaic.upload',
-    'mosaic.editor',
-    'mosaic.undo',
-    'mosaic.overlay',
+    'mosaic-url/mosaic.core',
+    'mosaic-url/mosaic.layout',
+    'mosaic-url/mosaic.toolbar',
+    'mosaic-url/mosaic.actions',
+    'mosaic-url/mosaic.upload',
+    'mosaic-url/mosaic.editor',
+    'mosaic-url/mosaic.undo',
+    'mosaic-url/mosaic.overlay',
 ], function($, Base) {
     'use strict';
 

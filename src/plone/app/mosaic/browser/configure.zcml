@@ -1,7 +1,10 @@
-<configure xmlns="http://namespaces.zope.org/zope"
-           xmlns:zcml="http://namespaces.zope.org/zcml"
-           xmlns:plone="http://namespaces.plone.org/plone"
-           xmlns:browser="http://namespaces.zope.org/browser">
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:zcml="http://namespaces.zope.org/zcml"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    i18n_domain="plone">
 
   <configure zcml:condition="not-have plone-5">
     <include package=".bbb" />
@@ -13,6 +16,7 @@
         class=".main_template.MainTemplate"
         permission="zope.Public"
         allowed_attributes="macros"
+        zcml:condition="have mosaic-sitelayouts"
         />
   </configure>
 
@@ -23,40 +27,24 @@
         layer="..interfaces.IMosaicLayer"
         class=".main_template.MainTemplate"
         permission="zope.Public"
+        zcml:condition="have mosaic-sitelayouts"
         />
   </configure>
 
-  <!-- Register content layout traverser for shared layout support -->
-  <adapter
-      name="layout"
-      factory=".layoutsupport.DisplayLayoutTraverser"
-      />
-
-  <!-- Register resource traverser for content layouts -->
-  <adapter
-      name="contentlayout"
-      factory=".layoutsupport.DisplayContentLayoutTraverser"
-      />
-
-  <browser:menu
-      id="plone_contentmenu_layout"
-      title="The 'layout' menu - allows the user to select the predefined layout of an object"
-      class=".layoutsupport.DisplayLayoutMenu"
-      />
-
-  <adapter
-      for="plone.app.blocks.layoutbehavior.ILayoutAware
-           ..interfaces.IMosaicLayer"
-      name="plone.contentmenu.display"
-      factory=".layoutsupport.HiddenDisplaySubMenuItem"
-      provides="plone.app.contentmenu.interfaces.IContentMenuItem" />
-
-  <adapter
-      for="plone.app.blocks.layoutbehavior.ILayoutAware
-           ..interfaces.IMosaicLayer"
-      name="plone.contentmenu.layout"
-      factory=".layoutsupport.DisplayLayoutSubMenuItem"
-      provides="plone.app.contentmenu.interfaces.IContentMenuItem" />
+  <configure zcml:condition="installed plone.app.contentmenu">
+    <include package="plone.app.contentmenu" />
+    <browser:menuItems
+        for="plone.app.blocks.layoutbehavior.ILayoutAware"
+        layer="..interfaces.IMosaicLayer"
+        menu="plone_displayviews"
+        zcml:condition="not-have mosaic-layoutmenu">
+      <browser:menuItem
+          title="Mosaic layout"
+          action="view"
+          i18n:translate="title"
+          />
+    </browser:menuItems>
+  </configure>
 
   <plone:static
       directory="static"
@@ -79,40 +67,27 @@
       name="mosaic-upload"
       for="*"
       layer="..interfaces.IMosaicLayer"
-      class=".browser.MosaicUploadView"
+      class=".upload.MosaicUploadView"
       permission="cmf.ModifyPortalContent"
       />
-
-  <!-- Fix default view selection to allow ++layout++-traverser -->
-  <configure package="plone.app.content.browser"
-             zcml:condition="have plone-5">
-
-    <browser:page
-        for="plone.app.blocks.layoutbehavior.ILayoutAware"
-        layer="plone.app.mosaic.interfaces.IMosaicLayer"
-        name="select_default_view"
-        class="plone.app.mosaic.browser.selection.LayoutAwareDefaultViewSelectionView"
-        template="templates/select_default_view.pt"
-        permission="cmf.ModifyViewTemplate"
-        />
-
-    <browser:page
-        for="plone.app.blocks.layoutbehavior.ILayoutAware"
-        layer="plone.app.mosaic.interfaces.IMosaicLayer"
-        name="selectViewTemplate"
-        class="plone.app.mosaic.browser.selection.LayoutAwareDefaultViewSelectionView"
-        attribute="selectViewTemplate"
-        permission="cmf.ModifyViewTemplate"
-        />
-
-  </configure>
 
   <browser:page
       name="layouts-editor"
       for="Products.CMFPlone.interfaces.siteroot.IPloneSiteRoot"
-      class=".browser.LayoutsEditor"
+      class=".editor.LayoutsEditor"
       permission="plone.resourceeditor.ManageSources"
       template="templates/layouts-editor.pt"
+      />
+
+  <!-- Include layoutmenu-feature and its ++layout++ traverser -->
+  <include
+      file="layoutsupport.zcml"
+      zcml:condition="have mosaic-layoutmenu"
+      />
+  <adapter
+      name="layout"
+      factory=".layoutmenu.DisplayLayoutTraverser"
+      zcml:condition="not-have mosaic-layoutmenu"
       />
 
 </configure>

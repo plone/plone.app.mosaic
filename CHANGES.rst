@@ -4,9 +4,6 @@ Changelog
 1.0a4 (unreleased)
 ------------------
 
-- Removed "for" in register default profile for sane installation state.
-  [agitator]
-
 - Change text formatting actions from top toolbar to inline TinyMCE toolbars
   [datakurre]
 
@@ -15,6 +12,19 @@ Changelog
 
 - Change BS3 as default grid system on Plone 5
   [vangheem]
+
+- Change site layouts be disabled unless ``mosaic-sitelayouts`` feature is set
+  [datakurre]
+
+- Change displayemenu support be disabled unless ``mosaic-layoutmenu`` feature
+  is set
+  [datakurre]
+
+- Change *Custom layout* menu item to be called *Mosaic layout*
+  [datakurre]
+
+- Change install to no longer to make *Mosaic layout* the default by default
+  [datakurre]
 
 - Add layout editor control panel for Plone 5
   [vangheem]
@@ -27,6 +37,12 @@ Changelog
 
 - Remove grid system from example layouts (to use configured default grid)
   [vangheem]
+
+- Fixed to work with (and require) plone.app.blocks >= 3.0.0
+  [vangheem]
+
+- Fix GenericSetup profile registration (removed "for")
+  [agitator]
 
 - Fix issue where title field tile and content tile being use on same page
   would cause weird issues with saving title values

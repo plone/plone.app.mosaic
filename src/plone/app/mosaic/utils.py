@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
+from plone.app.blocks.interfaces import CONTENT_LAYOUT_MANIFEST_FORMAT
 from plone.app.blocks.interfaces import IOmittedField
+from plone.app.blocks.resource import getLayoutsFromResources
 from plone.app.blocks.utils import PermissionChecker
 from plone.app.blocks.utils import isVisible
 from plone.autoform.interfaces import MODES_KEY
@@ -19,6 +21,7 @@ from zope.component import getMultiAdapter
 from zope.component import getUtility
 from zope.interface import Interface
 from zope.schema.interfaces import IField
+import os
 
 
 def _getWidgetName(field, widgets, request):
@@ -85,3 +88,18 @@ def extractFieldInformation(schema, context, request, prefix):
                     'widget': _getWidgetName(schema[name], widgets, request),
                     'readonly': name in read_only,
                 }
+
+
+def getContentLayoutsForType(pt):
+    result = []
+    for key, value in getLayoutsFromResources(CONTENT_LAYOUT_MANIFEST_FORMAT).items():
+        _for = [v for v in (value.get('for') or '').split(',') if v]
+        if _for and pt not in _for:
+            continue
+        if value['screenshot'] and not value['screenshot'].startswith('++'):
+            value['screenshot'] = '++contentlayout++' + '/'.join(
+                [os.path.dirname(key), value['screenshot']])
+        value['path'] = key
+        result.append(value)
+    result.sort(key=lambda l: l.get('title', ''))
+    return result

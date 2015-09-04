@@ -20,38 +20,29 @@ Installation
         ...  _screenshots/mosaic-product-activated.png
         ...  ${SELECTOR_ADDONS_ENABLED}
 
-After **Plone Mosaic** has been installed, everything should look normal. Yet, each page is now being rendered through the Plone Mosaic composition chain.
+After **Plone Mosaic** has been installed, everything should look normal. Yet, each page can now be made to render through the Plone Mosaic composition chain as described soon. If something breaks just by installing **Plone Mosaic**, it's probably a bug and it should be reported_ as such.
 
-..  figure:: _screenshots/mosaic-document-layout-default.png
+.. _reported: https://github.com/plone/plone.app.mosaic/issues
+
+
+Mosaic layout
+-------------
+
+The most prominent feature provided by **Plone Mosaic** is the new **Layout-behavior**, which appears as new **Mosaic layout** option in the familiar display menu.
+
+..  figure:: _screenshots/mosaic-custom-layout-enable.png
 ..  code:: robotframework
 
-    Show document rendered with the default layout
+    Show how to select Mosaic layout option
         Create content  type=Document
         ...  id=example-document
         ...  title=Example Document
         ...  description=This is an example document
         ...  text=<p>This document will soon have a custom layout.</p>
-        Go to  ${PLONE_URL}/example-document/++layout++default
-        Capture and crop page screenshot
-        ...  _screenshots/mosaic-document-layout-default.png
-        ...  css=html
+        Go to  ${PLONE_URL}/example-document
 
-If something breaks just by installing **Plone Mosaic**, it's probably a bug and it should be reported_ as such.
-
-.. _reported: https://github.com/plone/plone.app.mosaic/issues
-
-
-Custom layout
--------------
-
-The most prominent feature provided by **Plone Mosaic** is the new **Layout-behavior**, which appears as new **Custom layout** option in the familiar display menu.
-
-..  figure:: _screenshots/mosaic-custom-layout-enable.png
-..  code:: robotframework
-
-    Show how to select the custom layout option
-        Element should be visible  id=plone-contentmenu-layout
-        Click element  ${SELECTOR_CONTENTMENU_LAYOUT_LINK}
+        Element should be visible  id=plone-contentmenu-display
+        Click element  ${SELECTOR_CONTENTMENU_DISPLAY_LINK}
         Element should be visible  id=plone-contentmenu-display-view
 
         Update element style  css=.managePortletsFallback  display  none
@@ -59,8 +50,8 @@ The most prominent feature provided by **Plone Mosaic** is the new **Layout-beha
         Capture and crop page screenshot
         ...  _screenshots/mosaic-custom-layout-enable.png
         ...  css=#portal-breadcrumbs
-        ...  ${SELECTOR_TOOLBAR}  id=plone-contentmenu-layout
-        ...  ${SELECTOR_CONTENTMENU_LAYOUT_ITEMS}
+        ...  ${SELECTOR_TOOLBAR}  id=plone-contentmenu-display
+        ...  ${SELECTOR_CONTENTMENU_DISPLAY_ITEMS}
 
         Mouse over  id=plone-contentmenu-display-view
         Click element  id=plone-contentmenu-display-view
@@ -69,12 +60,12 @@ The most prominent feature provided by **Plone Mosaic** is the new **Layout-beha
         ...  Page should contain  View changed.
 
         Run keyword if  '${CMFPLONE_VERSION}'.startswith('5.')
-        ...  Click element  ${SELECTOR_CONTENTMENU_LAYOUT_LINK}
+        ...  Click element  ${SELECTOR_CONTENTMENU_DISPLAY_LINK}
         Run keyword if  '${CMFPLONE_VERSION}'.startswith('5.')
         ...  Page should contain element
         ...  css=#plone-contentmenu-display-view.actionMenuSelected
 
-How the current content looks after the first time the **Custom layout** is activated, depends on the configured defaults for its portal type. Still, at least the title and the description should be always displayed.
+How the current content looks after the first time the **Mosaic layout** is activated, depends on the configured defaults for its portal type. Still, at least the title and the description should be always displayed.
 
 ..  figure:: _screenshots/mosaic-custom-layout-enable-done.png
 ..  code:: robotframework
@@ -84,26 +75,19 @@ How the current content looks after the first time the **Custom layout** is acti
        Capture and crop page screenshot
         ...  _screenshots/mosaic-custom-layout-enable-done.png
         ...  css=#portal-breadcrumbs
-        ...  ${SELECTOR_TOOLBAR}  id=plone-contentmenu-layout  id=content
+        ...  ${SELECTOR_TOOLBAR}  id=plone-contentmenu-display  id=content
         ...  jquery=#content > div:last
 
 
 Mosaic editor
 -------------
 
-When the **Custom layout** has been enabled, the **Mosaic editor** is opened by clicking the **Edit** tab.
+When the **Mosaic layout** has been enabled, the **Mosaic editor** is opened by clicking the **Edit** tab.
 
 ..  figure:: _screenshots/mosaic-editor-open.png
 ..  code:: robotframework
 
     Show how Mosaic editor is opened
-        Delete content  /plone/example-document
-        Create content  type=News Item
-        ...  id=example-document
-        ...  title=Example Document
-        ...  description=This is an example document
-        ...  text=<p>This document will soon have a custom layout.</p>
-
         Go to  ${PLONE_URL}/example-document
         Highlight  id=contentview-edit
         Capture and crop page screenshot
@@ -111,15 +95,49 @@ When the **Custom layout** has been enabled, the **Mosaic editor** is opened by 
         ...  css=#portal-breadcrumbs
         ...  ${SELECTOR_TOOLBAR}  id=contentview-edit
 
-..  figure:: _screenshots/mosaic-editor-overview.png
+When the editor is opened for the first time, it asks to the select the initial layout for the content:
+
+..  figure:: _screenshots/mosaic-editor-layout-selector.png
+..  code:: robotframework
+
+    Show the layout selector
+        Go to  ${PLONE_URL}/example-document/edit
+        Element should be visible  css=.mosaic-select-layout
+        Capture and crop page screenshot
+        ...  _screenshots/mosaic-editor-layout-selector.png
+        ...  css=.plone-modal
+
+The selected layout can then be used as it is, or make it fully custom.
+
+Let's select the basic layout:
+
+..  figure:: _screenshots/mosaic-editor-layout-selector-select.png
+..  code:: robotframework
+
+    Show how to select the initial layout
+        Page should contain element  jquery=a[data-value="default/basic.html"]
+
+        Highlight  jquery=a[data-value="default/basic.html"] img
+        Capture and crop page screenshot
+        ...  _screenshots/mosaic-editor-layout-selector-select.png
+        ...  css=.plone-modal
+
+        Click element  jquery=a[data-value="default/basic.html"]
+
+And then enable it for customization:
+
+..  figure:: _screenshots/mosaic-editor-customize.png
 ..  code:: robotframework
 
     Show the Mosaic editor
-        Go to  ${PLONE_URL}/example-document/edit
         Element should be visible  css=.mosaic-toolbar
+
+        Highlight  css=.mosaic-button-customizelayout
         Capture and crop page screenshot
-        ...  _screenshots/mosaic-editor-overview.png
+        ...  _screenshots/mosaic-editor-customize.png
         ...  css=html
+
+        Click element  css=.mosaic-button-customizelayout
 
 To add a new tile in the **Mosaic editor**, select the tile from the rightmost menu
 

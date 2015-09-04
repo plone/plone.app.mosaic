@@ -4,12 +4,17 @@ from plone import api
 from plone.app.blocks.layoutbehavior import ILayoutAware
 from plone.app.mosaic.interfaces import IMosaicLayer
 from plone.app.mosaic.interfaces import IMosaicRegistryAdapter
+from plone.app.mosaic.utils import getContentLayoutsForType
 from plone.app.widgets.base import TextareaWidget
 from plone.app.widgets.base import dict_merge
 from plone.app.widgets.utils import get_tinymce_options
+from plone.dexterity.browser.base import DexterityExtensibleForm
 from plone.memoize.view import memoize
 from plone.registry.interfaces import IRegistry
+from plone.z3cform.fieldsets.extensible import FormExtender
+from plone.z3cform.fieldsets.interfaces import IFormExtender
 from z3c.form.browser.textarea import TextAreaWidget
+from z3c.form.interfaces import HIDDEN_MODE
 from z3c.form.interfaces import IAddForm
 from z3c.form.interfaces import IFieldWidget
 from z3c.form.interfaces import ITextAreaWidget
@@ -19,6 +24,8 @@ from zope.component import adapter
 from zope.component import queryUtility
 from zope.interface import implementer
 from zope.interface import implementsOnly
+from zope.security import checkPermission
+
 
 try:
     from plone.app.z3cform.widget import BaseWidget
@@ -70,16 +77,29 @@ class LayoutWidget(BaseWidget, TextAreaWidget):
     def get_options(self):
         registry = queryUtility(IRegistry)
         adapted = IMosaicRegistryAdapter(registry)
+        pt = self.obtainType()
         kwargs = {
-            'type': self.obtainType(),
+            'type': pt,
             'context': self.context,
             'request': self.request,
         }
         result = adapted(**kwargs)
-        result['can_change_layout'] = True
+
+        result['canChangeLayout'] = checkPermission(
+            'plone.CustomizeContentLayouts', self.context)
         result['context_url'] = self.context.absolute_url()
         result['tinymce'] = get_tinymce_options(
             self.context, self.field, self.request)['pattern_options']
+
+        result['customContentLayout_selector'] = '#formfield-%s' % self.name.replace('.', '-')
+        result['contentLayout_selector'] = '#formfield-%s' % (
+            self.name.replace('.', '-').replace('-content', '-contentLayout'))
+        result['customContentLayout_field_selector'] = '[name="%s"]' % self.name
+        result['contentLayout_field_selector'] = '[name="%s"]' % (
+            self.name.replace('.content', '.contentLayout'))
+
+        result['available_layouts'] = getContentLayoutsForType(pt)
+
         return {'data': result}
 
     def _base_args(self):
@@ -147,3 +167,16 @@ class LayoutWidget(BaseWidget, TextAreaWidget):
 @implementer(IFieldWidget)
 def LayoutFieldWidget(field, request):  # noqa
     return FieldWidget(field, LayoutWidget(request))
+
+
+@implementer(IFormExtender)
+@adapter(ILayoutAware, IMosaicLayer, DexterityExtensibleForm)
+class HideSiteLayoutFields(FormExtender):
+
+    def update(self):
+        for group in self.form.groups:
+            if 'ILayoutAware.pageSiteLayout' not in group.fields:
+                continue
+            group.fields['ILayoutAware.pageSiteLayout'].mode = HIDDEN_MODE
+            group.fields['ILayoutAware.sectionSiteLayout'].mode = HIDDEN_MODE
+            break

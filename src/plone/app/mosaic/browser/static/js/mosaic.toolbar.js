@@ -32,8 +32,9 @@ immed: true, strict: true, maxlen: 140, maxerr: 9999, quotmark: false */
 
 define([
     'jquery',
-    'mosaic.layout'
-], function($) {
+    'mosaic-url/mosaic.tile',
+    'mosaic-url/mosaic.layout'
+], function($, Tile) {
     'use strict';
 
     // Define mosaic namespace if it doesn't exist
@@ -50,14 +51,16 @@ define([
      */
     function AddControl(parent, action) {
 
+        var $el;
+
         // Check if button or menu
         if ((typeof (action.menu) !== undefined) && (action.menu)) {
 
             // Check if icon menu
             if (action.icon) {
-
+                $el = $(document.createElement("label"));
                 // Create menu
-                parent.append($(document.createElement("label"))
+                parent.append($el
                     .addClass("mosaic-icon-menu mosaic-icon-menu-" +
                               action.name.replace(/_/g, "-") + ' mosaic-icon')
                     .html(action.label)
@@ -113,9 +116,9 @@ define([
 
             // Else text menu
             } else {
-
+                $el = $(document.createElement("select"));
                 // Create menu
-                parent.append($(document.createElement("select"))
+                parent.append($el
                     .addClass("mosaic-menu mosaic-menu-" +
                               action.name.replace(/_/g, "-"))
                     .data("action", action.action)
@@ -162,9 +165,9 @@ define([
             }
 
         } else {
-
+            $el = $(document.createElement("button"));
             // Create button
-            parent.append($(document.createElement("button"))
+            parent.append($el
                 .addClass("mosaic-button mosaic-button-" + action.name.replace(/_/g, "-") + (action.icon ? ' mosaic-icon' : ''))
                 .html(action.label)
                 .attr("title", action.label)
@@ -175,7 +178,96 @@ define([
                 })
             );
         }
+        if($.mosaic.actionManager.actions[action.name]){
+            if(!$.mosaic.actionManager.actions[action.name].visible()){
+                // hide it
+                $el.hide();
+            }
+        }
     }
+
+    $.fn._mosaicToolbarLayoutEditor = function(actions){
+        $('.mosaic-toolbar-secondary-functions', this).show();
+        var x, y, action_group, elm_action_group;
+        // Add formats to toolbar
+        if ($.mosaic.options.formats !== undefined) {
+            for (x = 0; x < $.mosaic.options.formats.length; x += 1) {
+                action_group = $.mosaic.options.formats[x];
+                actions.primary_actions.append(
+                    $(document.createElement("fieldset"))
+                        .addClass(
+                              "mosaic-button-group mosaic-button-group-" +
+                              action_group.name.replace(/_/g, "-"))
+                );
+                elm_action_group = actions.primary_actions.children(
+                    ".mosaic-button-group-" +
+                    action_group.name.replace(/_/g, "-"));
+                for (y = 0; y < action_group.actions.length; y += 1) {
+                    if (action_group.actions[y].favorite) {
+
+                        // Add control
+                        AddControl(elm_action_group,
+                                   action_group.actions[y]);
+                    }
+                }
+                if (elm_action_group.children().length === 0) {
+                    elm_action_group.remove();
+                }
+            }
+        }
+
+        // Add items to the insert menu
+        if ($.mosaic.options.tiles !== undefined) {
+            var elm_select_insert = actions.secondary_actions.find(
+                ".mosaic-menu-insert");
+            for (x = 0; x < $.mosaic.options.tiles.length; x += 1) {
+                action_group = $.mosaic.options.tiles[x];
+                elm_select_insert.append($(document.createElement("optgroup"))
+                    .addClass("mosaic-option-group mosaic-option-group-" + action_group.name.replace(/_/g, "-"))
+                    .attr("label", action_group.label)
+                );
+                elm_action_group = actions.secondary_actions.find(".mosaic-option-group-" + action_group.name.replace(/_/g, "-"));
+                for (y = 0; y < action_group.tiles.length; y += 1) {
+                    var tile = action_group.tiles[y];
+                    elm_action_group.append($(document.createElement("option"))
+                        .addClass("mosaic-option mosaic-option-" + tile.name.replace(/_/g, "-"))
+                        .attr("value", tile.name)
+                        .html(tile.label)
+                    );
+                }
+                if (elm_action_group.children().length === 0) {
+                    elm_action_group.remove();
+                }
+            }
+        }
+
+        // Add items to the format menu
+        if ($.mosaic.options.formats !== undefined) {
+            var elm_select_format = actions.secondary_actions.find(".mosaic-menu-format");
+            for (x = 0; x < $.mosaic.options.formats.length; x += 1) {
+                action_group = $.mosaic.options.formats[x];
+                elm_select_format.append($(document.createElement("optgroup"))
+                    .addClass("mosaic-option-group mosaic-option-group-" + action_group.name.replace(/_/g, "-"))
+                    .attr("label", action_group.label)
+                );
+                elm_action_group = actions.secondary_actions.find(".mosaic-option-group-" + action_group.name.replace(/_/g, "-"));
+                for (y = 0; y <  action_group.actions.length; y += 1) {
+                    var action = action_group.actions[y];
+                    if (action.favorite === false) {
+                        elm_action_group.append($(document.createElement("option"))
+                            .addClass("mosaic-option mosaic-option-" + action.name.replace(/_/g, "-"))
+                            .attr("value", action.name)
+                            .html(action.label)
+                            .data("action", action.action)
+                        );
+                    }
+                }
+                if (elm_action_group.children().length === 0) {
+                    elm_action_group.remove();
+                }
+            }
+        }
+    };
 
     /**
      * Create a new instance of a mosaic toolbar.
@@ -191,7 +283,6 @@ define([
 
             // Local variables
             var obj, content, actions, a, x, action_group, elm_action_group, y,
-            elm_select_insert, tile, elm_select_format, action,
             RepositionToolbar, SelectedTileChange;
 
             // Get current object
@@ -257,83 +348,10 @@ define([
                 }
             }
 
-            // Add formats to toolbar
-            if ($.mosaic.options.formats !== undefined) {
-                for (x = 0; x < $.mosaic.options.formats.length; x += 1) {
-                    action_group = $.mosaic.options.formats[x];
-                    actions.primary_actions.append(
-                        $(document.createElement("fieldset"))
-                            .addClass(
-                                  "mosaic-button-group mosaic-button-group-" +
-                                  action_group.name.replace(/_/g, "-"))
-                    );
-                    elm_action_group = actions.primary_actions.children(
-                        ".mosaic-button-group-" +
-                        action_group.name.replace(/_/g, "-"));
-                    for (y = 0; y < action_group.actions.length; y += 1) {
-                        if (action_group.actions[y].favorite) {
-
-                            // Add control
-                            AddControl(elm_action_group,
-                                       action_group.actions[y]);
-                        }
-                    }
-                    if (elm_action_group.children().length === 0) {
-                        elm_action_group.remove();
-                    }
-                }
-            }
-
-            // Add items to the insert menu
-            if ($.mosaic.options.tiles !== undefined) {
-                elm_select_insert = actions.secondary_actions.find(
-                    ".mosaic-menu-insert");
-                for (x = 0; x < $.mosaic.options.tiles.length; x += 1) {
-                    action_group = $.mosaic.options.tiles[x];
-                    elm_select_insert.append($(document.createElement("optgroup"))
-                        .addClass("mosaic-option-group mosaic-option-group-" + action_group.name.replace(/_/g, "-"))
-                        .attr("label", action_group.label)
-                    );
-                    elm_action_group = actions.secondary_actions.find(".mosaic-option-group-" + action_group.name.replace(/_/g, "-"));
-                    for (y = 0; y < action_group.tiles.length; y += 1) {
-                        tile = action_group.tiles[y];
-                        elm_action_group.append($(document.createElement("option"))
-                            .addClass("mosaic-option mosaic-option-" + tile.name.replace(/_/g, "-"))
-                            .attr("value", tile.name)
-                            .html(tile.label)
-                        );
-                    }
-                    if (elm_action_group.children().length === 0) {
-                        elm_action_group.remove();
-                    }
-                }
-            }
-
-            // Add items to the format menu
-            if ($.mosaic.options.formats !== undefined) {
-                elm_select_format = actions.secondary_actions.find(".mosaic-menu-format");
-                for (x = 0; x < $.mosaic.options.formats.length; x += 1) {
-                    action_group = $.mosaic.options.formats[x];
-                    elm_select_format.append($(document.createElement("optgroup"))
-                        .addClass("mosaic-option-group mosaic-option-group-" + action_group.name.replace(/_/g, "-"))
-                        .attr("label", action_group.label)
-                    );
-                    elm_action_group = actions.secondary_actions.find(".mosaic-option-group-" + action_group.name.replace(/_/g, "-"));
-                    for (y = 0; y <  action_group.actions.length; y += 1) {
-                        action = action_group.actions[y];
-                        if (action.favorite === false) {
-                            elm_action_group.append($(document.createElement("option"))
-                                .addClass("mosaic-option mosaic-option-" + action.name.replace(/_/g, "-"))
-                                .attr("value", action.name)
-                                .html(action.label)
-                                .data("action", action.action)
-                            );
-                        }
-                    }
-                    if (elm_action_group.children().length === 0) {
-                        elm_action_group.remove();
-                    }
-                }
+            obj._mosaicToolbarLayoutEditor(actions);
+            if($.mosaic.hasContentLayout){
+                // hide these options if static
+                $('.mosaic-toolbar-secondary-functions', this).hide();
             }
 
             // Reposition toolbar on scroll
@@ -377,9 +395,8 @@ define([
 
             // Bind selected tile change event
             SelectedTileChange = function () {
-
                 // Local variables
-                var obj, tiletype, selected_tile, classes, actions, x,
+                var obj, tiletype, actions, x,
                 tile_group, y;
 
                 // Disable edit html source
@@ -388,23 +405,10 @@ define([
                 // Get object
                 obj = $(this);
 
-                // Get selected tile and tiletype
-                tiletype = "";
-                selected_tile = $(".mosaic-selected-tile", $.mosaic.document);
-                if (selected_tile.length > 0) {
-                    classes = selected_tile.attr('class').split(" ");
-                    $(classes).each(function () {
-                        var classname = this.match(/^mosaic-(.*)-tile$/);
-                        if (classname !== null) {
-                            if ((classname[1] !== 'selected') &&
-                                (classname[1] !== 'new') &&
-                                (classname[1] !== 'read-only') &&
-                                (classname[1] !== 'helper') &&
-                                (classname[1] !== 'original')) {
-                                tiletype = classname[1];
-                            }
-                        }
-                    });
+                var $selected_tile = $(".mosaic-selected-tile", $.mosaic.document);
+                if($selected_tile.length > 0){
+                    var tile = new Tile($selected_tile);
+                    tiletype = tile.getType();
                 }
 
                 // Get actions
@@ -418,10 +422,10 @@ define([
                         }
                     }
                 }
-                if (!selected_tile.hasClass('removable')) {
+                if (!$selected_tile.hasClass('removable')) {
                     actions = $(actions).filter(function() {
                         return this !== 'remove';
-                    })
+                    });
                 }
 
                 // Show option groups
@@ -441,6 +445,11 @@ define([
 
                 // Show actions
                 $(actions).each(function (i, val) {
+                    if($.mosaic.actionManager.actions[val]){
+                        if(!$.mosaic.actionManager.actions[val].visible()){
+                            return;
+                        }
+                    }
                     obj.find(".mosaic-button-" + val).show();
                     obj.find(".mosaic-icon-menu-" + val).show();
                     obj.find(".mosaic-menu-" + val).show();
@@ -476,17 +485,18 @@ define([
                         $(this).hide();
                     }
                 });
+
             };
 
             // Remove highlight
             $(".mosaic-button-remove").hover(
                 function() {
                     $(".mosaic-selected-tile .mosaic-tile-content")
-                        .addClass('mosaic-remove-target')
+                        .addClass('mosaic-remove-target');
                 },
                 function() {
                     $(".mosaic-selected-tile .mosaic-tile-content")
-                        .removeClass('mosaic-remove-target')
+                        .removeClass('mosaic-remove-target');
                 }
             );
 

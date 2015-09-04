@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from setuptools import setup, find_packages
 
-version = '1.0a4.dev0'
+version = '1.0b1.dev0'
 
 long_description = (
     open('README.rst').read()
@@ -17,7 +17,7 @@ setup(
     # Get more strings from
     # http://pypi.python.org/pypi?%3Aaction=list_classifiers
     classifiers=[
-        'Development Status :: 3 - Alpha',
+        'Development Status :: 4 - Beta',
         'Environment :: Web Environment',
         'Framework :: Plone',
         'Framework :: Plone :: 4.3',
@@ -42,9 +42,9 @@ setup(
     install_requires=[
         'setuptools',
         'plone.api',
-        'plone.tiles>=1.4.0',
-        'plone.app.blocks>=2.1.2',
-        'plone.app.tiles>=1.4.0',
+        'plone.tiles>=1.5.0',
+        'plone.app.blocks>=3.0.0.dev0',
+        'plone.app.tiles>=2.2.0',
         'plone.app.drafts>=1.0b3',
         'plone.app.standardtiles>=1.0b1',
     ],

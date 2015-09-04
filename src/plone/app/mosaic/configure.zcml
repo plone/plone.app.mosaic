@@ -32,7 +32,6 @@
       title="Plone Mosaic for Plone 4"
       directory="browser/bbb/profiles/default"
       description="Installs Mosaic layout support for Dexterity content types"
-      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
       provides="Products.GenericSetup.interfaces.EXTENSION"
       zcml:condition="not-have plone-5"
       />
@@ -44,6 +43,11 @@
   <adapter
       factory=".widget.LayoutFieldWidget"
       zcml:condition="installed plone.app.widgets"
+      />
+  <!-- Hide site layout fields when not enabled -->
+  <adapter
+      factory=".widget.HideSiteLayoutFields"
+      zcml:condition="not-have mosaic-sitelayouts"
       />
 
   <!-- HTTPHeaders transform, because main_template may not be rendered -->
@@ -68,36 +72,6 @@
       />
 
   <include package=".browser" />
-
-  <!-- Register resource traverser for content layouts -->
-  <adapter
-      name="contentlayout"
-      for="* .interfaces.IMosaicLayer"
-      provides="zope.traversing.interfaces.ITraversable"
-      factory=".layoutsupport.ContentLayoutTraverser"
-      />
-
-  <!-- Register vocabulary all available content layouts-->
-  <utility
-      component=".layoutsupport.AvailableContentLayoutsVocabularyFactory"
-      name="plone.availableContentLayouts"
-      />
-
-  <!-- Register vocabulary for display layouts available for given context -->
-  <utility
-      component=".layoutsupport.AvailableDisplayLayoutsVocabularyFactory"
-      provides="zope.schema.interfaces.IVocabularyFactory"
-      name="plone.availableDisplayLayouts"
-      />
-
-  <!-- Register default value adapter for layout aware content attribute -->
-  <!-- For zope.schema via special layout field specific adapter -->
-  <adapter factory=".layoutsupport.layoutFieldDefaultValue" />
-  <!-- For z3c.form -->
-  <adapter
-      name="default"
-      factory=".layoutsupport.default_layout_content"
-      />
 
   <!-- Register default layouts -->
   <include file="layouts.zcml" />

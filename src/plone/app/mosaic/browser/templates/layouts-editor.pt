@@ -44,11 +44,7 @@
         <div class="tab-content">
           <h2 class="tab" id="sitelayout">Site Layouts</h2>
           <div class="pat-filemanager" tal:attributes="data-pat-filemanager view/site_config">
-          </div>
-        </div>
-        <div class="tab-content" id="assign">
-          <h2 class="tab">Assign</h2>
-          <div id="assign-container" />
+          </div>`
         </div>
       </div>
     </div>

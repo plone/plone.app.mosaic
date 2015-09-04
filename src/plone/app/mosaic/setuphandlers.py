@@ -2,12 +2,13 @@
 from StringIO import StringIO
 
 import pkg_resources
+from zExceptions import NotFound
+from zope.schema.interfaces import IVocabularyFactory
 from plone import api
+from plone.app.blocks.interfaces import CONTENT_LAYOUT_RESOURCE_NAME
 from plone.app.blocks.interfaces import IBlocksSettings
 from plone.app.blocks.interfaces import SITE_LAYOUT_RESOURCE_NAME
 from plone.app.blocks.utils import resolveResource
-from plone.app.mosaic.interfaces import CONTENT_LAYOUT_DEFAULT_DISPLAY
-from plone.app.mosaic.interfaces import CONTENT_LAYOUT_RESOURCE_NAME
 from plone.app.mosaic.interfaces import HAVE_PLONE_5
 from plone.app.mosaic.interfaces import IMosaicLayer
 from plone.app.mosaic.utils import getPersistentResourceDirectory
@@ -23,7 +24,6 @@ except pkg_resources.DistributionNotFound:
     HAS_PLONE_APP_WIDGETS = False
 else:
     HAS_PLONE_APP_WIDGETS = True
-
 
 try:
     pkg_resources.get_distribution('plone.app.contenttypes')
@@ -84,31 +84,9 @@ def enable_layout_behavior(portal):
         behaviors = tuple(set(behaviors))
         fti._updateProperty('behaviors', behaviors)
 
-        # Set the default content layout for supported types
-        if fti.id == 'Document':
-            aliases = fti.getMethodAliases() or {}
-            aliases[CONTENT_LAYOUT_DEFAULT_DISPLAY] = \
-                '++contentlayout++default/document.html'
-            fti.setMethodAliases(aliases)
-
-        # Set the default content layout for supported types
-        if fti.id == 'Event':
-            aliases = fti.getMethodAliases() or {}
-            aliases[CONTENT_LAYOUT_DEFAULT_DISPLAY] = \
-                '++contentlayout++default/event.html'
-            fti.setMethodAliases(aliases)
-
-        # Set the default view method
+        # Add Mosaic view into available view methods
         view_methods = [i for i in fti.getAvailableViewMethods(portal)]
-        if fti.id in ['Document', 'Event']:
-            view_methods.append(CONTENT_LAYOUT_DEFAULT_DISPLAY)
         view_methods.append('view')
-
-        # XXX: Set the default view of some types into Custom layout for
-        # demo purposes while we are in alpha:
-        if fti.id in ['Document', 'News Item', 'Event']:
-            fti.default_view = 'view'
-
         fti.view_methods = list(set(view_methods))
 
 
@@ -117,12 +95,13 @@ def enable_layout_view(portal):
 
     all_ftis = types_tool.listTypeInfo()
     dx_ftis = [x for x in all_ftis if getattr(x, 'behaviors', False)]
+
     for fti in dx_ftis:
         if fti.getId() in ['Document']:
             fti.default_view = 'view'
 
 
-def create_ttw_layout_examples(portal):
+def create_ttw_site_layout_examples(portal):
     request = getRequest()
     alsoProvides(request, IMosaicLayer)
 
@@ -131,7 +110,7 @@ def create_ttw_layout_examples(portal):
     custom.writeFile(MANIFEST_FILENAME, StringIO("""\
 [sitelayout]
 title = Plone layout (Custom)
-description = TTW customizable default layout
+description = Example site layout
 file = site.html
 """))
     custom.writeFile(
@@ -140,39 +119,32 @@ file = site.html
                  .encode('utf-8'))
     )
 
+
+def create_ttw_content_layout_examples(portal):
+    request = getRequest()
+    alsoProvides(request, IMosaicLayer)
+
     contentlayout = getPersistentResourceDirectory(CONTENT_LAYOUT_RESOURCE_NAME)
     custom = getPersistentResourceDirectory('custom', contentlayout)
     custom.writeFile(MANIFEST_FILENAME, StringIO("""\
 [contentlayout]
-title = Basic layout (Custom)
-description = Default content layout
+title = Basic (Custom)
+description = Example content layout
 file = basic.html
-
-[contentlayout]
-title = Document layout (Custom)
-description = Default document layout
-file = document.html
-
-[contentlayout]
-title = Event layout (Custom)
-description = Default event layout
-file = event.html
 """))
     custom.writeFile(
         'basic.html',
         StringIO(resolveResource('++contentlayout++default/basic.html')
                  .encode('utf-8'))
     )
-    custom.writeFile(
-        'document.html',
-        StringIO(resolveResource('++contentlayout++default/document.html')
-                 .encode('utf-8'))
-    )
-    custom.writeFile(
-        'event.html',
-        StringIO(resolveResource('++contentlayout++default/event.html')
-                 .encode('utf-8'))
-    )
+
+
+def create_ttw_layout_examples(portal):
+    factory = getUtility(IVocabularyFactory, name="plone.availableSiteLayouts")
+    vocab = factory(portal)
+    if '++sitelayout++default/default.html' in vocab:
+        create_ttw_site_layout_examples(portal)
+    create_ttw_content_layout_examples(portal)
 
 
 def import_profile(portal, profile_name):

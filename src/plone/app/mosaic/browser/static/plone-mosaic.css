@@ -375,6 +375,26 @@
 .mosaic-dropdown .select2-search input {
   display: none !important;
 }
+.mosaic-select-layout ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.mosaic-select-layout ul li {
+  float: left;
+  padding: 5px;
+}
+.mosaic-select-layout ul li img {
+  max-height: 300px;
+  max-width: 300px;
+}
+.mosaic-select-layout ul li p {
+  text-align: center;
+  font-size: 125%;
+}
+.plone-modal-footer {
+  clear: both;
+}
 @media screen and (max-width: 768px) {
   .mosaic-dropdown {
     top: 99px !important;

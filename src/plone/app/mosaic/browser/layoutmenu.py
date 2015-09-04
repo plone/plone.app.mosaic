@@ -1,13 +1,13 @@
-import logging
+# -*- coding: utf-8 -*-
 from urllib import quote
-
-from plone import api
+import logging
 from Products.CMFDynamicViewFTI.interfaces import ISelectableBrowserDefault
 from Products.CMFPlone.utils import parent
 from plone.app.content.browser.interfaces import IFolderContentsView
 from plone.app.contentmenu.interfaces import IContentMenuItem
 from plone.app.contentmenu.menu import DisplaySubMenuItem
 from plone.dexterity.browser.view import DefaultView
+from plone.memoize import view
 from zExceptions import NotFound
 from zope.browsermenu.interfaces import IBrowserMenu
 from zope.browsermenu.menu import BrowserMenu
@@ -19,17 +19,13 @@ from zope.interface import implements
 from zope.schema.interfaces import IVocabularyFactory
 from zope.traversing.interfaces import ITraversable
 from zope.traversing.namespace import SimpleHandler
-from plone.memoize import view
-
+from plone import api
 from plone.app.blocks.interfaces import IBlocksTransformEnabled
-
 from plone.app.blocks.layoutbehavior import ILayoutAware
 from plone.app.blocks.utils import resolveResource
-from plone.app.mosaic.layoutsupport import absolute_path
-from plone.app.mosaic.layoutsupport import ContentLayoutTraverser
-from plone.app.mosaic.interfaces import CONTENT_LAYOUT_DEFAULT_LAYOUT
 from plone.app.mosaic.interfaces import IMosaicLayer
 from plone.app.mosaic.interfaces import _
+from plone.app.blocks.resource import ContentLayoutTraverser
 
 try:
     from plone.protect.utils import addTokenToUrl
@@ -37,8 +33,20 @@ try:
 except ImportError:
     HAS_PLONE_PROTECT = False
 
+try:
+    from plone.app.content.browser.selection import DefaultViewSelectionView
+    HAS_SELECTION_VIEW = True
+except ImportError:
+    HAS_SELECTION_VIEW = False
 
 logger = logging.getLogger('plone.app.mosaic')
+
+
+def absolute_path(path):
+    """Return path prefixed with slash"""
+    if not path.startswith('/'):
+        path = '/' + path
+    return path
 
 
 class DisplayLayoutTraverser(SimpleHandler):
@@ -50,14 +58,6 @@ class DisplayLayoutTraverser(SimpleHandler):
         self.request = request
 
     def traverse(self, name, remaining):
-        try:
-            return self._traverse(name, remaining)
-        except NotFound as e:
-            logger.warning(e.message)
-            resource_path = absolute_path(CONTENT_LAYOUT_DEFAULT_LAYOUT)
-            return DisplayLayoutView(self.context, self.request, resource_path)
-
-    def _traverse(self, name, remaining):
         portal_type = getattr(self.context, 'portal_type', None)
         if not portal_type:
             raise NotFound(self.context, name, self.request)
@@ -333,3 +333,18 @@ class DisplayLayoutMenu(BrowserMenu):
             results.extend(context_results)
 
         return results
+
+
+if HAS_SELECTION_VIEW:
+
+    class LayoutAwareDefaultViewSelectionView(DefaultViewSelectionView):
+
+        @property
+        def vocab(self):
+            vocab_factory = getUtility(IVocabularyFactory,
+                                       name='plone.availableDisplayLayouts')
+            vocab = vocab_factory(self.context)
+            return (
+                list(super(LayoutAwareDefaultViewSelectionView, self).vocab) +
+                [(term.value, term.title) for term in vocab]
+            )

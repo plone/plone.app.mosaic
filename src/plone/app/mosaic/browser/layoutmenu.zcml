@@ -1,0 +1,60 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:zcml="http://namespaces.zope.org/zcml"
+           xmlns:browser="http://namespaces.zope.org/browser">
+
+  <!-- Define ++layout++ traverser -->
+  <adapter
+      name="layout"
+      factory=".layoutmenu.DisplayLayoutTraverser"
+      />
+
+  <!-- Define the layout menu -->
+  <browser:menu
+      id="plone_contentmenu_layout"
+      title="The 'layout' menu - allows the user to select the predefined layout of an object"
+      class=".layoutmenu.DisplayLayoutMenu"
+      />
+
+  <!-- Hide the default -->
+  <adapter
+      for="plone.app.blocks.layoutbehavior.ILayoutAware
+               ..interfaces.IMosaicLayer"
+      name="plone.contentmenu.display"
+      factory=".layoutmenu.HiddenDisplaySubMenuItem"
+      provides="plone.app.contentmenu.interfaces.IContentMenuItem"
+      />
+
+  <!-- Display the custom menu -->
+  <adapter
+      for="plone.app.blocks.layoutbehavior.ILayoutAware
+               ..interfaces.IMosaicLayer"
+      name="plone.contentmenu.layout"
+      factory=".layoutmenu.DisplayLayoutSubMenuItem"
+      provides="plone.app.contentmenu.interfaces.IContentMenuItem"
+      />
+
+  <!-- Fix default view selection to allow ++layout++-traverser -->
+  <configure package="plone.app.content.browser"
+             zcml:condition="have plone-5">
+
+    <browser:page
+        for="plone.app.blocks.layoutbehavior.ILayoutAware"
+        layer="plone.app.mosaic.interfaces.IMosaicLayer"
+        name="select_default_view"
+        class="plone.app.mosaic.browser.layoutmenu.LayoutAwareDefaultViewSelectionView"
+        template="templates/select_default_view.pt"
+        permission="cmf.ModifyViewTemplate"
+        />
+
+    <browser:page
+        for="plone.app.blocks.layoutbehavior.ILayoutAware"
+        layer="plone.app.mosaic.interfaces.IMosaicLayer"
+        name="selectViewTemplate"
+        class="plone.app.mosaic.browser.layoutmenu.LayoutAwareDefaultViewSelectionView"
+        attribute="selectViewTemplate"
+        permission="cmf.ModifyViewTemplate"
+        />
+
+  </configure>
+
+</configure>

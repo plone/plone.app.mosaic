@@ -32,9 +32,13 @@ immed: true, strict: true, maxlen: 150, maxerr: 9999, quotmark: false */
 
 define([
     'jquery',
-    'mockup-patterns-modal'
-], function($, modal) {
+    'mosaic-url/mosaic.tile',
+    'mockup-patterns-modal',
+    'pat-logger',
+    'underscore'
+], function($, Tile, Modal, logger, _) {
     'use strict';
+
 
     // Define mosaic namespace if it doesn't exist
     if (typeof($.mosaic) === "undefined") {
@@ -78,18 +82,12 @@ define([
                             $(document).trigger("mouseup");
                         }
                     });
-
                 // Deselect tile
                 } else {
-
-                    // Deselect tiles
-                    $(".mosaic-selected-tile", $.mosaic.document)
-                        .removeClass("mosaic-selected-tile")
-                        .children(".mosaic-tile-content").blur();
-
-                    // Set actions
-                    $.mosaic.options.toolbar.trigger("selectedtilechange");
-                    $.mosaic.options.panels.mosaicSetResizeHandleLocation();
+                    $(".mosaic-selected-tile", $.mosaic.document).each(function(){
+                        var tile = new Tile(this);
+                        tile.blur();
+                    });
                 }
 
                 // Find resize helper
@@ -116,7 +114,7 @@ define([
         };
 
         // Bind event and add to array
-        $($.mosaic.document).bind('keydown', DocumentKeydown);
+        $($.mosaic.document).off('keydown').on('keydown', DocumentKeydown);
 
         // Add deselect
         var DocumentMousedown = function (e) {
@@ -163,7 +161,7 @@ define([
         };
 
         // Bind event and add to array
-        $($.mosaic.document).bind('mousedown', DocumentMousedown);
+        $($.mosaic.document).off('mousedown').on('mousedown', DocumentMousedown);
 
         // Handle mouse move event
         var DocumentMousemove = function (e) {
@@ -340,8 +338,8 @@ define([
         };
 
         // Bind event and add to array
-        $($.mosaic.document).bind('mousemove', DocumentMousemove);
-        $($.mosaic.document).bind('dragover', DocumentMousemove);
+        $($.mosaic.document).off('mousemove').on('mousemove', DocumentMousemove);
+        $($.mosaic.document).off('dragover').on('dragover', DocumentMousemove);
 
         // Handle mouse up event
         var DocumentMouseup = function (e) {
@@ -375,15 +373,18 @@ define([
                 // Set resize handles
                 $(this).parent().mosaicSetResizeHandles();
                 panel.mosaicSetResizeHandleLocation();
-                panel.find(".mosaic-selected-tile").mosaicFocusTileContent();
-
+                var $tile = panel.find(".mosaic-selected-tile");
+                if($tile.size() > 0){
+                    var tile = new Tile($tile);
+                    tile.focus();
+                }
                 // Remove helper
                 $(this).remove();
             });
         };
 
         // Bind event and add to array
-        $($.mosaic.document).bind('mouseup', DocumentMouseup);
+        $($.mosaic.document).off('mouseup').on('mouseup', DocumentMouseup);
 
         // Handle mousemove on tile
         var TileMousemove = function (e) {
@@ -425,38 +426,34 @@ define([
         };
 
         // Bind events
-        $($.mosaic.document).on("mousemove", ".mosaic-tile", TileMousemove);
-        $($.mosaic.document).on("dragover", ".mosaic-tile", TileMousemove);
+        $($.mosaic.document).off("mousemove", ".mosaic-tile").on("mousemove", ".mosaic-tile", TileMousemove);
+        $($.mosaic.document).off("dragover", ".mosaic-tile").on("dragover", ".mosaic-tile", TileMousemove);
 
         // On click select the current tile
-        $($.mosaic.document).on("click", ".mosaic-tile", function () {
-
-            // Select tile
-            $(this).mosaicSelectTile();
+        $($.mosaic.document).off("click", ".mosaic-tile").on("click", ".mosaic-tile", function () {
+            var tile = new Tile(this);
+            tile.select();
         });
 
         // On click open overlay
-        $($.mosaic.document).on("click", ".mosaic-info-icon", function () {
+        $($.mosaic.document).off("click", ".mosaic-info-icon").on("click", ".mosaic-info-icon", function () {
+
+            var tile = new Tile($(this).parents(".mosaic-tile"));
 
             // Get tile config
-            var tile_config = $(this).parents(".mosaic-tile").mosaicGetTileConfig();
+            var tile_config = tile.getConfig();
 
             // Check if application tile
             if (tile_config.tile_type === 'app') {
 
                 // Get url
-                var tile_url = $(this).parents(".mosaic-tile").find('.tileUrl').html();
-                tile_url = tile_url.replace(/@@/, '@@edit-tile/');
-                // Calc absolute edit url
-                if (tile_url.match(/^\.\/.*/)) {
-                    tile_url = $.mosaic.options.context_url + tile_url.replace(/^\./, '');
-                }
+                var tile_url = tile.getEditUrl();
 
                 // Annotate the edited tile, because overlay will steal its focus
                 $(this).parents(".mosaic-tile").addClass('mosaic-edited-tile');
 
                 // Open overlay
-                $.mosaic.overlay.app = new modal($('.mosaic-toolbar'), {
+                $.mosaic.overlay.app = new Modal($('.mosaic-toolbar'), {
                     ajaxUrl: tile_url,
                     loadLinksWithinModal: true,
                     buttons: '.formControls > input[type="submit"], .actionButtons > input[type="submit"]'
@@ -473,6 +470,10 @@ define([
                           // Remove edited annotation
                           $('.mosaic-edited-tile', $.mosaic.document).removeClass('mosaic-edited-tile');
                     });
+                    if($.mosaic.hasContentLayout){
+                        // not a custom layout, make sure the form knows
+                        $('form', $.mosaic.overlay.app.$modal).append($('<input type="hidden" name="X-Tile-Persistent" value="yes" />'));
+                    }
                 });
                 $.mosaic.overlay.app.show();
                 $.mosaic.overlay.app.$el.off('formActionSuccess');
@@ -514,7 +515,9 @@ define([
             var obj = $(this);
 
             // Add icons and dividers
-            obj.find('.mosaic-tile').mosaicInitTile();
+            obj.find('.mosaic-tile').each(function(){
+                (new Tile(this)).initialize();
+            });
             obj.find('.mosaic-tile').mosaicAddDrag();
             obj.mosaicAddEmptyRows();
             obj.children('.mosaic-grid-row').mosaicSetResizeHandles();
@@ -531,185 +534,12 @@ define([
                 });
 
                 // Select first tile in biggest panel
-                $.mosaic.options.panels.eq(index).find('.mosaic-tile:first').mosaicSelectTile();
+                var $tile = $.mosaic.options.panels.eq(index).find('.mosaic-tile:first');
+                if($tile.size() > 0){
+                    var tile = new Tile($tile);
+                    tile.select();
+                }
             }
-        });
-    };
-
-    /**
-     * Initialize the matched tiles
-     *
-     * @id jQuery.mosaicInitTile
-     * @return {Object} jQuery object
-     */
-    $.fn.mosaicInitTile = function () {
-
-        // Loop through matched elements
-        return this.each(function () {
-
-            // Get layout object
-            var tile = $(this);
-            var obj = tile.parents("[data-panel]");  // jshint ignore:line
-
-            var tile_config = $(this).mosaicGetTileConfig();
-
-            // Check read only
-            if (tile_config && tile_config.read_only) {
-
-                // Set read only
-                $(this).addClass("mosaic-read-only-tile");
-            }
-
-            // Init rich text
-            if (tile_config && $(this).hasClass('mosaic-read-only-tile') === false &&
-                ((tile_config.tile_type === 'text' && tile_config.rich_text) ||
-                 (tile_config.tile_type === 'app' && tile_config.rich_text) ||
-                 (tile_config.tile_type === 'field' && tile_config.read_only === false &&
-                  (tile_config.widget === 'z3c.form.browser.text.TextWidget' ||
-                   tile_config.widget === 'z3c.form.browser.text.TextFieldWidget' ||
-                   tile_config.widget === 'z3c.form.browser.textarea.TextAreaWidget' ||
-                   tile_config.widget === 'z3c.form.browser.textarea.TextAreaFieldWidget' ||
-                   tile_config.widget === 'z3c.form.browser.textlines.TextLinesWidget' ||
-                   tile_config.widget === 'z3c.form.browser.textlines.TextLinesFieldWidget' ||
-                   tile_config.widget === 'plone.app.z3cform.widget.RichTextFieldWidget' ||
-                   tile_config.widget === 'plone.app.z3cform.wysiwyg.widget.WysiwygWidget' ||
-                   tile_config.widget === 'plone.app.z3cform.wysiwyg.widget.WysiwygFieldWidget' ||
-                   tile_config.widget === 'plone.app.widgets.dx.RichTextWidget')))) {
-
-                // Init rich editor
-                $(this).children('.mosaic-tile-content').mosaicEditor();
-            }
-
-            // Add border divs
-            $(this).prepend(
-                $($.mosaic.document.createElement("div"))
-                    .addClass("mosaic-tile-outer-border")
-                    .append(
-                        $($.mosaic.document.createElement("div"))
-                            .addClass("mosaic-tile-inner-border")
-                    )
-            );
-
-            // If tile is field tile
-            if (tile_config && tile_config.tile_type === "field") {
-            }
-
-            // Add label
-            if (tile_config) {
-                $(this).prepend(
-                    $($.mosaic.document.createElement("div"))
-                        .addClass("mosaic-tile-control mosaic-tile-label")
-                        .append(
-                        $($.mosaic.document.createElement("div"))
-                            .addClass("mosaic-tile-label-content")
-                            .html(tile_config.label)
-                    )
-                        .append(
-                        $($.mosaic.document.createElement("div"))
-                            .addClass("mosaic-tile-label-left")
-                    )
-                );
-            }
-
-            // If the tile is movable
-            if ($(this).hasClass("movable") && $.mosaic.options.can_change_layout) {
-
-                // Add drag handle
-                $(this).prepend(
-                    $($.mosaic.document.createElement("div"))
-                        .addClass("mosaic-tile-control mosaic-drag-handle")
-                );
-            }
-
-            // Add settings icon
-            if (tile_config && tile_config.settings
-                    && $(this).hasClass('mosaic-read-only-tile') === false) {
-                $(this).prepend(
-                    $($.mosaic.document.createElement("div"))
-                        .addClass("mosaic-tile-control mosaic-info-icon")
-                );
-            }
-
-            // Add dividers
-            $(this).prepend(
-                $($.mosaic.document.createElement("div"))
-                    .addClass("mosaic-divider mosaic-divider-top")
-                    .append(
-                        $($.mosaic.document.createElement("div"))
-                            .addClass("mosaic-divider-dot")
-                    )
-            );
-            $(this).prepend(
-                $($.mosaic.document.createElement("div"))
-                    .addClass("mosaic-divider mosaic-divider-bottom")
-                    .append(
-                        $($.mosaic.document.createElement("div"))
-                            .addClass("mosaic-divider-dot")
-                    )
-            );
-            $(this).prepend(
-                $($.mosaic.document.createElement("div"))
-                    .addClass("mosaic-divider mosaic-divider-right")
-                    .append(
-                        $($.mosaic.document.createElement("div"))
-                            .addClass("mosaic-divider-dot")
-                    )
-            );
-            $(this).prepend(
-                $($.mosaic.document.createElement("div"))
-                    .addClass("mosaic-divider mosaic-divider-left")
-                    .append(
-                        $($.mosaic.document.createElement("div"))
-                            .addClass("mosaic-divider-dot")
-                    )
-            );
-        });
-    };
-
-    /**
-     * Select the matched tile
-     *
-     * @id jQuery.mosaicSelectTile
-     * @return {Object} jQuery object
-     */
-    $.fn.mosaicSelectTile = function () {
-
-        // Loop through matched elements
-        return this.each(function () {
-
-            // Check if not already selected
-            if ($(this).hasClass("mosaic-selected-tile") === false
-                && $(this).hasClass("mosaic-read-only-tile") === false) {
-
-                $(".mosaic-selected-tile", $.mosaic.document)
-                    .removeClass("mosaic-selected-tile")
-                    .children(".mosaic-tile-content").blur();
-                $(this).addClass("mosaic-selected-tile");
-
-                // Set actions
-                $.mosaic.options.toolbar.trigger("selectedtilechange");
-                $.mosaic.options.panels.mosaicSetResizeHandleLocation();
-
-                // Focus the tile content field
-                $(this).mosaicFocusTileContent();
-            }
-        });
-    };
-
-    /**
-     * Focus the tile content
-     *
-     * @id jQuery.mosaicFocusTileContent
-     * @return {Object} jQuery object
-     */
-    $.fn.mosaicFocusTileContent = function () {
-
-        // Loop through matched elements
-        return this.each(function () {
-
-            // Get content
-            var tile_content = $(this).children(".mosaic-tile-content");
-            tile_content.focus();
         });
     };
 
@@ -983,7 +813,6 @@ define([
      * @return {Object} jQuery object
      */
     $.fn.mosaicHandleDragEnd = function () {
-
         // Get layout object
         var obj = $(this).parents("[data-panel]");  // jshint ignore:line
 
@@ -994,18 +823,11 @@ define([
         var divider = $(".mosaic-selected-divider", $.mosaic.document);
         var drop = divider.parent();
         var dir = "";
-        if (divider.hasClass("mosaic-divider-top")) {
-            dir = "top";
-        }
-        if (divider.hasClass("mosaic-divider-bottom")) {
-            dir = "bottom";
-        }
-        if (divider.hasClass("mosaic-divider-left")) {
-            dir = "left";
-        }
-        if (divider.hasClass("mosaic-divider-right")) {
-            dir = "right";
-        }
+        _.each(['top', 'bottom', 'left', 'right'], function(_dir){
+            if(divider.hasClass("mosaic-divider-" + _dir)){
+                dir = _dir;
+            }
+        });
         divider.removeClass("mosaic-selected-divider");
 
         // True if new tile is inserted
@@ -1090,13 +912,6 @@ define([
                     .removeClass("mosaic-original-tile")
                     .addClass("mosaic-new-tile");
             }
-
-            // Notify user
-            //$.plone.notify({
-            //    title: "Info",
-            //    message: "You can't have more then 4 columns",
-            //    sticky: false
-            //});
 
         // Dropped on row
         } else {
@@ -1255,18 +1070,18 @@ define([
         // Add empty rows
         $.mosaic.options.panels.mosaicAddEmptyRows();
 
+        var $tile = $(".mosaic-new-tile", $.mosaic.document);
+        $tile.removeClass("mosaic-new-tile");
+        var tile = new Tile($tile);
+
         // Re-init rich text editor after tile has been moved in DOM
-        $(".mosaic-new-tile .mosaic-rich-text").each(function () {
-            if ($(this).data("pattern-tinymce")) {
-                $(this).mosaicEditor();
-            }
-        });
+        if($(".mosaic-rich-text", $tile).size() > 0){
+            tile.setupWysiwyg();
+        }
 
         // Select new tile
         if (new_tile) {
-            $(".mosaic-new-tile", $.mosaic.document).removeClass("mosaic-new-tile").mosaicSelectTile();
-        } else {
-            $(".mosaic-new-tile", $.mosaic.document).removeClass("mosaic-new-tile");
+            tile.select();
         }
     };
 
@@ -1582,16 +1397,6 @@ define([
     };
 
     /**
-     * Get the config of the tile
-     *
-     * @id jQuery.mosaicGetTileConfig
-     * @return {Object} config of the tile
-     */
-    $.fn.mosaicGetTileConfig = function () {
-        return $.mosaic.getTileConfig($(this));
-    };
-
-    /**
      * Get the direction based on the tile size and relative x and y coords of the cursor
      *
      * @id jQuery.mosaicGetDirection
@@ -1664,9 +1469,9 @@ define([
             // Get text and tilecontent
             text = $(this).val();
             tilecontent = $(this).parent();
-            tilecontent
-                .html(text)
-                .mosaicEditor();
+            tilecontent.html(text);
+            var tile = new Tile($(this).parent());
+            tile.setupWysiwyg();
         });
     };
 
@@ -1810,16 +1615,7 @@ define([
         } else {
             helper.width(helper.width());
         }
-        helper.mosaicInitTile();
-
-        // Notify user
-        /*
-        $.plone.notify({
-            title: "Inserting new tile",
-            message: "Select the location for the new tile",
-            sticky: false
-        });
-        */
+        (new Tile(helper)).initialize();
     };
 
     /**
@@ -2046,70 +1842,8 @@ define([
 
                         // Loop through tiles
                         $(this).children(".mosaic-tile").each(function () {
-
-                            // Get tile type
-                            var tiletype = '',
-                                classes = $(this).attr('class').split(" ");
-
-                            tiletype = $.mosaic.getTileType($(this));
-                            classes = $(classes).filter(function() {
-                                switch (this) {
-                                    case "mosaic-new-tile":
-                                    case "mosaic-helper-tile":
-                                    case "mosaic-original-tile":
-                                    case "mosaic-selected-tile":
-                                        return false;
-                                    default:
-                                        return true;
-                                }
-                            }).toArray();
-
-                            // Get tile config
-                            var tile_config = $.mosaic.getTileConfig(tiletype);
-
-                            // Predefine vars
-                            var tile_url;
-
-                            switch (tile_config.tile_type) {
-                            case "text":
-                                body += '          <div class="' + classes.join(' ') + '">\n';
-                                body += '          <div class="mosaic-tile-content">\n';
-                                body += $(this).children(".mosaic-tile-content").html().replace(/^\s+|\s+$/g, '') + "\n";
-                                body += '          </div>\n';
-                                body += '          </div>\n';
-                                break;
-                            case "app":
-                                body += '          <div class="' + classes.join(' ') + '">\n';
-                                body += '          <div class="mosaic-tile-content">\n';
-
-                                // Get url
-                                tile_url = $(this).find('.tileUrl').html();
-                                if (tile_url === null) {
-                                    break;
-                                } else {
-                                    // Fix absolute url into a relative one
-                                    tile_url = tile_url.replace($.mosaic.options.context_url, './');
-                                    tile_url = tile_url.replace(/^\.\/\//, './');
-                                }
-                                body += '          <div data-tile="' + tile_url + '"></div>\n';
-                                body += '          </div>\n';
-                                body += '          </div>\n';
-                                break;
-                            case "field":
-                                body += '          <div class="' + classes.join(' ') + '">\n';
-                                body += '          <div class="mosaic-tile-content">\n';
-
-                                // Calc url
-                                tile_url = './@@plone.app.standardtiles.field?field=' + tiletype;
-
-                                body += '          <div data-tile="' + tile_url + '"></div>\n';
-                                body += '          </div>\n';
-                                body += '          </div>\n';
-
-                                // Update field values if type is rich text
-                                $.mosaic.saveTileValueToForm(tiletype, tile_config);
-                                break;
-                            }
+                            var tile = new Tile(this);
+                            body += tile.getHtmlBody();
                         });
 
                         // Add cell end tag
@@ -2189,4 +1923,9 @@ define([
         // Fallback
         return "mosaic-position-leftmost";
     }
+
+
+    return {
+        Tile: Tile
+    };
 });
