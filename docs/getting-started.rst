@@ -105,7 +105,7 @@ When the editor is opened for the first time, it asks to the select the initial 
         Element should be visible  css=.mosaic-select-layout
         Capture and crop page screenshot
         ...  _screenshots/mosaic-editor-layout-selector.png
-        ...  css=html
+        ...  css=.plone-modal
 
 The selected layout can then be used as it is, or make it fully custom.
 
@@ -120,7 +120,7 @@ Let's select the basic layout:
         Highlight  jquery=a[data-value="default/basic.html"] img
         Capture and crop page screenshot
         ...  _screenshots/mosaic-editor-layout-selector-select.png
-        ...  css=html
+        ...  css=.plone-modal
 
         Click element  jquery=a[data-value="default/basic.html"]
 
