@@ -4,7 +4,11 @@
            xmlns:zcml="http://namespaces.zope.org/zcml">
 
   <!-- On Plone < 5 the main_template can only be overridden in skins -->
-  <cmf:registerDirectory name="mosaic_scripts" recursive="True" />
+  <cmf:registerDirectory
+      name="mosaic_scripts"
+      recursive="True"
+      zcml:condition="have mosaic-sitelayouts"
+      />
 
   <!-- On Plone < 5 CMFPlone is missing resources interfaces -->
   <configure zcml:condition="installed collective.monkeypatcher">

@@ -13,6 +13,7 @@
         class=".main_template.MainTemplate"
         permission="zope.Public"
         allowed_attributes="macros"
+        zcml:condition="have mosaic-sitelayouts"
         />
   </configure>
 
@@ -23,6 +24,7 @@
         layer="..interfaces.IMosaicLayer"
         class=".main_template.MainTemplate"
         permission="zope.Public"
+        zcml:condition="have mosaic-sitelayouts"
         />
   </configure>
 
