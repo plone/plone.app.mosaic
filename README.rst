@@ -79,10 +79,10 @@ Installation
 **plone.app.mosaic** and activating its **Plone Mosaic** add-on. The
 package has following dependencies::
 
-    plone.tiles >= 1.4.0
-    plone.app.tiles >= 2.1.0
-    plone.app.standardtiles >= 1.0b1
-    plone.app.blocks >= 2.1.2
+    plone.tiles >= 1.5.0
+    plone.app.tiles >= 2.2.0
+    plone.app.standardtiles >= 1.0b2
+    plone.app.blocks >= 3.0.0
     plone.app.drafts >= 1.0b3
     plone.app.widgets >= 1.8.0
 
