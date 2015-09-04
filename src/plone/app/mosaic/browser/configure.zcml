@@ -26,6 +26,38 @@
         />
   </configure>
 
+  <adapter
+      name="layout"
+      factory=".layoutsupport.DisplayLayoutTraverser"
+      />
+
+  <configure zcml:condition="have mosaic-layout-menu">
+    <!-- Ddefine the layout menu -->
+    <browser:menu
+        id="plone_contentmenu_layout"
+        title="The 'layout' menu - allows the user to select the predefined layout of an object"
+        class=".layoutsupport.DisplayLayoutMenu"
+        />
+
+    <!-- Hide the default -->
+    <adapter
+        for="plone.app.blocks.layoutbehavior.ILayoutAware
+             ..interfaces.IMosaicLayer"
+        name="plone.contentmenu.display"
+        factory=".layoutsupport.HiddenDisplaySubMenuItem"
+        provides="plone.app.contentmenu.interfaces.IContentMenuItem"
+        />
+
+    <!-- Display the custom menu -->
+    <adapter
+        for="plone.app.blocks.layoutbehavior.ILayoutAware
+             ..interfaces.IMosaicLayer"
+        name="plone.contentmenu.layout"
+        factory=".layoutsupport.DisplayLayoutSubMenuItem"
+        provides="plone.app.contentmenu.interfaces.IContentMenuItem"
+        />
+  </configure>
+
   <plone:static
       directory="static"
       type="plone"
