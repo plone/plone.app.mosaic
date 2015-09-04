@@ -6,23 +6,41 @@
 
   <!-- Register default layouts for Plone 4 -->
   <configure zcml:condition="not-have plone-5">
-    <plone:static type="sitelayout" name="default"
-                  directory="layouts/plone-4/site" />
+    <plone:static
+        type="sitelayout"
+        name="default"
+        directory="layouts/plone-4/site"
+        zcml:condition="have mosaic-sitelayouts"
+        />
 
-    <plone:static type="contentlayout" name="default"
-                  directory="layouts/plone-4/content" />
+    <plone:static
+        type="contentlayout"
+        name="default"
+        directory="layouts/plone-4/content"
+        />
   </configure>
 
   <!-- Register default layouts for Plone 5 -->
   <configure zcml:condition="have plone-5">
-    <plone:static type="sitelayout" name="default"
-                  directory="layouts/plone-5/site" />
+    <plone:static
+        type="sitelayout"
+        name="default"
+        directory="layouts/plone-5/site"
+        zcml:condition="have mosaic-sitelayouts"
+        />
 
-    <plone:static type="sitelayout" name="bs3demo"
-                  directory="layouts/plone-5/bs3demo" />
+    <plone:static
+        type="sitelayout"
+        name="bs3demo"
+        directory="layouts/plone-5/bs3demo"
+        zcml:condition="have mosaic-sitelayouts"
+        />
 
-    <plone:static type="contentlayout" name="default"
-                  directory="layouts/plone-5/content" />
+    <plone:static
+        type="contentlayout"
+        name="default"
+        directory="layouts/plone-5/content"
+        />
   </configure>
 
 </configure>

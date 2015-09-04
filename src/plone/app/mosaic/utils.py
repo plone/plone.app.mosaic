@@ -21,6 +21,7 @@ from zope.component import getMultiAdapter
 from zope.component import getUtility
 from zope.interface import Interface
 from zope.schema.interfaces import IField
+import os
 
 
 def _getWidgetName(field, widgets, request):
@@ -95,6 +96,9 @@ def getContentLayoutsForType(pt):
         _for = [v for v in (value.get('for') or '').split(',') if v]
         if _for and pt not in _for:
             continue
+        if value['screenshot'] and not value['screenshot'].startswith('++'):
+            value['screenshot'] = '++contentlayout++' + '/'.join(
+                [os.path.dirname(key), value['screenshot']])
         value['path'] = key
         result.append(value)
     result.sort(key=lambda l: l.get('title', ''))
