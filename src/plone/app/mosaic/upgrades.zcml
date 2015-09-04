@@ -134,7 +134,7 @@
       profile="plone.app.mosaic:default"
       source="5007"
       destination="5008"
-      title="Upgrade configuration"
+      title="Upgrade TTW layout examples and registry configuration"
       handler=".upgrades.upgrade_7_to_8"
       />
 
@@ -142,7 +142,7 @@
       profile="plone.app.mosaic:bbb"
       source="4007"
       destination="4008"
-      title="Upgrade configuration"
+      title="Upgrade TTW layout examples and registry configuration"
       handler=".upgrades.upgrade_7_to_8"
       zcml:condition="not-have plone-5"
       />

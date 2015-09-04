@@ -2,6 +2,8 @@
 from StringIO import StringIO
 
 import pkg_resources
+from zExceptions import NotFound
+from zope.schema.interfaces import IVocabularyFactory
 from plone import api
 from plone.app.blocks.interfaces import CONTENT_LAYOUT_RESOURCE_NAME
 from plone.app.blocks.interfaces import IBlocksSettings
@@ -82,12 +84,10 @@ def enable_layout_behavior(portal):
         behaviors = tuple(set(behaviors))
         fti._updateProperty('behaviors', behaviors)
 
-        # Set the default view method
+        # Add Mosaic view into available view methods
         view_methods = [i for i in fti.getAvailableViewMethods(portal)]
         view_methods.append('view')
-
         fti.view_methods = list(set(view_methods))
-        fti.default_view = 'view'
 
 
 def enable_layout_view(portal):
@@ -95,12 +95,13 @@ def enable_layout_view(portal):
 
     all_ftis = types_tool.listTypeInfo()
     dx_ftis = [x for x in all_ftis if getattr(x, 'behaviors', False)]
+
     for fti in dx_ftis:
         if fti.getId() in ['Document']:
             fti.default_view = 'view'
 
 
-def create_ttw_layout_examples(portal):
+def create_ttw_site_layout_examples(portal):
     request = getRequest()
     alsoProvides(request, IMosaicLayer)
 
@@ -109,7 +110,7 @@ def create_ttw_layout_examples(portal):
     custom.writeFile(MANIFEST_FILENAME, StringIO("""\
 [sitelayout]
 title = Plone layout (Custom)
-description = TTW customizable default layout
+description = Example site layout
 file = site.html
 """))
     custom.writeFile(
@@ -118,39 +119,32 @@ file = site.html
                  .encode('utf-8'))
     )
 
+
+def create_ttw_content_layout_examples(portal):
+    request = getRequest()
+    alsoProvides(request, IMosaicLayer)
+
     contentlayout = getPersistentResourceDirectory(CONTENT_LAYOUT_RESOURCE_NAME)
     custom = getPersistentResourceDirectory('custom', contentlayout)
     custom.writeFile(MANIFEST_FILENAME, StringIO("""\
 [contentlayout]
-title = Basic layout (Custom)
-description = Default content layout
+title = Basic (Custom)
+description = Example content layout
 file = basic.html
-
-[contentlayout]
-title = Document layout (Custom)
-description = TTW customizable content layout
-file = document.html
-
-[contentlayout]
-title = Event layout (Custom)
-description = TTW customizable content layout
-file = event.html
 """))
     custom.writeFile(
         'basic.html',
         StringIO(resolveResource('++contentlayout++default/basic.html')
                  .encode('utf-8'))
     )
-    custom.writeFile(
-        'document.html',
-        StringIO(resolveResource('++contentlayout++default/document.html')
-                 .encode('utf-8'))
-    )
-    custom.writeFile(
-        'event.html',
-        StringIO(resolveResource('++contentlayout++default/event.html')
-                 .encode('utf-8'))
-    )
+
+
+def create_ttw_layout_examples(portal):
+    factory = getUtility(IVocabularyFactory, name="plone.availableSiteLayouts")
+    vocab = factory(portal)
+    if '++sitelayout++default/default.html' in vocab:
+        create_ttw_site_layout_examples(portal)
+    create_ttw_content_layout_examples(portal)
 
 
 def import_profile(portal, profile_name):

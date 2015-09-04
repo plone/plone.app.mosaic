@@ -78,9 +78,6 @@ class PloneAppMosaic(PloneSandboxLayer):
         if not HAVE_PLONE_5:
             applyProfile(portal, 'plone.app.mosaic:bbb')
 
-        ## This was a bad idea, because we want to run CMFPlone tests
-        # enable_layout_view(portal)
-
         # Clear globalrequest
         clearRequest()
 
