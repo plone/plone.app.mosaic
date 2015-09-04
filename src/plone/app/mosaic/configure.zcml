@@ -32,7 +32,6 @@
       title="Plone Mosaic for Plone 4"
       directory="browser/bbb/profiles/default"
       description="Installs Mosaic layout support for Dexterity content types"
-      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
       provides="Products.GenericSetup.interfaces.EXTENSION"
       zcml:condition="not-have plone-5"
       />

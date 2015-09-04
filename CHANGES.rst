@@ -4,12 +4,6 @@ Changelog
 1.0a4 (unreleased)
 ------------------
 
-- Work with latest plone.app.blocks static layouts
-  [vangheem]
-
-- Removed "for" in register default profile for sane installation state.
-  [agitator]
-
 - Change text formatting actions from top toolbar to inline TinyMCE toolbars
   [datakurre]
 
@@ -30,6 +24,12 @@ Changelog
 
 - Remove grid system from example layouts (to use configured default grid)
   [vangheem]
+
+- Fixed to work with (and require) plone.app.blocks >= 3.0.0
+  [vangheem]
+
+- Fix GenericSetup profile registration (removed "for")
+  [agitator]
 
 - Fix issue where title field tile and content tile being use on same page
   would cause weird issues with saving title values
