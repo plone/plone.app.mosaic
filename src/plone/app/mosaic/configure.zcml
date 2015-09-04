@@ -44,6 +44,11 @@
       factory=".widget.LayoutFieldWidget"
       zcml:condition="installed plone.app.widgets"
       />
+  <!-- Hide site layout fields when not enabled -->
+  <adapter
+      factory=".widget.HideSiteLayoutFields"
+      zcml:condition="not-have mosaic-sitelayouts"
+      />
 
   <!-- HTTPHeaders transform, because main_template may not be rendered -->
   <adapter

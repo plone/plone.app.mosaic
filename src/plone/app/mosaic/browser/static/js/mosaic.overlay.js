@@ -142,10 +142,10 @@ define([
             // Hide layout field
             form.find($.mosaic.options.customContentLayout_selector).addClass('mosaic-hidden');
             form.find($.mosaic.options.contentLayout_selector).addClass('mosaic-hidden');
-            //form.find('#formfield-form-widgets-ILayoutAware-pageSiteLayout')
-            //    .addClass('mosaic-hidden');
-            //form.find('#formfield-form-widgets-ILayoutAware-sectionSiteLayout')
-            //    .addClass('mosaic-hidden');
+            if (form.find('#fieldset-layout input[type="hidden"]').length > 0) {
+                form.find('#fieldset-layout').addClass('mosaic-hidden');
+                form.find('#fieldsetlegend-layout').addClass('mosaic-hidden');
+            }
 
             // Hide title and description
             form.find('#formfield-form-widgets-IDublinCore-title')

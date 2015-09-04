@@ -8,9 +8,13 @@ from plone.app.mosaic.utils import getContentLayoutsForType
 from plone.app.widgets.base import TextareaWidget
 from plone.app.widgets.base import dict_merge
 from plone.app.widgets.utils import get_tinymce_options
+from plone.dexterity.browser.base import DexterityExtensibleForm
 from plone.memoize.view import memoize
 from plone.registry.interfaces import IRegistry
+from plone.z3cform.fieldsets.extensible import FormExtender
+from plone.z3cform.fieldsets.interfaces import IFormExtender
 from z3c.form.browser.textarea import TextAreaWidget
+from z3c.form.interfaces import HIDDEN_MODE
 from z3c.form.interfaces import IAddForm
 from z3c.form.interfaces import IFieldWidget
 from z3c.form.interfaces import ITextAreaWidget
@@ -163,3 +167,16 @@ class LayoutWidget(BaseWidget, TextAreaWidget):
 @implementer(IFieldWidget)
 def LayoutFieldWidget(field, request):  # noqa
     return FieldWidget(field, LayoutWidget(request))
+
+
+@implementer(IFormExtender)
+@adapter(ILayoutAware, IMosaicLayer, DexterityExtensibleForm)
+class HideSiteLayoutFields(FormExtender):
+
+    def update(self):
+        for group in self.form.groups:
+            if 'ILayoutAware.pageSiteLayout' not in group.fields:
+                continue
+            group.fields['ILayoutAware.pageSiteLayout'].mode = HIDDEN_MODE
+            group.fields['ILayoutAware.sectionSiteLayout'].mode = HIDDEN_MODE
+            break

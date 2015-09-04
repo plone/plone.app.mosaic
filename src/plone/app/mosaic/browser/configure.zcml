@@ -67,14 +67,14 @@
       name="mosaic-upload"
       for="*"
       layer="..interfaces.IMosaicLayer"
-      class=".browser.MosaicUploadView"
+      class=".upload.MosaicUploadView"
       permission="cmf.ModifyPortalContent"
       />
 
   <browser:page
       name="layouts-editor"
       for="Products.CMFPlone.interfaces.siteroot.IPloneSiteRoot"
-      class=".browser.LayoutsEditor"
+      class=".editor.LayoutsEditor"
       permission="plone.resourceeditor.ManageSources"
       template="templates/layouts-editor.pt"
       />
