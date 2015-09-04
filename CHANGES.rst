@@ -23,6 +23,9 @@ Changelog
 - Change *Custom layout* menu item to be called *Mosaic layout*
   [datakurre]
 
+- Change install to no longer to make *Mosaic layout* the default by default
+  [datakurre]
+
 - Add layout editor control panel for Plone 5
   [vangheem]
 
