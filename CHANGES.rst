@@ -13,6 +13,13 @@ Changelog
 - Change BS3 as default grid system on Plone 5
   [vangheem]
 
+- Change site layouts be disabled unless ``mosaic-sitelayouts`` feature is set
+  [datakurre]
+
+- Change displayemenu support be disabled unless ``mosaic-layoutmenu`` feature
+  is set
+  [datakurre]
+
 - Add layout editor control panel for Plone 5
   [vangheem]
 
