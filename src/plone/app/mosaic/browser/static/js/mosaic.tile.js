@@ -497,8 +497,8 @@ define([
 
       // Build toolbar
       toolbar = [];
-      for (x = 0; x < $.mosaic.options.tinymce_toolbar.length; x += 1) {
-          group = $.mosaic.options.tinymce_toolbar[x];
+      for (x = 0; x < $.mosaic.options.richtext_toolbar.length; x += 1) {
+          group = $.mosaic.options.richtext_toolbar[x];
           for (y = 0; y < group.actions.length; y += 1) {
               if ($.inArray(group.actions[y].name, actions) > -1) {
                   toolbar.push(group.actions[y].action);
@@ -514,8 +514,8 @@ define([
 
       // Build contextmenu
       cmenu = [];
-      for (x = 0; x < $.mosaic.options.tinymce_contextmenu.length; x += 1) {
-          group = $.mosaic.options.tinymce_contextmenu[x];
+      for (x = 0; x < $.mosaic.options.richtext_contextmenu.length; x += 1) {
+          group = $.mosaic.options.richtext_contextmenu[x];
           for (y = 0; y < group.actions.length; y += 1) {
               if ($.inArray(group.actions[y].name, actions) > -1) {
                   cmenu.push(group.actions[y].action);

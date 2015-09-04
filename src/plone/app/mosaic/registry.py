@@ -138,39 +138,42 @@ class MosaicRegistry(object):
         formats = settings.get('%s.formats' % self.prefix, {})
         for key, format in formats.items():
             index = getCategoryIndex(config['formats'], format['category'])
-            config['formats'][index]['actions'].append(format)
+            if index is not None:
+                config['formats'][index]['actions'].append(format)
         # sort the formats
         for format in config['formats']:
             format['actions'].sort(key=itemgetter('weight'))
         return config
 
     def mapTinyMCEActionCategories(self, settings, config):
-        config['tinymce_toolbar'] = config.get('tinymce_toolbar', [])
-        config['tinymce_contextmenu'] = config.get('tinymce_contextmenu', [])
+        config['richtext_toolbar'] = config.get('richtext_toolbar', [])
+        config['richtext_contextmenu'] = config.get('richtext_contextmenu', [])
         categories = settings.get("%s.tinymce_categories" % self.prefix, {})
         sorted_categories = [(x, categories[x]) for x in categories.keys()]
         sorted_categories.sort(cmp=weightedSort)
         for key, category in sorted_categories:
             category['actions'] = []
-            config['tinymce_toolbar'].append(category)
-        config['tinymce_contextmenu'] = deepcopy(config['tinymce_toolbar'])
+            config['richtext_toolbar'].append(category)
+        config['richtext_contextmenu'] = deepcopy(config['richtext_toolbar'])
         return config
 
     def mapTinyMCEToolbarFormats(self, settings, config):
-        actions = settings.get('%s.tinymce_toolbar' % self.prefix, {})
+        actions = settings.get('%s.richtext_toolbar' % self.prefix, {})
         for key, action in actions.items():
-            index = getCategoryIndex(config['tinymce_toolbar'], action['category'])  # noqa
-            config['tinymce_toolbar'][index]['actions'].append(action)
-        for group in config['tinymce_toolbar']:
+            index = getCategoryIndex(config['richtext_toolbar'], action['category'])  # noqa
+            if index is not None:
+                config['richtext_toolbar'][index]['actions'].append(action)
+        for group in config['richtext_toolbar']:
             group['actions'].sort(key=itemgetter('weight'))
         return config
 
     def mapTinyMCEContextMenuFormats(self, settings, config):
-        actions = settings.get('%s.tinymce_contextmenu' % self.prefix, {})
+        actions = settings.get('%s.richtext_contextmenu' % self.prefix, {})
         for key, action in actions.items():
-            index = getCategoryIndex(config['tinymce_contextmenu'], action['category'])  # noqa
-            config['tinymce_contextmenu'][index]['actions'].append(action)
-        for group in config['tinymce_contextmenu']:
+            index = getCategoryIndex(config['richtext_contextmenu'], action['category'])  # noqa
+            if index is not None:
+                config['richtext_contextmenu'][index]['actions'].append(action)
+        for group in config['richtext_contextmenu']:
             group['actions'].sort(key=itemgetter('weight'))
         return config
 
@@ -182,7 +185,8 @@ class MosaicRegistry(object):
     #        if not 'category' in tile:
     #            continue
     #        index = getCategoryIndex(config['tiles'], tile['category'])
-    #        config['tiles'][index]['tiles'].append(tile)
+    #        if index is not None:
+    #            config['tiles'][index]['tiles'].append(tile)
     #    for tile in config['tiles']:
     #        tile['tiles'].sort(key=itemgetter('weight'))
     #    return config
@@ -193,7 +197,8 @@ class MosaicRegistry(object):
     #        if not 'category' in tile:
     #            continue
     #        index = getCategoryIndex(config['tiles'], tile['category'])
-    #        config['tiles'][index]['tiles'].append(tile)
+    #        if index is not None:
+    #            config['tiles'][index]['tiles'].append(tile)
     #    for tile in config['tiles']:
     #        tile['tiles'].sort(key=itemgetter('weight'))
     #    return config
@@ -204,7 +209,8 @@ class MosaicRegistry(object):
             if 'category' not in tile:
                 continue
             index = getCategoryIndex(config['tiles'], tile['category'])
-            config['tiles'][index]['tiles'].append(tile)
+            if index is not None:
+                config['tiles'][index]['tiles'].append(tile)
         for tile in config['tiles']:
             tile['tiles'].sort(key=itemgetter('weight'))
         return config
@@ -293,7 +299,8 @@ class MosaicRegistry(object):
                         ),
                     }
                     index = getCategoryIndex(config['tiles'], 'fields')
-                    config['tiles'][index]['tiles'].append(tileconfig)
+                    if index is not None:
+                        config['tiles'][index]['tiles'].append(tileconfig)
         return config
 
     def __call__(self, **kwargs):

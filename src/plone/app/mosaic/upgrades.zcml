@@ -130,4 +130,21 @@
       zcml:condition="not-have plone-5"
       />
 
+  <genericsetup:upgradeStep
+      profile="plone.app.mosaic:default"
+      source="5007"
+      destination="5008"
+      title="Upgrade configuration"
+      handler=".upgrades.upgrade_7_to_8"
+      />
+
+  <genericsetup:upgradeStep
+      profile="plone.app.mosaic:bbb"
+      source="4007"
+      destination="4008"
+      title="Upgrade configuration"
+      handler=".upgrades.upgrade_7_to_8"
+      zcml:condition="not-have plone-5"
+      />
+
 </configure>

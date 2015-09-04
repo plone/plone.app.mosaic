@@ -302,7 +302,7 @@
   <!-- TinyMCE toolbar actions -->
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.tinymce_toolbar.undo">
+           prefix="plone.app.mosaic.richtext_toolbar.undo">
     <value key="name">toolbar-undo</value>
     <value key="category">actions</value>
     <value key="label">Undo</value>
@@ -313,7 +313,7 @@
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.tinymce_toolbar.redo">
+           prefix="plone.app.mosaic.richtext_toolbar.redo">
     <value key="name">toolbar-redo</value>
     <value key="category">actions</value>
     <value key="label">Redo</value>
@@ -324,7 +324,7 @@
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.tinymce_toolbar.styleselect">
+           prefix="plone.app.mosaic.richtext_toolbar.styleselect">
     <value key="name">toolbar-styleselect</value>
     <value key="category">styles</value>
     <value key="label">Styles</value>
@@ -335,7 +335,7 @@
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.tinymce_toolbar.styleselect">
+           prefix="plone.app.mosaic.richtext_toolbar.styleselect">
     <value key="name">toolbar-styleselect</value>
     <value key="category">styles</value>
     <value key="label">Styles</value>
@@ -346,7 +346,7 @@
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.tinymce_toolbar.bold">
+           prefix="plone.app.mosaic.richtext_toolbar.bold">
     <value key="name">toolbar-bold</value>
     <value key="category">text</value>
     <value key="label">B</value>
@@ -357,7 +357,7 @@
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.tinymce_toolbar.italic">
+           prefix="plone.app.mosaic.richtext_toolbar.italic">
     <value key="name">toolbar-italic</value>
     <value key="category">text</value>
     <value key="label">I</value>
@@ -368,7 +368,7 @@
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.tinymce_toolbar.removeformat">
+           prefix="plone.app.mosaic.richtext_toolbar.removeformat">
     <value key="name">toolbar-removeformat</value>
     <value key="category">styles</value>
     <value key="label">Remove formatting</value>
@@ -379,7 +379,7 @@
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.tinymce_toolbar.alignleft">
+           prefix="plone.app.mosaic.richtext_toolbar.alignleft">
     <value key="name">toolbar-alignleft</value>
     <value key="category">justify</value>
     <value key="label">Left-aligned</value>
@@ -390,7 +390,7 @@
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.tinymce_toolbar.aligncenter">
+           prefix="plone.app.mosaic.richtext_toolbar.aligncenter">
     <value key="name">toolbar-aligncenter</value>
     <value key="category">justify</value>
     <value key="label">Center</value>
@@ -401,7 +401,7 @@
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.tinymce_toolbar.alignright">
+           prefix="plone.app.mosaic.richtext_toolbar.alignright">
     <value key="name">toolbar-alignright</value>
     <value key="category">justify</value>
     <value key="label">Right-aligned</value>
@@ -412,7 +412,7 @@
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.tinymce_toolbar.alignjustify">
+           prefix="plone.app.mosaic.richtext_toolbar.alignjustify">
     <value key="name">toolbar-alignjustify</value>
     <value key="category">justify</value>
     <value key="label">Justified</value>
@@ -423,7 +423,7 @@
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.tinymce_toolbar.bullist">
+           prefix="plone.app.mosaic.richtext_toolbar.bullist">
     <value key="name">toolbar-bullist</value>
     <value key="category">lists</value>
     <value key="label">Unordered list</value>
@@ -434,7 +434,7 @@
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.tinymce_toolbar.numlist">
+           prefix="plone.app.mosaic.richtext_toolbar.numlist">
     <value key="name">toolbar-numlist</value>
     <value key="category">lists</value>
     <value key="label">Ordered list</value>
@@ -445,7 +445,7 @@
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.tinymce_toolbar.outdent">
+           prefix="plone.app.mosaic.richtext_toolbar.outdent">
     <value key="name">toolbar-outdent</value>
     <value key="category">lists</value>
     <value key="label">Outdent</value>
@@ -456,7 +456,7 @@
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.tinymce_toolbar.indent">
+           prefix="plone.app.mosaic.richtext_toolbar.indent">
     <value key="name">toolbar-indent</value>
     <value key="category">lists</value>
     <value key="label">Indent</value>
@@ -467,7 +467,7 @@
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.tinymce_toolbar.table">
+           prefix="plone.app.mosaic.richtext_toolbar.table">
     <value key="name">toolbar-table</value>
     <value key="category">table</value>
     <value key="label">Table</value>
@@ -478,7 +478,7 @@
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.tinymce_toolbar.ploneimage">
+           prefix="plone.app.mosaic.richtext_toolbar.ploneimage">
     <value key="name">toolbar-ploneimage</value>
     <value key="category">selection</value>
     <value key="label">Image</value>
@@ -489,7 +489,7 @@
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.tinymce_toolbar.unlink">
+           prefix="plone.app.mosaic.richtext_toolbar.unlink">
     <value key="name">toolbar-unlink</value>
     <value key="category">selection</value>
     <value key="label">Unlink</value>
@@ -500,7 +500,7 @@
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.tinymce_toolbar.plonelink">
+           prefix="plone.app.mosaic.richtext_toolbar.plonelink">
     <value key="name">toolbar-plonelink</value>
     <value key="category">selection</value>
     <value key="label">Link</value>
@@ -511,7 +511,7 @@
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.tinymce_toolbar.anchor">
+           prefix="plone.app.mosaic.richtext_toolbar.anchor">
     <value key="name">toolbar-anchor</value>
     <value key="category">selection</value>
     <value key="label">Anchor</value>
@@ -524,7 +524,7 @@
   <!-- TinyMCE contextmenu actions -->
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.tinymce_contextmenu.tableprops">
+           prefix="plone.app.mosaic.richtext_contextmenu.tableprops">
     <value key="name">contextmenu-tableprops</value>
     <value key="category">table</value>
     <value key="label">Table properties</value>
@@ -535,7 +535,7 @@
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.tinymce_contextmenu.cell">
+           prefix="plone.app.mosaic.richtext_contextmenu.cell">
     <value key="name">contextmenu-cell</value>
     <value key="category">table</value>
     <value key="label">Cell</value>
@@ -546,7 +546,7 @@
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.tinymce_contextmenu.row">
+           prefix="plone.app.mosaic.richtext_contextmenu.row">
     <value key="name">contextmenu-row</value>
     <value key="category">table</value>
     <value key="label">Row</value>
@@ -557,7 +557,7 @@
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.tinymce_contextmenu.column">
+           prefix="plone.app.mosaic.richtext_contextmenu.column">
     <value key="name">contextmenu-column</value>
     <value key="category">table</value>
     <value key="label">Column</value>
@@ -1265,7 +1265,7 @@
            interface="plone.app.mosaic.interfaces.ITile">
     <value key="name">plone.app.standardtiles.rawhtml</value>
     <value key="label">Rich Text</value>
-    <value key="category">structure</value>
+    <value key="category">hidden</value>
     <value key="tile_type">app</value>
     <value key="default_value"></value>
     <value key="read_only">false</value>
