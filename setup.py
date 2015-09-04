@@ -43,7 +43,7 @@ setup(
         'setuptools',
         'plone.api',
         'plone.tiles>=1.5.0',
-        'plone.app.blocks>=3.0.0',
+        'plone.app.blocks>=3.0.0.dev0',
         'plone.app.tiles>=2.2.0',
         'plone.app.drafts>=1.0b3',
         'plone.app.standardtiles>=1.0b1',
