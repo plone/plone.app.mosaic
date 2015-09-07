@@ -83,6 +83,8 @@ def upgrade_8_to_9(context):
         # Add Mosaic view into available view methods
         view_methods = [i for i in fti.getAvailableViewMethods(portal)]
         view_methods.append('layout_view')
+        if 'view' in view_methods:
+            view_methods.remove('view')
         fti.view_methods = list(set(view_methods))
 
         if fti.default_view == 'view':
