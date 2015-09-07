@@ -4,6 +4,13 @@ Changelog
 1.0a4 (unreleased)
 ------------------
 
+- Change layout behavior default view from ``view`` to ``layout_view``
+  [datakurre]
+
+- Change to enable *Mosaic layout* noly for Document, Event, Folder and News
+  Item by default
+  [datakurre]
+
 - Change text formatting actions from top toolbar to inline TinyMCE toolbars
   [datakurre]
 
@@ -37,6 +44,9 @@ Changelog
 
 - Remove grid system from example layouts (to use configured default grid)
   [vangheem]
+
+- Remove previously provided TTW content layout examples
+  [datakurre]
 
 - Fixed to work with (and require) plone.app.blocks >= 3.0.0
   [vangheem]

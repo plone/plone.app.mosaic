@@ -43,18 +43,18 @@ The most prominent feature provided by **Plone Mosaic** is the new **Layout-beha
 
         Element should be visible  id=plone-contentmenu-display
         Click element  ${SELECTOR_CONTENTMENU_DISPLAY_LINK}
-        Element should be visible  id=plone-contentmenu-display-view
+        Element should be visible  id=plone-contentmenu-display-layout_view
 
         Update element style  css=.managePortletsFallback  display  none
-        Highlight  id=plone-contentmenu-display-view
+        Highlight  id=plone-contentmenu-display-layout_view
         Capture and crop page screenshot
         ...  _screenshots/mosaic-custom-layout-enable.png
         ...  css=#portal-breadcrumbs
         ...  ${SELECTOR_TOOLBAR}  id=plone-contentmenu-display
         ...  ${SELECTOR_CONTENTMENU_DISPLAY_ITEMS}
 
-        Mouse over  id=plone-contentmenu-display-view
-        Click element  id=plone-contentmenu-display-view
+        Mouse over  id=plone-contentmenu-display-layout_view
+        Click element  id=plone-contentmenu-display-layout_view
 
         Run keyword if  '${CMFPLONE_VERSION}'.startswith('4.')
         ...  Page should contain  View changed.
@@ -63,7 +63,7 @@ The most prominent feature provided by **Plone Mosaic** is the new **Layout-beha
         ...  Click element  ${SELECTOR_CONTENTMENU_DISPLAY_LINK}
         Run keyword if  '${CMFPLONE_VERSION}'.startswith('5.')
         ...  Page should contain element
-        ...  css=#plone-contentmenu-display-view.actionMenuSelected
+        ...  css=#plone-contentmenu-display-layout_view.actionMenuSelected
 
 How the current content looks after the first time the **Mosaic layout** is activated, depends on the configured defaults for its portal type. Still, at least the title and the description should be always displayed.
 

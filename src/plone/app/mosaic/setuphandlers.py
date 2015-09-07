@@ -74,6 +74,9 @@ def enable_layout_behavior(portal):
     all_ftis = types_tool.listTypeInfo()
     dx_ftis = [x for x in all_ftis if getattr(x, 'behaviors', False)]
     for fti in dx_ftis:
+        # Only enable for selected default types
+        if fti.getId() not in ['Document', 'Event', 'Folder', 'News Item']:
+            continue
 
         # Enable layout aware behavior for all types
         behaviors = [i for i in fti.behaviors]
@@ -86,7 +89,7 @@ def enable_layout_behavior(portal):
 
         # Add Mosaic view into available view methods
         view_methods = [i for i in fti.getAvailableViewMethods(portal)]
-        view_methods.append('view')
+        view_methods.append('layout_view')
         fti.view_methods = list(set(view_methods))
 
 
@@ -144,7 +147,6 @@ def create_ttw_layout_examples(portal):
     vocab = factory(portal)
     if '++sitelayout++default/default.html' in vocab:
         create_ttw_site_layout_examples(portal)
-    create_ttw_content_layout_examples(portal)
 
 
 def import_profile(portal, profile_name):

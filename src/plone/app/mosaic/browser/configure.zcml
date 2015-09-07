@@ -40,7 +40,7 @@
         zcml:condition="not-have mosaic-layoutmenu">
       <browser:menuItem
           title="Mosaic layout"
-          action="view"
+          action="layout_view"
           i18n:translate="title"
           />
     </browser:menuItems>

@@ -53,10 +53,10 @@ class LayoutWidget(BaseWidget, TextAreaWidget):
         # Disable Mosaic editor when the selected layout for the current
         # ILayoutAware or DX add form context is not custom layout
         current_browser_layout = (
-            self._add_form_portal_type_default_view()
-            or self._context_selected_layout()
+            self._add_form_portal_type_default_view() or
+            self._context_selected_layout()
         )
-        if current_browser_layout not in ['', 'view', '@@view']:
+        if current_browser_layout not in ['layout_view', '@@layout_view']:
             return False
         return True
 
