@@ -1319,7 +1319,7 @@
 
   <record name="plone.app.blocks.default_layout.News-Item">
     <field type="plone.registry.field.TextLine" />
-    <value>++contentlayout++default/basic.html</value>
+    <value>++contentlayout++default/news_item.html</value>
   </record>
 
   <records prefix="plone.resources/mosaic-base"
