@@ -5,8 +5,6 @@ Changelog
 ------------------
 
 - Change layout behavior default view from ``view`` to ``layout_view``
-  (``view`` registration is preserved when ``mosaic-defaultview`` feture is
-  set)
   [datakurre]
 
 - Change to enable *Mosaic layout* noly for Document, Event, Folder and News

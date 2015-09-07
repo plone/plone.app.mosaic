@@ -90,13 +90,4 @@
       zcml:condition="not-have mosaic-layoutmenu"
       />
 
-  <!-- Configure defaultview-feature -->
-  <browser:page
-      for="plone.app.blocks.layoutbehavior.ILayoutAware"
-      name="view"
-      class="plone.app.blocks.layoutbehavior.ContentLayoutView"
-      permission="zope2.View"
-      zcml:condition="have mosaic-defaultview"
-      />
-
 </configure>

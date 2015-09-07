@@ -147,4 +147,21 @@
       zcml:condition="not-have plone-5"
       />
 
+  <genericsetup:upgradeStep
+      profile="plone.app.mosaic:default"
+      source="5008"
+      destination="5009"
+      title="Upgrade available view methods and registry configuration"
+      handler=".upgrades.upgrade_8_to_9"
+      />
+
+  <genericsetup:upgradeStep
+      profile="plone.app.mosaic:bbb"
+      source="4008"
+      destination="4009"
+      title="Upgrade available view methods and registry configuration"
+      handler=".upgrades.upgrade_8_to_9"
+      zcml:condition="not-have plone-5"
+      />
+
 </configure>

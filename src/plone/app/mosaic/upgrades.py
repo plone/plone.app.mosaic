@@ -66,3 +66,28 @@ def upgrade_7_to_8(context):
     qi.reinstallProducts(['plone.app.standardtiles'])
 
     create_ttw_layout_examples(api.portal.get())
+
+
+def upgrade_8_to_9(context):
+    portal = api.portal.get()
+    types_tool = getToolByName(context, 'portal_types')
+
+    # Iterate through all Dexterity content type
+    all_ftis = types_tool.listTypeInfo()
+    dx_ftis = [x for x in all_ftis if getattr(x, 'behaviors', False)]
+    for fti in dx_ftis:
+        behaviors = [i for i in fti.behaviors]
+        if 'plone.app.blocks.layoutbehavior.ILayoutAware' not in behaviors:
+            continue
+
+        # Add Mosaic view into available view methods
+        view_methods = [i for i in fti.getAvailableViewMethods(portal)]
+        view_methods.append('layout_view')
+        fti.view_methods = list(set(view_methods))
+
+        if fti.default_view == 'view':
+            fti.default_view = 'layout_view'
+
+    # Re-import registry configuration
+    setup = getToolByName(context, 'portal_setup')
+    setup.runImportStepFromProfile(PROFILE_ID, 'plone.app.registry')
