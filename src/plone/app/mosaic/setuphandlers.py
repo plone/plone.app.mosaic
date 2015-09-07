@@ -144,7 +144,6 @@ def create_ttw_layout_examples(portal):
     vocab = factory(portal)
     if '++sitelayout++default/default.html' in vocab:
         create_ttw_site_layout_examples(portal)
-    create_ttw_content_layout_examples(portal)
 
 
 def import_profile(portal, profile_name):
