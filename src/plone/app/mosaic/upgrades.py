@@ -93,3 +93,27 @@ def upgrade_8_to_9(context):
     # Re-import registry configuration
     setup = getToolByName(context, 'portal_setup')
     setup.runImportStepFromProfile(PROFILE_ID, 'plone.app.registry')
+
+
+def upgrade_9_to_10(context):
+    from Products.CMFDynamicViewFTI.interfaces import ISelectableBrowserDefault
+
+    types_tool = getToolByName(context, 'portal_types')
+    pc = getToolByName(context, 'portal_catalog')
+
+    # Iterate through all Dexterity content type
+    all_ftis = types_tool.listTypeInfo()
+    dx_ftis = [x for x in all_ftis if getattr(x, 'behaviors', False)]
+    for fti in dx_ftis:
+        behaviors = [i for i in fti.behaviors]
+        if 'plone.app.blocks.layoutbehavior.ILayoutAware' not in behaviors:
+            continue
+
+        results = pc.unrestrictedSearchResults(portal_type=fti.id)
+        for brain in results:
+            ob = brain._unrestrictedGetObject()
+            ob_default = ISelectableBrowserDefault(ob, None)
+            if ob_default is None:
+                continue
+            if ob_default.getLayout() in ['view', '@@view']:
+                ob._default.setLayout('layout_view')

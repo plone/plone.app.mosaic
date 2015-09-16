@@ -17,10 +17,10 @@ stdenv.mkDerivation {
           doCheck = false;
         })
         (pythonPackages.lxml.override {
-          name = "lxml-2.3.6";
+          name = "lxml-3.4.4";
           src = fetchurl {
-            url = "https://pypi.python.org/packages/source/l/lxml/lxml-2.3.6.tar.gz";
-            md5 = "d5d886088e78b1bdbfd66d328fc2d0bc";
+            url = "https://pypi.python.org/packages/source/l/lxml/lxml-3.4.4.tar.gz";
+            md5 = "a9a65972afc173ec7a39c585f4eea69c";
           };
           doCheck = false;
         })
