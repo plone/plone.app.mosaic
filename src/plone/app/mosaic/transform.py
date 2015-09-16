@@ -2,15 +2,18 @@
 from Acquisition import aq_base
 from Acquisition import aq_parent
 from plone import api
+from plone.app.blocks.interfaces import IBlocksSettings
+from plone.app.blocks.utils import gridXPath
+from plone.app.blocks.utils import xpath1
+from plone.registry.interfaces import IRegistry
 from plone.transformchain.interfaces import ITransform
 from repoze.xmliter.serializer import XMLSerializer
 from zope.component import getAdapters
 from zope.component import queryMultiAdapter
+from zope.component import queryUtility
 from zope.interface import implementer
 from zope.viewlet.interfaces import IViewlet
 from zope.viewlet.interfaces import IViewletManager
-from plone.app.blocks.utils import xpath1
-from plone.app.blocks.utils import gridXPath
 
 
 @implementer(ITransform)
@@ -121,12 +124,20 @@ class BodyClass(object):
         root = result.tree.getroot()
         body = root.find('body')
 
+        # Ensure body class
         if layout and body is not None:
-            class_ = layout.bodyClass(None, self.published)
-            body.attrib['class'] = ' '.join(
-                body.attrib.get('class', '').split() + class_.split())
+            if 'site-' not in body.attrib.get('class', ''):
+                class_ = layout.bodyClass(None, self.published)
+                body.attrib['class'] = ' '.join(
+                    body.attrib.get('class', '').split() + class_.split())
 
+        # Enable mosaic-grid when no grid system is defined
         gridSystem = xpath1(gridXPath, result.tree)
+        if gridSystem is None:
+            registry = queryUtility(IRegistry)
+            if registry:
+                settings = registry.forInterface(IBlocksSettings, check=False)
+                gridSystem = getattr(settings, 'default_grid_system', None)
         if body is not None and gridSystem is None:
             body.attrib['class'] = ' '.join((
                 body.attrib.get('class', ' '), 'mosaic-grid'))
