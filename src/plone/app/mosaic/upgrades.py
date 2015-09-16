@@ -116,4 +116,4 @@ def upgrade_9_to_10(context):
             if ob_default is None:
                 continue
             if ob_default.getLayout() in ['view', '@@view']:
-                ob._default.setLayout('layout_view')
+                ob_default.setLayout('layout_view')
