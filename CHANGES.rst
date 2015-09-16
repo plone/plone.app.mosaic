@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.0b2 (unreleased)
+1.0b2 (2015-09-16)
 ------------------
 
 - Fix issue where mosaic-grid was enabled even a default grid system was set
