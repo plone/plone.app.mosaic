@@ -175,9 +175,26 @@
   <genericsetup:upgradeStep
       profile="plone.app.mosaic:bbb"
       source="4009"
-      destination="40010"
+      destination="4010"
       title="Migrate layouted content to use 'layout_view' instead of 'view'"
       handler=".upgrades.upgrade_9_to_10"
+      zcml:condition="not-have plone-5"
+      />
+
+  <genericsetup:upgradeStep
+      profile="plone.app.mosaic:default"
+      source="5010"
+      destination="5011"
+      title="Upgrade registry configuration"
+      handler=".upgrades.upgrade_10_to_11"
+      />
+
+  <genericsetup:upgradeStep
+      profile="plone.app.mosaic:bbb"
+      source="4010"
+      destination="4011"
+      title="Upgrade registry configuration"
+      handler=".upgrades.upgrade_10_to_11"
       zcml:condition="not-have plone-5"
       />
 

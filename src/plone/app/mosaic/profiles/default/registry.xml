@@ -595,6 +595,7 @@
       <element>plone.app.dexterity.behaviors.nextprevious.INextPreviousToggle.nextPreviousEnabled</element>
       <element>plone.app.relationfield.behavior.IRelatedItems.relatedItems</element>
       <element>plone.app.versioningbehavior.behaviors.IVersionable.changeNote</element>
+      <element>plone.app.blocks.layoutbehavior.ILayoutAware.contentLayout</element>
     </value>
   </record>
 

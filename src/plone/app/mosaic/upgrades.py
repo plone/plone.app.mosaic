@@ -117,3 +117,13 @@ def upgrade_9_to_10(context):
                 continue
             if ob_default.getLayout() in ['view', '@@view']:
                 ob_default.setLayout('layout_view')
+
+
+def upgrade_10_to_11(context):
+    from plone.registry.interfaces import IRegistry
+    from zope.component import getUtility
+
+    registry = getUtility(IRegistry)
+
+    setup = getToolByName(context, 'portal_setup')
+    setup.runImportStepFromProfile(PROFILE_ID, 'plone.app.registry')
