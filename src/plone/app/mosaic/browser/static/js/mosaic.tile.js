@@ -543,7 +543,7 @@ define([
 
       // Init rich editor
       pattern = new TinyMCE($content, $.extend(
-          true, {}, $.mosaic.options.tinymce, { tiny: {
+          true, {}, $.mosaic.options.tinymce, { inline: false, tiny: {
           body_id: id,
           selector: "#" + id,
           inline: true,
