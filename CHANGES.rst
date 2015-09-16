@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.0a4 (unreleased)
+1.0b1 (2015-09-16)
 ------------------
 
 - Change layout behavior default view from ``view`` to ``layout_view``
