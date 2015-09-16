@@ -4,7 +4,17 @@ Changelog
 1.0b2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix issue where mosaic-grid was enabled even a default grid system was set
+  [datakurre]
+
+- Fix issue where Plone body class was added twice
+  [datakurre]
+
+- Fix issue where contentLayout field was shown in tile menu
+  [datakurre]
+
+- Pin plone.app.standardtiles >= 1.0b3
+  [datakurre]
 
 
 1.0b1 (2015-09-16)
