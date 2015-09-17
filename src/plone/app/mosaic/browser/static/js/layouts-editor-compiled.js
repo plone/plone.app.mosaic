@@ -5,7 +5,7 @@
 define('mockup-utils',[
   'jquery'
 ], function($) {
-  
+  'use strict';
 
   var QueryHelper = function(options) {
     /* if pattern argument provided, it can implement the interface of:
@@ -293,7 +293,16 @@ define('mockup-utils',[
     // provide default loader
     loading: new Loading(),
     getAuthenticator: function() {
-      return $('input[name="_authenticator"]').val();
+      var $el = $('input[name="_authenticator"]');
+      if($el.length === 0){
+        $el = $('a[href*="_authenticator"]');
+        if($el.length > 0){
+          return $el.attr('href').split('_authenticator=')[1];
+        }
+        return '';
+      }else{
+        return $el.val();
+      }
     },
     featureSupport: {
       /*
@@ -5822,7 +5831,7 @@ define('pat-compat',[],function() {
     {
         Array.prototype.every = function(fun /*, thisp */)
         {
-            
+            "use strict";
 
             if (this === null)
                 throw new TypeError();
@@ -5847,7 +5856,7 @@ define('pat-compat',[],function() {
     // https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/filter (JS 1.6)
     if (!Array.prototype.filter) {
         Array.prototype.filter = function(fun /*, thisp */) {
-            
+            "use strict";
 
             if (this === null)
                 throw new TypeError();
@@ -5938,7 +5947,7 @@ define('pat-compat',[],function() {
     // https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/indexOf (JS 1.6)
     if (!Array.prototype.indexOf) {
         Array.prototype.indexOf = function (searchElement /*, fromIndex */ ) {
-            
+            "use strict";
             if (this === null) {
                 throw new TypeError();
             }
@@ -5973,7 +5982,7 @@ define('pat-compat',[],function() {
     // https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/lastIndexOf (JS 1.6)
     if (!Array.prototype.lastIndexOf) {
         Array.prototype.lastIndexOf = function(searchElement /*, fromIndex*/) {
-            
+            "use strict";
 
             if (this === null)
                 throw new TypeError();
@@ -6113,7 +6122,7 @@ define('pat-compat',[],function() {
     {
         Array.prototype.reduceRight = function(callbackfn /*, initialValue */)
         {
-            
+            "use strict";
 
             if (this === null)
                 throw new TypeError();
@@ -6167,7 +6176,7 @@ define('pat-compat',[],function() {
     {
         Array.prototype.some = function(fun /*, thisp */)
         {
-            
+            "use strict";
 
             if (this === null)
                 throw new TypeError();
@@ -6745,7 +6754,7 @@ define('pat-registry',[
 define('mockup-parser',[
   'jquery'
 ], function($) {
-  
+  'use strict';
 
   var parser = {
     getOptions: function getOptions($el, patternName, options) {
@@ -6794,7 +6803,7 @@ define('mockup-patterns-base',[
   'mockup-parser',
   "pat-logger"
 ], function($, Registry, mockupParser, logger) {
-  
+  'use strict';
   var log = logger.getLogger("Mockup Base");
 
   var initMockup = function initMockup($el, options, trigger) {
@@ -6881,9 +6890,9 @@ define('mockup-patterns-base',[
 
     // Register the pattern in the Patternslib registry.
     if (!patternProps.name) {
-      log.warn("This mockup pattern without a name attribute will not be registered!");
+      log.info("This mockup pattern without a name attribute will not be registered!");
     } else if (!patternProps.trigger) {
-      log.warn("The mockup pattern '"+patternProps.name+"' does not have a trigger attribute, it will not be registered.");
+      log.info("The mockup pattern '"+patternProps.name+"' does not have a trigger attribute, it will not be registered.");
     } else {
       Registry.register(child, patternProps.name);
     }
@@ -8516,7 +8525,7 @@ define('mockup-patterns-base',[
 define('mockup-i18n',[
   'jquery'
 ], function($) {
-  
+  'use strict';
 
   var I18N = function() {
     var self = this;
@@ -8595,7 +8604,6 @@ define('mockup-i18n',[
 
     self.MessageFactory = function (domain, language) {
       language = language || self.currentLanguage;
-
       return function translate (msgid, keywords) {
         var msgstr;
         if ((domain in self.catalogs) && (language in self.catalogs[domain]) && (msgid in self.catalogs[domain][language])) {
@@ -8632,7 +8640,7 @@ define('mockup-i18n',[
 define('translate',[
   'mockup-i18n'
 ], function(I18N) {
-  
+  'use strict';
 
   // we're creating a singleton here so we can potentially
   // delay the initialization of the translate catalog
@@ -8654,7 +8662,7 @@ define('mockup-ui-url/views/base',[
   'backbone',
   'translate'
 ], function($, _, Backbone, _t) {
-  
+  'use strict';
 
   var BaseView = Backbone.View.extend({
     isUIView: true,
@@ -11873,7 +11881,7 @@ define('mockup-patterns-tree',[
   'mockup-utils',
   'jqtree'
 ], function($, _, Base, utils) {
-  
+  'use strict';
 
   var Tree = Base.extend({
     name: 'tree',
@@ -12104,7 +12112,7 @@ exportAce(ACE_NAMESPACE);
 })();
 
 define("ace/lib/regexp",["require","exports","module"], function(require, exports, module) {
-
+"use strict";
 
     var real = {
             exec: RegExp.prototype.exec,
@@ -12874,7 +12882,7 @@ var toObject = function (o) {
 });
 
 define("ace/lib/fixoldbrowsers",["require","exports","module","ace/lib/regexp","ace/lib/es5-shim"], function(require, exports, module) {
-
+"use strict";
 
 require("./regexp");
 require("./es5-shim");
@@ -12882,7 +12890,7 @@ require("./es5-shim");
 });
 
 define("ace/lib/dom",["require","exports","module"], function(require, exports, module) {
-
+"use strict";
 
 var XHTML_NS = "http://www.w3.org/1999/xhtml";
 
@@ -13116,7 +13124,7 @@ exports.getParentWindow = function(document) {
 });
 
 define("ace/lib/oop",["require","exports","module"], function(require, exports, module) {
-
+"use strict";
 
 exports.inherits = function(ctor, superCtor) {
     ctor.super_ = superCtor;
@@ -13144,7 +13152,7 @@ exports.implement = function(proto, mixin) {
 });
 
 define("ace/lib/keys",["require","exports","module","ace/lib/fixoldbrowsers","ace/lib/oop"], function(require, exports, module) {
-
+"use strict";
 
 require("./fixoldbrowsers");
 
@@ -13259,7 +13267,7 @@ exports.keyCodeToString = function(keyCode) {
 });
 
 define("ace/lib/useragent",["require","exports","module"], function(require, exports, module) {
-
+"use strict";
 exports.OS = {
     LINUX: "LINUX",
     MAC: "MAC",
@@ -13306,7 +13314,7 @@ exports.isChromeOS = ua.indexOf(" CrOS ") >= 0;
 });
 
 define("ace/lib/event",["require","exports","module","ace/lib/keys","ace/lib/useragent"], function(require, exports, module) {
-
+"use strict";
 
 var keys = require("./keys");
 var useragent = require("./useragent");
@@ -13622,7 +13630,7 @@ else
 });
 
 define("ace/lib/lang",["require","exports","module"], function(require, exports, module) {
-
+"use strict";
 
 exports.last = function(a) {
     return a[a.length - 1];
@@ -13808,7 +13816,7 @@ exports.delayedCall = function(fcn, defaultTimeout) {
 });
 
 define("ace/keyboard/textinput",["require","exports","module","ace/lib/event","ace/lib/useragent","ace/lib/dom","ace/lib/lang"], function(require, exports, module) {
-
+"use strict";
 
 var event = require("../lib/event");
 var useragent = require("../lib/useragent");
@@ -14256,7 +14264,7 @@ exports.TextInput = TextInput;
 });
 
 define("ace/mouse/default_handlers",["require","exports","module","ace/lib/dom","ace/lib/event","ace/lib/useragent"], function(require, exports, module) {
-
+"use strict";
 
 var dom = require("../lib/dom");
 var event = require("../lib/event");
@@ -14500,7 +14508,7 @@ function calcRangeOrientation(range, cursor) {
 });
 
 define("ace/tooltip",["require","exports","module","ace/lib/oop","ace/lib/dom"], function(require, exports, module) {
-
+"use strict";
 
 var oop = require("./lib/oop");
 var dom = require("./lib/dom");
@@ -14564,7 +14572,7 @@ exports.Tooltip = Tooltip;
 });
 
 define("ace/mouse/default_gutter_handler",["require","exports","module","ace/lib/dom","ace/lib/oop","ace/lib/event","ace/tooltip"], function(require, exports, module) {
-
+"use strict";
 var dom = require("../lib/dom");
 var oop = require("../lib/oop");
 var event = require("../lib/event");
@@ -14716,7 +14724,7 @@ exports.GutterHandler = GutterHandler;
 });
 
 define("ace/mouse/mouse_event",["require","exports","module","ace/lib/event","ace/lib/useragent"], function(require, exports, module) {
-
+"use strict";
 
 var event = require("../lib/event");
 var useragent = require("../lib/useragent");
@@ -14790,7 +14798,7 @@ var MouseEvent = exports.MouseEvent = function(domEvent, editor) {
 });
 
 define("ace/mouse/dragdrop_handler",["require","exports","module","ace/lib/dom","ace/lib/event","ace/lib/useragent"], function(require, exports, module) {
-
+"use strict";
 
 var dom = require("../lib/dom");
 var event = require("../lib/event");
@@ -15172,7 +15180,7 @@ exports.DragdropHandler = DragdropHandler;
 });
 
 define("ace/lib/net",["require","exports","module","ace/lib/dom"], function(require, exports, module) {
-
+"use strict";
 var dom = require("./dom");
 
 exports.get = function (url, callback) {
@@ -15210,7 +15218,7 @@ exports.qualifyURL = function(url) {
 });
 
 define("ace/lib/event_emitter",["require","exports","module"], function(require, exports, module) {
-
+"use strict";
 
 var EventEmitter = {};
 var stopPropagation = function() { this.propagationStopped = true; };
@@ -15623,7 +15631,7 @@ function deHyphenate(str) {
 });
 
 define("ace/mouse/mouse_handler",["require","exports","module","ace/lib/event","ace/lib/useragent","ace/mouse/default_handlers","ace/mouse/default_gutter_handler","ace/mouse/mouse_event","ace/mouse/dragdrop_handler","ace/config"], function(require, exports, module) {
-
+"use strict";
 
 var event = require("../lib/event");
 var useragent = require("../lib/useragent");
@@ -15792,7 +15800,7 @@ exports.MouseHandler = MouseHandler;
 });
 
 define("ace/mouse/fold_handler",["require","exports","module"], function(require, exports, module) {
-
+"use strict";
 
 function FoldHandler(editor) {
 
@@ -15854,7 +15862,7 @@ exports.FoldHandler = FoldHandler;
 });
 
 define("ace/keyboard/keybinding",["require","exports","module","ace/lib/keys","ace/lib/event"], function(require, exports, module) {
-
+"use strict";
 
 var keyUtil  = require("../lib/keys");
 var event = require("../lib/event");
@@ -15967,7 +15975,7 @@ exports.KeyBinding = KeyBinding;
 });
 
 define("ace/range",["require","exports","module"], function(require, exports, module) {
-
+"use strict";
 var comparePoints = function(p1, p2) {
     return p1.row - p2.row || p1.column - p2.column;
 };
@@ -16206,7 +16214,7 @@ exports.Range = Range;
 });
 
 define("ace/selection",["require","exports","module","ace/lib/oop","ace/lib/lang","ace/lib/event_emitter","ace/range"], function(require, exports, module) {
-
+"use strict";
 
 var oop = require("./lib/oop");
 var lang = require("./lib/lang");
@@ -16814,7 +16822,7 @@ exports.Selection = Selection;
 });
 
 define("ace/tokenizer",["require","exports","module","ace/config"], function(require, exports, module) {
-
+"use strict";
 
 var config = require("./config");
 var MAX_TOKEN_COUNT = 2000;
@@ -17121,7 +17129,7 @@ exports.Tokenizer = Tokenizer;
 });
 
 define("ace/mode/text_highlight_rules",["require","exports","module","ace/lib/lang"], function(require, exports, module) {
-
+"use strict";
 
 var lang = require("../lib/lang");
 
@@ -17318,7 +17326,7 @@ exports.TextHighlightRules = TextHighlightRules;
 });
 
 define("ace/mode/behaviour",["require","exports","module"], function(require, exports, module) {
-
+"use strict";
 
 var Behaviour = function() {
    this.$behaviours = {};
@@ -17379,7 +17387,7 @@ exports.Behaviour = Behaviour;
 });
 
 define("ace/unicode",["require","exports","module"], function(require, exports, module) {
-
+"use strict";
 exports.packages = {};
 
 addUnicodePackage({
@@ -17431,7 +17439,7 @@ function addUnicodePackage (pack) {
 });
 
 define("ace/token_iterator",["require","exports","module"], function(require, exports, module) {
-
+"use strict";
 var TokenIterator = function(session, initialRow, initialColumn) {
     this.$session = session;
     this.$row = initialRow;
@@ -17504,7 +17512,7 @@ exports.TokenIterator = TokenIterator;
 });
 
 define("ace/mode/text",["require","exports","module","ace/tokenizer","ace/mode/text_highlight_rules","ace/mode/behaviour","ace/unicode","ace/lib/lang","ace/token_iterator","ace/range"], function(require, exports, module) {
-
+"use strict";
 
 var Tokenizer = require("../tokenizer").Tokenizer;
 var TextHighlightRules = require("./text_highlight_rules").TextHighlightRules;
@@ -17857,7 +17865,7 @@ exports.Mode = Mode;
 });
 
 define("ace/anchor",["require","exports","module","ace/lib/oop","ace/lib/event_emitter"], function(require, exports, module) {
-
+"use strict";
 
 var oop = require("./lib/oop");
 var EventEmitter = require("./lib/event_emitter").EventEmitter;
@@ -18006,7 +18014,7 @@ var Anchor = exports.Anchor = function(doc, row, column) {
 });
 
 define("ace/document",["require","exports","module","ace/lib/oop","ace/lib/event_emitter","ace/range","ace/anchor"], function(require, exports, module) {
-
+"use strict";
 
 var oop = require("./lib/oop");
 var EventEmitter = require("./lib/event_emitter").EventEmitter;
@@ -18365,7 +18373,7 @@ exports.Document = Document;
 });
 
 define("ace/background_tokenizer",["require","exports","module","ace/lib/oop","ace/lib/event_emitter"], function(require, exports, module) {
-
+"use strict";
 
 var oop = require("./lib/oop");
 var EventEmitter = require("./lib/event_emitter").EventEmitter;
@@ -18511,7 +18519,7 @@ exports.BackgroundTokenizer = BackgroundTokenizer;
 });
 
 define("ace/search_highlight",["require","exports","module","ace/lib/lang","ace/lib/oop","ace/range"], function(require, exports, module) {
-
+"use strict";
 
 var lang = require("./lib/lang");
 var oop = require("./lib/oop");
@@ -18563,7 +18571,7 @@ exports.SearchHighlight = SearchHighlight;
 });
 
 define("ace/edit_session/fold_line",["require","exports","module","ace/range"], function(require, exports, module) {
-
+"use strict";
 
 var Range = require("../range").Range;
 function FoldLine(foldData, folds) {
@@ -18782,7 +18790,7 @@ exports.FoldLine = FoldLine;
 });
 
 define("ace/range_list",["require","exports","module","ace/range"], function(require, exports, module) {
-
+"use strict";
 var Range = require("./range").Range;
 var comparePoints = Range.comparePoints;
 
@@ -18989,7 +18997,7 @@ exports.RangeList = RangeList;
 });
 
 define("ace/edit_session/fold",["require","exports","module","ace/range","ace/range_list","ace/lib/oop"], function(require, exports, module) {
-
+"use strict";
 
 var Range = require("../range").Range;
 var RangeList = require("../range_list").RangeList;
@@ -19093,7 +19101,7 @@ function restoreRange(range, anchor) {
 });
 
 define("ace/edit_session/folding",["require","exports","module","ace/range","ace/edit_session/fold_line","ace/edit_session/fold","ace/token_iterator"], function(require, exports, module) {
-
+"use strict";
 
 var Range = require("../range").Range;
 var FoldLine = require("./fold_line").FoldLine;
@@ -19831,7 +19839,7 @@ exports.Folding = Folding;
 });
 
 define("ace/edit_session/bracket_match",["require","exports","module","ace/token_iterator","ace/range"], function(require, exports, module) {
-
+"use strict";
 
 var TokenIterator = require("../token_iterator").TokenIterator;
 var Range = require("../range").Range;
@@ -20013,7 +20021,7 @@ exports.BracketMatch = BracketMatch;
 });
 
 define("ace/edit_session",["require","exports","module","ace/lib/oop","ace/lib/lang","ace/config","ace/lib/event_emitter","ace/selection","ace/mode/text","ace/range","ace/document","ace/background_tokenizer","ace/search_highlight","ace/edit_session/folding","ace/edit_session/bracket_match"], function(require, exports, module) {
-
+"use strict";
 
 var oop = require("./lib/oop");
 var lang = require("./lib/lang");
@@ -21706,7 +21714,7 @@ exports.EditSession = EditSession;
 });
 
 define("ace/search",["require","exports","module","ace/lib/lang","ace/lib/oop","ace/range"], function(require, exports, module) {
-
+"use strict";
 
 var lang = require("./lib/lang");
 var oop = require("./lib/oop");
@@ -22010,7 +22018,7 @@ exports.Search = Search;
 });
 
 define("ace/keyboard/hash_handler",["require","exports","module","ace/lib/keys","ace/lib/useragent"], function(require, exports, module) {
-
+"use strict";
 
 var keyUtil = require("../lib/keys");
 var useragent = require("../lib/useragent");
@@ -22206,7 +22214,7 @@ exports.MultiHashHandler = MultiHashHandler;
 });
 
 define("ace/commands/command_manager",["require","exports","module","ace/lib/oop","ace/keyboard/hash_handler","ace/lib/event_emitter"], function(require, exports, module) {
-
+"use strict";
 
 var oop = require("../lib/oop");
 var MultiHashHandler = require("../keyboard/hash_handler").MultiHashHandler;
@@ -22313,7 +22321,7 @@ exports.CommandManager = CommandManager;
 });
 
 define("ace/commands/default_commands",["require","exports","module","ace/lib/lang","ace/config","ace/range"], function(require, exports, module) {
-
+"use strict";
 
 var lang = require("../lib/lang");
 var config = require("../config");
@@ -22995,7 +23003,7 @@ exports.commands = [{
 });
 
 define("ace/editor",["require","exports","module","ace/lib/fixoldbrowsers","ace/lib/oop","ace/lib/dom","ace/lib/lang","ace/lib/useragent","ace/keyboard/textinput","ace/mouse/mouse_handler","ace/mouse/fold_handler","ace/keyboard/keybinding","ace/edit_session","ace/search","ace/range","ace/lib/event_emitter","ace/commands/command_manager","ace/commands/default_commands","ace/config","ace/token_iterator"], function(require, exports, module) {
-
+"use strict";
 
 require("./lib/fixoldbrowsers");
 
@@ -24839,7 +24847,7 @@ exports.Editor = Editor;
 });
 
 define("ace/undomanager",["require","exports","module"], function(require, exports, module) {
-
+"use strict";
 var UndoManager = function() {
     this.reset();
 };
@@ -24908,7 +24916,7 @@ exports.UndoManager = UndoManager;
 });
 
 define("ace/layer/gutter",["require","exports","module","ace/lib/dom","ace/lib/oop","ace/lib/lang","ace/lib/event_emitter"], function(require, exports, module) {
-
+"use strict";
 
 var dom = require("../lib/dom");
 var oop = require("../lib/oop");
@@ -25163,7 +25171,7 @@ exports.Gutter = Gutter;
 });
 
 define("ace/layer/marker",["require","exports","module","ace/range","ace/lib/dom"], function(require, exports, module) {
-
+"use strict";
 
 var Range = require("../range").Range;
 var dom = require("../lib/dom");
@@ -25338,7 +25346,7 @@ exports.Marker = Marker;
 });
 
 define("ace/layer/text",["require","exports","module","ace/lib/oop","ace/lib/dom","ace/lib/lang","ace/lib/useragent","ace/lib/event_emitter"], function(require, exports, module) {
-
+"use strict";
 
 var oop = require("../lib/oop");
 var dom = require("../lib/dom");
@@ -25869,7 +25877,7 @@ exports.Text = Text;
 });
 
 define("ace/layer/cursor",["require","exports","module","ace/lib/dom"], function(require, exports, module) {
-
+"use strict";
 
 var dom = require("../lib/dom");
 var IE8;
@@ -26078,7 +26086,7 @@ exports.Cursor = Cursor;
 });
 
 define("ace/scrollbar",["require","exports","module","ace/lib/oop","ace/lib/dom","ace/lib/event","ace/lib/event_emitter"], function(require, exports, module) {
-
+"use strict";
 
 var oop = require("./lib/oop");
 var dom = require("./lib/dom");
@@ -26201,7 +26209,7 @@ exports.HScrollBar = HScrollBar;
 });
 
 define("ace/renderloop",["require","exports","module","ace/lib/event"], function(require, exports, module) {
-
+"use strict";
 
 var event = require("./lib/event");
 
@@ -26383,7 +26391,7 @@ var FontMetrics = exports.FontMetrics = function(parentEl, interval) {
 });
 
 define("ace/virtual_renderer",["require","exports","module","ace/lib/oop","ace/lib/dom","ace/config","ace/lib/useragent","ace/layer/gutter","ace/layer/marker","ace/layer/text","ace/layer/cursor","ace/scrollbar","ace/scrollbar","ace/renderloop","ace/layer/font_metrics","ace/lib/event_emitter"], function(require, exports, module) {
-
+"use strict";
 
 var oop = require("./lib/oop");
 var dom = require("./lib/dom");
@@ -28006,7 +28014,7 @@ exports.VirtualRenderer = VirtualRenderer;
 });
 
 define("ace/worker/worker_client",["require","exports","module","ace/lib/oop","ace/lib/net","ace/lib/event_emitter","ace/config"], function(require, exports, module) {
-
+"use strict";
 
 var oop = require("../lib/oop");
 var net = require("../lib/net");
@@ -28225,7 +28233,7 @@ exports.WorkerClient = WorkerClient;
 });
 
 define("ace/placeholder",["require","exports","module","ace/range","ace/lib/event_emitter","ace/lib/oop"], function(require, exports, module) {
-
+"use strict";
 
 var Range = require("./range").Range;
 var EventEmitter = require("./lib/event_emitter").EventEmitter;
@@ -29463,7 +29471,7 @@ require("./config").defineOptions(Editor.prototype, "editor", {
 });
 
 define("ace/mode/folding/fold_mode",["require","exports","module","ace/range"], function(require, exports, module) {
-
+"use strict";
 
 var Range = require("../../range").Range;
 
@@ -29552,7 +29560,7 @@ var FoldMode = exports.FoldMode = function() {};
 });
 
 define("ace/theme/textmate",["require","exports","module","ace/lib/dom"], function(require, exports, module) {
-
+"use strict";
 
 exports.isDark = false;
 exports.cssClass = "ace-tm";
@@ -29683,7 +29691,7 @@ dom.importCssString(exports.cssText, exports.cssClass);
 });
 
 define("ace/line_widgets",["require","exports","module","ace/lib/oop","ace/lib/dom","ace/range"], function(require, exports, module) {
-
+"use strict";
 
 var oop = require("./lib/oop");
 var dom = require("./lib/dom");
@@ -29946,7 +29954,7 @@ exports.LineWidgets = LineWidgets;
 });
 
 define("ace/ext/error_marker",["require","exports","module","ace/line_widgets","ace/lib/dom","ace/range"], function(require, exports, module) {
-
+"use strict";
 var LineWidgets = require("../line_widgets").LineWidgets;
 var dom = require("../lib/dom");
 var Range = require("../range").Range;
@@ -30129,7 +30137,7 @@ dom.importCssString("\
 });
 
 define("ace/ace",["require","exports","module","ace/lib/fixoldbrowsers","ace/lib/dom","ace/lib/event","ace/editor","ace/edit_session","ace/undomanager","ace/virtual_renderer","ace/worker/worker_client","ace/keyboard/hash_handler","ace/placeholder","ace/multi_select","ace/mode/folding/fold_mode","ace/theme/textmate","ace/ext/error_marker","ace/config"], function(require, exports, module) {
-
+"use strict";
 
 require("./lib/fixoldbrowsers");
 
@@ -30276,7 +30284,7 @@ define('mockup-patterns-texteditor',[
   'mockup-utils',
   'ace',
 ], function($, Base, utils) {
-  
+  'use strict';
 
   var AcePattern = Base.extend({
     name: 'texteditor',
@@ -30311,7 +30319,7 @@ define('mockup-patterns-texteditor',[
       // set id on current element
       var id = utils.setId(self.$el);
       self.$wrapper = $('<div class="editorWrapper" />').css({
-        height: self.options.height + 25, // weird sizing issue here...
+        height: parseInt(self.options.height) + 25, // weird sizing issue here...
         width: self.options.width,
         position: 'relative'
       });
@@ -30385,7 +30393,7 @@ define('mockup-patterns-texteditor',[
   java, location, Components, FileUtils */
 
 define('text',['module'], function (module) {
-    
+    'use strict';
 
     var text, fs, Cc, Ci, xpcIsWindows,
         progIds = ['Msxml2.XMLHTTP', 'Microsoft.XMLHTTP', 'Msxml2.XMLHTTP.4.0'],
@@ -30774,7 +30782,7 @@ define('mockup-ui-url/views/container',[
   'backbone',
   'mockup-ui-url/views/base'
 ], function($, _, Backbone, BaseView) {
-  
+  'use strict';
 
   var Container = BaseView.extend({
     id: '',
@@ -30867,7 +30875,7 @@ define('mockup-ui-url/views/toolbar',[
   'backbone',
   'mockup-ui-url/views/container'
 ], function(_, Backbone, ContainerView) {
-  
+  'use strict';
 
   var Toolbar = ContainerView.extend({
     tagName: 'div',
@@ -30919,7 +30927,7 @@ define('mockup-patterns-tooltip',[
   'jquery',
   'mockup-patterns-base'
 ], function($, Base, undefined) {
-  
+  'use strict';
 
   var Tooltip = Base.extend({
     name: 'tooltip',
@@ -31361,7 +31369,7 @@ define('mockup-ui-url/views/button',[
   'mockup-ui-url/views/base',
   'mockup-patterns-tooltip'
 ], function($, Backbone, _, BaseView, Tooltip) {
-  
+  'use strict';
 
   var ButtonView = BaseView.extend({
     tagName: 'a',
@@ -31444,7 +31452,7 @@ define('mockup-ui-url/views/buttongroup',[
   'backbone',
   'mockup-ui-url/views/container'
 ], function(_, Backbone, ContainerView) {
-  
+  'use strict';
 
   var ButtonGroup = ContainerView.extend({
     tagName: 'div',
@@ -31487,7 +31495,7 @@ define('mockup-patterns-backdrop',[
   'jquery',
   'mockup-patterns-base'
 ], function($, Base) {
-  
+  'use strict';
 
   var Backdrop = Base.extend({
     name: 'backdrop',
@@ -31565,7 +31573,7 @@ define('mockup-ui-url/views/popover',[
   'mockup-patterns-backdrop',
   'text!mockup-ui-url/templates/popover.xml',
 ], function($, _, Backbone, ContainerView, Backdrop, PopoverTemplate) {
-  
+  'use strict';
 
   var PopoverView = ContainerView.extend({
     tagName: 'div',
@@ -31790,7 +31798,7 @@ define('mockup-patterns-filemanager-url/js/basepopover',[
   'backbone',
   'mockup-ui-url/views/popover'
 ], function($, _, Backbone, PopoverView) {
-  
+  'use strict';
 
   var FileManagerPopover = PopoverView.extend({
     className: 'popover',
@@ -31830,7 +31838,7 @@ define('mockup-patterns-filemanager-url/js/addnew',[
   'backbone',
   'mockup-patterns-filemanager-url/js/basepopover'
 ], function($, _, Backbone, PopoverView) {
-  
+  'use strict';
 
   var AddNewView = PopoverView.extend({
     className: 'popover addnew',
@@ -31884,7 +31892,7 @@ define('mockup-patterns-filemanager-url/js/newfolder',[
   'backbone',
   'mockup-patterns-filemanager-url/js/basepopover'
 ], function($, _, Backbone, PopoverView) {
-  
+  'use strict';
 
   var AddNewView = PopoverView.extend({
     className: 'popover addfolder',
@@ -31938,7 +31946,7 @@ define('mockup-patterns-filemanager-url/js/delete',[
   'backbone',
   'mockup-patterns-filemanager-url/js/basepopover'
 ], function($, _, Backbone, PopoverView) {
-  
+  'use strict';
 
   var DeleteView = PopoverView.extend({
     className: 'popover delete',
@@ -31979,10 +31987,11 @@ define('mockup-patterns-filemanager-url/js/delete',[
                 self.app.$tree.tree('openNode', node);
             }
 
+            self.app.closeActiveTab();
+
             delete self.app.fileData[self.data.path];
             delete self.data;
           });
-          self.app.closeTab(data.path);
           self.app.resizeEditor();
         }
       });
@@ -32000,7 +32009,7 @@ define('mockup-patterns-filemanager-url/js/customize',[
   'mockup-patterns-filemanager-url/js/basepopover',
   'translate'
 ], function($, _, Backbone, PopoverView, _t) {
-  
+  'use strict';
 
   var CustomizeView = PopoverView.extend({
     className: 'popover customize',
@@ -32074,7 +32083,7 @@ define('mockup-patterns-filemanager-url/js/rename',[
   'backbone',
   'mockup-patterns-filemanager-url/js/basepopover'
 ], function($, _, Backbone, PopoverView) {
-  
+  'use strict';
 
   var RenameView = PopoverView.extend({
     className: 'popover addnew',
@@ -32192,7 +32201,7 @@ the specific language governing permissions and limitations under the Apache Lic
 })(jQuery);
 
 (function ($, undefined) {
-    
+    "use strict";
     /*global document, window, jQuery, console */
 
     if (window.Select2 !== undefined) {
@@ -36456,7 +36465,7 @@ define('mockup-patterns-select2',[
   'jquery.event.drag',
   'jquery.event.drop'
 ], function($, Base) {
-  
+  'use strict';
 
   var Select2 = Base.extend({
     name: 'select2',
@@ -36752,7 +36761,7 @@ define('mockup-patterns-relateditems',[
   'mockup-patterns-tree',
   'translate'
 ], function($, _, Base, Select2, utils, Tree, _t) {
-  
+  'use strict';
 
   var RelatedItems = Base.extend({
     name: 'relateditems',
@@ -38949,7 +38958,7 @@ define('mockup-patterns-upload',[
   'translate'
 ], function($, _, Base, RelatedItems, Dropzone,
             UploadTemplate, PreviewTemplate, _t) {
-  
+  'use strict';
 
   /* we do not want this plugin to auto discover */
   Dropzone.autoDiscover = false;
@@ -38998,7 +39007,7 @@ define('mockup-patterns-upload',[
         var items = oe.clipboardData.items;
         if (items) {
           for (var i = 0; i < items.length; i++) {
-            if (items[i].type.indexOf("image") !== -1) {
+            if (items[i].type.indexOf('image') !== -1) {
               var blob = items[i].getAsFile();
               self.dropzone.addFile(blob);
             }
@@ -39048,7 +39057,7 @@ define('mockup-patterns-upload',[
       $('button.browse', self.$el).click(function(e) {
         e.preventDefault();
         e.stopPropagation();
-        if(self.dropzone.files.length < self.options.maxFiles){
+        if(!self.options.maxFiles || self.dropzone.files.length < self.options.maxFiles){
           self.dropzone.hiddenFileInput.click();
         }
       });
@@ -39086,8 +39095,14 @@ define('mockup-patterns-upload',[
         // Trigger event 'uploadAllCompleted' and pass the server's reponse and
         // the path uid. This event can be listened to by patterns using the
         // upload pattern, e.g. the TinyMCE pattern's link plugin.
+        var data;
+        try{
+          data = $.parseJSON(response);
+        }catch(ex){
+          data = response;
+        }
         self.$el.trigger('uploadAllCompleted', {
-          'data': $.parseJSON(response),
+          'data': data,
           'path_uid': (self.$pathInput) ? self.$pathInput.val() : null
         });
       });
@@ -39274,14 +39289,11 @@ define('mockup-patterns-upload',[
           processing = false;
         }
 
-        if (processing){
-          var file = self.dropzone.files[0];
-
-          if (file.status === Dropzone.ERROR){
-            // Put the file back as "queued" for retrying
-            file.status = Dropzone.QUEUED;
-            processing = false;
-          }
+        var file = self.dropzone.files[0];
+        if (processing && file.status === Dropzone.ERROR){
+          // Put the file back as "queued" for retrying
+          file.status = Dropzone.QUEUED;
+          processing = false;
         }
 
         if (!processing){
@@ -39398,7 +39410,7 @@ define('mockup-patterns-filemanager-url/js/upload',[
   'mockup-patterns-filemanager-url/js/basepopover',
   'mockup-patterns-upload'
 ], function($, _, Backbone, PopoverView, Upload) {
-  
+  'use strict';
 
   var UploadView = PopoverView.extend({
     className: 'popover upload',
@@ -39497,7 +39509,7 @@ define('mockup-patterns-filemanager',[
 ], function($, Base, _, Backbone, BaseView, Tree, TextEditor, AppTemplate, Toolbar,
             ButtonView, ButtonGroup, AddNewView, NewFolderView, DeleteView,
             CustomizeView, RenameView, UploadView, _t, utils) {
-  
+  'use strict';
 
   var FileManager = Base.extend({
     name: 'filemanager',
@@ -39664,20 +39676,23 @@ define('mockup-patterns-filemanager',[
 
       self._save = function() {
 
-        var path = self.getNodePath();
-        if( path === undefined ) {
+        var path = $('.active', self.$tabs).data('path');
+        if( path === undefined || path === false ) {
           alert("No file selected.");
           return;
         }
         self.doAction('saveFile', {
           type: 'POST',
           data: {
-            path: self.getNodePath(),
+            path: path,
             data: self.ace.editor.getValue(),
             _authenticator: utils.getAuthenticator()
           },
           success: function(data) {
-            $('[data-path="' + self.getNodePath() + '"]').removeClass("modified");
+            if( data['error'] !== undefined ) {
+              alert("There was a problem saving the file.");
+            }
+            $('[data-path="' + path + '"]').removeClass("modified");
           }
         });
       };
@@ -39713,6 +39728,25 @@ define('mockup-patterns-filemanager',[
       self.$tabs = $('ul.nav', self.$nav);
       self.tree = new Tree(self.$tree, self.options.treeConfig);
       self.$editor = self.$('.editor');
+
+      /* close popovers when clicking away */
+      $(document).click(function(e){
+          var $el = $(e.target);
+          if(!$el.is(':visible')){
+              // ignore this, fake event trigger to element that is not visible
+              return;
+          }
+          if($el.is('a') || $el.parent().is('a')){
+              return;
+          }
+          var $popover = $('.popover:visible');
+          if($popover.length > 0 && !$.contains($popover[0], $el[0])){
+              var popover = $popover.data('component');
+              if(popover){
+                  popover.hide();
+              }
+          }
+      });
 
       self.$tree.bind('tree.select', function(e) {
         if( e.node === null ) {
@@ -40035,7 +40069,9 @@ define('mockup-patterns-filemanager',[
       if (path !== '/'){
         path += '/';
       }
-      return path + node.name;
+
+      var name = (node.name !== undefined) ? node.name : '';
+      return path + name;
     },
     getFolderPath: function(node){
       var self = this;
@@ -40149,7 +40185,7 @@ define('mockup-patterns-filemanager',[
 
 if (window.jQuery) {
   define( 'jquery', [], function () {
-    
+    'use strict';
     return window.jQuery;
   } );
 }
@@ -40160,9 +40196,9 @@ require([
   'underscore',
   'mockup-patterns-filemanager'
 ], function($, utils, _) {
-  
+  'use strict';
 
 });
 
-define("/Users/nathan/code/fbigov.policy/src/plone.app.mosaic/src/plone/app/mosaic/browser/static/js/layouts-editor.js", function(){});
+define("/Users/nathan/code/coredev5/src/plone.app.mosaic/src/plone/app/mosaic/browser/static/js/layouts-editor.js", function(){});
 

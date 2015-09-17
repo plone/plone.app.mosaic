@@ -66,11 +66,7 @@
 }
 .mosaic-toolbar button:hover,
 .mosaic-toolbar .mosaic-menu.select2-container:hover,
-.mosaic-toolbar .mosaic-menu.select2-container:hover a.select2-choice {
-  color: #333333;
-  background-color: #e6e6e6;
-  border-color: #adadad;
-}
+.mosaic-toolbar .mosaic-menu.select2-container:hover a.select2-choice,
 .mosaic-toolbar .mosaic-menu.select2-container.select2-dropdown-open,
 .mosaic-toolbar .mosaic-menu.select2-container.select2-dropdown-open a.select2-choice {
   color: #333333;
@@ -126,7 +122,6 @@
   margin-left: 2px;
   vertical-align: middle;
   border-top: 4px dashed;
-  border-top: 4px solid \9;
   border-right: 4px solid transparent;
   border-left: 4px solid transparent;
 }
@@ -985,3 +980,4 @@
   -ms-user-select: none;
   user-select: none;
 }
+/*# sourceMappingURL=plone-mosaic.css.map */
