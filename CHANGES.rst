@@ -4,8 +4,9 @@ Changelog
 1.0b3 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Add transforms to set 'layout-' with active content layout name or
+  'layout-custom' into body class
+  [datakurre]
 
 1.0b2 (2015-09-16)
 ------------------
