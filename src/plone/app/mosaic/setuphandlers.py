@@ -101,7 +101,7 @@ def enable_layout_view(portal):
 
     for fti in dx_ftis:
         if fti.getId() in ['Document']:
-            fti.default_view = 'view'
+            fti.default_view = 'layout_view'
 
 
 def create_ttw_site_layout_examples(portal):
