@@ -144,7 +144,7 @@ class BodyClass(object):
         if 'template-layout' in body_classes:
             adapted = ILayoutAware(context, None)
             if adapted is not None:
-                layout = adapted.contentLayout
+                layout = getattr(adapted, 'contentLayout', None)
                 if layout:
                     # Transform ++contentlayout++default/document.html
                     # into layout-default-document
@@ -153,7 +153,7 @@ class BodyClass(object):
                         body_classes.append('layout-' +
                                             names[0].replace('/', '-'))
                 else:
-                    body_class.append('layout-custom')
+                    body_classes.append('layout-custom')
 
         # Enable mosaic-grid when no grid system is defined
         gridSystem = xpath1(gridXPath, result.tree)
