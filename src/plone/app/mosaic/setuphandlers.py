@@ -53,6 +53,7 @@ def step_setup_various(context):
         try:
             import_profile(portal, profile_name)
             enable_layout_behavior(portal)
+            enable_layout_view(portal)
         except KeyError:
             pass
         if not HAVE_PLONE_5:
