@@ -3,6 +3,7 @@ from Acquisition import aq_base
 from Acquisition import aq_parent
 from plone import api
 from plone.app.blocks.interfaces import IBlocksSettings
+from plone.app.blocks.layoutbehavior import ILayoutAware
 from plone.app.blocks.utils import gridXPath
 from plone.app.blocks.utils import xpath1
 from plone.registry.interfaces import IRegistry
@@ -14,6 +15,9 @@ from zope.component import queryUtility
 from zope.interface import implementer
 from zope.viewlet.interfaces import IViewlet
 from zope.viewlet.interfaces import IViewletManager
+import re
+
+LAYOUT_NAME = re.compile(r'[a-zA-Z_\-]+/[a-zA-Z_\-]+')
 
 
 @implementer(ITransform)
@@ -124,12 +128,32 @@ class BodyClass(object):
         root = result.tree.getroot()
         body = root.find('body')
 
-        # Ensure body class
-        if layout and body is not None:
-            if 'site-' not in body.attrib.get('class', ''):
-                class_ = layout.bodyClass(None, self.published)
-                body.attrib['class'] = ' '.join(
-                    body.attrib.get('class', '').split() + class_.split())
+        if layout is None or body is None:
+            return result
+
+        body_class = body.attrib.get('class', '')
+        body_classes = body_class.split()
+
+        # Get default body classes
+        if 'template-' not in body_class and 'site-' not in body_class:
+            body_classes.extend([name for name
+                                 in layout.bodyClass(None, self.published)
+                                 if name not in body_classes])
+
+        # Get contentLayout body class
+        if 'template-layout' in body_classes:
+            adapted = ILayoutAware(context, None)
+            if adapted is not None:
+                layout = adapted.contentLayout
+                if layout:
+                    # Transform ++contentlayout++default/document.html
+                    # into layout-default-document
+                    names = LAYOUT_NAME.findall(layout)
+                    if len(names) == 1:
+                        body_classes.append('layout-' +
+                                            names[0].replace('/', '-'))
+                else:
+                    body_class.append('layout-custom')
 
         # Enable mosaic-grid when no grid system is defined
         gridSystem = xpath1(gridXPath, result.tree)
@@ -137,9 +161,12 @@ class BodyClass(object):
             registry = queryUtility(IRegistry)
             if registry:
                 settings = registry.forInterface(IBlocksSettings, check=False)
-                gridSystem = getattr(settings, 'default_grid_system', None)
-        if body is not None and gridSystem is None:
-            body.attrib['class'] = ' '.join((
-                body.attrib.get('class', ' '), 'mosaic-grid'))
+                gridSystem = getattr(
+                    settings, 'default_grid_system', None) or None
+        if gridSystem is None:
+            body_classes.append('mosaic-grid')
+
+        # Set body class
+        body.attrib['class'] = ' '.join(body_classes)
 
         return result
