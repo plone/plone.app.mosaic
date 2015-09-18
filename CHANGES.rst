@@ -4,6 +4,9 @@ Changelog
 1.0b3 (unreleased)
 ------------------
 
+- Add ploneimage action for richtext tiles' toolbar
+  [datakurre]
+
 - Add transforms to set 'layout-' with active content layout name or
   'layout-custom' into body class
   [datakurre]
