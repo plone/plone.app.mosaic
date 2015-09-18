@@ -4,9 +4,6 @@ Changelog
 1.0b3 (unreleased)
 ------------------
 
-- Fix "layout_view" not getting set as default view on install for Document type
-  [vangheem]
-
 - Add transforms to set 'layout-' with active content layout name or
   'layout-custom' into body class
   [datakurre]
