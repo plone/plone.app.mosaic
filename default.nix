@@ -11,7 +11,7 @@ stdenv.mkDerivation {
         pythonPackages.readline
         (pythonPackages.watchdog.override {
           buildInputs = [
-            pkgs.darwin.apple_sdk.frameworks.CoreFoundation
+#           pkgs.darwin.apple_sdk.frameworks.CoreFoundation
             pkgs.darwin.apple_sdk.frameworks.CoreServices
           ];
           doCheck = false;
