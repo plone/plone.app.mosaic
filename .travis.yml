@@ -23,13 +23,11 @@ script:
 - bin/pybot -d parts/test docs
 after_script:
 - bin/sphinx-build docs html
-- gem 'faraday', '0.8.9'
-- gem 'net-ssh', '2.10.0'
-- gem install travis-artifacts
-- travis-artifacts upload --path html
-- travis-artifacts upload --path parts/test
-- travis-artifacts upload --target-path latest --path html
-- travis-artifacts upload --target-path latest --path parts/test
+- bundle install
+- bundle exec travis-artifacts upload --path html
+- bundle exec travis-artifacts upload --path parts/test
+- bundle exec travis-artifacts upload --target-path latest --path html
+- bundle exec travis-artifacts upload --target-path latest --path parts/test
 - 'echo "Sphinx: http://plone-app-mosaic.s3-website-us-east-1.amazonaws.com/artifacts/${TRAVIS_BUILD_NUMBER}/${TRAVIS_JOB_NUMBER}/"'
 - 'echo "Robot: http://plone-app-mosaic.s3-website-us-east-1.amazonaws.com/artifacts/${TRAVIS_BUILD_NUMBER}/${TRAVIS_JOB_NUMBER}/report.html"'
 env:
