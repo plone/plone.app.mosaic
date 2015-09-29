@@ -24,6 +24,7 @@ script:
 after_script:
 - bin/sphinx-build docs html
 - gem install --version 0.8.9 faraday
+- gem install --version 2.10.0 net-ssh
 - gem install travis-artifacts
 - travis-artifacts upload --path html
 - travis-artifacts upload --path parts/test
