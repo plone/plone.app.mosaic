@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.0b3 (unreleased)
+1.0b3 (2015-09-29)
 ------------------
 
 - Add ploneimage action for richtext tiles' toolbar

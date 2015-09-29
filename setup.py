@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from setuptools import setup, find_packages
 
-version = '1.0b3.dev0'
+version = '1.0b3'
 
 long_description = (
     open('README.rst').read()
