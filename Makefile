@@ -24,7 +24,7 @@ all: $(BUNDLE_JS) $(BUNDLE_LESS)
 
 install:
 	npm install
-	./node_modules/.bin/bower install
+	./node_modules/bower/bin/bower install
 
 $(BUNDLE_JS): $(SOURCE_JS)
 	$(RJS_CMD) $(RJS_ARGS)
