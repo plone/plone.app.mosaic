@@ -145,9 +145,8 @@ Alternatively you can also use ``bin/instance fg``.
 Frontend development
 --------------------
 
-Plone Mosaic requires javascript and css bundles, which are automatically
-build for Plone 5.x, but which must be manually build for Plone 4.3.x as
-follows:
+Plone Mosaic requires javascript and css bundles, which must be manually
+updated for Plone 4.3.x with:
 
 .. code:: bash
 
