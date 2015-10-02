@@ -540,7 +540,7 @@ define([
 
                             // Read form
                             $value = $(value);
-                            action_url = $value.find('form').attr('action');
+                            action_url = $value.find('#add_tile').attr('action');
                             authenticator = $value.find('[name="_authenticator"]').val();
 
                             // Open add form in modal when requires user input
