@@ -635,6 +635,7 @@
       <element>toolbar-alignjustify</element>
       <element>toolbar-bullist</element>
       <element>toolbar-numlist</element>
+      <element>toolbar-ploneimage</element>
       <element>toolbar-unlink</element>
       <element>toolbar-plonelink</element>
     </value>
@@ -666,6 +667,7 @@
       <element>toolbar-alignjustify</element>
       <element>toolbar-bullist</element>
       <element>toolbar-numlist</element>
+      <element>toolbar-ploneimage</element>
       <element>toolbar-unlink</element>
       <element>toolbar-plonelink</element>
     </value>
@@ -697,6 +699,7 @@
       <element>toolbar-alignjustify</element>
       <element>toolbar-bullist</element>
       <element>toolbar-numlist</element>
+      <element>toolbar-ploneimage</element>
       <element>toolbar-unlink</element>
       <element>toolbar-plonelink</element>
     </value>
@@ -728,6 +731,7 @@
       <element>toolbar-alignjustify</element>
       <element>toolbar-bullist</element>
       <element>toolbar-numlist</element>
+      <element>toolbar-ploneimage</element>
       <element>toolbar-unlink</element>
       <element>toolbar-plonelink</element>
     </value>
@@ -854,6 +858,7 @@
       <element>toolbar-alignjustify</element>
       <element>toolbar-bullist</element>
       <element>toolbar-numlist</element>
+      <element>toolbar-ploneimage</element>
       <element>toolbar-unlink</element>
       <element>toolbar-plonelink</element>
     </value>
@@ -1293,6 +1298,7 @@
       <element>toolbar-alignjustify</element>
       <element>toolbar-bullist</element>
       <element>toolbar-numlist</element>
+      <element>toolbar-ploneimage</element>
       <element>toolbar-unlink</element>
       <element>toolbar-plonelink</element>
     </value>

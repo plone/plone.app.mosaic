@@ -25,10 +25,9 @@ with valid, publishable URLs.
 relies on a grid system to place tiles onto a page in an intuitive, WYSIWYG,
 drag-and-drop manner. Using Mosaic Editor, it is easy to compose pages with
 complex, balanced and visually appealing layouts.
-- custom layout behavior for Dexterity content types
 
-Currently, the Mosaic Editor is activated, when any content with *Custom
-layout* view active is being edited. (Custom layout is available for any
+Currently, the Mosaic Editor is activated, when any content with *Mosaic
+layout* view active is being edited. (Mosaic layout is available for any
 content with *Layout support* behavior enabled.)
 
 **Blocks** is a rendering algorithm based on HTML markup conventions. A page
@@ -43,7 +42,7 @@ tile is simply an HTML document with a publishable URL.
 In practice, tiles are usually implemented as browser views deriving from the
 ``Tile`` base class and registered with the ``<plone:tile />`` ZCML directive.
 This allows tiles to have some basic metadata and automatically generated edit
-forms for any configurable aspects , which Deco will expose to users. See
+forms for any configurable aspects, which Mosaic will expose to users. See
 `plone.tiles`_ for examples.
 
 When work with tiles in Mosaic Editor, there are three types of tiles:
@@ -82,7 +81,7 @@ package has following dependencies::
     plone.tiles >= 1.5.0
     plone.app.tiles >= 2.2.0
     plone.app.standardtiles >= 1.0b3
-    plone.app.blocks >= 3.0.0
+    plone.app.blocks >= 3.0.1
     plone.app.drafts >= 1.0b3
     plone.app.widgets >= 1.8.0
 
@@ -94,8 +93,9 @@ enabled for any content type by enabling behaviors **Layout support** and
 Status
 ------
 
-**Plone Mosaic** is considered to be in alpha phase.
-`There are bugs, which should be reported.`__
+**Plone Mosaic** is considered to be in beta phase. Most features for
+the first final release are done, but
+`there may still be bugs, which should be reported.`__
 Not all the features of Plone Mosaic have yet easily accessible UI (e.g.
 layouts can be created into *portal_resources* and bound to content types as
 named views only through Zope Management Interface, ZMI).
@@ -132,7 +132,7 @@ Get started:
 * open a browser at ``http://localhost:55001/plone/++add++Document``
 * login as ``admin`` with password ``secret``
 * save the new page
-* from the *Display*-menu, select the new entry *Custom layout*
+* from the *Display*-menu, select the new entry *Mosaic layout*
 * click *Edit* to see the new *Mosaic Editor*
 
 Alternatively you can also use ``bin/instance fg``.
@@ -145,9 +145,8 @@ Alternatively you can also use ``bin/instance fg``.
 Frontend development
 --------------------
 
-Plone Mosaic requires javascript and css bundles, which are automatically
-build for Plone 5.x, but which must be manually build for Plone 4.3.x as
-follows:
+Plone Mosaic requires javascript and css bundles, which must be manually
+updated for Plone 4.3.x with:
 
 .. code:: bash
 

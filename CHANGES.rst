@@ -1,15 +1,22 @@
 Changelog
 =========
 
-1.0b3 (unreleased)
+1.0b4 (unreleased)
 ------------------
 
-- Fix "layout_view" not getting set as default view on install for Document type
-  [vangheem]
+- Nothing changed yet.
+
+
+1.0b3 (2015-09-29)
+------------------
+
+- Add ploneimage action for richtext tiles' toolbar
+  [datakurre]
 
 - Add transforms to set 'layout-' with active content layout name or
   'layout-custom' into body class
   [datakurre]
+
 
 1.0b2 (2015-09-16)
 ------------------
