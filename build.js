@@ -10,6 +10,7 @@
         'tinymce': 'empty:',
         'underscore': 'empty:',
         'pat-logger': 'empty:',
+        'pat-registry': 'empty:',
         'mockup-patterns-base': 'empty:',
         'mockup-patterns-modal': 'empty:',
         'mockup-patterns-tinymce': 'empty:',

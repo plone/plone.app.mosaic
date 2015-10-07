@@ -46,6 +46,9 @@
           <div class="pat-filemanager" tal:attributes="data-pat-filemanager view/site_config">
           </div>`
         </div>
+        <div class="tab-content show-hide-layouts">
+          <h2 class="tab" id="showhide">Show/Hide Content Layouts</h2>
+        </div>
       </div>
     </div>
 </metal:main>

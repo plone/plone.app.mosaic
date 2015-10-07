@@ -3,6 +3,15 @@
 
   <records interface="plone.app.blocks.interfaces.IBlocksSettings" />
 
+  <record name="plone.app.mosaic.hidden_content_layouts">
+    <field type="plone.registry.field.List">
+      <title>Hidden content layouts</title>
+      <value_type type="plone.registry.field.TextLine" />
+    </field>
+    <value>
+    </value>
+  </record>
+
   <!-- Primary actions -->
   <records prefix="plone.app.mosaic.primary_actions.save"
            interface='plone.app.mosaic.interfaces.IAction'>

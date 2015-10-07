@@ -8,8 +8,9 @@ define([
   'underscore',
   'mockup-utils',
   'mockup-patterns-tinymce',
+  'pat-registry',
   'tinymce'
-], function($, logger, _, utils, TinyMCE) {
+], function($, logger, _, utils, TinyMCE, Registry) {
   'use strict';
 
   var log = logger.getLogger('pat-mosaic');
@@ -415,7 +416,9 @@ define([
 
     Tile.prototype.fillContent = function(html){
       // need to replace the data-tile node here
-      this.$el.find('[data-tile]').parent().html(html);
+      var $el = this.$el.find('[data-tile]').parent();
+      $el.html(html);
+      Registry.scan($el);
     };
 
     Tile.prototype.select = function(){

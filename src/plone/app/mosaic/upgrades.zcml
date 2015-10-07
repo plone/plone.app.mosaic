@@ -186,7 +186,7 @@
       source="5010"
       destination="5011"
       title="Upgrade registry configuration"
-      handler=".upgrades.upgrade_10_to_11"
+      handler=".upgrades.upgrade_registry"
       />
 
   <genericsetup:upgradeStep
@@ -194,7 +194,7 @@
       source="4010"
       destination="4011"
       title="Upgrade registry configuration"
-      handler=".upgrades.upgrade_10_to_11"
+      handler=".upgrades.upgrade_registry"
       zcml:condition="not-have plone-5"
       />
 
@@ -203,7 +203,7 @@
       source="5011"
       destination="5012"
       title="Upgrade registry configuration"
-      handler=".upgrades.upgrade_11_to_12"
+      handler=".upgrades.upgrade_registry"
       />
 
   <genericsetup:upgradeStep
@@ -211,8 +211,16 @@
       source="4011"
       destination="4012"
       title="Upgrade registry configuration"
-      handler=".upgrades.upgrade_11_to_12"
+      handler=".upgrades.upgrade_registry"
       zcml:condition="not-have plone-5"
+      />
+
+    <genericsetup:upgradeStep
+      profile="plone.app.mosaic:default"
+      source="5012"
+      destination="5013"
+      title="Upgrade registry configuration"
+      handler=".upgrades.upgrade_registry"
       />
 
 </configure>

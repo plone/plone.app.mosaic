@@ -42,6 +42,10 @@ define([
         $.mosaic = {};
     }
 
+    var normalizeClass = function(val){
+        return val.replace(/(_|\.|\/)/g, "-");
+    };
+
     /**
      * Adds a control to the toolbar
      *
@@ -62,12 +66,11 @@ define([
                 // Create menu
                 parent.append($el
                     .addClass("mosaic-icon-menu mosaic-icon-menu-" +
-                              action.name.replace(/_/g, "-") + ' mosaic-icon')
+                              normalizeClass(action.name) + ' mosaic-icon')
                     .html(action.label)
                     .attr("title", action.label)
                     .append($(document.createElement("select"))
-                        .addClass("mosaic-menu-" +
-                                  action.name.replace(/_/g, "-"))
+                        .addClass("mosaic-menu-" + normalizeClass(action.name))
                         .data("action", action.action)
                         .change(function () {
                             $(this).mosaicExecAction();
@@ -83,11 +86,11 @@ define([
                                 if (action.items[z].items !== undefined) {
                                     $(this).append($(document.createElement("optgroup"))
                                         .addClass("mosaic-option-group mosaic-option-group-" +
-                                                  action.items[z].value.replace(/_/g, "-").replace(/\//g, "-"))
+                                                  normalizeClass(action.items[z].value))
                                         .attr("label", action.items[z].label)
                                     );
                                     elm = $(this).find(".mosaic-option-group-" +
-                                                       action.items[z].value.replace(/_/g, "-").replace(/\//g, "-"));
+                                                       normalizeClass(action.items[z].value));
 
                                     // Add child nodes
                                     for (y in action.items[z].items) {
@@ -95,7 +98,7 @@ define([
                                             $(document.createElement("option"))
                                                 .attr('value', action.items[z].items[y].value)
                                                 .addClass('mosaic-option mosaic-option-' +
-                                                          action.items[z].items[y].value.replace(/\//g, "-"))
+                                                          normalizeClass(action.items[z].items[y].value))
                                                 .html(action.items[z].items[y].label)
                                         );
                                     }
@@ -105,7 +108,7 @@ define([
                                     $(this).append(
                                         $(document.createElement("option"))
                                             .attr('value', action.items[z].value)
-                                            .addClass('mosaic-option mosaic-option-' + action.items[z].value.replace(/\//g, "-"))
+                                            .addClass('mosaic-option mosaic-option-' + normalizeClass(action.items[z].value))
                                             .html(action.items[z].label)
                                     );
                                 }
@@ -135,17 +138,17 @@ define([
                             if (action.items[z].items !== undefined) {
                                 $(this).append($(document.createElement("optgroup"))
                                     .addClass("mosaic-option-group mosaic-option-group-" +
-                                               action.items[z].value.replace(/_/g, "-").replace(/\//g, "-"))
+                                               normalizeClass(action.items[z].value))
                                     .attr("label", action.items[z].label)
                                 );
-                                elm = $(this).find(".mosaic-option-group-" + action.items[z].value.replace(/_/g, "-").replace(/\//g, "-"));
+                                elm = $(this).find(".mosaic-option-group-" + normalizeClass(action.items[z].value));
 
                                 // Add child nodes
                                 for (y in action.items[z].items) {
                                     elm.append(
                                         $(document.createElement("option"))
                                             .attr('value', action.items[z].items[y].value)
-                                            .addClass('mosaic-option mosaic-option-' + action.items[z].items[y].value.replace(/\//g, "-"))
+                                            .addClass('mosaic-option mosaic-option-' + normalizeClass(action.items[z].items[y].value))
                                             .html(action.items[z].items[y].label)
                                     );
                                 }
@@ -155,7 +158,7 @@ define([
                                 $(this).append(
                                     $(document.createElement("option"))
                                         .attr('value', action.items[z].value)
-                                        .addClass('mosaic-option mosaic-option-' + action.items[z].value.replace(/\//g, "-"))
+                                        .addClass('mosaic-option mosaic-option-' + normalizeClass(action.items[z].value))
                                         .html(action.items[z].label)
                                 );
                             }
@@ -168,7 +171,7 @@ define([
             $el = $(document.createElement("button"));
             // Create button
             parent.append($el
-                .addClass("mosaic-button mosaic-button-" + action.name.replace(/_/g, "-") + (action.icon ? ' mosaic-icon' : ''))
+                .addClass("mosaic-button mosaic-button-" + normalizeClass(action.name) + (action.icon ? ' mosaic-icon' : ''))
                 .html(action.label)
                 .attr("title", action.label)
                 .attr("type", "button")
@@ -197,7 +200,7 @@ define([
                     $(document.createElement("fieldset"))
                         .addClass(
                               "mosaic-button-group mosaic-button-group-" +
-                              action_group.name.replace(/_/g, "-"))
+                              normalizeClass(action_group.name))
                 );
                 elm_action_group = actions.primary_actions.children(
                     ".mosaic-button-group-" +
@@ -223,14 +226,14 @@ define([
             for (x = 0; x < $.mosaic.options.tiles.length; x += 1) {
                 action_group = $.mosaic.options.tiles[x];
                 elm_select_insert.append($(document.createElement("optgroup"))
-                    .addClass("mosaic-option-group mosaic-option-group-" + action_group.name.replace(/_/g, "-"))
+                    .addClass("mosaic-option-group mosaic-option-group-" + normalizeClass(action_group.name))
                     .attr("label", action_group.label)
                 );
-                elm_action_group = actions.secondary_actions.find(".mosaic-option-group-" + action_group.name.replace(/_/g, "-"));
+                elm_action_group = actions.secondary_actions.find(".mosaic-option-group-" + normalizeClass(action_group.name));
                 for (y = 0; y < action_group.tiles.length; y += 1) {
                     var tile = action_group.tiles[y];
                     elm_action_group.append($(document.createElement("option"))
-                        .addClass("mosaic-option mosaic-option-" + tile.name.replace(/_/g, "-"))
+                        .addClass("mosaic-option mosaic-option-" + normalizeClass(tile.name))
                         .attr("value", tile.name)
                         .html(tile.label)
                     );
@@ -247,15 +250,15 @@ define([
             for (x = 0; x < $.mosaic.options.formats.length; x += 1) {
                 action_group = $.mosaic.options.formats[x];
                 elm_select_format.append($(document.createElement("optgroup"))
-                    .addClass("mosaic-option-group mosaic-option-group-" + action_group.name.replace(/_/g, "-"))
+                    .addClass("mosaic-option-group mosaic-option-group-" + normalizeClass(action_group.name))
                     .attr("label", action_group.label)
                 );
-                elm_action_group = actions.secondary_actions.find(".mosaic-option-group-" + action_group.name.replace(/_/g, "-"));
+                elm_action_group = actions.secondary_actions.find(".mosaic-option-group-" + normalizeClass(action_group.name));
                 for (y = 0; y <  action_group.actions.length; y += 1) {
                     var action = action_group.actions[y];
                     if (action.favorite === false) {
                         elm_action_group.append($(document.createElement("option"))
-                            .addClass("mosaic-option mosaic-option-" + action.name.replace(/_/g, "-"))
+                            .addClass("mosaic-option mosaic-option-" + normalizeClass(action.name))
                             .attr("value", action.name)
                             .html(action.label)
                             .data("action", action.action)
@@ -333,11 +336,11 @@ define([
                         action_group = $.mosaic.options[a][x];
                         actions[a].append($(document.createElement("fieldset"))
                             .addClass("mosaic-button-group mosaic-button-group-" +
-                                $.mosaic.options[a][x].name.replace(/_/g, "-"))
+                                      normalizeClass($.mosaic.options[a][x].name))
                         );
                         elm_action_group = actions[a]
                             .children(".mosaic-button-group-" +
-                            $.mosaic.options[a][x].name.replace(/_/g, "-"));
+                            normalizeClass($.mosaic.options[a][x].name));
                         for (y = 0; y < action_group.actions.length; y += 1) {
 
                             // Add control

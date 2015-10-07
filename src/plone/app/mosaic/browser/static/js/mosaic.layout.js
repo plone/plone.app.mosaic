@@ -481,16 +481,16 @@ define([
                     var tileUrl = xhr.getResponseHeader('X-Tile-Url'),
                         value = $.mosaic.getDomTreeFromHtml(response);
                     if (tileUrl) {
-
                         // Remove head tags
                         $.mosaic.removeHeadTags(tileUrl);
 
                         // Add head tags
                         $.mosaic.addHeadTags(tileUrl, value);
 
-                        // Update tile
-                        $('.mosaic-edited-tile .mosaic-tile-content',
-                          $.mosaic.document).html('<p class="hiddenStructure tileUrl">' + tileUrl.replace(/&/gim, '&amp;') + '</p>' + value.find('.temp_body_tag').html());  // jshint ignore:line
+                        var tileHtml = '<p class="hiddenStructure tileUrl">' +
+                           tileUrl.replace(/&/gim, '&amp;') + '</p>' +
+                           value.find('.temp_body_tag').html();
+                        tile.fillContent(tileHtml);
 
                         // Close overlay
                         $.mosaic.overlay.app.hide();
