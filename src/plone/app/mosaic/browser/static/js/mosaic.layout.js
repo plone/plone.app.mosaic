@@ -35,8 +35,9 @@ define([
     'mosaic-url/mosaic.tile',
     'mockup-patterns-modal',
     'pat-logger',
-    'underscore'
-], function($, Tile, Modal, logger, _) {
+    'underscore',
+    'pat-registry'
+], function($, Tile, Modal, logger, _, Registry) {
     'use strict';
 
 
@@ -490,7 +491,10 @@ define([
                         var tileHtml = '<p class="hiddenStructure tileUrl">' +
                            tileUrl.replace(/&/gim, '&amp;') + '</p>' +
                            value.find('.temp_body_tag').html();
+                        var $tile = $('.mosaic-edited-tile .mosaic-tile-content', $.mosaic.document);
+                        $tile.html(tileHtml);
                         tile.fillContent(tileHtml);
+                        Registry.scan($tile);
 
                         // Close overlay
                         $.mosaic.overlay.app.hide();
