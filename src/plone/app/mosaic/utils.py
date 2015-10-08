@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from plone.registry.interfaces import IRegistry
 from plone.app.blocks.interfaces import CONTENT_LAYOUT_MANIFEST_FORMAT
 from plone.app.blocks.interfaces import IOmittedField
 from plone.app.blocks.resource import getLayoutsFromResources
@@ -92,7 +93,11 @@ def extractFieldInformation(schema, context, request, prefix):
 
 def getContentLayoutsForType(pt):
     result = []
+    registry = getUtility(IRegistry)
+    hidden = registry.get('plone.app.mosaic.hidden_content_layouts', [])
     for key, value in getLayoutsFromResources(CONTENT_LAYOUT_MANIFEST_FORMAT).items():
+        if key in hidden:
+            continue
         _for = [v for v in (value.get('for') or '').split(',') if v]
         if _for and pt not in _for:
             continue

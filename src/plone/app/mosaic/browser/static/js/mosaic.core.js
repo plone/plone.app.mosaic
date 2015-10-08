@@ -137,11 +137,11 @@ define([
         }else{
             var contentRaw = $($.mosaic.options.customContentLayout_field_selector).val();
             if(!contentRaw){
-                $.mosaic.selectLayout();
+                $.mosaic.selectLayout(true);
             }else{
                 var $content = $.mosaic.getDomTreeFromHtml(contentRaw);
                 if($content.attr('id') === "no-layout"){
-                    $.mosaic.selectLayout();
+                    $.mosaic.selectLayout(true);
                 }else{
                     $.mosaic.hasContentLayout = false;
                     $.mosaic._init($content);
@@ -282,7 +282,22 @@ define([
         });
     };
 
-    $.mosaic.selectLayout = function(){
+    $.mosaic.selectLayout = function(initial){
+        if(initial !== undefined && initial){
+            // check if there is only 1 available layout and auto select
+            // if that is the case.
+            if($.mosaic.options.available_layouts.length === 1){
+                var layout = $.mosaic.options.available_layouts[0];
+                var layoutPath = '++contentlayout++' + layout.directory + '/' + layout.file;
+                $.mosaic.applyLayout(layoutPath);
+                return;
+            }
+        }
+        if($.mosaic.options.available_layouts.length === 0){
+            // use backup layout
+            $.mosaic.applyLayout('++contentlayout++default/basic.html');
+            return;
+        }
         var $el = $('<div/>').appendTo('body');
         var modal = new Modal($el, {
             html: $.mosaic.selectLayoutTemplate($.mosaic.options),

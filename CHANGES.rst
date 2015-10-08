@@ -4,7 +4,11 @@ Changelog
 1.0b4 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- if only one layout is available, auto-select it
+  [vangheem]
+
+- be able to show/hide content layouts
+  [vangheem]
 
 
 1.0b3 (2015-09-29)

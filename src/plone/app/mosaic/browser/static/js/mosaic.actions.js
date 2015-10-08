@@ -384,6 +384,9 @@ define([
                 if(yes){
                     $.mosaic.selectLayout();
                 }
+            },
+            visible: function(){
+                return $.mosaic.options.available_layouts.length > 0;
             }
         });
 
