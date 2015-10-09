@@ -26,16 +26,19 @@ define([
     that.$el.children(".mosaic-tile-content").off('blur').on('blur', function(){
       var tiletype = that.getType();
       if(tiletype === 'plone.app.standardtiles.rawhtml'){
-        // need to save tile
-        $.ajax({
-          url: that.getEditUrl(),
-          method: 'POST',
-          data: {
-            'plone.app.standardtiles.rawhtml.content': that.$el.children('.mosaic-tile-content').html(),
-            _authenticator: utils.getAuthenticator(),
-            'buttons.save': 'Save'
-          }
-        });
+        var edit_url = that.getEditUrl();
+        if(edit_url){
+          // need to save tile
+          $.ajax({
+            url: edit_url,
+            method: 'POST',
+            data: {
+              'plone.app.standardtiles.rawhtml.content': that.$el.children('.mosaic-tile-content').html(),
+              _authenticator: utils.getAuthenticator(),
+              'buttons.save': 'Save'
+            }
+          });
+        }
       }
     });
   };
