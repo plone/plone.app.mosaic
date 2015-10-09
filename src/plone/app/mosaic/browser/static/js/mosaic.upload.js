@@ -32,225 +32,225 @@ eqeqeq: true, plusplus: true, bitwise: true, regexp: true, newcap: true,
 immed: true, strict: true, maxlen: 80, maxerr: 9999 */
 
 define([
-    'jquery'
+  'jquery'
 ], function($) {
-    'use strict';
+  'use strict';
 
-    // Define mosaic namespace if it doesn't exist
-    if (typeof($.mosaic) === "undefined") {
-        $.mosaic = {};
-    }
+  // Define mosaic namespace if it doesn't exist
+  if (typeof($.mosaic) === "undefined") {
+    $.mosaic = {};
+  }
 
-    /**
-     * Initialize the upload module
-     *
-     * @id jQuery.mosaic.initUpload
-     */
-    $.mosaic.initUpload = function () {
+  /**
+   * Initialize the upload module
+   *
+   * @id jQuery.mosaic.initUpload
+   */
+  $.mosaic.initUpload = function () {
 
-        // Bind dragover
-        $(".mosaic-panel", $.mosaic.document).bind("dragover", function (e) {
+    // Bind dragover
+    $(".mosaic-panel", $.mosaic.document).bind("dragover", function (e) {
 
-            // Check if drag not already loaded
-            if ($(".mosaic-panel-dragging", $.mosaic.document).length === 0) {
+      // Check if drag not already loaded
+      if ($(".mosaic-panel-dragging", $.mosaic.document).length === 0) {
 
-                // Deselect tiles
-                $(".mosaic-selected-tile", $.mosaic.document)
-                    .removeClass("mosaic-selected-tile")
-                    .children(".mosaic-tile-content").blur();
+        // Deselect tiles
+        $(".mosaic-selected-tile", $.mosaic.document)
+          .removeClass("mosaic-selected-tile")
+          .children(".mosaic-tile-content").blur();
 
-                // Set actions
-                $.mosaic.options.toolbar.trigger("selectedtilechange");
-                $.mosaic.options.panels.mosaicSetResizeHandleLocation();
+        // Set actions
+        $.mosaic.options.toolbar.trigger("selectedtilechange");
+        $.mosaic.options.panels.mosaicSetResizeHandleLocation();
 
-                // Add dummy tile
-                $.mosaic.addTile('image', '<img src="++resource++plone.app.' +
-                    'mosaic.images/files.png" border="0" />');
+        // Add dummy tile
+        $.mosaic.addTile('image', '<img src="++resource++plone.app.' +
+          'mosaic.images/files.png" border="0" />');
+      }
+    });
+
+    document.addEventListener(
+      "drop",
+      function (event) {
+        // Local variables
+        var dt, first, i, files, newtile, file, img, tile, xhr,
+          boundary, data;
+
+        dt = event.dataTransfer;
+        files = dt.files;
+
+        // Prevent default actions
+        event.stopPropagation();
+        event.preventDefault();
+
+        // Drop tile
+        $($.mosaic.document).trigger("mousedown");
+
+        // Check filetypes
+        first = true;
+        for (i = 0; i < files.length; i += 1) {
+
+          // Get file
+          file = files.item(i);
+
+          // Check if supported mimetype
+          if (file.mediaType.indexOf('image') === 0) {
+
+            // Check if first
+            if (first) {
+
+              // Set image and tile
+              img = $(".mosaic-selected-tile", $.mosaic.document)
+                .children(".mosaic-tile-content")
+                .children("img");
+              tile = $(".mosaic-selected-tile",
+                   $.mosaic.document);
+
+              // Set first to false
+              first = false;
+
+            // Not the first
+            } else {
+
+              // Create new tile
+              newtile = $($.mosaic.document.createElement("div"))
+                .addClass("movable removable mosaic-tile " +
+                      "mosaic-image-tile")
+                .append($($.mosaic.document.createElement("div"))
+                  .addClass("mosaic-tile-content")
+                  .append(
+                    $($.mosaic.document.createElement("img"))
+                      .attr("border", 0)
+                  )
+                );
+
+              // Insert new tile
+              $(".mosaic-selected-tile", $.mosaic.document)
+                .after(newtile);
+              newtile.mosaicInitTile();
+              newtile.mosaicAddDrag();
+
+              // Get image object
+              img = newtile.children(".mosaic-tile-content")
+                .children("img");
+              tile = newtile;
             }
-        });
 
-        document.addEventListener(
-            "drop",
-            function (event) {
-                // Local variables
-                var dt, first, i, files, newtile, file, img, tile, xhr,
-                    boundary, data;
+            // Setup progress div
+            tile.append($($.mosaic.document.createElement("div"))
+              .addClass("mosaic-tile-uploadprogress")
+            );
 
-                dt = event.dataTransfer;
-                files = dt.files;
+            // Set image values
+            img.get(0).src = file.getAsDataURL();
 
-                // Prevent default actions
-                event.stopPropagation();
-                event.preventDefault();
+            // Create new ajax request
+            xhr = new XMLHttpRequest();
 
-                // Drop tile
-                $($.mosaic.document).trigger("mousedown");
-
-                // Check filetypes
-                first = true;
-                for (i = 0; i < files.length; i += 1) {
-
-                    // Get file
-                    file = files.item(i);
-
-                    // Check if supported mimetype
-                    if (file.mediaType.indexOf('image') === 0) {
-
-                        // Check if first
-                        if (first) {
-
-                            // Set image and tile
-                            img = $(".mosaic-selected-tile", $.mosaic.document)
-                                .children(".mosaic-tile-content")
-                                .children("img");
-                            tile = $(".mosaic-selected-tile",
-                                     $.mosaic.document);
-
-                            // Set first to false
-                            first = false;
-
-                        // Not the first
-                        } else {
-
-                            // Create new tile
-                            newtile = $($.mosaic.document.createElement("div"))
-                                .addClass("movable removable mosaic-tile " +
-                                          "mosaic-image-tile")
-                                .append($($.mosaic.document.createElement("div"))
-                                    .addClass("mosaic-tile-content")
-                                    .append(
-                                        $($.mosaic.document.createElement("img"))
-                                            .attr("border", 0)
-                                    )
-                                );
-
-                            // Insert new tile
-                            $(".mosaic-selected-tile", $.mosaic.document)
-                                .after(newtile);
-                            newtile.mosaicInitTile();
-                            newtile.mosaicAddDrag();
-
-                            // Get image object
-                            img = newtile.children(".mosaic-tile-content")
-                                .children("img");
-                            tile = newtile;
-                        }
-
-                        // Setup progress div
-                        tile.append($($.mosaic.document.createElement("div"))
-                            .addClass("mosaic-tile-uploadprogress")
-                        );
-
-                        // Set image values
-                        img.get(0).src = file.getAsDataURL();
-
-                        // Create new ajax request
-                        xhr = new XMLHttpRequest();
-
-                        // Set progress handler
-                        xhr.upload.log = img;
-                        /*
-                        xhr.upload.addEventListener("progress",
-                            function (event) {
-                            if (event.lengthComputable) {
-                                var percentage = Math.round((event.loaded *
-                                    100) / event.total);
-                                if (percentage < 100) {
-                                    // console.log(percentage);
-                                }
-                            }
-                        }
-                        , false);
-                        */
-
-                        // Added load handler
-                        xhr.addEventListener("load", function (event) {
-
-                            // Get response
-                            var response = eval('(' +
-                                event.target.responseText + ')');
-
-                            // Check if error
-                            if (response.status === 1) {
-
-                                // Raise error
-                                $.plone.notify({
-                                    type: "error",
-                                    title: "Error",
-                                    message: response.message,
-                                    sticky: true
-                                });
-
-                            // No error
-                            } else {
-
-                                // Set url and alt and fadein
-                                $(event.target.upload.log).attr({
-                                    'src': response.url,
-                                    'alt': response.title
-                                })
-                                .parents(".mosaic-tile")
-                                    .children(".mosaic-tile-uploadprogress")
-                                    .fadeOut("slow", function () {
-                                        $(this).remove();
-                                    });
-                            }
-                        }, false);
-
-                        // Set error handler
-                        xhr.upload.addEventListener("error", function (error) {
-                            $.plone.notify({
-                                type: "error",
-                                title: "Error",
-                                message: "Error uploading file: " + error,
-                                sticky: true
-                            });
-                        }, false);
-
-                        // Set boundary
-                        boundary = "AJAX---------------------------AJAX";
-
-                        // Open xhr and set content type
-                        xhr.open("POST", $.mosaic.options.url + "/@@mosaic-upload",
-                            true);
-                        xhr.setRequestHeader('Content-Type',
-                            'multipart/form-data; boundary=' + boundary);
-
-                        // Add start boundary
-                        data = "--" + boundary + "\r\n";
-
-                        // Add file
-                        data += 'Content-Disposition: form-data; ';
-                        data += 'name="uploadfile"; ';
-                        data += 'filename="' + file.fileName + '"' + "\r\n";
-                        data += "Content-Type: " + file.mediaType;
-                        data += "\r\n\r\n";
-                        data += file.getAsBinary() + "\r\n";
-
-                        // Add end boundary
-                        data += "--" + boundary + "--" + "\r\n";
-
-                        // Sent data
-                        xhr.sendAsBinary(data);
-                    } else {
-
-                        // Notify unsupported
-                        $.plone.notify({
-                            type: "warning",
-                            title: "Warning",
-                            message: "The filetype of file " + file.fileName +
-                                " is unsupported",
-                            sticky: true
-                        });
-                    }
+            // Set progress handler
+            xhr.upload.log = img;
+            /*
+            xhr.upload.addEventListener("progress",
+              function (event) {
+              if (event.lengthComputable) {
+                var percentage = Math.round((event.loaded *
+                  100) / event.total);
+                if (percentage < 100) {
+                  // console.log(percentage);
                 }
+              }
+            }
+            , false);
+            */
 
-                // Remove tile if no supported filetypes
-                if (first) {
-                    $(".mosaic-button.remove").mosaicExecAction();
-                }
-            },
-            false
-        );
-    };
+            // Added load handler
+            xhr.addEventListener("load", function (event) {
+
+              // Get response
+              var response = eval('(' +
+                event.target.responseText + ')');
+
+              // Check if error
+              if (response.status === 1) {
+
+                // Raise error
+                $.plone.notify({
+                  type: "error",
+                  title: "Error",
+                  message: response.message,
+                  sticky: true
+                });
+
+              // No error
+              } else {
+
+                // Set url and alt and fadein
+                $(event.target.upload.log).attr({
+                  'src': response.url,
+                  'alt': response.title
+                })
+                .parents(".mosaic-tile")
+                  .children(".mosaic-tile-uploadprogress")
+                  .fadeOut("slow", function () {
+                    $(this).remove();
+                  });
+              }
+            }, false);
+
+            // Set error handler
+            xhr.upload.addEventListener("error", function (error) {
+              $.plone.notify({
+                type: "error",
+                title: "Error",
+                message: "Error uploading file: " + error,
+                sticky: true
+              });
+            }, false);
+
+            // Set boundary
+            boundary = "AJAX---------------------------AJAX";
+
+            // Open xhr and set content type
+            xhr.open("POST", $.mosaic.options.url + "/@@mosaic-upload",
+              true);
+            xhr.setRequestHeader('Content-Type',
+              'multipart/form-data; boundary=' + boundary);
+
+            // Add start boundary
+            data = "--" + boundary + "\r\n";
+
+            // Add file
+            data += 'Content-Disposition: form-data; ';
+            data += 'name="uploadfile"; ';
+            data += 'filename="' + file.fileName + '"' + "\r\n";
+            data += "Content-Type: " + file.mediaType;
+            data += "\r\n\r\n";
+            data += file.getAsBinary() + "\r\n";
+
+            // Add end boundary
+            data += "--" + boundary + "--" + "\r\n";
+
+            // Sent data
+            xhr.sendAsBinary(data);
+          } else {
+
+            // Notify unsupported
+            $.plone.notify({
+              type: "warning",
+              title: "Warning",
+              message: "The filetype of file " + file.fileName +
+                " is unsupported",
+              sticky: true
+            });
+          }
+        }
+
+        // Remove tile if no supported filetypes
+        if (first) {
+          $(".mosaic-button.remove").mosaicExecAction();
+        }
+      },
+      false
+    );
+  };
 });

@@ -48,189 +48,189 @@ eqeqeq: true, plusplus: true, bitwise: true, regexp: true, newcap: true,
 immed: true, strict: true, maxlen: 80, maxerr: 9999 */
 
 define([
-    'jquery',
+  'jquery',
 ], function($) {
-    'use strict';
+  'use strict';
 
-    // Define mosaic namespace if it doesn't exist
-    if (typeof($.mosaic) === "undefined") {
-        $.mosaic = {};
+  // Define mosaic namespace if it doesn't exist
+  if (typeof($.mosaic) === "undefined") {
+    $.mosaic = {};
+  }
+
+  // Declare mosaic.undo namespace
+  $.mosaic.undo = function () {};
+
+  /**
+   * Initialize undo manager.
+   * @id jQuery.mosaic.undo.init
+   */
+  $.mosaic.undo.init = function () {
+
+    function handler(state) {
+
+      for (var i = 0; i < state.length; i += 1) {
+        $("#" + state[i].target, $.mosaic.document)
+          .html(state[i].source);
+      }
     }
 
-    // Declare mosaic.undo namespace
-    $.mosaic.undo = function () {};
-
-    /**
-     * Initialize undo manager.
-     * @id jQuery.mosaic.undo.init
-     */
-    $.mosaic.undo.init = function () {
-
-        function handler(state) {
-
-            for (var i = 0; i < state.length; i += 1) {
-                $("#" + state[i].target, $.mosaic.document)
-                    .html(state[i].source);
-            }
-        }
-
-        $.mosaic.undo.undoManager =  new $.mosaic.undo.UndoManager(10, handler);
-    };
+    $.mosaic.undo.undoManager =  new $.mosaic.undo.UndoManager(10, handler);
+  };
 
 
-    /**
-     * Create a snapshot of the current situation, and add it to the
-     * undo manager.
-     * @id jQuery.mosaic.undo.snapshot
-     */
-    $.mosaic.undo.snapshot = function () {
-        var state = [];
-        $(".mosaic-panel", $.mosaic.document).each(function () {
-            state.push({"target": $(this).attr("id"),
-                        "source": $(this).html()});
-        });
-        if (typeof($.mosaic.undo.undoManager) === "undefined") {
-            $.mosaic.undo.init();
-        }
+  /**
+   * Create a snapshot of the current situation, and add it to the
+   * undo manager.
+   * @id jQuery.mosaic.undo.snapshot
+   */
+  $.mosaic.undo.snapshot = function () {
+    var state = [];
+    $(".mosaic-panel", $.mosaic.document).each(function () {
+      state.push({"target": $(this).attr("id"),
+            "source": $(this).html()});
+    });
+    if (typeof($.mosaic.undo.undoManager) === "undefined") {
+      $.mosaic.undo.init();
+    }
 
-        $.mosaic.undo.undoManager.add(state);
-    };
-
-
-    /**
-     *
-     */
-    $.mosaic.undo.hasInitial = function () {
-        if ($.mosaic.undo.undoManager.stack.size() > 0) {
-            return true;
-        } else {
-            return false;
-        }
-    };
+    $.mosaic.undo.undoManager.add(state);
+  };
 
 
-    /**
-     * Undo.
-     * @id jQuery.mosaic.undo.undo
-     */
-    $.mosaic.undo.undo = function () {
-        $.mosaic.undo.undoManager.undo();
-    };
+  /**
+   *
+   */
+  $.mosaic.undo.hasInitial = function () {
+    if ($.mosaic.undo.undoManager.stack.size() > 0) {
+      return true;
+    } else {
+      return false;
+    }
+  };
 
 
-    /**
-     * Redo.
-     * @id jQuery.mosaic.undo.redo
-     */
-    $.mosaic.undo.redo = function () {
-        $.mosaic.undo.undoManager.redo();
-    };
+  /**
+   * Undo.
+   * @id jQuery.mosaic.undo.undo
+   */
+  $.mosaic.undo.undo = function () {
+    $.mosaic.undo.undoManager.undo();
+  };
 
 
-    /**
-     * Stack constructor, taking optional size parameter.
-     * @id jQuery.mosaic.undo.Stack
-     * @param {Integer} stackSize Maximum number of items on the stack.
-     */
-    $.mosaic.undo.Stack = function (stackSize) {
-        if (typeof(stackSize) === "undefined") {
-            this.maxsize = 10;
-        } else {
-            this.maxsize = stackSize;
-        }
+  /**
+   * Redo.
+   * @id jQuery.mosaic.undo.redo
+   */
+  $.mosaic.undo.redo = function () {
+    $.mosaic.undo.undoManager.redo();
+  };
 
-        this.stack = [];
-    };
 
-    /**
-     * Return current stack size.
-     * @id jQuery.mosaic.undo.Stack.size
-     */
-    $.mosaic.undo.Stack.prototype.size  = function () {
-        return this.stack.length;
-    };
+  /**
+   * Stack constructor, taking optional size parameter.
+   * @id jQuery.mosaic.undo.Stack
+   * @param {Integer} stackSize Maximum number of items on the stack.
+   */
+  $.mosaic.undo.Stack = function (stackSize) {
+    if (typeof(stackSize) === "undefined") {
+      this.maxsize = 10;
+    } else {
+      this.maxsize = stackSize;
+    }
 
-    /**
-     * FIFO stack push, that removes object at other end if the stack
-     * grows bigger than the size set.
-     * @id jQuery.mosaic.undo.Stack.add
-     * @param {Object} obj Object to push onto the stack.
-     */
-    $.mosaic.undo.Stack.prototype.add = function (obj) {
+    this.stack = [];
+  };
 
-        if (this.stack.length >= this.maxsize) {
-            this.stack.pop();
-        }
+  /**
+   * Return current stack size.
+   * @id jQuery.mosaic.undo.Stack.size
+   */
+  $.mosaic.undo.Stack.prototype.size  = function () {
+    return this.stack.length;
+  };
 
-        this.stack.unshift(obj);
-    };
+  /**
+   * FIFO stack push, that removes object at other end if the stack
+   * grows bigger than the size set.
+   * @id jQuery.mosaic.undo.Stack.add
+   * @param {Object} obj Object to push onto the stack.
+   */
+  $.mosaic.undo.Stack.prototype.add = function (obj) {
 
-    /**
-     * Get the object at the given index. Note that new states (added
-     * through jQuery.mosaic.undo.Stack.add) are added (using shift) at index 0.
-     * @id jQuery.mosaic.undo.Stack.get
-     */
-    $.mosaic.undo.Stack.prototype.get = function (i) {
-        return this.stack[i];
-    };
+    if (this.stack.length >= this.maxsize) {
+      this.stack.pop();
+    }
 
-    /**
-     * Undo manager, handling calls to undo/redo. This implementation
-     * uses full DOM snippets.
-     * @id jQuery.mosaic.undo.UndoManager
-     * @param {Integer} stackSize max undo history
-     * @param {Function} handler for undo/redo, taking state as argument
-     * @param {Object} currentState Current state
-     */
-    $.mosaic.undo.UndoManager = function (stackSize, handler, currentState) {
+    this.stack.unshift(obj);
+  };
 
-        this.stack = new $.mosaic.undo.Stack(stackSize);
-        this.pointer = 0;
-        this.handler = handler;
-        if (typeof(currentState) !== "undefined") {
-            this.stack.add(currentState);
-        }
-    };
+  /**
+   * Get the object at the given index. Note that new states (added
+   * through jQuery.mosaic.undo.Stack.add) are added (using shift) at index 0.
+   * @id jQuery.mosaic.undo.Stack.get
+   */
+  $.mosaic.undo.Stack.prototype.get = function (i) {
+    return this.stack[i];
+  };
 
-    /**
-     * Add state to manager.
-     * @id jQuery.mosaic.undo.UndoManager.add
-     * @param {Object} state State to add.
-     */
-    $.mosaic.undo.UndoManager.prototype.add = function (state) {
+  /**
+   * Undo manager, handling calls to undo/redo. This implementation
+   * uses full DOM snippets.
+   * @id jQuery.mosaic.undo.UndoManager
+   * @param {Integer} stackSize max undo history
+   * @param {Function} handler for undo/redo, taking state as argument
+   * @param {Object} currentState Current state
+   */
+  $.mosaic.undo.UndoManager = function (stackSize, handler, currentState) {
 
-        this.stack.add(state);
-    };
+    this.stack = new $.mosaic.undo.Stack(stackSize);
+    this.pointer = 0;
+    this.handler = handler;
+    if (typeof(currentState) !== "undefined") {
+      this.stack.add(currentState);
+    }
+  };
 
-    /**
-     * Undo last action, by restoring last state.
-     * @id jQuery.mosaic.undo.UndoManager.undo
-     */
-    $.mosaic.undo.UndoManager.prototype.undo = function  () {
+  /**
+   * Add state to manager.
+   * @id jQuery.mosaic.undo.UndoManager.add
+   * @param {Object} state State to add.
+   */
+  $.mosaic.undo.UndoManager.prototype.add = function (state) {
 
-        var state = this.stack.get(this.pointer + 1);
+    this.stack.add(state);
+  };
 
-        if (state) {
-            this.handler(state);
-            this.pointer += 1;
-        } else {
-          // Alert there's no (more) states.
-        }
-    };
+  /**
+   * Undo last action, by restoring last state.
+   * @id jQuery.mosaic.undo.UndoManager.undo
+   */
+  $.mosaic.undo.UndoManager.prototype.undo = function  () {
 
-    /**
-     * Redo last action, by calling handler with previous state.
-     * @id jQuery.mosaic.undo.UndoManager.redo
-     */
-    $.mosaic.undo.UndoManager.prototype.redo = function () {
+    var state = this.stack.get(this.pointer + 1);
 
-        var state = this.stack.get(this.pointer - 1);
+    if (state) {
+      this.handler(state);
+      this.pointer += 1;
+    } else {
+      // Alert there's no (more) states.
+    }
+  };
 
-        if (state) {
-            this.handler(state);
-            this.pointer -= 1;
-        } else {
-            // Alert there's no (more) states.
-        }
-    };
+  /**
+   * Redo last action, by calling handler with previous state.
+   * @id jQuery.mosaic.undo.UndoManager.redo
+   */
+  $.mosaic.undo.UndoManager.prototype.redo = function () {
+
+    var state = this.stack.get(this.pointer - 1);
+
+    if (state) {
+      this.handler(state);
+      this.pointer -= 1;
+    } else {
+      // Alert there's no (more) states.
+    }
+  };
 });

@@ -22,31 +22,31 @@
  */
 window.DEBUG = true;
 require([
-    'jquery',
-    'mockup-patterns-base',
-    'mosaic-url/mosaic.core',
-    'mosaic-url/mosaic.layout',
-    'mosaic-url/mosaic.toolbar',
-    'mosaic-url/mosaic.actions',
-    'mosaic-url/mosaic.upload',
-    'mosaic-url/mosaic.editor',
-    'mosaic-url/mosaic.undo',
-    'mosaic-url/mosaic.overlay',
+  'jquery',
+  'mockup-patterns-base',
+  'mosaic-url/mosaic.core',
+  'mosaic-url/mosaic.layout',
+  'mosaic-url/mosaic.toolbar',
+  'mosaic-url/mosaic.actions',
+  'mosaic-url/mosaic.upload',
+  'mosaic-url/mosaic.editor',
+  'mosaic-url/mosaic.undo',
+  'mosaic-url/mosaic.overlay',
 ], function($, Base) {
-    'use strict';
+  'use strict';
 
-    var Layout = Base.extend({
-        name: 'layout',
-        trigger: '.pat-layout',
-        defaults: {
-            attribute: 'class'
-        },
-        init: function() {
-            var self = this;
-            self.options.data.$el = self.$el;
-            $.mosaic.init({'data': self.options.data});
-        }
-    });
+  var Layout = Base.extend({
+    name: 'layout',
+    trigger: '.pat-layout',
+    defaults: {
+      attribute: 'class'
+    },
+    init: function() {
+      var self = this;
+      self.options.data.$el = self.$el;
+      $.mosaic.init({'data': self.options.data});
+    }
+  });
 
-    return Layout;
+  return Layout;
 });
