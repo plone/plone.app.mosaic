@@ -78,22 +78,26 @@ define([
     // previously $.mosaic.getTileType
     var tiletype = '';
     var $el = this.$el;
-    var classes = $el.attr('class').split(" ");
-    $(classes).each(function () {
-      // Local variables
-      var classname;
+    var classNames = $el.attr('class');
+    var classes = [];
+    if(classNames){
+      classes = $el.attr('class').split(" ");
+      $(classes).each(function () {
+        // Local variables
+        var classname;
 
-      classname = this.match(/^mosaic-([\w.\-]+)-tile$/);
-      if (classname !== null) {
-        if ((classname[1] !== 'selected') &&
-            (classname[1] !== 'new') &&
-            (classname[1] !== 'read-only') &&
-            (classname[1] !== 'helper') &&
-            (classname[1] !== 'original')) {
-          tiletype = classname[1];
+        classname = this.match(/^mosaic-([\w.\-]+)-tile$/);
+        if (classname !== null) {
+          if ((classname[1] !== 'selected') &&
+              (classname[1] !== 'new') &&
+              (classname[1] !== 'read-only') &&
+              (classname[1] !== 'helper') &&
+              (classname[1] !== 'original')) {
+            tiletype = classname[1];
+          }
         }
-      }
-    });
+      });
+    }
 
     if(!tiletype){
       log.error('Could not find tile type on element with classes: ' + classes.join(', '));
@@ -575,6 +579,17 @@ define([
 
       // Set editor class
       $content.addClass('mosaic-rich-text');
+    };
+
+    Tile.validTile = function(el){
+      var $el = $(el);
+      if($el.is('.mosaic-tile')){
+        return true;
+      }
+      if($el.parents('.mosaic-tile').size() > 0){
+        return true;
+      }
+      return false;
     };
 
     return Tile;

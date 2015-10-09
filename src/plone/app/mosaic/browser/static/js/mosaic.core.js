@@ -187,8 +187,10 @@ define([
         $.mosaic.options.panels = $(".mosaic-panel", $.mosaic.document);
 
         $.mosaic.options.panels.find("[data-tile]").each(function () {
-            var tile = new Tile($(this).parent());
-            tile.initializeContent();
+            if(Tile.validTile(this)){
+                var tile = new Tile($(this).parent());
+                tile.initializeContent();
+            }
         });
     };
 
