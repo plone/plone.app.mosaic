@@ -46,6 +46,9 @@ define([
   Tile.prototype.getEditUrl = function(){
     var tile_url = this.getUrl();
     tile_url = tile_url.replace(/@@/, '@@edit-tile/');
+    if(!tile_url){
+      return;
+    }
     // Calc absolute edit url
     if (tile_url.match(/^\.\/.*/)) {
       tile_url = $.mosaic.options.context_url + tile_url.replace(/^\./, '');
@@ -55,6 +58,12 @@ define([
 
   Tile.prototype.getUrl = function(){
     var tile_url = this.$el.find('.tileUrl').html();
+    if(!tile_url){
+      var $tileUrlEl = this.$el.find('[data-tileUrl]');
+      if($tileUrlEl.size() > 0){
+        tile_url = $tileUrlEl.attr('data-tileUrl');
+      }
+    }
     if (!tile_url) {
       tile_url = this.$el.find('[data-tile]').attr('data-tile');
     }
@@ -402,10 +411,8 @@ define([
 
             // Add head tags
             $.mosaic.addHeadTags(href, value);
-            var tileUrlHtml = '<p class="hiddenStructure ' +
-              'tileUrl">' + href.replace(/&/gim, '&amp;') + '</p>';
             var tileHtml = value.find('.temp_body_tag').html();
-            that.fillContent(tileUrlHtml + tileHtml);
+            that.fillContent(tileHtml, url);
 
             var tiletype = that.getType();
             if(tiletype === 'plone.app.standardtiles.rawhtml'){
@@ -421,11 +428,15 @@ define([
       }
     };
 
-    Tile.prototype.fillContent = function(html){
+    Tile.prototype.fillContent = function(html, tileUrl){
       // need to replace the data-tile node here
       var $el = this.$el.find('[data-tile]').parent();
       $el.html(html);
       Registry.scan($el);
+      var $content = this.$el.children(".mosaic-tile-content");
+      if(tileUrl && $content.size() > 0){
+        $content.attr('data-tileUrl', tileUrl.replace(/&/gim, '&amp;'));
+      }
     };
 
     Tile.prototype.select = function(){

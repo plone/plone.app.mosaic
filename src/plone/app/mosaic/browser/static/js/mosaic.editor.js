@@ -31,61 +31,61 @@ eqeqeq: true, plusplus: true, bitwise: true, regexp: true, newcap: true,
 immed: true, strict: true, maxlen: 100, maxerr: 9999, quotmark: false */
 
 define([
-    'jquery'
+  'jquery'
 ], function($) {
-    'use strict';
+  'use strict';
 
-    // Define mosaic namespace if it doesn't exist
-    if (typeof($.mosaic) === "undefined") {
-        $.mosaic = {};
+  // Define mosaic namespace if it doesn't exist
+  if (typeof($.mosaic) === "undefined") {
+    $.mosaic = {};
+  }
+
+  // Define the editor namespace
+  $.mosaic.editor = {
+  };
+
+  /**
+   * Exec a command on the editor
+   *
+   * @id jQuery.mosaic.execCommand
+   * @param {String} command Command to execute
+   * @param {String} ui UI to use
+   * @param {String} value Vale of the command
+   */
+  $.mosaic.execCommand = function (command, ui, value) {
+
+    // Exec command
+    if (tinymce.activeEditor) {
+      tinymce.activeEditor.execCommand(command, ui, value);
     }
+  };
 
-    // Define the editor namespace
-    $.mosaic.editor = {
-    };
+  /**
+   * Apply formatting to the current selection
+   *
+   * @id jQuery.mosaic.editor.applyFormat
+   * @param {String} format Name of the registered format to apply
+   */
+  $.mosaic.editor.applyFormat = function (format) {
 
-    /**
-     * Exec a command on the editor
-     *
-     * @id jQuery.mosaic.execCommand
-     * @param {String} command Command to execute
-     * @param {String} ui UI to use
-     * @param {String} value Vale of the command
-     */
-    $.mosaic.execCommand = function (command, ui, value) {
+    // Apply format
+    if (tinymce.activeEditor) {
+      tinyMCE.activeEditor.formatter.apply(format);
+    }
+  };
 
-        // Exec command
-        if (tinymce.activeEditor) {
-            tinymce.activeEditor.execCommand(command, ui, value);
-        }
-    };
+  /**
+   * Register format
+   *
+   * @id jQuery.mosaic.editor.registerFormat
+   * @param {String} name Name of the registered format to apply
+   * @param {Object} format Formatting object
+   */
+  $.mosaic.editor.registerFormat = function (name, format) {
 
-    /**
-     * Apply formatting to the current selection
-     *
-     * @id jQuery.mosaic.editor.applyFormat
-     * @param {String} format Name of the registered format to apply
-     */
-    $.mosaic.editor.applyFormat = function (format) {
-
-        // Apply format
-        if (tinymce.activeEditor) {
-            tinyMCE.activeEditor.formatter.apply(format);
-        }
-    };
-
-    /**
-     * Register format
-     *
-     * @id jQuery.mosaic.editor.registerFormat
-     * @param {String} name Name of the registered format to apply
-     * @param {Object} format Formatting object
-     */
-    $.mosaic.editor.registerFormat = function (name, format) {
-
-        // Apply format
-        if (tinymce.activeEditor) {
-            tinymce.activeEditor.formatter.register(name, format);
-        }
-    };
+    // Apply format
+    if (tinymce.activeEditor) {
+      tinymce.activeEditor.formatter.register(name, format);
+    }
+  };
 });
