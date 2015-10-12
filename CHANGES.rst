@@ -4,6 +4,9 @@ Changelog
 1.0b4 (unreleased)
 ------------------
 
+- fix issue where first fieldset would not show on properties modal
+  [vangheem]
+
 - if only one layout is available, auto-select it
   [vangheem]
 

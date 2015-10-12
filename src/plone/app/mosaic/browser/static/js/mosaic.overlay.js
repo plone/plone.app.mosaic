@@ -183,10 +183,13 @@ define([
 
       // Select first tab
       visible_tabs.eq(0).addClass('active');
-      form.find('#fieldset-' +
-        visible_tabs.eq(0).attr('href').split('-')[1])
-        .addClass('active');
-
+      var $fieldset = form.find('#fieldset-' +
+          visible_tabs.eq(0).attr('href').split('-')[1]);
+      if($fieldset.size() === 0){
+          $fieldset = form.find(
+              'fieldset:not(.mosaic-hidden)').eq(0);
+      }
+      $fieldset.addClass('active');
     } else if (mode === 'field') {
 
       // Get fieldset and field
