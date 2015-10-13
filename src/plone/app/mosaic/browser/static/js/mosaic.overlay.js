@@ -144,10 +144,20 @@ define([
       form.find($.mosaic.options.contentLayout_selector).addClass('mosaic-hidden');
 
       // Hide title and description
-      form.find('#formfield-form-widgets-IDublinCore-title')
-        .addClass('mosaic-hidden');
-      form.find('#formfield-form-widgets-IDublinCore-description')
-        .addClass('mosaic-hidden');
+      if($('.mosaic-IDublinCore-title-tile').size() > 0){
+        form.find('#formfield-form-widgets-IDublinCore-title')
+          .addClass('mosaic-hidden');
+      }else{
+        form.find('#formfield-form-widgets-IDublinCore-title')
+          .removeClass('mosaic-hidden');
+      }
+      if($('.mosaic-IDublinCore-description-tile').size() > 0){
+        form.find('#formfield-form-widgets-IDublinCore-description')
+          .addClass('mosaic-hidden');
+      }else{
+        form.find('#formfield-form-widgets-IDublinCore-description')
+          .removeClass('mosaic-hidden');
+      }
 
       // Hide field which are on the wysiwyg area
       for (x = 0; x < $.mosaic.options.tiles.length; x += 1) {
