@@ -53,14 +53,13 @@ class LayoutsEditor(BrowserView):
         hidden = registry['plone.app.mosaic.hidden_content_layouts']
         for key, value in getLayoutsFromResources(CONTENT_LAYOUT_MANIFEST_FORMAT).items():
             _for = value.get('for', '')
-            value['path'] = key
             result.append({
                 'key': key,
                 '_for': _for,
                 'title': value.get('title', ''),
                 'hidden': key in hidden
                 })
-        result.sort(key=lambda l: l.get('title', ''))
+        result.sort(key=lambda l: l.get('key', ''))
         return json.dumps(result)
 
     @property

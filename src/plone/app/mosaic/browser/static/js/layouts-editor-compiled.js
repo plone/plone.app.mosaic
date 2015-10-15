@@ -40203,6 +40203,7 @@ require([
 '<table class="table listing">' +
   '<thead>' +
     '<th>Title</th>' +
+    '<th>Path</th>' +
     '<th>Types</th>' +
     '<th>Actions</th>' +
   '</thead>' +
@@ -40210,6 +40211,7 @@ require([
     '<% _.each(items, function(item){ %>' +
       '<tr data-layout-key="<%- item.key %>">' +
         '<td><%- item.title %></td>' +
+        '<td><%- item.key %></td>' +
         '<td><%- item._for || "all" %></td>' +
         '<td>' +
           '<% if(item.hidden){ %>' +
