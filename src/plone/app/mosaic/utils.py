@@ -94,7 +94,15 @@ def extractFieldInformation(schema, context, request, prefix):
 def getContentLayoutsForType(pt):
     result = []
     registry = getUtility(IRegistry)
-    hidden = registry.get('plone.app.mosaic.hidden_content_layouts', [])
+    hidden = registry.get('plone.app.mosaic.hidden_content_layouts', [])[:]
+    for item in hidden[:]:
+        # undocumented feature right now.
+        # need to figure out how to integrate into UI yet
+        if '::' in item:
+            # seperator to be able to specify hidden for a specific type
+            key, _, hidden_type = item.partition('::')
+            if hidden_type == pt:
+                hidden.append(key)
     for key, value in getLayoutsFromResources(CONTENT_LAYOUT_MANIFEST_FORMAT).items():
         if key in hidden:
             continue
