@@ -278,15 +278,7 @@ define([
     $.mosaic.registerAction('save', {
       exec: function () {
         $.mosaic.options.toolbar.trigger("selectedtilechange");
-
-        var $customLayout = $("#form-widgets-ILayoutAware-content, " +
-                  "[name='form.widgets.ILayoutAware.content']");
-        if($.mosaic.hasContentLayout){
-          $customLayout.val('');
-        }else{
-          $customLayout.val($.mosaic.getPageContent());
-        }
-
+        $.mosaic.saveLayoutToForm();
         $("#form-buttons-save").click();
       },
       shortcut: {
@@ -420,7 +412,8 @@ define([
       exec: function (source) {
         $(".mosaic-selected-tile", $.mosaic.document).each(function() {
           // Get tile config
-          var tile_config = (new Tile(this)).getConfig();
+          var tile = new Tile(this);
+          var tile_config = tile.getConfig();
 
           // Check if app tile
           if (tile_config.tile_type === 'app') {
@@ -475,7 +468,7 @@ define([
           var original_row = $(this).parent().parent();
 
           // Save tile value
-          $.mosaic.saveTileValueToForm(tile_config.name, tile_config);
+          tile.save();
 
           // Remove current tile
           $(this).remove();

@@ -524,9 +524,9 @@ define([
       $(this).on('selectedtilechange', function () {
         if ($.mosaic.overlay.app) { return; }
         if ((new Date()).getTime() - lastChange > 2000) {
+          $.mosaic.saveLayoutToForm();
           $("#form-widgets-ILayoutAware-content, " +
-            "[name='form.widgets.ILayoutAware.content']")
-            .val($.mosaic.getPageContent()).blur();
+            "[name='form.widgets.ILayoutAware.content']").blur();
           lastChange = (new Date()).getTime();
         }
       });
