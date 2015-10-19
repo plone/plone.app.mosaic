@@ -123,46 +123,45 @@ define([
     var tiletype = this.getType();
     // Get tile config
     for (var x = 0; x < $.mosaic.options.tiles.length; x += 1) {
-        var found = false;
-        var tile_group = $.mosaic.options.tiles[x];
-        for (var y = 0; y < tile_group.tiles.length; y += 1) {
-
-            // Set settings value
-            if (tile_group.tiles[y].tile_type === 'field') {
-                var widget = tile_group.tiles[y].widget.split('.');
-                widget = widget[widget.length - 1];
-                switch(widget) {
-                case "TextWidget":
-                case "TextFieldWidget":
-                case "TextAreaWidget":
-                case "TextAreaFieldWidget":
-                case "TextLinesWidget":
-                case "TextLinesFieldWidget":
-                case "WysiwygWidget":
-                case "WysiwygFieldWidget":
-                case "RichTextWidget":
-                case "RichTextFieldWidget":
-                    tile_group.tiles[y].settings = false;
-                    break;
-                default:
-                    tile_group.tiles[y].settings = true;
-                }
-            }
-            if (tile_group.tiles[y].name === tiletype) {
-                tile_config = tile_group.tiles[y];
-                found = true;
-                break;
-            }
-        }
-        if(found){
+      var found = false;
+      var tile_group = $.mosaic.options.tiles[x];
+      for (var y = 0; y < tile_group.tiles.length; y += 1) {
+        // Set settings value
+        if (tile_group.tiles[y].tile_type === 'field') {
+          var widget = tile_group.tiles[y].widget.split('.');
+          widget = widget[widget.length - 1];
+          switch(widget) {
+          case "TextWidget":
+          case "TextFieldWidget":
+          case "TextAreaWidget":
+          case "TextAreaFieldWidget":
+          case "TextLinesWidget":
+          case "TextLinesFieldWidget":
+          case "WysiwygWidget":
+          case "WysiwygFieldWidget":
+          case "RichTextWidget":
+          case "RichTextFieldWidget":
+            tile_group.tiles[y].settings = false;
             break;
+          default:
+            tile_group.tiles[y].settings = true;
+          }
         }
+        if (tile_group.tiles[y].name === tiletype) {
+          tile_config = tile_group.tiles[y];
+          found = true;
+          break;
+        }
+      }
+      if(found){
+        break;
+      }
     }
 
     if(!tile_config){
-        // dive out of here, something went wrong finding tile config
-        log.error('Could not load tile config for tile type: ' + tiletype);
-        return;
+      // dive out of here, something went wrong finding tile config
+      log.error('Could not load tile config for tile type: ' + tiletype);
+      return;
     }
     return tile_config;
   };
@@ -189,37 +188,37 @@ define([
     // Get tile config
     var tile_config = this.getConfig();
 
+    console.log(tiletype);
     // Predefine vars
-    var tile_url;
-      switch (tile_config.tile_type) {
-        case "text":
-          body += '          <div class="' + classes.join(' ') + '">\n';
-          body += '          <div class="mosaic-tile-content">\n';
-          body += this.$el.children(".mosaic-tile-content").html().replace(/^\s+|\s+$/g, '') + "\n";
-          body += '          </div>\n';
-          body += '          </div>\n';
-          break;
-        case "app":
-          body += '          <div class="' + classes.join(' ') + '">\n';
-          body += '          <div class="mosaic-tile-content">\n';
-          body += '          <div data-tile="' + this.getUrl() + '"></div>\n';
-          body += '          </div>\n';
-          body += '          </div>\n';
-          break;
-        case "field":
-          body += '          <div class="' + classes.join(' ') + '">\n';
-          body += '          <div class="mosaic-tile-content">\n';
+    switch (tile_config.tile_type) {
+      case "text":
+        body += '          <div class="' + classes.join(' ') + '">\n';
+        body += '          <div class="mosaic-tile-content">\n';
+        body += this.$el.children(".mosaic-tile-content").html().replace(/^\s+|\s+$/g, '') + "\n";
+        body += '          </div>\n';
+        body += '          </div>\n';
+        break;
+      case "app":
+        body += '          <div class="' + classes.join(' ') + '">\n';
+        body += '          <div class="mosaic-tile-content">\n';
+        body += '          <div data-tile="' + this.getUrl() + '"></div>\n';
+        body += '          </div>\n';
+        body += '          </div>\n';
+        break;
+      case "field":
+        body += '          <div class="' + classes.join(' ') + '">\n';
+        body += '          <div class="mosaic-tile-content">\n';
 
-          // Calc url
-          tile_url = './@@plone.app.standardtiles.field?field=' + tiletype;
+        // Calc url
+        var tile_url = './@@plone.app.standardtiles.field?field=' + tiletype;
 
-          body += '          <div data-tile="' + tile_url + '"></div>\n';
-          body += '          </div>\n';
-          body += '          </div>\n';
+        body += '          <div data-tile="' + tile_url + '"></div>\n';
+        body += '          </div>\n';
+        body += '          </div>\n';
 
-          // Update field values if type is rich text
-          $.mosaic.saveTileValueToForm(tiletype, tile_config);
-          break;
+        // Update field values if type is rich text
+        this.saveForm();
+        break;
       }
       return body;
     };
@@ -459,6 +458,7 @@ define([
       // Set actions
       $.mosaic.options.toolbar.trigger("selectedtilechange");
       $.mosaic.options.panels.mosaicSetResizeHandleLocation();
+      this.saveForm();
     };
 
     Tile.prototype.blur = function(){
@@ -469,6 +469,72 @@ define([
     Tile.prototype.focus = function(){
       this.$el.children(".mosaic-tile-content").focus();
       this._change();
+    };
+
+    Tile.prototype.saveForm = function(){
+      var tiletype = this.getType();
+      var tile_config = this.getConfig();
+
+      var editor_id, editor, value, newline;
+      // Update field values if type is rich text
+      if (tile_config && tile_config.tile_type === 'field' &&
+        tile_config.read_only === false &&
+        (tile_config.widget === 'z3c.form.browser.text.TextWidget' ||
+         tile_config.widget === 'z3c.form.browser.text.TextFieldWidget' ||
+         tile_config.widget === 'z3c.form.browser.textarea.TextAreaWidget' ||
+         tile_config.widget === 'z3c.form.browser.textarea.TextAreaFieldWidget' ||
+         tile_config.widget === 'z3c.form.browser.textlines.TextLinesWidget' ||
+         tile_config.widget === 'z3c.form.browser.textlines.TextLinesFieldWidget' ||
+         tile_config.widget === 'plone.app.z3cform.widget.RichTextFieldWidget' ||
+         tile_config.widget === 'plone.app.z3cform.wysiwyg.widget.WysiwygWidget' ||
+         tile_config.widget === 'plone.app.z3cform.wysiwyg.widget.WysiwygFieldWidget' ||
+         tile_config.widget === 'plone.app.widgets.dx.RichTextWidget')) {
+        switch (tile_config.widget) {
+        case "z3c.form.browser.text.TextWidget":
+        case "z3c.form.browser.text.TextFieldWidget":
+          var $el = $('.mosaic-panel .mosaic-' + tiletype + '-tile', $.mosaic.document);
+          if($el.size() > 1){
+            // XXX weird case here.
+            // if you use content tile, it'll render a title field tile that matches this
+            // and you get weird issues saving data. This is to distinguish this case
+            $el = $el.filter(function(){
+              return $('.mosaic-tile-control', this).length > 0;
+            });
+          }
+          var val = $el.find('.mosaic-tile-content > *').text();
+          $("#" + tile_config.id).find('input').attr('value', val);
+          break;
+        case "z3c.form.browser.textarea.TextAreaWidget":
+        case "z3c.form.browser.textarea.TextAreaFieldWidget":
+        case "z3c.form.browser.textlines.TextLinesWidget":
+        case "z3c.form.browser.textlines.TextLinesFieldWidget":
+          value = "";
+          if (tile_config.name === 'IDublinCore-description') {
+            newline = " ";  // otherwise Plone would replace \n with ''
+          } else {
+            newline = "\n";
+          }
+          $('.mosaic-panel .mosaic-' + tiletype + '-tile', $.mosaic.document).find('.mosaic-tile-content > *').each(function () {
+            value += $(this).html()
+              .replace(/<br[^>]*>/ig, newline)
+              .replace(/^\s+|\s+$/g, '') + newline;
+          });
+          value = value.replace(/^\s+|\s+$/g, '');
+          $("#" + tile_config.id).find('textarea').val(value);
+          break;
+        case "plone.app.z3cform.widget.RichTextFieldWidget":
+        case "plone.app.z3cform.wysiwyg.widget.WysiwygWidget":
+        case "plone.app.z3cform.wysiwyg.widget.WysiwygFieldWidget":
+        case "plone.app.widgets.dx.RichTextWidget":
+          editor_id = $(document.getElementById(tile_config.id)).find('textarea').attr('id');
+          editor = tinymce.get(editor_id);
+          if (editor) {
+            editor.setContent($('.mosaic-' + tiletype + '-tile', $.mosaic.document).find('.mosaic-tile-content').html());
+            $(document.getElementById(tile_config.id)).find('textarea').val(editor.getContent());
+          }
+          break;
+        }
+      }
     };
 
     Tile.prototype.setupWysiwyg = function(){
@@ -577,17 +643,17 @@ define([
               cmenu.length ? ['contextmenu'] : []
           ),
           setup: function(editor) {
-              editor.on('focus', function(e) {
-                  if (e.target.id) {
-                      var $tile = $('#' + e.target.id).parents('.mosaic-tile').first();
-                      if($tile.size() > 0){
-                          var tile = new Tile($tile);
-                          tile.select();
-                      }
-                  }
-              });
-              editor.on('change', placeholder);
-              placeholder();
+            editor.on('focus', function(e) {
+              if (e.target.id) {
+                var $tile = $('#' + e.target.id).parents('.mosaic-tile').first();
+                if($tile.size() > 0){
+                  var tile = new Tile($tile);
+                  tile.select();
+                }
+              }
+            });
+            editor.on('change', placeholder);
+            placeholder();
           }
       }}));
 

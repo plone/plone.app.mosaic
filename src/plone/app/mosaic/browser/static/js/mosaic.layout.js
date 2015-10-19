@@ -1675,77 +1675,6 @@ define([
     }
   };
 
-  /**
-   * Save the tile value to the form
-   *
-   * @id jQuery.mosaic.saveTileValueToForm
-   * @param {String} tiletype Type of the tile
-   * @param {Object} tile_config Configuration options of the tile
-   * @return {String} Default value of the given tile
-   */
-  $.mosaic.saveTileValueToForm = function (tiletype, tile_config) {
-    var editor_id, editor, value, newline;
-
-    // Update field values if type is rich text
-    if (tile_config && tile_config.tile_type === 'field' &&
-      tile_config.read_only === false &&
-      (tile_config.widget === 'z3c.form.browser.text.TextWidget' ||
-       tile_config.widget === 'z3c.form.browser.text.TextFieldWidget' ||
-       tile_config.widget === 'z3c.form.browser.textarea.TextAreaWidget' ||
-       tile_config.widget === 'z3c.form.browser.textarea.TextAreaFieldWidget' ||
-       tile_config.widget === 'z3c.form.browser.textlines.TextLinesWidget' ||
-       tile_config.widget === 'z3c.form.browser.textlines.TextLinesFieldWidget' ||
-       tile_config.widget === 'plone.app.z3cform.widget.RichTextFieldWidget' ||
-       tile_config.widget === 'plone.app.z3cform.wysiwyg.widget.WysiwygWidget' ||
-       tile_config.widget === 'plone.app.z3cform.wysiwyg.widget.WysiwygFieldWidget' ||
-       tile_config.widget === 'plone.app.widgets.dx.RichTextWidget')) {
-      switch (tile_config.widget) {
-      case "z3c.form.browser.text.TextWidget":
-      case "z3c.form.browser.text.TextFieldWidget":
-        var $el = $('.mosaic-panel .mosaic-' + tiletype + '-tile', $.mosaic.document);
-        if($el.size() > 1){
-          // XXX weird case here.
-          // if you use content tile, it'll render a title field tile that matches this
-          // and you get weird issues saving data. This is to distinguish this case
-          $el = $el.filter(function(){
-            return $('.mosaic-tile-control', this).length > 0;
-          });
-        }
-        var val = $el.find('.mosaic-tile-content > *').text();
-        $("#" + tile_config.id).find('input').attr('value', val);
-        break;
-      case "z3c.form.browser.textarea.TextAreaWidget":
-      case "z3c.form.browser.textarea.TextAreaFieldWidget":
-      case "z3c.form.browser.textlines.TextLinesWidget":
-      case "z3c.form.browser.textlines.TextLinesFieldWidget":
-        value = "";
-        if (tile_config.name === 'IDublinCore-description') {
-          newline = " ";  // otherwise Plone would replace \n with ''
-        } else {
-          newline = "\n";
-        }
-        $('.mosaic-panel .mosaic-' + tiletype + '-tile', $.mosaic.document).find('.mosaic-tile-content > *').each(function () {
-          value += $(this).html()
-            .replace(/<br[^>]*>/ig, newline)
-            .replace(/^\s+|\s+$/g, '') + newline;
-        });
-        value = value.replace(/^\s+|\s+$/g, '');
-        $("#" + tile_config.id).find('textarea').val(value);
-        break;
-      case "plone.app.z3cform.widget.RichTextFieldWidget":
-      case "plone.app.z3cform.wysiwyg.widget.WysiwygWidget":
-      case "plone.app.z3cform.wysiwyg.widget.WysiwygFieldWidget":
-      case "plone.app.widgets.dx.RichTextWidget":
-        editor_id = $(document.getElementById(tile_config.id)).find('textarea').attr('id');
-        editor = tinymce.get(editor_id);
-        if (editor) {
-          editor.setContent($('.mosaic-' + tiletype + '-tile', $.mosaic.document).find('.mosaic-tile-content').html());
-          $(document.getElementById(tile_config.id)).find('textarea').val(editor.getContent());
-        }
-        break;
-      }
-    }
-  };
 
   /**
    * Get the content of the page which can be saved
@@ -1864,6 +1793,27 @@ define([
     content += body;
     content += '</html>\n';
     return content;
+  };
+
+  $.mosaic.saveTileFormData = function(){
+    $("[data-panel]", $.mosaic.document).each(function () {
+      $(this).find(".mosaic-tile").each(function () {
+        var tile = new Tile(this);
+        tile.saveForm();
+      });
+    });
+  };
+
+  $.mosaic.saveLayoutToForm = function(){
+    $.mosaic.saveTileFormData();
+
+    var $customLayout = $("#form-widgets-ILayoutAware-content, " +
+                          "[name='form.widgets.ILayoutAware.content']");
+    if($.mosaic.hasContentLayout){
+      $customLayout.val('');
+    }else{
+      $customLayout.val($.mosaic.getPageContent());
+    }
   };
 
   /**
