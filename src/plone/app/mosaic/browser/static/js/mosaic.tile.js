@@ -188,7 +188,6 @@ define([
     // Get tile config
     var tile_config = this.getConfig();
 
-    console.log(tiletype);
     // Predefine vars
     switch (tile_config.tile_type) {
       case "text":

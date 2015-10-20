@@ -419,7 +419,7 @@ define([
           if (tile_config.tile_type === 'app') {
 
             // Get url
-            var tile_url = (new Tile(this)).getUrl();
+            var tile_url = tile.getUrl();
 
             // Remove tags
             $.mosaic.removeHeadTags(tile_url);
@@ -448,13 +448,6 @@ define([
                     '_authenticator': authenticator
                   },
                   success: function(value) {
-                    /*
-                     $.plone.notify({
-                     title: "Info",
-                     message: "Application tile removed",
-                     sticky: false
-                     });
-                     */
                   }
                 });
               }
@@ -468,7 +461,7 @@ define([
           var original_row = $(this).parent().parent();
 
           // Save tile value
-          tile.save();
+          tile.saveForm();
 
           // Remove current tile
           $(this).remove();
