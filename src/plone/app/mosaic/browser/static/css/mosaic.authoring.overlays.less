@@ -16,15 +16,30 @@
     //  _top: expression(eval((document.body.scrollTop)?document.body.scrollTop:document.documentElement.scrollTop));
 }
 
+.mosaic-modal-wrapper{
+  overflow-y: auto;
+  overflow-x: hidden;
+  width: 100%;
+  right: 0px;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 3000;
+  display: none;
+}
+
 .mosaic-overlay {
     display: block;
-    top: 99px;
-    position: fixed;
+    width: 900px;
+    margin: auto auto;
+    position: relative;
     //  _position: absolute;
     //  _top: expression(eval((document.body.scrollTop)?document.body.scrollTop:document.documentElement.scrollTop));
-    z-index: 3000;
     padding: 1em;
     background-color: white;
+    margin-top: 3em;
 }
 
 .mosaic-overlay-close {

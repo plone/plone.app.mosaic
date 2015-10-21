@@ -44,8 +44,7 @@ define([
         target
             .removeAttr('data-panel')
             .removeAttr('id')
-            .addClass('mosaic-original-content')
-            .hide();
+            .addClass('mosaic-original-content');
       }else{
         // re-initializing, so we just have to replace existing
         target.replaceWith($(document.createElement("div"))

@@ -60,14 +60,9 @@ define([
       var obj = $(this);
 
       // Init overlay
-      obj
-        .hide()
-        .css({
-          'position': 'fixed',
-          'width': '900px',
-          'left': (($(window.parent).width() - 900) / 2)
-        })
-        .addClass("mosaic-overlay");
+      obj.addClass("mosaic-overlay");
+      var $wrapper = $('<div class="mosaic-modal-wrapper" />');
+      obj.wrap($wrapper);
 
       // Add lightbox
       $(document.body, $.mosaic.document)
@@ -91,8 +86,9 @@ define([
       field_tile, field, fieldset;
 
     // Expand the overlay
-    $('.mosaic-overlay').show();
+    $('.mosaic-modal-wrapper').show().addClass('active');
     $('.mosaic-overlay-blocker').show();
+    $('body').addClass('plone-modal-open');
 
     // Get form
     form = $(".mosaic-overlay").find("form");
@@ -227,7 +223,8 @@ define([
   $.mosaic.overlay.close = function () {
 
     // Hide overlay
-    $('.mosaic-overlay').hide();
+    $('.mosaic-modal-wrapper').hide().removeClass('active');
     $('.mosaic-overlay-blocker').hide();
+    $('body').removeClass('plone-modal-open');
   };
 });

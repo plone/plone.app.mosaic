@@ -230,6 +230,7 @@ define([
         if (!obj.hasClass('mosaic-panel') &&
           !obj.hasClass('mosaic-toolbar') &&
           !obj.hasClass('mosaic-notifications') &&
+          !obj.hasClass('mosaic-modal-wrapper') &&
           obj.attr('id') !== 'edit-zone') {
 
           // Check if inside panel or toolbar
