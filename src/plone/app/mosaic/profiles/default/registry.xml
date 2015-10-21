@@ -9,6 +9,7 @@
       <value_type type="plone.registry.field.TextLine" />
     </field>
     <value>
+      <element>custom/basic.html</element>
     </value>
   </record>
 
