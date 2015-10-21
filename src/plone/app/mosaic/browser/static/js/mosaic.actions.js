@@ -32,8 +32,9 @@ immed: true, strict: true, maxlen: 140, maxerr: 9999, quotmark: false */
 define([
   'jquery',
   'mockup-patterns-modal',
-  'mosaic-url/mosaic.tile'
-], function($, Modal, Tile) {
+  'mosaic-url/mosaic.tile',
+  'mockup-utils'
+], function($, Modal, Tile, utils) {
   'use strict';
 
   // Define mosaic namespace if it doesn't exist
@@ -519,12 +520,15 @@ define([
         // Create new app tile
         if (tile_config.tile_type === 'app') {
           // Load add form form selected tiletype
+          var initial = true;
+          utils.loading.show();
           $.ajax({
             type: "GET",
             url: $.mosaic.options.context_url +
               '/@@add-tile?tiletype=' + tile_type +
               '&form.button.Create=Create',
             success: function(value, xhr) {
+              utils.loading.hide();
               var $value, action_url, authenticator, modalFunc;
 
               // Read form
@@ -543,6 +547,15 @@ define([
                 $.mosaic.overlay.app.on(
                   'after-render',
                   function(event) {
+                    /* Remove field errors since the user has not actually
+                       been able to fill out the form yet */
+                    if(initial){
+                      $('.field.error', $.mosaic.overlay.app.$modal)
+                        .removeClass('error');
+                      $('.fieldErrorBox,.portalMessage', $.mosaic.overlay.app.$modal).remove();
+                      initial = false;
+                    }
+
                     $('input[name*="cancel"]',
                       $.mosaic.overlay.app.$modal)
                       .off('click').on('click', function() {
