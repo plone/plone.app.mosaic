@@ -57,18 +57,20 @@ define([
     return this.each(function () {
 
       // Get current object
-      var obj = $(this);
+      var $el = $(this);
+      $(document.body, $.mosaic.document).append($el);
 
       // Init overlay
-      obj.addClass("mosaic-overlay");
+      $el.addClass("mosaic-overlay");
       var $wrapper = $('<div class="mosaic-modal-wrapper" />');
-      obj.wrap($wrapper);
+      $el.wrap($wrapper);
 
       // Add lightbox
       $(document.body, $.mosaic.document)
         .prepend($(document.createElement("div"))
           .addClass("mosaic-overlay-blocker")
       );
+
     });
   };
 

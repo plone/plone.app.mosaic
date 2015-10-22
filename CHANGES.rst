@@ -4,6 +4,9 @@ Changelog
 1.0b4 (unreleased)
 ------------------
 
+- fix properties overlay to be scrollable
+  [vangheem]
+
 - fix issue where tile field wouldn't get saved back to form with some refactoring
   [vangheem]
 
