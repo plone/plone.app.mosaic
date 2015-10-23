@@ -33,14 +33,13 @@ immed: true, strict: true, maxlen: 120, maxerr: 9999, quotmark: false */
 define([
   'jquery',
   'pat-logger',
-  'mockup-patterns-modal',
   'underscore',
   'mosaic-url/mosaic.tile',
   'mosaic-url/mosaic.panel',
   'mosaic-url/mosaic.toolbar',
   'mosaic-url/mosaic.layout',
   'mosaic-url/mosaic.actions'
-], function($, logger, Modal, _, Tile, Panel) {
+], function($, logger, _, Tile, Panel) {
   "use strict";
 
   var log = logger.getLogger('pat-mosaic');
@@ -302,7 +301,7 @@ define([
       return;
     }
     var $el = $('<div/>').appendTo('body');
-    var modal = new Modal($el, {
+    var modal = $el.patternPloneModal({
       html: $.mosaic.selectLayoutTemplate($.mosaic.options),
       content: null,
       buttons: '.plone-btn'
