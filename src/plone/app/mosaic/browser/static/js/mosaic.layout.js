@@ -35,8 +35,9 @@ define([
   'mosaic-url/mosaic.tile',
   'pat-logger',
   'underscore',
-  'pat-registry'
-], function($, Tile, logger, _, Registry) {
+  'pat-registry',
+  'mockup-patterns-modal'
+], function($, Tile, logger, _, Registry, Modal) {
   'use strict';
 
 
@@ -453,7 +454,7 @@ define([
         $(this).parents(".mosaic-tile").addClass('mosaic-edited-tile');
 
         // Open overlay
-        $.mosaic.overlay.app = $('.mosaic-toolbar').patternPloneModal({
+        $.mosaic.overlay.app = new Modal($('.mosaic-toolbar'), {
           ajaxUrl: tile_url,
           loadLinksWithinModal: true,
           buttons: '.formControls > input[type="submit"], .actionButtons > input[type="submit"]'

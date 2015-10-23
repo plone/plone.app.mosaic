@@ -652,7 +652,7 @@ define([
             editor.on('change', placeholder);
             placeholder();
           }
-      }}));
+      }})).data('pattern-tinymce');
 
       // Set editor class
       $content.addClass('mosaic-rich-text');

@@ -32,8 +32,9 @@ immed: true, strict: true, maxlen: 140, maxerr: 9999, quotmark: false */
 define([
   'jquery',
   'mosaic-url/mosaic.tile',
-  'mockup-utils'
-], function($, Tile, utils) {
+  'mockup-utils',
+  'mockup-patterns-modal'
+], function($, Tile, utils, Modal) {
   'use strict';
 
   // Define mosaic namespace if it doesn't exist
@@ -387,7 +388,7 @@ define([
       exec: function () {
 
         // Open overlay
-        var m = $('.mosaic-toolbar').patternPloneModal(
+        var m = new Modal($('.mosaic-toolbar'),
           {ajaxUrl: $.mosaic.options.context_url +
            '/@@add-tile?form.button.Create=Create'});
         m.show();
@@ -537,7 +538,7 @@ define([
 
               // Open add form in modal when requires user input
               modalFunc = function(html) {
-                $.mosaic.overlay.app = $('.mosaic-toolbar').patternPloneModal({
+                $.mosaic.overlay.app = new Modal($('.mosaic-toolbar'), {
                   html: html,
                   loadLinksWithinModal: true,
                   buttons: '.formControls > input[type="submit"], .actionButtons > input[type="submit"]'

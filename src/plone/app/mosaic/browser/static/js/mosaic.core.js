@@ -36,10 +36,11 @@ define([
   'underscore',
   'mosaic-url/mosaic.tile',
   'mosaic-url/mosaic.panel',
+  'mockup-patterns-modal',
   'mosaic-url/mosaic.toolbar',
   'mosaic-url/mosaic.layout',
   'mosaic-url/mosaic.actions'
-], function($, logger, _, Tile, Panel) {
+], function($, logger, _, Tile, Panel, Modal) {
   "use strict";
 
   var log = logger.getLogger('pat-mosaic');
@@ -301,7 +302,7 @@ define([
       return;
     }
     var $el = $('<div/>').appendTo('body');
-    var modal = $el.patternPloneModal({
+    var modal = new Modal($el, {
       html: $.mosaic.selectLayoutTemplate($.mosaic.options),
       content: null,
       buttons: '.plone-btn'
