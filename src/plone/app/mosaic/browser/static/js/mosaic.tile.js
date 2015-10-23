@@ -7,10 +7,8 @@ define([
   'pat-logger',
   'underscore',
   'mockup-utils',
-  'mockup-patterns-tinymce',
-  'pat-registry',
-  'tinymce'
-], function($, logger, _, utils, TinyMCE, Registry) {
+  'pat-registry'
+], function($, logger, _, utils, Registry) {
   'use strict';
 
   var log = logger.getLogger('pat-mosaic');
@@ -526,7 +524,7 @@ define([
         case "plone.app.z3cform.wysiwyg.widget.WysiwygFieldWidget":
         case "plone.app.widgets.dx.RichTextWidget":
           editor_id = $(document.getElementById(tile_config.id)).find('textarea').attr('id');
-          editor = tinymce.get(editor_id);
+          editor = window.tinymce.get(editor_id);
           if (editor) {
             editor.setContent($('.mosaic-' + tiletype + '-tile', $.mosaic.document).find('.mosaic-tile-content').html());
             $(document.getElementById(tile_config.id)).find('textarea').val(editor.getContent());
@@ -628,7 +626,7 @@ define([
       $("body").removeAttr("data-pat-tinymce");
 
       // Init rich editor
-      pattern = new TinyMCE($content, $.extend(
+      pattern = $content.patternTinymce($.extend(
           true, {}, $.mosaic.options.tinymce, { inline: false, tiny: {
           body_id: id,
           selector: "#" + id,
