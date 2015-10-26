@@ -215,10 +215,18 @@
       zcml:condition="not-have plone-5"
       />
 
-    <genericsetup:upgradeStep
+  <genericsetup:upgradeStep
       profile="plone.app.mosaic:default"
       source="5012"
       destination="5013"
+      title="Upgrade registry configuration"
+      handler=".upgrades.upgrade_registry"
+      />
+
+  <genericsetup:upgradeStep
+      profile="plone.app.mosaic:default"
+      source="5013"
+      destination="5014"
       title="Upgrade registry configuration"
       handler=".upgrades.upgrade_registry"
       />

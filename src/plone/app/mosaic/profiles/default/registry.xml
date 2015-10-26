@@ -1371,6 +1371,7 @@
     <value key="last_compilation">2014-08-14 00:00:00</value>
     <value key="compile">True</value>
     <value key="enabled">True</value>
+    <value key="depends">plone-logged-in</value>
   </records>
 
   <records prefix="plone.bundles/layouts-editor"
@@ -1383,6 +1384,7 @@
     <value key="last_compilation">2014-08-14 00:00:00</value>
     <value key="compile">True</value>
     <value key="enabled">False</value>
+    <value key="depends">plone-logged-in</value>
   </records>
 
 </registry>
