@@ -4,6 +4,9 @@ Changelog
 1.0b4 (unreleased)
 ------------------
 
+- fix weird Firefox bug with TinyMCE that prevented data from being saved
+  [vangheem]
+
 - fix properties overlay to be scrollable
   [vangheem]
 
