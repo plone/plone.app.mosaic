@@ -4,22 +4,27 @@ Changelog
 1.0b4 (unreleased)
 ------------------
 
-- fix weird Firefox bug with TinyMCE that prevented data from being saved
+New:
+
+- If only one layout is available, auto-select it.
   [vangheem]
 
-- fix properties overlay to be scrollable
+- Be able to show/hide content layouts.
   [vangheem]
 
-- fix issue where tile field wouldn't get saved back to form with some refactoring
+Fixes:
+
+- Fixed weird Firefox bug with TinyMCE that prevented data from being saved.
   [vangheem]
 
-- fix issue where first fieldset would not show on properties modal
+- Fixed properties overlay to be scrollable.
   [vangheem]
 
-- if only one layout is available, auto-select it
+- Fixed issue where tile field wouldn't get saved back to form with
+  some refactoring.
   [vangheem]
 
-- be able to show/hide content layouts
+- Fixed issue where first fieldset would not show on properties modal.
   [vangheem]
 
 
