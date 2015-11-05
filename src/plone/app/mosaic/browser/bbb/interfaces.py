@@ -3,7 +3,7 @@ import zope.interface
 import zope.component
 from zope import schema
 
-from Products.CMFPlone import PloneMessageFactory as _
+from plone.app.mosaic import _
 
 OVERRIDE_RESOURCE_DIRECTORY_NAME = 'resource_overrides'
 
