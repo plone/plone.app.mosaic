@@ -27,6 +27,7 @@
     left: -6px;
     z-index: 500;
     cursor: ew-resize;
+    display:none;
 }
 
 .mosaic-resize-handle:hover {
@@ -88,4 +89,10 @@
 
 .mosaic-resize-three-quarters {
     margin-left: 75%;
+}
+
+.mosaic-layout-customized {
+    .mosaic-resize-handle{
+        display: block;
+    }
 }

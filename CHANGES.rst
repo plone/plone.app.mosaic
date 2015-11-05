@@ -6,6 +6,9 @@ Changelog
 
 New:
 
+- only show drag handlers if customizing layout
+  [vangheem]
+
 - If only one layout is available, auto-select it.
   [vangheem]
 

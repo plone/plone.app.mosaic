@@ -143,6 +143,7 @@ define([
         if($content.attr('id') === "no-layout"){
           $.mosaic.selectLayout(true);
         }else{
+          $('body').addClass('mosaic-layout-customized');
           $.mosaic.hasContentLayout = false;
           $.mosaic._init($content);
         }
@@ -159,7 +160,9 @@ define([
       $.mosaic.hasContentLayout = true;
       // Need to hide these buttons when not in custom content layout mode
       $('.mosaic-toolbar-secondary-functions', $.mosaic.document).hide();
+      $('body').removeClass('mosaic-layout-customized');
     }else{
+      $('body').addClass('mosaic-layout-customized');
       $.mosaic.hasContentLayout = false;
     }
     return $($.mosaic.options.contentLayout_field_selector).attr('value', value);
