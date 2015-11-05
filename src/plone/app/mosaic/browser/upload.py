@@ -7,7 +7,7 @@ except:
 
 from plone import api
 
-from plone.app.mosaic import _PMF as _
+from plone.app.mosaic import _
 
 
 class MosaicUploadView(BrowserView):
