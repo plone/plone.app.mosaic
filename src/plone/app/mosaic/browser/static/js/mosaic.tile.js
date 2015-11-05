@@ -560,8 +560,9 @@ define([
       var id = 'mosaic-rich-text-init-' + random_id;
       $content.attr('id', id);
       $content.siblings('.mosaic-rich-text-toolbar').remove();
-      $content.before($('<div class="mosaic-rich-text-toolbar"></div>')
-        .attr('id', $content.attr('id') + '-panel'));
+      var $editorContainer = $('<div class="mosaic-rich-text-toolbar"></div>')
+        .attr('id', $content.attr('id') + '-panel');
+      $content.before($editorContainer);
 
       // Build toolbar and contextmenu
       var actions, group, x, y,
@@ -628,13 +629,20 @@ define([
       // XXX: Required to override global settings in Plone 5
       $("body").removeAttr("data-pat-tinymce");
 
+      // detect if tile is more on the right side of the screen
+      // than the left, if it is, align it right
+      if(this.$el.offset().left > ($(window).width() / 2)){
+        $editorContainer.css('right', '0');
+      }
+
       // Init rich editor
       pattern = new TinyMCE($content, $.extend(
         true, {}, $.mosaic.options.tinymce, { inline: false, tiny: {
         body_id: id,
         selector: "#" + id,
         inline: true,
-        fixed_toolbar_container: '#' + id + '-panel',
+        fixed_toolbar_container: '#' + $editorContainer.attr('id'),
+        theme_advanced_toolbar_align: "right",
         menubar: false,
         toolbar: toolbar.join(' ') || false,
         statusbar: false,

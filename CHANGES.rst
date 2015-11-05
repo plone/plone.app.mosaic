@@ -6,6 +6,10 @@ Changelog
 
 New:
 
+- align rich text editor right if the tile is more on the right side
+  of the page
+  [vangheem]
+
 - only show drag handlers if customizing layout
   [vangheem]
 
