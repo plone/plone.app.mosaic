@@ -618,12 +618,18 @@ define([
       }
 
       // Define placeholder updater
-      var placeholder = function() {
+      var _placeholder = function() {
         if ($content.text().replace(/^\s+|\s+$/g, '').length === 0) {
           $content.addClass('mosaic-tile-content-empty');
+          $content.empty().append('<p>&nbsp;</p>');
         } else {
           $content.removeClass('mosaic-tile-content-empty');
         }
+      };
+      var timeout = 0;
+      var placeholder = function(){
+        clearTimeout();
+        timeout = setTimeout(_placeholder, 100);
       };
 
       // XXX: Required to override global settings in Plone 5
@@ -660,7 +666,9 @@ define([
               }
             }
           });
-          editor.on('change', placeholder);
+
+          // `change` event doesn't fire all the time
+          editor.on('keyup', placeholder);
           placeholder();
         }
       }}));

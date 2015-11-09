@@ -6,6 +6,10 @@ Changelog
 
 New:
 
+- fix issue where you would no longer be able to edit a rich text area
+  after you clear the whole area out
+  [vangheem]
+
 - align rich text editor right if the tile is more on the right side
   of the page
   [vangheem]
