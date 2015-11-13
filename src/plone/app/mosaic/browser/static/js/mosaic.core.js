@@ -58,7 +58,7 @@ define([
     '<div class="mosaic-select-layout">' +
       '<ul>' +
         '<% _.each(available_layouts, function(layout){ ' +
-          'var screenshot = layout.screenshot;' +
+          'var screenshot = layout.preview || layout.screenshot;' +
           'if(!screenshot){' +
             'screenshot = "++resource++plone.app.mosaic.images/default-layout-screenshot.png";' +
           '} %>' +

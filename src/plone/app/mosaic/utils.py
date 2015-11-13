@@ -109,10 +109,11 @@ def getContentLayoutsForType(pt):
         _for = [v for v in (value.get('for') or '').split(',') if v]
         if _for and pt not in _for:
             continue
-        if value['screenshot'] and not value['screenshot'].startswith('++'):
-            value['screenshot'] = '++contentlayout++' + '/'.join(
-                [os.path.dirname(key), value['screenshot']])
+        preview = value.get('preview', value.get('screenshot'))
+        if preview and not preview.startswith('++'):
+            value['preview'] = '++contentlayout++' + '/'.join(
+                [os.path.dirname(key), preview])
         value['path'] = key
         result.append(value)
-    result.sort(key=lambda l: l.get('title', ''))
+    result.sort(key=lambda l: l.get('sort_key', '') or l.get('title', ''))
     return result
