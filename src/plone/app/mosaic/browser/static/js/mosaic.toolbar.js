@@ -521,12 +521,16 @@ define([
 
       // Trigger inline validation draft auto save
       var lastChange = (new Date()).getTime();
-      $(this).on('selectedtilechange', function () {
+      $(this).off('selectedtilechange').on('selectedtilechange', function () {
         if ($.mosaic.overlay.app) { return; }
-        if ((new Date()).getTime() - lastChange > 2000) {
+        if ((new Date()).getTime() - lastChange > 6000) {
           $.mosaic.saveLayoutToForm();
-          $("#form-widgets-ILayoutAware-content, " +
-            "[name='form.widgets.ILayoutAware.content']").blur();
+          setTimeout(function(){
+            // we want to do this on a delay to prevent conflict errors when
+            // editing a tile and this is called at the exact same time
+            $("#form-widgets-ILayoutAware-content, " +
+              "[name='form.widgets.ILayoutAware.content']").blur();
+          }, 1000);
           lastChange = (new Date()).getTime();
         }
       });

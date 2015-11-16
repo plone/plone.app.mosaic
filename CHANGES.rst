@@ -6,15 +6,8 @@ Changelog
 
 New:
 
-- fix issue where you would no longer be able to edit a rich text area
-  after you clear the whole area out
-  [vangheem]
-
 - align rich text editor right if the tile is more on the right side
   of the page
-  [vangheem]
-
-- only show drag handlers if customizing layout
   [vangheem]
 
 - If only one layout is available, auto-select it.
@@ -24,6 +17,18 @@ New:
   [vangheem]
 
 Fixes:
+
+- fix issue where you would end up saving non-resolveuid urls to rawhtml
+  tiles and also prevent write conflicts when the editor sends out multiple
+  edits at the same time
+  [vangheem]
+
+- only show drag handlers if customizing layout
+  [vangheem]
+
+- fix issue where you would no longer be able to edit a rich text area
+  after you clear the whole area out
+  [vangheem]
 
 - Fixed weird Firefox bug with TinyMCE that prevented data from being saved.
   [vangheem]

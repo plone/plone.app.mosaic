@@ -28,19 +28,36 @@ define([
       if(tiletype === 'plone.app.standardtiles.rawhtml'){
         var edit_url = that.getEditUrl();
         if(edit_url){
+          var currentData = that.getHtmlContent();
+          if(currentData === that.$el.data('lastSavedData')){
+            // not dirty, do not save
+            return;
+          }
+          // we also need to prevent double saving, conflict errors
+          if(that.$el.data('activeSave')){
+            return;
+          }
+          that.$el.data('activeSave', true);
           // need to save tile
           $.ajax({
             url: edit_url,
             method: 'POST',
             data: {
-              'plone.app.standardtiles.rawhtml.content': that.$el.children('.mosaic-tile-content').html(),
+              'plone.app.standardtiles.rawhtml.content': currentData,
               _authenticator: utils.getAuthenticator(),
               'buttons.save': 'Save'
             }
+          }).always(function(){
+            that.$el.data('lastSavedData', currentData);
+            that.$el.data('activeSave', false);
           });
         }
       }
     });
+  };
+
+  Tile.prototype.getHtmlContent = function(){
+    return this.$el.children('.mosaic-tile-content').html();
   };
 
   Tile.prototype.getEditUrl = function(){
@@ -399,6 +416,13 @@ define([
         that.$el.addClass('mosaic-tile-loading');
         url = base ? [base, href].join('/')
                                  .replace(/\/+\.\//g, '/') : href;
+        // in case tile should be rendered differently for layout editor
+        if(url.indexOf('?') === -1){
+          url += '?';
+        }else{
+          url += '&';
+        }
+        url += '_layouteditor=true';
         $.ajax({
           type: "GET",
           url: url,
@@ -416,6 +440,10 @@ define([
             if(tiletype === 'plone.app.standardtiles.rawhtml'){
               // a little gymnastics to make wysiwyg work here
               // Init rich editor
+              if(!that.$el.data('lastSavedData')){
+                // save initial state
+                that.$el.data('lastSavedData', that.getHtmlContent());
+              }
               that.setupWysiwyg();
             }
           },
