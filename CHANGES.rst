@@ -18,6 +18,9 @@ New:
 
 Fixes:
 
+- issue when registry configuration parsing would throw an error
+  [vangheem]
+
 - fix issue where you would end up saving non-resolveuid urls to rawhtml
   tiles and also prevent write conflicts when the editor sends out multiple
   edits at the same time

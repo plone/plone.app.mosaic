@@ -67,7 +67,7 @@ class MosaicRegistry(object):
             current = result
             for x in splitted[:-1]:
                 # create the key if it's not there
-                if not x in current:
+                if x not in current:
                     current[x] = {}
 
                 current = current[x]
@@ -86,7 +86,9 @@ class MosaicRegistry(object):
             actions.sort(cmp=weightedSort)
             for key, action in actions:
                 # sort items
-                items = action.get('items', {}).values()
+                items = action.get('items', {})
+                if isinstance(items, dict):
+                    items = items.values()
                 if items:
                     action['items'] = items
                     action['items'].sort(key=itemgetter('weight'))
@@ -177,7 +179,7 @@ class MosaicRegistry(object):
             group['actions'].sort(key=itemgetter('weight'))
         return config
 
-    #def mapStructureTiles(self, settings, config):
+    # def mapStructureTiles(self, settings, config):
     #    # Structure Tiles
     #    tiles = settings.get('%s.structure_tiles' % self.prefix, {})
     #
@@ -191,7 +193,7 @@ class MosaicRegistry(object):
     #        tile['tiles'].sort(key=itemgetter('weight'))
     #    return config
     #
-    #def mapApplicationTiles(self, settings, config):
+    # def mapApplicationTiles(self, settings, config):
     #    tiles = settings.get('%s.app_tiles' % self.prefix, {})
     #    for key, tile in tiles.items():
     #        if not 'category' in tile:
@@ -278,7 +280,7 @@ class MosaicRegistry(object):
                     default=[],
                 )
             for fieldconfig in extractFieldInformation(
-                        schema, args['context'], args['request'], prefix):
+                    schema, args['context'], args['request'], prefix):
                 if fieldconfig['id'] not in registry_omitted:
                     label = translate(fieldconfig['title'],
                                       context=args['request'])
