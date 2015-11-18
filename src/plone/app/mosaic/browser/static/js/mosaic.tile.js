@@ -656,7 +656,7 @@ define([
       };
       var timeout = 0;
       var placeholder = function(){
-        clearTimeout();
+        clearTimeout(timeout);
         timeout = setTimeout(_placeholder, 100);
       };
 
