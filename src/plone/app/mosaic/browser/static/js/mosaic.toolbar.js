@@ -521,7 +521,7 @@ define([
 
       // Trigger inline validation draft auto save
       var lastChange = (new Date()).getTime();
-      $(this).off('selectedtilechange').on('selectedtilechange', function () {
+      $(this).on('selectedtilechange', function () {
         if ($.mosaic.overlay.app) { return; }
         if ((new Date()).getTime() - lastChange > 6000) {
           $.mosaic.saveLayoutToForm();
