@@ -18,6 +18,9 @@ New:
 
 Fixes:
 
+- fix issue where spurious &nbsp; was getting saved to description
+  [vangheem]
+
 - issue when registry configuration parsing would throw an error
   [vangheem]
 

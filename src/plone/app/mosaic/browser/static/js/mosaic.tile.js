@@ -649,7 +649,7 @@ define([
       var _placeholder = function() {
         if ($content.text().replace(/^\s+|\s+$/g, '').length === 0) {
           $content.addClass('mosaic-tile-content-empty');
-          $content.empty().append('<p>&nbsp;</p>');
+          $content.empty().append('<p></p>');
         } else {
           $content.removeClass('mosaic-tile-content-empty');
         }
