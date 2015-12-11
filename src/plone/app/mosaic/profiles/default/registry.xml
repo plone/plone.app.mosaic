@@ -1281,7 +1281,7 @@
            interface="plone.app.mosaic.interfaces.ITile">
     <value key="name">plone.app.standardtiles.rawhtml</value>
     <value key="label">Rich Text</value>
-    <value key="category">hidden</value>
+    <value key="category">structure</value>
     <value key="tile_type">app</value>
     <value key="default_value"></value>
     <value key="read_only">false</value>
