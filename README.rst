@@ -158,7 +158,7 @@ The bundle can also be built with source maps and watched for changes with:
 .. code:: bash
 
    $ npm install
-   $ make clean all watch
+   $ make clean install all watch
 
 
 Documentation screenshots
