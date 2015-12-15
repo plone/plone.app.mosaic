@@ -544,6 +544,7 @@ define([
           $('.mosaic-panel .mosaic-' + tiletype + '-tile', $.mosaic.document).find('.mosaic-tile-content > *').each(function () {
             value += $(this).html()
               .replace(/<br[^>]*>/ig, newline)
+              .replace("&nbsp;", "")
               .replace(/^\s+|\s+$/g, '') + newline;
           });
           value = value.replace(/^\s+|\s+$/g, '');
