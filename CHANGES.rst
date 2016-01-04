@@ -18,6 +18,9 @@ New:
 
 Fixes:
 
+- fix do not add _layout multiple times to tile data
+  [vangheem]
+
 - fix issue where spurious &nbsp; was getting saved to description
   [vangheem]
 

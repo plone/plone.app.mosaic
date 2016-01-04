@@ -422,7 +422,9 @@ define([
         }else{
           url += '&';
         }
-        url += '_layouteditor=true';
+        if(url.indexOf('_layouteditor') === -1){
+          url += '_layouteditor=true';
+        }
         $.ajax({
           type: "GET",
           url: url,
