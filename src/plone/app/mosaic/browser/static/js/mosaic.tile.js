@@ -460,11 +460,42 @@ define([
       // need to replace the data-tile node here
       var $el = this.$el.find('[data-tile]').parent();
       $el.html(html);
-      Registry.scan($el);
       var $content = this.$el.children(".mosaic-tile-content");
       if(tileUrl && $content.size() > 0){
         $content.attr('data-tileUrl', tileUrl.replace(/&/gim, '&amp;'));
       }
+      this.cacheHtml(html);
+      this.scanRegistry();
+    };
+
+    Tile.prototype.cacheHtml = function(html) {
+      /* Cache html on the tile element.
+         This is only used by the scanRegistry method so
+         we can reset the html of the html when running the pattern registry.
+         */
+      var $content = this.$el.children(".mosaic-tile-content");
+      if(html === undefined){
+        html = $content.html();
+      }
+      $content[0]._preScanHTML = html;
+    };
+
+    Tile.prototype.scanRegistry = function(){
+      /*
+        A bit tricky here because tiles can contain patterns.
+        Pay attention to the use of _preScanHTML.
+        If we do not do this, tiles do not render correctly when
+        adding, dragging and dropping.
+      */
+      var $el = this.$el.find(".mosaic-tile-content");
+      if($el[0] === undefined){
+        return;
+      }
+      if($el[0]._preScanHTML){
+        /* reset html because transform has happened */
+        $el.html($el[0]._preScanHTML);
+      }
+      Registry.scan($el);
     };
 
     Tile.prototype.select = function(){

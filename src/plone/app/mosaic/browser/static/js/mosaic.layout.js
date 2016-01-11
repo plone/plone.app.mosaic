@@ -491,7 +491,6 @@ define([
             var $tile = $('.mosaic-edited-tile .mosaic-tile-content', $.mosaic.document);
             $tile.html(tileHtml);
             tile.fillContent(tileHtml, tileUrl);
-            Registry.scan($tile);
 
             // Close overlay
             $.mosaic.overlay.app.hide();
@@ -517,7 +516,9 @@ define([
 
       // Add icons and dividers
       obj.find('.mosaic-tile').each(function(){
-        (new Tile(this)).initialize();
+        var tile = new Tile(this);
+        tile.initialize();
+        tile.scanRegistry();
       });
       obj.find('.mosaic-tile').mosaicAddDrag();
       obj.mosaicAddEmptyRows();
@@ -1073,13 +1074,21 @@ define([
 
     var $tile = $(".mosaic-new-tile", $.mosaic.document);
     $tile.removeClass("mosaic-new-tile");
+
     var tile = new Tile($tile);
+
+    var $content = original_tile.find('.mosaic-tile-content');
+    if($content.size() > 0 && $content[0]._preScanHTML){
+      /* set the correct, pre-registry html so tiles render correctly */
+      tile.cacheHtml($content[0]._preScanHTML);
+    }
 
     // Re-init rich text editor after tile has been moved in DOM
     if($(".mosaic-rich-text", $tile).size() > 0){
       tile.setupWysiwyg();
     }
 
+    tile.scanRegistry();
     // Select new tile
     if (new_tile) {
       tile.select();
@@ -1613,7 +1622,11 @@ define([
     } else {
       helper.width(helper.width());
     }
-    (new Tile(helper)).initialize();
+
+    var tile = new Tile(helper);
+    tile.initialize();
+    tile.cacheHtml();
+    tile.scanRegistry();
   };
 
   /**

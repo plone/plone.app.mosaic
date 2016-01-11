@@ -18,6 +18,10 @@ New:
 
 Fixes:
 
+- Fix tiles not rendering correctly if they contain JavaScript patterns
+  when adding and moving them around.
+  [vangheem]
+
 - fix do not add _layout multiple times to tile data
   [vangheem]
 
