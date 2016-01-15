@@ -15,6 +15,56 @@ define([
 
   var log = logger.getLogger('pat-mosaic');
 
+  var _positionActiveTinyMCE = function(){
+    var $toolbar = $('.mosaic-rich-text-toolbar:visible');
+    if($toolbar.size() === 0 || $toolbar.find('.mce-first').size() === 0){
+      /* make sure it actually has a toolbar */
+      return;
+    }
+
+    var $tile = $toolbar.parent();
+    // detect if tile is more on the right side of the screen
+    // than the left, if it is, align it right
+    $toolbar.removeClass('right');
+    if($tile.offset().left > ($(window).width() / 2)){
+      $toolbar.addClass('right');
+    }
+
+    // calculate if toolbar has been scrolled out of view.
+    // we calculate the top divider since when we move to
+    // make the tiny toolbar sticky, it'll get shifted
+    var $window = $(window);
+
+    if(($tile.offset().top - $toolbar.height()) < $window.scrollTop()){
+      // just checking if we reached the top of the tile + size of toolbar
+      if(!$toolbar.hasClass('sticky')){
+        // only need to calculate once and then leave alone
+        $toolbar.addClass('sticky');
+        // right under mosaic toolbar
+        var attrs = {
+          top: $('.mosaic-toolbar').height() + $toolbar.height()
+        };
+        if($toolbar.hasClass('right')){
+          attrs.right = $toolbar.offset().right;
+        }else{
+          attrs.left = $toolbar.offset().left;
+        }
+        $toolbar.css(attrs);
+      }
+    }else{
+      $toolbar.removeClass('sticky');
+      $toolbar.removeAttr('style');
+    }
+  };
+  var _positionTimeout = 0;
+  var positionActiveTinyMCE = function(){
+    clearTimeout(_positionTimeout);
+    _positionTimeout = setTimeout(_positionActiveTinyMCE, 50);
+  };
+  $(window).off('scroll', positionActiveTinyMCE).on('scroll', positionActiveTinyMCE);
+
+
+
   /* Tile class */
   var Tile = function(el){
     var that = this;
@@ -474,6 +524,9 @@ define([
          we can reset the html of the html when running the pattern registry.
          */
       var $content = this.$el.children(".mosaic-tile-content");
+      if($content.size() === 0){
+        return;
+      }
       if(html === undefined){
         html = $content.html();
       }
@@ -488,7 +541,7 @@ define([
         adding, dragging and dropping.
       */
       var $el = this.$el.find(".mosaic-tile-content");
-      if($el[0] === undefined){
+      if($el.size() === 0){
         return;
       }
       if($el[0]._preScanHTML){
@@ -697,12 +750,6 @@ define([
       // XXX: Required to override global settings in Plone 5
       $("body").removeAttr("data-pat-tinymce");
 
-      // detect if tile is more on the right side of the screen
-      // than the left, if it is, align it right
-      if(this.$el.offset().left > ($(window).width() / 2)){
-        $editorContainer.css('right', '0');
-      }
-
       // Init rich editor
       pattern = new TinyMCE($content, $.extend(
         true, {}, $.mosaic.options.tinymce, { inline: false, tiny: {
@@ -725,6 +772,7 @@ define([
               if($tile.size() > 0){
                 var tile = new Tile($tile);
                 tile.select();
+                positionActiveTinyMCE();
               }
             }
           });

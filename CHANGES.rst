@@ -16,7 +16,12 @@ New:
 - Be able to show/hide content layouts.
   [vangheem]
 
+
 Fixes:
+
+- Fix tinymce toolbar scrolling out of view with large rich text tiles.
+  TinyMCE toolbar will now being sticky as the user scrolls down.
+  [vangheem]
 
 - Fix tiles not rendering correctly if they contain JavaScript patterns
   when adding and moving them around.
