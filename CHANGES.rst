@@ -6,6 +6,10 @@ Changelog
 
 New:
 
+- do not remove data-pat-tinymce body attribute as this is not
+  necessary with how tinymce is initialized anymore
+  [vangheem]
+
 - align rich text editor right if the tile is more on the right side
   of the page
   [vangheem]

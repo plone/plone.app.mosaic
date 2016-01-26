@@ -747,9 +747,6 @@ define([
         timeout = setTimeout(_placeholder, 100);
       };
 
-      // XXX: Required to override global settings in Plone 5
-      $("body").removeAttr("data-pat-tinymce");
-
       // Init rich editor
       pattern = new TinyMCE($content, $.extend(
         true, {}, $.mosaic.options.tinymce, { inline: false, tiny: {
