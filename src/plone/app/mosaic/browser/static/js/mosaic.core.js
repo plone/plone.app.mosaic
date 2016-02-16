@@ -155,8 +155,8 @@ define([
     return $($.mosaic.options.contentLayout_field_selector).val();
   };
 
-  $.mosaic.setSelectedContentLayout = function(value){
-    if(value){
+  $.mosaic.setSelectedContentLayout = function(path, html){
+    if(path){
       $.mosaic.hasContentLayout = true;
       // Need to hide these buttons when not in custom content layout mode
       $('.mosaic-toolbar-secondary-functions', $.mosaic.document).hide();
@@ -165,7 +165,10 @@ define([
       $('body').addClass('mosaic-layout-customized');
       $.mosaic.hasContentLayout = false;
     }
-    return $($.mosaic.options.contentLayout_field_selector).attr('value', value);
+    // Update the textarea that stores the layout HTML state
+    $($.mosaic.options.customContentLayout_field_selector).val(html);
+    // Update the input field that stores the contentLayout
+    $($.mosaic.options.contentLayout_field_selector).attr('value', path);
   };
 
 
@@ -198,7 +201,6 @@ define([
   };
 
   $.mosaic._init = function (content) {
-    
     $.mosaic._initPanels(content);
 
     // Init overlay
@@ -217,7 +219,7 @@ define([
 
     // Init layout
     $.mosaic.options.panels.mosaicLayout();
-    
+
     // Add blur to the rest of the content
     $("*", $.mosaic.document).each(function () {
 
@@ -276,7 +278,7 @@ define([
       url: $.mosaic.options.context_url + '/' + layoutPath
     }).done(function(layoutHtml){
       var $content = $.mosaic.getDomTreeFromHtml(layoutHtml);
-      $.mosaic.setSelectedContentLayout(layoutPath);
+      $.mosaic.setSelectedContentLayout(layoutPath, layoutHtml);
       if($.mosaic.loaded){
         // initialize panels
         $.mosaic._initPanels($content);
