@@ -410,6 +410,12 @@ define([
           if ((dir === "left") || (dir === "right")) {
             var row = divider.parent().parent().parent();
 
+            if (row.children(".mosaic-grid-cell").length >= $('.mosaic-panel').data('max-columns')) {
+                // This row already up to the max amount of columns allowed for this layout
+                // do not allow this item to be dropped alingside any elements in this row
+                return;
+            }
+
             // If row has multiple columns
             if (row.children(".mosaic-grid-cell").length > 1) {
               divider.height(row.height() + 5);
@@ -899,10 +905,8 @@ define([
           .removeClass("mosaic-original-tile")
           .addClass("mosaic-new-tile");
       }
-
     // Check if max columns rows is reached
     } else if ((drop.parent().parent().children(".mosaic-grid-cell").length === 4) && (dir === "left" || dir === "right")) {
-
       // Remove remaining empty rows
       $(".mosaic-empty-row", $.mosaic.document).remove();
 
