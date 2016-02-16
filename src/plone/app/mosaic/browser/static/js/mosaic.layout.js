@@ -906,7 +906,7 @@ define([
           .addClass("mosaic-new-tile");
       }
     // Check if max columns rows is reached
-    } else if ((drop.parent().parent().children(".mosaic-grid-cell").length === 4) && (dir === "left" || dir === "right")) {
+    } else if ((drop.parent().parent().children(".mosaic-grid-cell").length >= obj.data('max-columns')) && (dir === "left" || dir === "right")) {
       // Remove remaining empty rows
       $(".mosaic-empty-row", $.mosaic.document).remove();
 
