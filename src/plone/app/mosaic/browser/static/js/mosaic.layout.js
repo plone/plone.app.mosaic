@@ -1706,8 +1706,7 @@ define([
       position = 1,
       size = 12,
       body = "",
-      classNames = "",
-      panel_id = "";
+      classNames = "";
 
     // Disable edit html source
     $.mosaic.disableEditHtmlSource();
@@ -1719,8 +1718,8 @@ define([
     $("[data-panel]", $.mosaic.document).each(function () {
 
       // Add open panel tag
-      panel_id = $(this).attr("data-panel");
-      body += '    <div data-panel="' + panel_id + '">\n';
+      body += '    <div data-panel="' + $(this).data("panel") + '"'
+      body += '         data-max-columns="' + $(this).data("max-columns") + '">\n';
 
       // Loop through rows
       $(this).children(".mosaic-grid-row").each(function () {
