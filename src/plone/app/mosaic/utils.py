@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
-from plone.registry.interfaces import IRegistry
 from plone.app.blocks.interfaces import CONTENT_LAYOUT_MANIFEST_FORMAT
 from plone.app.blocks.interfaces import IOmittedField
 from plone.app.blocks.resource import getLayoutsFromResources
-from plone.app.blocks.utils import PermissionChecker
 from plone.app.blocks.utils import isVisible
+from plone.app.blocks.utils import PermissionChecker
 from plone.autoform.interfaces import MODES_KEY
 from plone.autoform.interfaces import OMITTED_KEY
 from plone.autoform.interfaces import READ_PERMISSIONS_KEY
@@ -12,6 +11,7 @@ from plone.autoform.interfaces import WIDGETS_KEY
 from plone.autoform.interfaces import WRITE_PERMISSIONS_KEY
 from plone.autoform.utils import mergedTaggedValuesForIRO
 from plone.autoform.widgets import ParameterizedWidget
+from plone.registry.interfaces import IRegistry
 from plone.resource.interfaces import IResourceDirectory
 from plone.supermodel.utils import mergedTaggedValueDict
 from z3c.form.interfaces import DISPLAY_MODE
@@ -22,6 +22,7 @@ from zope.component import getMultiAdapter
 from zope.component import getUtility
 from zope.interface import Interface
 from zope.schema.interfaces import IField
+
 import os
 
 
@@ -103,7 +104,8 @@ def getContentLayoutsForType(pt):
             key, _, hidden_type = item.partition('::')
             if hidden_type == pt:
                 hidden.append(key)
-    for key, value in getLayoutsFromResources(CONTENT_LAYOUT_MANIFEST_FORMAT).items():
+    for key, value in getLayoutsFromResources(
+            CONTENT_LAYOUT_MANIFEST_FORMAT).items():
         if key in hidden:
             continue
         _for = [v for v in (value.get('for') or '').split(',') if v]
