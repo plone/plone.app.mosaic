@@ -28,3 +28,4 @@
 /var/
 components
 node_modules
+!.isort.cfg
