@@ -91,12 +91,22 @@ class LayoutWidget(BaseWidget, TextAreaWidget):
         result['tinymce'] = get_tinymce_options(
             self.context, self.field, self.request)['pattern_options']
 
-        result['customContentLayout_selector'] = '#formfield-%s' % self.name.replace('.', '-')
-        result['contentLayout_selector'] = '#formfield-%s' % (
-            self.name.replace('.', '-').replace('-content', '-contentLayout'))
-        result['customContentLayout_field_selector'] = '[name="%s"]' % self.name
-        result['contentLayout_field_selector'] = '[name="%s"]' % (
-            self.name.replace('.content', '.contentLayout'))
+        result['customContentLayout_selector'] = '#formfield-{0:s}'.format(
+            self.name.replace('.', '-')
+        )
+        result['contentLayout_selector'] = '#formfield-{0:s}'.format(
+            self.name.replace(
+                '.', '-'
+            ).replace(
+                '-content', '-contentLayout'
+            )
+        )
+        result['customContentLayout_field_selector'] = '[name="{0:s}"]'.format(
+            self.name
+        )
+        result['contentLayout_field_selector'] = '[name="{0:s}"]'.format(
+            self.name.replace('.content', '.contentLayout')
+        )
 
         result['available_layouts'] = getContentLayoutsForType(pt)
 
