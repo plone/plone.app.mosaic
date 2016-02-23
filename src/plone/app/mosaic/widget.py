@@ -89,7 +89,13 @@ class LayoutWidget(BaseWidget, TextAreaWidget):
             'plone.CustomizeContentLayouts', self.context)
         result['context_url'] = self.context.absolute_url()
         result['tinymce'] = get_tinymce_options(
-            self.context, self.field, self.request)['pattern_options']
+            self.context,
+            self.field,
+            self.request
+        )
+        if 'pattern_options' in result['tinymce']:
+            # BBB Plone 4.3.x
+            result['tinymce'] = result['tinymce']['patternoptions']
 
         result['customContentLayout_selector'] = '#formfield-{0:s}'.format(
             self.name.replace('.', '-')

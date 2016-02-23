@@ -23,6 +23,10 @@ New:
 
 Fixes:
 
+- Fix TinyMCE widget in add-form which was broken due to a change how the 
+  settings are stored in Plone 5 vs 4. BBB compatible.
+  [jensens]
+
 - Fix tinymce toolbar scrolling out of view with large rich text tiles.
   TinyMCE toolbar will now being sticky as the user scrolls down.
   [vangheem]
