@@ -95,7 +95,7 @@ class LayoutWidget(BaseWidget, TextAreaWidget):
         )
         if 'pattern_options' in result['tinymce']:
             # BBB Plone 4.3.x
-            result['tinymce'] = result['tinymce']['patternoptions']
+            result['tinymce'] = result['tinymce']['pattern_options']
 
         result['customContentLayout_selector'] = '#formfield-{0:s}'.format(
             self.name.replace('.', '-')
