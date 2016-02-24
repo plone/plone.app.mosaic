@@ -2,47 +2,54 @@ language: python
 python: '2.7'
 sudo: false
 cache:
+  pip: true
   directories:
-  - eggs
-  - node_modules
-  - components
+    - node_modules
+    - components
+    - $HOME/buildout-cache
+
 before_install:
-- export DISPLAY=:99.0
-- sh -e /etc/init.d/xvfb start
+  - mkdir -p $HOME/buildout-cache/{eggs,downloads}
+  - mkdir $HOME/.buildout
+  - echo "[buildout]" > $HOME/.buildout/default.cfg
+  - echo "download-cache = $HOME/buildout-cache/downloads" >> $HOME/.buildout/default.cfg
+  - echo "eggs-directory = $HOME/buildout-cache/eggs" >> $HOME/.buildout/default.cfg
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
 install:
-- rm -rf eggs/plone.app.locales*
-- python bootstrap.py -v 1.7.1 -c test-$PLONE_VERSION.cfg
-- bin/buildout -N -t 3 -c test-$PLONE_VERSION.cfg annotate
-- bin/buildout -N -t 3 -c test-$PLONE_VERSION.cfg
-- mkdir -p parts/test/_screenshots
-- make install
-- node_modules/bower/bin/bower install
-- make clean all mode=release
+  - rm -rf $HOME/buildout-cache/eggs/plone.app.locales*
+  - pip install zc.buildout
+  - buildout -N -t 3 -c test-$PLONE_VERSION.cfg annotate
+  - buildout -N -t 3 -c test-$PLONE_VERSION.cfg
+  - mkdir -p parts/test/_screenshots
+  - make install
+  - node_modules/bower/bin/bower install
+  - make clean all mode=release
 script:
-- bin/test $TEST_OPTIONS
-- bin/pybot -d parts/test docs
+  - bin/test $TEST_OPTIONS
+  - bin/pybot -d parts/test docs
 after_script:
-- bin/sphinx-build docs html
-- bundle install
-- bundle exec travis-artifacts upload --path html
-- bundle exec travis-artifacts upload --path parts/test
-- bundle exec travis-artifacts upload --target-path latest --path html
-- bundle exec travis-artifacts upload --target-path latest --path parts/test
-- 'echo "Sphinx: http://plone-app-mosaic.s3-website-us-east-1.amazonaws.com/artifacts/${TRAVIS_BUILD_NUMBER}/${TRAVIS_JOB_NUMBER}/"'
-- 'echo "Robot: http://plone-app-mosaic.s3-website-us-east-1.amazonaws.com/artifacts/${TRAVIS_BUILD_NUMBER}/${TRAVIS_JOB_NUMBER}/report.html"'
+  - bin/sphinx-build docs html
+  - bundle install
+  - bundle exec travis-artifacts upload --path html
+  - bundle exec travis-artifacts upload --path parts/test
+  - bundle exec travis-artifacts upload --target-path latest --path html
+  - bundle exec travis-artifacts upload --target-path latest --path parts/test
+  - 'echo "Sphinx: http://plone-app-mosaic.s3-website-us-east-1.amazonaws.com/artifacts/${TRAVIS_BUILD_NUMBER}/${TRAVIS_JOB_NUMBER}/"'
+  - 'echo "Robot: http://plone-app-mosaic.s3-website-us-east-1.amazonaws.com/artifacts/${TRAVIS_BUILD_NUMBER}/${TRAVIS_JOB_NUMBER}/report.html"'
 env:
   matrix:
     - PLONE_VERSION=4.x
     - PLONE_VERSION=5.x
   global:
-  - ARTIFACTS_S3_BUCKET=plone-app-mosaic
-  - secure: F9djE/1a4VvCidHCnWeF7qkwsUhVLZELv/ttSC1UamsbCCzIa0shUheF4MfAZBRcwtVVAlrid4VRnuYnxyDciy2jrL/qayLfze2ZKcZTfYKsNIrQzyZ4SUVZRB9ZSA6yUK3v+/GIie95as8MKM/UxRtn2RWw4doWGyKv8XBOL4U=
-  - secure: buYYreaObmTNEuVTibj/kIyFnIoHCZdezeA8P0HwGHrTbIAwArBFfhG5PC1grT8MayN3f4sfY80d8sRhRATTPNX1smjjBfyni/Zon8OTpr6mGaGsHOg+HHHqocy3hZPlgg1yYLpUCfKCOc8pnq09lF06JwPxsIXAiV+oRHR446E=
+    - ARTIFACTS_S3_BUCKET=plone-app-mosaic
+    - secure: F9djE/1a4VvCidHCnWeF7qkwsUhVLZELv/ttSC1UamsbCCzIa0shUheF4MfAZBRcwtVVAlrid4VRnuYnxyDciy2jrL/qayLfze2ZKcZTfYKsNIrQzyZ4SUVZRB9ZSA6yUK3v+/GIie95as8MKM/UxRtn2RWw4doWGyKv8XBOL4U=
+    - secure: buYYreaObmTNEuVTibj/kIyFnIoHCZdezeA8P0HwGHrTbIAwArBFfhG5PC1grT8MayN3f4sfY80d8sRhRATTPNX1smjjBfyni/Zon8OTpr6mGaGsHOg+HHHqocy3hZPlgg1yYLpUCfKCOc8pnq09lF06JwPxsIXAiV+oRHR446E=
 irc:
   channels:
-  - irc.freenode.org#plone-testing
+    - irc.freenode.org#plone-testing
   template:
-  - '%{repository}#%{build_number} (%{branch} | %{commit} | %{author}): %{message}'
-  - 'Change: %{compare_url}'
-  - 'Details: %{build_url}'
-  - 'Artifacts: http://plone-app-mosaic.s3-website-us-east-1.amazonaws.com/latest/'
+    - '%{repository}#%{build_number} (%{branch} | %{commit} | %{author}): %{message}'
+    - 'Change: %{compare_url}'
+    - 'Details: %{build_url}'
+    - 'Artifacts: http://plone-app-mosaic.s3-website-us-east-1.amazonaws.com/latest/'
