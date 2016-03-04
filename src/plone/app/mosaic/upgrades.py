@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
-from Products.CMFCore.utils import getToolByName
 from plone import api
+from plone.app.blocks.layoutbehavior import ILayoutAware
 from plone.app.mosaic.setuphandlers import create_ttw_layout_examples
+from Products.CMFCore.utils import getToolByName
+
 
 PROFILE_ID = 'profile-plone.app.mosaic:default'
 
@@ -122,3 +124,17 @@ def upgrade_9_to_10(context):
 def upgrade_registry(context):
     setup = getToolByName(context, 'portal_setup')
     setup.runImportStepFromProfile(PROFILE_ID, 'plone.app.registry')
+
+
+def upgrade_to_1_0_0(context):
+    setup = getToolByName(context, 'portal_setup')
+    setup.runImportStepFromProfile(PROFILE_ID, 'plone.app.registry')
+    catalog = api.portal.get_tool('portal_catalog')
+    if 'layout' not in catalog.indexes():
+        catalog.addIndex('layout', 'FieldIndex')
+
+    # go through and index layout aware docs
+    catalog = api.portal.get_tool('portal_catalog')
+    for brain in catalog(object_provides=ILayoutAware.__identifier__):
+        obj = brain.getObject()
+        obj.reindexObject(idxs=['layout'])

@@ -78,6 +78,12 @@
       permission="plone.resourceeditor.ManageSources"
       template="templates/layouts-editor.pt"
       />
+  <browser:page
+      name="manage-layouts-from-editor"
+      for="*"
+      class=".editor.ManageLayoutView"
+      permission="plone.CustomizeContentLayouts"
+      />
 
   <!-- Include layoutmenu-feature and its ++layout++ traverser -->
   <include

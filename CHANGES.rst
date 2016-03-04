@@ -6,6 +6,11 @@ Changelog
 
 New:
 
+- Fix use of rawhtml text tile
+
+- Allow users to save layouts they are creating
+  [vangheem]
+
 - do not remove data-pat-tinymce body attribute as this is not
   necessary with how tinymce is initialized anymore
   [vangheem]
@@ -26,7 +31,13 @@ New:
 
 Fixes:
 
-- Fix TinyMCE widget in add-form which was broken due to a change how the 
+- Do not allow hitting enter for editing non-rich text fields
+  [vangheem]
+
+- Disable clicking links of content inside tiles while in edit mode
+  [vangheem]
+
+- Fix TinyMCE widget in add-form which was broken due to a change how the
   settings are stored in Plone 5 vs 4. BBB compatible.
   [jensens]
 

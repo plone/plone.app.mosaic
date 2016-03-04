@@ -1,7 +1,13 @@
 # -*- coding: utf-8 -*-
+from zExceptions import NotFound
+from zope.component.hooks import getSite
+from Products.CMFCore.utils import getToolByName
+from plone.resource.utils import queryResourceDirectory
+from plone.app.blocks.interfaces import CONTENT_LAYOUT_RESOURCE_NAME
 from plone.app.blocks.interfaces import CONTENT_LAYOUT_MANIFEST_FORMAT
 from plone.app.blocks.interfaces import IOmittedField
 from plone.app.blocks.resource import getLayoutsFromResources
+from plone.app.blocks.resource import getLayoutsFromDirectory
 from plone.app.blocks.utils import isVisible
 from plone.app.blocks.utils import PermissionChecker
 from plone.autoform.interfaces import MODES_KEY
@@ -118,4 +124,30 @@ def getContentLayoutsForType(pt):
         value['path'] = key
         result.append(value)
     result.sort(key=lambda l: l.get('sort_key', '') or l.get('title', ''))
+    return result
+
+
+def getUserContentLayoutsForType(pt):
+    result = []
+    layout_resources = queryResourceDirectory(CONTENT_LAYOUT_RESOURCE_NAME, 'custom')
+    portal_membership = getToolByName(getSite(), 'portal_membership')
+    user_id = portal_membership.getAuthenticatedMember().getId()
+    try:
+        users_directory = layout_resources['user-layouts']
+        user_directory = users_directory[user_id]
+    except NotFound:
+        return []
+
+    for key, value in getLayoutsFromDirectory(
+            user_directory, CONTENT_LAYOUT_MANIFEST_FORMAT).items():
+        value['path'] = 'custom/user-layouts/' + key
+        _for = [v for v in (value.get('for') or '').split(',') if v]
+        if _for and pt not in _for:
+            continue
+        preview = value.get('preview', value.get('screenshot'))
+        if preview and not preview.startswith('++'):
+            value['preview'] = '++contentlayout++custom/user-layouts/{user_id}/{path}'.format(
+                user_id=user_id,
+                path='/'.join([os.path.dirname(key), preview]))
+        result.append(value)
     return result

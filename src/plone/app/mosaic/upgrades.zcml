@@ -227,8 +227,8 @@
       profile="plone.app.mosaic:default"
       source="5013"
       destination="5014"
-      title="Upgrade registry configuration"
-      handler=".upgrades.upgrade_registry"
+      title="Upgrade registry and add index"
+      handler=".upgrades.upgrade_to_1_0_0"
       />
 
 </configure>

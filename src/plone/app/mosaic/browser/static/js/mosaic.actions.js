@@ -348,18 +348,31 @@ define([
       }
     });
 
+    $.mosaic.registerAction('layout', {
+      /* layout drop down */
+      exec: function () {
+        var $container = $('.mosaic-button-group-layout');
+        $container.toggleClass('active');
+      },
+      visible: function(){
+        return true;
+      }
+    });
+
     // register customize layout button
     $.mosaic.registerAction('customizelayout', {
       exec: function () {
         $.mosaic.setSelectedContentLayout('');  // clear selected layout, will use stored layout then
         $('.mosaic-toolbar-secondary-functions').show();
         $('.mosaic-button-customizelayout').hide();
+        $('.mosaic-button-savelayout').show();
         // go through each tile and add movable
         $('.mosaic-panel .mosaic-tile', $.mosaic.document).each(function(){
           var tile = new Tile(this);
           tile.makeMovable();
           tile.$el.mosaicAddDrag();
         });
+        $('.mosaic-button-group-layout').removeClass('active');
       },
       visible: function(){
         return $.mosaic.hasContentLayout && $.mosaic.options.canChangeLayout;
@@ -371,15 +384,27 @@ define([
       exec: function () {
         var yes = $.mosaic.hasContentLayout;
         if(!yes){
-          yes = confirm('Changing your will destroy all existing custom layout ' +
-                  'settings you have in place. Are you sure you want to continue?');
+          yes = confirm('Changing your layout will destroy all existing custom layout ' +
+                        'settings you have in place. Are you sure you want to continue?');
         }
         if(yes){
           $.mosaic.selectLayout();
         }
+        $('.mosaic-button-group-layout').removeClass('active');
       },
       visible: function(){
         return $.mosaic.options.available_layouts.length > 0;
+      }
+    });
+
+    // register change layout button
+    $.mosaic.registerAction('savelayout', {
+      exec: function () {
+        $.mosaic.saveLayout();
+        $('.mosaic-button-group-layout').removeClass('active');
+      },
+      visible: function(){
+        return true;
       }
     });
 
@@ -422,37 +447,39 @@ define([
             // Get url
             var tile_url = tile.getUrl();
 
-            // Remove tags
-            $.mosaic.removeHeadTags(tile_url);
+            if(tile_url){
+              // Remove tags
+              $.mosaic.removeHeadTags(tile_url);
 
-            // Calc delete url
-            var url = tile_url.split('?')[0];
-            url = url.split('@@');
-            var tile_type_id = url[1].split('/');
-            url = url[0] + '@@delete-tile/' + tile_type_id[0] + '/' + tile_type_id[1];
-            // Calc absolute delete url
-            if (url.match(/^\.\/.*/)) {
-              url = $.mosaic.options.context_url + url.replace(/^\./, '');
-            }
-
-            // Ajax call to remove tile
-            $.ajax({
-              type: "GET",
-              url: url,
-              success: function (value) {
-                var authenticator = $(value).find('[name="_authenticator"]').val();
-                $.ajax({
-                  type: "POST",
-                  url: url,
-                  data: {
-                    'buttons.delete': 'Delete',
-                    '_authenticator': authenticator
-                  },
-                  success: function(value) {
-                  }
-                });
+              // Calc delete url
+              var url = tile_url.split('?')[0];
+              url = url.split('@@');
+              var tile_type_id = url[1].split('/');
+              url = url[0] + '@@delete-tile/' + tile_type_id[0] + '/' + tile_type_id[1];
+              // Calc absolute delete url
+              if (url.match(/^\.\/.*/)) {
+                url = $.mosaic.options.context_url + url.replace(/^\./, '');
               }
-            });
+
+              // Ajax call to remove tile
+              $.ajax({
+                type: "GET",
+                url: url,
+                success: function (value) {
+                  var authenticator = $(value).find('[name="_authenticator"]').val();
+                  $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: {
+                      'buttons.delete': 'Delete',
+                      '_authenticator': authenticator
+                    },
+                    success: function(value) {
+                    }
+                  });
+                }
+              });
+            }
           }
 
           // Remove empty rows
@@ -518,7 +545,18 @@ define([
         }
 
         // Create new app tile
-        if (tile_config.tile_type === 'app') {
+        if (tile_config.tile_type === 'textapp') {
+          // an app tile
+          // generate uid for it: http://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript
+          var uid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+            var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
+            return v.toString(16);
+          });
+
+          var tileUrl = $.mosaic.options.context_url + '/@@' + tile_type + '/' + uid;
+          var html = '<html><body>' + $.mosaic.getDefaultValue(tile_config) + '</body></html>';
+          $.mosaic.addAppTileHTML(tile_type, html, tileUrl);
+        }else if (tile_config.tile_type === 'app') {
           // Load add form form selected tiletype
           var initial = true;
           utils.loading.show();
@@ -535,7 +573,6 @@ define([
               $value = $(value);
               action_url = $value.find('#add_tile').attr('action');
               authenticator = $value.find('[name="_authenticator"]').val();
-
               // Open add form in modal when requires user input
               modalFunc = function(html) {
                 $.mosaic.overlay.app = new Modal($('.mosaic-toolbar'), {
@@ -586,7 +623,7 @@ define([
                   var val = $(this).parents(".field").first()
                     .find("input, select, textarea")
                     .not('[type="hidden"]').last().val();
-                  return val === null || val.length == 0}).length > 0) {
+                  return val === null || val.length === 0; }).length > 0) {
                 modalFunc(value);
               } else if (action_url) {
                 $("form", $value).ajaxSubmit({

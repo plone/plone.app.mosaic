@@ -16,7 +16,7 @@
     *** Variables ***
 
     ${FIXTURE}  plone.app.mosaic.testing.PLONE_APP_MOSAIC_ROBOT
-    @{DIMENSIONS}  800  800
+    @{DIMENSIONS}  1024  800
     ${RESOURCE_DIR}  ${CURDIR}
 
     *** Keywords ***

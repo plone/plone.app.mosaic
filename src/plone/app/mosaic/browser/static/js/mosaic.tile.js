@@ -16,7 +16,9 @@ define([
   var log = logger.getLogger('pat-mosaic');
 
   var _positionActiveTinyMCE = function(){
-    var $toolbar = $('.mosaic-rich-text-toolbar:visible');
+    /* XXX warning, this needs to be split into a filter call for some reason.
+       one selector bombs out */
+    var $toolbar = $('.mosaic-rich-text-toolbar').filter(':visible');
     if($toolbar.size() === 0 || $toolbar.find('.mce-first').size() === 0){
       /* make sure it actually has a toolbar */
       return;
@@ -26,7 +28,7 @@ define([
     // detect if tile is more on the right side of the screen
     // than the left, if it is, align it right
     $toolbar.removeClass('right');
-    if($tile.offset().left > ($(window).width() / 2)){
+    if($tile.offset().left >= ($(window).width() / 2)){
       $toolbar.addClass('right');
     }
 
@@ -268,6 +270,7 @@ define([
         body += '          </div>\n';
         break;
       case "app":
+      case "textapp":
         body += '          <div class="' + classes.join(' ') + '">\n';
         body += '          <div class="mosaic-tile-content">\n';
         body += '          <div data-tile="' + this.getUrl() + '"></div>\n';
@@ -299,6 +302,7 @@ define([
       if (tile_config && this.$el.hasClass('mosaic-read-only-tile') === false &&
           !this.$el.hasClass('mosaic-tile-loading') &&
           ((tile_config.tile_type === 'text' && tile_config.rich_text) ||
+           (tile_config.tile_type === 'textapp' && tile_config.rich_text) ||
            (tile_config.tile_type === 'app' && tile_config.rich_text) ||
            (tile_config.tile_type === 'field' && tile_config.read_only === false &&
             (tile_config.widget === 'z3c.form.browser.text.TextWidget' ||
@@ -526,6 +530,9 @@ define([
          This is only used by the scanRegistry method so
          we can reset the html of the html when running the pattern registry.
          */
+      if (this.isRichText()) {
+        return;  // no patterns, ignore this
+      }
       var $content = this.$el.children(".mosaic-tile-content");
       if($content.size() === 0){
         return;
@@ -543,6 +550,9 @@ define([
         If we do not do this, tiles do not render correctly when
         adding, dragging and dropping.
       */
+      if (this.isRichText()) {
+        return;  // no patterns, ignore this
+      }
       var $el = this.$el.find(".mosaic-tile-content");
       if($el.size() === 0){
         return;
@@ -552,6 +562,12 @@ define([
         $el.html($el[0]._preScanHTML);
       }
       Registry.scan($el);
+
+      // also check the content of the tile and override link handling...
+      $('a', $el).on('click', function(e){
+        e.preventDefault();
+        e.stopPropagation();
+      });
     };
 
     Tile.prototype.select = function(){
@@ -579,6 +595,7 @@ define([
 
     Tile.prototype.blur = function(){
       this.$el.removeClass("mosaic-selected-tile").children(".mosaic-tile-content").blur();
+      this.$el.find('.mce-edit-focus').removeClass('mce-edit-focus');
       this._change();
     };
 
@@ -738,9 +755,13 @@ define([
 
       // Define placeholder updater
       var _placeholder = function() {
-        if ($content.text().replace(/^\s+|\s+$/g, '').length === 0) {
+        var $inside = $content.find('p > *');
+        if (($inside.length === 0 || ($inside.length === 1 && $inside.is('br'))) &&
+            $content.text().replace(/^\s+|\s+$/g, '').length === 0) {
           $content.addClass('mosaic-tile-content-empty');
-          $content.empty().append('<p></p>');
+          if($content.find('p').length === 0){
+            $content.empty().append('<p></p>');
+          }
         } else {
           $content.removeClass('mosaic-tile-content-empty');
         }
@@ -778,8 +799,17 @@ define([
             }
           });
 
-          // `change` event doesn't fire all the time
-          editor.on('keyup', placeholder);
+          if(toolbar.length === 0){
+            editor.on('keydown', function(e){
+              if(e.keyCode === 13){
+                e.preventDefault();
+                return;
+              }
+            });
+          }
+
+          // `change` event doesn't fire all the time so we do both here...
+          editor.on('keyup change', placeholder);
           placeholder();
         }
       }}));
