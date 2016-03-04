@@ -71,6 +71,8 @@
       factory=".transform.BodyClass"
       />
 
+  <adapter name="layout" factory=".index.get_layout" />
+
   <include package=".browser" />
 
   <!-- Register default layouts -->

@@ -149,6 +149,7 @@ To add a new tile in the **Mosaic editor**, select the tile from the rightmost m
 
         Highlight  css=.mosaic-menu-insert
         Click element  css=.mosaic-menu-insert a
+        Wait until element is visible  css=.mosaic-option-IRichText-text
         Mouse over  css=.mosaic-dropdown .mosaic-option-IRichText-text
 
         Capture and crop page screenshot

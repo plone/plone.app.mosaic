@@ -14,8 +14,8 @@
         'mockup-patterns-base': 'empty:',
         'mockup-patterns-modal': 'empty:',
         'mockup-patterns-tinymce': 'empty:',
+        'mockup-patterns-relateditems': 'empty:',
         'mockup-utils': 'empty:',
         'mosaic-url': ''
     }
 })
-

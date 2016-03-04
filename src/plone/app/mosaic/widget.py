@@ -5,6 +5,7 @@ from plone.app.blocks.layoutbehavior import ILayoutAware
 from plone.app.mosaic.interfaces import IMosaicLayer
 from plone.app.mosaic.interfaces import IMosaicRegistryAdapter
 from plone.app.mosaic.utils import getContentLayoutsForType
+from plone.app.mosaic.utils import getUserContentLayoutsForType
 from plone.app.widgets.base import TextareaWidget
 from plone.app.widgets.base import dict_merge
 from plone.app.widgets.utils import get_tinymce_options
@@ -115,6 +116,7 @@ class LayoutWidget(BaseWidget, TextAreaWidget):
         )
 
         result['available_layouts'] = getContentLayoutsForType(pt)
+        result['user_layouts'] = getUserContentLayoutsForType(pt)
 
         return {'data': result}
 

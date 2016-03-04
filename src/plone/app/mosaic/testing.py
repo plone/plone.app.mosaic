@@ -130,10 +130,11 @@ class PloneAppMosaicNoPAC(PloneSandboxLayer):
                        plone.app.mosaic,
                        context=configurationContext)
 
-        import plone.app.mosaic.browser.bbb
-        xmlconfig.file('configure.zcml',
-                       plone.app.mosaic.browser.bbb,
-                       context=configurationContext)
+        if not HAVE_PLONE_5:
+            import plone.app.mosaic.browser.bbb
+            xmlconfig.file('configure.zcml',
+                           plone.app.mosaic.browser.bbb,
+                           context=configurationContext)
 
     def setUpPloneSite(self, portal):
         # Configure five.globalrequest
@@ -145,7 +146,8 @@ class PloneAppMosaicNoPAC(PloneSandboxLayer):
 
         # Install into Plone site using portal_setup
         applyProfile(portal, 'plone.app.mosaic:default')
-        applyProfile(portal, 'plone.app.mosaic:bbb')
+        if not HAVE_PLONE_5:
+            applyProfile(portal, 'plone.app.mosaic:bbb')
 
         ## This was a bad idea, because we want to run CMFPlone tests
         # enable_layout_view(portal)

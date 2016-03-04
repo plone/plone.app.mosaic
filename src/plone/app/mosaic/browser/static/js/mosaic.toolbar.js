@@ -43,7 +43,7 @@ define([
   }
 
   var normalizeClass = function(val){
-    return val.replace(/(_|\.|\/)/g, "-");
+    return val.replace(/(_|\.|\/)/g, "-").toLowerCase();
   };
 
   /**
@@ -191,6 +191,7 @@ define([
 
   $.fn._mosaicToolbarLayoutEditor = function(actions){
     $('.mosaic-toolbar-secondary-functions', this).show();
+
     var x, y, action_group, elm_action_group;
     // Add formats to toolbar
     if ($.mosaic.options.formats !== undefined) {
@@ -334,18 +335,20 @@ define([
           // If fieldset
           } else {
             action_group = $.mosaic.options[a][x];
-            actions[a].append($(document.createElement("fieldset"))
-              .addClass("mosaic-button-group mosaic-button-group-" +
-                    normalizeClass($.mosaic.options[a][x].name))
-            );
-            elm_action_group = actions[a]
-              .children(".mosaic-button-group-" +
-              normalizeClass($.mosaic.options[a][x].name));
+            var classNamePart = normalizeClass($.mosaic.options[a][x].name);
+            var $group = $(document.createElement("div"))
+                         .addClass("mosaic-button-group mosaic-button-group-" +
+                          classNamePart);
+            $group.append(AddControl($group, $.extend({}, true, action_group, {
+              action: action_group.name.toLowerCase(),
+              name: action_group.name.toLowerCase()
+            })));
+            var $btnContainer = $(document.createElement("div")).addClass('btn-container');
+            $group.append($btnContainer);
+            actions[a].append($group);
             for (y = 0; y < action_group.actions.length; y += 1) {
-
               // Add control
-              AddControl(elm_action_group,
-                     action_group.actions[y]);
+              AddControl($btnContainer, action_group.actions[y]);
             }
           }
         }
@@ -460,6 +463,9 @@ define([
             .show()
             .removeAttr("disabled");
         });
+        if($.mosaic.actionManager.actions.layout.visible()){
+          $('.mosaic-button-layout').show();
+        }
 
         // Set available fields
         obj.find(".mosaic-menu-insert")
@@ -489,7 +495,14 @@ define([
           }
         });
 
+        if(!$.mosaic.hasContentLayout && $.mosaic.options.canChangeLayout){
+          $('.mosaic-button-savelayout').show();
+        }else{
+          $('.mosaic-button-savelayout').hide();
+        }
       };
+
+
 
       // Remove highlight
       $(".mosaic-button-remove").hover(

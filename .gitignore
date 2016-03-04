@@ -30,3 +30,4 @@
 components
 node_modules
 !.isort.cfg
+src/plone/app/mosaic/browser/static/js/mosaic-compiled.js

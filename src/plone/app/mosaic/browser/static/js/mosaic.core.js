@@ -37,10 +37,11 @@ define([
   'mosaic-url/mosaic.tile',
   'mosaic-url/mosaic.panel',
   'mockup-patterns-modal',
+  'mockup-utils',
   'mosaic-url/mosaic.toolbar',
   'mosaic-url/mosaic.layout',
   'mosaic-url/mosaic.actions'
-], function($, logger, _, Tile, Panel, Modal) {
+], function($, logger, _, Tile, Panel, Modal, utils) {
   "use strict";
 
   var log = logger.getLogger('pat-mosaic');
@@ -56,19 +57,128 @@ define([
   $.mosaic.selectLayoutTemplate = _.template('<div>' +
     '<h1>Select Layout</h1>' +
     '<div class="mosaic-select-layout">' +
-      '<ul>' +
-        '<% _.each(available_layouts, function(layout){ ' +
-          'var screenshot = layout.preview || layout.screenshot;' +
-          'if(!screenshot){' +
-            'screenshot = "++resource++plone.app.mosaic.images/default-layout-screenshot.png";' +
-          '} %>' +
-          '<li><a href="#" data-value="<%- layout.path %>">' +
-            '<p><%- layout.title %></p><img src="<%- screenshot %>"></a></li>' +
-        '<% }); %>' +
-      '</ul>' +
+      '<div class="global-layouts">' +
+        '<ul>' +
+          '<% _.each(available_layouts, function(layout){ ' +
+            'var screenshot = layout.preview || layout.screenshot;' +
+            'if(!screenshot){' +
+              'screenshot = "++resource++plone.app.mosaic.images/default-layout-screenshot.png";' +
+            '} %>' +
+            '<li><a href="#" data-value="<%- layout.path %>">' +
+              '<p><%- layout.title %></p><img src="<%- screenshot %>"></a></li>' +
+          '<% }); %>' +
+        '</ul>' +
+      '</div>' +
+      '<% if(user_layouts.length > 0){ %>' +
+        '<hr />' +
+        '<div class="user-layouts">' +
+          '<h4>My Layouts</h4>' +
+          '<ul>' +
+            '<% _.each(user_layouts, function(layout){ ' +
+              'var screenshot = layout.preview || layout.screenshot;' +
+              'if(!screenshot){' +
+                'screenshot = "++resource++plone.app.mosaic.images/default-layout-screenshot.png";' +
+              '} %>' +
+              '<li><a href="#" data-value="<%- layout.path %>">' +
+                '<p><%- layout.title %></p><img src="<%- screenshot %>"></a></li>' +
+            '<% }); %>' +
+          '</ul>' +
+        '</div>' +
+      '<% } %>' +
+      '<% if(hasCustomLayouts) { %>' +
+        '<hr />' +
+        '<p class="manage-custom-layouts"><a href="#">Manage custom layouts</a></p>' +
+      '<% } %>' +
     '</div>' +
     '<div class="buttons">' +
       '<!-- <button class="plone-btn plone-btn-default">Select</button> -->' +
+    '</div>' +
+  '</div>');
+
+  $.mosaic.saveLayoutTemplate = _.template('<div>' +
+    '<h1>Save Layout</h1>' +
+    '<div class="mosaic-save-layout">' +
+      '<p>This process takes a copy of the existing layout and saves it to a new, ' +
+          'resuable layout.</p>' +
+      '<div class="form-group field">' +
+        '<label for="layoutNameField">Name</label>' +
+        '<input type="text" name="name" class="form-control" id="layoutNameField" />' +
+      '</div>' +
+      '<div class="field form-group">' +
+        '<span class="option">' +
+          '<input id="globalLayout" type="checkbox">' +
+          '<label for="globalLayout">' +
+            '<span class="label">Global</span>' +
+          '</label>' +
+        '</span>' +
+        '<div class="formHelp">Should this layout be available for all users on the site?</div>' +
+      '</div>' +
+    '</div>' +
+    '<div class="buttons">' +
+      '<button class="plone-btn plone-btn-primary">Save</button>' +
+    '</div>' +
+  '</div>');
+
+  $.mosaic.manageLayoutsTemplate = _.template('<div>' +
+    '<h1>Manage custom layouts</h1>' +
+    '<div class="mosaic-manage-custom-layouts">' +
+      '<table>' +
+        '<thead>' +
+          '<tr>' +
+            '<th>Name</th>' +
+            '<th>Path</th>' +
+            '<th>Actions</th>' +
+          '</tr>' +
+        '</thead>' +
+        '<tbody>' +
+          '<% _.each(available_layouts.concat(user_layouts), function(layout){ %>' +
+            '<% if(layout.path.indexOf("custom/") !== -1){ %>' +
+              '<tr>' +
+                '<td><%- layout.title %></td>' +
+                '<td><%- layout.path %></td>' +
+                '<td><a href="#" class="btn btn-danger delete-layout" ' +
+                        'data-layout="<%- layout.path %>">Delete</a></td>' +
+              '</tr>' +
+            '<% } %>' +
+          '<% }); %>' +
+        '</tbody>' +
+      '</table>' +
+    '</div>' +
+  '</div>');
+
+  $.mosaic.deleteLayoutTemplate = _.template('<div>' +
+    '<h1>Delete layout</h1>' +
+    '<div class="mosaic-delete-layout">' +
+      '<% if(existing.length === 0 && !selected){  %>' +
+        '<div class="portalMessage warning">' +
+          '<strong>Warning</strong>' +
+          'Are you certain you want to delete this layout? This can not be undone.' +
+        '</div>' +
+      '<% } else { %>' +
+        '<div class="portalMessage error">' +
+          '<strong>Warning</strong>' +
+          'Are you certain you want to delete this layout? This can not be undone. ' +
+          '<% if(existing.length > 0) { %>' +
+            'There are currently <%- existing.length %> items assigned to this layout. ' +
+          '<% } %>' +
+          'You need to provide a replacement layout for the existing items in order to ' +
+          'delete this for items currently assigned to this.' +
+        '</div>' +
+        '<div class="form-group field">' +
+          '<label for="layoutField">Replacement Layout</label>' +
+          '<select name="layout" class="form-control" id="layoutField">' +
+            '<% _.each(available_layouts.concat(user_layouts), function(l){ %>' +
+              '<% if(l.path !== layout.path){ %>' +
+                '<option value="<%- l.path %>"><%- l.title %></option>' +
+              '<% } %>' +
+            '<% }); %>' +
+          '</select>' +
+        '</div>' +
+      '<% } %>' +
+    '</div>' +
+    '<div class="buttons">' +
+      '<button class="plone-btn plone-btn-danger delete">Yes, delete</button>' +
+      '<button class="plone-btn plone-btn-default cancel">No</button>' +
     '</div>' +
   '</div>');
 
@@ -147,6 +257,12 @@ define([
           $.mosaic.hasContentLayout = false;
           $.mosaic._init($content);
         }
+
+        // XXX There is a case where you can have an extraneous mid-edit tile
+        var $helper = $('.mosaic-helper-tile-new');
+        if($helper.length > 0){
+          $helper.parents('.mosaic-grid-row').remove();
+        }
       }
     }
   };
@@ -198,7 +314,7 @@ define([
   };
 
   $.mosaic._init = function (content) {
-    
+
     $.mosaic._initPanels(content);
 
     // Init overlay
@@ -217,7 +333,7 @@ define([
 
     // Init layout
     $.mosaic.options.panels.mosaicLayout();
-    
+
     // Add blur to the rest of the content
     $("*", $.mosaic.document).each(function () {
 
@@ -272,6 +388,7 @@ define([
     if(callback === undefined){
       callback = function(){};
     }
+    utils.loading.show();
     $.ajax({
       url: $.mosaic.options.context_url + '/' + layoutPath
     }).done(function(layoutHtml){
@@ -285,8 +402,121 @@ define([
       }else{
         $.mosaic._init($content);
       }
+    }).fail(function(xhr, type, status){
+      // use backup layout
+      if(status === 'Not Found'){
+        window.alert('Specified layout can not be found. Loading default layout.');
+      }else{
+        window.alert('Error loading layout specified for this content. Falling back to basic layout.');
+      }
+      $.mosaic.applyLayout('++contentlayout++default/basic.html');
+    }).always(function(){
+      utils.loading.hide();
     });
   };
+
+  var _hasCustomLayouts = function(){
+    if($.mosaic.options.user_layouts.length > 0){
+      return true;
+    }
+    return _.filter($.mosaic.options.available_layouts, function(layout){
+      return layout.path.indexOf('custom/') !== -1;
+    }).length > 0;
+  };
+
+  $.mosaic._deleteLayout = function(layout, existing, callback){
+    var $el = $('<div/>').appendTo('body');
+    var modal = new Modal($el, {
+      html: $.mosaic.deleteLayoutTemplate($.extend({}, true, {
+        existing: existing,
+        layout: layout,
+        selected: $.mosaic.getSelectedContentLayout() === '++contentlayout++' + layout.path
+      }, $.mosaic.options)),
+      content: null,
+      buttons: '.plone-btn'
+    });
+
+    modal.on('shown', function() {
+      $('button.delete:visible', modal.$modal).off('click').on('click', function(e){
+        e.preventDefault();
+        utils.loading.show();
+        var replacement = $('#layoutField', modal.$modal).val();
+        $.ajax({
+          url: $('body').attr('data-base-url') + '/@@manage-layouts-from-editor',
+          data: {
+            action: 'deletelayout',
+            layout: layout.path,
+            replacement: replacement,
+            _authenticator: utils.getAuthenticator()
+          }
+        }).done(function(data){
+          modal.hide();
+          callback(data);
+          if(replacement && $.mosaic.getSelectedContentLayout() === '++contentlayout++' + layout.path){
+            $.mosaic.applyLayout('++contentlayout++' + replacement);
+          }
+        }).fail(function(){
+          window.alert('Error deleting layout');
+        }).always(function(){
+          utils.loading.hide();
+        });
+      });
+      $('button.cancel:visible', modal.$modal).off('click').on('click', function(e){
+        e.preventDefault();
+        modal.hide();
+      });
+    });
+    modal.show();
+  };
+
+  $.mosaic.deleteLayout = function(layout, callback){
+    utils.loading.show();
+    $.ajax({
+      url: $('body').attr('data-base-url') + '/@@manage-layouts-from-editor',
+      data: {
+        action: 'existing',
+        layout: layout.path
+      }
+    }).done(function(data){
+      $.mosaic._deleteLayout(layout, data.data, callback);
+    }).fail(function(){
+      window.alert('Error loading data for existing assignments');
+    }).always(function(){
+      utils.loading.hide();
+    });
+  };
+
+  $.mosaic.manageCustomLayouts = function(){
+    var $el = $('<div/>').appendTo('body');
+    var modal = new Modal($el, {
+      html: $.mosaic.manageLayoutsTemplate($.extend({}, true, {
+
+      }, $.mosaic.options)),
+      content: null,
+      buttons: '.plone-btn'
+    });
+
+    modal.on('shown', function() {
+      $('.delete-layout', modal.$modal).off('click').on('click', function(e){
+        e.preventDefault();
+        var layout_id = $(this).attr('data-layout');
+        _.each($.mosaic.options.available_layouts.concat($.mosaic.options.user_layouts), function(l){
+          if(l.path === layout_id){
+            return $.mosaic.deleteLayout(l, function(data){
+              // callback for when the delete is complete and we need to reload data...
+              // reload it...
+              $.mosaic.options.available_layouts = data.available_layouts;
+              $.mosaic.options.user_layouts = data.user_layouts;
+              modal.hide();
+              $.mosaic.manageCustomLayouts();
+            });
+          }
+        });
+      });
+    });
+    modal.show();
+  };
+
 
   $.mosaic.selectLayout = function(initial){
     if(initial !== undefined && initial){
@@ -306,23 +536,74 @@ define([
     }
     var $el = $('<div/>').appendTo('body');
     var modal = new Modal($el, {
-      html: $.mosaic.selectLayoutTemplate($.mosaic.options),
+      html: $.mosaic.selectLayoutTemplate($.extend({}, true, {
+        hasCustomLayouts: _hasCustomLayouts()
+      }, $.mosaic.options)),
       content: null,
       buttons: '.plone-btn'
     });
     modal.on('shown', function() {
+      $('.manage-custom-layouts a', modal.$modal).off('click').on('click', function(e){
+        e.preventDefault();
+        modal.hide();
+        $.mosaic.manageCustomLayouts();
+      });
       $('li a', modal.$modal).off('click').on('click', function(e){
         e.preventDefault();
         var layout;
         var layout_id = $(this).attr('data-value');
-        _.each($.mosaic.options.available_layouts, function(l){
+        _.each($.mosaic.options.available_layouts.concat($.mosaic.options.user_layouts), function(l){
           if(l.path === layout_id){
             layout = l;
           }
         });
-        var layoutPath = '++contentlayout++' + layout.directory + '/' + layout.file;
+        var layoutPath = '++contentlayout++' + layout.path;
         modal.hide();
         $.mosaic.applyLayout(layoutPath);
+      });
+    });
+    modal.show();
+  };
+
+  $.mosaic.saveLayout = function(initial){
+    var $el = $('<div/>').appendTo('body');
+    var modal = new Modal($el, {
+      html: $.mosaic.saveLayoutTemplate($.extend({}, true, {
+        hasCustomLayouts: _hasCustomLayouts()
+      }, $.mosaic.options)),
+      content: null,
+      buttons: '.plone-btn'
+    });
+    modal.on('shown', function() {
+      $('.plone-btn:visible', modal.$modal).off('click').on('click', function(e){
+        utils.loading.show();
+        e.preventDefault();
+        var globalLayout = 'false';
+        if($('#globalLayout', modal.$modal)[0].checked){
+          globalLayout = 'true';
+        }
+        $.ajax({
+          url: $('body').attr('data-base-url') + '/@@manage-layouts-from-editor',
+          method: 'POST',
+          data: {
+            action: 'save',
+            _authenticator: utils.getAuthenticator(),
+            global: globalLayout,
+            name: $('#layoutNameField', modal.$modal).val(),
+            layout: $.mosaic.getPageContent()
+          }
+        }).done(function(result){
+          if(result.success){
+            $.mosaic.options.available_layouts = result.available_layouts;
+            $.mosaic.options.user_layouts = result.user_layouts;
+            $.mosaic.applyLayout(result.layout);
+          }
+        }).fail(function(){
+          window.alert('Error saving layout');
+        }).always(function(){
+          utils.loading.hide();
+          modal.hide();
+        });
       });
     });
     modal.show();
@@ -362,6 +643,9 @@ define([
    * @param {String} url Url of the tile
    */
   $.mosaic.removeHeadTags = function (url) {
+    if(!url){
+      return;
+    }
 
     // Local variables
     var tile_type_id, html_id, headelements, i;

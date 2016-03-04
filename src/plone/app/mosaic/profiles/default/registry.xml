@@ -17,7 +17,7 @@
   <records prefix="plone.app.mosaic.primary_actions.save"
            interface='plone.app.mosaic.interfaces.IAction'>
     <value key="name">save</value>
-    <value key="fieldset">save</value>
+    <value key="fieldset"></value>
     <value key="label">Save</value>
     <value key="action">save</value>
     <value key="icon">False</value>
@@ -50,8 +50,8 @@
   <records prefix="plone.app.mosaic.primary_actions.customizelayout"
            interface='plone.app.mosaic.interfaces.IAction'>
     <value key="name">customizelayout</value>
-    <value key="fieldset"></value>
-    <value key="label">Customize Layout</value>
+    <value key="fieldset">Layout</value>
+    <value key="label">Customize</value>
     <value key="action">customizelayout</value>
     <value key="icon">False</value>
     <value key="menu">False</value>
@@ -61,12 +61,23 @@
   <records prefix="plone.app.mosaic.primary_actions.changelayout"
            interface='plone.app.mosaic.interfaces.IAction'>
     <value key="name">changelayout</value>
-    <value key="fieldset"></value>
-    <value key="label">Change Layout</value>
+    <value key="fieldset">Layout</value>
+    <value key="label">Change</value>
     <value key="action">changelayout</value>
     <value key="icon">False</value>
     <value key="menu">False</value>
     <value key="weight">50</value>
+  </records>
+
+  <records prefix="plone.app.mosaic.primary_actions.savelayout"
+           interface='plone.app.mosaic.interfaces.IAction'>
+    <value key="name">savelayout</value>
+    <value key="fieldset">Layout</value>
+    <value key="label">Save</value>
+    <value key="action">savelayout</value>
+    <value key="icon">False</value>
+    <value key="menu">False</value>
+    <value key="weight">60</value>
   </records>
 
   <records prefix="plone.app.mosaic.secondary_actions.remove"
@@ -128,6 +139,7 @@
       <element>properties</element>
       <element>customizelayout</element>
       <element>changelayout</element>
+      <element>savelayout</element>
       <element>format</element>
       <element>insert</element>
       <element>remove</element>
@@ -1277,13 +1289,15 @@
     </value>
   </record>
 
+  <!-- XXX enable this and disable the regular text tile to have persistent
+       text tiles. These are useful for when you are using layouts -->
   <records prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_rawhtml"
            interface="plone.app.mosaic.interfaces.ITile">
     <value key="name">plone.app.standardtiles.rawhtml</value>
     <value key="label">Rich Text</value>
     <value key="category">hidden</value>
-    <value key="tile_type">app</value>
-    <value key="default_value"></value>
+    <value key="tile_type">textapp</value>
+    <value key="default_value">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Sed posuere interdum sem. Quisque ligula eros ullamcorper quis, lacinia quis facilisis sed sapien. Mauris varius diam vitae arcu. Sed arcu lectus auctor vitae, consectetuer et venenatis eget velit. Sed augue orci, lacinia eu tincidunt et eleifend nec lacus.&lt;/p&gt;&lt;p&gt;Donec ultricies nisl ut felis, suspendisse potenti. Lorem ipsum ligula ut hendrerit mollis, ipsum erat vehicula risus, eu suscipit sem libero nec erat. Aliquam erat volutpat. Sed congue augue vitae neque. Nulla consectetuer porttitor pede. Fusce purus morbi tortor magna condimentum vel, placerat id blandit sit amet tortor.&lt;/p&gt;</value>
     <value key="read_only">false</value>
     <value key="settings">false</value>
     <value key="favorite">false</value>
@@ -1373,6 +1387,18 @@
     <value key="enabled">True</value>
     <value key="expression">python: member is not None</value>
     <value key="depends">plone-logged-in</value>
+    <value key="stub_js_modules">
+      <element>jquery</element>
+      <element>tinymce</element>
+      <element>underscore</element>
+      <element>pat-logger</element>
+      <element>pat-registry</element>
+      <element>mockup-patterns-base</element>
+      <element>mockup-patterns-modal</element>
+      <element>mockup-patterns-tinymce</element>
+      <element>mockup-patterns-relateditems</element>
+      <element>mockup-utils</element>
+    </value>
   </records>
 
   <records prefix="plone.bundles/layouts-editor"
@@ -1386,6 +1412,15 @@
     <value key="compile">True</value>
     <value key="enabled">False</value>
     <value key="depends">plone-logged-in</value>
+    <value key="stub_js_modules">
+      <element>jquery</element>
+      <element>underscore</element>
+      <element>pat-logger</element>
+      <element>pat-registry</element>
+      <element>mockup-patterns-base</element>
+      <element>mockup-patterns-relateditems</element>
+      <element>mockup-utils</element>
+    </value>
   </records>
 
 </registry>

@@ -262,6 +262,17 @@ class MosaicRegistry(object):
             return config
         prefixes = []
 
+        registry_omitted = settings.get(
+            '%s.omitted_fields.%s' % (self.prefix,
+                                      args['type'].replace('.', '_')),
+            default=None,
+        )
+        if registry_omitted is None:
+            registry_omitted = settings.get(
+                self.prefix + '.default_omitted_fields',
+                default=[],
+            )
+
         for index, schema in enumerate(iterSchemataForType(args['type'])):
             prefix = ''
             if index > 0:
@@ -269,16 +280,7 @@ class MosaicRegistry(object):
                 if prefix in prefixes:
                     prefix = schema.__identifier__
                 prefixes.append(prefix)
-            registry_omitted = settings.get(
-                '%s.omitted_fields.%s' % (self.prefix,
-                                          args['type'].replace('.', '_')),
-                default=None,
-            )
-            if registry_omitted is None:
-                registry_omitted = settings.get(
-                    self.prefix + '.default_omitted_fields',
-                    default=[],
-                )
+
             for fieldconfig in extractFieldInformation(
                     schema, args['context'], args['request'], prefix):
                 if fieldconfig['id'] not in registry_omitted:
