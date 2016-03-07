@@ -640,12 +640,13 @@ define([
         case "plone.app.z3cform.wysiwyg.widget.WysiwygWidget":
         case "plone.app.z3cform.wysiwyg.widget.WysiwygFieldWidget":
         case "plone.app.widgets.dx.RichTextWidget":
-          editor_id = $(document.getElementById(tile_config.id)).find('textarea').attr('id');
+          var $textarea = $(document.getElementById(tile_config.id)).find('textarea');
+          editor_id = $textarea.attr('id');
           editor = tinymce.get(editor_id);
+          var content = $('.mosaic-' + tiletype + '-tile', $.mosaic.document).find('.mosaic-tile-content').html();
+          $textarea.val(content);
           if (editor) {
-            var content = $('.mosaic-' + tiletype + '-tile', $.mosaic.document).find('.mosaic-tile-content').html();
             editor.setContent(content);
-            $(document.getElementById(tile_config.id)).find('textarea').val(content);
           }
           break;
         }
