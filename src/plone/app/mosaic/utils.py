@@ -99,17 +99,6 @@ def getContentLayoutsForType(pt):
     for item in hidden[:]:
         # undocumented feature right now.
         # need to figure out how to integrate into UI yet
-        # For type "Homepage"
-        # <record name="plone.app.mosaic.hidden_content_layouts">
-        #   <field type="plone.registry.field.List">
-        #     <title>Hidden content layouts</title>
-        #     <value_type type="plone.registry.field.TextLine" />
-        #   </field>
-        #   <value purge="true">
-        #     <element>custom/basic.html</element>
-        #     <element>default/basic.html::Homepage</element>
-        #   </value>
-        # </record>
         if '::' in item:
             # seperator to be able to specify hidden for a specific type
             key, _, hidden_type = item.partition('::')
