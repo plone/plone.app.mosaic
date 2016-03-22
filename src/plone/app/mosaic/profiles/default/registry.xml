@@ -1371,6 +1371,7 @@
     <value key="last_compilation">2014-08-14 00:00:00</value>
     <value key="compile">True</value>
     <value key="enabled">True</value>
+    <value key="expression">python: member is not None</value>
     <value key="depends">plone-logged-in</value>
   </records>
 

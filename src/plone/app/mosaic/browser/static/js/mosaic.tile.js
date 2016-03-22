@@ -112,6 +112,9 @@ define([
 
   Tile.prototype.getEditUrl = function(){
     var tile_url = this.getUrl();
+    if(!tile_url){
+      return;
+    }
     tile_url = tile_url.replace(/@@/, '@@edit-tile/');
     if(!tile_url){
       return;
