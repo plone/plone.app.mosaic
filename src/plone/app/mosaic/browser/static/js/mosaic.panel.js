@@ -18,9 +18,9 @@ define([
 
   Panel.prototype.initialize = function($content){
     // Local variables
-    var panel_id = this.$el.attr("data-panel"), panel_attr_id,
-        target = $("[data-panel=" + panel_id + "]",
-        $.mosaic.document);
+    var panel_id = this.$el.data("panel"), panel_attr_id,
+        target = $("[data-panel=" + panel_id + "]", $.mosaic.document),
+        max_columns = (this.$el.data('max-columns') || 4);
 
     // Implicitly initialize required panels with id matching element
     if (panel_id === 'content' && target.length === 0) {
@@ -40,6 +40,7 @@ define([
             .attr("class", target.attr("class"))
             .addClass('mosaic-panel')
             .attr('data-panel', 'content')
+            .attr('data-max-columns', max_columns)
             .html($content.find("[data-panel=" + panel_id + "]").html()));
         target
             .removeAttr('data-panel')
@@ -52,6 +53,7 @@ define([
             .attr("class", target.attr("class"))
             .addClass('mosaic-panel')
             .attr('data-panel', 'content')
+            .attr('data-max-columns', max_columns)
             .html($content.find("[data-panel=" + panel_id + "]").html()));
       }
     } else {
