@@ -20,6 +20,9 @@ New:
 - Be able to show/hide content layouts.
   [vangheem]
 
+- Ability to limit maximum amount of Mosaic columns by setting
+  ``data-max-columns`` attribute on ``data-panel`` -element (default: 4).
+  [neilferreira]
 
 Fixes:
 
