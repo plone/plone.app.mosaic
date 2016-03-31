@@ -53,6 +53,10 @@ define([
    */
   $.fn.mosaicOverlay = function () {
 
+    if (typeof($.mosaic.overlay_hide_fields) === "undefined") {
+      $.mosaic.overlay_hide_fields = true;
+    }
+
     // Loop through matched elements
     return this.each(function () {
 
@@ -120,7 +124,7 @@ define([
       );
     }
 
-    if (mode === 'all') {
+    if (mode === 'all' && $.mosaic.overlay_hide_fields) {
 
       // Get form tabs
       formtabs = form.find("nav");
