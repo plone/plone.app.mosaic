@@ -36,6 +36,13 @@
       zcml:condition="not-have plone-5"
       />
 
+  <!-- View method auto-enabler -->
+  <subscriber
+      for="plone.app.dexterity.browser.behaviors.BehaviorConfigurationAdapter
+           zope.lifecycleevent.IObjectModifiedEvent"
+      handler=".handlers.toggleLayoutViewOnFTI"
+      />
+
   <!-- Registry configuration for Mosaic Editor -->
   <adapter factory=".registry.MosaicRegistry" />
 
