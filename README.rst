@@ -78,11 +78,11 @@ Installation
 **plone.app.mosaic** and activating its **Plone Mosaic** add-on. The
 package has following dependencies::
 
-    plone.tiles >= 1.5.0
-    plone.app.tiles >= 2.2.0
-    plone.app.standardtiles >= 1.0b4
-    plone.app.blocks >= 3.0.1
-    plone.app.drafts >= 1.0b3
+    plone.tiles >= 1.5.2
+    plone.app.tiles >= 2.2.1
+    plone.app.standardtiles >= 1.0b5
+    plone.app.blocks >= 3.1.0
+    plone.app.drafts >= 1.0
     plone.app.widgets >= 1.8.0
 
 After the add-on activation, the new content layout and editor support can be
