@@ -11,7 +11,7 @@ example, the following configuration will
 
 2) hide ``default/basic.html`` from *MyPortalType*
 
-.. code::
+.. code:: xml
 
    <record name="plone.app.mosaic.hidden_content_layouts">
      <field type="plone.registry.field.List">

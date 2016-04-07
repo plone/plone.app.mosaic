@@ -42,11 +42,11 @@ setup(
     install_requires=[
         'setuptools',
         'plone.api',
-        'plone.tiles>=1.5.0',
-        'plone.app.blocks>=3.0.1',
+        'plone.tiles>=1.5.2',
+        'plone.app.blocks>=3.1.0',
         'plone.app.tiles>=2.2.0',
-        'plone.app.drafts>=1.0b3',
-        'plone.app.standardtiles>=1.0b4',
+        'plone.app.drafts>=1.0',
+        'plone.app.standardtiles>=1.0b5',
     ],
     extras_require={'test': [
         'plone.app.testing',

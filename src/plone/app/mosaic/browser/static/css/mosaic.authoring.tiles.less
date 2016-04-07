@@ -10,6 +10,10 @@
 .mosaic-panel .mosaic-tile {
   position: relative;
   z-index: 100;
+
+  &.mosaic-selected-tile{
+    z-index: 101;
+  }
 }
 
 .mosaic-panel .mosaic-tile .mosaic-tile-content {
@@ -228,4 +232,3 @@
   min-height: 20px;
 }
 /* @end */
-

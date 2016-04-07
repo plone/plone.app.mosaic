@@ -2,6 +2,8 @@
 import zope.interface
 import zope.component
 from zope import schema
+from zope.schema.vocabulary import SimpleTerm
+from zope.schema.vocabulary import SimpleVocabulary
 
 from plone.app.mosaic import _
 
@@ -30,7 +32,7 @@ class IResourceRegistry(zope.interface.Interface):
 
     deps = schema.ASCIILine(
         title=_(u"Dependencies for shim"),
-        description=_(u"Coma separated values of resource for shim"),
+        description=_(u"Comma separated values of resource for shim"),
         required=False)
 
     export = schema.ASCIILine(
@@ -60,17 +62,22 @@ class IBundleRegistry(zope.interface.Interface):
 
     expression = schema.ASCIILine(
         title=_(u"Expression to render"),
-        description=_(u"In case its a bundle we can have a condition to render it"),
+        description=_(
+            u"In case its a bundle we can have a condition to render it (it "
+            "does not apply if the bundle is merged)."),
         required=False)
 
     conditionalcomment = schema.ASCIILine(
         title=_(u"Conditional comment"),
-        description=_(u"In case you want to render this resource on conditional comment"),
+        description=_(
+            u"In case you want to render this resource on conditional comment "
+            "(it does not apply if the bundle is merged)."),
         required=False)
 
     resources = schema.List(
         title=_(u"Loaded resources"),
-        description=_(u"The resources that is going to be loaded on this bundle in order"),
+        description=_(
+            u"The resources that is going to be loaded on this bundle in order"),
         value_type=schema.ASCIILine(title=_(u"Resource name")),
         required=False)
 
@@ -81,11 +88,45 @@ class IBundleRegistry(zope.interface.Interface):
 
     compile = schema.Bool(
         title=_(u"Does your bundle contains any RequireJS or LESS file?"),
-        description=_(u"If its true and you modify this bundle you need to build it before production"),
+        description=_(
+            u"If its true and you modify this bundle you need to build it before production"),
         default=True,
         required=False)
 
     depends = schema.ASCIILine(
         title=_(u"Depends on another bundle"),
-        description=_(u"In case you want to be the last: *, in case its the first should be empty"),
+        description=_(
+            u"In case you want to be the last: *, in case its the first should be empty"),
+        required=False)
+
+    develop_javascript = schema.Bool(
+        title=_(u'Develop JavaScript'),
+        default=False)
+
+    develop_css = schema.Bool(
+        title=_(u'Develop CSS'),
+        default=False)
+
+    stub_js_modules = schema.List(
+        title=_(u'Stub JavaScript modules'),
+        description=_(u'Define list of modules that will be defined empty '
+                      u'on RequireJS build steps to prevent loading modules multiple times.'),
+        value_type=schema.ASCIILine(title=_(u"Resource name")),
+        required=False,
+        missing_value=[],
+        default=[])
+
+    merge_with = schema.Choice(
+        title=_(u"Merge with"),
+        description=_(
+            u"In production mode, bundles are merged together to reduce the "
+            "quantity of JS and CSS resources loaded by the browser. Choose "
+            "'default' if this bundle must be available for all the visitors, "
+            "choose 'logged-in' if it must be available for logged-in users "
+            "only, or leave it empty if it must not be merged."),
+        vocabulary=SimpleVocabulary(
+            [SimpleTerm('', '', _(u"")),
+             SimpleTerm('default', 'default', 'default'),
+             SimpleTerm('logged-in', 'logged-in', 'logged-in')]),
+        default=u"",
         required=False)

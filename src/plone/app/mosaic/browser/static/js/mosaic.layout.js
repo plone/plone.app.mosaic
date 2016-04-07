@@ -1088,14 +1088,19 @@ define([
     }
 
     // Re-init rich text editor after tile has been moved in DOM
-    if($(".mosaic-rich-text", $tile).size() > 0){
+    if(tile.isRichText()){
       tile.setupWysiwyg();
+    }else{
+      tile.scanRegistry();
     }
-
-    tile.scanRegistry();
+    tile.blur();
     // Select new tile
     if (new_tile) {
-      tile.select();
+      // warning... this needs to be in a timeout
+      // because tinymce initialization takes some time...
+      setTimeout(function(){
+        tile.select();
+      }, 100);
     }
   };
 
@@ -1678,7 +1683,11 @@ define([
         editor_id = $('#' + tile_config.id).find('textarea').attr('id');
         editor = tinymce.get(editor_id);
         if (editor) {
-          return editor.getContent();
+          try {
+              return editor.getContent();
+          } catch (e) {
+              return '<div class="discreet">Placeholder for field:<br/><b>' + tile_config.label + '</b></div>';
+          }
         } else {
           return '';
         }
