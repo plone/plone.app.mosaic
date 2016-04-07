@@ -15,6 +15,11 @@ New:
 - Be able to show/hide content layouts.
   [vangheem]
 
+- Add *Mosaic layout* into available views views when layout behavior
+  is enabled and remove the view when layout behavior is disabled from
+  a portal ype
+  [datakurre]
+
 - Ability to limit maximum amount of Mosaic columns by setting
   ``data-max-columns`` attribute on ``data-panel`` -element (default: 4).
   [neilferreira]
