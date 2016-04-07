@@ -26,7 +26,11 @@ New:
 
 Fixes:
 
-- Fix TinyMCE widget in add-form which was broken due to a change how the 
+- Fix case where you could get an error on save because mosaic could not figure out
+  the tile type correctly
+  [vangheem]
+
+- Fix TinyMCE widget in add-form which was broken due to a change how the
   settings are stored in Plone 5 vs 4. BBB compatible.
   [jensens]
 
