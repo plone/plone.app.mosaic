@@ -7,10 +7,10 @@ let self = rec {
   version = "dev";  # builtins.replaceStrings ["\n"] [""] (builtins.readFile ./VERSION);
 
   selenium = pythonPackages.selenium.overrideDerivation (args: rec {
-    name = "selenium-2.48.0";
+    name = "selenium-2.53.1";
     src = pkgs.fetchurl {
-      url = "https://pypi.python.org/packages/source/s/selenium/selenium-2.48.0.tar.gz";
-      sha256 = "1n0rp6g97rg4154a48yg69vm3f4qybqwz6kqxj1xq5akjm3agp6m";
+      url = "https://pypi.python.org/packages/source/s/selenium/selenium-2.53.1.tar.gz";
+      sha256 = "1pj0ci4dxwfa0pkvjc60k7pw74zy6ay473mnzckbb58jlhc994jk";
     };
     patches = [
       (builtins.toFile "fix_profiledir_permissions.patch" ''
