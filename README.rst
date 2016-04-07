@@ -194,6 +194,7 @@ Or simply run the embedded screenshots as robot tests from a single document wit
 or with phantomjs:
 
 ..  code:: bash
+
     $ bin/robot -v BROWSER=phantomjs docs/getting-started.rst
 
 and open ``./report.html`` to view the test report.
