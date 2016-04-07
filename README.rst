@@ -191,5 +191,12 @@ Or simply run the embedded screenshots as robot tests from a single document wit
 
     $ bin/robot docs/getting-started.rst
 
+or with phantomjs:
+
+..  code:: bash
+    $ bin/robot -v BROWSER=phantomjs docs/getting-started.rst
+
+and open ``./report.html`` to view the test report.
+
 Just add ``Debug`` keyword anywhere to pause the robot in the middle of the
 screenshot script and drop you into a Robot Framework REPL.

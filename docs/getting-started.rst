@@ -132,12 +132,24 @@ And then enable it for customization:
     Show the Mosaic editor
         Element should be visible  css=.mosaic-toolbar
 
+        Highlight  css=.mosaic-button-layout
+        Capture and crop page screenshot
+        ...  _screenshots/mosaic-editor-layout.png
+        ...  css=html
+
+        Click element  css=.mosaic-button-layout
+
+        Element should be visible  css=.mosaic-button-customizelayout
+
         Highlight  css=.mosaic-button-customizelayout
         Capture and crop page screenshot
         ...  _screenshots/mosaic-editor-customize.png
         ...  css=html
+        Clear highlight  css=.mosaic-button-layout
+        Clear highlight  css=.mosaic-button-customizelayout
 
         Click element  css=.mosaic-button-customizelayout
+
 
 To add a new tile in the **Mosaic editor**, select the tile from the rightmost menu
 
@@ -149,8 +161,8 @@ To add a new tile in the **Mosaic editor**, select the tile from the rightmost m
 
         Highlight  css=.mosaic-menu-insert
         Click element  css=.mosaic-menu-insert a
-        Wait until element is visible  css=.mosaic-option-IRichText-text
-        Mouse over  css=.mosaic-dropdown .mosaic-option-IRichText-text
+        Wait until element is visible  css=.mosaic-option-irichtext-text
+        Mouse over  css=.mosaic-dropdown .mosaic-option-irichtext-text
 
         Capture and crop page screenshot
         ...  _screenshots/mosaic-editor-select-field-text-tile.png
@@ -165,8 +177,14 @@ and drag the appearing tile into the desired position.
 
     Show how to drag a new tile into its initial position
 
-        Click element  css=.mosaic-dropdown .mosaic-option-IRichText-text
-        Mouse over  css=.mosaic-tile.removable
+        Click element  css=.mosaic-dropdown .mosaic-option-irichtext-text
+        Wait until page contains element  css=.mosaic-helper-tile-new
+        Wait until element is visible  css=.mosaic-helper-tile-new
+        Update element style
+        ...  css=.mosaic-IDublinCore-description-tile .mosaic-divider-bottom
+        ...  display  block
+        Mouse over
+        ...  css=.mosaic-IDublinCore-description-tile .mosaic-divider-bottom
         Capture and crop page screenshot
         ...  _screenshots/mosaic-editor-drag-field-text-tile.png
         ...  css=html
@@ -178,7 +196,7 @@ Finally, a mouse click drops the tile into selected position and the page can be
 
     Show how to drop a new tile into its initial position
 
-        Click element at coordinates  css=.mosaic-tile.removable  0  25
+        Click element  css=.mosaic-selected-divider
         Highlight  css=.mosaic-button-save
         Capture and crop page screenshot
         ...  _screenshots/mosaic-editor-drop-field-text-tile.png
