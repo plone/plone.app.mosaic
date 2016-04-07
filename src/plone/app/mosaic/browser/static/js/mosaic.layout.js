@@ -1683,7 +1683,11 @@ define([
         editor_id = $('#' + tile_config.id).find('textarea').attr('id');
         editor = tinymce.get(editor_id);
         if (editor) {
-          return editor.getContent();
+          try {
+              return editor.getContent();
+          } catch (e) {
+              return '<div class="discreet">Placeholder for field:<br/><b>' + tile_config.label + '</b></div>';
+          }
         } else {
           return '';
         }
