@@ -6,17 +6,7 @@ Changelog
 
 New:
 
-- Fix use of rawhtml text tile
-
 - Allow users to save layouts they are creating
-  [vangheem]
-
-- do not remove data-pat-tinymce body attribute as this is not
-  necessary with how tinymce is initialized anymore
-  [vangheem]
-
-- align rich text editor right if the tile is more on the right side
-  of the page
   [vangheem]
 
 - If only one layout is available, auto-select it.
@@ -29,10 +19,23 @@ New:
   ``data-max-columns`` attribute on ``data-panel`` -element (default: 4).
   [neilferreira]
 
+- Align rich text editor right if the tile is more on the right side
+  of the page
+  [vangheem]
+
 Fixes:
+
+- Do not remove data-pat-tinymce body attribute as this is not
+  necessary with how tinymce is initialized anymore
+  [vangheem]
+
+- Fix use of rawhtml text tile
+  [vangheem]
 
 - Fix case where you could get an error on save because mosaic could not figure out
   the tile type correctly
+  [vangheem]
+
 - Do not allow hitting enter for editing non-rich text fields
   [vangheem]
 
@@ -51,38 +54,38 @@ Fixes:
   when adding and moving them around.
   [vangheem]
 
-- fix do not add _layout multiple times to tile data
+- Fix do not add _layout multiple times to tile data
   [vangheem]
 
-- fix issue where spurious &nbsp; was getting saved to description
+- Fix issue where spurious &nbsp; was getting saved to description
   [vangheem]
 
-- issue when registry configuration parsing would throw an error
+- Issue when registry configuration parsing would throw an error
   [vangheem]
 
-- fix issue where you would end up saving non-resolveuid urls to rawhtml
+- Fix issue where you would end up saving non-resolveuid urls to rawhtml
   tiles and also prevent write conflicts when the editor sends out multiple
   edits at the same time
   [vangheem]
 
-- only show drag handlers if customizing layout
+- Fix to only show drag handlers if customizing layout
   [vangheem]
 
 - fix issue where you would no longer be able to edit a rich text area
   after you clear the whole area out
   [vangheem]
 
-- Fixed weird Firefox bug with TinyMCE that prevented data from being saved.
+- Fix weird Firefox bug with TinyMCE that prevented data from being saved.
   [vangheem]
 
-- Fixed properties overlay to be scrollable.
+- Fix properties overlay to be scrollable.
   [vangheem]
 
-- Fixed issue where tile field wouldn't get saved back to form with
+- Fix issue where tile field wouldn't get saved back to form with
   some refactoring.
   [vangheem]
 
-- Fixed issue where first fieldset would not show on properties modal.
+- Fix issue where first fieldset would not show on properties modal.
   [vangheem]
 
 
