@@ -4,7 +4,8 @@ Changelog
 1.0rc2 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Fixed TypeError during editing when no layout resource directory was
+  found.  [maurits]
 
 
 1.0rc1 (2016-04-07)

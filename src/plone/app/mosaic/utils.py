@@ -135,7 +135,7 @@ def getUserContentLayoutsForType(pt):
     try:
         users_directory = layout_resources['user-layouts']
         user_directory = users_directory[user_id]
-    except NotFound:
+    except (NotFound, TypeError):
         return []
 
     for key, value in getLayoutsFromDirectory(
