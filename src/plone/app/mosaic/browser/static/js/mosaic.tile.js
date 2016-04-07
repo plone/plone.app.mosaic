@@ -174,7 +174,8 @@ define([
               (classname[1] !== 'new') &&
               (classname[1] !== 'read-only') &&
               (classname[1] !== 'helper') &&
-              (classname[1] !== 'original')) {
+              (classname[1] !== 'original') &&
+              (classname[1] !== 'edited')) {
             tiletype = classname[1];
           }
         }
@@ -249,6 +250,7 @@ define([
         case "mosaic-helper-tile":
         case "mosaic-original-tile":
         case "mosaic-selected-tile":
+        case "mosaic-edited-tile":
           return false;
         default:
           return true;
