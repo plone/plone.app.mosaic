@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.0rc2 (unreleased)
+1.0rc2 (2016-04-08)
 -------------------
 
 - Fixed TypeError during editing when no layout resource directory was
