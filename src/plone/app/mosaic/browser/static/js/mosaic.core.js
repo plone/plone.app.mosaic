@@ -62,7 +62,7 @@ define([
           '<% _.each(available_layouts, function(layout){ ' +
             'var screenshot = layout.preview || layout.screenshot;' +
             'if(!screenshot){' +
-              'screenshot = "++resource++plone.app.mosaic.images/default-layout-screenshot.png";' +
+              'screenshot = "++plone++mosaic/default-layout-screenshot.png";' +
             '} %>' +
             '<li><a href="#" data-value="<%- layout.path %>">' +
               '<p><%- layout.title %></p><img src="<%- screenshot %>"></a></li>' +
@@ -643,7 +643,7 @@ define([
    * @param {String} url Url of the tile
    */
   $.mosaic.removeHeadTags = function (url) {
-    if(!url){
+    if(!url || url === 'undefined'){
       return;
     }
 

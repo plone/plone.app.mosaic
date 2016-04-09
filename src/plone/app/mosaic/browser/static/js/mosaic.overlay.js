@@ -62,12 +62,31 @@ define([
 
       // Get current object
       var $el = $(this);
-      $(document.body, $.mosaic.document).append($el);
+      var $form = $('form', $el);
+      var $h1 = $('h1', $el);
 
       // Init overlay
-      $el.addClass("mosaic-overlay");
-      var $wrapper = $('<div class="mosaic-modal-wrapper" />');
-      $el.wrap($wrapper);
+      var $modalStructure = $(
+        '<div class="plone-modal-wrapper mosaic-overlay">' +
+          '<div class="mosaic-modal fade in" style="position: absolute; padding: 20px;">' +
+            '<div class="plone-modal-dialog">' +
+              '<div class="plone-modal-content">' +
+                '<div class="plone-modal-header"><a class="plone-modal-close">×</a></div>' +
+                '<div class="plone-modal-body"></div>' +
+                '<div class="plone-modal-footer">' +
+                  '<div class="pattern-modal-buttons"></div>' +
+                '</div>' +
+              '</div>' +
+            '</div>' +
+          '</div>' +
+        '</div>');
+
+      $('.plone-modal-header', $modalStructure).append('<h2>' + $h1.text() + '</h2>');
+      $('.plone-modal-body', $modalStructure).append($form);
+      $(document.body, $.mosaic.document).append($modalStructure);
+
+      // we don't want to show the original el.
+      $el.hide();
 
       // Add lightbox
       $(document.body, $.mosaic.document)
@@ -92,7 +111,7 @@ define([
       field_tile, field, fieldset;
 
     // Expand the overlay
-    $('.mosaic-modal-wrapper').show().addClass('active');
+    $('.mosaic-overlay').show().addClass('active');
     $('.mosaic-overlay-blocker').show();
     $('body').addClass('plone-modal-open');
 
@@ -102,26 +121,20 @@ define([
     // Clear actions
     if ($(".mosaic-overlay-ok-button").length === 0) {
       $(".mosaic-overlay .formControls").children("input").hide();
-      $(".mosaic-overlay .formControls").append(
+      $(".mosaic-overlay .pattern-modal-buttons").append(
         $(document.createElement("input")).attr({
           'type': 'button',
           'value': 'Close'
         })
-        .addClass('button-field context mosaic-overlay-ok-button')
+        .addClass('mosaic-overlay-ok-button plone-btn plone-btn-primary')
         .click(function () {
           $.mosaic.overlay.close();
         })
       );
-      $(".mosaic-overlay").prepend(
-        $(document.createElement("button")).attr({
-          'title': 'Close',
-        })
-        .addClass('mosaic-overlay-close')
-        .html('&times;')
-        .click(function () {
-          $.mosaic.overlay.close();
-        })
-      );
+      $(".mosaic-overlay .plone-modal-close").off('click').on('click', function (e) {
+        e.preventDefault();
+        $.mosaic.overlay.close();
+      });
     }
 
     if (mode === 'all' && $.mosaic.overlay_hide_fields) {
@@ -229,7 +242,7 @@ define([
   $.mosaic.overlay.close = function () {
 
     // Hide overlay
-    $('.mosaic-modal-wrapper').hide().removeClass('active');
+    $('.mosaic-overlay').hide().removeClass('active');
     $('.mosaic-overlay-blocker').hide();
     $('body').removeClass('plone-modal-open');
   };
