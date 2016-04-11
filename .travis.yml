@@ -39,7 +39,6 @@ after_script:
   - 'echo "Robot: http://plone-app-mosaic.s3-website-us-east-1.amazonaws.com/artifacts/${TRAVIS_BUILD_NUMBER}/${TRAVIS_JOB_NUMBER}/report.html"'
 env:
   matrix:
-    - PLONE_VERSION=4.x
     - PLONE_VERSION=5.x
   global:
     - ARTIFACTS_S3_BUCKET=plone-app-mosaic

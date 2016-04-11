@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from setuptools import setup, find_packages
 
-version = '1.0.1.dev0'
+version = '2.0.0.dev0'
 
 long_description = (
     open('README.rst').read()
@@ -20,7 +20,6 @@ setup(
         'Development Status :: 4 - Beta',
         'Environment :: Web Environment',
         'Framework :: Plone',
-        'Framework :: Plone :: 4.3',
         'Framework :: Plone :: 5.0',
         'License :: OSI Approved :: GNU General Public License v2 (GPLv2)',
         'Programming Language :: Python',
@@ -46,7 +45,8 @@ setup(
         'plone.app.blocks>=3.1.0',
         'plone.app.tiles>=2.2.1',
         'plone.app.drafts>=1.0',
-        'plone.app.standardtiles>=1.0,<2.0',
+        'plone.app.standardtiles>=1.0',
+        'Products.CMFPlone>=5.0.4'
     ],
     extras_require={'test': [
         'plone.app.testing',
