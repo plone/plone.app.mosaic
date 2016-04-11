@@ -4,7 +4,7 @@ Changelog
 1.0rc3 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Nothing changed.
 
 
 1.0rc2 (2016-04-08)
