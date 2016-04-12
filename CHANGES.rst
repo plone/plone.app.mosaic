@@ -226,7 +226,7 @@ Fixes:
 - Add site and page layout fields to be available on properties overlay
   [datakurre]
 - Add HTML tag language transform to set correct langauge for HTML site layouts
-  [datakurHTML re]
+  [datakurre]
 - Add HTML body tag class transform to set body class for HTML site layouts
   [datakurre]
 - Add HTTP headers transform to ensure that the response headers normally set by
