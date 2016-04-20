@@ -4,6 +4,10 @@ Changelog
 2.0.0 (unreleased)
 ------------------
 
+- Fix bug when tinymce editor would no longer work when dragging one rich text tile
+  around another rich text tile.
+  [vangheem]
+
 - Do not set own overhead space of edit modal, the default should apply.
   [jensens]
 
