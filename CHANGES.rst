@@ -4,8 +4,12 @@ Changelog
 2.0.0 (unreleased)
 ------------------
 
+- Do not set own overhead space of edit modal, the default should apply.
+  [jensens]
+
 - Remove testing for Plone 4.3. For Plone 4.3 support, please use
   plone.app.mosaic < 2.0.
+  [datakurre]
 
 - Move tile remove button onto tile instead of in toolbar
   [vangheem]
