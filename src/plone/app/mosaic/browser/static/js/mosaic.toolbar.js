@@ -502,20 +502,6 @@ define([
         }
       };
 
-
-
-      // Remove highlight
-      $(".mosaic-button-remove").hover(
-        function() {
-          $(".mosaic-selected-tile .mosaic-tile-content")
-            .addClass('mosaic-remove-target');
-        },
-        function() {
-          $(".mosaic-selected-tile .mosaic-tile-content")
-            .removeClass('mosaic-remove-target');
-        }
-      );
-
       // Bind method and add to array
       $(this).bind("selectedtilechange", SelectedTileChange);
 

@@ -58,11 +58,6 @@
       zcml:condition="not-have plone-5"
       />
 
-  <browser:resourceDirectory
-      name="plone.app.mosaic.images"
-      directory="static/img"
-      />
-
   <browser:page
       name="mosaic-upload"
       for="*"

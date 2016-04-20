@@ -231,4 +231,12 @@
       handler=".upgrades.upgrade_to_1_0_0"
       />
 
+  <genericsetup:upgradeStep
+      profile="plone.app.mosaic:default"
+      source="5014"
+      destination="5015"
+      title="Upgrade buttons"
+      handler=".upgrades.upgrade_to_1_0rc3"
+      />
+
 </configure>

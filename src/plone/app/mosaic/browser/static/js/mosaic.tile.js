@@ -9,8 +9,9 @@ define([
   'mockup-utils',
   'pat-registry',
   'mockup-patterns-tinymce',
-  'tinymce'
-], function($, logger, _, utils, Registry, TinyMCE, tinymce) {
+  'tinymce',
+  'mockup-patterns-modal'
+], function($, logger, _, utils, Registry, TinyMCE, tinymce, Modal) {
   'use strict';
 
   var log = logger.getLogger('pat-mosaic');
@@ -70,8 +71,10 @@ define([
   /* Tile class */
   var Tile = function(el){
     var that = this;
+    that.tinymce = null;
     that.$el = $(el);
     if(!that.$el.is('.mosaic-tile')){
+      // XXX we need to get the outer-most container of the node here always
       that.$el = that.$el.parents('.mosaic-tile');
     }
 
@@ -108,8 +111,16 @@ define([
     });
   };
 
+  Tile.prototype.getDataTileEl = function(html, tileUrl){
+    return this.$el.find('[data-tile]');
+  };
+
+  Tile.prototype.getContentEl = function(html, tileUrl){
+    return this.$el.children(".mosaic-tile-content");
+  };
+
   Tile.prototype.getHtmlContent = function(){
-    return this.$el.children('.mosaic-tile-content').html();
+    return this.getContentEl().html();
   };
 
   Tile.prototype.getEditUrl = function(){
@@ -126,6 +137,20 @@ define([
       tile_url = $.mosaic.options.context_url + tile_url.replace(/^\./, '');
     }
     return tile_url;
+  };
+
+  Tile.prototype.getDeleteUrl = function(){
+    var tile_url = this.getUrl();
+    // Calc delete url
+    var url = tile_url.split('?')[0];
+    url = url.split('@@');
+    var tile_type_id = url[1].split('/');
+    url = url[0] + '@@delete-tile/' + tile_type_id[0] + '/' + tile_type_id[1];
+    // Calc absolute delete url
+    if (url.match(/^\.\/.*/)) {
+      url = $.mosaic.options.context_url + url.replace(/^\./, '');
+    }
+    return url;
   };
 
   Tile.prototype.getUrl = function(){
@@ -366,15 +391,7 @@ define([
       }
 
       this.makeMovable();
-
-      // Add settings icon
-      if (tile_config && tile_config.settings &&
-            this.$el.hasClass('mosaic-read-only-tile') === false) {
-        this.$el.prepend(
-            $($.mosaic.document.createElement("div"))
-                .addClass("mosaic-tile-control mosaic-info-icon")
-        );
-      }
+      this.initializeButtons();
 
       var that = this;
       _.each(['top', 'bottom', 'right', 'left'], function(pos){
@@ -387,6 +404,170 @@ define([
             )
         );
       });
+    };
+
+    Tile.prototype.initializeButtons = function(){
+      var buttons = [];
+      var tile_config = this.getConfig();
+
+      // reinitialize buttons every time
+      this.$el.find('.mosaic-tile-buttons').remove();
+
+      var _addButton = function(label, name, click){
+        var btn = document.createElement("button");
+        btn.className = "mosaic-btn-" + name;
+        btn.textContent = label;
+        buttons.push(btn);
+        $(btn).on('click', click);
+        return btn;
+      };
+
+      // Add settings icon
+      if (tile_config && tile_config.settings &&
+            this.$el.hasClass('mosaic-read-only-tile') === false) {
+        _addButton('Edit', 'settings', this.settingsClicked.bind(this));
+      }
+
+      if(!$.mosaic.hasContentLayout){
+        _addButton('Delete', 'delete', this.deleteClicked.bind(this));
+        var confirmBtn = _addButton('Confirm delete', 'confirm', this.confirmClicked.bind(this));
+        $(confirmBtn).hide();
+        var btn = _addButton('Cancel', 'cancel', this.cancelClicked.bind(this));
+        $(btn).hide();
+      }
+
+      if(buttons.length > 0){
+        var $btns = $($.mosaic.document.createElement("div"))
+                 .addClass("mosaic-tile-control mosaic-tile-buttons");
+        this.$el.prepend($btns);
+        buttons.forEach(function($btn){
+          $btns.append($btn);
+        });
+      }
+    };
+
+    Tile.prototype.cancelClicked = function(e){
+      e.preventDefault();
+      $('.mosaic-btn-settings,.mosaic-btn-delete', this.$el).show();
+      $('.mosaic-btn-cancel,.mosaic-btn-confirm', this.$el).hide();
+    };
+
+    Tile.prototype.deleteClicked = function(e){
+      e.preventDefault();
+      $('.mosaic-btn-settings,.mosaic-btn-delete', this.$el).hide();
+      $('.mosaic-btn-cancel,.mosaic-btn-confirm', this.$el).show();
+    };
+
+    Tile.prototype.confirmClicked = function(e){
+      e.preventDefault();
+
+      var tile_config = this.getConfig();
+
+      // Check if app tile
+      if (tile_config.tile_type === 'app') {
+
+        // Get url
+        var tile_url = this.getUrl();
+
+        if(tile_url && tile_url !== 'undefined'){
+          // Remove tags
+          $.mosaic.removeHeadTags(tile_url);
+
+          // Ajax call to remove tile
+          $.ajax({
+            type: "POST",
+            url: this.getDeleteUrl(),
+            data: {
+              'buttons.delete': 'Delete',
+              '_authenticator': utils.getAuthenticator()
+            }
+          });
+        }
+      }
+
+      // Remove empty rows
+      $.mosaic.options.panels.find(".mosaic-empty-row").remove();
+
+      // Get original row
+      var $originalRow = this.$el.parent().parent();
+
+      // Save tile value
+      this.saveForm();
+
+      // Remove current tile
+      this.$el.remove();
+
+      $.mosaic.undo.snapshot();
+
+      // Cleanup original row
+      $originalRow.mosaicCleanupRow();
+
+      // Add empty rows
+      $.mosaic.options.panels.mosaicAddEmptyRows();
+
+      // Set toolbar
+      $.mosaic.options.toolbar.trigger("selectedtilechange");
+      $.mosaic.options.toolbar.mosaicSetResizeHandleLocation();
+    };
+
+    Tile.prototype.settingsClicked = function(e){
+      e.preventDefault();
+      var that = this;
+
+      // Get tile config
+      var tile_config = that.getConfig();
+
+      // Check if application tile
+      if (tile_config.tile_type === 'app') {
+
+        // Get url
+        var tile_url = that.getEditUrl();
+
+
+        // Open overlay
+        $.mosaic.overlay.app = new Modal($('.mosaic-toolbar'), {
+          ajaxUrl: tile_url,
+          loadLinksWithinModal: true,
+          buttons: '.formControls > input[type="submit"], .actionButtons > input[type="submit"]'
+        });
+        $.mosaic.overlay.app.$el.off('after-render');
+        $.mosaic.overlay.app.on('after-render', function(event) {
+          $('input[name*="cancel"]',
+            $.mosaic.overlay.app.$modal)
+            .off('click').on('click', function() {
+              // Close overlay
+              $.mosaic.overlay.app.hide();
+              $.mosaic.overlay.app = null;
+          });
+          if($.mosaic.hasContentLayout){
+            // not a custom layout, make sure the form knows
+            $('form', $.mosaic.overlay.app.$modal).append($('<input type="hidden" name="X-Tile-Persistent" value="yes" />'));
+          }
+        });
+        $.mosaic.overlay.app.show();
+        $.mosaic.overlay.app.$el.off('formActionSuccess');
+        $.mosaic.overlay.app.on('formActionSuccess', function (event, response, state, xhr, form) {
+          var tileUrl = xhr.getResponseHeader('X-Tile-Url'),
+            value = $.mosaic.getDomTreeFromHtml(response);
+          if (tileUrl) {
+            // Remove head tags
+            $.mosaic.removeHeadTags(tileUrl);
+
+            // Add head tags
+            $.mosaic.addHeadTags(tileUrl, value);
+            var tileHtml = value.find('.temp_body_tag').html();
+            that.fillContent(tileHtml, tileUrl);
+
+            // Close overlay
+            $.mosaic.overlay.app.hide();
+            $.mosaic.overlay.app = null;
+          }
+        });
+      } else {
+
+        // Edit field
+        $.mosaic.overlay.open('field', tile_config);
+      }
     };
 
     Tile.prototype.makeMovable = function(){
@@ -517,11 +698,24 @@ define([
 
     Tile.prototype.fillContent = function(html, tileUrl){
       // need to replace the data-tile node here
-      var $el = this.$el.find('[data-tile]').parent();
-      $el.html(html);
-      var $content = this.$el.children(".mosaic-tile-content");
+      var $el = this.getDataTileEl();
+      var $content;
+      if($el.length > 0){
+        // only available on initialization
+        $el.parent().html(html);
+        $content = this.getContentEl();
+      }else{
+        // otherwise, we use content to fill html
+        $content = this.getContentEl();
+        $content.html(html);
+      }
       if(tileUrl && $content.size() > 0){
-        $content.attr('data-tileUrl', tileUrl.replace(/&/gim, '&amp;'));
+        tileUrl = tileUrl.replace(/&/gim, '&amp;');
+        // also need to fix duplicate &amp;
+        while(tileUrl.indexOf('&amp;&amp;') !== -1){
+          tileUrl = tileUrl.replace('&amp;&amp;', '&amp;');
+        }
+        $content.attr('data-tileUrl', tileUrl);
       }
       this.cacheHtml(html);
       this.scanRegistry();
@@ -575,7 +769,6 @@ define([
     Tile.prototype.select = function(){
       if (this.$el.hasClass("mosaic-selected-tile") === false &&
           this.$el.hasClass("mosaic-read-only-tile") === false) {
-
         // un-select existing
         var $tile = $(".mosaic-selected-tile", $.mosaic.document);
         if($tile.size() === 1){
@@ -604,6 +797,7 @@ define([
     Tile.prototype.focus = function(){
       this.$el.children(".mosaic-tile-content").focus();
       this._change();
+      this.initializeButtons();
     };
 
     Tile.prototype.saveForm = function(){
@@ -676,10 +870,11 @@ define([
     };
 
     Tile.prototype.setupWysiwyg = function(){
+      var that = this;
       var pattern;
 
       // Get element
-      var $content = this.$el.find('.mosaic-tile-content');
+      var $content = that.$el.find('.mosaic-tile-content');
 
       // Remove existing pattern
       try{
@@ -707,7 +902,7 @@ define([
           toolbar, cmenu;
 
       // Get tiletype
-      var tiletype = this.getType();
+      var tiletype = that.getType();
 
       // Get actions
       actions = $.mosaic.options.default_available_actions;
@@ -790,13 +985,28 @@ define([
           cmenu.length ? ['contextmenu'] : []
         ),
         setup: function(editor) {
+          that.tinymce = editor;
           editor.on('focus', function(e) {
             if (e.target.id) {
-              var $tile = $('#' + e.target.id).parents('.mosaic-tile').first();
-              if($tile.size() > 0){
-                var tile = new Tile($tile);
-                tile.select();
+              if($('.mosaic-helper-tile').length === 0){
+                that.select();
                 positionActiveTinyMCE();
+              }else{
+                // XXX this is such a hack..
+                // SOMETHING is causing tinymce to focus *after* it has been blurred
+                // from dragging. It's a weird state where it think it is focused
+                // but it's dragging. This fixes it, sort of. Sometimes you can
+                // still detect a flicker when the modes are switching
+                setTimeout(function(){
+                  $('.mce-edit-focus').each(function(){
+                    var tile = new Tile($(this).parent());
+                    tile.blur();
+                    var tiny = window.tinyMCE.get(this.getAttribute('id'));
+                    if(tiny){
+                      tiny.hide();
+                    }
+                  });
+                }, 10);
               }
             }
           });

@@ -16,40 +16,33 @@
     //  _top: expression(eval((document.body.scrollTop)?document.body.scrollTop:document.documentElement.scrollTop));
 }
 
-.mosaic-modal-wrapper{
-  overflow-y: auto;
+.plone-modal-wrapper.mosaic-overlay {
+  display: none;
+  padding-right: 0px;
+  z-index: 3002;
   overflow-x: hidden;
-  width: 100%;
-  right: 0px;
+  overflow-y: auto;
+  background: rgba(0,0,0,0.5);
   position: fixed;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
-  z-index: 3000;
-  display: none;
-}
 
-.mosaic-overlay {
-    display: block;
-    width: 80%;
-    margin: auto auto;
-    position: relative;
-    //  _position: absolute;
-    //  _top: expression(eval((document.body.scrollTop)?document.body.scrollTop:document.documentElement.scrollTop));
-    padding: 1em;
-    background-color: white;
-    margin-top: 4em;
-}
-
-.mosaic-overlay-close {
-  &:extend(.close);
-  &:extend(button.close);
-  &:hover {
-    &:extend(.close:hover);
+  .mosaic-modal {
+    overflow-x: hidden;
+    overflow-y: auto;
+    background: none;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
   }
-  &:focus{
-    &:extend(.close:focus);
+  .plone-modal-dialog{
+    width: 80%;
+    margin: 100px auto !important;
+    left: 0;
+    top: 0;
   }
 }
 
