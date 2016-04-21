@@ -1023,6 +1023,15 @@ define([
       tile.scanRegistry();
     }
     tile.blur();
+
+    // when a tile with tinymce is dragged, you need to reload the tinymce editor
+    // for all tiles edited over it... This is nasty but seems to be needed.
+    // If not done, those *other* tiles will not be editable
+    $('.mosaic-tile-content.mosaic-rich-text').each(function(){
+      tile = new Tile($(this).parent());
+      tile.setupWysiwyg();
+    });
+
     // Select new tile
     if (new_tile) {
       // warning... this needs to be in a timeout
