@@ -16,6 +16,12 @@ define([
 
   var log = logger.getLogger('pat-mosaic');
 
+  var _positionTimeout = 0;
+  var positionActiveTinyMCE = function(){
+    clearTimeout(_positionTimeout);
+    _positionTimeout = setTimeout(_positionActiveTinyMCE, 50);
+  };
+
   var _positionActiveTinyMCE = function(){
     /* XXX warning, this needs to be split into a filter call for some reason.
        one selector bombs out */
@@ -41,6 +47,7 @@ define([
     if(($tile.offset().top - $toolbar.height()) < $window.scrollTop()){
       // just checking if we reached the top of the tile + size of toolbar
       if(!$toolbar.hasClass('sticky')){
+        $('body').addClass('mce-sticky');
         // only need to calculate once and then leave alone
         $toolbar.addClass('sticky');
         // right under mosaic toolbar
@@ -57,16 +64,11 @@ define([
     }else{
       $toolbar.removeClass('sticky');
       $toolbar.removeAttr('style');
+      $('body').removeClass('mce-sticky');
     }
   };
-  var _positionTimeout = 0;
-  var positionActiveTinyMCE = function(){
-    clearTimeout(_positionTimeout);
-    _positionTimeout = setTimeout(_positionActiveTinyMCE, 50);
-  };
+
   $(window).off('scroll', positionActiveTinyMCE).on('scroll', positionActiveTinyMCE);
-
-
 
   /* Tile class */
   var Tile = function(el){
@@ -77,6 +79,7 @@ define([
       // XXX we need to get the outer-most container of the node here always
       that.$el = that.$el.parents('.mosaic-tile');
     }
+    that.focusCheckCount = 0;
 
     that.$el.children(".mosaic-tile-content").off('blur').on('blur', function(){
       var tiletype = that.getType();
@@ -327,7 +330,6 @@ define([
         tile_config = this.getConfig();
       }
       if (tile_config && this.$el.hasClass('mosaic-read-only-tile') === false &&
-          !this.$el.hasClass('mosaic-tile-loading') &&
           ((tile_config.tile_type === 'text' && tile_config.rich_text) ||
            (tile_config.tile_type === 'textapp' && tile_config.rich_text) ||
            (tile_config.tile_type === 'app' && tile_config.rich_text) ||
@@ -686,7 +688,29 @@ define([
                 // save initial state
                 that.$el.data('lastSavedData', that.getHtmlContent());
               }
+
+              /* HACK HACK HACK */
+              /* this is so first focus actually works with tinymce. */
+              /* I hate this... */
+              var tries = 0;
+              var _check = function(){
+                if(tries > 20){
+                  return;
+                }
+                if(!that.tinymce){
+                  setTimeout(_check, 20);
+                  tries += 1;
+                  return;
+                }
+                try{
+                  that.tinymce.focus();
+                }catch(e){
+                  // ignore this error...
+                }
+                that.blur();
+              };
               that.setupWysiwyg();
+              _check();
             }
           },
           error: function(){
@@ -767,6 +791,7 @@ define([
     };
 
     Tile.prototype.select = function(){
+      var that = this;
       if (this.$el.hasClass("mosaic-selected-tile") === false &&
           this.$el.hasClass("mosaic-read-only-tile") === false) {
         // un-select existing
@@ -775,7 +800,6 @@ define([
           var tile = new Tile($tile);
           tile.blur();
         }
-        this.$el.addClass("mosaic-selected-tile");
 
         this.focus();
       }
@@ -794,10 +818,42 @@ define([
       this._change();
     };
 
-    Tile.prototype.focus = function(){
+    Tile.prototype._focus = function(){
+      var that = this;
+      this.$el.addClass("mosaic-selected-tile");
       this.$el.children(".mosaic-tile-content").focus();
       this._change();
       this.initializeButtons();
+
+      var _checkForTinyFocus = function(){
+        if(that.focusCheckTimeout){
+          clearTimeout(that.focusCheckTimeout);
+        }
+        that.focusCheckTimeout = setTimeout(function(){
+          that.focusCheckCount += 1;
+          if(!that.$el.hasClass('mosaic-selected-tile')){
+            // no longer selected, dive
+            return;
+          }
+          var $container = that.$el.find('.mosaic-rich-text');
+          if(!$container.hasClass('mce-edit-focus')){
+            that.$el.removeClass("mosaic-selected-tile").children(".mosaic-tile-content").blur();
+            that.$el.find('.mce-edit-focus').removeClass('mce-edit-focus');
+            that._focus();
+          }
+        }, 50);
+      };
+      if(that.isRichText() && that.focusCheckCount < 30){
+        _checkForTinyFocus();
+      }
+    };
+
+    Tile.prototype.focus = function(){
+      if(this.isRichText() && this.$el.data('tinymce-loaded') !== true){
+        this.$el.data('delayed-focus', true);
+      }else{
+        this._focus();
+      }
     };
 
     Tile.prototype.saveForm = function(){
@@ -880,6 +936,7 @@ define([
       try{
         $content.data("pattern-tinymce").destroy();
         $content.removeData("pattern-tinymce");
+        that.$el.data('tinymce-loaded', false);
       }catch(e){
           // this can fail...
       }
@@ -1023,6 +1080,21 @@ define([
           // `change` event doesn't fire all the time so we do both here...
           editor.on('keyup change', placeholder);
           placeholder();
+
+          editor.on('init', function(){
+            /*
+              since focusing on a rich text tile before tinymce is initialized
+              can cause some very weird issues where the toolbar won't show,
+              we need to delay focus on rich text tiles
+            */
+            that.$el.data('tinymce-loaded', true);
+            if(that.$el.data('delayed-focus') === true){
+              that.$el.data('delayed-focus', false);
+              setTimeout(function(){
+                that._focus();
+              }, 100);
+            }
+          });
         }
       }}));
 
