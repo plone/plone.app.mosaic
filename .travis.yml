@@ -26,10 +26,10 @@ install:
   - node_modules/bower/bin/bower install
   - make clean all mode=release
 script:
-  - bin/test $TEST_OPTIONS
-  - bin/pybot -d parts/test docs
+  - ROBOT_BROWSER=phantomjs bin/test $TEST_OPTIONS
+  - bin/pybot -v BROWSER:phantomjs -d parts/test docs
 after_script:
-  - bin/sphinx-build docs html
+  - ROBOT_BROWSER=phantomjs bin/sphinx-build docs html
   - bundle install
   - bundle exec travis-artifacts upload --path html
   - bundle exec travis-artifacts upload --path parts/test
