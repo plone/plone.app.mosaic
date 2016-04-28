@@ -15,6 +15,7 @@ from zope.component import queryUtility
 from zope.interface import implementer
 from zope.viewlet.interfaces import IViewlet
 from zope.viewlet.interfaces import IViewletManager
+
 import re
 
 LAYOUT_NAME = re.compile(r'[a-zA-Z_\-]+/[a-zA-Z_\-]+')
@@ -136,9 +137,10 @@ class BodyClass(object):
 
         # Get default body classes
         if 'template-' not in body_class and 'site-' not in body_class:
-            body_classes.extend([name for name
-                                 in layout.bodyClass(None, self.published).split()
-                                 if name not in body_classes])
+            body_classes.extend([
+                n for n in layout.bodyClass(None, self.published).split()
+                if n not in body_classes
+            ])
 
         # Get contentLayout body class
         if 'template-layout' in body_classes:
