@@ -41,9 +41,9 @@ The most prominent feature provided by **Plone Mosaic** is the new **Layout-beha
         ...  text=<p>This document will soon have a custom layout.</p>
         Go to  ${PLONE_URL}/example-document
 
-        Element should be visible  id=plone-contentmenu-display
+        Wait Until Element Is Visible  ${SELECTOR_CONTENTMENU_DISPLAY_LINK}
         Click element  ${SELECTOR_CONTENTMENU_DISPLAY_LINK}
-        Element should be visible  id=plone-contentmenu-display-layout_view
+        Wait Until Element Is Visible  id=plone-contentmenu-display-layout_view
 
         Update element style  css=.managePortletsFallback  display  none
         Highlight  id=plone-contentmenu-display-layout_view
@@ -57,12 +57,12 @@ The most prominent feature provided by **Plone Mosaic** is the new **Layout-beha
         Click element  id=plone-contentmenu-display-layout_view
 
         Run keyword if  '${CMFPLONE_VERSION}'.startswith('4.')
-        ...  Page should contain  View changed.
+        ...  Wait until page contains  View changed.
 
         Run keyword if  '${CMFPLONE_VERSION}'.startswith('5.')
         ...  Click element  ${SELECTOR_CONTENTMENU_DISPLAY_LINK}
         Run keyword if  '${CMFPLONE_VERSION}'.startswith('5.')
-        ...  Page should contain element
+        ...  Wait until page contains element
         ...  css=#plone-contentmenu-display-layout_view.actionMenuSelected
 
 How the current content looks after the first time the **Mosaic layout** is activated, depends on the configured defaults for its portal type. Still, at least the title and the description should be always displayed.
@@ -89,6 +89,7 @@ When the **Mosaic layout** has been enabled, the **Mosaic editor** is opened by 
 
     Show how Mosaic editor is opened
         Go to  ${PLONE_URL}/example-document
+        Wait Until Element Is Visible  id=contentview-edit
         Highlight  id=contentview-edit
         Capture and crop page screenshot
         ...  _screenshots/mosaic-editor-open.png
