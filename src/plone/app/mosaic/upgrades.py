@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 from plone import api
 from plone.app.blocks.layoutbehavior import ILayoutAware
+from plone.app.mosaic.interfaces import IAction
 from plone.app.mosaic.setuphandlers import create_ttw_layout_examples
 from plone.registry.interfaces import IRegistry
 from Products.CMFCore.utils import getToolByName
 from zope.component import getUtility
-from plone.app.mosaic.interfaces import IAction
 
 
 PROFILE_ID = 'profile-plone.app.mosaic:default'
@@ -148,12 +148,23 @@ def upgrade_to_1_0rc3(context):
     actions = registry.get('plone.app.mosaic.default_available_actions', None)
     if actions and 'remove' in actions:
         actions.remove('remove')
-        registry.records['plone.app.mosaic.default_available_actions'] = actions
+        key = 'plone.app.mosaic.default_available_actions'
+        registry.records[key] = actions
 
     entry = registry.forInterface(
-        IAction, prefix='plone.app.mosaic.secondary_actions.remove', check=False)
+        IAction,
+        prefix='plone.app.mosaic.secondary_actions.remove',
+        check=False
+    )
 
     for name in entry.__schema__.names():
         key = entry.__prefix__ + name
         if key in registry.records:
             del registry.records[key]
+
+
+def upgrade_to_1_1(context):
+    context.runImportStepFromProfile(
+        PROFILE_ID.replace('default', 'to_5016'),
+        'plone.app.registry'
+    )

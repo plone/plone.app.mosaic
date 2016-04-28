@@ -1,13 +1,9 @@
 # -*- coding: utf-8 -*-
-from zExceptions import NotFound
-from zope.component.hooks import getSite
-from Products.CMFCore.utils import getToolByName
-from plone.resource.utils import queryResourceDirectory
-from plone.app.blocks.interfaces import CONTENT_LAYOUT_RESOURCE_NAME
 from plone.app.blocks.interfaces import CONTENT_LAYOUT_MANIFEST_FORMAT
+from plone.app.blocks.interfaces import CONTENT_LAYOUT_RESOURCE_NAME
 from plone.app.blocks.interfaces import IOmittedField
-from plone.app.blocks.resource import getLayoutsFromResources
 from plone.app.blocks.resource import getLayoutsFromDirectory
+from plone.app.blocks.resource import getLayoutsFromResources
 from plone.app.blocks.utils import isVisible
 from plone.app.blocks.utils import PermissionChecker
 from plone.autoform.interfaces import MODES_KEY
@@ -19,13 +15,17 @@ from plone.autoform.utils import mergedTaggedValuesForIRO
 from plone.autoform.widgets import ParameterizedWidget
 from plone.registry.interfaces import IRegistry
 from plone.resource.interfaces import IResourceDirectory
+from plone.resource.utils import queryResourceDirectory
 from plone.supermodel.utils import mergedTaggedValueDict
+from Products.CMFCore.utils import getToolByName
 from z3c.form.interfaces import DISPLAY_MODE
 from z3c.form.interfaces import HIDDEN_MODE
 from z3c.form.interfaces import IEditForm
 from z3c.form.interfaces import IFieldWidget
+from zExceptions import NotFound
 from zope.component import getMultiAdapter
 from zope.component import getUtility
+from zope.component.hooks import getSite
 from zope.interface import Interface
 from zope.schema.interfaces import IField
 
@@ -129,7 +129,10 @@ def getContentLayoutsForType(pt):
 
 def getUserContentLayoutsForType(pt):
     result = []
-    layout_resources = queryResourceDirectory(CONTENT_LAYOUT_RESOURCE_NAME, 'custom')
+    layout_resources = queryResourceDirectory(
+        CONTENT_LAYOUT_RESOURCE_NAME,
+        'custom'
+    )
     portal_membership = getToolByName(getSite(), 'portal_membership')
     user_id = portal_membership.getAuthenticatedMember().getId()
     try:
@@ -146,8 +149,11 @@ def getUserContentLayoutsForType(pt):
             continue
         preview = value.get('preview', value.get('screenshot'))
         if preview and not preview.startswith('++'):
-            value['preview'] = '++contentlayout++custom/user-layouts/{user_id}/{path}'.format(
-                user_id=user_id,
-                path='/'.join([os.path.dirname(key), preview]))
+            value['preview'] = (
+                '++contentlayout++custom/user-layouts/{user_id}/{path}'.format(
+                    user_id=user_id,
+                    path='/'.join([os.path.dirname(key), preview])
+                )
+            )
         result.append(value)
     return result
