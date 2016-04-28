@@ -62,10 +62,10 @@ define([
           '<% _.each(available_layouts, function(layout){ ' +
             'var screenshot = layout.preview || layout.screenshot;' +
             'if(!screenshot){' +
-              'screenshot = "++plone++mosaic/default-layout-screenshot.png";' +
+              'screenshot = "++plone++mosaic/img/default-layout-screenshot.png";' +
             '} %>' +
             '<li><a href="#" data-value="<%- layout.path %>">' +
-              '<p><%- layout.title %></p><img src="<%- screenshot %>"></a></li>' +
+              '<p><%- layout.title %></p><img src="<%- portal_url %>/<%- screenshot %>"></a></li>' +
           '<% }); %>' +
         '</ul>' +
       '</div>' +
@@ -77,10 +77,10 @@ define([
             '<% _.each(user_layouts, function(layout){ ' +
               'var screenshot = layout.preview || layout.screenshot;' +
               'if(!screenshot){' +
-                'screenshot = "++resource++plone.app.mosaic.images/default-layout-screenshot.png";' +
+                'screenshot = "++resource++plone.app.mosaic/img/default-layout-screenshot.png";' +
               '} %>' +
               '<li><a href="#" data-value="<%- layout.path %>">' +
-                '<p><%- layout.title %></p><img src="<%- screenshot %>"></a></li>' +
+                '<p><%- layout.title %></p><img src="<%- portal_url %>/<%- screenshot %>"></a></li>' +
             '<% }); %>' +
           '</ul>' +
         '</div>' +
@@ -390,7 +390,7 @@ define([
     }
     utils.loading.show();
     $.ajax({
-      url: $.mosaic.options.context_url + '/' + layoutPath
+      url: $('body').attr('data-portal-url') + '/' + layoutPath
     }).done(function(layoutHtml){
       var $content = $.mosaic.getDomTreeFromHtml(layoutHtml);
       $.mosaic.setSelectedContentLayout(layoutPath);
@@ -537,7 +537,8 @@ define([
     var $el = $('<div/>').appendTo('body');
     var modal = new Modal($el, {
       html: $.mosaic.selectLayoutTemplate($.extend({}, true, {
-        hasCustomLayouts: _hasCustomLayouts()
+        hasCustomLayouts: _hasCustomLayouts(),
+        portal_url: $('body').attr('data-portal-url')
       }, $.mosaic.options)),
       content: null,
       buttons: '.plone-btn'
