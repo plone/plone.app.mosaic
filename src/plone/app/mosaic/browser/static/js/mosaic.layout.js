@@ -438,8 +438,11 @@ define([
 
     // On click select the current tile
     $($.mosaic.document).off("click", ".mosaic-tile").on("click", ".mosaic-tile", function () {
-      var tile = new Tile(this);
-      tile.select();
+      if($(".mosaic-helper-tile-new", $.mosaic.document).length === 0){
+        // only if not dropping tile
+        var tile = new Tile(this);
+        tile.select();
+      }
     });
 
     // Loop through matched elements
@@ -1028,8 +1031,8 @@ define([
     // for all tiles edited over it... This is nasty but seems to be needed.
     // If not done, those *other* tiles will not be editable
     $('.mosaic-tile-content.mosaic-rich-text').each(function(){
-      tile = new Tile($(this).parent());
-      tile.setupWysiwyg();
+      var atile = new Tile($(this).parent());
+      atile.setupWysiwyg();
     });
 
     // Select new tile

@@ -6,6 +6,8 @@ Changelog
 
 - Fix robot tests in docs to no run into timing traps.
   [jensens]
+- Fix reference to default layout preview image
+  [vangheem]
 
 - Fix bug when tinymce editor would no longer work when dragging one rich text tile
   around another rich text tile.
