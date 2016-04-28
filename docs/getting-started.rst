@@ -103,7 +103,7 @@ When the editor is opened for the first time, it asks to the select the initial 
 
     Show the layout selector
         Go to  ${PLONE_URL}/example-document/edit
-        Element should be visible  css=.mosaic-select-layout
+        Wait Until Element Is Visible  css=.mosaic-select-layout
         Capture and crop page screenshot
         ...  _screenshots/mosaic-editor-layout-selector.png
         ...  css=.plone-modal
@@ -116,8 +116,7 @@ Let's select the basic layout:
 ..  code:: robotframework
 
     Show how to select the initial layout
-        Page should contain element  jquery=a[data-value="default/basic.html"]
-
+        Wait until Page contains element  jquery=a[data-value="default/basic.html"]
         Highlight  jquery=a[data-value="default/basic.html"] img
         Capture and crop page screenshot
         ...  _screenshots/mosaic-editor-layout-selector-select.png
@@ -131,8 +130,7 @@ And then enable it for customization:
 ..  code:: robotframework
 
     Show the Mosaic editor
-        Element should be visible  css=.mosaic-toolbar
-
+        Wait Until Element Is Visible  css=.mosaic-toolbar
         Highlight  css=.mosaic-button-layout
         Capture and crop page screenshot
         ...  _screenshots/mosaic-editor-layout.png
@@ -158,8 +156,7 @@ To add a new tile in the **Mosaic editor**, select the tile from the rightmost m
 ..  code:: robotframework
 
     Show how to select a new tile from menu
-        Element should be visible  css=.mosaic-toolbar
-
+        Wait Until Element Is Visible  css=.mosaic-toolbar
         Highlight  css=.mosaic-menu-insert
         Click element  css=.mosaic-menu-insert a
         Wait until element is visible  css=.mosaic-option-irichtext-text
@@ -198,6 +195,7 @@ Finally, a mouse click drops the tile into selected position and the page can be
     Show how to drop a new tile into its initial position
 
         Click element  css=.mosaic-selected-divider
+        Wait Until Element Is Visible  css=.mosaic-button-save
         Highlight  css=.mosaic-button-save
         Capture and crop page screenshot
         ...  _screenshots/mosaic-editor-drop-field-text-tile.png
@@ -212,7 +210,7 @@ That's how we can build custom content layouts using Plone Mosaic.
 
         Choose ok on next confirmation
         Click button  css=.mosaic-button-save
-        Page should contain  Changes saved
+        Wait until page contains  Changes saved
         Capture and crop page screenshot
         ...  _screenshots/mosaic-page-saved.png
         ...  css=html

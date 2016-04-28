@@ -4,6 +4,9 @@ Changelog
 2.0.0 (unreleased)
 ------------------
 
+- Fix robot tests in docs to no run into timing traps.
+  [jensens]
+
 - Fix bug when tinymce editor would no longer work when dragging one rich text tile
   around another rich text tile.
   [vangheem]
