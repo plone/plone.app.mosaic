@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<registry>
+  <!-- Omitted fields -->
+  <record name="plone.app.mosaic.default_omitted_fields">
+    <value purge="False">
+      <element>plone.app.blocks.layoutbehavior.ILayoutAware.content</element>
+      <element>plone.app.blocks.layoutbehavior.ILayoutAware.contentLayout</element>
+      <element>plone.app.blocks.layoutbehavior.ILayoutAware.pageSiteLayout</element>
+      <element>plone.app.blocks.layoutbehavior.ILayoutAware.sectionSiteLayout</element>
+    </value>
+  </record>
+</registry>
