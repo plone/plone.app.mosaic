@@ -4,8 +4,12 @@ Changelog
 2.0.0 (unreleased)
 ------------------
 
+- Move list of valid layout view names for LayoutWidget in a module variable, so it can be extended on demand.
+  [jensens]
+
 - Fix robot tests in docs to no run into timing traps.
   [jensens]
+
 - Fix reference to default layout preview image
   [vangheem]
 

@@ -1,19 +1,20 @@
 # -*- coding: utf-8 -*-
-from Products.CMFDynamicViewFTI.interfaces import ISelectableBrowserDefault
 from plone import api
 from plone.app.blocks.layoutbehavior import ILayoutAware
 from plone.app.mosaic.interfaces import IMosaicLayer
 from plone.app.mosaic.interfaces import IMosaicRegistryAdapter
 from plone.app.mosaic.utils import getContentLayoutsForType
 from plone.app.mosaic.utils import getUserContentLayoutsForType
-from plone.app.widgets.base import TextareaWidget
 from plone.app.widgets.base import dict_merge
+from plone.app.widgets.base import TextareaWidget
 from plone.app.widgets.utils import get_tinymce_options
+from plone.app.z3cform.widget import BaseWidget
 from plone.dexterity.browser.base import DexterityExtensibleForm
 from plone.memoize.view import memoize
 from plone.registry.interfaces import IRegistry
 from plone.z3cform.fieldsets.extensible import FormExtender
 from plone.z3cform.fieldsets.interfaces import IFormExtender
+from Products.CMFDynamicViewFTI.interfaces import ISelectableBrowserDefault
 from z3c.form.browser.textarea import TextAreaWidget
 from z3c.form.interfaces import HIDDEN_MODE
 from z3c.form.interfaces import IAddForm
@@ -24,26 +25,22 @@ from z3c.form.widget import FieldWidget
 from zope.component import adapter
 from zope.component import queryUtility
 from zope.interface import implementer
-from zope.interface import implementsOnly
+from zope.interface import implementer_only
 from zope.security import checkPermission
 
 
-try:
-    from plone.app.z3cform.widget import BaseWidget
-except ImportError:
-    from plone.app.widgets.dx import BaseWidget
+LAYOUT_VIEWS = ['layout_view', '@@layout_view']
 
 
 class ILayoutWidget(ITextAreaWidget):
     """Marker interface for the LayoutWidget."""
 
 
+@implementer_only(ILayoutWidget)
 class LayoutWidget(BaseWidget, TextAreaWidget):
     """Layout widget for z3c.form."""
 
     _base = TextareaWidget
-
-    implementsOnly(ILayoutWidget)
 
     pattern = 'layout'
     pattern_options = BaseWidget.pattern_options.copy()
@@ -57,9 +54,7 @@ class LayoutWidget(BaseWidget, TextAreaWidget):
             self._add_form_portal_type_default_view() or
             self._context_selected_layout()
         )
-        if current_browser_layout not in ['layout_view', '@@layout_view']:
-            return False
-        return True
+        return current_browser_layout in LAYOUT_VIEWS
 
     def obtainType(self):  # noqa
         """
