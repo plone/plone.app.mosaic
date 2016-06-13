@@ -1,46 +1,23 @@
 <configure
+    i18n_domain="plone"
     xmlns="http://namespaces.zope.org/zope"
     xmlns:plone="http://namespaces.plone.org/plone"
-    xmlns:zcml="http://namespaces.zope.org/zcml"
-    i18n_domain="plone">
-
-  <!-- Register default layouts for Plone 4 -->
-  <configure zcml:condition="not-have plone-5">
-    <plone:static
-        type="sitelayout"
-        name="default"
-        directory="layouts/plone-4/site"
-        zcml:condition="have mosaic-sitelayouts"
-        />
-
-    <plone:static
-        type="contentlayout"
-        name="default"
-        directory="layouts/plone-4/content"
-        />
-  </configure>
-
-  <!-- Register default layouts for Plone 5 -->
-  <configure zcml:condition="have plone-5">
-    <plone:static
-        type="sitelayout"
-        name="default"
-        directory="layouts/plone-5/site"
-        zcml:condition="have mosaic-sitelayouts"
-        />
-
-    <plone:static
-        type="sitelayout"
-        name="bs3demo"
-        directory="layouts/plone-5/bs3demo"
-        zcml:condition="have mosaic-sitelayouts"
-        />
-
-    <plone:static
-        type="contentlayout"
-        name="default"
-        directory="layouts/plone-5/content"
-        />
-  </configure>
-
+    xmlns:zcml="http://namespaces.zope.org/zcml">
+  <plone:static
+      directory="layouts/site"
+      name="default"
+      type="sitelayout"
+      zcml:condition="have mosaic-sitelayouts"
+  />
+  <plone:static
+      directory="layouts/bs3demo"
+      name="bs3demo"
+      type="sitelayout"
+      zcml:condition="have mosaic-sitelayouts"
+  />
+  <plone:static
+      directory="layouts/content"
+      name="default"
+      type="contentlayout"
+  />
 </configure>

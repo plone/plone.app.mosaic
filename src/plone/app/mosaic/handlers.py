@@ -9,8 +9,10 @@ def toggleLayoutViewOnFTI(object, event):
 
     portal = api.portal.get()
 
-    if ('plone.app.blocks.layoutbehavior.ILayoutAware' in fti.behaviors or
-            'plone.layoutaware' in fti.behaviors):
+    if (
+        'plone.app.blocks.layoutbehavior.ILayoutAware' in fti.behaviors or
+        'plone.layoutaware' in fti.behaviors
+    ):
         # Add Mosaic view into available view methods
         view_methods = [i for i in fti.getAvailableViewMethods(portal)]
         if 'layout_view' not in view_methods:

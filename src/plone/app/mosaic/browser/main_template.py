@@ -1,24 +1,25 @@
 # -*- coding: utf-8 -*-
-from Products.Five import BrowserView
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from hashlib import md5
 from lxml import etree
 from lxml import html
 from plone.app.blocks.interfaces import IBlocksTransformEnabled
 from plone.app.blocks.layoutbehavior import ILayoutAware
 from plone.app.blocks.utils import resolveResource
-from plone.app.mosaic.browser.interfaces import IMainTemplate
 from plone.dexterity.browser.add import DefaultAddView
 from plone.memoize import ram
 from plone.memoize import view
 from plone.resource.interfaces import IResourceDirectory
+from Products.CMFPlone.browser.interfaces import IMainTemplate
+from Products.Five import BrowserView
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from repoze.xmliter.utils import getHTMLSerializer
 from urlparse import unquote
 from urlparse import urljoin
 from zExceptions import NotFound
 from zope.component import getMultiAdapter
 from zope.interface import alsoProvides
-from zope.interface import implements
+from zope.interface import implementer
+
 import logging
 import os
 import pkg_resources
@@ -234,8 +235,8 @@ def resolve_main_template():
         return ViewPageTemplateFile(filename)
 
 
+@implementer(IMainTemplate, IBlocksTransformEnabled)
 class MainTemplate(BrowserView):
-    implements(IMainTemplate, IBlocksTransformEnabled)
 
     ajax_template = resolve_ajax_main_template()
     main_template = resolve_main_template()

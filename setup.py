@@ -4,10 +4,9 @@ from setuptools import setup, find_packages
 version = '2.0.0.dev0'
 
 long_description = (
-    open('README.rst').read()
-    + '\n' +
-    open('CHANGES.rst').read()
-    + '\n')
+    open('README.rst').read() + '\n' +
+    open('CHANGES.rst').read()+ '\n'
+)
 
 setup(
     name='plone.app.mosaic',
@@ -44,7 +43,7 @@ setup(
         'plone.tiles>=1.5.2',
         'plone.app.blocks>=3.1.0',
         'plone.app.tiles>=2.2.1',
-        'plone.app.drafts>=1.0',
+        'plone.app.drafts>=1.0.1.999',
         'plone.app.standardtiles>=1.0',
         'Products.CMFPlone>=5.0.4'
     ],

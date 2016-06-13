@@ -34,8 +34,7 @@
       />
 
   <!-- Fix default view selection to allow ++layout++-traverser -->
-  <configure package="plone.app.content.browser"
-             zcml:condition="have plone-5">
+  <configure package="plone.app.content.browser">
 
     <browser:page
         for="plone.app.blocks.layoutbehavior.ILayoutAware"

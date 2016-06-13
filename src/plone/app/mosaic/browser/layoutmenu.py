@@ -1,43 +1,35 @@
 # -*- coding: utf-8 -*-
-from urllib import quote
-import logging
-from Products.CMFDynamicViewFTI.interfaces import ISelectableBrowserDefault
-from Products.CMFPlone.utils import parent
+from plone import api
+from plone.app.blocks.interfaces import IBlocksTransformEnabled
+from plone.app.blocks.layoutbehavior import ILayoutAware
+from plone.app.blocks.resource import ContentLayoutTraverser
+from plone.app.blocks.utils import resolveResource
 from plone.app.content.browser.interfaces import IFolderContentsView
 from plone.app.contentmenu.interfaces import IContentMenuItem
 from plone.app.contentmenu.menu import DisplaySubMenuItem
+from plone.app.mosaic.interfaces import _
+from plone.app.mosaic.interfaces import IMosaicLayer
 from plone.dexterity.browser.view import DefaultView
 from plone.memoize import view
+from Products.CMFDynamicViewFTI.interfaces import ISelectableBrowserDefault
+from Products.CMFPlone.utils import parent
+from urllib import quote
 from zExceptions import NotFound
 from zope.browsermenu.interfaces import IBrowserMenu
 from zope.browsermenu.menu import BrowserMenu
 from zope.browsermenu.menu import BrowserSubMenuItem
-from zope.component import adapts
+from zope.component import adapter
 from zope.component import getMultiAdapter
 from zope.component import getUtility
-from zope.interface import implements
+from zope.interface import implementer
 from zope.schema.interfaces import IVocabularyFactory
 from zope.traversing.interfaces import ITraversable
 from zope.traversing.namespace import SimpleHandler
-from plone import api
-from plone.app.blocks.interfaces import IBlocksTransformEnabled
-from plone.app.blocks.layoutbehavior import ILayoutAware
-from plone.app.blocks.utils import resolveResource
-from plone.app.mosaic.interfaces import IMosaicLayer
-from plone.app.mosaic.interfaces import _
-from plone.app.blocks.resource import ContentLayoutTraverser
+from plone.protect.utils import addTokenToUrl
+from plone.app.content.browser.selection import DefaultViewSelectionView
 
-try:
-    from plone.protect.utils import addTokenToUrl
-    HAS_PLONE_PROTECT = True
-except ImportError:
-    HAS_PLONE_PROTECT = False
+import logging
 
-try:
-    from plone.app.content.browser.selection import DefaultViewSelectionView
-    HAS_SELECTION_VIEW = True
-except ImportError:
-    HAS_SELECTION_VIEW = False
 
 logger = logging.getLogger('plone.app.mosaic')
 
@@ -49,9 +41,9 @@ def absolute_path(path):
     return path
 
 
+@implementer(ITraversable)
+@adapter(ILayoutAware, IMosaicLayer)
 class DisplayLayoutTraverser(SimpleHandler):
-    implements(ITraversable)
-    adapts(ILayoutAware, IMosaicLayer)
 
     def __init__(self, context, request):
         super(DisplayLayoutTraverser, self).__init__(context)
@@ -77,9 +69,9 @@ class DisplayLayoutTraverser(SimpleHandler):
             return DisplayLayoutView(self.context, self.request, resource_path)
 
 
+@implementer(ITraversable)
+@adapter(ILayoutAware, IMosaicLayer)
 class DisplayContentLayoutTraverser(SimpleHandler):
-    implements(ITraversable)
-    adapts(ILayoutAware, IMosaicLayer)
 
     def __init__(self, context, request):
         super(DisplayContentLayoutTraverser, self).__init__(context)
@@ -99,8 +91,8 @@ class DisplayContentLayoutTraverser(SimpleHandler):
             return traverser.traverse(name, remaining)
 
 
+@implementer(IBlocksTransformEnabled)
 class DisplayLayoutView(DefaultView):
-    implements(IBlocksTransformEnabled)
 
     def __init__(self, context, request, layout):
         super(DisplayLayoutView, self).__init__(context, request)
@@ -114,8 +106,8 @@ class DisplayLayoutView(DefaultView):
             raise
 
 
+@adapter(ILayoutAware, IMosaicLayer)
 class HiddenDisplaySubMenuItem(DisplaySubMenuItem):
-    adapts(ILayoutAware, IMosaicLayer)
 
     @view.memoize
     def available(self):
@@ -128,9 +120,9 @@ class HiddenDisplaySubMenuItem(DisplaySubMenuItem):
             return super(HiddenDisplaySubMenuItem, self).available()
 
 
+@implementer(IContentMenuItem)
+@adapter(ILayoutAware, IMosaicLayer)
 class DisplayLayoutSubMenuItem(BrowserSubMenuItem):
-    implements(IContentMenuItem)
-    adapts(ILayoutAware, IMosaicLayer)
 
     title = _(u'label_choose_display', default=u'Display')
     submenuId = 'plone_contentmenu_layout'
@@ -255,8 +247,7 @@ class DisplayLayoutMenu(BrowserMenu):
                 id_ = term.value.split('++')[-1]
                 actionUrl = '%s/selectViewTemplate?templateId=%s' % (
                     folder_url, quote(term.value),),
-                if HAS_PLONE_PROTECT:
-                    actionUrl = addTokenToUrl(actionUrl, request)
+                actionUrl = addTokenToUrl(actionUrl, request)
                 folder_results.append({
                     'title': term.title,
                     'description': '',
@@ -284,8 +275,7 @@ class DisplayLayoutMenu(BrowserMenu):
                 id_ = term.value.split('++')[-1]
                 actionUrl = '%s/selectViewTemplate?templateId=%s' % (
                     context_url, quote(term.value),)
-                if HAS_PLONE_PROTECT:
-                    actionUrl = addTokenToUrl(actionUrl, request)
+                actionUrl = addTokenToUrl(actionUrl, request)
                 context_results.append({
                     'title': term.title,
                     'description': '',
@@ -335,16 +325,16 @@ class DisplayLayoutMenu(BrowserMenu):
         return results
 
 
-if HAS_SELECTION_VIEW:
+class LayoutAwareDefaultViewSelectionView(DefaultViewSelectionView):
 
-    class LayoutAwareDefaultViewSelectionView(DefaultViewSelectionView):
-
-        @property
-        def vocab(self):
-            vocab_factory = getUtility(IVocabularyFactory,
-                                       name='plone.availableDisplayLayouts')
-            vocab = vocab_factory(self.context)
-            return (
-                list(super(LayoutAwareDefaultViewSelectionView, self).vocab) +
-                [(term.value, term.title) for term in vocab]
-            )
+    @property
+    def vocab(self):
+        vocab_factory = getUtility(
+            IVocabularyFactory,
+            name='plone.availableDisplayLayouts'
+        )
+        vocab = vocab_factory(self.context)
+        return (
+            list(super(LayoutAwareDefaultViewSelectionView, self).vocab) +
+            [(term.value, term.title) for term in vocab]
+        )

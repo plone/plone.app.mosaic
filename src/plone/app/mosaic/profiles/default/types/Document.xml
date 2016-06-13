@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<object
+    i18n:domain="plone"
+    meta_type="Dexterity FTI"
+    name="Document"
+    xmlns:i18n="http://xml.zope.org/namespaces/i18n">
+  <property
+      name="view_methods"
+      purge="false">
+    <element value="layout_view" />
+  </property>
+  <property
+      name="behaviors"
+      purge="false">
+    <element value="plone.layoutaware" />
+    <element value="plone.draftable" />
+  </property>
+</object>

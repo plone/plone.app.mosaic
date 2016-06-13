@@ -1,13 +1,9 @@
 # -*- coding: utf-8 -*-
-from zope.publisher.browser import BrowserView
-try:
-    import json
-except:
-    import simplejson as json
-
 from plone import api
-
 from plone.app.mosaic import _
+from zope.publisher.browser import BrowserView
+
+import json
 
 
 class MosaicUploadView(BrowserView):
