@@ -4,6 +4,9 @@ Changelog
 2.0.0 (unreleased)
 ------------------
 
+- Fixes #2313: Pattern settings are not applied to the body tag for mosaic layouts.
+  [jensens]
+
 - Drop more Plone 4 compatibility code, registrations and imports.
   Simplify test setup.
   Minor code cleanup.

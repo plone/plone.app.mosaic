@@ -44,7 +44,7 @@
         ...  default=Jane Doe
         Create user  ${user_id}  Member  fullname=${user_fullname}
         Set autologin username  ${user_id}
-        Set Selenium Timeout  2 seconds
+        Set Selenium Timeout  10 seconds
 
     Test Teardown
         Run keyword if  sys.argv[0].startswith('bin/robot')

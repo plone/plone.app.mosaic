@@ -35,8 +35,10 @@ class HTTPHeaders(object):
         self.request = request
 
     def _setHeaders(self):
-        if self.published is None or \
-                not self.request.get('plone.app.blocks.enabled', False):
+        if (
+            self.published is None or
+            not self.request.get('plone.app.blocks.enabled', False)
+        ):
             return None
 
         context = aq_parent(aq_base(self.published)) or api.portal.get()
@@ -85,14 +87,18 @@ class HTMLLanguage(object):
         return None
 
     def transformIterable(self, result, encoding):
-        if self.published is None or \
-                not self.request.get('plone.app.blocks.enabled', False) or \
-                not isinstance(result, XMLSerializer):
+        if (
+            self.published is None or
+            not self.request.get('plone.app.blocks.enabled', False) or
+            not isinstance(result, XMLSerializer)
+        ):
             return None
 
         context = aq_parent(aq_base(self.published)) or api.portal.get()
-        state = queryMultiAdapter((context, self.request),
-                                  name='plone_portal_state')
+        state = queryMultiAdapter(
+            (context, self.request),
+            name='plone_portal_state'
+        )
 
         root = result.tree.getroot()
         if state and root is not None:
@@ -124,10 +130,12 @@ class BodyClass(object):
             return None
 
         context = aq_parent(aq_base(self.published)) or api.portal.get()
-        layout = queryMultiAdapter((context, self.request),
-                                   name='plone_layout')
+        layout = queryMultiAdapter(
+            (context, self.request),
+            name='plone_layout'
+        )
         root = result.tree.getroot()
-        body = root.find('body')
+        body = root.body
 
         if layout is None or body is None:
             return result
@@ -171,4 +179,48 @@ class BodyClass(object):
         # Set body class
         body.attrib['class'] = ' '.join(body_classes)
 
+        return result
+
+
+@implementer(ITransform)
+class PatternSettings(object):
+    """Set body tag pattern settings data-pat-* attributes"""
+
+    order = 8800
+
+    def __init__(self, published, request):
+        self.published = published
+        self.request = request
+
+    def transformString(self, result, encoding):
+        return None
+
+    def transformUnicode(self, result, encoding):
+        return None
+
+    def transformIterable(self, result, encoding):
+        if self.published is None or \
+                not self.request.get('plone.app.blocks.enabled', False) or \
+                not isinstance(result, XMLSerializer):
+            return None
+
+        context = aq_parent(aq_base(self.published)) or api.portal.get()
+        layout = queryMultiAdapter(
+            (context, self.request),
+            name='plone_layout'
+        )
+        root = result.tree.getroot()
+        body = root.body
+
+        if layout is None or body is None:
+            return result
+
+        plone_pattern_settings = queryMultiAdapter(
+            (context, self.request),
+            'plone_pattern_settings'
+        )
+        if plone_pattern_settings is None:
+            return result
+        for key, value in plone_pattern_settings():
+            body.attrib[key] = value
         return result
