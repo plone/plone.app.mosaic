@@ -18,12 +18,7 @@ from zope.component import getUtility
 from zope.publisher.browser import BrowserView
 
 import io
-
-
-try:
-    import json
-except:
-    import simplejson as json
+import json
 
 
 def loadManifest(data):
@@ -95,17 +90,25 @@ class ManageLayoutView(BrowserView):
                     layout_data.contentLayout = replacement
                     obj.reindexObject(idxs=['layout'])
 
-        return json.dumps({
-            'success': True,
-            'user_layouts': getUserContentLayoutsForType(self.context.portal_type),
-            'available_layouts': getContentLayoutsForType(self.context.portal_type)
-        })
+        return json.dumps(
+            {
+                'success': True,
+                'user_layouts': getUserContentLayoutsForType(
+                    self.context.portal_type
+                ),
+                'available_layouts': getContentLayoutsForType(
+                    self.context.portal_type
+                )
+            }
+        )
 
     def existing(self):
         """ find existing content assigned to this layout"""
         catalog = api.portal.get_tool('portal_catalog')
         results = []
-        layout_path = self._get_layout_path(self.request.form.get('layout', ''))
+        layout_path = self._get_layout_path(
+            self.request.form.get('layout', '')
+        )
         for brain in catalog(layout=layout_path):
             results.append({
                 'title': brain.Title,
@@ -144,13 +147,18 @@ class ManageLayoutView(BrowserView):
         count = 0
         while layout_filename in layout_resources.listDirectory():
             count += 1
-            layout_filename = normalizer.normalize(form['name'] + '-' + str(count)) + '.html'
+            layout_filename = normalizer.normalize(
+                form['name'] + '-' + str(count)
+            ) + '.html'
 
         layout_resources.writeFile(layout_filename, form['layout'])
 
-        # need to read manifest and add to it dynamically here for the new layout
+        # need to read manifest and add to it dynamically here for the new
+        # layout
         if MANIFEST_FILENAME in layout_resources.listDirectory():
-            manifest = loadManifest(layout_resources.readFile(MANIFEST_FILENAME))
+            manifest = loadManifest(
+                layout_resources.readFile(MANIFEST_FILENAME)
+            )
         else:
             manifest = loadManifest('')
 
@@ -164,12 +172,21 @@ class ManageLayoutView(BrowserView):
 
         layout_resources.writeFile(MANIFEST_FILENAME, dumpManifest(manifest))
 
-        return json.dumps({
-            'success': True,
-            'layout': '++contentlayout++%s/%s' % (layout_dir_name, layout_filename),
-            'user_layouts': getUserContentLayoutsForType(self.context.portal_type),
-            'available_layouts': getContentLayoutsForType(self.context.portal_type)
-        })
+        return json.dumps(
+            {
+                'success': True,
+                'layout': '++contentlayout++{0}/{1}'.format(
+                    layout_dir_name,
+                    layout_filename
+                ),
+                'user_layouts': getUserContentLayoutsForType(
+                    self.context.portal_type
+                ),
+                'available_layouts': getContentLayoutsForType(
+                    self.context.portal_type
+                )
+            }
+        )
 
 
 class LayoutsEditor(BrowserView):
@@ -211,33 +228,50 @@ class LayoutsEditor(BrowserView):
         result = []
         registry = getUtility(IRegistry)
         hidden = registry['plone.app.mosaic.hidden_content_layouts']
-        for key, value in getLayoutsFromResources(CONTENT_LAYOUT_MANIFEST_FORMAT).items():
+        layouts = getLayoutsFromResources(CONTENT_LAYOUT_MANIFEST_FORMAT)
+        for key, value in layouts.items():
             _for = value.get('for', '')
             result.append({
                 'key': key,
                 '_for': _for,
                 'title': value.get('title', ''),
                 'hidden': key in hidden
-                })
+            })
         result.sort(key=lambda l: l.get('key', ''))
         return json.dumps(result)
 
     @property
     def content_config(self):
         return json.dumps({
-            "actionUrl": "%s/++contentlayout++/custom/@@plone.resourceeditor.filemanager-actions" % (  # noqa
-                self.context.absolute_url()),
-            "uploadUrl": "%s/portal_resources/contentlayout/custom/themeFileUpload?_authenticator=%s" % (  # noqa
-                self.context.absolute_url(),
-                createToken())
+            'actionUrl': (
+                '{0}/++contentlayout++/custom/'
+                '@@plone.resourceeditor.filemanager-actions'.format(
+                    self.context.absolute_url()
+                )
+            ),
+            'uploadUrl': (
+                '{0}/portal_resources/contentlayout/custom/'
+                'themeFileUpload?_authenticator={1}'.format(
+                    self.context.absolute_url(),
+                    createToken()
+                )
+            ),
         })
 
     @property
     def site_config(self):
         return json.dumps({
-            "actionUrl": "%s/++sitelayout++/custom/@@plone.resourceeditor.filemanager-actions" % (  # noqa
-                self.context.absolute_url()),
-            "uploadUrl": "%s/portal_resources/sitelayout/custom/themeFileUpload?_authenticator=%s" % (  # noqa
-                self.context.absolute_url(),
-                createToken())
+            'actionUrl': (
+                '{0}/++sitelayout++/custom/'
+                '@@plone.resourceeditor.filemanager-actions'.format(
+                    self.context.absolute_url()
+                )
+            ),
+            'uploadUrl': (
+                '{0}/portal_resources/sitelayout/custom/'
+                'themeFileUpload?_authenticator={1}'.format(
+                    self.context.absolute_url(),
+                    createToken()
+                )
+            ),
         })

@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
-from Products.CMFCore.interfaces._content import IFolderish
 from copy import deepcopy
 from operator import itemgetter
 from plone.app.mosaic.interfaces import IMosaicRegistryAdapter
 from plone.app.mosaic.utils import extractFieldInformation
 from plone.dexterity.utils import iterSchemataForType
 from plone.registry.interfaces import IRegistry
-from zope.component import adapts
+from Products.CMFCore.interfaces._content import IFolderish
+from zope.component import adapter
 from zope.i18n import translate
-from zope.interface import implements
+from zope.interface import implementer
 
 
 class DottedDict(dict):
@@ -45,11 +45,11 @@ def weightedSort(x, y):
     return cmp(weight_x, weight_y)
 
 
+@implementer(IMosaicRegistryAdapter)
+@adapter(IRegistry)
 class MosaicRegistry(object):
     """Adapts a registry object to parse the mosaic settings data"""
 
-    implements(IMosaicRegistryAdapter)
-    adapts(IRegistry)
     prefix = "plone.app.mosaic"
 
     def __init__(self, registry):

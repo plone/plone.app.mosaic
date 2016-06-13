@@ -13,27 +13,11 @@
 
   <genericsetup:registerProfile
       name="default"
-      title="Plone Mosaic"
-      description="Installs Mosaic layout support for Dexterity content types"
+      title="Mosaic"
+      description="Installs Mosaic layout support for Plone"
       directory="profiles/default"
       provides="Products.GenericSetup.interfaces.EXTENSION"
-      />
-
-  <genericsetup:importStep
-      name="plone.app.mosaic_default"
-      title="Plone Mosaic setup"
-      description="Auto-configures content-types for layout ready"
-      handler=".setuphandlers.step_setup_various"
-      />
-
-  <!-- Backwards compatibility profile -->
-  <genericsetup:registerProfile
-      name="bbb"
-      title="Plone Mosaic for Plone 4"
-      directory="browser/bbb/profiles/default"
-      description="Installs Mosaic layout support for Dexterity content types"
-      provides="Products.GenericSetup.interfaces.EXTENSION"
-      zcml:condition="not-have plone-5"
+      post_handler="plone.app.mosaic.setuphandlers.post_handler"
       />
 
   <!-- View method auto-enabler -->

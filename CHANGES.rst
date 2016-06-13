@@ -4,6 +4,11 @@ Changelog
 2.0.0 (unreleased)
 ------------------
 
+- Drop more Plone 4 compatibility code, registrations and imports.
+  Simplify test setup.
+  Minor code cleanup.
+  [jensens]
+
 - Move list of valid layout view names for LayoutWidget in a module variable, so it can be extended on demand.
   [jensens]
 

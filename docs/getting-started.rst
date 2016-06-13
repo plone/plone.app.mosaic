@@ -14,7 +14,7 @@ Installation
     Show Plone Mosaic activation
         Go to  ${PLONE_URL}/prefs_install_products_form
 
-        Element should contain  ${SELECTOR_ADDONS_MOSAIC}  Plone Mosaic
+        Element should contain  ${SELECTOR_ADDONS_MOSAIC}  Mosaic
         Highlight  ${SELECTOR_ADDONS_MOSAIC}
         Capture and crop page screenshot
         ...  _screenshots/mosaic-product-activated.png

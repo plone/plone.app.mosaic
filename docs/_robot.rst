@@ -26,8 +26,6 @@
         ...             Setup Plone site  ${FIXTURE}
         Run keyword if  sys.argv[0].startswith('bin/robot')
         ...             Open test browser
-        Run keyword if  '${CMFPLONE_VERSION}'.startswith('5.')
-        ...             Import resource  ${RESOURCE_DIR}/_selectors-5.x.robot
         Run keyword and ignore error  Set window size  @{DIMENSIONS}
 
     Test Setup
@@ -46,6 +44,7 @@
         ...  default=Jane Doe
         Create user  ${user_id}  Member  fullname=${user_fullname}
         Set autologin username  ${user_id}
+        Set Selenium Timeout  2 seconds
 
     Test Teardown
         Run keyword if  sys.argv[0].startswith('bin/robot')
