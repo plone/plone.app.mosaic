@@ -25,7 +25,7 @@ PLONE_APP_MOSAIC = PloneAppMosaicLayer(
     name='PLONE_APP_MOSAIC',
     gs_profile_id='plone.app.mosaic:default',
     zcml_package=plone.app.mosaic,
-    zcml_filename='testing.zcml'
+    zcml_filename='configure.zcml'
 )
 
 PLONE_APP_MOSAIC_INTEGRATION = IntegrationTesting(

@@ -4,6 +4,9 @@ Changelog
 2.0.0 (unreleased)
 ------------------
 
+- Remove superfluos empty testing gs profile and its zcml. 
+  [jensens]
+
 - Fixes #2313: Pattern settings are not applied to the body tag for mosaic layouts.
   [jensens]
 
