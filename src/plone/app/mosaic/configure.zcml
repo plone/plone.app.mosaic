@@ -62,6 +62,13 @@
       factory=".transform.BodyClass"
       />
 
+  <!-- Body data-pat-* transform to pattern settings -->
+  <adapter
+      for="* .interfaces.IMosaicLayer"
+      name="plone.app.mosaic.patternsettings"
+      factory=".transform.PatternSettings"
+      />
+
   <adapter name="layout" factory=".index.get_layout" />
 
   <include package=".browser" />
