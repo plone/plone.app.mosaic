@@ -15,10 +15,6 @@ class PloneAppMosaicLayer(PloneWithPackageLayer):
         super(PloneAppMosaicLayer, self).setUpPloneSite(portal)
         portal.portal_workflow.setDefaultChain("simple_publication_workflow")
 
-    def applyProfiles(self, portal):
-        self.applyProfile(portal, 'plone.app.contenttypes:default')
-        super(PloneAppMosaicLayer, self).applyProfiles(portal)
-
 
 PLONE_APP_MOSAIC = PloneAppMosaicLayer(
     bases=(PLONE_FIXTURE,),
