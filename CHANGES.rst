@@ -4,6 +4,9 @@ Changelog
 2.0.0 (unreleased)
 ------------------
 
+- Depend on plone.app.contenttypes gs-profile.
+  [jensens]
+
 - Remove superfluos empty testing gs profile and its zcml. 
   [jensens]
 
