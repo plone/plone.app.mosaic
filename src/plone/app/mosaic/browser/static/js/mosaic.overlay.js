@@ -124,7 +124,7 @@ define([
       $(".mosaic-overlay .pattern-modal-buttons").append(
         $(document.createElement("input")).attr({
           'type': 'button',
-          'value': 'Close'
+          'value': 'Done'
         })
         .addClass('mosaic-overlay-ok-button plone-btn plone-btn-primary')
         .click(function () {
@@ -135,6 +135,8 @@ define([
         e.preventDefault();
         $.mosaic.overlay.close();
       });
+
+      $(".mosaic-overlay .plone-modal-header h2").html('Properties');
     }
 
     if (mode === 'all' && $.mosaic.overlay_hide_fields) {

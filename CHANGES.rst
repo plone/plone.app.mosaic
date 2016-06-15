@@ -7,6 +7,12 @@ Changelog
 - Remove superfluos empty testing gs profile and its zcml. 
   [jensens]
 
+- Fixes: TinyMCE focus issues, disables row merging
+  [vangheem]
+
+- UX: Renames "Close" to "Done" on properties form.
+  [vangheem]
+
 - Fixes #2313: Pattern settings are not applied to the body tag for mosaic layouts.
   [jensens]
 

@@ -377,7 +377,7 @@ define([
         var $tile = panel.find(".mosaic-selected-tile");
         if($tile.size() > 0){
           var tile = new Tile($tile);
-          tile.focus();
+          tile.select();
         }
         // Remove helper
         $(this).remove();
@@ -1020,28 +1020,23 @@ define([
     }
 
     // Re-init rich text editor after tile has been moved in DOM
-    if(tile.isRichText()){
-      tile.setupWysiwyg();
-    }else{
+    if(!tile.isRichText()){
       tile.scanRegistry();
     }
-    tile.blur();
 
     // when a tile with tinymce is dragged, you need to reload the tinymce editor
     // for all tiles edited over it... This is nasty but seems to be needed.
     // If not done, those *other* tiles will not be editable
-    $('.mosaic-tile-content.mosaic-rich-text').each(function(){
+    $('.mosaic-tile:not(".mosaic-helper-tile") .mosaic-tile-content.mosaic-rich-text').each(function(){
       var atile = new Tile($(this).parent());
       atile.setupWysiwyg();
     });
 
+    tile.blur();
+
     // Select new tile
     if (new_tile) {
-      // warning... this needs to be in a timeout
-      // because tinymce initialization takes some time...
-      setTimeout(function(){
-        tile.select();
-      }, 100);
+      tile.focus();
     }
   };
 
@@ -1267,31 +1262,32 @@ define([
         del_row.remove();
       }
 
+      // XXX ROW MERGING COMMENTED OUT FOR NOW
       // Check if prev row exists and if both rows only have 1 column
-      if ((original_row.prevAll(".mosaic-grid-row").length > 0) && (original_row.children(".mosaic-grid-cell").length === 1) &&
-          (original_row.prev().children(".mosaic-grid-cell").length === 1)) {
-
-        // Merge rows
-        original_row.children(".mosaic-grid-cell").prepend(
-          original_row.prev().children(".mosaic-grid-cell").children(".mosaic-tile")
-            .clone(true)
-            .mosaicAddDrag()
-        );
-        original_row.prev().remove();
-      }
-
-      // Check if next row exists and if both rows only have 1 column
-      if ((original_row.nextAll(".mosaic-grid-row").length > 0) && (original_row.children(".mosaic-grid-cell").length === 1) &&
-          (original_row.next().children(".mosaic-grid-cell").length === 1)) {
-
-        // Merge rows
-        original_row.children(".mosaic-grid-cell").append(
-          original_row.next().children(".mosaic-grid-cell").children(".mosaic-tile")
-            .clone(true)
-            .mosaicAddDrag()
-        );
-        original_row.next().remove();
-      }
+      // if ((original_row.prevAll(".mosaic-grid-row").length > 0) && (original_row.children(".mosaic-grid-cell").length === 1) &&
+      //     (original_row.prev().children(".mosaic-grid-cell").length === 1)) {
+      //
+      //   // Merge rows
+      //   original_row.children(".mosaic-grid-cell").prepend(
+      //     original_row.prev().children(".mosaic-grid-cell").children(".mosaic-tile")
+      //       .clone(true)
+      //       .mosaicAddDrag()
+      //   );
+      //   original_row.prev().remove();
+      // }
+      //
+      // // Check if next row exists and if both rows only have 1 column
+      // if ((original_row.nextAll(".mosaic-grid-row").length > 0) && (original_row.children(".mosaic-grid-cell").length === 1) &&
+      //     (original_row.next().children(".mosaic-grid-cell").length === 1)) {
+      //
+      //   // Merge rows
+      //   original_row.children(".mosaic-grid-cell").append(
+      //     original_row.next().children(".mosaic-grid-cell").children(".mosaic-tile")
+      //       .clone(true)
+      //       .mosaicAddDrag()
+      //   );
+      //   original_row.next().remove();
+      // }
 
       // Set resize handles
       original_row.mosaicSetResizeHandles();
