@@ -16,7 +16,11 @@ from zope.interface import implementer
 from zope.viewlet.interfaces import IViewlet
 from zope.viewlet.interfaces import IViewletManager
 
+import logging
 import re
+
+
+logger = logging.getLogger(__name__)
 
 LAYOUT_NAME = re.compile(r'[a-zA-Z_\-]+/[a-zA-Z_\-]+')
 
@@ -124,9 +128,11 @@ class BodyClass(object):
         return None
 
     def transformIterable(self, result, encoding):
-        if self.published is None or \
-                not self.request.get('plone.app.blocks.enabled', False) or \
-                not isinstance(result, XMLSerializer):
+        if (
+            self.published is None or
+            not self.request.get('plone.app.blocks.enabled', False) or
+            not isinstance(result, XMLSerializer)
+        ):
             return None
 
         context = aq_parent(aq_base(self.published)) or api.portal.get()
@@ -199,9 +205,11 @@ class PatternSettings(object):
         return None
 
     def transformIterable(self, result, encoding):
-        if self.published is None or \
-                not self.request.get('plone.app.blocks.enabled', False) or \
-                not isinstance(result, XMLSerializer):
+        if (
+            self.published is None or
+            not self.request.get('plone.app.blocks.enabled', False) or
+            not isinstance(result, XMLSerializer)
+        ):
             return None
 
         context = aq_parent(aq_base(self.published)) or api.portal.get()
@@ -220,6 +228,7 @@ class PatternSettings(object):
             'plone_pattern_settings'
         )
         if plone_pattern_settings is None:
+            logger.warn('Can not find plone_pattern_settings!')
             return result
         for key, value in plone_pattern_settings():
             body.attrib[key] = value
