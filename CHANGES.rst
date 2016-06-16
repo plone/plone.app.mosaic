@@ -4,6 +4,9 @@ Changelog
 2.0.0 (unreleased)
 ------------------
 
+- Log warning if plone_pattern_settings view was not found.
+  [jensens]
+
 - Depend on plone.app.contenttypes gs-profile.
   [jensens]
 
