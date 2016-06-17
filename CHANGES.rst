@@ -4,13 +4,16 @@ Changelog
 2.0.0 (unreleased)
 ------------------
 
+- do not import all of bootstrap
+  [vangheem]
+
 - Log warning if plone_pattern_settings view was not found.
   [jensens]
 
 - Depend on plone.app.contenttypes gs-profile.
   [jensens]
 
-- Remove superfluos empty testing gs profile and its zcml. 
+- Remove superfluos empty testing gs profile and its zcml.
   [jensens]
 
 - Fixes: TinyMCE focus issues, disables row merging
