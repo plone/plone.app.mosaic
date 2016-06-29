@@ -4,6 +4,9 @@ Changelog
 2.0.0 (unreleased)
 ------------------
 
+- Fix: plone_pattern_setting view lookup ran into empty, now renders all.
+  [jensens]
+
 - do not import all of bootstrap
   [vangheem]
 

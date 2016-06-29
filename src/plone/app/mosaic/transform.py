@@ -223,13 +223,13 @@ class PatternSettings(object):
         if layout is None or body is None:
             return result
 
-        plone_pattern_settings = queryMultiAdapter(
+        plone_patterns_settings = queryMultiAdapter(
             (context, self.request),
-            'plone_pattern_settings'
+            name='plone_patterns_settings'
         )
-        if plone_pattern_settings is None:
+        if plone_patterns_settings is None:
             logger.warn('Can not find plone_pattern_settings!')
             return result
-        for key, value in plone_pattern_settings():
+        for key, value in plone_patterns_settings().items():
             body.attrib[key] = value
         return result
