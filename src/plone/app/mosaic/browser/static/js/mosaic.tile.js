@@ -267,6 +267,16 @@ define([
     return tile_config;
   };
 
+  Tile.prototype.getValueFromClasses = function(classes, name){
+    var value;
+    classes.forEach(function(className){
+      if(className.indexOf(name) !== -1){
+        value = className.replace(name, '');
+      }
+    });
+    return value;
+  },
+
   Tile.prototype.getHtmlBody = function(){
     var body = '';
     // Get tile type
@@ -313,6 +323,16 @@ define([
 
         // Calc url
         var tile_url = './@@plone.app.standardtiles.field?field=' + tiletype;
+
+        // check if subfield is in the class list
+        var subfield = this.getValueFromClasses(classes, 'mosaic-subfield-');
+        if(subfield){
+          tile_url += '&subfield=' + subfield;
+        }
+        var format = this.getValueFromClasses(classes, 'mosaic-format-');
+        if(format){
+          tile_url += '&format=' + format;
+        }
 
         body += '          <div data-tile="' + tile_url + '"></div>\n';
         body += '          </div>\n';

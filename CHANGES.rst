@@ -4,6 +4,9 @@ Changelog
 2.0.0 (unreleased)
 ------------------
 
+- Feature: provide ability to give options to field renderer
+  [vangheem]
+
 - Fix: plone_pattern_setting view lookup ran into empty, now renders all.
   [jensens]
 
