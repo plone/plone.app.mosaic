@@ -66,8 +66,19 @@ define([
   */
   $.fn.mosaicLayout = function () {
 
+    var DocumentKeyup = function (e) {
+      // Check if alt
+      if (e.keyCode === 18) {
+        $(".mosaic-panel", $.mosaic.document).removeClass('mosaic-advanced');
+      }
+    };
+
     // Keydown handler
     var DocumentKeydown = function (e) {
+      // Check if alt
+      if (e.keyCode === 18) {
+        $(".mosaic-panel", $.mosaic.document).addClass('mosaic-advanced');
+      }
 
       // Check if esc
       if (e.keyCode === 27) {
@@ -116,6 +127,7 @@ define([
 
     // Bind event and add to array
     $($.mosaic.document).off('keydown').on('keydown', DocumentKeydown);
+    $($.mosaic.document).off('keyup').on('keyup', DocumentKeyup);
 
     // Add deselect
     var DocumentMousedown = function (e) {
@@ -525,51 +537,41 @@ define([
 
       // Loop through rows
       $(this).find(".mosaic-grid-row").each(function (i) {
-
-        // Check if current row has multiple columns
-        if ($(this).children(".mosaic-grid-cell").length > 1) {
-
-          // Check if first row
-          if (i === 0) {
-            $(this).before(
-              $($.mosaic.document.createElement("div"))
-                .addClass("mosaic-grid-row mosaic-empty-row")
+        $(this).before(
+          $($.mosaic.document.createElement("div"))
+            .addClass("mosaic-grid-row mosaic-empty-row")
+            .append($($.mosaic.document.createElement("div"))
+              .addClass("mosaic-grid-cell mosaic-width-full mosaic-position-leftmost")
+              .append($($.mosaic.document.createElement("div"))
                 .append($($.mosaic.document.createElement("div"))
-                  .addClass("mosaic-grid-cell mosaic-width-full mosaic-position-leftmost")
+                  .addClass("mosaic-tile-outer-border")
+                  .append(
+                    $($.mosaic.document.createElement("div"))
+                      .addClass("mosaic-divider-dot")
+                  )
+                )
+              )
+            )
+            .mosaicAddMouseMoveEmptyRow()
+        );
+        if ($(this).nextAll(".mosaic-grid-row").length === 0) {
+          $(this).after(
+            $($.mosaic.document.createElement("div"))
+              .addClass("mosaic-grid-row mosaic-empty-row")
+              .append($($.mosaic.document.createElement("div"))
+                .addClass("mosaic-grid-cell mosaic-width-full mosaic-position-leftmost")
+                .append($($.mosaic.document.createElement("div"))
                   .append($($.mosaic.document.createElement("div"))
-                    .append($($.mosaic.document.createElement("div"))
-                      .addClass("mosaic-tile-outer-border")
-                      .append(
-                        $($.mosaic.document.createElement("div"))
-                          .addClass("mosaic-divider-dot")
-                      )
+                    .addClass("mosaic-tile-outer-border")
+                    .append(
+                      $($.mosaic.document.createElement("div"))
+                        .addClass("mosaic-divider-dot")
                     )
                   )
                 )
-                .mosaicAddMouseMoveEmptyRow()
-            );
-          }
-
-          // Check if last row or next row also contains columns
-          if (($(this).nextAll(".mosaic-grid-row").length === 0) || ($(this).next().children(".mosaic-grid-cell").length > 1)) {
-            $(this).after(
-              $($.mosaic.document.createElement("div"))
-                .addClass("mosaic-grid-row mosaic-empty-row")
-                .append($($.mosaic.document.createElement("div"))
-                  .addClass("mosaic-grid-cell mosaic-width-full mosaic-position-leftmost")
-                  .append($($.mosaic.document.createElement("div"))
-                    .append($($.mosaic.document.createElement("div"))
-                      .addClass("mosaic-tile-outer-border")
-                      .append(
-                        $($.mosaic.document.createElement("div"))
-                          .addClass("mosaic-divider-dot")
-                      )
-                    )
-                  )
-                )
-                .mosaicAddMouseMoveEmptyRow()
-            );
-          }
+              )
+              .mosaicAddMouseMoveEmptyRow()
+          );
         }
       });
 
@@ -785,9 +787,6 @@ define([
       // Remove cancel class
       original_tile.removeClass("mosaic-drag-cancel");
 
-      // Remove remaining empty rows
-      $.mosaic.options.panels.find(".mosaic-empty-row").remove();
-
       // Check if new tile
       if (!new_tile) {
 
@@ -820,14 +819,8 @@ define([
           .addClass("mosaic-new-tile")
       );
 
-      // Remove remaining empty rows
-      $(".mosaic-empty-row", $.mosaic.document).remove();
-
     // Not dropped on tile
     } else if (drop.hasClass("mosaic-tile") === false) {
-
-      // Remove remaining empty rows
-      $(".mosaic-empty-row", $.mosaic.document).remove();
 
       // Check if new tile
       if (!new_tile) {
@@ -839,8 +832,6 @@ define([
       }
     // Check if max columns rows is reached
     } else if ((drop.parent().parent().children(".mosaic-grid-cell").length >= obj.data('max-columns')) && (dir === "left" || dir === "right")) {
-      // Remove remaining empty rows
-      $(".mosaic-empty-row", $.mosaic.document).remove();
 
       // Check if new tile
       if (!new_tile) {
@@ -853,9 +844,6 @@ define([
 
     // Dropped on row
     } else {
-
-      // Remove empty rows
-      $(".mosaic-empty-row", $.mosaic.document).remove();
 
       // If top
       if (dir === "top") {
@@ -989,7 +977,7 @@ define([
               );
           }
 
-          // Rezize columns
+          // Resize columns
           drop.parent().parent().mosaicSetColumnSizes();
 
           // Add resize handles
@@ -1001,6 +989,10 @@ define([
     // Remove original tile
     var original_row = original_tile.parent().parent();
     $(".mosaic-original-tile", $.mosaic.document).remove();
+
+    // Remove remaining empty rows
+    $.mosaic.options.panels.find(".mosaic-grid-row:not(:has(.mosaic-tile))").remove();
+    $.mosaic.options.panels.find(".mosaic-empty-row").remove();
 
     // Cleanup original row
     original_row.mosaicCleanupRow();
@@ -1671,7 +1663,8 @@ define([
       $(this).children(".mosaic-grid-row").each(function () {
 
         // Check if not an empty row
-        if ($(this).hasClass("mosaic-empty-row") === false) {
+        if ($(this).hasClass("mosaic-empty-row") === false &&
+            $(this).find('.mosaic-tile').length >= 0) {
 
           // Add row open tag
           classNames = $(this).attr("class");
