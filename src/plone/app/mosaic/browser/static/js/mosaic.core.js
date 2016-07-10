@@ -390,7 +390,8 @@ define([
     }
     utils.loading.show();
     $.ajax({
-      url: $('body').attr('data-portal-url') + '/' + layoutPath
+      url: $('body').attr('data-portal-url') + '/' + layoutPath,
+      cache: false
     }).done(function(layoutHtml){
       var $content = $.mosaic.getDomTreeFromHtml(layoutHtml);
       $.mosaic.setSelectedContentLayout(layoutPath);
