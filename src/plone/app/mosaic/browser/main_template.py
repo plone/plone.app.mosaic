@@ -30,6 +30,27 @@ slotsXPath = etree.XPath("//*[@data-slots]")
 
 logger = logging.getLogger('plone.app.mosaic')
 
+TEMPLATE = """\
+<metal:page
+    define-macro="master"
+    tal:define="
+        portal_state context/@@plone_portal_state;
+        context_state context/@@plone_context_state;
+        plone_view context/@@plone;
+        plone_layout context/@@plone_layout | nothing;
+        lang portal_state/language;
+        view nocall: view | nocall: plone_view;
+        dummy python:plone_view.mark_view(view);
+        portal_url portal_state/portal_url;
+        checkPermission nocall: context/portal_membership/checkPermission;
+        site_properties nocall: context/portal_properties/site_properties;
+        ajax_include_head request/ajax_include_head | nothing;
+        ajax_load request/ajax_load | python: False;
+        toolbar_class python:request.cookies.get('plone-toolbar', 'plone-toolbar-left pat-toolbar');
+        dummy python:request.RESPONSE.setHeader('X-UA-Compatible', 'IE=edge,chrome=1');">
+%s
+</metal:page>"""  # noqa
+
 
 def cook_layout_cachekey(func, layout, ajax):
     if isinstance(layout, unicode):
@@ -149,24 +170,7 @@ def cook_layout(layout, ajax):
             slot.attrib['define-slot'] = name
             head.append(slot)
 
-    template = """\
-<metal:page define-macro="master"
-            tal:define="portal_state context/@@plone_portal_state;
-                        context_state context/@@plone_context_state;
-                        plone_view context/@@plone;
-                        plone_layout context/@@plone_layout | nothing;
-                        lang portal_state/language;
-                        view nocall: view | nocall: plone_view;
-                        dummy python:plone_view.mark_view(view);
-                        portal_url portal_state/portal_url;
-                        checkPermission nocall: context/portal_membership/checkPermission;
-                        site_properties nocall: context/portal_properties/site_properties;
-                        ajax_include_head request/ajax_include_head | nothing;
-                        ajax_load request/ajax_load | python: False;
-                        toolbar_class python:request.cookies.get('plone-toolbar', 'plone-toolbar-left pat-toolbar');
-                        dummy python:request.RESPONSE.setHeader('X-UA-Compatible', 'IE=edge,chrome=1');">
-%s
-</metal:page>"""
+    template = TEMPLATE
     metal = 'xmlns:metal="http://namespaces.zope.org/metal"'
     return (template % ''.join(result)).replace(metal, '')
 

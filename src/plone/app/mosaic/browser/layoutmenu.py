@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from plone import api
 from plone.app.blocks.interfaces import IBlocksTransformEnabled
-from plone.app.blocks.layoutbehavior import ILayoutAware
+from plone.app.blocks.layoutbehavior import ILayoutBehaviorAdaptable
 from plone.app.blocks.resource import ContentLayoutTraverser
 from plone.app.blocks.utils import resolveResource
 from plone.app.content.browser.interfaces import IFolderContentsView
@@ -42,7 +42,7 @@ def absolute_path(path):
 
 
 @implementer(ITraversable)
-@adapter(ILayoutAware, IMosaicLayer)
+@adapter(ILayoutBehaviorAdaptable, IMosaicLayer)
 class DisplayLayoutTraverser(SimpleHandler):
 
     def __init__(self, context, request):
@@ -70,7 +70,7 @@ class DisplayLayoutTraverser(SimpleHandler):
 
 
 @implementer(ITraversable)
-@adapter(ILayoutAware, IMosaicLayer)
+@adapter(ILayoutBehaviorAdaptable, IMosaicLayer)
 class DisplayContentLayoutTraverser(SimpleHandler):
 
     def __init__(self, context, request):
@@ -106,7 +106,7 @@ class DisplayLayoutView(DefaultView):
             raise
 
 
-@adapter(ILayoutAware, IMosaicLayer)
+@adapter(ILayoutBehaviorAdaptable, IMosaicLayer)
 class HiddenDisplaySubMenuItem(DisplaySubMenuItem):
 
     @view.memoize
@@ -121,7 +121,7 @@ class HiddenDisplaySubMenuItem(DisplaySubMenuItem):
 
 
 @implementer(IContentMenuItem)
-@adapter(ILayoutAware, IMosaicLayer)
+@adapter(ILayoutBehaviorAdaptable, IMosaicLayer)
 class DisplayLayoutSubMenuItem(BrowserSubMenuItem):
 
     title = _(u'label_choose_display', default=u'Display')

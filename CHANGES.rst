@@ -4,6 +4,9 @@ Changelog
 2.0.0 (unreleased)
 ------------------
 
+- Depend on adapterized plone.app.blocks >= 4.0.0 and adopt mosaic to use it.
+  [jensens]
+
 - Fix: plone_pattern_setting view lookup ran into empty, now renders all.
   [jensens]
 
