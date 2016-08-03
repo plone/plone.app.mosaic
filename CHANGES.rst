@@ -7,9 +7,6 @@ Changelog
 - Fix: plone_pattern_setting view lookup ran into empty, now renders all.
   [jensens]
 
-- do not import all of bootstrap
-  [vangheem]
-
 - Log warning if plone_pattern_settings view was not found.
   [jensens]
 
