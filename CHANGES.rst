@@ -65,6 +65,9 @@ Changelog
 - Update testing infrastructure.
   [gforcada]
 
+- Make layouts HTML valid.
+  [gforcada]
+
 1.0 (2016-04-11)
 ----------------
 
