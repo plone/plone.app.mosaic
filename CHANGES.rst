@@ -56,6 +56,8 @@ Changelog
 - Fix modal to be structured like other plone modals
   [vangheem]
 
+- Fix robot test.
+  [gforcada]
 
 1.0 (2016-04-11)
 ----------------
