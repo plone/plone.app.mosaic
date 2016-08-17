@@ -60,7 +60,7 @@ The most prominent feature provided by **Plone Mosaic** is the new **Layout-beha
         ...  Wait until page contains  View changed.
 
         Run keyword if  '${CMFPLONE_VERSION}'.startswith('5.')
-        ...  Click element  ${SELECTOR_CONTENTMENU_DISPLAY_LINK}
+        ...  Mouse over  ${SELECTOR_CONTENTMENU_DISPLAY_LINK}
         Run keyword if  '${CMFPLONE_VERSION}'.startswith('5.')
         ...  Wait until page contains element
         ...  css=#plone-contentmenu-display-layout_view.actionMenuSelected
