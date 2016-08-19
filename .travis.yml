@@ -1,41 +1,6 @@
 language: python
-python: '2.7'
+python: 2.7
 sudo: false
-cache:
-  pip: true
-  directories:
-    - node_modules
-    - components
-    - $HOME/buildout-cache
-
-before_install:
-  - mkdir -p $HOME/buildout-cache/{eggs,downloads}
-  - mkdir $HOME/.buildout
-  - echo "[buildout]" > $HOME/.buildout/default.cfg
-  - echo "download-cache = $HOME/buildout-cache/downloads" >> $HOME/.buildout/default.cfg
-  - echo "eggs-directory = $HOME/buildout-cache/eggs" >> $HOME/.buildout/default.cfg
-  - export DISPLAY=:99.0
-  - sh -e /etc/init.d/xvfb start
-install:
-  - rm -rf $HOME/buildout-cache/eggs/plone.app.locales*
-  - pip install zc.buildout
-  - buildout -N -t 3 -c test-$PLONE_VERSION.cfg annotate
-  - buildout -N -t 3 -c test-$PLONE_VERSION.cfg
-  - mkdir -p parts/test/_screenshots
-  - make install
-  - make clean all mode=release
-script:
-  - ROBOT_BROWSER=phantomjs bin/test $TEST_OPTIONS
-  - bin/pybot -v BROWSER:phantomjs -d parts/test docs
-after_script:
-  - ROBOT_BROWSER=phantomjs bin/sphinx-build docs html
-  - bundle install
-  - bundle exec travis-artifacts upload --path html
-  - bundle exec travis-artifacts upload --path parts/test
-  - bundle exec travis-artifacts upload --target-path latest --path html
-  - bundle exec travis-artifacts upload --target-path latest --path parts/test
-  - 'echo "Sphinx: http://plone-app-mosaic.s3-website-us-east-1.amazonaws.com/artifacts/${TRAVIS_BUILD_NUMBER}/${TRAVIS_JOB_NUMBER}/"'
-  - 'echo "Robot: http://plone-app-mosaic.s3-website-us-east-1.amazonaws.com/artifacts/${TRAVIS_BUILD_NUMBER}/${TRAVIS_JOB_NUMBER}/report.html"'
 env:
   matrix:
     - PLONE_VERSION=5.0.x
@@ -44,6 +9,45 @@ env:
     - ARTIFACTS_S3_BUCKET=plone-app-mosaic
     - secure: F9djE/1a4VvCidHCnWeF7qkwsUhVLZELv/ttSC1UamsbCCzIa0shUheF4MfAZBRcwtVVAlrid4VRnuYnxyDciy2jrL/qayLfze2ZKcZTfYKsNIrQzyZ4SUVZRB9ZSA6yUK3v+/GIie95as8MKM/UxRtn2RWw4doWGyKv8XBOL4U=
     - secure: buYYreaObmTNEuVTibj/kIyFnIoHCZdezeA8P0HwGHrTbIAwArBFfhG5PC1grT8MayN3f4sfY80d8sRhRATTPNX1smjjBfyni/Zon8OTpr6mGaGsHOg+HHHqocy3hZPlgg1yYLpUCfKCOc8pnq09lF06JwPxsIXAiV+oRHR446E=
+cache:
+  pip: true
+  directories:
+    - node_modules
+    - components
+    - $HOME/buildout-cache
+before_install:
+  - mkdir -p $HOME/buildout-cache/{eggs,downloads}
+  - mkdir $HOME/.buildout
+  - echo "[buildout]" > $HOME/.buildout/default.cfg
+  - echo "download-cache = $HOME/buildout-cache/downloads" >> $HOME/.buildout/default.cfg
+  - echo "eggs-directory = $HOME/buildout-cache/eggs" >> $HOME/.buildout/default.cfg
+  - pip install zc.buildout
+  - cp test-$PLONE_VERSION.cfg buildout.cfg
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
+install:
+  - rm -rf $HOME/buildout-cache/eggs/plone.app.locales*
+  - buildout -N -t 3 annotate
+  - buildout -N -t 3
+  - mkdir -p parts/test/_screenshots
+  - make install
+  - make clean all mode=release
+script:
+  - bin/code-analysis
+  - ROBOT_BROWSER=phantomjs bin/test $TEST_OPTIONS
+  - bin/pybot -v BROWSER:phantomjs -d parts/test docs
+after_success:
+  - bin/createcoverage
+  - pip install -q coveralls
+  - coveralls
+  - ROBOT_BROWSER=phantomjs bin/sphinx-build docs html
+  - bundle install
+  - bundle exec travis-artifacts upload --path html
+  - bundle exec travis-artifacts upload --path parts/test
+  - bundle exec travis-artifacts upload --target-path latest --path html
+  - bundle exec travis-artifacts upload --target-path latest --path parts/test
+  - 'echo "Sphinx: http://plone-app-mosaic.s3-website-us-east-1.amazonaws.com/artifacts/${TRAVIS_BUILD_NUMBER}/${TRAVIS_JOB_NUMBER}/"'
+  - 'echo "Robot: http://plone-app-mosaic.s3-website-us-east-1.amazonaws.com/artifacts/${TRAVIS_BUILD_NUMBER}/${TRAVIS_JOB_NUMBER}/report.html"'
 irc:
   channels:
     - irc.freenode.org#plone-testing
