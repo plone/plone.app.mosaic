@@ -8,8 +8,13 @@ Read this introduction and `the package documentation`__ for more details how to
 
 __  http://plone-app-mosaic.s3-website-us-east-1.amazonaws.com/latest/
 
-..  image:: https://secure.travis-ci.org/plone/plone.app.mosaic.png
+.. image:: https://secure.travis-ci.org/plone/plone.app.mosaic.png?branch=master
+    :alt: Travis CI badge
     :target: http://travis-ci.org/plone/plone.app.mosaic
+
+.. image:: https://coveralls.io/repos/plone/plone.app.mosaic/badge.png?branch=master
+    :alt: Coveralls badge
+    :target: https://coveralls.io/r/plone/plone.app.mosaic
 
 ..  image:: https://www.herokucdn.com/deploy/button.png
     :target: https://heroku.com/deploy?template=https://github.com/plone/plone.app.mosaic
