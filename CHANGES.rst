@@ -59,6 +59,12 @@ Changelog
 - Fix robot test.
   [gforcada]
 
+- Use buildout.coredev version pins.
+  [gforcada]
+
+- Update testing infrastructure.
+  [gforcada]
+
 1.0 (2016-04-11)
 ----------------
 

@@ -1,0 +1,9 @@
+[report]
+omit =
+    /home/*/.buildout/eggs/*
+    /usr/*
+    bin/test
+    /home/travis/buildout-cache/eggs/*
+    /home/travis/virtualenv/*
+    eggs/*
+    parts/*
