@@ -3,4 +3,4 @@ recursive-include src *
 include LICENSE *.txt *.rst *.GPL *.py
 global-exclude *.pyc
 exclude Makefile *.cfg *.in *.nix *.sh *.conf *.js *.json Procfile .jshintrc bin tests
-exclude tests/* bin/*
+exclude tests/* bin/* resources

@@ -166,6 +166,27 @@ The bundle can also be built with source maps and watched for changes with:
    $ make clean all watch
 
 
+Webpack based frontent development
+----------------------------------
+
+Plone Mosaic can be developed with Webpack running:
+
+.. code:: bash
+
+   $ make watch_theme
+
+or starting the instances either manually or with ``make watch_instance``
+and starting the Webpack development server with:
+
+.. code:: bash
+
+   $ make watch_webpack
+
+Once you have activated theme called **Plone Mosaic**, the editor will be
+reloaded and rebuilt by Webpack development server after each filesystem
+change.
+
+
 Documentation screenshots
 -------------------------
 

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rules
+    xmlns="http://namespaces.plone.org/diazo"
+    xmlns:css="http://namespaces.plone.org/diazo/css"
+    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+    xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <!-- Import Barceloneta rules -->
+  <xi:include href="++theme++barceloneta/rules.xml" />
+
+  <!-- Configure webpack built bundles -->
+  <xi:include href="webpack.xml" />
+
+</rules>
