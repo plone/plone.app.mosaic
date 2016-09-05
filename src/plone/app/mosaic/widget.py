@@ -183,7 +183,7 @@ class LayoutWidget(BaseWidget, TextAreaWidget):
         return selectable_layout.getLayout()
 
 
-@adapter(getSpecification(ILayoutAware['contentLayout']), IMosaicLayer)
+@adapter(getSpecification(ILayoutAware['content']), IMosaicLayer)
 @implementer(IFieldWidget)
 def LayoutFieldWidget(field, request):  # noqa
     return FieldWidget(field, LayoutWidget(request))

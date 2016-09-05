@@ -1769,8 +1769,8 @@ define([
   $.mosaic.saveLayoutToForm = function(){
     $.mosaic.saveTileFormData();
 
-    var $customLayout = $("#form-widgets-ILayoutAware-contentLayout, " +
-                          "[name='form.widgets.ILayoutAware.contentLayout']");
+    var $customLayout = $("#form-widgets-ILayoutAware-content, " +
+                          "[name='form.widgets.ILayoutAware.content']");
     if($.mosaic.hasContentLayout){
       $customLayout.val('');
     }else{
