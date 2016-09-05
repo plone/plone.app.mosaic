@@ -77,7 +77,7 @@ define([
             '<% _.each(user_layouts, function(layout){ ' +
               'var screenshot = layout.preview || layout.screenshot;' +
               'if(!screenshot){' +
-                'screenshot = "++resource++plone.app.mosaic/img/default-layout-screenshot.png";' +
+                'screenshot = "++plone++mosaic/img/default-layout-screenshot.png";' +
               '} %>' +
               '<li><a href="#" data-value="<%- layout.path %>">' +
                 '<p><%- layout.title %></p><img src="<%- portal_url %>/<%- screenshot %>"></a></li>' +
