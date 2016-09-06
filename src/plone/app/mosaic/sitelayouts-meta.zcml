@@ -1,0 +1,19 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:meta="http://namespaces.zope.org/meta"
+    i18n_domain="plone">
+
+  <!--
+       To enable site-layouts for your Plone site,
+       include this file in [instance] section of your
+       Plone buildout similarly to
+
+       [instance]
+       recipe = plone.recipe.zope2.instance
+       ...
+       zcml = plone.app.mosaic-meta:sitelayouts-meta.zcml
+   -->
+
+  <meta:provides feature="mosaic-sitelayouts" />
+
+</configure>

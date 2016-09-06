@@ -4,8 +4,13 @@ Changelog
 2.0.0 (unreleased)
 ------------------
 
+- Add sitelayouts-meta.zcml, which allows enabling site layouts in
+  buildout with ``zcml = plone.app.mosaic-meta:sitelayouts-meta.zcml``
+  [datakurre]
+
 - Depend on adapterized plone.app.blocks >= 4.0.0 and adopt mosaic to use it.
   [jensens]
+
 - Fix: default layout image not showing properly
   [vangheem]
 
