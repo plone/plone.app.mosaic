@@ -6,6 +6,8 @@ Changelog
 
 - Depend on adapterized plone.app.blocks >= 4.0.0 and adopt mosaic to use it.
   [jensens]
+- Fix: default layout image not showing properly
+  [vangheem]
 
 - Fix: plone_pattern_setting view lookup ran into empty, now renders all.
   [jensens]
