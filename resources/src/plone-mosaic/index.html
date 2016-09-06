@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+<head>
+  <title>Plone Theme</title>
+<% for (var chunk in htmlWebpackPlugin.files.chunks) { %>
+<% if (htmlWebpackPlugin.files.chunks[chunk].css[0]) { %>
+   <link rel="stylesheet" data-name="bundle-<%= chunk %>" href="<%= htmlWebpackPlugin.files.chunks[chunk].css[0] %>" />
+<% }} %>
+</head>
+<body>
+<section id="portal-toolbar">
+</section>
+<div class="outer-wrapper">
+  <header id="content-header" role="banner">
+    <div class="container">
+      <header id="portal-top">
+      </header>
+      <div id="anonymous-actions">
+      </div>
+    </div>
+  </header>
+  <div id="mainnavigation-wrapper">
+    <div id="mainnavigation">
+    </div>
+  </div>
+  <div id="above-content-wrapper">
+    <div id="above-content">
+    </div>
+  </div>
+  <div class="container">
+    <div class="row">
+      <aside id="global_statusmessage"></aside>
+    </div>
+    <main id="main-container" class="row row-offcanvas row-offcanvas-right" role="main">
+      <div id="column1-container">
+      </div>
+      <div id="content-container">
+      </div>
+      <div id="column2-container">
+      </div>
+    </main><!--/row-->
+  </div><!--/container-->
+</div> <!--/outer-wrapper -->
+<footer id="portal-footer-wrapper" role="contentinfo">
+  <div class="container" id="portal-footer"></div>
+</footer>
+<% for (var chunk in htmlWebpackPlugin.files.chunks) { %>
+  <script data-name="bundle-<%= chunk %>" src="<%= htmlWebpackPlugin.files.chunks[chunk].entry %>"></script>
+<% } %>
+</body>
+</html>

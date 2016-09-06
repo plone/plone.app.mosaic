@@ -71,6 +71,9 @@ Changelog
 - Make layouts HTML valid.
   [gforcada]
 
+- Add Webpack based frontend development flow.
+  [datakurre]
+
 1.0 (2016-04-11)
 ----------------
 

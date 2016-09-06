@@ -1,5 +1,5 @@
 { pkgs ? import (builtins.fetchTarball  # revision for reproducible builds
-  "https://github.com/nixos/nixpkgs-channels/archive/0bf8a1a86df67649893726d50761567121330006.tar.gz") {}
+  "https://github.com/nixos/nixpkgs-channels/archive/nixos-16.03.tar.gz") {}
 , pythonPackages ? pkgs.python27Packages
 }:
 
@@ -7,10 +7,10 @@ let self = rec {
   version = "dev";  # builtins.replaceStrings ["\n"] [""] (builtins.readFile ./VERSION);
 
   selenium = pythonPackages.selenium.overrideDerivation (args: rec {
-    name = "selenium-2.53.1";
+    name = "selenium-3.0.0b2";
     src = pkgs.fetchurl {
-      url = "https://pypi.python.org/packages/source/s/selenium/selenium-2.53.1.tar.gz";
-      sha256 = "1pj0ci4dxwfa0pkvjc60k7pw74zy6ay473mnzckbb58jlhc994jk";
+      url = "https://pypi.python.org/packages/5d/9f/6bae7490ad5691bf6118c077a986b9eb2c31b93fe230708a286ee97f3b94/selenium-3.0.0b2.tar.gz";
+      sha256 = "0rsidck2qaw01j2jpw04d55972jy7fw2zf4w11wzn4v34ff4hl59";
     };
     patches = [
       (builtins.toFile "fix_profiledir_permissions.patch" ''
@@ -60,6 +60,14 @@ let self = rec {
 };
 in pkgs.stdenv.mkDerivation rec {
   name = "env";
+  # Define nix-build -buildable python interpreter
+  env = pythonPackages.python.buildEnv.override {
+    extraLibs = buildInputs;
+   };
+  builder = builtins.toFile "builder.sh" ''
+    source $stdenv/setup; ln -s $env $out
+  '';
+  # Define nix-shell and interpreter requirements
   buildInputs = with self; [
     (pythonPackages.zc_buildout_nix.overrideDerivation (args: {
       postInstall = "";
@@ -85,15 +93,17 @@ in pkgs.stdenv.mkDerivation rec {
     }))
     pkgs.phantomjs
   ];
+  # Define nix-shell with BUILDOUT_ARGS to override pins with nix verions
   shellHook = ''
     export BUILDOUT_ARGS="\
+        versions:decorator= \
         versions:lxml= \
         versions:Pillow= \
         versions:python-ldap= \
+        versions:robotframework= \
+        versions:selenium= \
         versions:setuptools= \
         versions:zc.buildout= \
-        versions:decorator= \
-        versions:robotframework= \
         config:plone-hotfixes= \
         config:chameleon-cache=/tmp"
   '';

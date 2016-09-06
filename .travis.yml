@@ -26,6 +26,8 @@ before_install:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
 install:
+  - nvm install node
+  - nvm use node
   - rm -rf $HOME/buildout-cache/eggs/plone.app.locales*
   - buildout -N -t 3 annotate
   - buildout -N -t 3
