@@ -17,6 +17,10 @@ Changelog
   Main purpose is to unify the edit and view of your layout. Fixes #231
   [agitator]
 
+- Handle missing tiles and tile configuration with layout editor where it doesn't
+  destroy user's ability to still edit the layout/tiles.
+  [vangheem]
+
 - Depend on adapterized plone.app.blocks >= 4.0.0 and adopt mosaic to use it.
   [jensens]
 

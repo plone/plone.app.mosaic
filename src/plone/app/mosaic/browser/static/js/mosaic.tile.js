@@ -14,6 +14,9 @@ define([
 ], function($, logger, _, utils, Registry, TinyMCE, tinymce, Modal) {
   'use strict';
 
+  // so we don't get spammed with missing tile warnings
+  var _missing_tile_configs = [];
+
   var log = logger.getLogger('pat-mosaic');
 
   var _positionTimeout = 0;
@@ -261,7 +264,10 @@ define([
 
     if(!tile_config){
       // dive out of here, something went wrong finding tile config
-      log.error('Could not load tile config for tile type: ' + tiletype);
+      if(_missing_tile_configs.indexOf(tiletype) === -1){
+        log.error('Could not load tile config for tile type: ' + tiletype);
+        _missing_tile_configs.push(tiletype);
+      }
       return;
     }
     return tile_config;
@@ -290,6 +296,16 @@ define([
     // Get tile config
     var tile_config = this.getConfig();
     var editor;
+
+    if(!tile_config){
+      // tile configuration was removed from configuration registry.
+      // let's try our best to still be able to use this tile correctly
+      // and not fail here...
+      tile_config = {
+        tile_type: 'app',
+        name: this.getType()
+      };
+    }
 
     // Predefine vars
     switch (tile_config.tile_type) {
@@ -601,7 +617,15 @@ define([
       // Get tile type
       var tile_config = this.getConfig();
       if(!tile_config){
-          return;
+        // no tile config, this case can happen when a tile config is removed
+        // from the configuration registry. We want the editor to still
+        // work the best possible way for this so we'll fill in some gaps
+        // that should work still
+        tile_config = {
+          tile_type: 'app',
+          name: this.getType(),
+          label: 'Unknown'
+        };
       }
 
       // Check if a field tile
@@ -717,6 +741,9 @@ define([
           },
           error: function(){
             that.$el.removeClass('mosaic-tile-loading');
+            log.error('Error getting data for the tile ' + tile_config.label +
+                      '(' + tile_config.name + '). Please read documentation ' +
+                      'on how to correctly register tiles: https://pypi.python.org/pypi/plone.tiles');
           }
         });
       }
