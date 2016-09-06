@@ -221,7 +221,7 @@ or with phantomjs:
 
 ..  code:: bash
 
-    $ bin/robot -v BROWSER=phantomjs docs/getting-started.rst
+    $ bin/robot -v BROWSER:phantomjs docs/getting-started.rst
 
 and open ``./report.html`` to view the test report.
 
