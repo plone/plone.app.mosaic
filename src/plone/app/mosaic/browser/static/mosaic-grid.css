@@ -1,0 +1,151 @@
+.mosaic-enabled,
+.mosaic-grid,
+.template-layout {
+  /* Grid classes, these can also be nested */
+}
+.mosaic-enabled .mosaic-grid-row,
+.mosaic-grid .mosaic-grid-row,
+.template-layout .mosaic-grid-row {
+  position: relative;
+  margin-left: -15px;
+  margin-right: -15px;
+}
+.mosaic-enabled,
+.mosaic-grid {
+  /* Widths, these are abstracted out so that pixel-based layouts or other
+     similar approaches can be retrofitted without changing the markup,
+     or if you want to apply rules like the Golden Ratio to your layouts */
+}
+.mosaic-enabled .mosaic-width-full,
+.mosaic-grid .mosaic-width-full {
+  position: relative;
+  float: left;
+  width: 100%;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.mosaic-enabled .mosaic-width-half,
+.mosaic-grid .mosaic-width-half {
+  position: relative;
+  float: left;
+  width: 50%;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.mosaic-enabled .mosaic-width-quarter,
+.mosaic-grid .mosaic-width-quarter {
+  position: relative;
+  float: left;
+  width: 25%;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.mosaic-enabled .mosaic-width-three-quarters,
+.mosaic-grid .mosaic-width-three-quarters {
+  position: relative;
+  float: left;
+  width: 75%;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.mosaic-enabled .mosaic-width-third,
+.mosaic-grid .mosaic-width-third {
+  position: relative;
+  float: left;
+  width: 33.33333333%;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.mosaic-enabled .mosaic-width-two-thirds,
+.mosaic-grid .mosaic-width-two-thirds {
+  position: relative;
+  float: left;
+  width: 66.66666667%;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.template-layout {
+  /* Widths, these are abstracted out so that pixel-based layouts or other
+     similar approaches can be retrofitted without changing the markup,
+     or if you want to apply rules like the Golden Ratio to your layouts */
+}
+.template-layout .mosaic-width-full {
+  position: relative;
+  float: left;
+  width: 100%;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.template-layout .mosaic-width-half {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .template-layout .mosaic-width-half {
+    float: left;
+    width: 50%;
+  }
+}
+.template-layout .mosaic-width-quarter {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .template-layout .mosaic-width-quarter {
+    float: left;
+    width: 50%;
+  }
+}
+@media (min-width: 992px) {
+  .template-layout .mosaic-width-quarter {
+    float: left;
+    width: 25%;
+  }
+}
+.template-layout .mosaic-width-three-quarters {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 992px) {
+  .template-layout .mosaic-width-three-quarters {
+    float: left;
+    width: 75%;
+  }
+}
+.template-layout .mosaic-width-third {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 992px) {
+  .template-layout .mosaic-width-third {
+    float: left;
+    width: 33.33333333%;
+  }
+}
+.template-layout .mosaic-width-two-thirds {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 992px) {
+  .template-layout .mosaic-width-two-thirds {
+    float: left;
+    width: 66.66666667%;
+  }
+}

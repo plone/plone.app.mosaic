@@ -17,7 +17,8 @@
   "dependencies": {
     "bootstrap": "~3.3.4",
     "patternslib": "~2.0.11",
-    "jquery": "~1.11.2"
+    "jquery": "~1.11.2",
+    "plonetheme.barceloneta": "https://github.com/plone/plonetheme.barceloneta.git#^1.6.21"
   },
   "devDependencies": {},
   "resolutions": {

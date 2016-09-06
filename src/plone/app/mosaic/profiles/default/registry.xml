@@ -1366,6 +1366,15 @@
     </value>
   </records>
 
+  <records prefix="plone.bundles/mosaic-grid"
+           interface='Products.CMFPlone.interfaces.IBundleRegistry'>
+    <value key="csscompilation">++plone++mosaic/mosaic-grid.css</value>
+    <value key="last_compilation">2016-09-06 00:00:00</value>
+    <value key="compile">False</value>
+    <value key="merge_with">default</value>
+    <value key="enabled">True</value>
+  </records>
+
   <records prefix="plone.bundles/mosaic"
            interface='Products.CMFPlone.interfaces.IBundleRegistry'>
     <value key="resources" purge="false">

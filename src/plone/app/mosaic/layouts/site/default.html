@@ -18,8 +18,8 @@
 
 <div data-tile="./@@plone.app.standardtiles.toolbar"></div>
 
-<div data-grid='{"type": "row"}'>
-  <div data-grid='{"type": "cell", "info": {"xs": "true", "sm": "true", "lg": "true", "pos": {"x": 1, "width": 12}}}'>
+<div class="mosaic-grid-row">
+  <div class="mosaic-width-full">
     <header id="portal-top">
       <div id="portal-header">
         <div data-tile="./@@plone.app.standardtiles.skip_links"></div>
@@ -32,24 +32,24 @@
   </div>
 </div>
 
-<div data-grid='{"type": "row"}'>
-  <div data-grid='{"type": "cell", "info": {"xs": "true", "sm": "true", "lg": "true", "pos": {"x": 1, "width": 12}}}'>
+<div class="mosaic-grid-row">
+  <div class="mosaic-width-full">
     <div id="portal-mainnavigation">
       <div data-tile="./@@plone.app.standardtiles.global_sections"></div>
     </div>
   </div>
 </div>
 
-<div data-grid='{"type": "row"}'>
-  <div data-grid='{"type": "cell", "info": {"xs": "true", "sm": "true", "lg": "true", "pos": {"x": 1, "width": 12}}}'>
+<div class="mosaic-grid-row">
+  <div class="mosaic-width-full">
     <aside id="global_statusmessage" data-slots="&gt; global_statusmessage">
       <div data-tile="./@@plone.app.standardtiles.global_statusmessage"></div>
     </aside>
   </div>
 </div>
 
-<div data-grid='{"type": "row"}'>
-  <div data-grid='{"type": "cell", "info": {"xs": "true", "sm": "true", "lg": "true", "pos": {"x": 1, "width": 12}}}'>
+<div class="mosaic-grid-row">
+  <div class="mosaic-width-full">
     <section id="viewlet-above-content">
       <div data-tile="./@@plone.app.standardtiles.path_bar"></div>
       <div data-tile="./@@plone.app.standardtiles.lockinfo"></div>
@@ -57,8 +57,8 @@
   </div>
 </div>
 
-<div data-grid='{"type": "row"}'>
-  <div data-grid='{"type": "cell", "info": {"xs": "true", "sm": "true", "lg": "true", "pos": {"x": 5, "width": 8}}}'>
+<div class="mosaic-grid-row">
+  <div class="mosaic-width-two-thirds">
     <article id="portal-column-content">
       <article id="content" data-panel="content" data-slots="content">
         <div data-slots="body > header *">
@@ -77,14 +77,14 @@
       </footer>
     </article>
   </div>
-  <div data-grid='{"type": "cell", "info": {"xs": "true", "sm": "true", "lg": "true", "pos": {"x": 1, "width": 4}}}'>
+  <div class="mosaic-width-third">
     <aside id="portal-column-one">
       <div data-tile="./@@plone.app.standardtiles.portletmanager/left-portlets?manager=plone.leftcolumn"
            data-slots="portal-column-one"></div>
       <div data-panel="leftcolumn"></div>
     </aside>
   </div>
-  <div data-grid='{"type": "cell", "info": {"xs": "true", "sm": "true", "lg": "true", "pos": {"x": 13, "width": 4}}}'>
+  <div class="mosaic-width-third">
     <aside id="portal-column-two">
       <div data-tile="./@@plone.app.standardtiles.portletmanager/right-portlets?manager=plone.rightcolumn"
            data-slots="portal-column-two"></div>
@@ -93,8 +93,8 @@
   </div>
 </div>
 
-<div data-grid='{"type": "row"}'>
-  <div data-grid='{"type": "cell", "info": {"xs": "true", "sm": "true", "lg": "true", "pos": {"x": 1, "width": 12}}}'>
+<div class="mosaic-grid-row">
+  <div class="mosaic-width-full">
     <footer id="portal-footer-wrapper">
       <div data-tile="./@@plone.app.standardtiles.portletmanager/footer-portlets?manager=plone.footerportlets"></div>
     </footer>
