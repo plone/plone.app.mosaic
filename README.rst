@@ -90,6 +90,16 @@ package has following dependencies::
     plone.app.drafts >= 1.0
     plone.app.widgets >= 1.8.0
 
+A example set of version pins for Plone 5 that works with the latest
+plone.app.mosaic is::
+
+    plone.app.drafts=1.0
+    plone.app.tiles=2.2.1
+    plone.app.blocks=3.1.0
+    plone.app.standardtiles=1.0
+    plone.tiles=1.6.0
+    plone.app.tiles=2.2.1
+
 After the add-on activation, the new content layout and editor support can be
 enabled for any content type by enabling behaviors **Layout support** and
 **Drafting support**.
