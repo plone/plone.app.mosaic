@@ -58,6 +58,10 @@ Changelog
 - Move tile remove button onto tile instead of in toolbar
   [vangheem]
 
+- Fix TinyMCE Insert Image search results to have fixed maximum height
+  to prevent it from flowing over viewport
+  [datakurre]
+
 - Fix modal to be structured like other plone modals
   [vangheem]
 
