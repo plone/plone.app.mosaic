@@ -289,13 +289,15 @@ define([
 
     // Get tile config
     var tile_config = this.getConfig();
+    var editor;
 
     // Predefine vars
     switch (tile_config.tile_type) {
       case "text":
+        editor = tinymce.get(this.$el.children(".mosaic-tile-content").attr('id'));
         body += '          <div class="' + classes.join(' ') + '">\n';
         body += '          <div class="mosaic-tile-content">\n';
-        body += this.$el.children(".mosaic-tile-content").html().replace(/^\s+|\s+$/g, '') + "\n";
+        body += (editor ? editor.getContent() : this.$el.children(".mosaic-tile-content").html()).replace(/^\s+|\s+$/g, '') + "\n";
         body += '          </div>\n';
         body += '          </div>\n';
         break;
