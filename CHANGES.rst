@@ -80,6 +80,9 @@ Changelog
 - Add Webpack based frontend development flow.
   [datakurre]
 
+- Small fix in README
+  [staeff]
+
 1.0 (2016-04-11)
 ----------------
 
