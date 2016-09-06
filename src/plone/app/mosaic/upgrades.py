@@ -3,6 +3,7 @@ from plone import api
 from plone.app.blocks.layoutbehavior import ILayoutAware
 from plone.app.mosaic.interfaces import IAction
 from plone.app.mosaic.setuphandlers import create_ttw_layout_examples
+from plone.app.mosaic.widget import LAYOUT_BEHAVIORS
 from plone.registry.interfaces import IRegistry
 from Products.CMFCore.utils import getToolByName
 from zope.component import getUtility
@@ -81,8 +82,7 @@ def upgrade_8_to_9(context):
     all_ftis = types_tool.listTypeInfo()
     dx_ftis = [x for x in all_ftis if getattr(x, 'behaviors', False)]
     for fti in dx_ftis:
-        behaviors = [i for i in fti.behaviors]
-        if 'plone.app.blocks.layoutbehavior.ILayoutAware' not in behaviors:
+        if not (LAYOUT_BEHAVIORS & set(fti.behaviors)):
             continue
 
         # Add Mosaic view into available view methods
@@ -110,8 +110,7 @@ def upgrade_9_to_10(context):
     all_ftis = types_tool.listTypeInfo()
     dx_ftis = [x for x in all_ftis if getattr(x, 'behaviors', False)]
     for fti in dx_ftis:
-        behaviors = [i for i in fti.behaviors]
-        if 'plone.app.blocks.layoutbehavior.ILayoutAware' not in behaviors:
+        if not (LAYOUT_BEHAVIORS & set(fti.behaviors)):
             continue
 
         results = pc.unrestrictedSearchResults(portal_type=fti.id)
@@ -168,3 +167,10 @@ def upgrade_to_1_1(context):
         PROFILE_ID.replace('default', 'to_5016'),
         'plone.app.registry'
     )
+
+
+def upgrade_to_2_0(context):
+    catalog = api.portal.get_tool('portal_catalog')
+    for brain in catalog(object_provides=ILayoutAware.__identifier__):
+        obj = brain.getObject()
+        obj.reindexObject(idxs=['object_provides', 'layout'])

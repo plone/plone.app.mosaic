@@ -17,7 +17,7 @@
 
   <!-- Hide the default -->
   <adapter
-      for="plone.app.blocks.layoutbehavior.ILayoutAware
+      for="plone.app.blocks.layoutbehavior.ILayoutBehaviorAdaptable
                ..interfaces.IMosaicLayer"
       name="plone.contentmenu.display"
       factory=".layoutmenu.HiddenDisplaySubMenuItem"
@@ -26,7 +26,7 @@
 
   <!-- Display the custom menu -->
   <adapter
-      for="plone.app.blocks.layoutbehavior.ILayoutAware
+      for="plone.app.blocks.layoutbehavior.ILayoutBehaviorAdaptable
                ..interfaces.IMosaicLayer"
       name="plone.contentmenu.layout"
       factory=".layoutmenu.DisplayLayoutSubMenuItem"
@@ -37,7 +37,7 @@
   <configure package="plone.app.content.browser">
 
     <browser:page
-        for="plone.app.blocks.layoutbehavior.ILayoutAware"
+        for="plone.app.blocks.layoutbehavior.ILayoutBehaviorAdaptable"
         layer="plone.app.mosaic.interfaces.IMosaicLayer"
         name="select_default_view"
         class="plone.app.mosaic.browser.layoutmenu.LayoutAwareDefaultViewSelectionView"
@@ -46,7 +46,7 @@
         />
 
     <browser:page
-        for="plone.app.blocks.layoutbehavior.ILayoutAware"
+        for="plone.app.blocks.layoutbehavior.ILayoutBehaviorAdaptable"
         layer="plone.app.mosaic.interfaces.IMosaicLayer"
         name="selectViewTemplate"
         class="plone.app.mosaic.browser.layoutmenu.LayoutAwareDefaultViewSelectionView"

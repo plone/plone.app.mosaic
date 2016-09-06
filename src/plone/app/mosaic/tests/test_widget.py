@@ -16,6 +16,6 @@ class TestLayoutWidget(unittest.TestCase):
     def test_layout_widget_is_registered_for_layer(self):
         widget = getMultiAdapter(
             (ILayoutAware['content'], self.request),
-            IFieldWidget,
+            IFieldWidget
         )
         self.assertIsInstance(widget, LayoutWidget)

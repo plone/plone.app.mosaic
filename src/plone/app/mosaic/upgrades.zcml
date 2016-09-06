@@ -256,4 +256,12 @@
       handler=".upgrades.upgrade_to_1_1"
       />
 
+  <genericsetup:upgradeStep
+      profile="plone.app.mosaic:default"
+      source="5016"
+      destination="5017"
+      title="Upgrade to 2.0"
+      handler=".upgrades.upgrade_to_2_0"
+      />
+
 </configure>

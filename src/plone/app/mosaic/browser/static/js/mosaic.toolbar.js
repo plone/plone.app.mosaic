@@ -527,8 +527,8 @@ define([
           setTimeout(function(){
             // we want to do this on a delay to prevent conflict errors when
             // editing a tile and this is called at the exact same time
-            $("#form-widgets-ILayoutAware-content, " +
-              "[name='form.widgets.ILayoutAware.content']").blur();
+            $("#form-widgets-ILayoutAware-contentLayout, " +
+              "[name='form.widgets.ILayoutAware.contentLayout']").blur();
           }, 1000);
           lastChange = (new Date()).getTime();
         }

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from plone import api
 from plone.app.blocks.layoutbehavior import ILayoutAware
+from plone.app.blocks.layoutbehavior import ILayoutBehaviorAdaptable
 from plone.app.mosaic.interfaces import IMosaicLayer
 from plone.app.mosaic.interfaces import IMosaicRegistryAdapter
 from plone.app.mosaic.utils import getContentLayoutsForType
@@ -30,6 +31,11 @@ from zope.security import checkPermission
 
 
 LAYOUT_VIEWS = ['layout_view', '@@layout_view']
+
+LAYOUT_BEHAVIORS = {
+    'plone.app.blocks.layoutbehavior.ILayoutAware',
+    'plone.layoutaware',
+}
 
 
 class ILayoutWidget(ITextAreaWidget):
@@ -159,7 +165,8 @@ class LayoutWidget(BaseWidget, TextAreaWidget):
             return ''
 
         behaviors = getattr(fti, 'behaviors', None) or []
-        if 'plone.app.blocks.layoutbehavior.ILayoutAware' not in behaviors:
+
+        if not (LAYOUT_BEHAVIORS & set(behaviors)):
             return ''
 
         return fti.default_view
@@ -183,7 +190,7 @@ def LayoutFieldWidget(field, request):  # noqa
 
 
 @implementer(IFormExtender)
-@adapter(ILayoutAware, IMosaicLayer, DexterityExtensibleForm)
+@adapter(ILayoutBehaviorAdaptable, IMosaicLayer, DexterityExtensibleForm)
 class HideSiteLayoutFields(FormExtender):
 
     def update(self):

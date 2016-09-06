@@ -17,7 +17,7 @@
 
   <include package="plone.app.contentmenu" />
   <browser:menuItems
-      for="plone.app.blocks.layoutbehavior.ILayoutAware"
+      for="plone.app.blocks.layoutbehavior.ILayoutBehaviorAdaptable"
       layer="..interfaces.IMosaicLayer"
       menu="plone_displayviews"
       zcml:condition="not-have mosaic-layoutmenu">
