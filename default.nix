@@ -102,9 +102,8 @@ in pkgs.stdenv.mkDerivation rec {
         versions:python-ldap= \
         versions:robotframework= \
         versions:selenium= \
+        versions:selenium= \
         versions:setuptools= \
-        versions:zc.buildout= \
-        config:plone-hotfixes= \
-        config:chameleon-cache=/tmp"
+        versions:zc.buildout="
   '';
 }
