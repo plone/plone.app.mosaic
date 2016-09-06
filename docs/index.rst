@@ -12,9 +12,10 @@ The Mosaic editor lets you insert blocks (a.k.a. tiles) into the content of the 
    :maxdepth: 2
 
    getting-started
-
-.. site-layouts
-.. typeviews
+   content-layouts
+   registry
+..   site-layouts
+..   typeviews
 
 
 Terminology changes in Plone Mosaic
