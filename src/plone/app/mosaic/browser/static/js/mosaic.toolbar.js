@@ -458,7 +458,7 @@ define([
           }
           obj.find(".mosaic-button-" + val).show();
           obj.find(".mosaic-icon-menu-" + val).show();
-          obj.find(".mosaic-menu-" + val).show();
+          obj.find(".select2-container.mosaic-menu-" + val).show();
           obj.find(".mosaic-option-" + val)
             .show()
             .removeAttr("disabled");
