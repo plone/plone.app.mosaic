@@ -1,7 +1,7 @@
 BUILDOUT_BIN ?= $(shell command -v buildout || echo 'bin/buildout')
 BUILDOUT_ARGS ?=
 
-SHELL = /bin/bash
+SHELL = /usr/bin/env bash
 export PATH := $(PATH):node_modules/.bin
 
 STATIC = src/plone/app/mosaic/browser/static
