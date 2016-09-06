@@ -7,6 +7,9 @@ Changelog
 - Customize add form for types that have ILayoutAware enabled so that it just
   presents a title/description field
   [vangheem]
+- Add sitelayouts-meta.zcml, which allows enabling site layouts in
+  buildout with ``zcml = plone.app.mosaic-meta:sitelayouts-meta.zcml``
+  [datakurre]
 
 - Depend on adapterized plone.app.blocks >= 4.0.0 and adopt mosaic to use it.
   [jensens]
