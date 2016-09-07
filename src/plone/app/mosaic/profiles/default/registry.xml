@@ -1006,29 +1006,6 @@
     </value>
   </record>
 
-  <records prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_image"
-           interface="plone.app.mosaic.interfaces.ITile">
-    <value key="name">plone.app.standardtiles.image</value>
-    <value key="label">Image</value>
-    <value key="category">media</value>
-    <value key="tile_type">app</value>
-    <value key="default_value"></value>
-    <value key="read_only">false</value>
-    <value key="settings">true</value>
-    <value key="favorite">false</value>
-    <value key="rich_text">false</value>
-    <value key="weight">10</value>
-  </records>
-
-  <record name="plone.app.mosaic.app_tiles.plone_app_standardtiles_image.available_actions">
-    <field type="plone.registry.field.List">
-      <title>Available actions for the Image tile</title>
-      <value_type type="plone.registry.field.TextLine" />
-    </field>
-    <value>
-    </value>
-  </record>
-
   <records prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_embed"
            interface="plone.app.mosaic.interfaces.ITile">
     <value key="name">plone.app.standardtiles.embed</value>
@@ -1046,29 +1023,6 @@
   <record name="plone.app.mosaic.app_tiles.plone_app_standardtiles_embed.available_actions">
     <field type="plone.registry.field.List">
       <title>Available actions for the Embed tile</title>
-      <value_type type="plone.registry.field.TextLine" />
-    </field>
-    <value>
-    </value>
-  </record>
-
-  <records prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_attachment"
-           interface="plone.app.mosaic.interfaces.ITile">
-    <value key="name">plone.app.standardtiles.attachment</value>
-    <value key="label">Attachment</value>
-    <value key="category">media</value>
-    <value key="tile_type">app</value>
-    <value key="default_value"></value>
-    <value key="read_only">false</value>
-    <value key="settings">true</value>
-    <value key="favorite">false</value>
-    <value key="rich_text">false</value>
-    <value key="weight">30</value>
-  </records>
-
-  <record name="plone.app.mosaic.app_tiles.plone_app_standardtiles_attachment.available_actions">
-    <field type="plone.registry.field.List">
-      <title>Available actions for the Attachment tile</title>
       <value_type type="plone.registry.field.TextLine" />
     </field>
     <value>
