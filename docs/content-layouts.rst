@@ -46,7 +46,25 @@ The following example was taken from *src/plone/app/mosaic/layouts/content/*
 
 
 There are three content layouts defined here.
-Each has a title and a description
+
+**title**, **description**, **preview**
+  The **title** and (optionally) **description** strings
+  together with a prepared "thumbnail" **preview** of the respective layout
+  will be shown to users when selecting one of the content layouts
+  for some content item.
+
+**for**
+  The **for** setting limits for which Plone content types the content layouts
+  may be selected. This may be a comma-separated list of content types.
+
+**file**
+  The **file** setting determines which html file is chosen.
+
+So for each content layout you should provide
+
+* a html file containing the actual layout
+* a png file with a small preview
+* a stanza in manifest.cfg
 
 
 Restricting, who can create new content layouts
