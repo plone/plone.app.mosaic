@@ -51,7 +51,9 @@ setup(
         'plone.app.testing',
         'plone.app.contenttypes',
         'plone.app.widgets>=1.8.0.dev0',
-        'plone.app.robotframework'
+        'plone.app.robotframework',
+        'robotframework-selenium2library',
+        'robotframework-selenium2screenshots'
     ]},
     entry_points="""
     # -*- Entry points: -*-
