@@ -7,8 +7,14 @@ Changelog
 - Remove use image and attachment tiles as they are now deprecated
   [vangheem]
 
+- Customize add form for types that have ILayoutAware enabled so that it just
+  presents a title/description field
+  [vangheem]
+
 - Move to using plone.app.standardtiles.html instead of
   the deprecated plone.app.standardtiles.rawhtml
+  [vangheem]
+
 - Add layout selector styles
   [vangheem]
 
