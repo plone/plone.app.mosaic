@@ -12,6 +12,11 @@ Changelog
   buildout with ``zcml = plone.app.mosaic-meta:sitelayouts-meta.zcml``
   [datakurre]
 
+- Replaced Deco-Grid styles with Bootstrap mixins form mixins.grid.plone.less
+  Allows to use override grid system using standard mosaic class names.
+  Main purpose is to unify the edit and view of your layout. Fixes #231
+  [agitator]
+
 - Depend on adapterized plone.app.blocks >= 4.0.0 and adopt mosaic to use it.
   [jensens]
 

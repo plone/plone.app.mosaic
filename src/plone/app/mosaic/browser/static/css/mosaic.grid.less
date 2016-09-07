@@ -1,56 +1,65 @@
-.mosaic-enabled, .mosaic-grid {
+@import (reference) "@{barcelonetaPath}/less/mixin.grid.plone.less";
+
+@columns: @plone-grid-columns;
+// We're using the mixin classes from mixin.grid.plone.less to create the default column styles
+
+.mosaic-enabled, .mosaic-grid, .template-layout {
   /* Grid classes, these can also be nested */
   .mosaic-grid-row {
-    float: left;
-    width: 100%;
-    display: block;
     position: relative;
+    .make-row(@gutter: @plone-grid-gutter-width)
   }
-  .mosaic-grid-cell {
-    position: relative;
-    float: left;
-    left: 100%;
-  }
+}
 
+// grid definition vor editing
+// we don't want responsive styles here
+.mosaic-enabled, .mosaic-grid {
   /* Widths, these are abstracted out so that pixel-based layouts or other
      similar approaches can be retrofitted without changing the markup,
      or if you want to apply rules like the Golden Ratio to your layouts */
   .mosaic-width-full {
-    width: 100%;
+    .make-xs-column((@columns); @gutter: @plone-grid-gutter-width)
   }
   .mosaic-width-half {
-    width: 50%;
+    .make-xs-column((@columns / 2); @gutter: @plone-grid-gutter-width)
   }
   .mosaic-width-quarter {
-    width: 25%;
+    .make-xs-column((@columns / 4); @gutter: @plone-grid-gutter-width);
   }
   .mosaic-width-three-quarters {
-    width: 75%;
+    .make-xs-column((@columns / 4 * 3); @gutter: @plone-grid-gutter-width)
   }
   .mosaic-width-third {
-    width: 33.33%;
+    .make-xs-column((@columns / 3); @gutter: @plone-grid-gutter-width)
   }
   .mosaic-width-two-thirds {
-    width: 66.67%;
-  }
-
-  /* Positioning classes, these are subtracting from a rightmost position */
-  .mosaic-position-leftmost {
-    margin-left: -100%;
-  }
-  .mosaic-position-third {
-    margin-left: -66.67%;
-  }
-  .mosaic-position-two-thirds {
-    margin-left: -33.33%;
-  }
-  .mosaic-position-quarter {
-    margin-left: -75%;
-  }
-  .mosaic-position-half {
-    margin-left: -50%;
-  }
-  .mosaic-position-three-quarters {
-    margin-left: -25%;
+    .make-xs-column((@columns / 3 * 2); @gutter: @plone-grid-gutter-width)
   }
 }
+
+// grid definition vor viewing
+.template-layout {
+  /* Widths, these are abstracted out so that pixel-based layouts or other
+     similar approaches can be retrofitted without changing the markup,
+     or if you want to apply rules like the Golden Ratio to your layouts */
+  .mosaic-width-full {
+    .make-xs-column((@columns); @gutter: @plone-grid-gutter-width)
+  }
+  .mosaic-width-half {
+    .make-sm-column((@columns / 2); @gutter: @plone-grid-gutter-width)
+  }
+  .mosaic-width-quarter {
+    .make-sm-column((@columns / 2); @gutter: @plone-grid-gutter-width);
+    .make-md-column((@columns / 4); @gutter: @plone-grid-gutter-width);
+  }
+  .mosaic-width-three-quarters {
+    .make-md-column((@columns / 4 * 3); @gutter: @plone-grid-gutter-width)
+  }
+  .mosaic-width-third {
+    .make-md-column((@columns / 3); @gutter: @plone-grid-gutter-width)
+  }
+  .mosaic-width-two-thirds {
+    .make-md-column((@columns / 3 * 2); @gutter: @plone-grid-gutter-width)
+  }
+}
+

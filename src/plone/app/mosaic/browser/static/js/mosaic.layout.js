@@ -1675,8 +1675,7 @@ define([
 
           // Add row open tag
           classNames = $(this).attr("class");
-          body += '      <div class="' + classNames + '"\n';
-          body += '           data-grid=\'{"type": "row"}\'>\n';
+          body += '      <div class="' + classNames + '">\n';
 
           // Loop through rows
           $(this).children(".mosaic-grid-cell").each(function () {
@@ -1726,8 +1725,7 @@ define([
             }
 
             // Add cell start tag
-            body += '        <div class="' + $(this).attr("class") + '"\n';
-            body += '             data-grid=\'{"type": "cell", "info":{"xs": "true", "sm": "true", "lg": "true", "pos": {"x": ' + position + ', "width": ' + size + '}}}\'>\n';  // jshint ignore:line
+            body += '        <div class="' + $(this).attr("class") + '">\n';  // jshint ignore:line
 
             // Loop through tiles
             $(this).children(".mosaic-tile").each(function () {
