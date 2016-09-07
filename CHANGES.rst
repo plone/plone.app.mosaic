@@ -6,6 +6,7 @@ Changelog
 
 - Move to using plone.app.standardtiles.html instead of
   the deprecated plone.app.standardtiles.rawhtml
+- Add layout selector styles
   [vangheem]
 
 - Add sitelayouts-meta.zcml, which allows enabling site layouts in

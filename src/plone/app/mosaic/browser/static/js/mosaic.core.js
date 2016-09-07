@@ -70,7 +70,6 @@ define([
         '</ul>' +
       '</div>' +
       '<% if(user_layouts.length > 0){ %>' +
-        '<hr />' +
         '<div class="user-layouts">' +
           '<h4>My Layouts</h4>' +
           '<ul>' +
@@ -86,8 +85,7 @@ define([
         '</div>' +
       '<% } %>' +
       '<% if(hasCustomLayouts) { %>' +
-        '<hr />' +
-        '<p class="manage-custom-layouts"><a href="#">Manage custom layouts</a></p>' +
+        '<p class="manage-custom-layouts"><a href="#" class="plone-btn plone-btn-default">Manage custom layouts</a></p>' +
       '<% } %>' +
     '</div>' +
     '<div class="buttons">' +
