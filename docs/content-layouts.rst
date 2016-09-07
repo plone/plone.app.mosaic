@@ -114,7 +114,7 @@ ask nathan for an example, then doc it!
 Editor
 ======
 
-see plone.app.mosaic registry entry.xml.
+see plone.app.mosaic registry entry.xml. (entry.xml ??? - do you mean registry.xml and entry tag?)
 this can go into your policy product.
 tinyMCE features need to be added/activated for each tile
 
@@ -128,3 +128,36 @@ tinyMCE features need to be added/activated for each tile
 *    Adding a new tile format into format menu
 *    Hiding row formats from format menu
 *    Adding a new row format into format menu
+
+
+Adding a new custom (Python based) tile into insert menu
+----------------------------------------------------------
+
+To add a python based tile to insert menu you have to add an entry for it to plone registry, e.g.:
+
+    <records prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_tableofcontents"
+             interface="plone.app.mosaic.interfaces.ITile">
+      <value key="name">plone.app.standardtiles.tableofcontents</value>
+      <value key="label">Table of contents</value>
+      <value key="category">structure</value>
+      <value key="tile_type">app</value>
+      <value key="default_value"></value>
+      <value key="read_only">false</value>
+      <value key="settings">true</value>
+      <value key="favorite">false</value>
+      <value key="rich_text">false</value>
+      <value key="weight">100</value>
+    </records>
+
+
+prefix: choseable ?
+name: Name of your tile configured in zcml
+label: This is displayed in insert menu
+category:  What values are possible here? What are they for?
+tile_type: What values are possible here? What are they for?
+default_value: ?
+read_only: if set to true tile is not clickable and has no little i / edit button (?)
+settings: if set to false tile has no little i / edit button (?)
+favorite: ?
+rich_text: ?
+weight: ?
