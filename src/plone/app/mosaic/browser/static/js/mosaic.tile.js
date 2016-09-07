@@ -83,7 +83,7 @@ define([
 
     that.$el.children(".mosaic-tile-content").off('blur').on('blur', function(){
       var tiletype = that.getType();
-      if(tiletype === 'plone.app.standardtiles.rawhtml'){
+      if(tiletype === 'plone.app.standardtiles.html'){
         var edit_url = that.getEditUrl();
         if(edit_url){
           var currentData = that.getHtmlContent();
@@ -101,7 +101,7 @@ define([
             url: edit_url,
             method: 'POST',
             data: {
-              'plone.app.standardtiles.rawhtml.content': currentData,
+              'plone.app.standardtiles.html.content': currentData,
               _authenticator: utils.getAuthenticator(),
               'buttons.save': 'Save'
             }
@@ -683,7 +683,7 @@ define([
             that.fillContent(tileHtml, url);
 
             var tiletype = that.getType();
-            if(tiletype === 'plone.app.standardtiles.rawhtml'){
+            if(tiletype === 'plone.app.standardtiles.html'){
               // a little gymnastics to make wysiwyg work here
               // Init rich editor
               if(!that.$el.data('lastSavedData')){

@@ -264,4 +264,13 @@
       handler=".upgrades.upgrade_to_2_0"
       />
 
+  <genericsetup:registerProfile
+      name="to_5017"
+      title="Upgrade profile for to 5017 (2.0.0)"
+      description=""
+      directory="profiles/upgrades/to_5017"
+      for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
 </configure>

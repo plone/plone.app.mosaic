@@ -44,7 +44,7 @@ setup(
         'plone.app.blocks>=3.999',
         'plone.app.tiles>=2.2.1',
         'plone.app.drafts>=1.0.1.999',
-        'plone.app.standardtiles>=1.0',
+        'plone.app.standardtiles>=2.0.0dev0',
         'Products.CMFPlone>=5.0.4'
     ],
     extras_require={'test': [
