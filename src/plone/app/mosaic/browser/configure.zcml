@@ -52,7 +52,7 @@
       name="layouts-editor"
       for="Products.CMFPlone.interfaces.siteroot.IPloneSiteRoot"
       class=".editor.LayoutsEditor"
-      permission="plone.resourceeditor.ManageSources"
+      permission="plone.ManageContentLayouts"
       template="templates/layouts-editor.pt"
       />
   <browser:page

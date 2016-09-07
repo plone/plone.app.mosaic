@@ -12,6 +12,7 @@ class MosaicDefaultAddForm(add.DefaultAddForm):
     ]
 
     def updateFieldsFromSchemata(self):
+        # XXX need to check default view if we should do this...
         super(MosaicDefaultAddForm, self).updateFieldsFromSchemata()
         schemata = [s for s in self.additionalSchemata]
 
