@@ -41,6 +41,23 @@
       zcml:condition="not-have mosaic-sitelayouts"
       />
 
+
+  <!-- customize default dexterity add form -->
+  <adapter
+      for="Products.CMFCore.interfaces.IFolderish
+           .interfaces.IMosaicLayer
+           plone.dexterity.interfaces.IDexterityFTI"
+      provides="zope.publisher.interfaces.browser.IBrowserPage"
+      factory=".forms.MosaicDefaultAddView"
+      />
+  <class class=".forms.MosaicDefaultAddView">
+      <require
+          permission="cmf.AddPortalContent"
+          interface="zope.publisher.interfaces.browser.IBrowserPage"
+          />
+  </class>
+
+
   <!-- HTTPHeaders transform, because main_template may not be rendered -->
   <adapter
       for="* .interfaces.IMosaicLayer"
