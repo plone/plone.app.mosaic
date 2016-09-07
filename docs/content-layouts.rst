@@ -101,7 +101,7 @@ Adding readonly tiles into content layouts
 Configuring the amount of columns available in layout
 -----------------------------------------------------
 
-The default value for the amount of columns is set to 4. It and can optionally
+The default value for the amount of columns is set to 4. It can optionally
 configured to a different value using the attribute *data-max-columns* in the
 layout file. This attribute needs to be set on the *div* element that has the
 attribute *data-panel="content"*
