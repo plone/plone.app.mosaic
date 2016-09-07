@@ -54,4 +54,17 @@
     <value key="enabled">True</value>
   </records>
 
+  <!-- deprecated attachment and image tiles -->
+  <records prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_attachment"
+           interface="plone.app.mosaic.interfaces.ITile"
+           remove="True" />
+  <record name="plone.app.mosaic.app_tiles.plone_app_standardtiles_attachment.available_actions"
+          remove="True" />
+
+  <records prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_image"
+           interface="plone.app.mosaic.interfaces.ITile"
+           remove="True" />
+  <record name="plone.app.mosaic.app_tiles.plone_app_standardtiles_image.available_actions"
+          remove="True" />
+
 </registry>

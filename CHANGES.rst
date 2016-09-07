@@ -4,6 +4,9 @@ Changelog
 2.0.0 (unreleased)
 ------------------
 
+- Remove use image and attachment tiles as they are now deprecated
+  [vangheem]
+
 - Move to using plone.app.standardtiles.html instead of
   the deprecated plone.app.standardtiles.rawhtml
 - Add layout selector styles
