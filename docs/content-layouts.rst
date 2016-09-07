@@ -98,10 +98,15 @@ Adding readonly tiles into content layouts
 
 
 
-Restricting amount of columns available in layout
--------------------------------------------------
+Configuring the amount of columns available in layout
+-----------------------------------------------------
 
-https://github.com/plone/plone.app.mosaic/pull/168
+The default value for the amount of columns is set to 4. It and can optionally
+configured to a different value using the attribute *data-max-columns* in the
+layout file. This attribute needs to be set on the *div* element that has the
+attribute *data-panel="content"*
+
+.. figure:: _screenshots/mosaic-layout-editor_configure-max-columns.png
 
 
 Adding editable HTML area (raw html tile) into content layout
