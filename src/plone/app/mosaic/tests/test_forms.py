@@ -31,10 +31,27 @@ class TestAddForm(unittest.TestCase):
 
     def test_add_form_removes_groups(self):
         login(self.portal, TEST_USER_NAME)
+
+        portal_types = getToolByName(self.portal, 'portal_types')
+        ptype = portal_types['Document']
+        ptype.default_view = 'layout_view'
+
         view = self._get_add_view(self.portal, 'Document')
         view.form_instance.updateFieldsFromSchemata()
         self.assertEqual(len(view.form_instance.groups), 0)
         self.assertEqual(len(view.form_instance.fields), 2)
+
+    def test_add_form_not_remove_groups_when_layout_view_not_used(self):
+        login(self.portal, TEST_USER_NAME)
+
+        portal_types = getToolByName(self.portal, 'portal_types')
+        ptype = portal_types['Document']
+        ptype.default_view = 'document_view'
+
+        view = self._get_add_view(self.portal, 'Document')
+        view.form_instance.updateFieldsFromSchemata()
+        self.assertNotEqual(len(view.form_instance.groups), 0)
+        self.assertNotEqual(len(view.form_instance.fields), 2)
 
     def test_add_form_does_not_affect_non_layout_aware(self):
         login(self.portal, TEST_USER_NAME)
