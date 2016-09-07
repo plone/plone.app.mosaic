@@ -1279,10 +1279,12 @@
   </record>
 
   <!-- XXX enable this and disable the regular text tile to have persistent
-       text tiles. These are useful for when you are using layouts -->
-  <records prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_rawhtml"
+       text tiles. These are useful for when you are using layouts.
+       To enable, change the category value to "structure"
+       and add "plone.app.standardtiles.html" to plone.app.tiles registry value -->
+  <records prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_html"
            interface="plone.app.mosaic.interfaces.ITile">
-    <value key="name">plone.app.standardtiles.rawhtml</value>
+    <value key="name">plone.app.standardtiles.html</value>
     <value key="label">Rich Text</value>
     <value key="category">hidden</value>
     <value key="tile_type">textapp</value>
@@ -1294,9 +1296,9 @@
     <value key="weight">110</value>
   </records>
 
-  <record name="plone.app.mosaic.app_tiles.plone_app_standardtiles_rawhtml.available_actions">
+  <record name="plone.app.mosaic.app_tiles.plone_app_standardtiles_html.available_actions">
     <field type="plone.registry.field.List">
-      <title>Available actions for the raw html tile</title>
+      <title>Available actions for the html tile</title>
       <value_type type="plone.registry.field.TextLine" />
     </field>
     <value>

@@ -174,3 +174,8 @@ def upgrade_to_2_0(context):
     for brain in catalog(object_provides=ILayoutAware.__identifier__):
         obj = brain.getObject()
         obj.reindexObject(idxs=['object_provides', 'layout'])
+
+    context.runImportStepFromProfile(
+        PROFILE_ID.replace('default', 'to_5017'),
+        'plone.app.registry'
+    )

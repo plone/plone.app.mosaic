@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<registry>
+
+  <!-- migrating to new tile name -->
+  <record name="plone.app.mosaic.app_tiles.plone_app_standardtiles_html.available_actions">
+    <field type="plone.registry.field.List">
+      <title>Available actions for the html tile</title>
+      <value_type type="plone.registry.field.TextLine" />
+    </field>
+    <value>
+      <element>toolbar-undo</element>
+      <element>toolbar-redo</element>
+      <element>toolbar-styleselect</element>
+      <element>toolbar-bold</element>
+      <element>toolbar-italic</element>
+      <element>toolbar-alignleft</element>
+      <element>toolbar-aligncenter</element>
+      <element>toolbar-alignright</element>
+      <element>toolbar-alignjustify</element>
+      <element>toolbar-bullist</element>
+      <element>toolbar-numlist</element>
+      <element>toolbar-ploneimage</element>
+      <element>toolbar-unlink</element>
+      <element>toolbar-plonelink</element>
+    </value>
+  </record>
+  <record name="plone.app.mosaic.app_tiles.plone_app_standardtiles_rawhtml.available_actions"
+          remove="True" />
+
+  <records prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_html"
+           interface="plone.app.mosaic.interfaces.ITile">
+    <value key="name">plone.app.standardtiles.html</value>
+    <value key="label">Rich Text</value>
+    <value key="category">hidden</value>
+    <value key="tile_type">textapp</value>
+    <value key="default_value">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Sed posuere interdum sem. Quisque ligula eros ullamcorper quis, lacinia quis facilisis sed sapien. Mauris varius diam vitae arcu. Sed arcu lectus auctor vitae, consectetuer et venenatis eget velit. Sed augue orci, lacinia eu tincidunt et eleifend nec lacus.&lt;/p&gt;&lt;p&gt;Donec ultricies nisl ut felis, suspendisse potenti. Lorem ipsum ligula ut hendrerit mollis, ipsum erat vehicula risus, eu suscipit sem libero nec erat. Aliquam erat volutpat. Sed congue augue vitae neque. Nulla consectetuer porttitor pede. Fusce purus morbi tortor magna condimentum vel, placerat id blandit sit amet tortor.&lt;/p&gt;</value>
+    <value key="read_only">false</value>
+    <value key="settings">false</value>
+    <value key="favorite">false</value>
+    <value key="rich_text">true</value>
+    <value key="weight">110</value>
+  </records>
+  <records prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_rawhtml"
+           interface="plone.app.mosaic.interfaces.ITile"
+           remove="True" />
+
+</registry>
