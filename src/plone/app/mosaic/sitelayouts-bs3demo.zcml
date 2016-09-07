@@ -5,16 +5,10 @@
     xmlns:zcml="http://namespaces.zope.org/zcml">
 
   <plone:static
-      directory="layouts/site"
-      name="default"
+      directory="layouts/bs3demo"
+      name="bs3demo"
       type="sitelayout"
       zcml:condition="have mosaic-sitelayouts"
-      />
-
-  <plone:static
-      directory="layouts/content"
-      name="default"
-      type="contentlayout"
       />
 
 </configure>
