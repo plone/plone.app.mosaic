@@ -4,6 +4,10 @@ Changelog
 2.0.0 (unreleased)
 ------------------
 
+- Move to using plone.app.standardtiles.html instead of
+  the deprecated plone.app.standardtiles.rawhtml
+  [vangheem]
+
 - Add sitelayouts-meta.zcml, which allows enabling site layouts in
   buildout with ``zcml = plone.app.mosaic-meta:sitelayouts-meta.zcml``
   [datakurre]
