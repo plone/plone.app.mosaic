@@ -4,8 +4,13 @@ Changelog
 2.0.0 (unreleased)
 ------------------
 
+- Customize add form for types that have ILayoutAware enabled so that it just
+  presents a title/description field
+  [vangheem]
+
 - Depend on adapterized plone.app.blocks >= 4.0.0 and adopt mosaic to use it.
   [jensens]
+
 - Fix: default layout image not showing properly
   [vangheem]
 
