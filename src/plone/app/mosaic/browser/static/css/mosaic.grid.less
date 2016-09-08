@@ -1,7 +1,8 @@
-// ugly to pull directly here; however, there is nothing we can do to make work
-// with dev mode and build as far as I know...
-@import (reference) "https://raw.githubusercontent.com/plone/plonetheme.barceloneta/1.6.21/plonetheme/barceloneta/theme/less/variables.plone.less";
-@import (reference) "https://raw.githubusercontent.com/plone/plonetheme.barceloneta/1.6.21/plonetheme/barceloneta/theme/less/mixin.grid.plone.less";
+//ugly to pull directly here; however, there is nothing we can do to make work
+//with dev mode and build as far as I know...
+@barcelonaPath: 'https://raw.githubusercontent.com/plone/plonetheme.barceloneta/1.6.21/plonetheme/barceloneta/theme';
+@import (reference) "@{barcelonaPath}/less/variables.plone.less";
+@import (reference) "@{barcelonaPath}/less/mixin.grid.plone.less";
 
 @columns: @plone-grid-columns;
 // We're using the mixin classes from mixin.grid.plone.less to create the default column styles
