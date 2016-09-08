@@ -51,7 +51,10 @@ But now it is possible to add tiles to each page and get them rendered through t
 Mosaic layout
 -------------
 
-The most prominent feature provided by **Plone Mosaic** is the new **Layout-behavior**, which appears as new **Mosaic layout** option in the familiar display menu.
+In this section we will look at the **Layout-behavior** of **Plone Mosaic**.
+It needs to be enabled in the display menu of a content item.
+To follow along create a document and after saving it,
+set the **Display** option to **Mosaic layout**.
 
 ..  figure:: _screenshots/mosaic-custom-layout-enable.png
 ..  code:: robotframework
@@ -83,7 +86,10 @@ The most prominent feature provided by **Plone Mosaic** is the new **Layout-beha
         Wait until page contains element
         ...  css=#plone-contentmenu-display-layout_view.actionMenuSelected
 
-How the current content looks after the first time the **Mosaic layout** is activated, depends on the configured defaults for its portal type. Still, at least the title and the description should be always displayed.
+How the current content looks after the first time the **Mosaic layout** is enabled,
+depends on the configured defaults for its portal type.
+Still,
+at least the title and the description should be always displayed.
 
 ..  figure:: _screenshots/mosaic-custom-layout-enable-done.png
 ..  code:: robotframework
@@ -100,7 +106,8 @@ How the current content looks after the first time the **Mosaic layout** is acti
 Mosaic editor
 -------------
 
-When the **Mosaic layout** has been enabled, the **Mosaic editor** is opened by clicking the **Edit** tab.
+When the **Mosaic layout** has been enabled,
+the **Mosaic editor** is opened by clicking the **Edit** tab.
 
 ..  figure:: _screenshots/mosaic-editor-open.png
 ..  code:: robotframework
@@ -114,7 +121,8 @@ When the **Mosaic layout** has been enabled, the **Mosaic editor** is opened by 
         ...  css=#portal-breadcrumbs
         ...  ${SELECTOR_TOOLBAR}  id=contentview-edit
 
-When the editor is opened for the first time, it asks to the select the initial layout for the content:
+When the editor is opened for the first time,
+it asks to the select the initial layout for the content:
 
 ..  figure:: _screenshots/mosaic-editor-layout-selector.png
 ..  code:: robotframework
@@ -126,7 +134,9 @@ When the editor is opened for the first time, it asks to the select the initial 
         ...  _screenshots/mosaic-editor-layout-selector.png
         ...  css=.plone-modal
 
-The selected layout can then be used as it is, or make it fully custom.
+The selected layout can then be used as it is,
+or make it fully custom.
+How to achieve this will be described later on.
 
 Let's select the basic layout:
 
@@ -141,6 +151,8 @@ Let's select the basic layout:
         ...  css=.plone-modal
 
         Click element  jquery=a[data-value="default/basic.html"]
+
+**Here some words about the tool bar of the Mosaic Editor**
 
 And then enable it for customization:
 
