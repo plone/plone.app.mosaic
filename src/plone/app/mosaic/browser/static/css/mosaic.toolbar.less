@@ -222,31 +222,6 @@
   clear:both;
 }
 
-/* tinymce scrolled out of view handling */
-.mosaic-panel{
-  .mosaic-rich-text-toolbar.sticky{
-    z-index: 10000;
-    position: fixed;
-  }
-  .mosaic-rich-text-toolbar.right{
-    right: 0;
-  }
-}
-/* XXX these are necessary fixes for tinymce menus
-   that are floating */
-.mce-floatpanel.mce-fixed {
-  position: absolute;
-}
-.mce-sticky .mce-floatpanel.mce-fixed {
-  position: fixed;
-}
-.mosaic-enabled .mce-floatpanel.mce-menu {
-  // bah!!! need this because tiny menu *sometimes* not showing?
-  // This is crazy and annoying...
-  position: fixed;
-}
-
-
 // fixes for dragging images
 .mosaic-enabled {
   .mosaic-tile img {

@@ -4,6 +4,9 @@ Changelog
 2.0.0 (unreleased)
 ------------------
 
+- Fix table context menu overlapping modals.
+  [vangheem]
+
 - Saving a layout will now save default values for html tiles on the
   reusable layout.
   [vangheem]
