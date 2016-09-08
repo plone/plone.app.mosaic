@@ -29,7 +29,7 @@ Changelog
   the deprecated plone.app.standardtiles.rawhtml
   [vangheem]
 
-- Move custom layout from 'content' to 'customLayout' attribute
+- Move custom layout from 'content' to 'customContentLayout' attribute
   [datakurre]
 
 - Add layout selector styles

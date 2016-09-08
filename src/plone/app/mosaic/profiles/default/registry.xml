@@ -591,7 +591,7 @@
       <element>plone.app.relationfield.behavior.IRelatedItems.relatedItems</element>
       <element>plone.app.versioningbehavior.behaviors.IVersionable.changeNote</element>
       <element>plone.app.blocks.layoutbehavior.ILayoutAware.content</element>
-      <element>plone.app.blocks.layoutbehavior.ILayoutAware.customLayout</element>
+      <element>plone.app.blocks.layoutbehavior.ILayoutAware.customContentLayout</element>
       <element>plone.app.blocks.layoutbehavior.ILayoutAware.contentLayout</element>
       <element>plone.app.blocks.layoutbehavior.ILayoutAware.pageSiteLayout</element>
       <element>plone.app.blocks.layoutbehavior.ILayoutAware.sectionSiteLayout</element>

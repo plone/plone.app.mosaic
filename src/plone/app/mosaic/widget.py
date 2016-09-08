@@ -106,14 +106,14 @@ class LayoutWidget(BaseWidget, TextAreaWidget):
             self.name.replace(
                 '.', '-'
             ).replace(
-                '-customLayout', '-contentLayout'
+                '-customContentLayout', '-contentLayout'
             )
         )
         result['customContentLayout_field_selector'] = '[name="{0:s}"]'.format(
             self.name
         )
         result['contentLayout_field_selector'] = '[name="{0:s}"]'.format(
-            self.name.replace('.customLayout', '.contentLayout')
+            self.name.replace('.customContentLayout', '.contentLayout')
         )
 
         result['available_layouts'] = getContentLayoutsForType(pt)
@@ -183,7 +183,7 @@ class LayoutWidget(BaseWidget, TextAreaWidget):
         return selectable_layout.getLayout()
 
 
-@adapter(getSpecification(ILayoutAware['customLayout']), IMosaicLayer)
+@adapter(getSpecification(ILayoutAware['customContentLayout']), IMosaicLayer)
 @implementer(IFieldWidget)
 def LayoutFieldWidget(field, request):  # noqa
     return FieldWidget(field, LayoutWidget(request))
