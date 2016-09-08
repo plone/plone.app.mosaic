@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from AccessControl import getSecurityManager
+from AccessControl import Unauthorized
 from ConfigParser import SafeConfigParser
 from plone import api
 from plone.app.blocks.interfaces import CONTENT_LAYOUT_MANIFEST_FORMAT
@@ -63,9 +65,22 @@ class ManageLayoutView(BrowserView):
     def deletelayout(self):
         layout_resources = queryResourceDirectory(
             CONTENT_LAYOUT_RESOURCE_NAME, 'custom')
+        layout_path = self.request.form.get('layout')
+
+        if len(layout_path.split('/')) <= 2:
+            sm = getSecurityManager()
+            # this is a global layout, need to check permissions
+            if not sm.checkPermission('Plone: Manage Content Layouts',
+                                      api.portal.get()):
+                raise Unauthorized("User not allowed to delete global layout")
+        else:
+            # check this user is allowed to delete this template
+            user_dir = 'custom/user-layouts/{}'.format(
+                api.user.get_current().getId())
+            if not layout_path.startswith(user_dir):
+                raise Unauthorized("You are not allowed to delete this layout")
 
         # find directory
-        layout_path = self.request.form.get('layout')
         filename = layout_path.split('/')[-1]
         directory = layout_resources
         for part in layout_path.replace('custom/', '').split('/')[:-1]:
@@ -144,6 +159,13 @@ class ManageLayoutView(BrowserView):
                 user_directory = users_directory[user_id]
             layout_dir_name = 'custom/user-layouts/' + user_id
             layout_resources = user_directory
+        else:
+            # user needs plone.ManageContentLayouts permission to make
+            # global layouts
+            sm = getSecurityManager()
+            if not sm.checkPermission('Plone: Manage Content Layouts',
+                                      api.portal.get()):
+                raise Unauthorized("User not allowed to create global layout")
 
         normalizer = getUtility(IIDNormalizer)
         layout_filename = normalizer.normalize(form['name']) + '.html'
