@@ -122,6 +122,9 @@ class ManageLayoutView(BrowserView):
     def save(self):
         form = self.request.form
 
+        if not form['name']:
+            raise Exception("You must provide a layout name")
+
         layout_dir_name = 'custom'
         layout_resources = queryResourceDirectory(
             CONTENT_LAYOUT_RESOURCE_NAME, layout_dir_name)

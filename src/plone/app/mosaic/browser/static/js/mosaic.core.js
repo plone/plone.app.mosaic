@@ -575,6 +575,10 @@ define([
     });
     modal.on('shown', function() {
       $('.plone-btn:visible', modal.$modal).off('click').on('click', function(e){
+        var layoutName = $('#layoutNameField', modal.$modal).val();
+        if(!layoutName){
+          return;
+        }
         utils.loading.show();
         e.preventDefault();
         var globalLayout = 'false';
@@ -588,7 +592,7 @@ define([
             action: 'save',
             _authenticator: utils.getAuthenticator(),
             global: globalLayout,
-            name: $('#layoutNameField', modal.$modal).val(),
+            name: layoutName,
             layout: $.mosaic.getPageContent(true)
           }
         }).done(function(result){

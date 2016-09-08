@@ -4,6 +4,9 @@ Changelog
 2.0.0 (unreleased)
 ------------------
 
+- Fix problem where layouts could be saved without a name
+  [vangheem]
+
 - Fix table context menu overlapping modals.
   [vangheem]
 
