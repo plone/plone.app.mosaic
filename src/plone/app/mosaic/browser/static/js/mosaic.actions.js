@@ -311,7 +311,7 @@ define([
         // Layout preview
         setTimeout(function(){
           window.open(
-              $.mosaic.options.context_url + '/@@layout_preview', '_blank');
+              $.mosaic.options.context_url + '/@@preview', '_blank');
         }, 1000);
       }
     });

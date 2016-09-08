@@ -4,7 +4,10 @@ Changelog
 2.0.0 (unreleased)
 ------------------
 
-- provide better use of permissions in UI and enforcements on the server
+- Add preview button for previewing currently edited layout
+  [datakurre]
+
+- Provide better use of permissions in UI and enforcements on the server
   [vangheem]
 
 - Fix problem where layouts could be saved without a name
