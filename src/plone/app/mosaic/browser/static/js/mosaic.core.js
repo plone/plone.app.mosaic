@@ -84,7 +84,7 @@ define([
           '</ul>' +
         '</div>' +
       '<% } %>' +
-      '<% if(hasCustomLayouts) { %>' +
+      '<% if(hasCustomLayouts && canChangeLayout) { %>' +
         '<p class="manage-custom-layouts"><a href="#" class="plone-btn plone-btn-default">Manage custom layouts</a></p>' +
       '<% } %>' +
     '</div>' +
@@ -102,15 +102,17 @@ define([
         '<label for="layoutNameField">Name</label>' +
         '<input type="text" name="name" class="form-control" id="layoutNameField" />' +
       '</div>' +
-      '<div class="field form-group">' +
-        '<span class="option">' +
-          '<input id="globalLayout" type="checkbox">' +
-          '<label for="globalLayout">' +
-            '<span class="label">Global</span>' +
-          '</label>' +
-        '</span>' +
-        '<div class="formHelp">Should this layout be available for all users on the site?</div>' +
-      '</div>' +
+      '<% if(canManageLayouts){ %>' +
+        '<div class="field form-group">' +
+          '<span class="option">' +
+            '<input id="globalLayout" type="checkbox">' +
+            '<label for="globalLayout">' +
+              '<span class="label">Global</span>' +
+            '</label>' +
+          '</span>' +
+          '<div class="formHelp">Should this layout be available for all users on the site?</div>' +
+        '</div>' +
+      '<% } %>' +
     '</div>' +
     '<div class="buttons">' +
       '<button class="plone-btn plone-btn-primary">Save</button>' +
@@ -131,12 +133,16 @@ define([
         '<tbody>' +
           '<% _.each(available_layouts.concat(user_layouts), function(layout){ %>' +
             '<% if(layout.path.indexOf("custom/") !== -1){ %>' +
-              '<tr>' +
-                '<td><%- layout.title %></td>' +
-                '<td><%- layout.path %></td>' +
-                '<td><a href="#" class="btn btn-danger delete-layout" ' +
-                        'data-layout="<%- layout.path %>">Delete</a></td>' +
-              '</tr>' +
+              '<% if(layout.path.split("/").length > 2 || canManageLayouts) { %>' +
+                '<tr>' +
+                  '<td><%- layout.title %></td>' +
+                  '<td><%- layout.path %></td>' +
+                  '<td>' +
+                    '<a href="#" class="btn btn-danger delete-layout" ' +
+                        'data-layout="<%- layout.path %>">Delete</a>' +
+                  '</td>' +
+                '</tr>' +
+              '<% } %>' +
             '<% } %>' +
           '<% }); %>' +
         '</tbody>' +
@@ -582,7 +588,8 @@ define([
         utils.loading.show();
         e.preventDefault();
         var globalLayout = 'false';
-        if($('#globalLayout', modal.$modal)[0].checked){
+        var $el = $('#globalLayout', modal.$modal);
+        if($el.size() > 0 && $el[0].checked){
           globalLayout = 'true';
         }
         $.ajax({

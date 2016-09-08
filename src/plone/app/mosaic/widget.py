@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from AccessControl import getSecurityManager
 from plone import api
 from plone.app.blocks.layoutbehavior import ILayoutAware
 from plone.app.blocks.layoutbehavior import ILayoutBehaviorAdaptable
@@ -27,7 +28,6 @@ from zope.component import adapter
 from zope.component import queryUtility
 from zope.interface import implementer
 from zope.interface import implementer_only
-from zope.security import checkPermission
 
 
 LAYOUT_VIEWS = ['layout_view', '@@layout_view']
@@ -87,8 +87,14 @@ class LayoutWidget(BaseWidget, TextAreaWidget):
         }
         result = adapted(**kwargs)
 
-        result['canChangeLayout'] = checkPermission(
-            'plone.CustomizeContentLayouts', self.context)
+        sm = getSecurityManager()
+
+        result['canChangeLayout'] = sm.checkPermission(
+            'Plone: Customize Content Layouts', self.context)
+        # This is a site permission...
+        # you can either manage layouts globally or not
+        result['canManageLayouts'] = sm.checkPermission(
+            'Plone: Manage Content Layouts', api.portal.get())
         result['context_url'] = self.context.absolute_url()
         result['tinymce'] = get_tinymce_options(
             self.context,
