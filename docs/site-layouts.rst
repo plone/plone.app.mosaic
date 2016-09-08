@@ -39,31 +39,36 @@ Changing the current site layout
 
 
 TODO: Screenshot: Show section site layout option
-#..  figure:: _screenshots/mosaic-layout-section-site-layout.png
-#..  code:: robotframework
-#
-#    Show section site layout option
-#
-#        # Set Selenium Speed  10
-#
-#        Highlight  id=formfield-form-widgets-ILayoutAware-sectionSiteLayout
-#        Execute javascript  $('#form-widgets-ILayoutAware-sectionSiteLayout').attr('size', 6)
-#        Capture and crop page screenshot
-#        ...  _screenshots/mosaic-layout-section-site-layout.png
-#        ...  id=content-core
-#
-#        # Debug
-#        
-#        Click button  Close
-#
-#        # Debug
-#
-#        # Choose ok on next confirmation
-#        # Click button  css=.mosaic-button-save
+::
+
+   #..  figure:: _screenshots/mosaic-layout-section-site-layout.png
+   #..  code:: robotframework
+   #
+   #    Show section site layout option
+   #
+   #        # Set Selenium Speed  10
+   #
+   #        Highlight  id=formfield-form-widgets-ILayoutAware-sectionSiteLayout
+   #        Execute javascript  $('#form-widgets-ILayoutAware-sectionSiteLayout').attr('size', 6)
+   #        Capture and crop page screenshot
+   #        ...  _screenshots/mosaic-layout-section-site-layout.png
+   #        ...  id=content-core
+   #
+   #        # Debug
+   #        
+   #        Click button  Close
+   #
+   #        # Debug
+   #
+   #        # Choose ok on next confirmation
+   #        # Click button  css=.mosaic-button-save
 
 XXX TODO Fix this.
+
 Maybe site layouts and this feature cannot work altogether in this version.
+
 This is what I get:
+
 ::
 
    Site Error
