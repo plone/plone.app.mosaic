@@ -3,10 +3,27 @@ Getting started
 
 ..  include:: _robot.rst
 
-Installation
-------------
+First steps with Mosaic
+-----------------------
 
-**Plone Mosaic** is installed just like any other Plone add-on by activating it at the Add-on control panel.
+This documentation will present you details how to work with **Plone Mosaic** through the web and within a package.
+If you haven't done it yet,
+please read the `README.rst`_ to learn about the concepts in **Plone Mosaic**,
+the requirements for the installation,
+the projects status and how the development process of the product works.
+
+.. _README.rst: https://github.com/plone/plone.app.mosaic/blob/master/README.rst
+
+Installation and activation
+---------------------------
+
+**Plone Mosaic** is installed like any other Plone add-on with buildout.
+It has several dependencies that need to be installed in specific versions.
+Please check `installation notes`_.
+
+.. _installation notes: https://github.com/plone/plone.app.mosaic/blob/master/README.rst#installation
+
+After the installation it needs to be activated in the Add-on control panel.
 
 ..  figure:: _screenshots/mosaic-product-activated.png
 ..  code:: robotframework
@@ -20,7 +37,13 @@ Installation
         ...  _screenshots/mosaic-product-activated.png
         ...  ${SELECTOR_ADDONS_ENABLED}
 
-After **Plone Mosaic** has been installed, everything should look normal. Yet, each page can now be made to render through the Plone Mosaic composition chain as described soon. If something breaks just by installing **Plone Mosaic**, it's probably a bug and it should be reported_ as such.
+With **Plone Mosaic** installed and activated the Plone site should look and behave normal.
+Yet it is possible now to add tiles to each page and get them rendered through the Plone Mosaic composition chain.
+
+.. note::
+
+  If something breaks just by installing **Plone Mosaic**,
+  it's probably a bug and it should be reported_ as such.
 
 .. _reported: https://github.com/plone/plone.app.mosaic/issues
 
