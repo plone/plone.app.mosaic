@@ -13,10 +13,11 @@ some rough ideas on what else to document and how to structure everything
 
 * content layout
 
-  * how to add them
+  * how to add them (Select layout)
   * manifest.cfg options
   * hide / show content layouts TTW
-  * save custom layout
+  * save custom layout (global/per user)
+  * Manage custom layouts (delete it)
 
   * permissions
 
@@ -38,7 +39,7 @@ some rough ideas on what else to document and how to structure everything
   * configuring tiles: movable, removable, editable/readonly
 
   * insert tile menu
-  
+
 * special/dedicated tiles and options
 
   * html tile (also replaces image tile; or is that the rich text tile?)
