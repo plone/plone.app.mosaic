@@ -299,6 +299,23 @@ define([
       }
     });
 
+    // Register preview action
+    $.mosaic.registerAction('preview', {
+      exec: function () {
+
+        // Trigger validation => drafting sync
+        $("#form-widgets-ILayoutAware-customContentLayout, " +
+            "[name='form.widgets.ILayoutAware.customContentLayout']")
+            .focus().blur();
+
+        // Layout preview
+        setTimeout(function(){
+          window.open(
+              $.mosaic.options.context_url + '/@@layout_preview', '_blank');
+        }, 1000);
+      }
+    });
+
     // Register html action
     $.mosaic.registerAction('html', {
       exec: function () {
