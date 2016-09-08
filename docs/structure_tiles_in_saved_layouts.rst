@@ -6,11 +6,11 @@ Problem
 
 You can not have structure tiles (e.g Text, Table, Bulleted list ...) in a saved layout that are editable. The reason for this is, that the text is saved in the layout.
 
-..  image:: _screenshots/add_structure_tile.png
+..  image:: add_structure_tile.png
 
 You can see it, if you change the view of a content type with customized layout back to something else than "Mosaic layout" (e.g. "View Document"). Now edit the object, chose Layout and have a look at "Custom layout" field.
 
-..  image:: _screenshots/custom_layout_field.png
+..  image:: custom_layout_field.png
 
 If you save this layout and use it for an other content objects you will not be able to edit the value of the field because it is saved in layout.
 
