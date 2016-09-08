@@ -4,6 +4,10 @@ Changelog
 2.0.0 (unreleased)
 ------------------
 
+- Saving a layout will now save default values for html tiles on the
+  reusable layout.
+  [vangheem]
+
 - No longer use special HTML tiles that do not work in reusable layouts.
   These tiles are now all deprecated: table, numbers, bullets, text, subheading, heading
   [vangheem]

@@ -589,7 +589,7 @@ define([
             _authenticator: utils.getAuthenticator(),
             global: globalLayout,
             name: $('#layoutNameField', modal.$modal).val(),
-            layout: $.mosaic.getPageContent()
+            layout: $.mosaic.getPageContent(true)
           }
         }).done(function(result){
           if(result.success){
