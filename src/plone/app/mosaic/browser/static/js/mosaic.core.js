@@ -296,7 +296,7 @@ define([
     });
     // Pre-fill new panels from the layout
     $("[data-panel]", $.mosaic.document).each(function () {
-      var panel = new Panel(this);
+      var panel = new Panel(this);http://localhost:8080/Plone/zfa
       panel.prefill();
     });
 
