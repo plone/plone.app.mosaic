@@ -79,7 +79,7 @@ There are three content layouts defined here.
   may be selected. This may be a comma-separated list of content types.
 
 **file**
-  The **file** setting determines which html file is chosen.
+  The **file** setting determines which html file with a given layout is chosen.
 
 So for each content layout you should provide
 
