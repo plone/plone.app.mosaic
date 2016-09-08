@@ -189,19 +189,6 @@
     <value key="weight">110</value>
   </records>
 
-  <!-- Disabled in favor of 'remove-tile-format'
-  <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.formats.tile_align_block">
-    <value key="name">tile-align-block</value>
-    <value key="category">tile</value>
-    <value key="label">Display block</value>
-    <value key="action">tile-align-block</value>
-    <value key="icon">true</value>
-    <value key="favorite">false</value>
-    <value key="weight">200</value>
-  </records>
-  -->
-
   <records interface="plone.app.mosaic.interfaces.IFormat"
            prefix="plone.app.mosaic.formats.tile_align_left">
     <value key="name">tile-align-left</value>
@@ -477,7 +464,7 @@
   <records interface="plone.app.mosaic.interfaces.IFormat"
            prefix="plone.app.mosaic.richtext_toolbar.table">
     <value key="name">toolbar-table</value>
-    <value key="category">table</value>
+    <value key="category">lists</value>
     <value key="label">Table</value>
     <value key="action">table</value>
     <value key="icon">true</value>
@@ -621,102 +608,6 @@
   </record>
 
   <record field="name" interface="plone.app.mosaic.interfaces.IWidgetAction"
-          name="plone.app.mosaic.widget_actions.WysiwygWidget.name">
-    <field type="plone.registry.field.TextLine">
-      <title>Name</title>
-    </field>
-    <value>plone.app.z3cform.wysiwyg.widget.WysiwygWidget</value>
-  </record>
-
-  <record field="actions" interface="plone.app.mosaic.interfaces.IWidgetAction"
-          name="plone.app.mosaic.widget_actions.plone_app_z3cform_wysiwyg_widget_WysiwygWidget.actions">
-    <field type="plone.registry.field.List">
-      <title>Actions</title>
-      <value_type type="plone.registry.field.TextLine" />
-    </field>
-    <value>
-      <element>toolbar-undo</element>
-      <element>toolbar-redo</element>
-      <element>toolbar-styleselect</element>
-      <element>toolbar-bold</element>
-      <element>toolbar-italic</element>
-      <element>toolbar-alignleft</element>
-      <element>toolbar-aligncenter</element>
-      <element>toolbar-alignright</element>
-      <element>toolbar-alignjustify</element>
-      <element>toolbar-bullist</element>
-      <element>toolbar-numlist</element>
-      <element>toolbar-ploneimage</element>
-      <element>toolbar-unlink</element>
-      <element>toolbar-plonelink</element>
-    </value>
-  </record>
-
-  <record field="name" interface="plone.app.mosaic.interfaces.IWidgetAction"
-          name="plone.app.mosaic.widget_actions.WysiwygFieldWidget.name">
-    <field type="plone.registry.field.TextLine">
-      <title>Name</title>
-    </field>
-    <value>plone.app.z3cform.wysiwyg.widget.WysiwygFieldWidget</value>
-  </record>
-
-  <record field="actions" interface="plone.app.mosaic.interfaces.IWidgetAction"
-          name="plone.app.mosaic.widget_actions.plone_app_z3cform_wysiwyg_widget_WysiwygFieldWidget.actions">
-    <field type="plone.registry.field.List">
-      <title>Actions</title>
-      <value_type type="plone.registry.field.TextLine" />
-    </field>
-    <value>
-      <element>toolbar-undo</element>
-      <element>toolbar-redo</element>
-      <element>toolbar-styleselect</element>
-      <element>toolbar-bold</element>
-      <element>toolbar-italic</element>
-      <element>toolbar-alignleft</element>
-      <element>toolbar-aligncenter</element>
-      <element>toolbar-alignright</element>
-      <element>toolbar-alignjustify</element>
-      <element>toolbar-bullist</element>
-      <element>toolbar-numlist</element>
-      <element>toolbar-ploneimage</element>
-      <element>toolbar-unlink</element>
-      <element>toolbar-plonelink</element>
-    </value>
-  </record>
-
-  <record field="name" interface="plone.app.mosaic.interfaces.IWidgetAction"
-          name="plone.app.mosaic.widget_actions.plone_app_widgets_dx_RichTextWidget.name">
-    <field type="plone.registry.field.TextLine">
-      <title>Name</title>
-    </field>
-    <value>plone.app.widgets.dx.RichTextWidget</value>
-  </record>
-
-  <record field="actions" interface="plone.app.mosaic.interfaces.IWidgetAction"
-          name="plone.app.mosaic.widget_actions.plone_app_widgets_dx_RichTextWidget.actions">
-    <field type="plone.registry.field.List">
-      <title>Actions</title>
-      <value_type type="plone.registry.field.TextLine" />
-    </field>
-    <value>
-      <element>toolbar-undo</element>
-      <element>toolbar-redo</element>
-      <element>toolbar-styleselect</element>
-      <element>toolbar-bold</element>
-      <element>toolbar-italic</element>
-      <element>toolbar-alignleft</element>
-      <element>toolbar-aligncenter</element>
-      <element>toolbar-alignright</element>
-      <element>toolbar-alignjustify</element>
-      <element>toolbar-bullist</element>
-      <element>toolbar-numlist</element>
-      <element>toolbar-ploneimage</element>
-      <element>toolbar-unlink</element>
-      <element>toolbar-plonelink</element>
-    </value>
-  </record>
-
-  <record field="name" interface="plone.app.mosaic.interfaces.IWidgetAction"
           name="plone.app.mosaic.widget_actions.plone_app_z3cform_widget_RichTextFieldWidget.name">
     <field type="plone.registry.field.TextLine">
       <title>Name</title>
@@ -731,8 +622,6 @@
       <value_type type="plone.registry.field.TextLine" />
     </field>
     <value>
-      <element>toolbar-undo</element>
-      <element>toolbar-redo</element>
       <element>toolbar-styleselect</element>
       <element>toolbar-bold</element>
       <element>toolbar-italic</element>
@@ -742,9 +631,14 @@
       <element>toolbar-alignjustify</element>
       <element>toolbar-bullist</element>
       <element>toolbar-numlist</element>
+      <element>toolbar-table</element>
       <element>toolbar-ploneimage</element>
       <element>toolbar-unlink</element>
       <element>toolbar-plonelink</element>
+      <element>contextmenu-tableprops</element>
+      <element>contextmenu-cell</element>
+      <element>contextmenu-row</element>
+      <element>contextmenu-column</element>
     </value>
   </record>
 
@@ -792,174 +686,6 @@
   </records>
 
   <!-- Tiles -->
-  <records prefix="plone.app.mosaic.structure_tiles.heading"
-           interface="plone.app.mosaic.interfaces.ITile">
-    <value key="default_value">&lt;h2&gt;Lorem ipsum dolor sit amet&lt;/h2&gt;</value>
-    <value key="category">structure</value>
-    <value key="read_only">False</value>
-    <value key="name">heading</value>
-    <value key="settings">False</value>
-    <value key="favorite">False</value>
-    <value key="label">Heading</value>
-    <value key="tile_type">text</value>
-    <value key="rich_text">True</value>
-    <value key="weight">10</value>
-  </records>
-
-  <record name="plone.app.mosaic.structure_tiles.heading.available_actions">
-    <field type="plone.registry.field.List">
-      <title>Available actions for the Heading structure tile</title>
-      <value_type type="plone.registry.field.TextLine" />
-    </field>
-    <value>
-    </value>
-  </record>
-
-  <records prefix="plone.app.mosaic.structure_tiles.subheading"
-           interface="plone.app.mosaic.interfaces.ITile">
-    <value key="default_value">&lt;h3&gt;Sed posuere interdum sem&lt;/h3&gt;</value>
-    <value key="category">structure</value>
-    <value key="read_only">False</value>
-    <value key="name">subheading</value>
-    <value key="settings">False</value>
-    <value key="favorite">False</value>
-    <value key="label">Subheading</value>
-    <value key="tile_type">text</value>
-    <value key="rich_text">True</value>
-    <value key="weight">20</value>
-  </records>
-
-  <record name="plone.app.mosaic.structure_tiles.subheading.available_actions">
-    <field type="plone.registry.field.List">
-      <title>Available actions for the Subheading structure tile</title>
-      <value_type type="plone.registry.field.TextLine" />
-    </field>
-    <value>
-    </value>
-  </record>
-
-  <records prefix="plone.app.mosaic.structure_tiles.text"
-           interface="plone.app.mosaic.interfaces.ITile">
-    <value key="default_value">&lt;p&gt;Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Sed posuere interdum sem. Quisque ligula eros ullamcorper quis, lacinia quis facilisis sed sapien. Mauris varius diam vitae arcu. Sed arcu lectus auctor vitae, consectetuer et venenatis eget velit. Sed augue orci, lacinia eu tincidunt et eleifend nec lacus.&lt;/p&gt;&lt;p&gt;Donec ultricies nisl ut felis, suspendisse potenti. Lorem ipsum ligula ut hendrerit mollis, ipsum erat vehicula risus, eu suscipit sem libero nec erat. Aliquam erat volutpat. Sed congue augue vitae neque. Nulla consectetuer porttitor pede. Fusce purus morbi tortor magna condimentum vel, placerat id blandit sit amet tortor.&lt;/p&gt;</value>
-    <value key="category">structure</value>
-    <value key="read_only">False</value>
-    <value key="name">text</value>
-    <value key="settings">False</value>
-    <value key="favorite">False</value>
-    <value key="label">Text</value>
-    <value key="tile_type">text</value>
-    <value key="rich_text">True</value>
-    <value key="weight">30</value>
-  </records>
-
-  <record name="plone.app.mosaic.structure_tiles.text.available_actions">
-    <field type="plone.registry.field.List">
-      <title>Available actions for the Text structure tile</title>
-      <value_type type="plone.registry.field.TextLine" />
-    </field>
-    <value>
-      <element>toolbar-undo</element>
-      <element>toolbar-redo</element>
-      <element>toolbar-styleselect</element>
-      <element>toolbar-bold</element>
-      <element>toolbar-italic</element>
-      <element>toolbar-alignleft</element>
-      <element>toolbar-aligncenter</element>
-      <element>toolbar-alignright</element>
-      <element>toolbar-alignjustify</element>
-      <element>toolbar-bullist</element>
-      <element>toolbar-numlist</element>
-      <element>toolbar-ploneimage</element>
-      <element>toolbar-unlink</element>
-      <element>toolbar-plonelink</element>
-    </value>
-  </record>
-
-  <records prefix="plone.app.mosaic.structure_tiles.table"
-           interface="plone.app.mosaic.interfaces.ITile">
-    <value key="default_value">&lt;table width="100%"&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;A&lt;/th&gt;&lt;th&gt;B&lt;/th&gt;&lt;th&gt;C&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;A&lt;/td&gt;&lt;td&gt;B&lt;/td&gt;&lt;td&gt;C&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;A&lt;/td&gt;&lt;td&gt;B&lt;/td&gt;&lt;td&gt;C&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;</value>
-    <value key="category">structure</value>
-    <value key="read_only">False</value>
-    <value key="name">table</value>
-    <value key="settings">False</value>
-    <value key="favorite">False</value>
-    <value key="label">Table</value>
-    <value key="tile_type">text</value>
-    <value key="rich_text">True</value>
-    <value key="weight">40</value>
-  </records>
-
-  <record name="plone.app.mosaic.structure_tiles.table.available_actions">
-    <field type="plone.registry.field.List">
-      <title>Available actions for the Heading structure tile</title>
-      <value_type type="plone.registry.field.TextLine" />
-    </field>
-    <value>
-      <element>toolbar-undo</element>
-      <element>toolbar-redo</element>
-      <element>contextmenu-tableprops</element>
-      <element>contextmenu-cell</element>
-      <element>contextmenu-row</element>
-      <element>contextmenu-column</element>
-    </value>
-  </record>
-
-  <records prefix="plone.app.mosaic.structure_tiles.bullets"
-           interface="plone.app.mosaic.interfaces.ITile">
-    <value key="default_value">&lt;ul&gt;&lt;li&gt;Nam molestie nec tortor&lt;/li&gt;&lt;li&gt;Donec placerat leo sit amet velit&lt;/li&gt;&lt;li&gt;Vestibulum id justo ut vitae massa&lt;/li&gt;&lt;/ul&gt;</value>
-    <value key="category">structure</value>
-    <value key="read_only">False</value>
-    <value key="name">bullets</value>
-    <value key="settings">False</value>
-    <value key="favorite">False</value>
-    <value key="label">Bulleted list</value>
-    <value key="tile_type">text</value>
-    <value key="rich_text">True</value>
-    <value key="weight">50</value>
-  </records>
-
-  <record name="plone.app.mosaic.structure_tiles.bullets.available_actions">
-    <field type="plone.registry.field.List">
-      <title>Available actions for the Bulleted list structure tile</title>
-      <value_type type="plone.registry.field.TextLine" />
-    </field>
-    <value>
-      <element>toolbar-undo</element>
-      <element>toolbar-redo</element>
-      <element>toolbar-bullist</element>
-      <element>toolbar-indent</element>
-      <element>toolbar-outdent</element>
-    </value>
-  </record>
-
-  <records prefix="plone.app.mosaic.structure_tiles.numbers"
-           interface="plone.app.mosaic.interfaces.ITile">
-    <value key="default_value">&lt;ol&gt;&lt;li&gt;Nam molestie nec tortor&lt;/li&gt;&lt;li&gt;Donec placerat leo sit amet velit&lt;/li&gt;&lt;li&gt;Vestibolum id justo ut vitae massa&lt;/li&gt;&lt;/ol&gt;</value>
-    <value key="category">structure</value>
-    <value key="read_only">False</value>
-    <value key="name">numbers</value>
-    <value key="settings">False</value>
-    <value key="favorite">False</value>
-    <value key="label">Numbered list</value>
-    <value key="tile_type">text</value>
-    <value key="rich_text">True</value>
-    <value key="weight">60</value>
-  </records>
-
-  <record name="plone.app.mosaic.structure_tiles.numbers.available_actions">
-    <field type="plone.registry.field.List">
-      <title>Available actions for the Numbered list structure tile</title>
-      <value_type type="plone.registry.field.TextLine" />
-    </field>
-    <value>
-      <element>toolbar-undo</element>
-      <element>toolbar-redo</element>
-      <element>toolbar-numlist</element>
-      <element>toolbar-indent</element>
-      <element>toolbar-outdent</element>
-    </value>
-  </record>
-
   <records prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_tableofcontents"
            interface="plone.app.mosaic.interfaces.ITile">
     <value key="name">plone.app.standardtiles.tableofcontents</value>
@@ -973,15 +699,6 @@
     <value key="rich_text">false</value>
     <value key="weight">100</value>
   </records>
-
-  <record name="plone.app.mosaic.app_tiles.plone_app_standardtiles_tableofcontents.available_actions">
-    <field type="plone.registry.field.List">
-      <title>Available actions for the Table of contents tile</title>
-      <value_type type="plone.registry.field.TextLine" />
-    </field>
-    <value>
-    </value>
-  </record>
 
   <records prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_navigation"
            interface="plone.app.mosaic.interfaces.ITile">
@@ -997,15 +714,6 @@
     <value key="weight">110</value>
   </records>
 
-  <record name="plone.app.mosaic.app_tiles.plone_app_standardtiles_navigation.available_actions">
-    <field type="plone.registry.field.List">
-      <title>Available actions for the Navtree tile</title>
-      <value_type type="plone.registry.field.TextLine" />
-    </field>
-    <value>
-    </value>
-  </record>
-
   <records prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_embed"
            interface="plone.app.mosaic.interfaces.ITile">
     <value key="name">plone.app.standardtiles.embed</value>
@@ -1019,15 +727,6 @@
     <value key="rich_text">false</value>
     <value key="weight">20</value>
   </records>
-
-  <record name="plone.app.mosaic.app_tiles.plone_app_standardtiles_embed.available_actions">
-    <field type="plone.registry.field.List">
-      <title>Available actions for the Embed tile</title>
-      <value_type type="plone.registry.field.TextLine" />
-    </field>
-    <value>
-    </value>
-  </record>
 
   <!-- Is broken and could probably be replaced with portlet tile
   <records prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_calendar"
@@ -1043,15 +742,6 @@
     <value key="rich_text">false</value>
     <value key="weight">10</value>
   </records>
-
-  <record name="plone.app.mosaic.app_tiles.plone_app_standardtiles_calendar.available_actions">
-    <field type="plone.registry.field.List">
-      <title>Available actions for the Calendar tile</title>
-      <value_type type="plone.registry.field.TextLine" />
-    </field>
-    <value>
-    </value>
-  </record>
   -->
 
   <records prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_discussion"
@@ -1068,14 +758,6 @@
     <value key="weight">20</value>
   </records>
 
-  <record name="plone.app.mosaic.app_tiles.plone_app_standardtiles_discussion.available_actions">
-    <field type="plone.registry.field.List">
-      <title>Available actions for the Discussion tile</title>
-      <value_type type="plone.registry.field.TextLine" />
-    </field>
-    <value>
-    </value>
-  </record>
 
   <!-- Portlet tile is disabled by default, because it will leave dangling
        portlets too easily
@@ -1108,15 +790,6 @@
     <value key="weight">10</value>
   </records>
 
-  <record name="plone.app.mosaic.app_tiles.plone_app_standardtiles_document_byline.available_actions">
-    <field type="plone.registry.field.List">
-      <title>Available actions for the Document byline tile</title>
-      <value_type type="plone.registry.field.TextLine" />
-    </field>
-    <value>
-    </value>
-  </record>
-
   <records prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_related_items"
            interface="plone.app.mosaic.interfaces.ITile">
     <value key="name">plone.app.standardtiles.related_items</value>
@@ -1130,15 +803,6 @@
     <value key="rich_text">false</value>
     <value key="weight">20</value>
   </records>
-
-  <record name="plone.app.mosaic.app_tiles.plone_app_standardtiles_related_items.available_actions">
-    <field type="plone.registry.field.List">
-      <title>Available actions for the Related items tile</title>
-      <value_type type="plone.registry.field.TextLine" />
-    </field>
-    <value>
-    </value>
-  </record>
 
   <records prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_keywords"
            interface="plone.app.mosaic.interfaces.ITile">
@@ -1154,15 +818,6 @@
     <value key="weight">30</value>
   </records>
 
-  <record name="plone.app.mosaic.app_tiles.plone_app_standardtiles_keywords.available_actions">
-    <field type="plone.registry.field.List">
-      <title>Available actions for the Keywords tile</title>
-      <value_type type="plone.registry.field.TextLine" />
-    </field>
-    <value>
-    </value>
-  </record>
-
   <records prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_contentlisting"
            interface="plone.app.mosaic.interfaces.ITile">
     <value key="name">plone.app.standardtiles.contentlisting</value>
@@ -1176,15 +831,6 @@
     <value key="rich_text">false</value>
     <value key="weight">10</value>
   </records>
-
-  <record name="plone.app.mosaic.app_tiles.plone_app_standardtiles_contentlisting.available_actions">
-    <field type="plone.registry.field.List">
-      <title>Available actions for the Content listing tile</title>
-      <value_type type="plone.registry.field.TextLine" />
-    </field>
-    <value>
-    </value>
-  </record>
 
   <records prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_existingcontent"
            interface="plone.app.mosaic.interfaces.ITile">
@@ -1200,15 +846,6 @@
     <value key="weight">20</value>
   </records>
 
-  <record name="plone.app.mosaic.app_tiles.plone_app_standardtiles_existingcontent.available_actions">
-    <field type="plone.registry.field.List">
-      <title>Available actions for the Existing Content tile</title>
-      <value_type type="plone.registry.field.TextLine" />
-    </field>
-    <value>
-    </value>
-  </record>
-
   <records prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_rss"
            interface="plone.app.mosaic.interfaces.ITile">
     <value key="name">plone.app.standardtiles.rss</value>
@@ -1223,24 +860,11 @@
     <value key="weight">30</value>
   </records>
 
-  <record name="plone.app.mosaic.app_tiles.plone_app_standardtiles_rss.available_actions">
-    <field type="plone.registry.field.List">
-      <title>Available actions for the RSS tile</title>
-      <value_type type="plone.registry.field.TextLine" />
-    </field>
-    <value>
-    </value>
-  </record>
-
-  <!-- XXX enable this and disable the regular text tile to have persistent
-       text tiles. These are useful for when you are using layouts.
-       To enable, change the category value to "structure"
-       and add "plone.app.standardtiles.html" to plone.app.tiles registry value -->
   <records prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_html"
            interface="plone.app.mosaic.interfaces.ITile">
     <value key="name">plone.app.standardtiles.html</value>
     <value key="label">Rich Text</value>
-    <value key="category">hidden</value>
+    <value key="category">structure</value>
     <value key="tile_type">textapp</value>
     <value key="default_value">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Sed posuere interdum sem. Quisque ligula eros ullamcorper quis, lacinia quis facilisis sed sapien. Mauris varius diam vitae arcu. Sed arcu lectus auctor vitae, consectetuer et venenatis eget velit. Sed augue orci, lacinia eu tincidunt et eleifend nec lacus.&lt;/p&gt;&lt;p&gt;Donec ultricies nisl ut felis, suspendisse potenti. Lorem ipsum ligula ut hendrerit mollis, ipsum erat vehicula risus, eu suscipit sem libero nec erat. Aliquam erat volutpat. Sed congue augue vitae neque. Nulla consectetuer porttitor pede. Fusce purus morbi tortor magna condimentum vel, placerat id blandit sit amet tortor.&lt;/p&gt;</value>
     <value key="read_only">false</value>
@@ -1256,8 +880,6 @@
       <value_type type="plone.registry.field.TextLine" />
     </field>
     <value>
-      <element>toolbar-undo</element>
-      <element>toolbar-redo</element>
       <element>toolbar-styleselect</element>
       <element>toolbar-bold</element>
       <element>toolbar-italic</element>
@@ -1267,9 +889,14 @@
       <element>toolbar-alignjustify</element>
       <element>toolbar-bullist</element>
       <element>toolbar-numlist</element>
+      <element>toolbar-table</element>
       <element>toolbar-ploneimage</element>
       <element>toolbar-unlink</element>
       <element>toolbar-plonelink</element>
+      <element>contextmenu-tableprops</element>
+      <element>contextmenu-cell</element>
+      <element>contextmenu-row</element>
+      <element>contextmenu-column</element>
     </value>
   </record>
 

@@ -85,8 +85,8 @@ define([
     that.focusCheckCount = 0;
 
     that.$el.children(".mosaic-tile-content").off('blur').on('blur', function(){
-      var tiletype = that.getType();
-      if(tiletype === 'plone.app.standardtiles.html'){
+      var tile_config = that.getConfig();
+      if(tile_config && tile_config.tile_type === 'textapp'){
         var edit_url = that.getEditUrl();
         if(edit_url){
           var currentData = that.getHtmlContent();
@@ -99,15 +99,16 @@ define([
             return;
           }
           that.$el.data('activeSave', true);
+          var data = {
+            _authenticator: utils.getAuthenticator(),
+            'buttons.save': 'Save'
+          };
+          data[tile_config.name + '.content'] = currentData;
           // need to save tile
           $.ajax({
             url: edit_url,
             method: 'POST',
-            data: {
-              'plone.app.standardtiles.html.content': currentData,
-              _authenticator: utils.getAuthenticator(),
-              'buttons.save': 'Save'
-            }
+            data: data
           }).always(function(){
             that.$el.data('lastSavedData', currentData);
             that.$el.data('activeSave', false);
@@ -222,6 +223,15 @@ define([
     return tiletype;
   };
 
+  Tile.prototype.deprecatedHTMLTiles = [
+    'table',
+    'numbers',
+    'bullets',
+    'text',
+    'subheading',
+    'heading'
+  ];
+
   Tile.prototype.getConfig = function(){
     var tile_config;
     var tiletype = this.getType();
@@ -265,10 +275,28 @@ define([
     if(!tile_config){
       // dive out of here, something went wrong finding tile config
       if(_missing_tile_configs.indexOf(tiletype) === -1){
-        log.error('Could not load tile config for tile type: ' + tiletype);
+        log.error('Could not load tile config for tile type: ' + tiletype +
+                  ' falling back to b/w compatible tile type.');
         _missing_tile_configs.push(tiletype);
       }
-      return;
+      tile_config = {
+        tile_type: 'app',
+        name: tiletype,
+        label: 'Unknown',
+        read_only: true,
+        favorite: false,
+        settings: false,
+        weight: 0,
+        rich_text: false
+      };
+      if(this.deprecatedHTMLTiles.indexOf(tiletype) !== -1){
+        // deprecated html tile type, provide b/w compat config
+        tile_config.category = 'structure';
+        tile_config.read_only = false;
+        tile_config.label = tiletype;
+        tile_config.tile_type = 'text';
+        tile_config.rich_text = true;
+      }
     }
     return tile_config;
   };
@@ -296,16 +324,6 @@ define([
     // Get tile config
     var tile_config = this.getConfig();
     var editor;
-
-    if(!tile_config){
-      // tile configuration was removed from configuration registry.
-      // let's try our best to still be able to use this tile correctly
-      // and not fail here...
-      tile_config = {
-        tile_type: 'app',
-        name: this.getType()
-      };
-    }
 
     // Predefine vars
     switch (tile_config.tile_type) {
@@ -616,17 +634,6 @@ define([
 
       // Get tile type
       var tile_config = this.getConfig();
-      if(!tile_config){
-        // no tile config, this case can happen when a tile config is removed
-        // from the configuration registry. We want the editor to still
-        // work the best possible way for this so we'll fill in some gaps
-        // that should work still
-        tile_config = {
-          tile_type: 'app',
-          name: this.getType(),
-          label: 'Unknown'
-        };
-      }
 
       // Check if a field tile
       if (tile_config.tile_type === 'field') {
@@ -989,6 +996,12 @@ define([
 
       // Get tiletype
       var tiletype = that.getType();
+      if(this.deprecatedHTMLTiles.indexOf(tiletype) !== -1){
+        // these tiles are deprecated but we still need to be able to edit
+        // them... Yes this is a bit ugly but I think it is probably the best
+        // way right now.
+        tiletype = 'plone.app.standardtiles.html';
+      }
 
       // Get actions
       actions = $.mosaic.options.default_available_actions;

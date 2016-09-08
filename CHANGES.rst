@@ -4,6 +4,10 @@ Changelog
 2.0.0 (unreleased)
 ------------------
 
+- No longer use special HTML tiles that do not work in reusable layouts.
+  These tiles are now all deprecated: table, numbers, bullets, text, subheading, heading
+  [vangheem]
+
 - Remove use image and attachment tiles as they are now deprecated
   [vangheem]
 

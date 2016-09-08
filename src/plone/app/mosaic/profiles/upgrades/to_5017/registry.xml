@@ -8,8 +8,6 @@
       <value_type type="plone.registry.field.TextLine" />
     </field>
     <value>
-      <element>toolbar-undo</element>
-      <element>toolbar-redo</element>
       <element>toolbar-styleselect</element>
       <element>toolbar-bold</element>
       <element>toolbar-italic</element>
@@ -19,9 +17,14 @@
       <element>toolbar-alignjustify</element>
       <element>toolbar-bullist</element>
       <element>toolbar-numlist</element>
+      <element>toolbar-table</element>
       <element>toolbar-ploneimage</element>
       <element>toolbar-unlink</element>
       <element>toolbar-plonelink</element>
+      <element>contextmenu-tableprops</element>
+      <element>contextmenu-cell</element>
+      <element>contextmenu-row</element>
+      <element>contextmenu-column</element>
     </value>
   </record>
   <record name="plone.app.mosaic.app_tiles.plone_app_standardtiles_rawhtml.available_actions"
@@ -31,7 +34,7 @@
            interface="plone.app.mosaic.interfaces.ITile">
     <value key="name">plone.app.standardtiles.html</value>
     <value key="label">Rich Text</value>
-    <value key="category">hidden</value>
+    <value key="category">structure</value>
     <value key="tile_type">textapp</value>
     <value key="default_value">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Sed posuere interdum sem. Quisque ligula eros ullamcorper quis, lacinia quis facilisis sed sapien. Mauris varius diam vitae arcu. Sed arcu lectus auctor vitae, consectetuer et venenatis eget velit. Sed augue orci, lacinia eu tincidunt et eleifend nec lacus.&lt;/p&gt;&lt;p&gt;Donec ultricies nisl ut felis, suspendisse potenti. Lorem ipsum ligula ut hendrerit mollis, ipsum erat vehicula risus, eu suscipit sem libero nec erat. Aliquam erat volutpat. Sed congue augue vitae neque. Nulla consectetuer porttitor pede. Fusce purus morbi tortor magna condimentum vel, placerat id blandit sit amet tortor.&lt;/p&gt;</value>
     <value key="read_only">false</value>
@@ -67,4 +70,60 @@
   <record name="plone.app.mosaic.app_tiles.plone_app_standardtiles_image.available_actions"
           remove="True" />
 
+
+  <!-- remove tile html chunks that we do not care about -->
+  <records prefix="plone.app.mosaic.structure_tiles.heading"
+           interface="plone.app.mosaic.interfaces.ITile"
+           remove="True" />
+  <record name="plone.app.mosaic.structure_tiles.heading.available_actions"
+          remove="True" />
+  <records prefix="plone.app.mosaic.structure_tiles.subheading"
+           interface="plone.app.mosaic.interfaces.ITile"
+           remove="True" />
+  <record name="plone.app.mosaic.structure_tiles.subheading.available_actions"
+          remove="True" />
+  <records prefix="plone.app.mosaic.structure_tiles.text"
+           interface="plone.app.mosaic.interfaces.ITile"
+           remove="True" />
+  <record name="plone.app.mosaic.structure_tiles.text.available_actions"
+          remove="True" />
+  <records prefix="plone.app.mosaic.structure_tiles.bullets"
+           interface="plone.app.mosaic.interfaces.ITile"
+           remove="True" />
+  <record name="plone.app.mosaic.structure_tiles.bullets.available_actions"
+          remove="True" />
+  <records prefix="plone.app.mosaic.structure_tiles.numbers"
+           interface="plone.app.mosaic.interfaces.ITile"
+           remove="True" />
+  <record name="plone.app.mosaic.structure_tiles.numbers.available_actions"
+          remove="True" />
+  <records prefix="plone.app.mosaic.structure_tiles.table"
+           interface="plone.app.mosaic.interfaces.ITile"
+           remove="True" />
+  <record name="plone.app.mosaic.structure_tiles.table.available_actions"
+          remove="True" />
+
+  <!-- upgrades for new values... -->
+  <record field="actions" interface="plone.app.mosaic.interfaces.IWidgetAction"
+          name="plone.app.mosaic.widget_actions.plone_app_z3cform_widget_RichTextFieldWidget.actions">
+    <value>
+      <element>toolbar-styleselect</element>
+      <element>toolbar-bold</element>
+      <element>toolbar-italic</element>
+      <element>toolbar-alignleft</element>
+      <element>toolbar-aligncenter</element>
+      <element>toolbar-alignright</element>
+      <element>toolbar-alignjustify</element>
+      <element>toolbar-bullist</element>
+      <element>toolbar-numlist</element>
+      <element>toolbar-table</element>
+      <element>toolbar-ploneimage</element>
+      <element>toolbar-unlink</element>
+      <element>toolbar-plonelink</element>
+      <element>contextmenu-tableprops</element>
+      <element>contextmenu-cell</element>
+      <element>contextmenu-row</element>
+      <element>contextmenu-column</element>
+    </value>
+  </record>
 </registry>
