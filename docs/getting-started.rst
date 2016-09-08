@@ -37,8 +37,8 @@ After the installation it needs to be activated in the Add-on control panel.
         ...  _screenshots/mosaic-product-activated.png
         ...  ${SELECTOR_ADDONS_ENABLED}
 
-With **Plone Mosaic** installed and activated the Plone site should look and behave normal.
-Yet it is possible now to add tiles to each page and get them rendered through the Plone Mosaic composition chain.
+Even with **Plone Mosaic** installed and activated the Plone site should look and behave normal.
+But now it is possible to add tiles to each page and get them rendered through the Plone Mosaic composition chain.
 
 .. note::
 
