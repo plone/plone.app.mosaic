@@ -4,6 +4,9 @@ Changelog
 2.0.0 (unreleased)
 ------------------
 
+- Add calendar tile.
+  [rodfersou]
+
 - Fix problem where layouts could be saved without a name
   [vangheem]
 
