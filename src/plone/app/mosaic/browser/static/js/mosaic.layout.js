@@ -1645,7 +1645,7 @@ define([
    * @id jQuery.mosaic.getPageContent
    * @return {String} Full content of the page
    */
-  $.mosaic.getPageContent = function () {
+  $.mosaic.getPageContent = function (exportLayout) {
 
     // Content
     var content,
@@ -1664,7 +1664,7 @@ define([
     $("[data-panel]", $.mosaic.document).each(function () {
 
       // Add open panel tag
-      body += '    <div data-panel="' + $(this).data("panel") + '"'
+      body += '    <div data-panel="' + $(this).data("panel") + '"';
       body += '         data-max-columns="' + $(this).data("max-columns") + '">\n';
 
       // Loop through rows
@@ -1730,7 +1730,7 @@ define([
             // Loop through tiles
             $(this).children(".mosaic-tile").each(function () {
               var tile = new Tile(this);
-              body += tile.getHtmlBody();
+              body += tile.getHtmlBody(exportLayout);
             });
 
             // Add cell end tag

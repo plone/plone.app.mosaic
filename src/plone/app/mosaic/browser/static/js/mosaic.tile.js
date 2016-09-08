@@ -301,7 +301,7 @@ define([
     return tile_config;
   };
 
-  Tile.prototype.getHtmlBody = function(){
+  Tile.prototype.getHtmlBody = function(exportLayout){
     var body = '';
     // Get tile type
     var tiletype = '',
@@ -337,9 +337,22 @@ define([
         break;
       case "app":
       case "textapp":
+        var url = this.getUrl();
+        if(exportLayout){
+          // we want to provide default value here for exporting this layout
+          editor = tinymce.get(this.$el.children(".mosaic-tile-content").attr('id'));
+          var data = (editor ? editor.getContent() : this.$el.children(".mosaic-tile-content").html()).replace(/^\s+|\s+$/g, '') + "\n";
+          // convert to url valid value
+          if(url.indexOf('?') === -1){
+            url += '?';
+          }else{
+            url += '&';
+          }
+          url += 'content=' + encodeURI(data);
+        }
         body += '          <div class="' + classes.join(' ') + '">\n';
         body += '          <div class="mosaic-tile-content">\n';
-        body += '          <div data-tile="' + this.getUrl() + '"></div>\n';
+        body += '          <div data-tile="' + url + '"></div>\n';
         body += '          </div>\n';
         body += '          </div>\n';
         break;
