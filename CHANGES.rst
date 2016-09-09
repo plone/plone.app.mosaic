@@ -4,7 +4,8 @@ Changelog
 2.0.0 (unreleased)
 ------------------
 
-- Add preview button for previewing currently edited layout
+- Add preview button (disabled by default) for previewing currently edited
+  layout
   [datakurre]
 
 - Provide better use of permissions in UI and enforcements on the server
