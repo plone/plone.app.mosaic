@@ -1,4 +1,5 @@
 .. _section_site_layouts:
+.. index:: Site Layout
 
 
 Site layout management

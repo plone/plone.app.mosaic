@@ -1,3 +1,7 @@
+.. _section_content_layouts:
+.. index:: Content Layout
+
+
 Content Layouts
 ===============
 

@@ -1,4 +1,6 @@
 .. _section_tiles:
+.. index:: Tiles
+
 
 Mosaic Tiles
 ============
@@ -10,6 +12,7 @@ There is a set of tiles enabled by default in the Mosaic Editor.
 
 
 .. _rich_text_tiles:
+.. index:: Rich Text Tile
 
 Rich Text
 ---------

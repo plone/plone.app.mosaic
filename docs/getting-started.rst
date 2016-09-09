@@ -1,3 +1,5 @@
+.. _section_getting_started:
+
 Getting started
 ===============
 
@@ -13,6 +15,9 @@ the requirements for the installation,
 the projects status and how the development process of the product works.
 
 .. _README.rst: https://github.com/plone/plone.app.mosaic/blob/master/README.rst
+
+
+.. index:: Installation
 
 Installation and activation
 ---------------------------

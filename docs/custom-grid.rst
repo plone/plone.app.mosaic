@@ -1,3 +1,6 @@
+.. _section_custom_grid:
+.. index:: Custom Grid
+
 Using a Custom Grid
 ===================
 
