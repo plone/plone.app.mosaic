@@ -157,9 +157,19 @@ Let's select the basic layout:
 
         Click element  jquery=a[data-value="default/basic.html"]
 
-**Here some words about the tool bar of the Mosaic Editor**
+Now the toolbar of the **Mosaic Editor** will appear on top.
+The buttons *Save* and *Cancel* belong to the current *Edit* action of the content.
+With them you can either save or discard the canges that were made to the current content element.
+The button **Properties** opens a form where you can edit several properties of the content element,
+like the publishing date or the short name.
 
-And then enable it for customization:
+**ToDo Screenshot with properties open**
+
+The dropdown *Layout* has the two option *Change* and *Customize*.
+*Change* opens the form where you can choose another layout from all available layouts.
+
+With the option *Customize* you enable the current layout for customization,
+i.e. two new dropdowns *Insert* and *Format* appear and allow to add new tiles and format existing ones.
 
 ..  figure:: _screenshots/mosaic-editor-customize.png
 ..  code:: robotframework
@@ -185,7 +195,7 @@ And then enable it for customization:
         Click element  css=.mosaic-button-customizelayout
 
 
-To add a new tile in the **Mosaic editor**, select the tile from the rightmost menu
+To add a new tile in the **Mosaic editor**, select the tile from the *Insert* menu
 
 ..  figure:: _screenshots/mosaic-editor-select-field-text-tile.png
 ..  code:: robotframework
@@ -249,3 +259,15 @@ That's how we can build custom content layouts using Plone Mosaic.
         Capture and crop page screenshot
         ...  _screenshots/mosaic-page-saved.png
         ...  css=html
+
+Note that this costum layout is saved for the current content element.
+The *Layout* dropdown now has the button *Save* instead of *Customize*.
+With this you could save the layout for the whole site and make it available for other content elements.
+You can find more information about this in the sectionXXX.
+
+**ToDo Screenshot with Layout dropdown showing Change/Save focus on Save**
+
+The button *Change* will open up the *Select Layout* form again and all the
+customizations you made on the page will be discarded.
+
+**ToDo Screenshot discard current custom layout on form**
