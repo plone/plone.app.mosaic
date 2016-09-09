@@ -1,3 +1,6 @@
+.. _section_site_layouts:
+
+
 Site layout management
 ======================
 
@@ -7,6 +10,15 @@ Site layout management
     Set layout management window size
         Set window size  900  800
 
+
+.. As opposed to :ref:`section_content_layouts` ... TODO: prose
+
+
+Enable Mosaic Site Layouts
+--------------------------
+
+To enable site layout functionality in Mosaic you need to run buildout
+with special options, see **develop.cfg**
 
 
 Changing the current site layout
