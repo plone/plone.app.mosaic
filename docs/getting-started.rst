@@ -23,6 +23,11 @@ Please check `installation notes`_.
 
 .. _installation notes: https://github.com/plone/plone.app.mosaic/blob/master/README.rst#installation
 
+.. note:: 
+          Check :ref:`enable_site_layouts` if you want to use Mosaic Site Layouts
+          on top of Content Layouts.
+
+
 After the installation it needs to be activated in the Add-on control panel.
 
 ..  figure:: _screenshots/mosaic-product-activated.png

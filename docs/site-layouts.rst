@@ -13,6 +13,7 @@ Site layout management
 
 .. As opposed to :ref:`section_content_layouts` ... TODO: prose
 
+.. _enable_site_layouts:
 
 Enable Mosaic Site Layouts
 --------------------------
