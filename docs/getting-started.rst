@@ -8,7 +8,8 @@ Getting started
 First steps with Mosaic
 -----------------------
 
-This documentation will present you details how to work with **Plone Mosaic** through the web and within a package.
+This documentation will present you details how to work with **Plone Mosaic**
+through the web and within a package.
 If you haven't done it yet,
 please read the `README.rst`_ to learn about the concepts in **Plone Mosaic**,
 the requirements for the installation,
@@ -58,7 +59,7 @@ But now it is possible to add tiles to each page and get them rendered through t
 .. _reported: https://github.com/plone/plone.app.mosaic/issues
 
 
-Mosaic layout
+Mosaic Layout
 -------------
 
 In this section we will look at the **Layout-behavior** of **Plone Mosaic**.
@@ -96,10 +97,10 @@ set the **Display** option to **Mosaic layout**.
         Wait until page contains element
         ...  css=#plone-contentmenu-display-layout_view.actionMenuSelected
 
-How the current content looks after the first time the **Mosaic layout** is enabled,
+How the current content looks after the first time the **Mosaic layout** is enabled
 depends on the configured defaults for its portal type.
 Still,
-at least the title and the description should be always displayed.
+at least the title and the description should always be displayed.
 
 ..  figure:: _screenshots/mosaic-custom-layout-enable-done.png
 ..  code:: robotframework
@@ -165,10 +166,26 @@ Let's select the basic layout:
 Now the toolbar of the **Mosaic Editor** will appear on top.
 The buttons *Save* and *Cancel* belong to the current *Edit* action of the content.
 With them you can either save or discard the canges that were made to the current content element.
+
 The button **Properties** opens a form where you can edit several properties of the content element,
 like the publishing date or the short name.
 
-**ToDo Screenshot with properties open**
+
+.. figure:: _screenshots/mosaic-editor-properties-modal.png
+.. code:: robotframework
+
+   Show the properties view in Mosaic editor
+       Wait Until Element Is Visible  css=.mosaic-toolbar
+       Click element  css=.mosaic-button-properties
+       
+       Capture and crop page screenshot
+       ...  _screenshots/mosaic-editor-properties-modal.png
+       ...  css=.plone-modal-content
+
+       Click element  css=.mosaic-overlay-ok-button
+
+
+**ToDo: fix Screenshot with properties so the whole thing is shown.**
 
 The dropdown *Layout* has the two option *Change* and *Customize*.
 *Change* opens the form where you can choose another layout from all available layouts.
