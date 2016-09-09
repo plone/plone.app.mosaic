@@ -966,16 +966,8 @@ define([
         case "z3c.form.browser.textlines.TextLinesWidget":
         case "z3c.form.browser.textlines.TextLinesFieldWidget":
           value = "";
-          if (tile_config.name === 'IDublinCore-description') {
-            newline = " ";  // otherwise Plone would replace \n with ''
-          } else {
-            newline = "\n";
-          }
           $('.mosaic-panel .mosaic-' + tiletype + '-tile', $.mosaic.document).find('.mosaic-tile-content > *').each(function () {
-            value += $(this).html()
-              .replace(/<br[^>]*>/ig, newline)
-              .replace("&nbsp;", "")
-              .replace(/^\s+|\s+$/g, '') + newline;
+            value += $(this).text();
           });
           value = value.replace(/^\s+|\s+$/g, '');
           $("#" + tile_config.id).find('textarea').val(value);
@@ -1104,12 +1096,17 @@ define([
         timeout = setTimeout(_placeholder, 100);
       };
 
+      var paste_as_text = false;
+      if(toolbar.length === 0){
+        paste_as_text = true;
+      }
       // Init rich editor
       pattern = new TinyMCE($content, $.extend(
         true, {}, $.mosaic.options.tinymce, { inline: false, tiny: {
         body_id: id,
         selector: "#" + id,
         inline: true,
+        paste_as_text: paste_as_text,
         fixed_toolbar_container: '#' + $editorContainer.attr('id'),
         theme_advanced_toolbar_align: "right",
         menubar: false,
