@@ -28,7 +28,7 @@ Please check `installation notes`_.
 
 .. _installation notes: https://github.com/plone/plone.app.mosaic/blob/master/README.rst#installation
 
-.. note:: 
+.. note::
           Check :ref:`enable_site_layouts` if you want to use Mosaic Site Layouts
           on top of Content Layouts.
 
@@ -145,7 +145,7 @@ it asks to the select the initial layout for the content:
         ...  css=.plone-modal
 
 The selected layout can then be used as it is,
-or make it fully custom.
+or it can be customized by adding, removing and formatting tiles.
 How to achieve this will be described later on.
 
 Let's select the basic layout:
@@ -199,8 +199,8 @@ i.e. two new dropdowns *Insert* and *Format* appear and allow to add new tiles a
 
         Click element  css=.mosaic-button-customizelayout
 
-
-To add a new tile in the **Mosaic editor**, select the tile from the *Insert* menu
+To add a new tile in the **Mosaic editor**, select the "Text" tile from the *Insert* menu.
+An overview about all available standard tiles refer to the :ref:`mosaic_tiles` part of this documentation.
 
 ..  figure:: _screenshots/mosaic-editor-select-field-text-tile.png
 ..  code:: robotframework
