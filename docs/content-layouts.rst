@@ -108,32 +108,39 @@ Permissions
 There are permissions that control who can create and change content layouts - for current user and globally.
 
 * Plone: Manage Content Layouts (plone.ManageContentLayouts)
+
   -  protects layout -> "change" button in editor
+
 * Plone: Customize Content Layouts (plone.CustomizeContentLayouts)
+
   - controls if user can customize and save the customized layout
   - protects layout -> "customize" button in editor
   - by default this is Manager, Site Administrator, Owner, Editor
+
 * plone.resourceeditor: Manage Sources (plone.resourceeditor.ManageSources)
+
   - protects layout editor in control panel
+
 * Plone: Manage Site Layouts (plone.ManageSiteLayouts)
+
   - will protect changing site layouts once they are enabled
 
 For default groups see `rolemap.xml` in plone.app.blocks.
 
 Restricting who can *change* (chose another) content layouts
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Any user who can edit, can change layout on content they have access to edit.
 
 Restricting who can customize/save new layouts through UI
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 `plone.CustomizeContentLayouts` is needed on context to save a user layout. Owner, Editor and Manager have that permission.
 
 To save the customized layout *globally* you need plone.ManageContentLayouts on site in addition. Manager has that permission per default.
 
 Restricting who can delete content layouts
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To delete your own layout you need plone.CustomizeContentLayouts on context. To delete a global content layout you need plone.ManageContentLayouts on site in addition (Manager can do this).
 
