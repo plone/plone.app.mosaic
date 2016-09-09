@@ -13,8 +13,8 @@ Restricting content layouts globally
 
 To hide layouts globally...
 
-Programmatically (while developing your product)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+a) Programmatically (while developing your product)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Add it to the *hidden_content_layouts* list in the registry
  by configuring this in registry.xml:
@@ -27,8 +27,8 @@ Add it to the *hidden_content_layouts* list in the registry
      </value>
    </record>
 
-Through-the-web
-~~~~~~~~~~~~~~~
+b) Through-the-web
+~~~~~~~~~~~~~~~~~~
 
 Go to the Mosaic settings in the sites control panel (see above) and choose the tab *Show/Hide Content Layouts*.
 
