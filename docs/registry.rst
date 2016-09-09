@@ -23,3 +23,32 @@ example, the following configuration will
        <element>default/basic.html::MyPortalType</element>
      </value>
    </record>
+
+
+Enabling review action
+----------------------
+
+Mosaic includes a layout preview action (for previewing the
+currently edited layout without the editor) in Layout menu
+button. It's hidden by default, but can be enabled with the
+following registry.xml entry:
+
+.. code:: xml
+
+  <record name="plone.app.mosaic.default_available_actions">
+    <value purge="false">
+      <element>preview</element>
+    </value>
+  </record>
+
+
+In addition, preview action can be moved out of the layout as a separate
+toolbar button with:k
+
+.. code:: xml
+
+  <records prefix="plone.app.mosaic.primary_actions.preview"
+           interface='plone.app.mosaic.interfaces.IAction'>
+    <value key="fieldset"></value>
+    <value key="weight">40</value>
+  </records>
