@@ -45,6 +45,17 @@
     <value key="weight">30</value>
   </records>
 
+  <records prefix="plone.app.mosaic.primary_actions.preview"
+           interface='plone.app.mosaic.interfaces.IAction'>
+    <value key="name">preview</value>
+    <value key="fieldset">Layout</value>
+    <value key="label">Preview</value>
+    <value key="action">preview</value>
+    <value key="icon">False</value>
+    <value key="menu">False</value>
+    <value key="weight">20</value>
+  </records>
+
   <records prefix="plone.app.mosaic.primary_actions.customizelayout"
            interface='plone.app.mosaic.interfaces.IAction'>
     <value key="name">customizelayout</value>
@@ -76,17 +87,6 @@
     <value key="icon">False</value>
     <value key="menu">False</value>
     <value key="weight">60</value>
-  </records>
-
-  <records prefix="plone.app.mosaic.primary_actions.preview"
-           interface='plone.app.mosaic.interfaces.IAction'>
-    <value key="name">preview</value>
-    <value key="fieldset"></value>
-    <value key="label">Preview</value>
-    <value key="action">preview</value>
-    <value key="icon">False</value>
-    <value key="menu">False</value>
-    <value key="weight">50</value>
   </records>
 
   <records prefix="plone.app.mosaic.secondary_actions.format"
@@ -138,7 +138,6 @@
       <element>customizelayout</element>
       <element>changelayout</element>
       <element>savelayout</element>
-      <element>preview</element>
       <element>format</element>
       <element>insert</element>
       <element>tile-align-center</element>
