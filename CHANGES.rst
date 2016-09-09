@@ -4,6 +4,9 @@ Changelog
 2.0.0 (unreleased)
 ------------------
 
+- Fix pasting into title, description fields
+  [vangheem]
+
 - Fix fieldset tabbing not working after user edits field tiles
   [vangheem]
 
