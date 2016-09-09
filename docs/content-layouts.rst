@@ -102,40 +102,40 @@ You can also hide a layout for one type in registry.xml
 This will hide layout `default/news_item` for News Item.
 
 
-Restricting, who can create new content layouts
------------------------------------------------
+Permissions
+-----------
 
-see issue 253
+There are permissions that control who can create and change content layouts - for current user and globally.
 
-plone.resourceeditor.ManageSources protects layout editor in control panel
+* Plone: Manage Content Layouts (plone.ManageContentLayouts)
+  -  protects layout -> "change" button in editor
+* Plone: Customize Content Layouts (plone.CustomizeContentLayouts)
+  - controls if user can customize and save the customized layout
+  - protects layout -> "customize" button in editor
+  - by default this is Manager, Site Administrator, Owner, Editor
+* plone.resourceeditor: Manage Sources (plone.resourceeditor.ManageSources)
+  - protects layout editor in control panel
+* Plone: Manage Site Layouts (plone.ManageSiteLayouts)
+  - will protect changing site layouts once they are enabled
 
-Restricting, who can *change* content layouts
----------------------------------------------
+For default groups see `rolemap.xml` in plone.app.blocks.
+
+Restricting who can *change* (chose another) content layouts
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 Any user who can edit, can change layout on content they have access to edit.
-"change" botton hidden
-
-plone.ManageContentLayouts will protect changing site layouts once they are enabled
-
-see above, ask nathan
-
 
 Restricting who can customize/save new layouts through UI
-----------------------------------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-"Plone: Customize Content Layouts"(plone.CustomizeContentLayouts) permission
-controls if user can customize and save the customized layout
+`plone.CustomizeContentLayouts` is needed on context to save a user layout. Owner, Editor and Manager have that permission.
 
-  - by default this is Manager, Site Administrator, Owner, Editor
-  - need to further customize this or workflow to be more restrictive
+To save the customized layout *globally* you need plone.ManageContentLayouts on site in addition. Manager has that permission per default.
 
+Restricting who can delete content layouts
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Who can edit global site layouts
---------------------------------
-
-"Plone: Manage Content Layouts"(plone.ManageContentLayouts)
-
-- by default this is Manager, Site Administrator
-
+To delete your own layout you need plone.CustomizeContentLayouts on context. To delete a global content layout you need plone.ManageContentLayouts on site in addition (Manager can do this).
 
 
 Moving and Editing tiles
@@ -265,22 +265,22 @@ To add a python based tile to insert menu you have to add an entry for it to plo
     </records>
 
 
-prefix: 
-  "plone.app.mosaic.app_tiles" for app tiles chose rest
+prefix:
+  "plone.app.mosaic.app_tiles" for app tiles - chose rest
 name:
-  Name of your tile configured in zcml
+  Name of your tile configured in zcml.
 label:
-  This is displayed in insert menu
+  This is displayed in insert menu.
 category:
   category on insert menu (e.g. structrue, field), a new category has to be registered, "hidden" to hide it
 tile_type:
-   text, field, app
+   text, field, app - app is most likely what you want
 default_value:
    for tile_type text only
 read_only:
-   if set to true tile is not clickable and has no little i / edit button (?) - while adding you can
+   If set to true tile is not clickable and has no little i / edit button. While adding you can change settings.
 settings:
-  if set to false tile has no little i / edit button (?) - no settings form while adding
+  If set to false tile has no little i / edit button - no settings form while adding.
 favorite:
   not used
 rich_text:
