@@ -83,7 +83,8 @@
 
 .mosaic-selected-tile .mosaic-tile-label,
 .mosaic-tile:hover .mosaic-tile-label,
-.mosaic-tile:focus .mosaic-tile-label {
+.mosaic-tile:focus .mosaic-tile-label,
+.mosaic-advanced .mosaic-tile-label {
     display: block !important;
 }
 
@@ -153,15 +154,62 @@
 }
 
 /* Empty row */
-.mosaic-panel-dragging .mosaic-empty-row {
+.mosaic-panel-dragging {
+  .mosaic-empty-row:nth-last-child(2),
+  .mosaic-empty-row:first-child {
     height: 12px;
+  }
 }
 
-.mosaic-panel-dragging .mosaic-empty-row .mosaic-grid-cell {
-    height: 12px;
-}
+.mosaic-panel.mosaic-advanced {
+  .mosaic-empty-row:first-child + .mosaic-grid-row {
+    border-top: 2px dashed #ccc;
+  }
+  .mosaic-grid-row:not(.mosaic-empty-row) {
+    padding: 5px;
+    border-bottom: 2px dashed #ccc;
+    border-left: 2px dashed #ccc;
+    border-right: 2px dashed #ccc;
 
-.mosaic-panel-dragging .mosaic-empty-row .mosaic-grid-cell > div {
+    .mosaic-grid-cell {
+      padding: 5px;
+      border-left: 2px dashed #ccc;
+    }
+    .mosaic-grid-cell:first-child {
+      border-left: none;
+    }
+  }
+
+  .mosaic-empty-row .mosaic-grid-cell {
     height: 12px;
+    > div {
+      height: 12px;
+    }
+  }
+
+  /* Add room for empty row placeholders when dragging */
+  &.mosaic-panel-dragging {
+    .mosaic-grid-row {
+      border-top: 2px dashed #ccc;
+      &.mosaic-empty-row {
+        margin-top: 6px;
+        height: 12px;
+        border: none;
+      }
+    }
+  }
+
+  /* Add row style labels */
+  .mosaic-grid-row:not(.mosaic-empty-row):before {
+    position: absolute;
+    display: block;
+    content: attr(class);
+    color: #ccc;
+    font-weight: bold;
+    right: 0;
+    bottom: 0;
+    z-index: 100;
+    white-space: nowrap;
+  }
 }
 /* @end */

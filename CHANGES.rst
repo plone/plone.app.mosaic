@@ -4,6 +4,9 @@ Changelog
 2.0.0 (unreleased)
 ------------------
 
+- Provide outline mode to be able to inspect rows and tiles
+  [datakurre]
+
 - Fix pasting into title, description fields
   [vangheem]
 
