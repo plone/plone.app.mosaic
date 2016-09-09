@@ -1,11 +1,14 @@
-How to customize tinyMCE buttons on Rich Text tile
+.. _customize_rich_text_tinymce_buttons:
+
+How to customize tinyMCE buttons on Rich Text tiles
 ===================================================
 
-You can change the buttons that are shown on Rich Text tile.
+
+You can change the buttons that are shown on Rich Text tiles.
 
 ..  image:: rich_text_editor_buttons.png
 
-Just add something like that to your registry.xml
+Just add something like that to your registry.xml:
 
 .. code-block:: xml
 
@@ -22,4 +25,7 @@ Just add something like that to your registry.xml
     </value>
   </record>
 
-If you reinstall plone.app.mosaic the default buttons are shown again, so you have to reinstall your product too. You can find more names of tinyMCE buttons in plone.app.mosaics registry.xml.
+When you reinstall plone.app.mosaic the default buttons are shown again,
+so you have to reinstall your product too.
+
+You can find more names of tinyMCE buttons in plone.app.mosaics registry.xml.

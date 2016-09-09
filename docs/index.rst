@@ -13,6 +13,7 @@ The Mosaic editor lets you insert blocks (a.k.a. tiles) into the content of the 
 
    TODO.docs
    getting-started
+   tiles
    content-layouts
    registry
    custom-grid
