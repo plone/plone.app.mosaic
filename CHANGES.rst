@@ -4,6 +4,9 @@ Changelog
 2.0.0 (unreleased)
 ------------------
 
+- Fix fieldset tabbing not working after user edits field tiles
+  [vangheem]
+
 - Hide plone toolbar when mosaic editor is active
   [vangheem]
 
