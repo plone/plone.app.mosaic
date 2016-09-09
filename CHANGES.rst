@@ -4,11 +4,17 @@ Changelog
 2.0.0 (unreleased)
 ------------------
 
+- Hide plone toolbar when mosaic editor is active
+  [vangheem]
+
 - Add preview button (disabled by default) for previewing currently edited
   layout
   [datakurre]
 
 - Provide better use of permissions in UI and enforcements on the server
+  [vangheem]
+
+- provide better use of permissions in UI and enforcements on the server
   [vangheem]
 
 - Fix problem where layouts could be saved without a name
