@@ -18,7 +18,6 @@ The Mosaic editor lets you insert blocks (a.k.a. tiles) into the content of the 
    registry
    custom-grid
    site-layouts
-   index
 ..   typeviews
 
 
