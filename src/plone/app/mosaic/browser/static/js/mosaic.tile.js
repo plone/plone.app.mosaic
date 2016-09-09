@@ -363,6 +363,18 @@ define([
         // Calc url
         var tile_url = './@@plone.app.standardtiles.field?field=' + tiletype;
 
+        // ability to provide a few additional settings for field tiles
+        // can be useful in formatting field tiles in python
+        // subfield is meant for relation fields
+        var subfield = this.getValueFromClasses(classes, 'mosaic-subfield-');
+        if(subfield){
+          tile_url += '&subfield=' + subfield;
+        }
+        var format = this.getValueFromClasses(classes, 'mosaic-format-');
+        if(format){
+          tile_url += '&format=' + format;
+        }
+
         body += '          <div data-tile="' + tile_url + '"></div>\n';
         body += '          </div>\n';
         body += '          </div>\n';
@@ -632,6 +644,17 @@ define([
         );
       }
     };
+
+    Tile.prototype.getValueFromClasses = function(classes, name){
+      var value;
+      classes.forEach(function(className){
+        if(className.indexOf(name) !== -1){
+          value = className.replace(name, '');
+        }
+      });
+      return value;
+    };
+
 
     Tile.prototype.initializeContent = function(){
       var that = this;

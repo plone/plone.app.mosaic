@@ -220,10 +220,10 @@ define([
       fieldset = field.parents("fieldset");
 
       // Hide all fieldsets
-      form.find('fieldset').hide();
+      form.find('fieldset').removeClass('active');
 
       // Show current fieldset
-      fieldset.show();
+      fieldset.addClass('active');
 
       // Hide all fields in current fieldset
       fieldset.children().addClass('mosaic-hidden');
