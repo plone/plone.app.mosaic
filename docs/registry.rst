@@ -3,8 +3,8 @@ Mosaic registry configuration
 
 .. WIP documentation about Mosaic registry configuration
 
-It's possibly to hide specific content layouts being available in Mosaic
-editor's *Select layout*-menu with a custom regisry configuration. For
+It's possible to hide specific content layouts being available in Mosaic
+editor's *Select layout*-menu with a custom registry configuration. For
 example, the following configuration will
 
 1) hide ``custom/basic.html`` from all content types

@@ -1,11 +1,11 @@
 
 
-some rough ideas on what else to document and how to structure everything
--------------------------------------------------------------------------
+TODO: some rough ideas on what else to document and how to structure everything
+-------------------------------------------------------------------------------
 
 * overview
 
-  * some prose
+  * some prose, cf. README
 
 * getting started
 
@@ -47,6 +47,6 @@ some rough ideas on what else to document and how to structure everything
 
 * site layouts
 
-  * fix robot test generated screenshots
+  * fix robot test generated screenshots (in older revision of registry.rst)
 
 * glossary (automated with sphinx magic)

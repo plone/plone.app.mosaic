@@ -11,6 +11,7 @@ The Mosaic editor lets you insert blocks (a.k.a. tiles) into the content of the 
 .. toctree::
    :maxdepth: 2
 
+   TODO.docs
    getting-started
    content-layouts
    registry
