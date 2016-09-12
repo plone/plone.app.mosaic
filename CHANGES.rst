@@ -4,6 +4,10 @@ Changelog
 2.0.0 (unreleased)
 ------------------
 
+- use POST to render tiles through the editor so default query parameters
+  provided in url can be utilized with latest plone.tiles
+  [vangheem]
+
 - Provide outline mode to be able to inspect rows and tiles
   [datakurre]
 

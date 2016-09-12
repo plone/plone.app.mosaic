@@ -186,6 +186,10 @@ define([
       }else if(tile_url.indexOf('X-Tile-Persistent') !== -1){
         tile_url = tile_url.replace('X-Tile-Persistent=yes', '').replace('&&', '&');
       }
+      while(tile_url.indexOf('&_layouteditor=true') !== -1){
+        // clean out urls with _layouteditor in them
+        tile_url = tile_url.replace('&_layouteditor=true', '');
+      }
     }
     return tile_url;
   };
@@ -727,6 +731,7 @@ define([
         that.$el.addClass('mosaic-tile-loading');
         url = base ? [base, href].join('/')
                                  .replace(/\/+\.\//g, '/') : href;
+        var original_url = url;
         // in case tile should be rendered differently for layout editor
         if(url.indexOf('?') === -1){
           url += '?';
@@ -737,7 +742,7 @@ define([
           url += '_layouteditor=true';
         }
         $.ajax({
-          type: "GET",
+          type: "POST",
           url: url,
           success: function (value) {
             that.$el.removeClass('mosaic-tile-loading');
@@ -747,7 +752,7 @@ define([
             // Add head tags
             $.mosaic.addHeadTags(href, value);
             var tileHtml = value.find('.temp_body_tag').html();
-            that.fillContent(tileHtml, url);
+            that.fillContent(tileHtml, original_url);
 
             var tiletype = that.getType();
             if(tiletype === 'plone.app.standardtiles.html'){
