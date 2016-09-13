@@ -71,6 +71,7 @@ set the **Display** option to **Mosaic layout**.
 ..  code:: robotframework
 
     Show how to select Mosaic layout option
+        Run keyword and ignore error  Set window size  1024  1500
         Create content  type=Document
         ...  id=example-document
         ...  title=Example Document
@@ -94,6 +95,7 @@ set the **Display** option to **Mosaic layout**.
         Click element  id=plone-contentmenu-display-layout_view
 
         Mouse over  ${SELECTOR_CONTENTMENU_DISPLAY_LINK}
+        Run keyword and ignore error  Set window size  1024  800
         Wait until page contains element
         ...  css=#plone-contentmenu-display-layout_view.actionMenuSelected
 
@@ -175,19 +177,24 @@ like the publishing date or the short name.
 .. code:: robotframework
 
    Show the properties view in Mosaic editor
+       Run keyword and ignore error  Set window size  1024  1200
        Wait Until Element Is Visible  css=.mosaic-toolbar
        Click element  css=.mosaic-button-properties
        
+       Highlight  css=.autotoc-nav
+
        Capture and crop page screenshot
        ...  _screenshots/mosaic-editor-properties-modal.png
        ...  css=.plone-modal-content
 
+       #...  css=html
+       #.plone-modal-content
+       Run keyword and ignore error  Set window size  1024  800
        Click element  css=.mosaic-overlay-ok-button
 
 
-**ToDo: fix Screenshot with properties so the whole thing is shown.**
 
-The dropdown *Layout* has the two option *Change* and *Customize*.
+The dropdown *Layout* has the two options *Change* and *Customize*.
 *Change* opens the form where you can choose another layout from all available layouts.
 
 With the option *Customize* you enable the current layout for customization,
