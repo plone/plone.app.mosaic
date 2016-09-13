@@ -16,6 +16,8 @@ Changelog
 
 - Fix fieldset tabbing not working after user edits field tiles
   [vangheem]
+- Added rawembed tile
+  [agitator]
 
 - Hide plone toolbar when mosaic editor is active
   [vangheem]
