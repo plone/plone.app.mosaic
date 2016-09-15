@@ -10,6 +10,8 @@ Changelog
 2.0.0rc1 (2016-09-15)
 ---------------------
 
+WARNING: Migration from 1.0.0 to 2.0.0 may still unsolved have issues.
+
 Breaking changes:
 
 - Drop compatibility with Plone 4.3. For Plone 4.3 support, please use
