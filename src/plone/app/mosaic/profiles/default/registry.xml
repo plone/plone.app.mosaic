@@ -53,7 +53,7 @@
     <value key="action">preview</value>
     <value key="icon">False</value>
     <value key="menu">False</value>
-    <value key="weight">20</value>
+    <value key="weight">40</value>
   </records>
 
   <records prefix="plone.app.mosaic.primary_actions.customizelayout"
@@ -64,7 +64,7 @@
     <value key="action">customizelayout</value>
     <value key="icon">False</value>
     <value key="menu">False</value>
-    <value key="weight">40</value>
+    <value key="weight">50</value>
   </records>
 
   <records prefix="plone.app.mosaic.primary_actions.changelayout"
@@ -75,7 +75,7 @@
     <value key="action">changelayout</value>
     <value key="icon">False</value>
     <value key="menu">False</value>
-    <value key="weight">50</value>
+    <value key="weight">60</value>
   </records>
 
   <records prefix="plone.app.mosaic.primary_actions.savelayout"
@@ -86,7 +86,7 @@
     <value key="action">savelayout</value>
     <value key="icon">False</value>
     <value key="menu">False</value>
-    <value key="weight">60</value>
+    <value key="weight">70</value>
   </records>
 
   <records prefix="plone.app.mosaic.secondary_actions.format"
@@ -97,7 +97,7 @@
     <value key="action">format</value>
     <value key="icon">False</value>
     <value key="menu">True</value>
-    <value key="weight">20</value>
+    <value key="weight">100</value>
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IWeightedDict"
@@ -115,7 +115,7 @@
     <value key="action">insert</value>
     <value key="icon">False</value>
     <value key="menu">True</value>
-    <value key="weight">30</value>
+    <value key="weight">200</value>
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IWeightedDict"
