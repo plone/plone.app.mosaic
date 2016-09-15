@@ -4,8 +4,12 @@ Changelog
 2.0.0rc2 (unreleased)
 ---------------------
 
-- Nothing changed yet.
+WARNING: Migration from 1.0.0 to 2.0.0 may still unsolved have issues.
 
+Bug fixes:
+
+- Fix issue where layout menu was misplaced in Mosaic toolbar
+  [datakurre]
 
 2.0.0rc1 (2016-09-15)
 ---------------------
