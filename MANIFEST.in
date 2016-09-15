@@ -1,6 +1,10 @@
-recursive-include docs *
-recursive-include src *
+graft docs
+graft src
 include LICENSE *.txt *.rst *.GPL *.py
 global-exclude *.pyc
-exclude Makefile *.cfg *.in *.nix *.sh *.conf *.js *.json Procfile .jshintrc bin tests
-exclude tests/* bin/* resources
+exclude Makefile *.cfg *.in *.nix *.sh *.conf *.js *.json Procfile .jshintrc
+exclude .bowerrc .coveragerc Gemfile resources bootstrap-buildout.py
+prune bin
+prune docs/_screenshots
+prune resources
+prune tests
