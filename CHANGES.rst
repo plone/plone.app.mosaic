@@ -24,6 +24,8 @@ Bug fixes:
 - Fix issue where incomplete mosaic-grid bundle definition broke
   Plone bundle merge
   [datakurre]
+- Enhance documentation
+  [agitator, AnneGilles, krissik, staeff]
 
 
 2.0.0rc2 (2016-09-15)
