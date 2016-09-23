@@ -94,7 +94,7 @@ A example set of version pins for Plone 5 that works with the latest
 plone.app.mosaic is::
 
     plone.tiles = 1.8.0
-    plone.subreqeust = 1.7.0
+    plone.subrequest = 1.7.0
     plone.app.tiles = 3.0.0
     plone.app.standardtiles = 2.0.0rc1
     plone.app.blocks = 4.0.0rc1
