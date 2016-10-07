@@ -4,7 +4,8 @@ Changelog
 2.0.0rc3 (unreleased)
 ---------------------
 
-- Nothing changed yet.
+- Fix grid responsive styles
+  [agitator]
 
 
 2.0.0rc2 (2016-09-15)
