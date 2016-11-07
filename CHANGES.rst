@@ -4,6 +4,9 @@ Changelog
 2.0.0rc3 (unreleased)
 ---------------------
 
+- Show layouts description in Mosaic Select Layout overlay
+  [annegilles]
+
 - Fix grid responsive styles
   [agitator]
 

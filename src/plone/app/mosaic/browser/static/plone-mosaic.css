@@ -313,6 +313,9 @@
   outline: 1px solid #DDDDDD;
   background-color: white;
 }
+.mosaic-select-layout-description {
+    font-size: 100% !important;
+}
 .plone-modal-footer {
   clear: both;
 }
