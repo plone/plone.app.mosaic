@@ -5,7 +5,7 @@ Changelog
 ---------------------
 
 - Show layouts description in Mosaic Select Layout overlay
-  [annegilles, chr1sch]
+  [annegilles]
 
 - Fix grid responsive styles
   [agitator]
