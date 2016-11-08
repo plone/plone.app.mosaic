@@ -4,6 +4,10 @@ Changelog
 2.0.0rc3 (unreleased)
 ---------------------
 
+- Fix issue where incomplete mosaic-grid bundle definition broke
+  Plone bundle merge
+  [datakurre]
+
 - Show layouts description in Mosaic Select Layout overlay
   [annegilles]
 
