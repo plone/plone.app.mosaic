@@ -37,10 +37,10 @@ TEMPLATE = """\
         portal_state context/@@plone_portal_state;
         context_state context/@@plone_context_state;
         plone_view context/@@plone;
-        plone_layout context/@@plone_layout | nothing;
+        plone_layout context/@@plone_layout;
         lang portal_state/language;
         view nocall: view | nocall: plone_view;
-        dummy python:plone_view.mark_view(view);
+        dummy python:plone_layout.mark_view(view);
         portal_url portal_state/portal_url;
         checkPermission nocall: context/portal_membership/checkPermission;
         site_properties nocall: context/portal_properties/site_properties;
