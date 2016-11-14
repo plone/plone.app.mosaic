@@ -5,6 +5,13 @@ Changelog
 ---------------------
 
 New features:
+- ``plone_view/mark_view`` was deprecated and removed.
+  Use ``plone_layout/mark_view`` instead.
+  [thet]
+
+- Fix issue where incomplete mosaic-grid bundle definition broke
+  Plone bundle merge
+  [datakurre]
 
 - Show layouts description in Mosaic Select Layout overlay
   [annegilles]
