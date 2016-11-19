@@ -4,6 +4,9 @@ Changelog
 2.0.0rc3 (unreleased)
 ---------------------
 
+- TEST COMMIT FOR TESTING TRAVIS INTEGRATION.
+  [thet]
+
 - Fix issue where incomplete mosaic-grid bundle definition broke
   Plone bundle merge
   [datakurre]
