@@ -38,10 +38,11 @@ script:
   - bin/code-analysis
   - ROBOT_BROWSER=phantomjs bin/test $TEST_OPTIONS
   - bin/pybot -v BROWSER:phantomjs -d parts/test docs
-after_script:
+after_success:
   - bin/createcoverage
   - pip install -q coveralls
   - coveralls
+after_script:
   - ROBOT_BROWSER=phantomjs bin/sphinx-build docs html
   - bundle install
   - bundle exec travis-artifacts upload --path html
@@ -50,10 +51,6 @@ after_script:
   - bundle exec travis-artifacts upload --target-path latest --path parts/test
   - 'echo "Sphinx: http://plone-app-mosaic.s3-website-us-east-1.amazonaws.com/artifacts/${TRAVIS_BUILD_NUMBER}/${TRAVIS_JOB_NUMBER}/"'
   - 'echo "Robot: http://plone-app-mosaic.s3-website-us-east-1.amazonaws.com/artifacts/${TRAVIS_BUILD_NUMBER}/${TRAVIS_JOB_NUMBER}/report.html"'
-after_success:
-  - bin/createcoverage
-  - pip install -q coveralls
-  - coveralls
 irc:
   channels:
     - irc.freenode.org#plone-testing
