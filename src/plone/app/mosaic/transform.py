@@ -152,10 +152,18 @@ class BodyClass(object):
             ])
 
         # Get contentLayout body class
-        if 'template-layout' in body_classes:
+        if (
+            'template-layout' in body_classes or
+            'template-layout_view' in body_classes
+        ):
             adapted = ILayoutAware(context, None)
             if adapted is not None:
-                layout = getattr(adapted, 'contentLayout', None)
+                layout = None
+                if getattr(adapted, 'content_layout_path', False):
+                    # plone.app.blocks > 4.0.0rc1
+                    layout = adapted.content_layout_path()
+                else:
+                    layout = getattr(adapted, 'contentLayout', None)
                 if layout:
                     # Transform ++contentlayout++default/document.html
                     # into layout-default-document
