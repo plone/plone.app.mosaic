@@ -4,6 +4,9 @@ Changelog
 2.0.0rc3 (unreleased)
 ---------------------
 
+- Fixes problems introduces with grid responsive styles
+  [agitator]
+
 - Fix issue where incomplete mosaic-grid bundle definition broke
   Plone bundle merge
   [datakurre]
