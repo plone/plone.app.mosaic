@@ -6,6 +6,7 @@ Changelog
 
 - Fixes problems introduces with grid responsive styles
   [agitator]
+
 - ``plone_view/mark_view`` was deprecated and removed.
   Use ``plone_layout/mark_view`` instead.
   [thet]
