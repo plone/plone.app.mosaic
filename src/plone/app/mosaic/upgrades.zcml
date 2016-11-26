@@ -260,15 +260,24 @@
       profile="plone.app.mosaic:default"
       source="5016"
       destination="5017"
-      title="Upgrade to 2.0"
-      handler=".upgrades.upgrade_to_2_0"
+      title="Upgrade to 2.0.0rc1"
+      handler=".upgrades.upgrade_to_2_0rc1"
       />
 
   <genericsetup:registerProfile
       name="to_5017"
-      title="Upgrade profile for to 5017 (2.0.0)"
+      title="Upgrade profile for to 5017 (2.0.0rc1)"
       description=""
       directory="profiles/upgrades/to_5017"
+      for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
+  <genericsetup:registerProfile
+      name="to_5018"
+      title="Upgrade profile for to 5018 (2.0.0rc3)"
+      description=""
+      directory="profiles/upgrades/to_5018"
       for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />

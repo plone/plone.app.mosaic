@@ -4,6 +4,16 @@ Changelog
 2.0.0rc3 (unreleased)
 ---------------------
 
+New features:
+
+- Show layouts description in Mosaic Select Layout overlay
+  [annegilles]
+
+- Include source code button into TinyMCE toolbar by default
+  [datakurre]
+
+Bug fixes:
+
 - Fixes problems introduces with grid responsive styles
   [agitator]
 
@@ -14,12 +24,6 @@ Changelog
 - Fix issue where incomplete mosaic-grid bundle definition broke
   Plone bundle merge
   [datakurre]
-
-- Show layouts description in Mosaic Select Layout overlay
-  [annegilles]
-
-- Fix grid responsive styles
-  [agitator]
 
 
 2.0.0rc2 (2016-09-15)

@@ -169,7 +169,7 @@ def upgrade_to_1_1(context):
     )
 
 
-def upgrade_to_2_0(context):
+def upgrade_to_2_0rc1(context):
     catalog = api.portal.get_tool('portal_catalog')
     for brain in catalog(object_provides=ILayoutAware.__identifier__):
         obj = brain.getObject()
@@ -177,5 +177,12 @@ def upgrade_to_2_0(context):
 
     context.runImportStepFromProfile(
         PROFILE_ID.replace('default', 'to_5017'),
+        'plone.app.registry'
+    )
+
+
+def upgrade_to_2_0rc3(context):
+    context.runImportStepFromProfile(
+        PROFILE_ID.replace('default', 'to_5018'),
         'plone.app.registry'
     )
