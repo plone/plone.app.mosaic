@@ -4,29 +4,15 @@ Changelog
 2.0.0rc3 (unreleased)
 ---------------------
 
-New features:
-Breaking changes:
-
-- Nothing changed yet.
+WARNING: Migration from 1.0.0 to 2.0.0 may still have unsolved issues.
 
 New features:
 
-- In the ``BodyClass`` transform, retrieve the content layout path from ILayoutAware provided method which also considers default paths registered in the registry.
-  Fixes no layout classes added to the body tag with default content layouts for types.
+- In the ``BodyClass`` transform, retrieve the content layout path from
+  ILayoutAware provided method which also considers default paths registered in
+  the registry. Fixes no layout classes added to the body tag with default
+  content layouts for types.
   [thet]
-
-- Show layouts description in Mosaic Select Layout overlay
-  [annegilles]
-
-Bug fixes:
-
-- ``plone_view/mark_view`` was deprecated and removed.
-  Use ``plone_layout/mark_view`` instead.
-  [thet]
-
-- Fix issue where incomplete mosaic-grid bundle definition broke
-  Plone bundle merge
-  [datakurre]
 
 - Show layouts description in Mosaic Select Layout overlay
   [annegilles]
@@ -36,10 +22,6 @@ Bug fixes:
 
 Bug fixes:
 
-- Fixes problems introduces with grid responsive styles
-- Fix grid responsive styles
-  [agitator]
-
 - ``plone_view/mark_view`` was deprecated and removed.
   Use ``plone_layout/mark_view`` instead.
   [thet]
@@ -48,16 +30,18 @@ Bug fixes:
   Plone bundle merge
   [datakurre]
 
+- Fixes problems introduces with grid responsive styles
+  [agitator]
+
 
 2.0.0rc2 (2016-09-15)
 ---------------------
-
-WARNING: Migration from 1.0.0 to 2.0.0 may still unsolved have issues.
 
 Bug fixes:
 
 - Fix issue where layout menu was misplaced in Mosaic toolbar
   [datakurre]
+
 
 2.0.0rc1 (2016-09-15)
 ---------------------
