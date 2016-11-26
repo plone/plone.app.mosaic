@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.0.0rc3 (unreleased)
+2.0.0rc3 (2016-11-27)
 ---------------------
 
 WARNING: Migration from 1.0.0 to 2.0.0 may still have unsolved issues.
