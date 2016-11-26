@@ -241,7 +241,7 @@
 
   <genericsetup:registerProfile
       name="to_5016"
-      title="Upgrade profile for to 5016 (1.1)"
+      title="Upgrade profile to 5016 (1.1)"
       description=""
       directory="profiles/upgrades/to_5016"
       for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
@@ -266,16 +266,24 @@
 
   <genericsetup:registerProfile
       name="to_5017"
-      title="Upgrade profile for to 5017 (2.0.0rc1)"
+      title="Upgrade profile to 5017 (2.0.0rc1)"
       description=""
       directory="profiles/upgrades/to_5017"
       for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
+  <genericsetup:upgradeStep
+      profile="plone.app.mosaic:default"
+      source="5017"
+      destination="5018"
+      title="Upgrade to 2.0.0rc3"
+      handler=".upgrades.upgrade_to_2_0rc3"
+      />
+
   <genericsetup:registerProfile
       name="to_5018"
-      title="Upgrade profile for to 5018 (2.0.0rc3)"
+      title="Upgrade profile to 5018 (2.0.0rc3)"
       description=""
       directory="profiles/upgrades/to_5018"
       for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
