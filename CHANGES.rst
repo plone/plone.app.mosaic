@@ -5,6 +5,28 @@ Changelog
 ---------------------
 
 New features:
+Breaking changes:
+
+- Nothing changed yet.
+
+New features:
+
+- In the ``BodyClass`` transform, retrieve the content layout path from ILayoutAware provided method which also considers default paths registered in the registry.
+  Fixes no layout classes added to the body tag with default content layouts for types.
+  [thet]
+
+- Show layouts description in Mosaic Select Layout overlay
+  [annegilles]
+
+Bug fixes:
+
+- ``plone_view/mark_view`` was deprecated and removed.
+  Use ``plone_layout/mark_view`` instead.
+  [thet]
+
+- Fix issue where incomplete mosaic-grid bundle definition broke
+  Plone bundle merge
+  [datakurre]
 
 - Show layouts description in Mosaic Select Layout overlay
   [annegilles]
@@ -15,6 +37,7 @@ New features:
 Bug fixes:
 
 - Fixes problems introduces with grid responsive styles
+- Fix grid responsive styles
   [agitator]
 
 - ``plone_view/mark_view`` was deprecated and removed.
