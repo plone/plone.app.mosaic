@@ -7,6 +7,10 @@ Changelog
 - Fixes problems introduces with grid responsive styles
   [agitator]
 
+- ``plone_view/mark_view`` was deprecated and removed.
+  Use ``plone_layout/mark_view`` instead.
+  [thet]
+
 - Fix issue where incomplete mosaic-grid bundle definition broke
   Plone bundle merge
   [datakurre]
