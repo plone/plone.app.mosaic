@@ -39,7 +39,7 @@ script:
   - ROBOT_BROWSER=phantomjs bin/test $TEST_OPTIONS
   - bin/pybot -v BROWSER:phantomjs -d parts/test docs
 after_script:
-  - ROBOT_BROWSER=phantomjs bin/createcoverage --output-dir=parts/test
+  - ROBOT_BROWSER=phantomjs bin/createcoverage --output-dir=parts/test/coverage
   - ROBOT_BROWSER=phantomjs bin/sphinx-build docs html
   - bundle install
   - bundle exec travis-artifacts upload --path html
