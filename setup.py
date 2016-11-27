@@ -42,7 +42,7 @@ setup(
         'plone.api',
         'plone.subrequest>=1.7.0',
         'plone.tiles>=1.8.1',
-        'plone.app.blocks>=4.0.0rc2',
+        'plone.app.blocks>=4.0.0rc3',
         'plone.app.tiles>=3.0.1',
         'plone.app.drafts>=1.1.1',
         'plone.app.standardtiles>=2.0.0rc2',

@@ -88,7 +88,7 @@ latest plone.app.mosaic is::
     plone.subrequest = 1.8
     plone.app.tiles = 3.0.1
     plone.app.standardtiles = 2.0.0rc2
-    plone.app.blocks = 4.0.0rc2
+    plone.app.blocks = 4.0.0rc3
     plone.app.drafts = 1.1.1
     plone.app.mosaic = 2.0.0rc3
 
