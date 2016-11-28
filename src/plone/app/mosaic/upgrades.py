@@ -4,6 +4,7 @@ from plone.app.blocks.layoutbehavior import ILayoutAware
 from plone.app.mosaic.interfaces import IAction
 from plone.app.mosaic.setuphandlers import create_ttw_layout_examples
 from plone.app.mosaic.widget import LAYOUT_BEHAVIORS
+from plone.registry.field import ASCIILine
 from plone.registry.interfaces import IRegistry
 from Products.CMFCore.utils import getToolByName
 from zope.component import getUtility
@@ -35,9 +36,6 @@ def upgrade_4_to_5(context):
 
 
 def upgrade_5_to_6(context):
-    from plone.registry.interfaces import IRegistry
-    from zope.component import getUtility
-
     registry = getUtility(IRegistry)
     for key in tuple(registry.records):
         if key.startswith('plone.app.mosaic.format'):
@@ -57,9 +55,6 @@ def upgrade_6_to_7(context):
 
 
 def upgrade_7_to_8(context):
-    from plone.registry.interfaces import IRegistry
-    from zope.component import getUtility
-
     registry = getUtility(IRegistry)
     for key in tuple(registry.records):
         if key.startswith('plone.app.mosaic.tinymce'):
@@ -186,3 +181,19 @@ def upgrade_to_2_0rc3(context):
         PROFILE_ID.replace('default', 'to_5018'),
         'plone.app.registry'
     )
+
+
+def upgrade_to_2_0rc4(context):
+    # Ensure that all default layout definitions are encoded ascii strings
+    registry = getUtility(IRegistry)
+    for key in tuple(registry.records):
+        if key.startswith('plone.app.blocks.default_layout'):
+            if isinstance(registry.records[key].field, ASCIILine):
+                continue
+
+            record = registry.records[key]
+            record.field = ASCIILine(
+                title=record.field.title,
+                description=record.field.description
+            )
+            record.value = str(record.value)
