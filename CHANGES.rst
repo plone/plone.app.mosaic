@@ -4,7 +4,17 @@ Changelog
 2.0.0rc4 (unreleased)
 ---------------------
 
-- Nothing changed yet.
+WARNING: Migration from 1.0.0 to 2.0.0 may still have unsolved issues.
+
+New features:
+
+- No changes yet.
+
+Bug fixes:
+
+- Fix issue where default layouts did not work properly, because they were
+  registered as unicode strings when encoded ASCII strings were required
+  [datakurre]
 
 
 2.0.0rc3 (2016-11-27)
