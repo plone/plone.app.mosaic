@@ -18,6 +18,8 @@ Bug fixes:
 
 - Fix issue where default layouts did not work properly, because they were
   registered as unicode strings when encoded ASCII strings were required
+  [datakurre]
+
 - Fix to disable layout editor when edit form has a status message
   (which is usually a validation error message) as workaround for
   editor not being able to display validation errors
