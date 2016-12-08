@@ -12,6 +12,9 @@ New features:
 
 Bug fixes:
 
+- Fix issue where TinyMCE format menu was not visible
+  [datakurre]
+
 - Fix issue where default layouts did not work properly, because they were
   registered as unicode strings when encoded ASCII strings were required
   [datakurre]
