@@ -54,6 +54,11 @@ class LayoutWidget(BaseWidget, TextAreaWidget):
     @property
     @memoize
     def enabled(self):
+        # Disable Mosaic editor when the form has a status message,
+        # because the Mosaic editor is currently unable to properly show
+        # validation errors
+        if self._form_status():
+            return False
         # Disable Mosaic editor when the selected layout for the current
         # ILayoutAware or DX add form context is not custom layout
         current_browser_layout = (
@@ -187,6 +192,18 @@ class LayoutWidget(BaseWidget, TextAreaWidget):
         if not selectable_layout:
             return ''
         return selectable_layout.getLayout()
+
+    def _form_status(self):
+        """Return the current status message of the underlying form"""
+        try:
+            return self.form._parent.status
+        except AttributeError:
+            pass
+        try:
+            return self.form.status
+        except AttributeError:
+            pass
+        return u''
 
 
 @adapter(getSpecification(ILayoutAware['customContentLayout']), IMosaicLayer)

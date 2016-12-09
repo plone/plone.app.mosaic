@@ -6,6 +6,10 @@ Changelog
 
 WARNING: Migration from 1.0.0 to 2.0.0 may still have unsolved issues.
 
+Breaking changes:
+
+- No changes yet.
+
 New features:
 
 - No changes yet.
@@ -17,6 +21,11 @@ Bug fixes:
 
 - Fix issue where default layouts did not work properly, because they were
   registered as unicode strings when encoded ASCII strings were required
+  [datakurre]
+
+- Fix to disable layout editor when edit form has a status message
+  (which is usually a validation error message) as workaround for
+  editor not being able to display validation errors
   [datakurre]
 
 
