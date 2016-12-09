@@ -65,7 +65,9 @@ define([
               'screenshot = "++plone++mosaic/img/default-layout-screenshot.png";' +
             '} %>' +
             '<li><a href="#" data-value="<%- layout.path %>">' +
-              '<p><%- layout.title %></p><img src="<%- portal_url %>/<%- screenshot %>"></a></li>' +
+              '<p><%- layout.title %></p>' +
+              '<p class="mosaic-select-layout-description"><%- layout.description %></p>' +
+              '<img src="<%- portal_url %>/<%- screenshot %>"></a></li>' +
           '<% }); %>' +
         '</ul>' +
       '</div>' +

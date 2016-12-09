@@ -12,7 +12,8 @@ Breaking changes:
 
 New features:
 
-- No changes yet.
+- Show layouts description in Mosaic Select Layout overlay
+  [annegilles]
 
 Bug fixes:
 
