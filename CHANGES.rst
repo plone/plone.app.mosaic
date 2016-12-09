@@ -58,6 +58,8 @@ Bug fixes:
 - Fix issue where incomplete mosaic-grid bundle definition broke
   Plone bundle merge
   [datakurre]
+- Enhance documentation
+  [agitator, AnneGilles, krissik, staeff]
 
 - Fixes problems introduces with grid responsive styles
   [agitator]
