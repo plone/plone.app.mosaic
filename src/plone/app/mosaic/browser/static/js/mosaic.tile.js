@@ -573,8 +573,6 @@ define([
       // Remove current tile
       this.$el.remove();
 
-      $.mosaic.undo.snapshot();
-
       // Cleanup original row
       $originalRow.mosaicCleanupRow();
 

@@ -202,9 +202,7 @@ define([
       return;
     }
     $.mosaic.loaded = true;
-
-    // Take first snapshot
-    $.mosaic.undo.snapshot();
+    utils.loading.hide();
   };
 
   /**
