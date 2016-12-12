@@ -437,10 +437,8 @@ define([
         // Show option groups
         obj.find(".mosaic-option-group").show();
 
-        // Hide all actions
+        // Hide all actions (but not complete menus)
         obj.find(".mosaic-button").hide();
-        obj.find(".mosaic-menu").hide();
-        obj.find(".mosaic-icon-menu").hide();
         obj.find(".mosaic-menu-format").find(".mosaic-option")
           .hide()
           .attr("disabled", "disabled");
@@ -467,7 +465,7 @@ define([
           $('.mosaic-button-layout').show();
         }
 
-        // Set available fields
+        // Disable used field tiles
         obj.find(".mosaic-menu-insert")
           .children(".mosaic-option-group-fields")
           .children().each(function () {
@@ -483,14 +481,6 @@ define([
         // Hide option group if no visible items
         obj.find(".mosaic-option-group").each(function () {
           if ($(this).children(":enabled").length === 0) {
-            $(this).hide();
-          }
-        });
-
-        // Hide menu if no enabled items
-        $(".mosaic-menu, .mosaic-icon-menu",
-          $.mosaic.document).each(function () {
-          if ($(this).find(".mosaic-option:enabled").length === 1) {
             $(this).hide();
           }
         });

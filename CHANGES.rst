@@ -17,6 +17,9 @@ New features:
 
 Bug fixes:
 
+- Fix issue where toolbar menus were initially hidden on custom layout
+  [datakurre]
+
 - Fix issue where TinyMCE format menu was not visible
   [datakurre]
 
