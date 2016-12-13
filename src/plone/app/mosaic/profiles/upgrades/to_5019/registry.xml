@@ -1,0 +1,7 @@
+<registry>
+
+  <records prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_tableofcontents"
+           interface="plone.app.mosaic.interfaces.ITile"
+           remove="true" />
+
+</registry>

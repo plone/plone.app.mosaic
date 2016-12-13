@@ -290,6 +290,15 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
+  <genericsetup:registerProfile
+      name="to_5019"
+      title="Upgrade profile to 5019 (2.0.0rc4)"
+      description=""
+      directory="profiles/upgrades/to_5019"
+      for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
   <genericsetup:upgradeStep
       profile="plone.app.mosaic:default"
       source="5018"

@@ -1,14 +1,13 @@
 Changelog
 =========
 
-2.0.0rc4 (unreleased)
----------------------
+2.0.0 (unreleased)
+------------------
 
-WARNING: Migration from 1.0.0 to 2.0.0 may still have unsolved issues.
-
-Breaking changes:
-
-- No changes yet.
+WARNING: Upgrading from plone.app.mosaic 1.x will make pages with mosaic layout
+look empty until plone.app.blocks has been upgraded (upgrade steps been run).
+After upgrade, you may need to manually tweak Plone registry to only display
+the desired tiles.
 
 New features:
 
@@ -16,6 +15,9 @@ New features:
   [annegilles]
 
 Bug fixes:
+
+- Disable non-functional table of contents tile by default
+  [datakurre]
 
 - Fix issue where toolbar menus were initially hidden on custom layout
   [datakurre]

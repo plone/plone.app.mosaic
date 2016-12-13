@@ -718,6 +718,10 @@
   </records>
 
   <!-- Tiles -->
+
+  <!-- Non-functional; Can be re-enabled once the tile and TOC pattern
+       is fixed to support freely placed TOCs -->
+  <!--
   <records prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_tableofcontents"
            interface="plone.app.mosaic.interfaces.ITile">
     <value key="name">plone.app.standardtiles.tableofcontents</value>
@@ -731,6 +735,7 @@
     <value key="rich_text">false</value>
     <value key="weight">100</value>
   </records>
+  -->
 
   <records prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_navigation"
            interface="plone.app.mosaic.interfaces.ITile">
@@ -760,6 +765,8 @@
     <value key="weight">20</value>
   </records>
 
+  <!-- Raw embed is considered too advanced to be enabled by default -->
+  <!--
   <records prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_rawembed"
            interface="plone.app.mosaic.interfaces.ITile">
     <value key="name">plone.app.standardtiles.rawembed</value>
@@ -773,8 +780,10 @@
     <value key="rich_text">false</value>
     <value key="weight">20</value>
   </records>
+  -->
 
-  <!-- Is broken and could probably be replaced with portlet tile
+  <!-- Is broken and could probably be replaced with portlet tile -->
+  <!--
   <records prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_calendar"
            interface="plone.app.mosaic.interfaces.ITile">
     <value key="name">plone.app.standardtiles.calendar</value>

@@ -197,3 +197,7 @@ def upgrade_to_2_0rc4(context):
                 description=record.field.description
             )
             record.value = str(record.value)
+    context.runImportStepFromProfile(
+        PROFILE_ID.replace('default', 'to_5019'),
+        'plone.app.registry'
+    )
