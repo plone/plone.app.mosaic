@@ -959,10 +959,14 @@
   border-top: 1px solid #ddd;
   margin-top: 15px;
 }
+.mosaic-select-layout-description {
+  font-size: 100% !important;
+}
 .mosaic-enabled {
   /* tinymce scrolled out of view handling */
   /* XXX these are necessary fixes for tinymce menus
      that are floating */
+  position: relative;
 }
 .mosaic-enabled .mce-floatpanel.mce-arrow-up {
   z-index: 2999 !important;
@@ -977,10 +981,7 @@
 .mosaic-enabled .mce-floatpanel.mce-fixed {
   position: absolute;
 }
-.mosaic-enabled .mce-sticky .mce-floatpanel.mce-fixed {
-  position: fixed;
-}
-.mosaic-enabled .mosaic-enabled .mce-floatpanel.mce-menu {
+.mosaic-enabled.mce-sticky .mce-floatpanel.mce-fixed {
   position: fixed;
 }
 .mosaic-enabled,
