@@ -4,19 +4,19 @@ from lxml import etree
 from lxml import html
 from plone.app.blocks.interfaces import IBlocksTransformEnabled
 from plone.app.blocks.layoutbehavior import ILayoutAware
+from plone.app.blocks.utils import layoutXPath
 from plone.app.blocks.utils import resolveResource
-from plone.dexterity.browser.add import DefaultAddView
+from plone.app.blocks.utils import xpath1
 from plone.memoize import ram
 from plone.memoize import view
 from plone.resource.interfaces import IResourceDirectory
+from plone.subrequest import ISubRequest
 from Products.CMFPlone.browser.interfaces import IMainTemplate
-from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+from Products.Five import BrowserView
 from repoze.xmliter.utils import getHTMLSerializer
 from urlparse import unquote
-from urlparse import urljoin
 from zExceptions import NotFound
-from zope.component import getMultiAdapter
 from zope.interface import alsoProvides
 from zope.interface import implementer
 
@@ -254,33 +254,35 @@ class MainTemplate(BrowserView):
 
     @property
     def template(self):
-        try:
-            return self.layout
-        except NotFound:
+        if ISubRequest.providedBy(self.request):
+            # Subrequests should only request the main_template when site
+            # layouts are enabled, but no default site layout has been set
             if self.request.form.get('ajax_load'):
                 return self.ajax_template
             else:
                 return self.main_template
+        else:
+            try:
+                return self.layout
+            except NotFound:
+                if self.request.form.get('ajax_load'):
+                    return self.ajax_template
+                else:
+                    return self.main_template
 
     @property
     def layout(self):
-        published = self.request.get('PUBLISHED')
-        if isinstance(published, DefaultAddView):
-            # Handle the special case of DX add form of layout aware context
-            layout = None
-            adapter = ILayoutAware(self.context, None)
-            if adapter is not None:
-                if getattr(adapter, 'sectionSiteLayout', None):
-                    layout = adapter.sectionSiteLayout
-            if layout:
-                layout = urljoin(self.context.absolute_url_path(), layout)
-                layout = resolveResource(layout)
-            if not layout:
-                layout = getMultiAdapter((self.context, self.request),
-                                         name='default-site-layout').index()
-        else:
-            layout = getMultiAdapter((self.context, self.request),
-                                     name='page-site-layout').index()
+        # Resolve layout path from data-layout of content (or the default)
+        layout_aware = ILayoutAware(self.context, None)
+        content_layout = layout_aware.content_layout()
+        html_parser = html.HTMLParser(encoding='utf-8')
+        html_tree = html.fromstring(content_layout, parser=html_parser)
+        layout_path = xpath1(layoutXPath, html_tree.getroottree())
+
+        # Resolve layout path into layout
+        layout = resolveResource(layout_path)
+
+        # Cook main_template from layout
         cooked = cook_layout(layout, self.request.get('ajax_load'))
         pt = ViewPageTemplateString(cooked)
         bound_pt = pt.__get__(self, type(self))
