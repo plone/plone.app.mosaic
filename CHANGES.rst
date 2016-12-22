@@ -4,8 +4,8 @@ Changelog
 2.0.0rc5 (unreleased)
 ---------------------
 
-- Nothing changed yet.
-
+- Fix issue where Mosaic Editor was activated on babel edit view
+  [Asko Soukka]
 
 2.0.0rc4 (2016-12-13)
 ---------------------
