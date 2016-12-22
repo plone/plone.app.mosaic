@@ -37,6 +37,8 @@ LAYOUT_BEHAVIORS = {
     'plone.layoutaware',
 }
 
+FORMS_BLACKLIST = ['babel_edit']
+
 
 class ILayoutWidget(ITextAreaWidget):
     """Marker interface for the LayoutWidget."""
@@ -54,6 +56,10 @@ class LayoutWidget(BaseWidget, TextAreaWidget):
     @property
     @memoize
     def enabled(self):
+        # Disable Mosaic editor on unexpected view names
+        if self._form_name() in FORMS_BLACKLIST:
+            return False
+
         # Disable Mosaic editor when the form has a status message,
         # because the Mosaic editor is currently unable to properly show
         # validation errors
@@ -192,6 +198,18 @@ class LayoutWidget(BaseWidget, TextAreaWidget):
         if not selectable_layout:
             return ''
         return selectable_layout.getLayout()
+
+    def _form_name(self):
+        """Return the view name of the underlying form"""
+        try:
+            return self.form._parent.__name__
+        except AttributeError:
+            pass
+        try:
+            return self.form.__name__
+        except AttributeError:
+            pass
+        return u''
 
     def _form_status(self):
         """Return the current status message of the underlying form"""
