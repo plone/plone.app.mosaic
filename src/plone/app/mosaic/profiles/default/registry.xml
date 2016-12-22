@@ -731,7 +731,8 @@
        is fixed to support freely placed TOCs -->
   <!--
   <records prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_tableofcontents"
-           interface="plone.app.mosaic.interfaces.ITile">
+           interface="plone.app.mosaic.interfaces.ITile"
+           delete="true" />
     <value key="name">plone.app.standardtiles.tableofcontents</value>
     <value key="label">Table of contents</value>
     <value key="category">structure</value>

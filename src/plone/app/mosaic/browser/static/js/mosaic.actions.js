@@ -480,9 +480,9 @@ define([
             return v.toString(16);
           });
 
-          var tileUrl = $.mosaic.options.context_url + '/@@' + tile_type + '/' + uid;
+          var url = $.mosaic.options.context_url + '/@@' + tile_type + '/' + uid;
           var html = '<html><body>' + $.mosaic.getDefaultValue(tile_config) + '</body></html>';
-          $.mosaic.addAppTileHTML(tile_type, html, tileUrl);
+          $.mosaic.addAppTileHTML(tile_type, html, url);
         }else if (tile_config.tile_type === 'app') {
           // Load add form form selected tiletype
           var initial = true;
@@ -561,10 +561,9 @@ define([
                     '_authenticator': authenticator
                   },
                   success: function(value, state, xhr) {
-                    var tileUrl = xhr.getResponseHeader('X-Tile-Url');
-                    if (tileUrl) {
-                      $.mosaic.addAppTileHTML(
-                        tile_type, value, tileUrl);
+                    var url = xhr.getResponseHeader('X-Tile-Url');
+                    if (url) {
+                      $.mosaic.addAppTileHTML(tile_type, value, url);
                     } else {
                       modalFunc(value);
                     }

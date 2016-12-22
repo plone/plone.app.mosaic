@@ -39,9 +39,22 @@ require([
     defaults: {
       attribute: 'class'
     },
-    init: function() {
-      var self = this;
+    init: function () {
+      var self = this, $body;
       self.options.data.$el = self.$el;
+
+      // Remove Plone Toolbar and its body classes
+      $('#edit-bar, .pat-toolbar').remove();
+      $body = $('body');
+      $body.attr('class').split(' ').forEach(function (className) {
+        if (className.indexOf('plone-toolbar') !== -1) {
+          $body.removeClass(className);
+        }
+      });
+      // Note: If Plone Toolbar is not completely removed, its body classes
+      // will reappear immediately.
+
+      // Init Mosaic
       $.mosaic.init({'data': self.options.data});
     }
   });

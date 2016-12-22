@@ -32,6 +32,7 @@ immed: true, strict: true, maxlen: 120, maxerr: 9999, quotmark: false */
 
 define([
   'jquery',
+  'pat-logger',
   'underscore',
   'mockup-utils',
   'mockup-patterns-modal',
@@ -40,8 +41,10 @@ define([
   'mosaic-url/mosaic.toolbar',
   'mosaic-url/mosaic.layout',
   'mosaic-url/mosaic.actions'
-], function ($, _, utils, Modal, Tile, Panel) {
+], function ($, logger, _, utils, Modal, Tile, Panel) {
   "use strict";
+  
+  var log = logger.getLogger('pat-mosaic');
 
   // Define mosaic namespace
   if (typeof($.mosaic) === "undefined") {
@@ -206,6 +209,8 @@ define([
    * @param {Object} options Options used to initialize the UI
    */
   $.mosaic.init = function (options) {
+    var content, $content;
+
     // Merge options
     options = $.extend({
       url: window.document.location.href,
@@ -216,46 +221,21 @@ define([
     // Show loading indicator
     utils.loading.show();
 
-    // Set document
+    // Set edited document
     $.mosaic.document = window.document;
 
-    // Local variables
-    var $body, match, content, $content;
+    // Set body class to toggle UI depending on this
+    $('body', $.mosaic.document).addClass('mosaic-enabled');
 
-    // Add class
-    $body = $('body', $.mosaic.document).addClass('mosaic-enabled');
-    // Disable Plone toolbar classes
-    $body[0].className.split(' ').forEach(function (className) {
-      if (className.indexOf('plone-toolbar') !== -1) {
-        $body.removeClass(className);
-      }
-    });
-    // Hide Plone toolbar
-    $('.pat-toolbar', $.mosaic.document).hide();
-
-    // Initialize modules
+    // Initialize actions
     $.mosaic.initActions();
 
-    // Get the url of the page
-    match = options.url.match(/^([\w#!:.?+=&%@!\-\/]+)\/edit$/);
-    if (match) {
-      options.url = match[1];
-    }
-
-    // Chop add and enable add form support
-    match = options.url.match(/^([\w#:.?=%@!\-\/]+)\/\+\+add\+\+([\w#!:.?+=&%@!\-\/]+)$/);
-    if (match) {
-      options.url = match[1];
-      options.type = match[2];
-      options.ignore_context = true;
-    }
-
-    // Add global options
-    $.mosaic.options = options.data;
-    $.mosaic.options.url = options.url;
-    $.mosaic.options.ignore_context = options.ignore_context;
-    $.mosaic.options.tileheadelements = [];
+    // Initialize options
+    $.mosaic.options = options.data;  // XXX: Required options not documented 
+    $.mosaic.tileHeadElements = [];
     $.mosaic.hasContentLayout = true;
+
+    // Finalize init by loading static or customized layout content
 
     // a) Get pre-defined content layout
     content = $.mosaic.getSelectedContentLayout();
@@ -269,17 +249,19 @@ define([
     if (content) {
       $content = $.mosaic.getDomTreeFromHtml(content);
       if ($content.attr('id') !== "no-layout") {
+        
+        // Remove unplaced saved helper tiles saved because of a fixed bug
+        $content.find('.mosaic-helper-tile-new')
+                .parents('.mosaic-grid-row').remove();
+        
         $('body').addClass('mosaic-layout-customized');
         $.mosaic.hasContentLayout = false;
         $.mosaic._init($content);
-        // XXX Cleanup. There was a case where content had mid-edit tiles.
-        $('.mosaic-helper-tile-new',
-          $.mosaic.document).parents('.mosaic-grid-row').remove();
         return;
       }
     }
 
-    // c) User-select pre-defined layout
+    // c) Let user select a pre-defined layout
     $.mosaic.selectLayout(true);
   };
 
@@ -309,54 +291,80 @@ define([
       $.mosaic.document).attr('value', value);
   };
 
-  $.mosaic._initPanels = function ($content) {
-    console.log($content);
-    // Load configured site-layout
+  $.mosaic._initPanels = function ($content, callback) {
     $.mosaic.options.layout = $content.attr('data-layout');
+    if ($.mosaic.loaded) { utils.loading.show(); }
 
-    // Drop panels within panels (only the top level panels are editable)
-    $('[data-panel] [data-panel]',
-      $.mosaic.document).removeAttr('data-panel');
-
-    // Initialize panels from content
-    $content.find("[data-panel]").each(function () {
-      var panel = new Panel(this);
-      panel.initialize($content);
-    });
-
-    // Pre-fill new panels from the layout
-    $("[data-panel]", $.mosaic.document).each(function () {
-      var panel = new Panel(this);
-      panel.prefill();
-    });
-
-    // Init app tiles
-    $.mosaic.options.panels = $(".mosaic-panel", $.mosaic.document);
-
-    $.mosaic.options.panels.find("[data-tile]").each(function () {
-      if(Tile.validTile(this)){
-        var tile = new Tile($(this).parent());
-        tile.initializeContent();
-      }
+    // Load site layout to be able to initialize all panels
+    $.ajax({
+      url: $.mosaic.options.layout,
+      cache: false
+    }).done(function (layoutHtml) {
+      $.mosaic.__initPanels($content, $(layoutHtml), callback);
+    }).fail(function (xhr, type, status) {
+      $.mosaic.__initPanels($content, $(), callback);
+    }).always(function () {
+      if ($.mosaic.loaded) { utils.loading.hide(); }
     });
   };
 
-  $.mosaic._init = function (content) {
+  $.mosaic.__initPanels = function ($content, $layout, callback) {
+    var panels = {};
 
-    $.mosaic._initPanels(content);
+    // Drop panels within panels (only the top level panels are editable)
+    $('[data-panel] [data-panel]', $content).removeAttr('data-panel');
+    $('[data-panel] [data-panel]', $.mosaic.document).removeAttr('data-panel');
 
-    // Init toolbar
-    $.mosaic.options.toolbar = $(document.createElement('div'))
-      .addClass('mosaic-toolbar').prependTo($('body')).mosaicToolbar();
+    // Initialize found panels from content
+    $content.find("[data-panel]").each(function () {
+      var panel = new Panel(this);
+      panel.initialize($content);
+      panels[$(this).attr('data-panel')] = panel;
+    });
 
-    // Init layout
+    // Initialize rest of the panels from layout
+    $layout.find("[data-panel]").each(function () {
+      if (panels[$(this).attr('data-panel')] === undefined) {
+        var panel = new Panel(this);
+        panel.initialize($layout);
+        panels[$(this).attr('data-panel')] = panel;
+      }
+    });
+
+    // Store all initialized panels
+    $.mosaic.options.panels = $(".mosaic-panel", $.mosaic.document);
+
+    // Init app tiles in panels
+    $.mosaic.options.panels.find("[data-tile]").each(function () {
+      var tile;
+      if (Tile.validTile(this)) {
+        tile = new Tile(this);
+        tile.initializeContent();
+      }
+    });
+
+    // Init grid editor for panels with mosaic-grid
     $.mosaic.options.panels.mosaicLayout();
 
     // Blur inactive content
     $.mosaic.blur();
 
-    // Signal ready
-    $.mosaic.initialized();
+    // Optional callback
+    if (typeof callback === 'function') { callback(); }
+  };
+
+  $.mosaic._init = function (content) {
+    // Init layout
+    $.mosaic._initPanels(content, function() {
+
+      // Init toolbar (expects panels been initialized)
+      $.mosaic.options.toolbar = $(document.createElement('div'))
+        .addClass('mosaic-toolbar').prependTo($('body')).mosaicToolbar();
+
+      // Signal initial load completed
+      $.mosaic.initialized();
+
+    });
   };
 
   $.mosaic.blur = function () {
@@ -406,7 +414,7 @@ define([
   };
 
   $.mosaic.applyLayout = function (layoutPath) {
-    utils.loading.show();
+    if ($.mosaic.loaded) { utils.loading.show(); }
 
     $.ajax({
       url: $('body').attr('data-portal-url') + '/' + layoutPath,
@@ -414,13 +422,10 @@ define([
     }).done(function(layoutHtml){
       var $content = $.mosaic.getDomTreeFromHtml(layoutHtml);
       $.mosaic.setSelectedContentLayout(layoutPath);
-      if($.mosaic.loaded){
-        // initialize panels
-        $.mosaic._initPanels($content);
-        // and setup layout for the new panels
-        $.mosaic.options.panels.mosaicLayout();
-      }else{
+      if(!$.mosaic.loaded){
         $.mosaic._init($content);
+      }else{
+        $.mosaic._initPanels($content);
       }
     }).fail(function(xhr, type, status){
       // use backup layout
@@ -431,7 +436,7 @@ define([
       }
       $.mosaic.applyLayout('++contentlayout++default/basic.html');
     }).always(function(){
-      utils.loading.hide();
+      if ($.mosaic.loaded) { utils.loading.hide(); }
     });
   };
 
@@ -459,7 +464,7 @@ define([
     modal.on('shown', function() {
       $('button.delete:visible', modal.$modal).off('click').on('click', function(e){
         e.preventDefault();
-        utils.loading.show();
+        if ($.mosaic.loaded) { utils.loading.show(); }
         var replacement = $('#layoutField', modal.$modal).val();
         $.ajax({
           url: $('body').attr('data-base-url') + '/@@manage-layouts-from-editor',
@@ -478,7 +483,7 @@ define([
         }).fail(function(){
           window.alert('Error deleting layout');
         }).always(function(){
-          utils.loading.hide();
+          if ($.mosaic.loaded) { utils.loading.hide(); }
         });
       });
       $('button.cancel:visible', modal.$modal).off('click').on('click', function(e){
@@ -490,7 +495,7 @@ define([
   };
 
   $.mosaic.deleteLayout = function(layout, callback){
-    utils.loading.show();
+    if ($.mosaic.loaded) { utils.loading.show(); }
     $.ajax({
       url: $('body').attr('data-base-url') + '/@@manage-layouts-from-editor',
       data: {
@@ -502,7 +507,7 @@ define([
     }).fail(function(){
       window.alert('Error loading data for existing assignments');
     }).always(function(){
-      utils.loading.hide();
+      if ($.mosaic.loaded) { utils.loading.hide(); }
     });
   };
 
@@ -602,7 +607,7 @@ define([
         if(!layoutName){
           return;
         }
-        utils.loading.show();
+        if ($.mosaic.loaded) { utils.loading.show(); }
         e.preventDefault();
         var globalLayout = 'false';
         var $el = $('#globalLayout', modal.$modal);
@@ -628,7 +633,7 @@ define([
         }).fail(function(){
           window.alert('Error saving layout');
         }).always(function(){
-          utils.loading.hide();
+          if ($.mosaic.loaded) { utils.loading.hide(); }
           modal.hide();
         });
       });
@@ -682,13 +687,13 @@ define([
     html_id = tile_type_id[0].replace(/\./g, '-') + '-' + tile_type_id[1];
 
     // Remove head elements
-    head_elements = $.mosaic.options.tileheadelements[html_id];
+    head_elements = $.mosaic.tileHeadElements[html_id];
     if (head_elements) {
       for (i = 0; i < head_elements.length; i += 1) {
         $(head_elements[i], $.mosaic.document).remove();
       }
     }
-    $.mosaic.options.tileheadelements[html_id] = [];
+    $.mosaic.tileHeadElements[html_id] = [];
   };
 
   /**
@@ -709,13 +714,13 @@ define([
     // Calc url
     tile_type_id = url.split('?')[0].split('@@')[1].split('/');
     html_id = tile_type_id[0].replace(/\./g, '-') + '-' + tile_type_id[1];
-    $.mosaic.options.tileheadelements[html_id] = [];
+    $.mosaic.tileHeadElements[html_id] = [];
 
     // Get head items
     dom.find(".temp_head_tag").children().each(function () {
 
       // Add element
-      $.mosaic.options.tileheadelements[html_id].push(this);
+      $.mosaic.tileHeadElements[html_id].push(this);
 
       // Add head elements
       $('head', $.mosaic.document).append(this);
