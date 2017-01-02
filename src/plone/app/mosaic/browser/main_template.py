@@ -266,7 +266,7 @@ class MainTemplate(BrowserView):
         else:
             try:
                 return self.layout
-            except NotFound:
+            except (NotFound, IOError):
                 if self.request.form.get('ajax_load'):
                     return self.ajax_template
                 else:
