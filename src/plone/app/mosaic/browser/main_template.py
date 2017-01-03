@@ -264,7 +264,7 @@ class MainTemplate(BrowserView):
         else:
             try:
                 return self.layout
-            except (NotFound, IOError):
+            except (AssertionError, NotFound, IOError):
                 if self.request.form.get('ajax_load'):
                     return self.ajax_template
                 else:
@@ -275,6 +275,7 @@ class MainTemplate(BrowserView):
         # Resolve layout path from data-layout of content (or the default)
         layout_aware = ILayoutAware(self.context, None)
         content_layout = layout_aware.content_layout()
+        assert content_layout is not None
         html_parser = html.HTMLParser(encoding='utf-8')
         html_tree = html.fromstring(content_layout, parser=html_parser)
         layout_path = xpath1(layoutXPath, html_tree.getroottree())
