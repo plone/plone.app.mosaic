@@ -300,7 +300,7 @@ define([
       url: $.mosaic.options.layout,
       cache: false
     }).done(function (layoutHtml) {
-      $.mosaic.__initPanels($content, $(layoutHtml), callback);
+      $.mosaic.__initPanels($content, $('<div>' + layoutHtml + '</div>'), callback);
     }).fail(function (xhr, type, status) {
       $.mosaic.__initPanels($content, $(), callback);
     }).always(function () {

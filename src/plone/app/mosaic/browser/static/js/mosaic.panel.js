@@ -5,8 +5,9 @@ immed: true, strict: true, maxlen: 150, maxerr: 9999, quotmark: false */
 define([
   'jquery',
   'pat-logger',
+  'pat-registry',
   'underscore'
-], function($, logger, _) {
+], function($, logger, Registry, _) {
   'use strict';
 
   var log = logger.getLogger('pat-mosaic');
@@ -16,7 +17,7 @@ define([
     this.$el = $(el);
   };
 
-  Panel.prototype.initialize = function($content){
+  Panel.prototype.initialize = function($content) {
     // Local variables
     var panel_id = this.$el.attr("data-panel"), panel_attr_id,
         target = $("[data-panel=" + panel_id + "]", $.mosaic.document),
@@ -50,6 +51,7 @@ define([
             .removeAttr('id')
             .addClass('mosaic-original-content')
             .hide();
+        Registry.scan(target.prev());
       } else {
         // re-initializing, so we just have to replace existing
         target.replaceWith($(document.createElement("div"))
@@ -59,6 +61,7 @@ define([
             .attr('data-panel', 'content')
             .attr('data-max-columns', max_columns)
             .html($content.find("[data-panel=" + panel_id + "]").html()));
+        Registry.scan(target);
       }
     } else {
       target.attr("class",
@@ -66,6 +69,7 @@ define([
       target.addClass('mosaic-panel');
       target.html($content.find("[data-panel=" +
           panel_id + "]").html());
+      Registry.scan(target);
     }
   };
 
