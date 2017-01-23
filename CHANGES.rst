@@ -4,8 +4,12 @@ Changelog
 2.0.0rc5 (unreleased)
 ---------------------
 
+- Fix issue where global TinyMCE setting for paste_as_text was not
+  respected
+  [datakurre]
+
 - Fix issue where Mosaic Editor was activated on babel edit view
-  [Asko Soukka]
+  [datakurre]
 
 - Remove unneeded unittest2 imports
   [tomgross]

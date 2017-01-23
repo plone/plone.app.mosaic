@@ -1101,7 +1101,7 @@ define([
         timeout = setTimeout(_placeholder, 100);
       };
 
-      var paste_as_text = false;
+      var paste_as_text = $.mosaic.options.tinymce.tiny.paste_as_text || false;
       if(toolbar.length === 0){
         paste_as_text = true;
       }
