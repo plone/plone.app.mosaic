@@ -2,7 +2,7 @@
 from plone import api
 from plone.app.mosaic.testing import PLONE_APP_MOSAIC_INTEGRATION
 
-import unittest2 as unittest
+import unittest
 
 
 class TestExample(unittest.TestCase):
