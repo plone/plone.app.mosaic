@@ -8,7 +8,7 @@ from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_NAME
 from plone.resource.utils import queryResourceDirectory
 
-import unittest2 as unittest
+import unittest
 
 
 class TestManageLayouts(unittest.TestCase):

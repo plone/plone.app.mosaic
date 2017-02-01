@@ -7,6 +7,9 @@ Changelog
 - Fix issue where Mosaic Editor was activated on babel edit view
   [Asko Soukka]
 
+- Remove unneeded unittest2 imports
+  [tomgross]
+
 2.0.0rc4 (2016-12-13)
 ---------------------
 

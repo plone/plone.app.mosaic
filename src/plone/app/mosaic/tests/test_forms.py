@@ -7,7 +7,7 @@ from Products.CMFCore.utils import getToolByName
 from zope.component import queryMultiAdapter
 from plone.app.mosaic.testing import PLONE_APP_MOSAIC_DEXTERITY_INTEGRATION
 
-import unittest2 as unittest
+import unittest
 
 
 class TestAddForm(unittest.TestCase):
