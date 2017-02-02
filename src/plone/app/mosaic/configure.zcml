@@ -57,31 +57,58 @@
           />
   </class>
 
-
   <!-- HTTPHeaders transform, because main_template may not be rendered -->
   <adapter
-      for="* .interfaces.IMosaicLayer"
+      for="*
+           plone.app.blocks.interfaces.IBlocksTransformEnabled"
+      name="plone.app.mosaic.httpheaders"
+      factory=".transform.HTTPHeaders"
+      />
+  <adapter
+      for="plone.app.blocks.interfaces.IBlocksTransformEnabled
+           .interfaces.IMosaicLayer"
       name="plone.app.mosaic.httpheaders"
       factory=".transform.HTTPHeaders"
       />
 
   <!-- HTML language transform to fix language attribute in site layout -->
   <adapter
-      for="* .interfaces.IMosaicLayer"
+      for="*
+           plone.app.blocks.interfaces.IBlocksTransformEnabled"
+      name="plone.app.mosaic.language"
+      factory=".transform.HTMLLanguage"
+      />
+  <adapter
+      for="plone.app.blocks.interfaces.IBlocksTransformEnabled
+           .interfaces.IMosaicLayer"
       name="plone.app.mosaic.language"
       factory=".transform.HTMLLanguage"
       />
 
   <!-- Body class transform to add traditional Plone body class -->
   <adapter
-      for="* .interfaces.IMosaicLayer"
+      for="*
+           plone.app.blocks.interfaces.IBlocksTransformEnabled"
+      name="plone.app.mosaic.bodyclass"
+      factory=".transform.BodyClass"
+      />
+  <adapter
+      for="plone.app.blocks.interfaces.IBlocksTransformEnabled
+           .interfaces.IMosaicLayer"
       name="plone.app.mosaic.bodyclass"
       factory=".transform.BodyClass"
       />
 
   <!-- Body data-pat-* transform to pattern settings -->
   <adapter
-      for="* .interfaces.IMosaicLayer"
+      for="*
+           plone.app.blocks.interfaces.IBlocksTransformEnabled"
+      name="plone.app.mosaic.patternsettings"
+      factory=".transform.PatternSettings"
+      />
+  <adapter
+      for="plone.app.blocks.interfaces.IBlocksTransformEnabled
+           .interfaces.IMosaicLayer"
       name="plone.app.mosaic.patternsettings"
       factory=".transform.PatternSettings"
       />

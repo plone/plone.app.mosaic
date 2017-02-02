@@ -3,6 +3,7 @@ from Acquisition import aq_base
 from Acquisition import aq_parent
 from plone import api
 from plone.app.blocks.layoutbehavior import ILayoutAware
+from plone.app.mosaic.interfaces import IMosaicLayer
 from plone.transformchain.interfaces import ITransform
 from repoze.xmliter.serializer import XMLSerializer
 from zope.component import getAdapters
@@ -21,7 +22,38 @@ LAYOUT_NAME = re.compile(r'[a-zA-Z_\-]+/[a-zA-Z_\-]+')
 
 
 @implementer(ITransform)
-class HTTPHeaders(object):
+class TransformBase(object):
+    """Transform base class"""
+
+    def __init__(self, published, request):
+        self.published = published
+        self.request = request
+
+    def transform(self, result, encoding):
+        raise NotImplemented
+
+    def transformBytes(self, result, encoding):
+        return None
+
+    def transformUnicode(self, result, encoding):
+        return None
+
+    def transformIterable(self, result, encoding):
+        if self.published is None:
+            return None
+        if not isinstance(result, XMLSerializer):
+            return None
+        if not self.request.get('plone.app.blocks.enabled', False):
+            return None
+        if self.request.get('plone.app.blocks.disabled', False):
+            return None
+        if not IMosaicLayer.providedBy(self.request):
+            return None
+        return self.transform(result, encoding)
+
+
+@implementer(ITransform)
+class HTTPHeaders(TransformBase):
     """Ensure that HTTP response headers normally set when main_template
     renders plone.httpheaders viewlet manager are also set when main_template
     is not called (e.g. with pure-HTML site layouts).
@@ -29,17 +61,7 @@ class HTTPHeaders(object):
 
     order = 8800
 
-    def __init__(self, published, request):
-        self.published = published
-        self.request = request
-
-    def _setHeaders(self):
-        if (
-            self.published is None or
-            not self.request.get('plone.app.blocks.enabled', False)
-        ):
-            return None
-
+    def transform(self, result, encoding):
         context = aq_parent(aq_base(self.published)) or api.portal.get()
         manager = queryMultiAdapter(
             (context, self.request, self.published),
@@ -55,44 +77,16 @@ class HTTPHeaders(object):
                 for key, value in viewlet.getHeaders():
                     if key.lower() not in headers:
                         self.request.response.setHeader(key, value)
-
-    def transformString(self, result, encoding):
-        self._setHeaders()
-        return None
-
-    def transformUnicode(self, result, encoding):
-        self._setHeaders()
-        return None
-
-    def transformIterable(self, result, encoding):
-        self._setHeaders()
         return None
 
 
 @implementer(ITransform)
-class HTMLLanguage(object):
+class HTMLLanguage(TransformBase):
     """Set HTML tag language attributes"""
 
     order = 8800
 
-    def __init__(self, published, request):
-        self.published = published
-        self.request = request
-
-    def transformString(self, result, encoding):
-        return None
-
-    def transformUnicode(self, result, encoding):
-        return None
-
-    def transformIterable(self, result, encoding):
-        if (
-            self.published is None or
-            not self.request.get('plone.app.blocks.enabled', False) or
-            not isinstance(result, XMLSerializer)
-        ):
-            return None
-
+    def transform(self, result, encoding):
         context = aq_parent(aq_base(self.published)) or api.portal.get()
         state = queryMultiAdapter(
             (context, self.request),
@@ -107,29 +101,12 @@ class HTMLLanguage(object):
 
 
 @implementer(ITransform)
-class BodyClass(object):
+class BodyClass(TransformBase):
     """Set body tag class"""
 
     order = 8800
 
-    def __init__(self, published, request):
-        self.published = published
-        self.request = request
-
-    def transformString(self, result, encoding):
-        return None
-
-    def transformUnicode(self, result, encoding):
-        return None
-
-    def transformIterable(self, result, encoding):
-        if (
-            self.published is None or
-            not self.request.get('plone.app.blocks.enabled', False) or
-            not isinstance(result, XMLSerializer)
-        ):
-            return None
-
+    def transform(self, result, encoding):
         context = aq_parent(aq_base(self.published)) or api.portal.get()
         layout = queryMultiAdapter(
             (context, self.request),
@@ -183,29 +160,12 @@ class BodyClass(object):
 
 
 @implementer(ITransform)
-class PatternSettings(object):
+class PatternSettings(TransformBase):
     """Set body tag pattern settings data-pat-* attributes"""
 
     order = 8800
 
-    def __init__(self, published, request):
-        self.published = published
-        self.request = request
-
-    def transformString(self, result, encoding):
-        return None
-
-    def transformUnicode(self, result, encoding):
-        return None
-
-    def transformIterable(self, result, encoding):
-        if (
-            self.published is None or
-            not self.request.get('plone.app.blocks.enabled', False) or
-            not isinstance(result, XMLSerializer)
-        ):
-            return None
-
+    def transform(self, result, encoding):
         context = aq_parent(aq_base(self.published)) or api.portal.get()
         layout = queryMultiAdapter(
             (context, self.request),

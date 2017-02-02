@@ -13,6 +13,10 @@ Changelog
 
 - Remove unneeded unittest2 imports
   [tomgross]
+- Fix where Mosaic transforms did fire for ESI requests for ESI
+  tile helper views
+  [datakurre]
+
 
 2.0.0rc4 (2016-12-13)
 ---------------------
