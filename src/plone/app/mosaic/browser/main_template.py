@@ -281,7 +281,13 @@ class MainTemplate(BrowserView):
         layout_path = xpath1(layoutXPath, html_tree.getroottree())
 
         # Resolve layout path into layout
-        layout = resolveResource(layout_path)
+        if not self.request.get('ajax_load'):
+            layout = resolveResource(layout_path)
+        else:
+            if '?' not in layout_path:
+                layout = resolveResource(layout_path + '?ajax_load=1')
+            else:
+                layout = resolveResource(layout_path + '&ajax_load=1')
 
         # Cook main_template from layout
         cooked = cook_layout(layout, self.request.get('ajax_load'))
