@@ -16,7 +16,9 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.Five import BrowserView
 from repoze.xmliter.utils import getHTMLSerializer
 from urlparse import unquote
+from urlparse import urljoin
 from zExceptions import NotFound
+from zope.component import queryMultiAdapter
 from zope.interface import alsoProvides
 from zope.interface import implementer
 
@@ -255,42 +257,72 @@ class MainTemplate(BrowserView):
     @property
     def template(self):
         if ISubRequest.providedBy(self.request):
-            # Subrequests should only request the main_template when site
-            # layouts are enabled, but no default site layout has been set
             if self.request.form.get('ajax_load'):
                 return self.ajax_template
             else:
                 return self.main_template
-        else:
-            try:
-                return self.layout
-            except (AssertionError, NotFound, IOError):
-                if self.request.form.get('ajax_load'):
-                    return self.ajax_template
-                else:
-                    return self.main_template
+        try:
+            return self.layout
+        except (NotFound, IOError):
+            if self.request.form.get('ajax_load'):
+                return self.ajax_template
+            else:
+                return self.main_template
 
     @property
     def layout(self):
-        # Resolve layout path from data-layout of content (or the default)
-        layout_aware = ILayoutAware(self.context, None)
-        content_layout = layout_aware.content_layout()
-        assert content_layout is not None
-        html_parser = html.HTMLParser(encoding='utf-8')
-        html_tree = html.fromstring(content_layout, parser=html_parser)
-        layout_path = xpath1(layoutXPath, html_tree.getroottree())
+        # Resolves the current site layout and injects metal-slots to allow
+        # a HTML layout to support legacy main_template based templates.
+        # If no site layout is configured, this should raise NotFound and
+        # allow template() simply return the real TAL based main_template.
 
-        # Resolve layout path into layout
-        if not self.request.get('ajax_load'):
-            layout = resolveResource(layout_path)
+        # 1) Resolve layout_Path
+        layout_path = None
+        if self.request.form.get('ajax_load'):
+            # Resolve layout_path for ajax_load, which is special and should
+            # always return either the global default ajax layout or fallback
+            # to legacy ajax_loa aware template
+            registry = queryUtility(IRegistry)
+            layout_path = registry.get(DEFAULT_AJAX_LAYOUT_REGISTRY_KEY)
         else:
-            if '?' not in layout_path:
-                layout = resolveResource(layout_path + '?ajax_load=1')
-            else:
-                layout = resolveResource(layout_path + '&ajax_load=1')
+            # Resolve layout path from data-layout of content
+            layout_aware = ILayoutAware(self.context, None)
+            content_layout = layout_aware.content_layout()
+            if content_layout:
+                html_parser = html.HTMLParser(encoding='utf-8')
+                html_tree = html.fromstring(content_layout, parser=html_parser)
+                layout_path = xpath1(layoutXPath, html_tree.getroottree())
+        # 2) Raise NotFound if layout_path could not be resolved
+        if layout_path is None:
+            raise NotFound()
+
+        # 3) Resolve layout when layout_path looks like a view
+        layout = None
+        if layout_path.count('++') != 2:
+            view_name = layout_path.split('./')[-1].split('@@')[-1]
+            view = queryMultiAdapter((self.context, self.request),
+                                     name=view_name)
+            if view is not None:
+                try:
+                    # Special case! The default site layout for most layouts is
+                    # '@@page-site-layout'. When no site layout is configured,
+                    # @@page-site-layout fallbacks to render
+                    # "context/main_template/macros/master", which we have
+                    # overridden with this class! But calling just its index()
+                    # will raise NotFound and allows us to "just to render"
+                    # legacy main template normally without extra hoops.
+                    layout = view.index()
+                except AttributeError:
+                    layout = view()
+
+        # 4) Resolve layout using resource or subrequest lookup
+        if not layout:
+            context_path = self.context.absolute_url_path() + '/'
+            layout_path = urljoin(context_path, layout_path)
+            layout = resolveResource(layout_path)
 
         # Cook main_template from layout
-        cooked = cook_layout(layout, self.request.get('ajax_load'))
+        cooked = cook_layout(layout, None)
         pt = ViewPageTemplateString(cooked)
         bound_pt = pt.__get__(self, type(self))
         return bound_pt
