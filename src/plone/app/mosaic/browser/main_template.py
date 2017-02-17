@@ -3,12 +3,15 @@ from hashlib import md5
 from lxml import etree
 from lxml import html
 from plone.app.blocks.interfaces import IBlocksTransformEnabled
+from plone.app.blocks.interfaces import DEFAULT_AJAX_LAYOUT_REGISTRY_KEY
+from plone.app.blocks.interfaces import DEFAULT_SITE_LAYOUT_REGISTRY_KEY
 from plone.app.blocks.layoutbehavior import ILayoutAware
 from plone.app.blocks.utils import layoutXPath
 from plone.app.blocks.utils import resolveResource
 from plone.app.blocks.utils import xpath1
 from plone.memoize import ram
 from plone.memoize import view
+from plone.registry.interfaces import IRegistry
 from plone.resource.interfaces import IResourceDirectory
 from plone.subrequest import ISubRequest
 from Products.CMFPlone.browser.interfaces import IMainTemplate
@@ -18,7 +21,9 @@ from repoze.xmliter.utils import getHTMLSerializer
 from urlparse import unquote
 from urlparse import urljoin
 from zExceptions import NotFound
+from zope.component import getMultiAdapter
 from zope.component import queryMultiAdapter
+from zope.component import queryUtility
 from zope.interface import alsoProvides
 from zope.interface import implementer
 
@@ -276,15 +281,19 @@ class MainTemplate(BrowserView):
         # If no site layout is configured, this should raise NotFound and
         # allow template() simply return the real TAL based main_template.
 
+        url = self.request.getURL()
+        registry = queryUtility(IRegistry)
+        state = getMultiAdapter((self.context, self.request),
+                                name=u'plone_context_state')
+
         # 1) Resolve layout_Path
         layout_path = None
         if self.request.form.get('ajax_load'):
             # Resolve layout_path for ajax_load, which is special and should
             # always return either the global default ajax layout or fallback
             # to legacy ajax_loa aware template
-            registry = queryUtility(IRegistry)
             layout_path = registry.get(DEFAULT_AJAX_LAYOUT_REGISTRY_KEY)
-        else:
+        if re.match(r'.*/@*edit$', url) or state.is_view_template():
             # Resolve layout path from data-layout of content
             layout_aware = ILayoutAware(self.context, None)
             content_layout = layout_aware.content_layout()
@@ -292,6 +301,12 @@ class MainTemplate(BrowserView):
                 html_parser = html.HTMLParser(encoding='utf-8')
                 html_tree = html.fromstring(content_layout, parser=html_parser)
                 layout_path = xpath1(layoutXPath, html_tree.getroottree())
+        else:
+            # If not on edit or selected view, section site layout is used
+            layout_aware = ILayoutAware(self.context, None)
+            layout_path = (layout_aware.sectionSiteLayout or
+                           registry.get(DEFAULT_SITE_LAYOUT_REGISTRY_KEY))
+
         # 2) Raise NotFound if layout_path could not be resolved
         if layout_path is None:
             raise NotFound()
