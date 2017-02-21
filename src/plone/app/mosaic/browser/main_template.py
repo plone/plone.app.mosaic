@@ -293,7 +293,9 @@ class MainTemplate(BrowserView):
             # always return either the global default ajax layout or fallback
             # to legacy ajax_loa aware template
             layout_path = registry.get(DEFAULT_AJAX_LAYOUT_REGISTRY_KEY)
-        if re.match(r'.*/@*edit$', url) or state.is_view_template():
+        if re.match(r'.*/@*edit$', url) or (
+                state.view_template_id() == 'layout_view' and
+                state.is_view_template()):
             # Resolve layout path from data-layout of content
             layout_aware = ILayoutAware(self.context, None)
             content_layout = layout_aware.content_layout()
