@@ -4,6 +4,9 @@ Changelog
 2.0.0rc5 (unreleased)
 ---------------------
 
+- Add support for optiona ``permission``-key in content layout manifests
+  [datakurre]
+
 - Fix issue where global TinyMCE setting for paste_as_text was not
   respected
   [datakurre]
@@ -13,7 +16,8 @@ Changelog
 
 - Remove unneeded unittest2 imports
   [tomgross]
-- Fix where Mosaic transforms did fire for ESI requests for ESI
+
+- Fix issue where Mosaic transforms did fire for ESI requests for ESI
   tile helper views
   [datakurre]
 

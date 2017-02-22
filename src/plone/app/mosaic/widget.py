@@ -133,7 +133,7 @@ class LayoutWidget(BaseWidget, TextAreaWidget):
             self.name.replace('.customContentLayout', '.contentLayout')
         )
 
-        result['available_layouts'] = getContentLayoutsForType(pt)
+        result['available_layouts'] = getContentLayoutsForType(pt, self.context)  # noqa
         result['user_layouts'] = getUserContentLayoutsForType(pt)
 
         return {'data': result}
