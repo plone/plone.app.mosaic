@@ -112,7 +112,8 @@ class ManageLayoutView(BrowserView):
                     self.context.portal_type
                 ),
                 'available_layouts': getContentLayoutsForType(
-                    self.context.portal_type
+                    self.context.portal_type,
+                    self.context
                 )
             }
         )
@@ -208,7 +209,8 @@ class ManageLayoutView(BrowserView):
                     self.context.portal_type
                 ),
                 'available_layouts': getContentLayoutsForType(
-                    self.context.portal_type
+                    self.context.portal_type,
+                    self.context
                 )
             }
         )

@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from AccessControl.security import checkPermission
 from plone.app.blocks.interfaces import CONTENT_LAYOUT_MANIFEST_FORMAT
 from plone.app.blocks.interfaces import CONTENT_LAYOUT_RESOURCE_NAME
 from plone.app.blocks.interfaces import IOmittedField
@@ -98,7 +99,7 @@ def extractFieldInformation(schema, context, request, prefix):
                 }
 
 
-def getContentLayoutsForType(pt):
+def getContentLayoutsForType(pt, context=None):
     result = []
     registry = getUtility(IRegistry)
     hidden = registry.get('plone.app.mosaic.hidden_content_layouts', [])[:]
@@ -123,6 +124,10 @@ def getContentLayoutsForType(pt):
                 [os.path.dirname(key), preview])
         value['path'] = key
         result.append(value)
+    if context is not None:
+        result = [value for value in result
+                  if not value.get('permission') or
+                  checkPermission(value.get('permission'), context)]
     result.sort(key=lambda l: l.get('sort_key', '') or l.get('title', ''))
     return result
 
