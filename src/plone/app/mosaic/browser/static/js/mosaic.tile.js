@@ -105,13 +105,16 @@ define([
           };
           data[tile_config.name + '.content'] = currentData;
           // need to save tile
-          $.ajax({
-            url: edit_url,
-            method: 'POST',
-            data: data
-          }).always(function(){
-            that.$el.data('lastSavedData', currentData);
-            that.$el.data('activeSave', false);
+          $.mosaic.queue(function(next){
+            $.ajax({
+              url: edit_url,
+              method: 'POST',
+              data: data
+            }).always(function(){
+              that.$el.data('lastSavedData', currentData);
+              that.$el.data('activeSave', false);
+              next();
+            });
           });
         }
       }
@@ -528,10 +531,12 @@ define([
     Tile.prototype.confirmClicked = function(e){
       e.preventDefault();
 
-      var tile_config = this.getConfig();
+      var self = this;
+      var tileConfig = this.getConfig();
 
       // Check if app tile
-      if (tile_config.tile_type === 'app') {
+      if (tileConfig.tile_type === 'app' ||
+          tileConfig.tile_type === 'textapp') {
 
         // Get url
         var tile_url = this.getUrl();
@@ -541,13 +546,17 @@ define([
           $.mosaic.removeHeadTags(tile_url);
 
           // Ajax call to remove tile
-          $.ajax({
-            type: "POST",
-            url: this.getDeleteUrl(),
-            data: {
-              'buttons.delete': 'Delete',
-              '_authenticator': utils.getAuthenticator()
-            }
+          $.mosaic.queue(function(next){
+            $.ajax({
+              type: "POST",
+              url: self.getDeleteUrl(),
+              data: {
+                'buttons.delete': 'Delete',
+                '_authenticator': utils.getAuthenticator()
+              }
+            }).always(function(){
+              next();
+            });
           });
         }
       }

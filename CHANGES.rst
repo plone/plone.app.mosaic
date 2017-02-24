@@ -21,6 +21,14 @@ Changelog
   tile helper views
   [datakurre]
 
+- Fix issue where multiple tile configurations from the same page were being
+  autosaved at the same time causing write conflict errors
+  [datakurre]
+
+- Fix issue where configured text tile content was not removed from the server
+  when tile was deleted
+  [datakurre]
+
 
 2.0.0rc4 (2016-12-13)
 ---------------------

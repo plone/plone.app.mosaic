@@ -279,8 +279,11 @@ define([
     $.mosaic.registerAction('save', {
       exec: function () {
         $.mosaic.options.toolbar.trigger("selectedtilechange");
-        $.mosaic.saveLayoutToForm();
-        $("#form-buttons-save").click();
+        $.mosaic.queue(function(next) {
+          $.mosaic.saveLayoutToForm();
+          $("#form-buttons-save").click();
+          next();
+        });
       },
       shortcut: {
         ctrl: true,
