@@ -54,6 +54,10 @@ define([
   // Set variables
   $.mosaic.loaded = false;
 
+  // Define mosaic saving
+  $.mosaic.saving = false;
+
+  // Define UI templates
   $.mosaic.selectLayoutTemplate = _.template('<div>' +
     '<h1>Select Layout</h1>' +
     '<div class="mosaic-select-layout">' +
