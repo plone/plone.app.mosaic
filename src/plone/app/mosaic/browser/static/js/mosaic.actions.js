@@ -278,9 +278,18 @@ define([
     // Register save action
     $.mosaic.registerAction('save', {
       exec: function () {
+        $.mosaic.saving = true;
+        $('.mosaic-selected-tile', $.mosaic.document).each(function() {
+          var tile = new Tile(this);
+          tile.blur();
+        });
         $.mosaic.options.toolbar.trigger("selectedtilechange");
-        $.mosaic.saveLayoutToForm();
-        $("#form-buttons-save").click();
+        $.mosaic.queue(function(next) {
+          $.mosaic.saveLayoutToForm();
+          $("#form-buttons-save").click();
+          $.mosaic.saving = false;
+          next();
+        });
       },
       shortcut: {
         ctrl: true,

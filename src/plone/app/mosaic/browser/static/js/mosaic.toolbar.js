@@ -512,14 +512,15 @@ define([
       var lastChange = (new Date()).getTime();
       $(this).on('selectedtilechange', function () {
         if ($.mosaic.overlay.app) { return; }
+        if ($.mosaic.saving) { return; }  // skip when saving
+        if ($.mosaic.modal) { return; }  // skip when there's modal
         if ((new Date()).getTime() - lastChange > 6000) {
-          $.mosaic.saveLayoutToForm();
-          setTimeout(function(){
-            // we want to do this on a delay to prevent conflict errors when
-            // editing a tile and this is called at the exact same time
+          $.mosaic.queue(function(next){
+            $.mosaic.saveLayoutToForm();
             $("#form-widgets-ILayoutAware-customContentLayout, " +
               "[name='form.widgets.ILayoutAware.customContentLayout']").blur();
-          }, 1000);
+            next();
+          });
           lastChange = (new Date()).getTime();
         }
       });

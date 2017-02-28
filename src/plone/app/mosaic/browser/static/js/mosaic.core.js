@@ -54,6 +54,10 @@ define([
   // Set variables
   $.mosaic.loaded = false;
 
+  // Define mosaic saving
+  $.mosaic.saving = false;
+
+  // Define UI templates
   $.mosaic.selectLayoutTemplate = _.template('<div>' +
     '<h1>Select Layout</h1>' +
     '<div class="mosaic-select-layout">' +
@@ -718,4 +722,29 @@ define([
       $('head', $.mosaic.document).append(this);
     });
   };
+
+  /**
+   * Queue callback to be executed in serial to other queued
+   * functions
+   *
+   * Each callback should end its execution by calling the
+   * callback it gets as in
+   *
+   *   $.mosaic.queue(function(next) {
+   *     next();
+   *   })
+   *
+   * to allow execution of the next item in queue.
+   *
+   * @param {queueName} optional queue name
+   * @param {callback} callback fn to be called
+   */
+  $.mosaic.queue = function (queueName, callback) {
+    if (typeof callback === 'undefined') {
+        callback = queueName;
+        queueName = 'fx';  // 'fx' autoexecutes by default
+    }
+    $(window).queue(queueName, callback);
+  };
+
 });
