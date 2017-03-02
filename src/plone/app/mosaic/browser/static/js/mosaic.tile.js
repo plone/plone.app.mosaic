@@ -1192,7 +1192,7 @@ define([
         paste_as_text: paste_as_text,
         fixed_toolbar_container: '#' + $editorContainer.attr('id'),
         theme_advanced_toolbar_align: "right",
-        menubar: false,
+        menubar: toolbar.join(' ') ? $.mosaic.options.tinymce.tiny.menubar : false,
         toolbar: toolbar.join(' ') || false,
         statusbar: false,
         contextmenu: cmenu.join(' ') || false,
