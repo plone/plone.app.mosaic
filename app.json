@@ -9,7 +9,6 @@
       "BUILDPACK_URL": "https://github.com/plone/plone.app.mosaic"
   },
   "addons": [
-    "heroku-postgresql:hobby-dev",
-    "mailgun"
+    "heroku-postgresql:hobby-dev"
   ]
 }
