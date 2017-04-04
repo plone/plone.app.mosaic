@@ -307,4 +307,21 @@
       handler=".upgrades.upgrade_to_2_0rc4"
       />
 
+  <genericsetup:registerProfile
+      name="to_5020"
+      title="Upgrade profile to 5020 (2.0.0rc5)"
+      description=""
+      directory="profiles/upgrades/to_5020"
+      for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
+  <genericsetup:upgradeStep
+      profile="plone.app.mosaic:default"
+      source="5019"
+      destination="5020"
+      title="Fix grid and row styles for anonymous"
+      handler=".upgrades.upgrade_to_2_0rc5"
+      />
+
 </configure>

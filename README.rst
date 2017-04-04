@@ -84,13 +84,13 @@ Installation
 A example set of dependencies' version pins for Plone 5 that works with the
 latest plone.app.mosaic is::
 
-    plone.tiles = 1.8.1
+    plone.tiles = 1.8.2
     plone.subrequest = 1.8
-    plone.app.tiles = 3.0.1
-    plone.app.standardtiles = 2.0.0
-    plone.app.blocks = 4.0.0
+    plone.app.tiles = 3.0.3
+    plone.app.standardtiles = 2.1.0
+    plone.app.blocks = 4.0.6
     plone.app.drafts = 1.1.1
-    plone.app.mosaic = 2.0.0rc4
+    plone.app.mosaic = 2.0rc5
 
 After the add-on activation, the new content layout and editor support can be
 enabled for any content type by enabling behaviors **Layout support** and
