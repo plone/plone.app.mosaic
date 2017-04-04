@@ -11,6 +11,7 @@ BUNDLE_JS = $(STATIC)/plone-mosaic.js
 SOURCE_LESS = $(shell find $(STATIC)/css -name "*.less")
 BUNDLE_LESS = $(STATIC)/plone-mosaic.css
 BUNDLE_GRID_LESS = $(STATIC)/mosaic-grid.css
+BUNDLE_STYLES_LESS = $(STATIC)/mosaic-styles.css
 CURRENT_DIR = $(shell pwd)
 LESS_OPTS = '--modify-var=staticPath="$(CURRENT_DIR)"' \
             '--modify-var=barcelonetaPath="$(CURRENT_DIR)/components/plonetheme.barceloneta/plonetheme/barceloneta/theme"' \
@@ -30,7 +31,7 @@ endif
 
 all: build
 
-build: $(BUNDLE_JS) $(BUNDLE_LESS) $(BUNDLE_GRID_LESS)
+build: $(BUNDLE_JS) $(BUNDLE_LESS) $(BUNDLE_GRID_LESS) $(BUNDLE_STYLES_LESS)
 
 install:
 	npm install
@@ -53,11 +54,14 @@ $(BUNDLE_LESS): $(SOURCE_LESS)
 $(BUNDLE_GRID_LESS): $(SOURCE_LESS)
 	lessc $(LESS_OPTS) $(STATIC)/css/mosaic.grid.less > $(BUNDLE_GRID_LESS)
 
+$(BUNDLE_STYLES_LESS): $(SOURCE_LESS)
+	lessc $(LESS_OPTS) $(STATIC)/css/mosaic.styles.less > $(BUNDLE_STYLES_LESS)
+
 watch:
 	watch make $(STATIC)
 
 clean:
-	rm -f $(BUNDLE_JS) $(BUNDLE_JS).map $(BUNDLE_LESS) $(BUNDLE_GRID_LESS)
+	rm -f $(BUNDLE_JS) $(BUNDLE_JS).map $(BUNDLE_LESS) $(BUNDLE_GRID_LESS) $(BUNDLE_STYLES_LESS)
 
 watch_instance: bin/instance
 	RELOAD_PATH=src bin/instance fg
