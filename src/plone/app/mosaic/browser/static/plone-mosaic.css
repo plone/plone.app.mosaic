@@ -173,27 +173,15 @@
 }
 @media (max-width: 767px) {
 }
-.mosaic-enabled .mosaic-grid-row:before,
-.mosaic-enabled .mosaic-grid-row:after,
-.mosaic-enabled .mosaic-grid-row:before,
-.mosaic-enabled .mosaic-grid-row:after,
-.mosaic-grid .mosaic-grid-row:before,
-.mosaic-grid .mosaic-grid-row:after,
-.mosaic-grid .mosaic-grid-row:before,
-.mosaic-grid .mosaic-grid-row:after,
-.template-layout .mosaic-grid-row:before,
-.template-layout .mosaic-grid-row:after,
-.template-layout .mosaic-grid-row:before,
-.template-layout .mosaic-grid-row:after {
+.mosaic-grid-row:before,
+.mosaic-grid-row:after,
+.mosaic-grid-row:before,
+.mosaic-grid-row:after {
   content: " ";
   display: table;
 }
-.mosaic-enabled .mosaic-grid-row:after,
-.mosaic-enabled .mosaic-grid-row:after,
-.mosaic-grid .mosaic-grid-row:after,
-.mosaic-grid .mosaic-grid-row:after,
-.template-layout .mosaic-grid-row:after,
-.template-layout .mosaic-grid-row:after {
+.mosaic-grid-row:after,
+.mosaic-grid-row:after {
   clear: both;
 }
 .mosaic-toolbar fieldset {
@@ -908,47 +896,6 @@
   max-height: 320px;
 }
 /* @end */
-/* Images will never be bigger then a tile */
-.mosaic-tile img {
-  max-width: 100%;
-}
-.mosaic-tile-align-center {
-  text-align: center;
-}
-.mosaic-tile-align-left {
-  float: left;
-  z-index: 200;
-}
-.mosaic-tile-align-right {
-  float: right;
-  z-index: 200;
-}
-.mosaic-tile-padding-right {
-  padding-right: 1em;
-}
-.mosaic-tile-padding-bottom {
-  padding-bottom: 1ex;
-}
-.mosaic-grid-row-dark {
-  background: #ccc;
-  padding: 1ex 1em;
-  color: #2c2c2c;
-}
-.mosaic-grid-row-dark + .mosaic-grid-row {
-  padding-top: 1ex;
-}
-.mosaic-grid-row-dark + .mosaic-grid-row-dark {
-  padding-top: 0;
-}
-.mosaic-tile #commenting {
-  font-size: 100%;
-}
-.mosaic-tile .comment {
-  font-size: 100%;
-}
-#content .mosaic-tile .discussion div.documentByLine {
-  font-size: 100%;
-}
 .mosaic-select-layout .global-layouts::after,
 .mosaic-select-layout .user-layouts::after {
   clear: both;
@@ -984,17 +931,140 @@
 .mosaic-enabled.mce-sticky .mce-floatpanel.mce-fixed {
   position: fixed;
 }
-.mosaic-enabled,
-.mosaic-grid,
-.template-layout {
-  /* Grid classes, these can also be nested */
-}
-.mosaic-enabled .mosaic-grid-row,
-.mosaic-grid .mosaic-grid-row,
-.template-layout .mosaic-grid-row {
+/* Grid classes, these can also be nested */
+.mosaic-grid-row {
   position: relative;
   margin-left: -15px;
   margin-right: -15px;
+}
+.mosaic-grid-row:before,
+.mosaic-grid-row:after {
+  content: " ";
+  display: table;
+}
+.mosaic-grid-row:after {
+  clear: both;
+}
+.mosaic-grid-row:before,
+.mosaic-grid-row:after {
+  content: " ";
+  display: table;
+}
+.mosaic-grid-row:after {
+  clear: both;
+}
+/* Widths, these are abstracted out so that pixel-based layouts or other
+   similar approaches can be retrofitted without changing the markup,
+   or if you want to apply rules like the Golden Ratio to your layouts */
+.mosaic-width-full {
+  position: relative;
+  float: left;
+  width: 100%;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.mosaic-width-half {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .mosaic-width-half {
+    float: left;
+    width: 50%;
+  }
+}
+@media (min-width: 768px) {
+  .mosaic-width-half {
+    float: left;
+    width: 50%;
+  }
+}
+.mosaic-width-quarter {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 768px) {
+  .mosaic-width-quarter {
+    float: left;
+    width: 50%;
+  }
+}
+@media (min-width: 768px) {
+  .mosaic-width-quarter {
+    float: left;
+    width: 50%;
+  }
+}
+@media (min-width: 992px) {
+  .mosaic-width-quarter {
+    float: left;
+    width: 25%;
+  }
+}
+@media (min-width: 992px) {
+  .mosaic-width-quarter {
+    float: left;
+    width: 25%;
+  }
+}
+.mosaic-width-three-quarters {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 992px) {
+  .mosaic-width-three-quarters {
+    float: left;
+    width: 75%;
+  }
+}
+@media (min-width: 992px) {
+  .mosaic-width-three-quarters {
+    float: left;
+    width: 75%;
+  }
+}
+.mosaic-width-third {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 992px) {
+  .mosaic-width-third {
+    float: left;
+    width: 33.33333333%;
+  }
+}
+@media (min-width: 992px) {
+  .mosaic-width-third {
+    float: left;
+    width: 33.33333333%;
+  }
+}
+.mosaic-width-two-thirds {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 992px) {
+  .mosaic-width-two-thirds {
+    float: left;
+    width: 66.66666667%;
+  }
+}
+@media (min-width: 992px) {
+  .mosaic-width-two-thirds {
+    float: left;
+    width: 66.66666667%;
+  }
 }
 .mosaic-enabled {
   /* Widths, these are abstracted out so that pixel-based layouts or other
@@ -1048,121 +1118,6 @@
   min-height: 1px;
   padding-left: 15px;
   padding-right: 15px;
-}
-.template-layout {
-  /* Widths, these are abstracted out so that pixel-based layouts or other
-     similar approaches can be retrofitted without changing the markup,
-     or if you want to apply rules like the Golden Ratio to your layouts */
-}
-.template-layout .mosaic-width-full {
-  position: relative;
-  float: left;
-  width: 100%;
-  min-height: 1px;
-  padding-left: 15px;
-  padding-right: 15px;
-}
-.template-layout .mosaic-width-half {
-  position: relative;
-  min-height: 1px;
-  padding-left: 15px;
-  padding-right: 15px;
-}
-@media (min-width: 768px) {
-  .template-layout .mosaic-width-half {
-    float: left;
-    width: 50%;
-  }
-}
-@media (min-width: 768px) {
-  .template-layout .mosaic-width-half {
-    float: left;
-    width: 50%;
-  }
-}
-.template-layout .mosaic-width-quarter {
-  position: relative;
-  min-height: 1px;
-  padding-left: 15px;
-  padding-right: 15px;
-}
-@media (min-width: 768px) {
-  .template-layout .mosaic-width-quarter {
-    float: left;
-    width: 50%;
-  }
-}
-@media (min-width: 768px) {
-  .template-layout .mosaic-width-quarter {
-    float: left;
-    width: 50%;
-  }
-}
-@media (min-width: 992px) {
-  .template-layout .mosaic-width-quarter {
-    float: left;
-    width: 25%;
-  }
-}
-@media (min-width: 992px) {
-  .template-layout .mosaic-width-quarter {
-    float: left;
-    width: 25%;
-  }
-}
-.template-layout .mosaic-width-three-quarters {
-  position: relative;
-  min-height: 1px;
-  padding-left: 15px;
-  padding-right: 15px;
-}
-@media (min-width: 992px) {
-  .template-layout .mosaic-width-three-quarters {
-    float: left;
-    width: 75%;
-  }
-}
-@media (min-width: 992px) {
-  .template-layout .mosaic-width-three-quarters {
-    float: left;
-    width: 75%;
-  }
-}
-.template-layout .mosaic-width-third {
-  position: relative;
-  min-height: 1px;
-  padding-left: 15px;
-  padding-right: 15px;
-}
-@media (min-width: 992px) {
-  .template-layout .mosaic-width-third {
-    float: left;
-    width: 33.33333333%;
-  }
-}
-@media (min-width: 992px) {
-  .template-layout .mosaic-width-third {
-    float: left;
-    width: 33.33333333%;
-  }
-}
-.template-layout .mosaic-width-two-thirds {
-  position: relative;
-  min-height: 1px;
-  padding-left: 15px;
-  padding-right: 15px;
-}
-@media (min-width: 992px) {
-  .template-layout .mosaic-width-two-thirds {
-    float: left;
-    width: 66.66666667%;
-  }
-}
-@media (min-width: 992px) {
-  .template-layout .mosaic-width-two-thirds {
-    float: left;
-    width: 66.66666667%;
-  }
 }
 /* Disable user-select outside currently selected tile */
 .mosaic-enabled {
