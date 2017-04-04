@@ -1,16 +1,44 @@
 @import (reference) "@{barcelonetaPath}/less/variables.plone.less";
 @import (reference) "@{barcelonetaPath}/less/mixin.grid.plone.less";
+@plone-mosaic-bootstrap: "@{staticPath}/components/bootstrap";
+@import (reference) "@{plone-mosaic-bootstrap}/less/bootstrap.less";
+
 
 @columns: @plone-grid-columns;
 // We're using the mixin classes from mixin.grid.plone.less to create the default column styles
 
-.mosaic-enabled, .mosaic-grid, .template-layout {
-  /* Grid classes, these can also be nested */
-  .mosaic-grid-row {
-    position: relative;
-    .make-row(@gutter: @plone-grid-gutter-width);
-  }
+
+/* Grid classes, these can also be nested */
+.mosaic-grid-row {
+  position: relative;
+  .make-row(@gutter: @plone-grid-gutter-width);
+  .clearfix();
 }
+
+// grid definition for viewing
+/* Widths, these are abstracted out so that pixel-based layouts or other
+   similar approaches can be retrofitted without changing the markup,
+   or if you want to apply rules like the Golden Ratio to your layouts */
+.mosaic-width-full {
+  .make-xs-column((@columns); @gutter: @plone-grid-gutter-width);
+}
+.mosaic-width-half {
+  .make-sm-column((@columns / 2); @gutter: @plone-grid-gutter-width);
+}
+.mosaic-width-quarter {
+  .make-sm-column((@columns / 2); @gutter: @plone-grid-gutter-width);
+  .make-md-column((@columns / 4); @gutter: @plone-grid-gutter-width);
+}
+.mosaic-width-three-quarters {
+  .make-md-column((@columns / 4 * 3); @gutter: @plone-grid-gutter-width);
+}
+.mosaic-width-third {
+  .make-md-column((@columns / 3); @gutter: @plone-grid-gutter-width);
+}
+.mosaic-width-two-thirds {
+  .make-md-column((@columns / 3 * 2); @gutter: @plone-grid-gutter-width);
+}
+
 
 // grid definition for editing
 // we don't want responsive styles here
@@ -35,31 +63,5 @@
   }
   .mosaic-width-two-thirds {
     .make-xs-column((@columns / 3 * 2); @gutter: @plone-grid-gutter-width);
-  }
-}
-
-// grid definition for viewing
-.template-layout {
-  /* Widths, these are abstracted out so that pixel-based layouts or other
-     similar approaches can be retrofitted without changing the markup,
-     or if you want to apply rules like the Golden Ratio to your layouts */
-  .mosaic-width-full {
-    .make-xs-column((@columns); @gutter: @plone-grid-gutter-width);
-  }
-  .mosaic-width-half {
-    .make-sm-column((@columns / 2); @gutter: @plone-grid-gutter-width);
-  }
-  .mosaic-width-quarter {
-    .make-sm-column((@columns / 2); @gutter: @plone-grid-gutter-width);
-    .make-md-column((@columns / 4); @gutter: @plone-grid-gutter-width);
-  }
-  .mosaic-width-three-quarters {
-    .make-md-column((@columns / 4 * 3); @gutter: @plone-grid-gutter-width);
-  }
-  .mosaic-width-third {
-    .make-md-column((@columns / 3); @gutter: @plone-grid-gutter-width);
-  }
-  .mosaic-width-two-thirds {
-    .make-md-column((@columns / 3 * 2); @gutter: @plone-grid-gutter-width);
   }
 }
