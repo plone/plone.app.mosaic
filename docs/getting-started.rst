@@ -94,7 +94,8 @@ set the **Display** option to **Mosaic layout**.
         Mouse over  id=plone-contentmenu-display-layout_view
         Click element  id=plone-contentmenu-display-layout_view
 
-        Mouse over  ${SELECTOR_CONTENTMENU_DISPLAY_LINK}
+        ## XXX: Mouse over got stuck on Firefox 52
+        # Mouse over  ${SELECTOR_CONTENTMENU_DISPLAY_LINK}
         Run keyword and ignore error  Set window size  1024  800
         Wait until page contains element
         ...  css=#plone-contentmenu-display-layout_view.actionMenuSelected
@@ -163,7 +164,9 @@ Let's select the basic layout:
         ...  _screenshots/mosaic-editor-layout-selector-select.png
         ...  css=.plone-modal
 
-        Click element  jquery=a[data-value="default/basic.html"]
+        ## XXX: Only double click worked on Firefox 52
+        # Click element  jquery=a[data-value="default/basic.html"]
+        Double click element  jquery=a[data-value="default/basic.html"]
 
 Now the toolbar of the **Mosaic Editor** will appear on top.
 The buttons *Save* and *Cancel* belong to the current *Edit* action of the content.
