@@ -61,13 +61,13 @@ class TestManageLayouts(unittest.TestCase):
         layout_resources = queryResourceDirectory(
             CONTENT_LAYOUT_RESOURCE_NAME, 'custom')
 
-        user_directory = layout_resources['user-layouts/' + TEST_USER_ID]
+        user_directory = layout_resources['user-layouts/{0:s}'.format(TEST_USER_ID)]  # noqa
         self.assertTrue('my-layout.html' in user_directory.listDirectory())
 
         # now try to delete user layout
         self.request.form.update({
             'action': 'deletelayout',
-            'layout': 'custom/user-layouts/{}/my-layout.html'.format(TEST_USER_ID)
+            'layout': 'custom/user-layouts/{0:s}/my-layout.html'.format(TEST_USER_ID)  # noqa
         })
         self.portal.restrictedTraverse('@@manage-layouts-from-editor')()
         self.assertTrue('my-layout.html' not in user_directory.listDirectory())
@@ -110,7 +110,7 @@ class TestManageLayouts(unittest.TestCase):
         # now try to delete user layout
         self.request.form.update({
             'action': 'deletelayout',
-            'layout': 'custom/user-layouts/{}/my-layout.html'.format(TEST_USER_ID)
+            'layout': 'custom/user-layouts/{0:s}/my-layout.html'.format(TEST_USER_ID)  # noqa
         })
         self.portal.restrictedTraverse('@@manage-layouts-from-editor')()
         self.assertTrue('my-layout.html' not in user_directory.listDirectory())

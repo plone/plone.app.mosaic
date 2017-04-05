@@ -7,7 +7,6 @@ from plone.app.testing import PLONE_FIXTURE
 from plone.app.testing import PloneSandboxLayer
 from plone.app.testing import PloneWithPackageLayer
 from plone.testing import z2
-from zope.configuration import xmlconfig
 
 import plone.app.mosaic
 
@@ -27,8 +26,7 @@ class PloneAppMosaicDexterityLayer(PloneSandboxLayer):
         self.loadZCML(package=plone.app.contenttypes)
 
         import plone.app.mosaic
-        xmlconfig.file('configure.zcml', plone.app.mosaic,
-                       context=configurationContext)
+        self.loadZCML(package=plone.app.mosaic)
 
     def setUpPloneSite(self, portal):
         super(PloneAppMosaicDexterityLayer, self).setUpPloneSite(portal)

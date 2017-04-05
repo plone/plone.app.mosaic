@@ -25,6 +25,7 @@ import os
 import pkg_resources
 import re
 
+
 NSMAP = {'metal': 'http://namespaces.zope.org/metal'}
 slotsXPath = etree.XPath("//*[@data-slots]")
 
@@ -107,7 +108,7 @@ def wrap_append_prepend_slots(node, data_slots):
     wrappers, prepends, appends = parse_data_slots(data_slots)
 
     for panelId in wrappers:
-        slot = etree.Element('{%s}%s' % (NSMAP['metal'], panelId),
+        slot = etree.Element('{{{0:s}}}{1:s}'.format(NSMAP['metal'], panelId),
                              nsmap=NSMAP)
         slot.attrib['define-slot'] = panelId
         slot_parent = node.getparent()
@@ -116,13 +117,13 @@ def wrap_append_prepend_slots(node, data_slots):
         slot_parent.insert(slot_parent_index, slot)
 
     for panelId in prepends:
-        slot = etree.Element('{%s}%s' % (NSMAP['metal'], panelId),
+        slot = etree.Element('{{{0:s}}}{1:s}'.format(NSMAP['metal'], panelId),
                              nsmap=NSMAP)
         slot.attrib['define-slot'] = panelId
         node.insert(0, slot)
 
     for panelId in appends:
-        slot = etree.Element('{%s}%s' % (NSMAP['metal'], panelId),
+        slot = etree.Element('{{{0:s}}}{1:s}'.format(NSMAP['metal'], panelId),
                              nsmap=NSMAP)
         slot.attrib['define-slot'] = panelId
         node.append(slot)
@@ -165,7 +166,7 @@ def cook_layout(layout, ajax):
     if not ajax and head is not None:
         for name in ['top_slot', 'head_slot',
                      'style_slot', 'javascript_head_slot']:
-            slot = etree.Element('{%s}%s' % (NSMAP['metal'], name),
+            slot = etree.Element('{{{0:s}}}{1:s}'.format(NSMAP['metal'], name),
                                  nsmap=NSMAP)
             slot.attrib['define-slot'] = name
             head.append(slot)
@@ -298,11 +299,11 @@ class MainTemplate(BrowserView):
         # Merge macros to provide fallback macros form legacy main_template
         macros = {}
         for template in [self.main_template, self.template]:
-            if hasattr(template.macros, 'names'):
+            try:
                 # Chameleon template macros
                 for name in template.macros.names:
                     macros[name] = template.macros[name]
-            else:
+            except AttributeError:
                 # Legacy template macros
                 for name, macro in template.macros.items():
                     macros[name] = Macro(macro)

@@ -1,6 +1,7 @@
-from Products.CMFCore.utils import getToolByName
+# -*- coding: utf-8 -*-
 from plone.app.blocks.layoutbehavior import ILayoutAware
 from plone.dexterity.browser import add
+from Products.CMFCore.utils import getToolByName
 
 
 class MosaicDefaultAddForm(add.DefaultAddForm):
@@ -48,7 +49,7 @@ class MosaicDefaultAddForm(add.DefaultAddForm):
         # only other way would be override a bunch of code I do not
         # feel very comfortable overridding
         if self.immediate_view is not None:
-            return '{}/@@edit'.format(
+            return '{0:s}/@@edit'.format(
                 '/'.join(self.immediate_view.split('/')[:-1]))
         else:
             return self.context.absolute_url()

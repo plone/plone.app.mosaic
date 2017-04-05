@@ -5,12 +5,14 @@ from plone.app.blocks.layoutbehavior import ILayoutBehaviorAdaptable
 from plone.app.blocks.resource import ContentLayoutTraverser
 from plone.app.blocks.utils import resolveResource
 from plone.app.content.browser.interfaces import IFolderContentsView
+from plone.app.content.browser.selection import DefaultViewSelectionView
 from plone.app.contentmenu.interfaces import IContentMenuItem
 from plone.app.contentmenu.menu import DisplaySubMenuItem
 from plone.app.mosaic.interfaces import _
 from plone.app.mosaic.interfaces import IMosaicLayer
 from plone.dexterity.browser.view import DefaultView
 from plone.memoize import view
+from plone.protect.utils import addTokenToUrl
 from Products.CMFDynamicViewFTI.interfaces import ISelectableBrowserDefault
 from Products.CMFPlone.utils import parent
 from urllib import quote
@@ -25,8 +27,6 @@ from zope.interface import implementer
 from zope.schema.interfaces import IVocabularyFactory
 from zope.traversing.interfaces import ITraversable
 from zope.traversing.namespace import SimpleHandler
-from plone.protect.utils import addTokenToUrl
-from plone.app.content.browser.selection import DefaultViewSelectionView
 
 import logging
 
@@ -245,8 +245,8 @@ class DisplayLayoutMenu(BrowserMenu):
             if term.value in folder_methods:
                 is_selected = term.value == folder_layout
                 id_ = term.value.split('++')[-1]
-                actionUrl = '%s/selectViewTemplate?templateId=%s' % (
-                    folder_url, quote(term.value),),
+                actionUrl = '{0:s}/selectViewTemplate?templateId={1:s}'.format(
+                    folder_url, quote(term.value))
                 actionUrl = addTokenToUrl(actionUrl, request)
                 folder_results.append({
                     'title': term.title,
@@ -273,8 +273,8 @@ class DisplayLayoutMenu(BrowserMenu):
             if term.value in context_methods:
                 is_selected = term.value == context_layout
                 id_ = term.value.split('++')[-1]
-                actionUrl = '%s/selectViewTemplate?templateId=%s' % (
-                    context_url, quote(term.value),)
+                actionUrl = '{0:s}/selectViewTemplate?templateId={1:s}'.format(
+                    context_url, quote(term.value))
                 actionUrl = addTokenToUrl(actionUrl, request)
                 context_results.append({
                     'title': term.title,

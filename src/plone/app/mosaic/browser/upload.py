@@ -99,7 +99,7 @@ class MosaicUploadView(BrowserView):
                 sc = ''
             else:
                 sc = str(count)
-            newid = "copy%s_of_%s" % (sc, id)
+            newid = "copy{0:s}_of_{1:s}".format(sc, id)
             if context.check_id(newid) is None \
                     and getattr(context, newid, None) is None:
                 return newid
