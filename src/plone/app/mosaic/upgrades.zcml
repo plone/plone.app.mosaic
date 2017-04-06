@@ -256,14 +256,6 @@
       handler=".upgrades.upgrade_to_1_1"
       />
 
-  <genericsetup:upgradeStep
-      profile="plone.app.mosaic:default"
-      source="5016"
-      destination="5017"
-      title="Upgrade to 2.0.0rc1"
-      handler=".upgrades.upgrade_to_2_0rc1"
-      />
-
   <genericsetup:registerProfile
       name="to_5017"
       title="Upgrade profile to 5017 (2.0.0rc1)"
@@ -275,10 +267,10 @@
 
   <genericsetup:upgradeStep
       profile="plone.app.mosaic:default"
-      source="5017"
-      destination="5018"
-      title="Upgrade to 2.0.0rc3"
-      handler=".upgrades.upgrade_to_2_0rc3"
+      source="5016"
+      destination="5017"
+      title="Upgrade to 2.0.0rc1"
+      handler=".upgrades.upgrade_to_2_0rc1"
       />
 
   <genericsetup:registerProfile
@@ -288,6 +280,14 @@
       directory="profiles/upgrades/to_5018"
       for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
       provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
+  <genericsetup:upgradeStep
+      profile="plone.app.mosaic:default"
+      source="5017"
+      destination="5018"
+      title="Upgrade to 2.0.0rc3"
+      handler=".upgrades.upgrade_to_2_0rc3"
       />
 
   <genericsetup:registerProfile
@@ -305,6 +305,23 @@
       destination="5019"
       title="Fix default layout definitions to be ASCII strings"
       handler=".upgrades.upgrade_to_2_0rc4"
+      />
+
+  <genericsetup:registerProfile
+      name="to_5020"
+      title="Upgrade profile to 5020 (2.0.0rc5)"
+      description=""
+      directory="profiles/upgrades/to_5020"
+      for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
+  <genericsetup:upgradeStep
+      profile="plone.app.mosaic:default"
+      source="5019"
+      destination="5020"
+      title="Fix grid and row styles for anonymous"
+      handler=".upgrades.upgrade_to_2_0rc5"
       />
 
 </configure>

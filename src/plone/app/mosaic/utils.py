@@ -44,7 +44,7 @@ def _getWidgetName(field, widgets, request):
         factory = factory.widget_factory
     elif not isinstance(factory, type):
         factory = factory.__class__
-    return '%s.%s' % (factory.__module__, factory.__name__)
+    return '{0:s}.{1:s}'.format(factory.__module__, factory.__name__)
 
 
 def getPersistentResourceDirectory(id_, container=None):
@@ -91,7 +91,7 @@ def extractFieldInformation(schema, context, request, prefix):
                 continue
             if not IOmittedField.providedBy(field):
                 yield {
-                    'id': "%s.%s" % (schema.__identifier__, name),
+                    'id': '{0:s}.{1:s}'.format(schema.__identifier__, name),
                     'name': prefix + name,
                     'title': schema[name].title,
                     'widget': _getWidgetName(schema[name], widgets, request),

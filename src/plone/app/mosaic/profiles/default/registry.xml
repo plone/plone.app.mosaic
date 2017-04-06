@@ -1007,7 +1007,17 @@
            interface='Products.CMFPlone.interfaces.IBundleRegistry'>
     <value key="jscompilation">++plone++mosaic/mosaic-grid.js</value>
     <value key="csscompilation">++plone++mosaic/mosaic-grid.css</value>
-    <value key="last_compilation">2016-09-06 00:00:00</value>
+    <value key="last_compilation">2017-04-05 00:00:00</value>
+    <value key="compile">False</value>
+    <value key="merge_with">default</value>
+    <value key="enabled">True</value>
+  </records>
+
+  <records prefix="plone.bundles/mosaic-styles"
+           interface='Products.CMFPlone.interfaces.IBundleRegistry'>
+    <value key="jscompilation">++plone++mosaic/mosaic-styles.js</value>
+    <value key="csscompilation">++plone++mosaic/mosaic-styles.css</value>
+    <value key="last_compilation">2017-04-05 00:00:00</value>
     <value key="compile">False</value>
     <value key="merge_with">default</value>
     <value key="enabled">True</value>
@@ -1020,7 +1030,7 @@
     </value>
     <value key="jscompilation">++plone++mosaic/plone-mosaic.js</value>
     <value key="csscompilation">++plone++mosaic/plone-mosaic.css</value>
-    <value key="last_compilation">2014-08-14 00:00:00</value>
+    <value key="last_compilation">2017-04-05 00:00:00</value>
     <value key="compile">True</value>
     <value key="enabled">True</value>
     <value key="expression">python: member is not None</value>
@@ -1046,7 +1056,7 @@
     </value>
     <value key="jscompilation">++plone++mosaic/layouts-editor.js</value>
     <value key="csscompilation">++plone++mosaic/layouts-editor.css</value>
-    <value key="last_compilation">2014-08-14 00:00:00</value>
+    <value key="last_compilation">2017-04-05 00:00:00</value>
     <value key="compile">True</value>
     <value key="enabled">False</value>
     <value key="depends">plone-logged-in</value>

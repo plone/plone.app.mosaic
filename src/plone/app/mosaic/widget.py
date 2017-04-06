@@ -83,8 +83,10 @@ class LayoutWidget(BaseWidget, TextAreaWidget):
             return getattr(getattr(
                 self.form, '__parent__', self.form), 'portal_type', None)
         else:
-            if hasattr(self.context, 'portal_type'):
+            try:
                 return self.context.portal_type
+            except AttributeError:
+                pass
         return None
 
     def get_options(self):

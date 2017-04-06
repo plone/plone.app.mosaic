@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
-from plone.app.testing import TEST_USER_ID
-from plone.app.testing import setRoles
-from plone.app.testing import TEST_USER_NAME
+from plone.app.mosaic.testing import PLONE_APP_MOSAIC_DEXTERITY_INTEGRATION
 from plone.app.testing import login
+from plone.app.testing import setRoles
+from plone.app.testing import TEST_USER_ID
+from plone.app.testing import TEST_USER_NAME
 from Products.CMFCore.utils import getToolByName
 from zope.component import queryMultiAdapter
-from plone.app.mosaic.testing import PLONE_APP_MOSAIC_DEXTERITY_INTEGRATION
 
 import unittest
 

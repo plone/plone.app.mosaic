@@ -201,3 +201,10 @@ def upgrade_to_2_0rc4(context):
         PROFILE_ID.replace('default', 'to_5019'),
         'plone.app.registry'
     )
+
+
+def upgrade_to_2_0rc5(context):
+    context.runImportStepFromProfile(
+        PROFILE_ID.replace('default', 'to_5020'),
+        'plone.app.registry'
+    )

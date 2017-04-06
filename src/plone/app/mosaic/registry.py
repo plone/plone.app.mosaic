@@ -81,7 +81,7 @@ class MosaicRegistry(object):
 
         for action_type in ['primary_actions', 'secondary_actions']:
             config[action_type] = []
-            key = '%s.%s' % (self.prefix, action_type)
+            key = '{0:s}.{1:s}'.format(self.prefix, action_type)
             actions = settings.get(key, {}).items()
             actions.sort(cmp=weightedSort)
             for key, action in actions:
@@ -111,14 +111,15 @@ class MosaicRegistry(object):
                 config[action_type][index]['actions'].append(action)
 
         # Default Available Actions
-        key = '%s.default_available_actions' % self.prefix
+        key = '{0:s}.default_available_actions'.format(self.prefix)
         config['default_available_actions'] = settings.get(key, [])
 
         return config
 
     def mapTilesCategories(self, settings, config):
         config['tiles'] = config.get('tiles', [])
-        categories = settings.get("%s.tiles_categories" % self.prefix, {})
+        categories = settings.get(
+            '{0:s}.tiles_categories'.format(self.prefix), {})
         sorted_categories = [(x, categories[x]) for x in categories.keys()]
         sorted_categories.sort(cmp=weightedSort)
         for key, category in sorted_categories:
@@ -128,7 +129,8 @@ class MosaicRegistry(object):
 
     def mapFormatCategories(self, settings, config):
         config['formats'] = config.get('formats', [])
-        categories = settings.get("%s.format_categories" % self.prefix, {})
+        categories = settings.get(
+            '{0:s}.format_categories'.format(self.prefix), {})
         sorted_categories = [(x, categories[x]) for x in categories.keys()]
         sorted_categories.sort(cmp=weightedSort)
         for key, category in sorted_categories:
@@ -137,7 +139,7 @@ class MosaicRegistry(object):
         return config
 
     def mapFormats(self, settings, config):
-        formats = settings.get('%s.formats' % self.prefix, {})
+        formats = settings.get('{0:s}.formats'.format(self.prefix), {})
         for key, format in formats.items():
             index = getCategoryIndex(config['formats'], format['category'])
             if index is not None:
@@ -150,7 +152,8 @@ class MosaicRegistry(object):
     def mapTinyMCEActionCategories(self, settings, config):
         config['richtext_toolbar'] = config.get('richtext_toolbar', [])
         config['richtext_contextmenu'] = config.get('richtext_contextmenu', [])
-        categories = settings.get("%s.tinymce_categories" % self.prefix, {})
+        categories = settings.get(
+            '{0:s}.tinymce_categories'.format(self.prefix), {})
         sorted_categories = [(x, categories[x]) for x in categories.keys()]
         sorted_categories.sort(cmp=weightedSort)
         for key, category in sorted_categories:
@@ -160,7 +163,8 @@ class MosaicRegistry(object):
         return config
 
     def mapTinyMCEToolbarFormats(self, settings, config):
-        actions = settings.get('%s.richtext_toolbar' % self.prefix, {})
+        actions = settings.get(
+            '{0:s}.richtext_toolbar'.format(self.prefix), {})
         for key, action in actions.items():
             index = getCategoryIndex(config['richtext_toolbar'], action['category'])  # noqa
             if index is not None:
@@ -170,7 +174,8 @@ class MosaicRegistry(object):
         return config
 
     def mapTinyMCEContextMenuFormats(self, settings, config):
-        actions = settings.get('%s.richtext_contextmenu' % self.prefix, {})
+        actions = settings.get(
+            '{0:s}.richtext_contextmenu'.format(self.prefix), {})
         for key, action in actions.items():
             index = getCategoryIndex(config['richtext_contextmenu'], action['category'])  # noqa
             if index is not None:
@@ -206,7 +211,8 @@ class MosaicRegistry(object):
     #    return config
 
     def mapTiles(self, settings, config, tile_category):
-        tiles = settings.get('%s.%s' % (self.prefix, tile_category), {})
+        tiles = settings.get(
+            '{0:s}.{1:s}'.format(self.prefix, tile_category), {})
         for key, tile in tiles.items():
             if 'category' not in tile:
                 continue
@@ -239,16 +245,15 @@ class MosaicRegistry(object):
         case no interaction is needed
         """
         actions = settings.get(
-            '%s.widget_actions.%s.actions' % (
-                cls.prefix, widget_name.replace('.', '_'),
-            ),
+            '{0:s}.widget_actions.{1:s}.actions'.format(
+                cls.prefix, widget_name.replace('.', '_')),
             default=None
         )
         if actions is not None:
             return actions
         return settings.get(
-            cls.prefix + '.default_widget_actions',
-            default=[],
+            '{0:s}.default_widget_actions'.format(cls.prefix),
+            default=list()
         )
 
     def mapFieldTiles(self, settings, config, kwargs):
@@ -263,8 +268,8 @@ class MosaicRegistry(object):
         prefixes = []
 
         registry_omitted = settings.get(
-            '%s.omitted_fields.%s' % (self.prefix,
-                                      args['type'].replace('.', '_')),
+            '{0:s}.omitted_fields.{1:s}'.format(
+                self.prefix, args['type'].replace('.', '_')),
             default=None,
         )
         if registry_omitted is None:
@@ -287,9 +292,8 @@ class MosaicRegistry(object):
                     label = translate(fieldconfig['title'],
                                       context=args['request'])
                     tileconfig = {
-                        'id': 'formfield-form-widgets-%s' % (
-                            fieldconfig['name'],
-                        ),
+                        'id': 'formfield-form-widgets-{0:s}'.format(
+                            fieldconfig['name']),
                         'name': fieldconfig['name'],
                         'label': label,
                         'category': 'fields',

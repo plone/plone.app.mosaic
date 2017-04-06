@@ -4,6 +4,7 @@ from plone.app.mosaic.testing import PLONE_APP_MOSAIC_INTEGRATION
 from plone.app.mosaic.widget import LayoutWidget
 from z3c.form.interfaces import IFieldWidget
 from zope.component import getMultiAdapter
+
 import unittest
 
 

@@ -4,6 +4,9 @@ Changelog
 2.0.0rc5 (unreleased)
 ---------------------
 
+- Fix grid and row styles for anonymous
+  [agitator]
+
 - Add support for optiona ``permission``-key in content layout manifests
   [datakurre]
 
