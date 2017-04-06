@@ -1,8 +1,8 @@
 Changelog
 =========
 
-2.0.0rc5 (unreleased)
----------------------
+2.0rc5 (2017-04-06)
+-------------------
 
 WARNING: Upgrading from plone.app.mosaic 1.x will make pages with mosaic layout
 look empty until plone.app.blocks has been upgraded (upgrade steps been run).
