@@ -4,11 +4,20 @@ Changelog
 2.0.0rc5 (unreleased)
 ---------------------
 
-- Fix grid and row styles for anonymous
-  [agitator]
+WARNING: Upgrading from plone.app.mosaic 1.x will make pages with mosaic layout
+look empty until plone.app.blocks has been upgraded (upgrade steps been run).
+After upgrade, you may need to manually tweak Plone registry to only display
+the desired tiles.
+
+New features:
 
 - Add support for optiona ``permission``-key in content layout manifests
   [datakurre]
+
+Bug fixes:
+
+- Fix grid and row styles for anonymous
+  [agitator]
 
 - Fix issue where global TinyMCE setting for paste_as_text was not
   respected
@@ -16,9 +25,6 @@ Changelog
 
 - Fix issue where Mosaic Editor was activated on babel edit view
   [datakurre]
-
-- Remove unneeded unittest2 imports
-  [tomgross]
 
 - Fix issue where Mosaic transforms did fire for ESI requests for ESI
   tile helper views
@@ -32,14 +38,14 @@ Changelog
   when tile was deleted
   [datakurre]
 
+Other changes:
+
+- Remove unneeded unittest2 imports
+  [tomgross]
+
 
 2.0.0rc4 (2016-12-13)
 ---------------------
-
-WARNING: Upgrading from plone.app.mosaic 1.x will make pages with mosaic layout
-look empty until plone.app.blocks has been upgraded (upgrade steps been run).
-After upgrade, you may need to manually tweak Plone registry to only display
-the desired tiles.
 
 New features:
 
