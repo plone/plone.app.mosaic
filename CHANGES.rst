@@ -1,6 +1,12 @@
 Changelog
 =========
 
+2.0rc6 (unreleased)
+-------------------
+
+- Nothing changed yet.
+
+
 2.0rc5 (2017-04-06)
 -------------------
 
