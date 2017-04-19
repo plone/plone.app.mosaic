@@ -786,7 +786,8 @@ define([
         $.ajax({
           url: dataUrl,
           method: 'POST',
-          success: function (value) {
+          success: function (value, status, xhr) {
+            dataUrl = xhr.getResponseHeader('X-Tile-Url');
             self.$el.removeClass('mosaic-tile-loading');
 
             // Parse
