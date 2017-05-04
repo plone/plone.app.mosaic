@@ -48,6 +48,12 @@
         </div>
         <div class="tab-content show-hide-layouts">
           <h2 class="tab" id="showhide">Show/Hide Content Layouts</h2>
+          <p class="discreet">
+            Hide or reveal global content layouts on layout selection menus. 
+            Authorized users will always be able to select their own layouts, 
+            but the availability of global layouts can be toggled on and off
+            using this form.
+          </p>          
         </div>
       </div>
     </div>
