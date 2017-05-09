@@ -4,7 +4,8 @@ Changelog
 2.0rc6 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Add simple descriptions for all the tiles listed in the docs.
+  [cguardia]
 
 
 2.0rc5 (2017-04-06)

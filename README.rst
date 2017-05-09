@@ -91,6 +91,8 @@ latest plone.app.mosaic is::
     plone.app.blocks = 4.0.6
     plone.app.drafts = 1.1.1
     plone.app.mosaic = 2.0rc5
+    plone.formwidget.multifile = 2.0
+    plone.jsonserializer = 0.9.3
 
 After the add-on activation, the new content layout and editor support can be
 enabled for any content type by enabling behaviors **Layout support** and
