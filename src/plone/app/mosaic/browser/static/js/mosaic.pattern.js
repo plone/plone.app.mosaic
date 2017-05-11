@@ -23,7 +23,7 @@
 window.DEBUG = true;
 require([
   'jquery',
-  'mockup-patterns-base',
+  'pat-base',
   'mosaic-url/mosaic.core',
   'mosaic-url/mosaic.layout',
   'mosaic-url/mosaic.toolbar',

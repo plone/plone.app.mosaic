@@ -1393,7 +1393,7 @@
       <element>underscore</element>
       <element>pat-logger</element>
       <element>pat-registry</element>
-      <element>mockup-patterns-base</element>
+      <element>pat-base</element>
       <element>mockup-patterns-modal</element>
       <element>mockup-patterns-tinymce</element>
       <element>mockup-patterns-relateditems</element>
@@ -1417,7 +1417,7 @@
       <element>underscore</element>
       <element>pat-logger</element>
       <element>pat-registry</element>
-      <element>mockup-patterns-base</element>
+      <element>pat-base</element>
       <element>mockup-patterns-relateditems</element>
       <element>mockup-utils</element>
     </value>

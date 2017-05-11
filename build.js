@@ -12,6 +12,7 @@
         'pat-logger': 'empty:',
         'pat-registry': 'empty:',
         'mockup-patterns-base': 'empty:',
+        'pat-base': 'empty:',
         'mockup-patterns-modal': 'empty:',
         'mockup-patterns-tinymce': 'empty:',
         'mockup-patterns-relateditems': 'empty:',
