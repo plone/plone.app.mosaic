@@ -78,9 +78,12 @@ define([
     var that = this;
     that.tinymce = null;
     that.$el = $(el);
-    if(!that.$el.is('.mosaic-tile')){
-      // XXX we need to get the outer-most container of the node here always
-      that.$el = that.$el.parents('.mosaic-tile');
+    if(!that.$el.is('.mosaic-tile') && !that.$el.is('.mosaic-inlinetile')){
+      that.$el.parents('.mosaic-inlinetile');
+      if(!that.$el.is('.mosaic-inlinetile')) {
+        // XXX we need to get the outer-most container of the node here always
+        that.$el = that.$el.parents('.mosaic-tile');
+      }
     }
     that.focusCheckCount = 0;
 
@@ -428,7 +431,7 @@ define([
       }
 
       // Init rich text
-      if (this.isRichText()) {
+      if (this.isRichText() && !this.$el.is('.mosaic-inlinetile')) {
         // Init rich editor
         this.setupWysiwyg();
       }
@@ -759,8 +762,12 @@ define([
             // Add head tags
             $.mosaic.addHeadTags(href, value);
             var tileHtml = value.find('.temp_body_tag').html();
+            value.find('.mosaic-inlinetile').each(function() {
+              // var inlineTile = new Tile($(this));
+              // inlineTile.initializeContent();
+              // inlineTile.initialize();
+            });
             that.fillContent(tileHtml, original_url);
-
             var tiletype = that.getType();
             if(tiletype === 'plone.app.standardtiles.html'){
               // a little gymnastics to make wysiwyg work here
@@ -793,6 +800,7 @@ define([
               that.setupWysiwyg();
               _check();
             }
+
           },
           error: function(){
             that.$el.removeClass('mosaic-tile-loading');
@@ -810,7 +818,8 @@ define([
       var $content;
       if($el.length > 0){
         // only available on initialization
-        $el.parent().html(html);
+        var parent = $el.parent();
+        parent.html(html);
         $content = this.getContentEl();
       }else{
         // otherwise, we use content to fill html
@@ -1008,6 +1017,16 @@ define([
       // Get element
       var $content = that.$el.find('.mosaic-tile-content');
 
+      $content.find('.mosaic-inlinetile').each(function() {
+          var inlineTile = new Tile($(this));
+          inlineTile.initialize();
+          inlineTile.initializeContent();
+          inlineTile.$el.addClass("mceNonEditable");
+          var dataTile = inlineTile.getDataTileEl();
+          dataTile.append(inlineTile.getHtmlContent())
+      })
+
+
       // Remove existing pattern
       try{
         $content.data("pattern-tinymce").destroy();
@@ -1118,6 +1137,7 @@ define([
         body_id: id,
         selector: "#" + id,
         inline: true,
+        verify_html: false,
         paste_as_text: paste_as_text,
         fixed_toolbar_container: '#' + $editorContainer.attr('id'),
         theme_advanced_toolbar_align: "right",

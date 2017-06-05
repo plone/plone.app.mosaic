@@ -429,13 +429,22 @@ define([
         // Hide all dividers
         $(".mosaic-selected-divider", $.mosaic.document)
           .removeClass("mosaic-selected-divider");
+        $(".mosaic-tile-inline-divider", $.mosaic.document)
+            .removeClass("mosaic-tile-inline-divider");
 
         // Don't show dividers if above original or floating tile
         if (($(this).hasClass("mosaic-original-tile") === false) &&
           ($(this).hasClass("mosaic-tile-align-left") === false) &&
           ($(this).hasClass("mosaic-tile-align-right") === false)) {
 
-          // Get direction
+          //Check if hovering over a rich text tile
+          if ($(this).hasClass("mosaic-plone.app.standardtiles.html-tile") &&
+            $(this).mosaicIsDroppingInline(e)) {
+              $(this).addClass("mosaic-tile-inline-divider")
+          }
+
+          else {
+              // Get direction
           var dir = $(this).mosaicGetDirection(e);
           var divider = $(this).children(".mosaic-divider-" + dir);
 
@@ -461,6 +470,9 @@ define([
 
           // Show divider
           divider.addClass("mosaic-selected-divider");
+          }
+
+
         }
       }
     };
@@ -536,6 +548,9 @@ define([
       obj.find('.mosaic-tile').each(function(){
         var tile = new Tile(this);
         tile.initialize();
+        // tile.$el.find('.mosaic.tile').each(function() {
+        //     alert('moi');
+        //   });
         tile.scanRegistry();
       });
       obj.find('.mosaic-tile').mosaicAddDrag();
@@ -896,6 +911,18 @@ define([
     // True if new tile is inserted
     var new_tile = $(".mosaic-helper-tile-new", $.mosaic.document).length > 0;
     var original_tile = $(".mosaic-original-tile", $.mosaic.document);
+
+    var richText = $(".mosaic-tile-inline-divider", $.mosaic.document);
+    if (richText) {
+        richText.removeClass("mosaic-tile-inline-divider");
+        richText.find(".mosaic-rich-text")
+            .append(
+                original_tile.clone(true)
+                .removeClass("mosaic-original-tile")
+                .remove(".mosaic-divider-dot")
+                .addClass("mosaic-new-tile mceNonEditable mosaic-inlinetile")
+            );
+    }
 
     // If divider is not found or not sane drop, act like esc is pressed
     if (divider.length === 0 || drop.hasClass('mosaic-helper-tile')) {
@@ -1480,6 +1507,21 @@ define([
       }
     });
   };
+
+    /**
+     *
+     * @id jQuery.mosaicIsDroppingInline
+     * @param {Object} e
+     * @return {Boolean} True if mouse cursor is over the center of rich text tile.
+     */
+  $.fn.mosaicIsDroppingInline = function (e) {
+      var width = parseFloat($(this).width());
+      var height = parseFloat($(this).height());
+      var x = parseFloat((e.pageX - $(this).offset().left) - (width / 2 ));
+      var y = parseFloat((e.pageY - $(this).offset().top) - (height / 2));
+
+      return Math.abs(x) < width * 0.25 && Math.abs(y) < height * 0.25;
+  }
 
   /**
    * Get the direction based on the tile size and relative x and y coords of the cursor
