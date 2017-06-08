@@ -139,9 +139,9 @@ define([
         });
 
         // Hide overlay
-        if ($.mosaic.overlay.app) {
-          $.mosaic.overlay.app.hide();
-          // $.mosaic.overlay.$el.trigger('destroy.modal.patterns');;
+        if ($.mosaic.modal) {
+          $.mosaic.modal.hide();
+          // $.mosaic.modal.$el.trigger('destroy.modal.patterns');;
         }
       }
     };
@@ -1581,9 +1581,9 @@ define([
   $.mosaic.addAppTile = function (type, url /*, id */) {
 
     // Close overlay
-    if ($.mosaic.overlay.app) {
-      $.mosaic.overlay.app.hide();
-      // $.mosaic.overlay.trigger('destroy.modal.patterns');
+    if ($.mosaic.modal) {
+      $.mosaic.modal.hide();
+      // $.mosaic.modal.trigger('destroy.modal.patterns');
     }
 
     // Get value
@@ -1633,7 +1633,10 @@ define([
   $.mosaic.editAppTile = function (url) {
 
     // Close overlay
-    $.mosaic.overlay.close();
+    if ($.mosaic.modal) {
+      $.mosaic.modal.hide();
+      // $.mosaic.modal.trigger('destroy.modal.patterns');
+    }
 
     // Focus on current window
     window.parent.focus();

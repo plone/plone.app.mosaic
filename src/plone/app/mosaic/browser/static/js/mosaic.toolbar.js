@@ -511,7 +511,6 @@ define([
       // Trigger inline validation draft auto save
       var lastChange = (new Date()).getTime();
       $(this).on('selectedtilechange', function () {
-        if ($.mosaic.overlay.app) { return; }
         if ($.mosaic.saving) { return; }  // skip when saving
         if ($.mosaic.modal) { return; }  // skip when there's modal
         if ((new Date()).getTime() - lastChange > 6000) {

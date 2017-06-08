@@ -130,6 +130,8 @@ define([
 
     // Expand the overlay
     $('.mosaic-overlay').show().addClass('active');
+    $('.mosaic-overlay .mosaic-modal').addClass('plone-modal');
+    $('.mosaic-overlay .mosaic-modal').show();
     $('.mosaic-overlay-blocker').show();
     $('body').addClass('plone-modal-open');
 

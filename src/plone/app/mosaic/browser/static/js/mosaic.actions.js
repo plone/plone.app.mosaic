@@ -502,44 +502,44 @@ define([
               authenticator = $value.find('[name="_authenticator"]').val();
               // Open add form in modal when requires user input
               modalFunc = function(html) {
-                $.mosaic.overlay.app = new Modal($('.mosaic-toolbar'), {
+                $.mosaic.modal = new Modal($('.mosaic-toolbar'), {
                   html: html,
                   loadLinksWithinModal: true,
                   buttons: '.formControls > input[type="submit"], .actionButtons > input[type="submit"]'
                 });
-                $.mosaic.overlay.app.$el.off('after-render');
-                $.mosaic.overlay.app.on(
+                $.mosaic.modal.$el.off('after-render');
+                $.mosaic.modal.on(
                   'after-render',
                   function(event) {
                     /* Remove field errors since the user has not actually
                        been able to fill out the form yet */
                     if(initial){
-                      $('.field.error', $.mosaic.overlay.app.$modal)
+                      $('.field.error', $.mosaic.modal.$modal)
                         .removeClass('error');
-                      $('.fieldErrorBox,.portalMessage', $.mosaic.overlay.app.$modal).remove();
+                      $('.fieldErrorBox,.portalMessage', $.mosaic.modal.$modal).remove();
                       initial = false;
                     }
 
                     $('input[name*="cancel"]',
-                      $.mosaic.overlay.app.$modal)
+                      $.mosaic.modal.$modal)
                       .off('click').on('click', function() {
                         // Close overlay
-                        $.mosaic.overlay.app.hide();
-                        $.mosaic.overlay.app = null;
+                        $.mosaic.modal.hide();
+                        $.mosaic.modal = null;
                     });
                   }
                 );
-                $.mosaic.overlay.app.show();
-                $.mosaic.overlay.app.$el.off('formActionSuccess');
-                $.mosaic.overlay.app.on(
+                $.mosaic.modal.show();
+                $.mosaic.modal.$el.off('formActionSuccess');
+                $.mosaic.modal.on(
                   'formActionSuccess',
                   function (event, response, state, xhr) {
                     var tileUrl = xhr.getResponseHeader('X-Tile-Url');
                     if (tileUrl) {
                       $.mosaic.addAppTileHTML(
                         tile_type, response, tileUrl);
-                      $.mosaic.overlay.app.hide();
-                      $.mosaic.overlay.app = null;
+                      $.mosaic.modal.hide();
+                      $.mosaic.modal = null;
                     }
                   }
                 );

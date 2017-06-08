@@ -641,28 +641,28 @@ define([
 
 
         // Open overlay
-        $.mosaic.overlay.app = new Modal($('.mosaic-toolbar'), {
+        $.mosaic.modal = new Modal($('.mosaic-toolbar'), {
           ajaxUrl: tile_url,
           loadLinksWithinModal: true,
           buttons: '.formControls > input[type="submit"], .actionButtons > input[type="submit"]'
         });
-        $.mosaic.overlay.app.$el.off('after-render');
-        $.mosaic.overlay.app.on('after-render', function(event) {
+        $.mosaic.modal.$el.off('after-render');
+        $.mosaic.modal.on('after-render', function(event) {
           $('input[name*="cancel"]',
-            $.mosaic.overlay.app.$modal)
+            $.mosaic.modal.$modal)
             .off('click').on('click', function() {
               // Close overlay
-              $.mosaic.overlay.app.hide();
-              $.mosaic.overlay.app = null;
+              $.mosaic.modal.hide();
+              $.mosaic.modal = null;
           });
           if($.mosaic.hasContentLayout){
             // not a custom layout, make sure the form knows
-            $('form', $.mosaic.overlay.app.$modal).append($('<input type="hidden" name="X-Tile-Persistent" value="yes" />'));
+            $('form', $.mosaic.modal.$modal).append($('<input type="hidden" name="X-Tile-Persistent" value="yes" />'));
           }
         });
-        $.mosaic.overlay.app.show();
-        $.mosaic.overlay.app.$el.off('formActionSuccess');
-        $.mosaic.overlay.app.on('formActionSuccess', function (event, response, state, xhr, form) {
+        $.mosaic.modal.show();
+        $.mosaic.modal.$el.off('formActionSuccess');
+        $.mosaic.modal.on('formActionSuccess', function (event, response, state, xhr, form) {
           var tileUrl = xhr.getResponseHeader('X-Tile-Url'),
             value = $.mosaic.getDomTreeFromHtml(response);
           if (tileUrl) {
@@ -675,8 +675,8 @@ define([
             that.fillContent(tileHtml, tileUrl);
 
             // Close overlay
-            $.mosaic.overlay.app.hide();
-            $.mosaic.overlay.app = null;
+            $.mosaic.modal.hide();
+            $.mosaic.modal = null;
           }
         });
       } else {
