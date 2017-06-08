@@ -32,7 +32,7 @@ require([
 ], function($, Base) {
   'use strict';
 
-  var Layout = Base.extend({
+  return Base.extend({
     name: 'layout',
     trigger: '.pat-layout',
     parser: 'mockup',
@@ -45,6 +45,7 @@ require([
 
       // Remove Plone Toolbar and its body classes
       $('#edit-bar, .pat-toolbar').remove();
+      $(window).off('resize');
       $body = $('body');
       $body.attr('class').split(' ').forEach(function (className) {
         if (className.indexOf('plone-toolbar') !== -1) {
@@ -58,6 +59,4 @@ require([
       $.mosaic.init({'data': self.options.data});
     }
   });
-
-  return Layout;
 });
