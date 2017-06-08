@@ -81,9 +81,27 @@ define([
           '</div>' +
         '</div>');
 
+      // Destroy possible TinyMCE patterns before DOM move
+      $('.pat-tinymce', $form).each(function () {
+        if ($(this).data('pattern-tinymce')) {
+          try { $(this).data('pattern-tinymce').destroy(); }
+          catch (e) {}
+        }
+      });
+
       $('.plone-modal-header', $modalStructure).append('<h2>' + $h1.text() + '</h2>');
       $('.plone-modal-body', $modalStructure).append($form);
       $(document.body, $.mosaic.document).append($modalStructure);
+
+      // Re-initialize possible TinyMCE patterns after DOM move
+      $('.pat-tinymce', $form).each(function () {
+        if ($(this).data('pattern-tinymce')) {
+          try { $(this).data('pattern-tinymce').init(); }
+          catch (e) {}
+        }
+      });
+      try { $('.pat-textareamimetypeselector').change(); }
+      catch (e) {}
 
       // we don't want to show the original el.
       $el.hide();
