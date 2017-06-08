@@ -356,6 +356,8 @@ define([
   $.mosaic._init = function (content) {
     // Init layout
     $.mosaic._initPanels(content, function() {
+      // Init overlay
+      $('.mosaic-original-content', $.mosaic.document).mosaicOverlay();
 
       // Init toolbar (expects panels been initialized)
       $.mosaic.options.toolbar = $(document.createElement('div'))
@@ -363,7 +365,6 @@ define([
 
       // Signal initial load completed
       $.mosaic.initialized();
-
     });
   };
 
