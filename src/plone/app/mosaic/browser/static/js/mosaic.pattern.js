@@ -28,7 +28,6 @@ require([
   'mosaic-url/mosaic.layout',
   'mosaic-url/mosaic.toolbar',
   'mosaic-url/mosaic.actions',
-  'mosaic-url/mosaic.upload',
   'mosaic-url/mosaic.editor',
   'mosaic-url/mosaic.overlay',
 ], function($, Base) {
