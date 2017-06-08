@@ -104,6 +104,9 @@ define([
       // Check if esc
       if (e.keyCode === 27) {
 
+        // Close overlay if open
+        $.mosaic.overlay.close();
+
         // Check if dragging
         var original_tile = $(".mosaic-original-tile", $.mosaic.document);
         if (original_tile.length > 0) {
