@@ -351,7 +351,8 @@ define([
       obj = $(this);
 
       // Check if block element
-      if (obj.css('display') === 'block') {
+      if (obj.css('display') === 'block' ||
+          obj.css('display') === 'flex') {
 
         // Check if panel or toolbar
         if (!obj.hasClass('mosaic-panel') &&
