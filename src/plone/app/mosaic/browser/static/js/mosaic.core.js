@@ -43,7 +43,7 @@ define([
   'mosaic-url/mosaic.actions'
 ], function ($, logger, _, utils, Modal, Tile, Panel) {
   "use strict";
-  
+
   var log = logger.getLogger('pat-mosaic');
 
   // Define mosaic namespace
@@ -231,7 +231,7 @@ define([
     $.mosaic.initActions();
 
     // Initialize options
-    $.mosaic.options = options.data;  // XXX: Required options not documented 
+    $.mosaic.options = options.data;  // XXX: Required options not documented
     $.mosaic.tileHeadElements = [];
     $.mosaic.hasContentLayout = true;
 
@@ -249,11 +249,11 @@ define([
     if (content) {
       $content = $.mosaic.getDomTreeFromHtml(content);
       if ($content.attr('id') !== "no-layout") {
-        
+
         // Remove unplaced saved helper tiles saved because of a fixed bug
         $content.find('.mosaic-helper-tile-new')
                 .parents('.mosaic-grid-row').remove();
-        
+
         $('body').addClass('mosaic-layout-customized');
         $.mosaic.hasContentLayout = false;
         $.mosaic._init($content);

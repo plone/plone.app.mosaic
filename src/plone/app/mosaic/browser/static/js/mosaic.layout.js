@@ -1146,7 +1146,7 @@ define([
 
     var $tile = $(".mosaic-new-tile", $.mosaic.document);
     $tile.removeClass("mosaic-new-tile");
-    
+
     // Break on cancelled drop
     if ($tile.length === 0) {
       return null;
@@ -1696,7 +1696,7 @@ define([
           .append($($.mosaic.document.createElement("div"))
             .addClass("mosaic-grid-cell mosaic-width-half mosaic-position-leftmost")));
     }
-    
+
     // Add helper
     $($.mosaic.options.panels.find('.mosaic-grid-row:not(.mosaic-empty-row) .mosaic-grid-cell').get(0)).append(
       $($.mosaic.document.createElement("div"))
