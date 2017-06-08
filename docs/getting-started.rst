@@ -183,15 +183,13 @@ like the publishing date or the short name.
        Run keyword and ignore error  Set window size  1024  1200
        Wait Until Element Is Visible  css=.mosaic-toolbar
        Click element  css=.mosaic-button-properties
-       
+       Wait Until Element Is Visible  css=.plone-modal-content
+
        Highlight  css=.autotoc-nav
 
        Capture and crop page screenshot
        ...  _screenshots/mosaic-editor-properties-modal.png
        ...  css=.plone-modal-content
-
-       #...  css=html
-       #.plone-modal-content
        Run keyword and ignore error  Set window size  1024  800
        Click element  css=.mosaic-overlay-ok-button
 
