@@ -758,6 +758,7 @@ define([
    * @param {obj} object
    */
   $.mosaic.encode = function(obj) {
+    if (typeof obj !== 'object') { return ''; }
     var str = [];
     for(var p in obj) {
       if (obj.hasOwnProperty(p)) {
@@ -765,6 +766,24 @@ define([
       }
     }
     return str.join("&");
+  };
+
+  /**
+   * Decode flat JavaScript object from query string
+   *
+   * @param {str} url or querystring
+   */
+  $.mosaic.decode = function(str) {
+    if (typeof str !== 'string') { return {}; }
+    var query = {};
+    var a = (
+      str.indexOf('?') !== -1 ? str.substr(str.indexOf('?') + 1) : str
+    ).split('&');
+    for (var i = 0; i < a.length; i++) {
+        var b = a[i].split('=');
+        query[decodeURIComponent(b[0])] = decodeURIComponent(b[1] || '');
+    }
+    return query;
   };
 
 });

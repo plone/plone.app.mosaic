@@ -217,6 +217,11 @@ class MosaicRegistry(object):
         for key, tile in tiles.items():
             if 'category' not in tile:
                 continue
+            try:
+                tile['default_value'] = json.loads(tile.get('default_value'))
+            except (TypeError, ValueError):
+                # default_value can also be None or string
+                pass
             index = getCategoryIndex(config['tiles'], tile['category'])
             if index is not None:
                 config['tiles'][index]['tiles'].append(tile)

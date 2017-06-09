@@ -463,11 +463,29 @@ define([
         $.mosaic.options.panels.trigger("selectedtilechange");
 
         // Get tile config
-        for (x = 0; x < $.mosaic.options.tiles.length; x += 1) {
-          tile_group = $.mosaic.options.tiles[x];
-          for (y = 0; y < tile_group.tiles.length; y += 1) {
-            if (tile_group.tiles[y].name === tile_type) {
-              tile_config = tile_group.tiles[y];
+        if (tile_type.split(':').length === 3) {
+          tile_index = parseInt(tile_type.split(':')[2], 10);
+          tile_group = parseInt(tile_type.split(':')[1], 10);
+          tile_type = tile_type.split(':')[0];
+          try {
+            if ($.mosaic.options.tiles[tile_group]
+                                .tiles[tile_index].name === tile_type) {
+              tile_config = $.mosaic.options.tiles[tile_group]
+                                            .tiles[tile_index];
+            }
+          } catch (e) {}
+        }
+
+        if (!tile_config) {
+          for (x = 0; x < $.mosaic.options.tiles.length; x += 1) {
+            if (typeof tile_config === 'object') { break; }
+            tile_group = $.mosaic.options.tiles[x];
+            for (y = 0; y < tile_group.tiles.length; y += 1) {
+              if (typeof tile_config === 'object') { break; }
+              if (tile_group.tiles[y].name === tile_type) {
+                tile_config = tile_group.tiles[y];
+                break;
+              }
             }
           }
         }
@@ -481,18 +499,23 @@ define([
             return v.toString(16);
           });
 
-          var url = $.mosaic.options.context_url + '/@@' + tile_type + '/' + uid;
+          url = $.mosaic.options.context_url + '/@@' + tile_type + '/' + uid;
           var html = '<html><body>' + $.mosaic.getDefaultValue(tile_config) + '</body></html>';
           $.mosaic.addAppTileHTML(tile_type, html, url);
         }else if (tile_config.tile_type === 'app') {
           // Load add form form selected tiletype
           var initial = true;
+          if (typeof tile_config['default_value'] === 'object') {
+          }
+          url = ($.mosaic.options.context_url + '/@@add-tile?tiletype=' +
+                     tile_type + '&form.button.Create=Create');
+          if (typeof tile_config['default_value'] === 'object') {
+            url += '&' + $.mosaic.encode(tile_config['default_value']);
+          }
           utils.loading.show();
           $.ajax({
             type: "GET",
-            url: $.mosaic.options.context_url +
-              '/@@add-tile?tiletype=' + tile_type +
-              '&form.button.Create=Create',
+            url: url,
             success: function(value, xhr) {
               utils.loading.hide();
               var $value, action_url, authenticator, modalFunc;

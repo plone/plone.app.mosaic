@@ -205,6 +205,7 @@ define([
 
     if (url) {
       // Normalize
+      url = url.replace(/&amp;/g, '&');
       url = url.replace($.mosaic.options.context_url, './');
       url = url.replace(/^\.\/\//, './');
 
@@ -221,10 +222,10 @@ define([
       } else {
         url = url.replace(/(\?|&)(X-Tile-Persistent=yes)/, '');
       }
-      
+
       // Remove _layouteditor from url
       url = url.replace(/(\?|&)(_layouteditor=true)/, '');  // always last
-      
+
       // Remote trailing ? or & from url
       url = url.replace(/(\?|&)$/, '');
     }
@@ -284,6 +285,7 @@ define([
   Tile.prototype.getConfig = function(){
     var tile_config;
     var tiletype = this.getType();
+    var tileQuery = $.mosaic.decode(this.getUrl());
     // Get tile config
     for (var x = 0; x < $.mosaic.options.tiles.length; x += 1) {
       var found = false;
@@ -313,7 +315,25 @@ define([
         if (tile_group.tiles[y].name === tiletype) {
           tile_config = tile_group.tiles[y];
           found = true;
-          break;
+          // Try to find the best configuration match for tiletype by comparing
+          // the tile config default value with params found from tile URL.
+          if (tile_config.tile_type !== 'field' &&
+              typeof tileQuery === 'object' &&
+              typeof tile_config.default_value === 'object') {
+            // If it walks like a duck and looks like a duck, it is a duck...
+            for (var name in tile_config.default_value) {
+              if (tile_config.default_value.hasOwnProperty(name)) {
+                if (tile_config.default_value[name] !== tileQuery[name]) {
+                  // ... or not
+                  found = false;
+                  break;
+                }
+              }
+            }
+          }
+          if (found === true) {
+            break;
+          }
         }
       }
       if(found){
