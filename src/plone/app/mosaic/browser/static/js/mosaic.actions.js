@@ -444,7 +444,8 @@ define([
       exec: function (source) {
 
         // Local variables
-        var tile_config, tile_group, tile_type, x, y;
+        var tile_config, tile_group, tile_type, tile_index, x, y,
+            tile, url;
 
         // Check if value selected
         if ($(source).val() === "none") {
@@ -572,9 +573,18 @@ define([
               }
             }
           });
-
+        } else if (tile_config.tile_type === 'field') {
+          // Add field tile
+          url = './@@' + tile_config['tile'] + '?field=' + tile_type;
+          if (typeof tile_config.default_value === 'object') {
+            url += '&' + $.mosaic.encode(tile_config.default_value);
+          }
+          tile = $.mosaic.addTile(
+            tile_type, $.mosaic.getDefaultValue(tile_config), url);
+          if (!tile.isRichText()) {
+            tile.initializeContent();
+          }
         } else {
-
           // Add tile
           $.mosaic.addTile(
             tile_type, $.mosaic.getDefaultValue(tile_config));

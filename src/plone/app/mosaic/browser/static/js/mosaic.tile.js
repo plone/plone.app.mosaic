@@ -410,7 +410,12 @@ define([
         body += '          <div class="mosaic-tile-content">\n';
 
         // Calc url
-        var tile_url = './@@plone.app.standardtiles.field?field=' + tiletype;
+        var tile_url = './@@' + tile_config['tile'] + '?field=' + tiletype;
+
+        // Ability to fixed configuration from configured tile default_value
+        if (typeof tile_config.default_value === 'object') {
+          tile_url += '&' + $.mosaic.encode(tile_config.default_value);
+        }
 
         // ability to provide a few additional settings for field tiles
         // can be useful in formatting field tiles in python

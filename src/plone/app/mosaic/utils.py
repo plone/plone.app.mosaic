@@ -103,6 +103,7 @@ def extractFieldInformation(schema, context, request, prefix):
                     'title': schema[name].title,
                     'widget': _getWidgetName(schema[name], widgets, request),
                     'readonly': name in read_only,
+                    'tile': 'plone.app.standardtiles.field'
                 }
 
 
