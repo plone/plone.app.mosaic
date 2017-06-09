@@ -752,4 +752,19 @@ define([
     $(window).queue(queueName, callback);
   };
 
+  /**
+   * Encode flat JavaScript object into query string
+   *
+   * @param {obj} object
+   */
+  $.mosaic.encode = function(obj) {
+    var str = [];
+    for(var p in obj) {
+      if (obj.hasOwnProperty(p)) {
+        str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+      }
+    }
+    return str.join("&");
+  };
+
 });

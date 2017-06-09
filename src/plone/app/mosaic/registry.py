@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import json
 from copy import deepcopy
 from operator import itemgetter
 from plone.app.mosaic.interfaces import IMosaicRegistryAdapter
@@ -257,6 +258,19 @@ class MosaicRegistry(object):
         )
 
     def mapFieldTiles(self, settings, config, kwargs):
+        category_index = getCategoryIndex(config['tiles'], 'fields')
+        if category_index is None:
+            return config
+
+        tiles = settings.get(
+            '{0:s}.{1:s}'.format(self.prefix, 'field_tiles'), {})
+        for key, tile in tiles.items():
+            try:
+                tile['default_value'] = json.loads(tile.get('default_value'))
+            except (TypeError, ValueError):
+                # default_value can also be None or string
+                pass
+
         args = {
             'type': None,
             'context': None,
@@ -301,14 +315,22 @@ class MosaicRegistry(object):
                         'read_only': fieldconfig['readonly'],
                         'favorite': False,
                         'widget': fieldconfig['widget'],
+                        'tile': fieldconfig['tile'],
                         'available_actions': self.actionsForWidget(
                             settings,
                             fieldconfig['widget']
                         ),
                     }
-                    index = getCategoryIndex(config['tiles'], 'fields')
-                    if index is not None:
-                        config['tiles'][index]['tiles'].append(tileconfig)
+                    # Connect explicitly configured field tiles with norm ids
+                    id_ = (
+                        schema.__name__ + '.' + fieldconfig['name']
+                    ).replace('.', '_').replace('-', '_')
+                    for key, tile in tiles.items():
+                        key = key.replace('.', '_').replace('-', '_')
+                        if id_.endswith(key):
+                            tileconfig['tile'] = tile['name']
+                            tileconfig['default_value'] = tile['default_value']
+                    config['tiles'][category_index]['tiles'].append(tileconfig)
         return config
 
     def __call__(self, **kwargs):
