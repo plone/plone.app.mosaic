@@ -36,8 +36,9 @@ define([
   'pat-logger',
   'underscore',
   'pat-registry',
-  'mockup-patterns-modal'
-], function($, Tile, logger, _, Registry, Modal) {
+  'mockup-patterns-modal',
+  'tinymce'
+], function($, Tile, logger, _, Registry, Modal, tinymce) {
   'use strict';
 
 
@@ -394,10 +395,101 @@ define([
         // Remove helper
         $(this).remove();
       });
+      $('.mosaic-inline-drag', $.mosaic.document)
+          .removeClass('mosaic-inline-drag');
     };
 
     // Bind event and add to array
     $($.mosaic.document).off('mouseup').on('mouseup', DocumentMouseup);
+
+    var InlineMouseDown = function(e){
+      // Get element
+      var elm;
+      if (e.target) {
+        elm = e.target;
+      } else if (e.srcElement) {
+        elm = e.srcElement;
+      }
+      $(this).addClass('mosaic-inline-drag');
+    }
+
+    $($.mosaic.document)
+        .off('mousedown', '.mosaic-inline-tile')
+        .on('mousedown', '.mosaic-inline-tile', InlineMouseDown);
+
+
+    var RichTextMouseLeave = function(){
+        if($('.mosaic-inline-drag', $.mosaic.document).length > 0){
+
+            setTimeout(function() {
+
+                var DragMove = function (event) {
+                    var helper = $('.mosaic-helper-tile', $.mosaic.document);
+                    var offset = helper.parents("[data-panel]").offset();
+                    helper.css("top", event.pageY + 3 - offset.top);
+                    helper.css("left", event.pageX + 3 - offset.left);
+                };
+                var DragStop = function () {
+                    var helper = $('.mosaic-helper-tile', $.mosaic.document);
+                    $($.mosaic.document)
+                        .unbind('mousemove', DragMove)
+                        .unbind('mouseup', DragStop);
+
+                    // Handle drag end
+                    helper.mosaicHandleDragEnd();
+                    helper.remove();
+                };
+
+                // var id = selectedTile.find('.mosaic-tile-content').attr('id');
+                // var mce = tinymce.get(id);
+                //
+                // mce.fire('blur');
+                $('.mosaic-selected-tile').removeClass("mosaic-selected-tile")
+                    .children('.mosaic-tile-content').blur();
+
+                //Remove the MCE drag helper.
+                $('.mce-drag-container', $.mosaic.document).remove();
+                $.mosaic.options.panels.addClass("mosaic-panel-dragging");
+
+                var originalTile = $('.mosaic-inline-drag');
+                //Remove inline-drag class from original tile
+                //so that any aditional clones aren't created.
+                originalTile.removeClass('mosaic-inline-drag');
+                var clone = originalTile.clone(true);
+
+                clone.removeClass("mosaic-inline-tile mceNonEditable mosaic-inline-drag")
+                    .addClass("movable removable mosaic-tile");
+
+                var tile = new Tile(clone);
+                tile.initialize();
+                tile.scanRegistry();
+
+                originalTile.addClass("mosaic-original-tile");
+                originalTile.parents("[data-panel]").append(clone);
+                clone.css({
+                  "width": originalTile.width(),
+                  "position": "absolute",
+                  "opacity": 0.5
+                }).addClass("mosaic-helper-tile");
+                $($.mosaic.document).mousemove(DragMove);
+                $($.mosaic.document).mouseup(DragStop);
+            }, 1500)
+        }
+    }
+    $($.mosaic.document)
+        .off('mouseleave', '.mosaic-tile')
+        .on('mouseleave', '.mosaic-tile', RichTextMouseLeave);
+
+    var FocusOnTinyMCE = function(e, tileEl) {
+        var mce = tinymce.get($(tileEl)
+            .find('.mosaic-tile-content').attr('id'));
+        mce.focus();
+        $(tileEl).addClass("mosaic-selected-tile mosaic-tile-inline-divider");
+        $('.mosaic-original-tile').addClass('mosaic-inline-dropping');
+        $('.mosaic-selected-divider', $.mosaic.document)
+            .removeClass('mosaic-selected-divider')
+    }
+
 
     // Handle mousemove on tile
     var TileMousemove = function (e) {
@@ -409,20 +501,20 @@ define([
         $(".mosaic-selected-divider", $.mosaic.document)
           .removeClass("mosaic-selected-divider");
         $(".mosaic-tile-inline-divider", $.mosaic.document)
-            .removeClass("mosaic-tile-inline-divider");
+            .removeClass("mosaic-tile-inline-divider")
+            .removeClass("mosaic-selected-tile")
+            .children(".mosaic-tile-content").blur();
+
+        $(".mosaic-inline-dropping", $.mosaic.document)
+            .removeClass("mosaic-inline-dropping");
+
 
         // Don't show dividers if above original or floating tile
         if (($(this).hasClass("mosaic-original-tile") === false) &&
           ($(this).hasClass("mosaic-tile-align-left") === false) &&
           ($(this).hasClass("mosaic-tile-align-right") === false)) {
 
-          //Check if hovering over a rich text tile
-          if ($(this).hasClass("mosaic-plone.app.standardtiles.html-tile") &&
-            $(this).mosaicIsDroppingInline(e)) {
-              $(this).addClass("mosaic-tile-inline-divider")
-          }
-
-          else {
+          // if($('.mosaic-tile-inline-divider') > 0) {
               // Get direction
           var dir = $(this).mosaicGetDirection(e);
           var divider = $(this).children(".mosaic-divider-" + dir);
@@ -449,8 +541,19 @@ define([
 
           // Show divider
           divider.addClass("mosaic-selected-divider");
-          }
+          // }
 
+          //Check if hovering over a rich text tile
+          if ($(this).hasClass("mosaic-plone.app.standardtiles.html-tile")) {
+            var that = this;
+            if($(this).hasClass("mosaic-helper-tile") === false) {
+                setTimeout(
+                   function() {
+                      FocusOnTinyMCE(e, that)
+                   }, 1500);
+            }
+
+          }
 
         }
       }
@@ -480,9 +583,6 @@ define([
       obj.find('.mosaic-tile').each(function(){
         var tile = new Tile(this);
         tile.initialize();
-        // tile.$el.find('.mosaic.tile').each(function() {
-        //     alert('moi');
-        //   });
         tile.scanRegistry();
       });
       obj.find('.mosaic-tile').mosaicAddDrag();
@@ -791,21 +891,21 @@ define([
     var new_tile = $(".mosaic-helper-tile-new", $.mosaic.document).length > 0;
     var original_tile = $(".mosaic-original-tile", $.mosaic.document);
 
-    var richText = $(".mosaic-tile-inline-divider", $.mosaic.document);
-    if (richText) {
-        richText.removeClass("mosaic-tile-inline-divider");
-        richText.find(".mosaic-rich-text")
-            .append(
-                original_tile.clone(true)
-                .removeClass("mosaic-original-tile")
-                .remove(".mosaic-divider-dot")
-                .addClass("mosaic-new-tile mceNonEditable mosaic-inlinetile")
-            );
-    }
 
     // If divider is not found or not sane drop, act like esc is pressed
-    if (divider.length === 0 || drop.hasClass('mosaic-helper-tile')) {
+    // Don't do it if dropping to inline tile
+    if ((divider.length === 0 || drop.hasClass('mosaic-helper-tile'))) {
       original_tile.addClass("mosaic-drag-cancel");
+    }
+
+    // If original tile is an inline tile, replace inline tile specific
+    // classes
+    if (original_tile.hasClass('mosaic-inline-tile')){
+        original_tile.removeClass('mosaic-inline-tile mceNonEditable')
+            .addClass('mosaic-tile movable removable')
+            .find('.mosaic-inline-tile-content')
+            .removeClass('mosaic-inline-tile-content')
+            .addClass('mosaic-tile-content');
     }
 
     // Check if esc is pressed
@@ -854,7 +954,7 @@ define([
 
         // Make sure the original tile doesn't get removed
         original_tile
-          .removeClass("mosaic-original-tile")
+              .removeClass("mosaic-original-tile")
           .addClass("mosaic-new-tile");
       }
     // Check if max columns rows is reached
@@ -1021,8 +1121,12 @@ define([
     $.mosaic.options.panels.find(".mosaic-grid-row:not(:has(.mosaic-tile))").remove();
     $.mosaic.options.panels.find(".mosaic-empty-row").remove();
 
-    // Cleanup original row
-    original_row.mosaicCleanupRow();
+    // Cleanup original row if original_tile isn't inline tile
+    if (!original_row.hasClass('mosaic-tile')) {
+        original_row.mosaicCleanupRow();
+    }
+
+
 
     // Add empty rows
     $.mosaic.options.panels.mosaicAddEmptyRows();
@@ -1032,11 +1136,22 @@ define([
 
     var tile = new Tile($tile);
 
+    //When inline tiles are dragged out from rich-text tile
+    //we need to initialize them to add the dividers etc.
+    if($tile.find('.mosaic-divider').length === 0) {
+        tile.initialize();
+    }
+
     var $content = original_tile.find('.mosaic-tile-content');
     if($content.size() > 0 && $content[0]._preScanHTML){
       /* set the correct, pre-registry html so tiles render correctly */
       tile.cacheHtml($content[0]._preScanHTML);
     }
+
+    //This is pretty bad, but we need to reinitialize
+    //the layout to get proper listeners to tiles
+    //that are dragged away from rich text tiles
+    $.mosaic.options.panels.mosaicLayout();
 
     // Re-init rich text editor after tile has been moved in DOM
     if(!tile.isRichText()){
@@ -1046,7 +1161,7 @@ define([
     // when a tile with tinymce is dragged, you need to reload the tinymce editor
     // for all tiles edited over it... This is nasty but seems to be needed.
     // If not done, those *other* tiles will not be editable
-    $('.mosaic-tile:not(".mosaic-helper-tile") .mosaic-tile-content.mosaic-rich-text').each(function(){
+    $('.mosaic-tile:not(".mosaic-helper-tile .mosaic-inline-tile") .mosaic-tile-content.mosaic-rich-text').each(function(){
       var atile = new Tile($(this).parent());
       atile.setupWysiwyg();
     });
