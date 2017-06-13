@@ -341,6 +341,19 @@ define([
       }
     }
 
+    if(!tile_config && tiletype === 'static') {
+      tile_config = {
+        tile_type: 'text',
+        name: tiletype,
+        label: 'Static',
+        read_only: true,
+        favorite: false,
+        settings: false,
+        weight: 0,
+        rich_text: false
+      };
+    }
+
     if(!tile_config){
       // dive out of here, something went wrong finding tile config
       if(_missing_tile_configs.indexOf(tiletype) === -1){
