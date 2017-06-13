@@ -122,7 +122,9 @@ define([
    * @param {String} mode Mode of the overlay
    * @param {Object} tile_config Configuration of the tile
    */
-  $.mosaic.overlay.open = function (mode, tile_config) {
+  $.mosaic.overlay.open = function (mode, tile_config, callback) {
+    // Wire callback
+    $.mosaic.overlay.callback = callback;
 
     // Local variables
     var form, formtabs, tile_group, x, visible_tabs,
@@ -273,5 +275,12 @@ define([
     $('.mosaic-overlay-blocker').hide();
     $('.mosaic-overlay .mosaic-modal').removeClass('plone-modal');
     $('body').removeClass('plone-modal-open');
+
+    // Execute callback
+    if (typeof $.mosaic.overlay.callback) {
+      var callback = $.mosaic.overlay.callback;
+      delete $.mosaic.overlay['callback'];
+      callback();
+    }
   };
 });

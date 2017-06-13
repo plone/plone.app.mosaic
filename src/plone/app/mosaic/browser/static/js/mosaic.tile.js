@@ -685,9 +685,16 @@ define([
           }
         });
       } else {
-
         // Edit field
-        $.mosaic.overlay.open('field', tile_config);
+        var tile = this;
+        $.mosaic.overlay.open('field', tile_config, function () {
+          $.mosaic.queue(function(next) {
+            setTimeout(function() {
+              tile.initializeContent();
+            }, 250);
+            next();
+          });
+        });
       }
     };
 
@@ -788,11 +795,12 @@ define([
           dataUrl += '_layouteditor=true';
         }
 
+        $.mosaic.queue(function(next) {
         $.ajax({
           url: dataUrl,
           method: 'POST',
           success: function (value, status, xhr) {
-            dataUrl = xhr.getResponseHeader('X-Tile-Url');
+            dataUrl = xhr.getResponseHeader('X-Tile-Url') || tileUrl;
             self.$el.removeClass('mosaic-tile-loading');
 
             // Parse
@@ -804,6 +812,9 @@ define([
             // Fill tile body
             tileHtml = value.find('.temp_body_tag').html();
             self.fillContent(tileHtml, dataUrl);
+
+            // Free mosaic.queue worker
+            next();
 
             // TinyMCE gymnastics
             if(self.getType() === 'plone.app.standardtiles.html') {
@@ -838,11 +849,13 @@ define([
             }
           },
           error: function() {
+            next();
             self.$el.removeClass('mosaic-tile-loading');
             log.error('Error getting data for the tile ' + tileConfig.label +
                       '(' + tileConfig.name + '). Please read documentation ' +
                       'on how to correctly register tiles: https://pypi.python.org/pypi/plone.tiles');
           }
+        });
         });
       }
     };
