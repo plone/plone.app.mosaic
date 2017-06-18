@@ -67,6 +67,10 @@ define([
   */
   $.fn.mosaicLayout = function () {
 
+    //Timeout variable used to on
+    //rich text tiles to drop inline tiles
+    var mceFocusTimer;
+
     var DocumentKeyup = function (e) {
       // Check if alt
       if (e.keyCode === 18) {
@@ -424,13 +428,6 @@ define([
     $($.mosaic.document).off('mouseup').on('mouseup', DocumentMouseup);
 
     var InlineMouseDown = function(e){
-      // Get element
-      var elm;
-      if (e.target) {
-        elm = e.target;
-      } else if (e.srcElement) {
-        elm = e.srcElement;
-      }
       $(this).addClass('mosaic-inline-drag');
     }
 
@@ -440,6 +437,18 @@ define([
 
 
     var RichTextMouseLeave = function(){
+
+        if($('.mosaic-tile-inline-divider', $.mosaic.document).length > 0) {
+            $(".mosaic-tile-inline-divider", $.mosaic.document)
+                .removeClass("mosaic-tile-inline-divider")
+                .removeClass("mosaic-selected-tile")
+                .removeClass("mosaic-dragged-over")
+                .children(".mosaic-tile-content").blur();
+
+            $(".mosaic-inline-dropping", $.mosaic.document)
+                .removeClass("mosaic-inline-dropping");
+        }
+
         if($('.mosaic-inline-drag', $.mosaic.document).length > 0){
 
             setTimeout(function() {
@@ -461,10 +470,6 @@ define([
                     helper.remove();
                 };
 
-                // var id = selectedTile.find('.mosaic-tile-content').attr('id');
-                // var mce = tinymce.get(id);
-                //
-                // mce.fire('blur');
                 $('.mosaic-selected-tile').removeClass("mosaic-selected-tile")
                     .children('.mosaic-tile-content').blur();
 
@@ -501,14 +506,25 @@ define([
         .off('mouseleave', '.mosaic-tile')
         .on('mouseleave', '.mosaic-tile', RichTextMouseLeave);
 
-    var FocusOnTinyMCE = function(e, tileEl) {
-        var mce = tinymce.get($(tileEl)
-            .find('.mosaic-tile-content').attr('id'));
-        mce.focus();
-        $(tileEl).addClass("mosaic-selected-tile mosaic-tile-inline-divider");
-        $('.mosaic-original-tile').addClass('mosaic-inline-dropping');
-        $('.mosaic-selected-divider', $.mosaic.document)
-            .removeClass('mosaic-selected-divider')
+    var FocusOnTinyMCE = function(e) {
+      var targetTile = $(e.target).parents('.mosaic-tile');
+      var tileContent = targetTile.children('.mosaic-tile-content');
+      var tile = new Tile(targetTile);
+      tile.focus();
+
+
+      var id = tileContent.attr('id');
+      var mce = window.tinyMCE.get(id);
+      mce.focus();
+      // mce.selection.placeCaretAt(e.clientX, e.clientY);
+      // mce.execCommand('mceInsertContent', false, '<p>Kulli</p>');
+
+      targetTile.addClass("mosaic-tile-inline-divider");
+      $('.mosaic-original-tile').addClass('mosaic-inline-dropping')
+          .attr('clientX', e.clientX)
+          .attr('clientY', e.clientY);
+      $('.mosaic-selected-divider', $.mosaic.document)
+          .removeClass('mosaic-selected-divider');
     }
 
 
@@ -518,24 +534,22 @@ define([
       // Check if dragging
       if ($(this).parents("[data-panel]").hasClass("mosaic-panel-dragging")) {
 
+
+        if(mceFocusTimer !== null) {
+            clearTimeout(mceFocusTimer);
+            mceFocusTimer = null;
+        }
+
         // Hide all dividers
         $(".mosaic-selected-divider", $.mosaic.document)
           .removeClass("mosaic-selected-divider");
-        $(".mosaic-tile-inline-divider", $.mosaic.document)
-            .removeClass("mosaic-tile-inline-divider")
-            .removeClass("mosaic-selected-tile")
-            .children(".mosaic-tile-content").blur();
-
-        $(".mosaic-inline-dropping", $.mosaic.document)
-            .removeClass("mosaic-inline-dropping");
-
 
         // Don't show dividers if above original or floating tile
         if (($(this).hasClass("mosaic-original-tile") === false) &&
           ($(this).hasClass("mosaic-tile-align-left") === false) &&
           ($(this).hasClass("mosaic-tile-align-right") === false)) {
 
-          // if($('.mosaic-tile-inline-divider') > 0) {
+          if($('.mosaic-tile-inline-divider').length === 0) {
               // Get direction
           var dir = $(this).mosaicGetDirection(e);
           var divider = $(this).children(".mosaic-divider-" + dir);
@@ -562,20 +576,20 @@ define([
 
           // Show divider
           divider.addClass("mosaic-selected-divider");
-          // }
 
           //Check if hovering over a rich text tile
+          //and set the timeout to focus on it
           if ($(this).hasClass("mosaic-plone.app.standardtiles.html-tile")) {
-            var that = this;
-            if($(this).hasClass("mosaic-helper-tile") === false) {
-                setTimeout(
-                   function() {
-                      FocusOnTinyMCE(e, that)
+            if($(this).hasClass("mosaic-helper-tile") === false
+            && mceFocusTimer === null) {
+                mceFocusTimer = window.setTimeout(function() {
+                    mceFocusTimer = null;
+                    FocusOnTinyMCE(e)
                    }, 1500);
             }
-
           }
 
+          }
         }
       }
     };
@@ -997,6 +1011,8 @@ define([
     // Remove dragging class from content
     $.mosaic.options.panels.removeClass("mosaic-panel-dragging mosaic-panel-dragging-new");
 
+    $('.mosaic-dragged-over', $.mosaic.document)
+        .removeClass('mosaic-dragged-over');
     // Get direction
     var divider = $(".mosaic-selected-divider", $.mosaic.document);
     var drop = divider.parent();
@@ -1008,6 +1024,9 @@ define([
     });
     divider.removeClass("mosaic-selected-divider");
 
+    //
+    var richtextDrop = $('.mosaic-tile-inline-divider', $.mosaic.document);
+
     // True if new tile is inserted
     var new_tile = $(".mosaic-helper-tile-new", $.mosaic.document).length > 0;
     var original_tile = $(".mosaic-original-tile", $.mosaic.document);
@@ -1015,7 +1034,8 @@ define([
 
     // If divider is not found or not sane drop, act like esc is pressed
     // Don't do it if dropping to inline tile
-    if ((divider.length === 0 || drop.hasClass('mosaic-helper-tile'))) {
+    if ((divider.length === 0 || drop.hasClass('mosaic-helper-tile'))
+        && richtextDrop.length === 0) {
       original_tile.addClass("mosaic-drag-cancel");
     }
 
@@ -1044,7 +1064,40 @@ define([
           .addClass("mosaic-new-tile");
       }
 
-    // Dropped on empty row
+
+    // }//Check if dropping as a inline tile
+    // else if ($('.mosaic-inline-dropping', $.mosaic.document).length > 0) {
+    //       var dropping_tile = $('.mosaic-inline-dropping', $.mosaic.document).clone();
+    //       var clientX = dropping_tile.attr('clientX');
+    //       var clientY = dropping_tile.attr('clientY');
+    //       //Remove the dividers and other elements not
+    //       //needed for inline tiles
+    //       dropping_tile.find('.mosaic-divider, .mosaic-tile-control,' +
+    //             '.mosaic-tile-outer-border, .mosaic-tile-inner-border,' +
+    //             '.mosaic-tile-label-content, .mosaic-tile-label-left, ' +
+    //             '.mosaic-rich-text-toolbar').remove();
+    //       //Mark the tile as a inline tile
+    //       dropping_tile.removeClass('mosaic-tile movable removable mosaic-inline-dropping')
+    //                 .addClass('mosaic-inline-tile mceNonEditable');
+    //
+    //       //This may not be needed?
+    //       dropping_tile.find('.mosaic-tile-content')
+    //                 .removeClass('mosaic-tile-content')
+    //                 .addClass('mosaic-inline-tile-content')
+    //                 .attr('contenteditable', 'false');
+    //
+    //       dropping_tile.wrap('<p>');
+    //
+    //       var tiny = window.tinyMCE.get(richtextDrop
+    //           .find('.mosaic-tile-content').attr('id'));
+    //       tiny.focus();
+    //       tiny.selection.placeCaretAt(clientX, clientY);
+    //       tiny.execCommand('mceInsertContent', false, droppingTile.parent().html());
+    //
+    //       $('.mosaic-inline-dropping', $.mosaic.document).remove();
+    //       richtextDrop.find('.mosaic-tile-inline-divider')
+    //           .removeClass('mosaic-tile-inline-divider');
+      // Dropped on empty row
     } else if (drop.hasClass("mosaic-empty-row")) {
 
       // Replace empty with normal row class
@@ -2059,6 +2112,10 @@ define([
         var tile = new Tile(this);
         tile.saveForm();
       });
+      $(this).find(".mosaic-inline-tile").each(function() {
+          var tile = new Tile(this);
+          tile.saveForm();
+      })
     });
   };
 

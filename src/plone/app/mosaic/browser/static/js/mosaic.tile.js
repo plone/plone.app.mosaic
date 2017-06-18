@@ -914,7 +914,12 @@ define([
     Tile.prototype._focus = function(){
       var that = this;
       this.$el.addClass("mosaic-selected-tile");
-      this.$el.children(".mosaic-tile-content").focus();
+      if( this.$el.hasClass("mosaic-tile")) {
+        this.$el.children(".mosaic-tile-content").focus();
+      } else if (this.$el.hasClass("mosaic-inline-tile")) {
+        this.$el.children(".mosaic-inline-tile-content").focus();
+      }
+
       this._change();
       this.initializeButtons();
 
@@ -1172,7 +1177,7 @@ define([
                     tile.blur();
                     var tiny = window.tinyMCE.get(this.getAttribute('id'));
                     if(tiny){
-                      tiny.hide();
+                       tiny.hide();
                     }
                   });
                 }, 10);
@@ -1192,6 +1197,10 @@ define([
           editor.on('keyup change', placeholder);
           placeholder();
 
+          editor.on('click', function(e) {
+              console.log('Element clicked: ', e.target.nodeName);
+          });
+
 
           editor.on('init', function(){
             /*
@@ -1209,11 +1218,17 @@ define([
 
             var droppingTile = $('.mosaic-inline-dropping', $.mosaic.document).clone();
             if(that.$el.hasClass('mosaic-tile-inline-divider') &&
-                droppingTile.size() > 0){
+                droppingTile.length > 0){
+
+                var clientX, clientY;
+                clientX = droppingTile.attr('clientX');
+                clientY = droppingTile.attr('clientY');
+                droppingTile.removeAttr("clientX").removeAttr('clientY');
 
                 droppingTile.find('.mosaic-divider, .mosaic-tile-control,' +
                 '.mosaic-tile-outer-border, .mosaic-tile-inner-border,' +
-                '.mosaic-tile-label-content, .mosaic-tile-label-left, .mosaic-rich-text-toolbar').remove();
+                '.mosaic-tile-label-content, .mosaic-tile-label-left,' +
+                    '.mosaic-rich-text-toolbar').remove();
 
                 droppingTile.find('.mosaic-tile-content')
                     .removeClass('mosaic-tile-content')
@@ -1226,6 +1241,7 @@ define([
                 //Wrap the droppingTile inside <div> so that we don't
                 //lose the outermost element when using the html()
                 droppingTile.wrap('<p>');
+                this.selection.placeCaretAt(clientX, clientY);
                 this.execCommand('mceInsertContent', false, droppingTile.parent().html());
 
                 $('.mosaic-inline-dropping', $.mosaic.document).remove();
