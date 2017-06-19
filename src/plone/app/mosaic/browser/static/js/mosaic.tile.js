@@ -78,9 +78,10 @@ define([
     var that = this;
     that.tinymce = null;
     that.$el = $(el);
-    if(!that.$el.is('.mosaic-tile') && !that.$el.is('.mosaic-inlinetile')){
-     that.$el.parents('.mosaic-inlinetile');
-      if(!that.$el.is('.mosaic-inlinetile')) {
+    if(!that.$el.is('.mosaic-tile') && !that.$el.is('.mosaic-inline-tile')){
+     if(that.$el.parents('.mosaic-inline-tile').length > 0) {
+         that.$el = that.$el.parents('.mosaic-inline-tile');
+     } else {
         // XXX we need to get the outer-most container of the node here always
         that.$el = that.$el.parents('.mosaic-tile');
       }
@@ -798,6 +799,20 @@ define([
                 that.blur();
               };
               that.setupWysiwyg();
+
+              var richText = that.$el.find('.mosaic-tile-content');
+              if(richText.parents('.mosaic-tile')) {
+                  richText.find('[data-tile]').each(function() {
+                      var inlineTile = new Tile($(this));
+                      if(inlineTile.$el.hasClass('mosaic-tile') === false) {
+                          inlineTile.initializeContent();
+                          inlineTile.$el.addClass("mceNonEditable");
+                          var dataTile = inlineTile.getDataTileEl();
+                          dataTile.append(inlineTile.getHtmlContent());
+                      }
+                  });
+              }
+
               _check();
             }
 
@@ -1022,20 +1037,20 @@ define([
       // Get element
       var $content = that.$el.find('.mosaic-tile-content');
 
+
+
       //If we're initializing the tiles, search for tile
-      //references from the content and render them.
-      if($content.parents('.mosaic-tile-loading')) {
-          $content.find('[data-tile]').each(function() {
-          var inlineTile = new Tile($(this));
-          inlineTile.initializeContent();
-          inlineTile.$el.addClass("mceNonEditable");
-          var dataTile = inlineTile.getDataTileEl();
-          dataTile.append(inlineTile.getHtmlContent())
-          });
-      }
-
-
-
+      // references from the content and render them.
+      // if($content.parents('.mosaic-tile-loading')) {
+      //   $content.find('[data-tile]').each(function() {
+      //      var inlineTile = new Tile($(this));
+      //      inlineTile.initializeContent();
+      //      inlineTile.$el.addClass("mceNonEditable");
+      //      var dataTile = inlineTile.getDataTileEl();
+      //      dataTile.append(inlineTile.getHtmlContent());
+      //
+      //   });
+      // }
 
       // Remove existing pattern
       try{
@@ -1232,14 +1247,12 @@ define([
 
                 droppingTile.find('.mosaic-tile-content')
                     .removeClass('mosaic-tile-content')
-                    .addClass('mosaic-inline-tile-content')
+                    .addClass('mosaic-inline-tile-content mceNonEditable')
                     .attr('contenteditable', 'false');
 
                 droppingTile.removeClass('mosaic-tile movable removable mosaic-inline-dropping')
-                    .addClass('mosaic-inline-tile mceNonEditable');
+                    .addClass('mosaic-inline-tile');
 
-                //Wrap the droppingTile inside <div> so that we don't
-                //lose the outermost element when using the html()
                 droppingTile.wrap('<p>');
                 this.selection.placeCaretAt(clientX, clientY);
                 this.execCommand('mceInsertContent', false, droppingTile.parent().html());
