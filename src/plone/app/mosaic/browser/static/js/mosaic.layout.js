@@ -407,7 +407,15 @@ define([
     $($.mosaic.document).off('mouseup').on('mouseup', DocumentMouseup);
 
     var InlineMouseDown = function(e){
+      // var elm = e.target;
       $(this).addClass('mosaic-inline-drag');
+      //TODO: set contenteditable true when clicking inline tile and false when clicking elsewhere
+      //get parent rich text tile of inline tile
+      // var parent = $(elm).parents('.mosaic-tile');
+      //Set all inline tiles content noneditable
+      // parent.find('.mosaic-inline-tile').attr('contenteditable', 'false');
+      //Set the content of the clicked inlinetile editable
+      // $(elm).attr('contenteditable', 'true');
     }
 
     $($.mosaic.document)
@@ -490,13 +498,6 @@ define([
       var tileContent = targetTile.children('.mosaic-tile-content');
       var tile = new Tile(targetTile);
       tile.focus();
-
-
-      var id = tileContent.attr('id');
-      var mce = window.tinyMCE.get(id);
-      mce.focus();
-      // mce.selection.placeCaretAt(e.clientX, e.clientY);
-      // mce.execCommand('mceInsertContent', false, '<p>Kulli</p>');
 
       targetTile.addClass("mosaic-tile-inline-divider");
       $('.mosaic-original-tile').addClass('mosaic-inline-dropping')
