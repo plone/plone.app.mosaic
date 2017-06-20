@@ -496,10 +496,11 @@ define([
     var FocusOnTinyMCE = function(e) {
       var targetTile = $(e.target).parents('.mosaic-tile');
       var tileContent = targetTile.children('.mosaic-tile-content');
-      var tile = new Tile(targetTile);
-      tile.focus();
+     // tileContent.focus();
+      // var tile = new Tile(targetTile);
+      // tile.focus();
 
-      targetTile.addClass("mosaic-tile-inline-divider");
+      targetTile.addClass("mosaic-tile-inline-divider mosaic-selected-tile");
       $('.mosaic-original-tile').addClass('mosaic-inline-dropping')
           .attr('clientX', e.clientX)
           .attr('clientY', e.clientY);
@@ -599,6 +600,10 @@ define([
         var tile = new Tile(this);
         tile.initialize();
         tile.scanRegistry();
+      });
+      obj.find('.mosaic-inline-tile').each(function() {
+          var tile = new Tile(this);
+          tile.setupWysiwyg();
       });
       obj.find('.mosaic-tile').mosaicAddDrag();
       obj.mosaicAddEmptyRows();
@@ -1000,8 +1005,9 @@ define([
           .addClass("mosaic-new-tile")
       );
 
-    // Not dropped on tile
-    } else if (drop.hasClass("mosaic-tile") === false) {
+    // Not dropped on tile and not dropping on a rich text tile
+    } else if (drop.hasClass("mosaic-tile") === false &&
+        richtextDrop.length === 0) {
 
       // Check if new tile
       if (!new_tile) {
@@ -1169,7 +1175,12 @@ define([
 
     // Remove original tile
     var original_row = original_tile.parent().parent();
-    $(".mosaic-original-tile", $.mosaic.document).remove();
+    //Don't remove original tile is dropping inside rich text
+    //Original tile is removed later when inserting tile to tinyMCE editor
+    if(!original_tile.hasClass("mosaic-inline-dropping")){
+        $(".mosaic-original-tile", $.mosaic.document).remove();
+    }
+
 
     // Remove remaining empty rows
     $.mosaic.options.panels.find(".mosaic-grid-row:not(:has(.mosaic-tile))").remove();
@@ -1205,7 +1216,8 @@ define([
     //This is pretty bad, but we need to reinitialize
     //the layout to get proper listeners to tiles
     //that are dragged away from rich text tiles
-    $.mosaic.options.panels.mosaicLayout();
+    // $.mosaic.options.panels.mosaicLayout();
+    $tile.mosaicAddDrag();
 
     // Re-init rich text editor after tile has been moved in DOM
     if(!tile.isRichText()){
@@ -1215,7 +1227,7 @@ define([
     // when a tile with tinymce is dragged, you need to reload the tinymce editor
     // for all tiles edited over it... This is nasty but seems to be needed.
     // If not done, those *other* tiles will not be editable
-    $('.mosaic-tile:not(".mosaic-helper-tile .mosaic-inline-tile") .mosaic-tile-content.mosaic-rich-text').each(function(){
+    $('.mosaic-tile:not(".mosaic-helper-tile") .mosaic-tile-content.mosaic-rich-text').each(function(){
       var atile = new Tile($(this).parent());
       atile.setupWysiwyg();
     });

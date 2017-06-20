@@ -1039,21 +1039,6 @@ define([
       // Get element
       var $content = that.$el.find('.mosaic-tile-content');
 
-
-
-      //If we're initializing the tiles, search for tile
-      // references from the content and render them.
-      // if($content.parents('.mosaic-tile-loading')) {
-      //   $content.find('[data-tile]').each(function() {
-      //      var inlineTile = new Tile($(this));
-      //      inlineTile.initializeContent();
-      //      inlineTile.$el.addClass("mceNonEditable");
-      //      var dataTile = inlineTile.getDataTileEl();
-      //      dataTile.append(inlineTile.getHtmlContent());
-      //
-      //   });
-      // }
-
       // Remove existing pattern
       try{
         $content.data("pattern-tinymce").destroy();
@@ -1220,6 +1205,41 @@ define([
 
 
           editor.on('init', function(){
+            var droppingTile = $('.mosaic-inline-dropping', $.mosaic.document);
+            if(that.$el.hasClass('mosaic-tile-inline-divider') &&
+                droppingTile.length > 0){
+              setTimeout(function(){
+                var clone = droppingTile.clone()
+                var clientX, clientY;
+                clientX = droppingTile.attr('clientX');
+                clientY = droppingTile.attr('clientY');
+                clone.removeAttr("clientX").removeAttr('clientY');
+
+                clone.find('.mosaic-divider, .mosaic-tile-control,' +
+                '.mosaic-tile-outer-border, .mosaic-tile-inner-border,' +
+                '.mosaic-tile-label-content, .mosaic-tile-label-left, ' +
+                '.mosaic-rich-text-toolbar').remove();
+
+                clone.removeClass('mosaic-tile movable removable mosaic-inline-dropping ' +
+                    'mosaic-helper-tile mosaic-original-tile mosaic-helper-tile-new')
+                    .addClass('mosaic-inline-tile');
+
+                clone.find('.mosaic-tile-content')
+                    .removeClass('mosaic-tile-content')
+                    .addClass('mosaic-inline-tile-content mceNonEditable ' +
+                        clone.attr('class'));
+
+
+                clone.wrap('<p>');
+                this.tinymce.activeEditor.selection.placeCaretAt(clientX, clientY);
+                this.tinymce.activeEditor.execCommand('mceInsertContent', false,
+                    '<span> ' +clone.html()+ ' </span>');
+
+                droppingTile.remove();
+                that.$el.removeClass('mosaic-tile-inline-divider');
+
+              }, 100);
+            }
             /*
               since focusing on a rich text tile before tinymce is initialized
               can cause some very weird issues where the toolbar won't show,
@@ -1233,36 +1253,6 @@ define([
               }, 100);
             }
 
-            var droppingTile = $('.mosaic-inline-dropping', $.mosaic.document).clone();
-            if(that.$el.hasClass('mosaic-tile-inline-divider') &&
-                droppingTile.length > 0){
-
-                var clientX, clientY;
-                clientX = droppingTile.attr('clientX');
-                clientY = droppingTile.attr('clientY');
-                droppingTile.removeAttr("clientX").removeAttr('clientY');
-
-                droppingTile.find('.mosaic-divider, .mosaic-tile-control,' +
-                '.mosaic-tile-outer-border, .mosaic-tile-inner-border,' +
-                '.mosaic-tile-label-content, .mosaic-tile-label-left,' +
-                    '.mosaic-rich-text-toolbar').remove();
-
-                droppingTile.find('.mosaic-tile-content')
-                    .removeClass('mosaic-tile-content')
-                    .addClass('mosaic-inline-tile-content mceNonEditable')
-                    .attr('contenteditable', 'false');
-
-                droppingTile.removeClass('mosaic-tile movable removable mosaic-inline-dropping')
-                    .addClass('mosaic-inline-tile');
-
-                droppingTile.wrap('<p>');
-                this.selection.placeCaretAt(clientX, clientY);
-                this.execCommand('mceInsertContent', false, droppingTile.parent().html());
-
-                $('.mosaic-inline-dropping', $.mosaic.document).remove();
-                that.$el.removeClass('mosaic-tile-inline-divider');
-            }
-            // }
           });
         }
       }}));
