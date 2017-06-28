@@ -413,14 +413,14 @@ define([
       //get parent rich text tile of inline tile
       // var parent = $(elm).parents('.mosaic-tile');
       //Set all inline tiles content noneditable
-      // parent.find('.mosaic-inline-tile').attr('contenteditable', 'false');
+      // parent.find('.mosaic-tile-inline').attr('contenteditable', 'false');
       //Set the content of the clicked inlinetile editable
       // $(elm).attr('contenteditable', 'true');
     }
 
     $($.mosaic.document)
-        .off('mousedown', '.mosaic-inline-tile')
-        .on('mousedown', '.mosaic-inline-tile', InlineMouseDown);
+        .off('mousedown', '.mosaic-tile-inline')
+        .on('mousedown', '.mosaic-tile-inline', InlineMouseDown);
 
 
     var RichTextMouseLeave = function(){
@@ -469,8 +469,9 @@ define([
                 //so that any aditional clones aren't created.
                 originalTile.removeClass('mosaic-inline-drag');
                 var clone = originalTile.clone(true);
+                clone.removeClass("mosaic-original-tile");
 
-                clone.removeClass("mosaic-inline-tile mceNonEditable mosaic-inline-drag")
+                clone.removeClass("mosaic-tile-inline mceNonEditable mosaic-inline-drag")
                     .addClass("movable removable mosaic-tile");
 
                 var tile = new Tile(clone);
@@ -601,7 +602,7 @@ define([
         tile.initialize();
         tile.scanRegistry();
       });
-      obj.find('.mosaic-inline-tile').each(function() {
+      obj.find('.mosaic-tile-inline').each(function() {
           var tile = new Tile(this);
           tile.setupWysiwyg();
       });
@@ -926,12 +927,59 @@ define([
 
     // If original tile is an inline tile, replace inline tile specific
     // classes
-    if (original_tile.hasClass('mosaic-inline-tile')){
-        original_tile.removeClass('mosaic-inline-tile mceNonEditable')
+    if (original_tile.hasClass('mosaic-tile-inline') &&
+            !original_tile.hasClass("mosaic-drag-cancel")){
+        original_tile.removeClass('mosaic-tile-inline mceNonEditable')
             .addClass('mosaic-tile movable removable')
             .find('.mosaic-inline-tile-content')
             .removeClass('mosaic-inline-tile-content')
             .addClass('mosaic-tile-content');
+
+        //If the tile is inside a span, we need to transform
+        //it and it's children back to divs
+        //Dividers and other grid classes are added later
+        if(original_tile.prop('tagName') === 'SPAN') {
+            var itile = new Tile(original_tile);
+            var tile_config = itile.getConfig();
+
+            //create the outer div wrapper
+            var div_transform = $('<div/>')
+            .html(original_tile.html());
+
+            //Copy attributes
+            $.each(original_tile[0].attributes, function() {
+                if (this.specified) {
+                    div_transform.attr(this.name, this.value);
+                }
+            });
+            original_tile = $(div_transform);
+            div_transform = $('<div/>')
+                .html(original_tile
+                    .find('.mosaic-tile-content')
+                    .html());
+
+            $.each(original_tile
+                .find('.mosaic-tile-content')[0].attributes, function() {
+                if (this.specified) {
+                    div_transform.attr(this.name, this.value);
+                }
+            });
+            original_tile.find('.mosaic-tile-content')
+                .replaceWith(div_transform);
+
+            if (tile_config.name === 'IDublinCore-title') {
+               div_transform = $('<h1 class="documentFirstHeading"/>');
+            } else if (tile_config.name === 'IDublinCore-description') {
+                div_transform = $('<p class="documentDescription"/>');
+            } else {
+                div_transform = $('<div/>');
+            }
+            div_transform.html(original_tile.find('.mosaic-tile-content')
+                .children().first().html());
+            original_tile.find('.mosaic-tile-content')
+                .children().first().replaceWith(div_transform);
+        }
+
     }
 
     // Check if esc is pressed
@@ -950,40 +998,10 @@ define([
       }
 
 
-    // }//Check if dropping as a inline tile
-    // else if ($('.mosaic-inline-dropping', $.mosaic.document).length > 0) {
-    //       var dropping_tile = $('.mosaic-inline-dropping', $.mosaic.document).clone();
-    //       var clientX = dropping_tile.attr('clientX');
-    //       var clientY = dropping_tile.attr('clientY');
-    //       //Remove the dividers and other elements not
-    //       //needed for inline tiles
-    //       dropping_tile.find('.mosaic-divider, .mosaic-tile-control,' +
-    //             '.mosaic-tile-outer-border, .mosaic-tile-inner-border,' +
-    //             '.mosaic-tile-label-content, .mosaic-tile-label-left, ' +
-    //             '.mosaic-rich-text-toolbar').remove();
-    //       //Mark the tile as a inline tile
-    //       dropping_tile.removeClass('mosaic-tile movable removable mosaic-inline-dropping')
-    //                 .addClass('mosaic-inline-tile mceNonEditable');
-    //
-    //       //This may not be needed?
-    //       dropping_tile.find('.mosaic-tile-content')
-    //                 .removeClass('mosaic-tile-content')
-    //                 .addClass('mosaic-inline-tile-content')
-    //                 .attr('contenteditable', 'false');
-    //
-    //       dropping_tile.wrap('<p>');
-    //
-    //       var tiny = window.tinyMCE.get(richtextDrop
-    //           .find('.mosaic-tile-content').attr('id'));
-    //       tiny.focus();
-    //       tiny.selection.placeCaretAt(clientX, clientY);
-    //       tiny.execCommand('mceInsertContent', false, droppingTile.parent().html());
-    //
-    //       $('.mosaic-inline-dropping', $.mosaic.document).remove();
-    //       richtextDrop.find('.mosaic-tile-inline-divider')
-    //           .removeClass('mosaic-tile-inline-divider');
-      // Dropped on empty row
-    } else if (drop.hasClass("mosaic-empty-row")) {
+
+
+    }// Dropped on empty row
+     else if (drop.hasClass("mosaic-empty-row")) {
 
       // Replace empty with normal row class
       drop
@@ -1977,10 +1995,10 @@ define([
         var tile = new Tile(this);
         tile.saveForm();
       });
-      $(this).find(".mosaic-inline-tile").each(function() {
-          var tile = new Tile(this);
-          tile.saveForm();
-      })
+      // $(this).find(".mosaic-tile-inline").each(function() {
+      //     var tile = new Tile(this);
+      //     tile.saveForm();
+      // })
     });
   };
 

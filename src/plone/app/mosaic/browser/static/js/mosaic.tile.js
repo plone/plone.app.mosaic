@@ -78,9 +78,9 @@ define([
     var that = this;
     that.tinymce = null;
     that.$el = $(el);
-    if(!that.$el.is('.mosaic-tile') && !that.$el.is('.mosaic-inline-tile')){
-     if(that.$el.parents('.mosaic-inline-tile').length > 0) {
-         that.$el = that.$el.parents('.mosaic-inline-tile');
+    if(!that.$el.is('.mosaic-tile') && !that.$el.is('.mosaic-tile-inline')){
+     if(that.$el.parents('.mosaic-tile-inline').length > 0) {
+         that.$el = that.$el.parents('.mosaic-tile-inline');
      } else {
         // XXX we need to get the outer-most container of the node here always
         that.$el = that.$el.parents('.mosaic-tile');
@@ -93,7 +93,7 @@ define([
       if(tile_config && tile_config.tile_type === 'textapp'){
         var edit_url = that.getEditUrl();
         if(edit_url){
-          var currentData = that.getHtmlContent();
+          var currentData = that.addInlineDataUrls();
           if(currentData === that.$el.data('lastSavedData')){
             // not dirty, do not save
             return;
@@ -130,12 +130,17 @@ define([
   };
 
   Tile.prototype.getContentEl = function(html, tileUrl){
+    if (this.$el.hasClass('mosaic-tile-inline')) {
+      return this.$el.children('.mosaic-inline-tile-content');
+    }
     return this.$el.children(".mosaic-tile-content");
   };
 
   Tile.prototype.getHtmlContent = function(){
     return this.getContentEl().html();
   };
+
+
 
   Tile.prototype.getEditUrl = function(){
     var tile_url = this.getUrl();
@@ -397,6 +402,23 @@ define([
       return body;
     };
 
+    Tile.prototype.addInlineDataUrls = function() {
+    var contentClone = this.getContentEl().clone();
+    contentClone.find('.mosaic-tile-inline').each( function() {
+        var ilTile = new Tile(this);
+
+        var tileUrl = $('<'+this.nodeName+'/>');
+        var url = ilTile.getUrl();
+        if(!url && ilTile.getConfig().tile_type === "field") {
+          url = './@@plone.app.standardtiles.field?field=' + ilTile.getType();
+        }
+        tileUrl.attr('data-tile', url);
+        ilTile.$el.find('.mosaic-inline-tile-content').html(tileUrl);
+        }
+    )
+    return contentClone.html();
+    };
+
     Tile.prototype.isRichText = function(tile_config){
       if(tile_config === undefined){
         tile_config = this.getConfig();
@@ -432,7 +454,7 @@ define([
       }
 
       // Init rich text
-      if (this.isRichText() && !this.$el.is('.mosaic-inlinetile')) {
+      if (this.isRichText() && !this.$el.is('.mosaic-tile-inline')) {
         // Init rich editor
         this.setupWysiwyg();
       }
@@ -765,11 +787,6 @@ define([
             // Add head tags
             $.mosaic.addHeadTags(href, value);
             var tileHtml = value.find('.temp_body_tag').html();
-            value.find('.mosaic-inlinetile').each(function() {
-              // var inlineTile = new Tile($(this));
-              // inlineTile.initializeContent();
-              // inlineTile.initialize();
-            });
             that.fillContent(tileHtml, original_url);
             var tiletype = that.getType();
             if(tiletype === 'plone.app.standardtiles.html'){
@@ -804,11 +821,21 @@ define([
 
               var richText = that.$el.find('.mosaic-tile-content');
               if(richText.parents('.mosaic-tile')) {
+
                   richText.find('[data-tile]').each(function() {
+
                       var inlineTile = new Tile($(this));
+
                       if(inlineTile.$el.hasClass('mosaic-tile') === false) {
                           inlineTile.initializeContent();
                           inlineTile.$el.addClass("mceNonEditable");
+                          if(inlineTile.$el.prop('tagName') === 'SPAN') {
+                            inlineTile.getContentEl().children().each(function() {
+                              var div_transform = $('<span/>');
+                              div_transform.html(this.innerHTML);
+                              $(this).replaceWith(div_transform);
+                            });
+                          }
                           var dataTile = inlineTile.getDataTileEl();
                           dataTile.append(inlineTile.getHtmlContent());
                       }
@@ -933,7 +960,7 @@ define([
       this.$el.addClass("mosaic-selected-tile");
       if( this.$el.hasClass("mosaic-tile")) {
         this.$el.children(".mosaic-tile-content").focus();
-      } else if (this.$el.hasClass("mosaic-inline-tile")) {
+      } else if (this.$el.hasClass("mosaic-tile-inline")) {
         this.$el.children(".mosaic-inline-tile-content").focus();
       }
 
@@ -1199,15 +1226,16 @@ define([
           editor.on('keyup change', placeholder);
           placeholder();
 
-          editor.on('click', function(e) {
-              console.log('Element clicked: ', e.target.nodeName);
-          });
+          // editor.on('click', function(e) {
+          //     console.log('Element clicked: ', e.target.nodeName);
+          // });
 
 
           editor.on('init', function(){
             var droppingTile = $('.mosaic-inline-dropping', $.mosaic.document);
             if(that.$el.hasClass('mosaic-tile-inline-divider') &&
                 droppingTile.length > 0){
+            //Must do this in timeout or we will mess up the tinyMCE-focus
               setTimeout(function(){
                 var clone = droppingTile.clone()
                 var clientX, clientY;
@@ -1215,25 +1243,57 @@ define([
                 clientY = droppingTile.attr('clientY');
                 clone.removeAttr("clientX").removeAttr('clientY');
 
+                this.tinymce.activeEditor.selection.placeCaretAt(clientX, clientY);
+
                 clone.find('.mosaic-divider, .mosaic-tile-control,' +
-                '.mosaic-tile-outer-border, .mosaic-tile-inner-border,' +
-                '.mosaic-tile-label-content, .mosaic-tile-label-left, ' +
-                '.mosaic-rich-text-toolbar').remove();
+                    '.mosaic-tile-outer-border, .mosaic-tile-inner-border,' +
+                    '.mosaic-tile-label-content, .mosaic-tile-label-left, ' +
+                    '.mosaic-rich-text-toolbar').remove();
 
                 clone.removeClass('mosaic-tile movable removable mosaic-inline-dropping ' +
                     'mosaic-helper-tile mosaic-original-tile mosaic-helper-tile-new')
-                    .addClass('mosaic-inline-tile');
+                    .addClass('mosaic-tile-inline mceNonEditable');
 
                 clone.find('.mosaic-tile-content')
                     .removeClass('mosaic-tile-content')
-                    .addClass('mosaic-inline-tile-content mceNonEditable ' +
-                        clone.attr('class'));
-
-
+                    .addClass('mosaic-inline-tile-content');
+                clone.find('[contentEditable]').removeAttr('contentEditable');
                 clone.wrap('<p>');
-                this.tinymce.activeEditor.selection.placeCaretAt(clientX, clientY);
+
+                //Replace all divs inside the inline tile
+                //with spans
+                //Go through every div child
+                 var replaceDivs = function(el) {
+                    $.each($(el).children(), function() {
+                       var child = this;
+                       // var attr = {};
+                       var replacement = $('<span/>').html($(child).html());
+                       //Get all attributes of the child
+                       $.each(child.attributes, function() {
+                           if (this.specified) {
+                              replacement.attr(this.name, this.value);
+                           }
+                       });
+
+                       replaceDivs(replacement);
+                       $(child).replaceWith(replacement);
+                    });
+                 }
+                var tile = new Tile(droppingTile);
+
+                if (tile.getConfig().tile_type === "field") {
+                    var clone = $('<span/>')
+                        .attr('class', clone.attr('class'))
+                        .html(clone.html());
+                    replaceDivs(clone);
+                }
+                //To get the outerHTML
+                //We wrap the tile clone with p
+                //And get the innerHTML of the wrap
+                clone.wrap('<p>');
+
                 this.tinymce.activeEditor.execCommand('mceInsertContent', false,
-                    '<span> ' +clone.html()+ ' </span>');
+                    clone.parent().html());
 
                 droppingTile.remove();
                 that.$el.removeClass('mosaic-tile-inline-divider');
