@@ -412,9 +412,10 @@ define([
         if(!url && ilTile.getConfig().tile_type === "field") {
           url = './@@plone.app.standardtiles.field?field=' + ilTile.getType();
         }
+        url += '&_inline=true';
         tileUrl.attr('data-tile', url);
         ilTile.$el.find('.mosaic-inline-tile-content').html(tileUrl);
-        }
+      }
     )
     return contentClone.html();
     };

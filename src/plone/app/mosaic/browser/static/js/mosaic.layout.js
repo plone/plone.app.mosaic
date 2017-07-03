@@ -188,6 +188,10 @@ define([
         }
       }
 
+      if($(elm).parents('.mosaic-tile-inline').length === 0) {
+        $('.mosaic-tile-inline', $.mosaic.document).attr('contentEditable','false');
+      }
+
       // Find resize helper
       var new_tile = $(".mosaic-helper-tile-new", $.mosaic.document);
       if (new_tile.length > 0) {
@@ -374,6 +378,12 @@ define([
           }
         }
       });
+
+      var inlineDragTile = $('.mosaic-inline-drag', $.mosaic.document);
+      if(inlineDragTile.length > 0){
+        $('.mce-drag-container').not(':first').remove();
+      }
+
     };
 
     // Bind event and add to array
@@ -428,20 +438,31 @@ define([
     $($.mosaic.document).off('mouseup').on('mouseup', DocumentMouseup);
 
     var InlineMouseDown = function(e){
-      // var elm = e.target;
       $(this).addClass('mosaic-inline-drag');
       //TODO: set contenteditable true when clicking inline tile and false when clicking elsewhere
+
+    }
+
+    var EditOnDblClick = function(e) {
+      var elm = $(e.target);
+      if (elm.hasClass('.mosaic-tile-inline') === false) {
+          elm = elm.parents('.mosaic-tile-inline')
+      }
       //get parent rich text tile of inline tile
-      // var parent = $(elm).parents('.mosaic-tile');
+      var parent = elm.parents('.mosaic-tile');
       //Set all inline tiles content noneditable
-      // parent.find('.mosaic-tile-inline').attr('contenteditable', 'false');
+      parent.find('.mosaic-tile-inline').attr('contenteditable', 'false');
       //Set the content of the clicked inlinetile editable
-      // $(elm).attr('contenteditable', 'true');
+      elm.attr('contenteditable', 'true');
     }
 
     $($.mosaic.document)
         .off('mousedown', '.mosaic-tile-inline')
         .on('mousedown', '.mosaic-tile-inline', InlineMouseDown);
+
+    $($.mosaic.document)
+        .off('dblclick', '.mosaic-tile-inline')
+        .on('dblclick', '.mosaic-tile-inline', EditOnDblClick);
 
 
     var RichTextMouseLeave = function(){
@@ -542,6 +563,7 @@ define([
             clearTimeout(mceFocusTimer);
             mceFocusTimer = null;
         }
+
 
         // Hide all dividers
         $(".mosaic-selected-divider", $.mosaic.document)
@@ -1014,6 +1036,12 @@ define([
   $.fn.mosaicHandleDragEnd = function () {
     // Get layout object
     var obj = $(this).parents("[data-panel]");  // jshint ignore:line
+
+    var inlineDragTile = $('.mosaic-inline-drag', $.mosaic.document);
+    if(inlineDragTile.length > 0){
+      $('.mce-drag-container').not(':first').remove();
+    }
+
 
     // Remove dragging class from content
     $.mosaic.options.panels.removeClass("mosaic-panel-dragging mosaic-panel-dragging-new");
