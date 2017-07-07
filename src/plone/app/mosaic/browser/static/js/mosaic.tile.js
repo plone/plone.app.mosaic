@@ -28,6 +28,7 @@ define([
   var _positionActiveTinyMCE = function(){
     /* XXX warning, this needs to be split into a filter call for some reason.
        one selector bombs out */
+    console.log('Positioning active tinyMCE');
     var $toolbar = $('.mosaic-rich-text-toolbar').filter(':visible');
     if($toolbar.size() === 0 || $toolbar.find('.mce-first').size() === 0){
       /* make sure it actually has a toolbar */
@@ -260,22 +261,23 @@ define([
         if (tile_group.tiles[y].tile_type === 'field') {
           var widget = tile_group.tiles[y].widget.split('.');
           widget = widget[widget.length - 1];
-          switch(widget) {
-          case "TextWidget":
-          case "TextFieldWidget":
-          case "TextAreaWidget":
-          case "TextAreaFieldWidget":
-          case "TextLinesWidget":
-          case "TextLinesFieldWidget":
-          case "WysiwygWidget":
-          case "WysiwygFieldWidget":
-          case "RichTextWidget":
-          case "RichTextFieldWidget":
-            tile_group.tiles[y].settings = false;
-            break;
-          default:
-            tile_group.tiles[y].settings = true;
-          }
+          tile_group.tiles[y].settings = true;
+          // switch(widget) {
+          // case "TextWidget":
+          // case "TextFieldWidget":
+          // case "TextAreaWidget":
+          // case "TextAreaFieldWidget":
+          // case "TextLinesWidget":
+          // case "TextLinesFieldWidget":
+          // case "WysiwygWidget":
+          // case "WysiwygFieldWidget":
+          // case "RichTextWidget":
+          // case "RichTextFieldWidget":
+          //   tile_group.tiles[y].settings = false;
+          //   break;
+          // default:
+          //   tile_group.tiles[y].settings = true;
+          // }
         }
         if (tile_group.tiles[y].name === tiletype) {
           tile_config = tile_group.tiles[y];
@@ -520,7 +522,7 @@ define([
       };
 
       // Add settings icon
-      if (tile_config && tile_config.settings &&
+      if (tile_config &&
             this.$el.hasClass('mosaic-read-only-tile') === false) {
         _addButton('Edit', 'settings', this.settingsClicked.bind(this));
       }
@@ -621,7 +623,8 @@ define([
       var tile_config = that.getConfig();
 
       // Check if application tile
-      if (tile_config.tile_type === 'app') {
+      if (tile_config.tile_type === 'app'
+      || tile_config.tile_type === 'textapp') {
 
         // Get url
         var tile_url = that.getEditUrl();
@@ -790,7 +793,8 @@ define([
             var tileHtml = value.find('.temp_body_tag').html();
             that.fillContent(tileHtml, original_url);
             var tiletype = that.getType();
-            if(tiletype === 'plone.app.standardtiles.html'){
+            // if(tiletype === 'plone.app.standardtiles.html'){
+              if(tile_config.tile.type === 'textapp') {
               // a little gymnastics to make wysiwyg work here
               // Init rich editor
               if(!that.$el.data('lastSavedData')){
@@ -1238,7 +1242,7 @@ define([
                 droppingTile.length > 0){
             //Must do this in timeout or we will mess up the tinyMCE-focus
               setTimeout(function(){
-                var clone = droppingTile.clone()
+                var clone = droppingTile.clone();
                 var clientX, clientY;
                 clientX = droppingTile.attr('clientX');
                 clientY = droppingTile.attr('clientY');
@@ -1256,8 +1260,9 @@ define([
                     .addClass('mosaic-tile-inline mceNonEditable');
 
                 clone.find('.mosaic-tile-content')
-                    .removeClass('mosaic-tile-content')
-                    .addClass('mosaic-inline-tile-content');
+                    .removeClass('mosaic-tile-content mce-content-body')
+                    .addClass('mosaic-inline-tile-content')
+                    .removeAttr('id');
                 clone.find('[contentEditable]').removeAttr('contentEditable');
                 clone.wrap('<p>');
 
@@ -1293,8 +1298,11 @@ define([
                 //And get the innerHTML of the wrap
                 clone.wrap('<p>');
 
-                this.tinymce.activeEditor.execCommand('mceInsertContent', false,
+                var tiny = window.tinyMCE.get(this.getAttribute('id'));
+
+                tiny.execCommand('mceInsertContent', false,
                     clone.parent().html());
+                tiny.execCommand('mceCleanup', false);
 
                 droppingTile.remove();
                 that.$el.removeClass('mosaic-tile-inline-divider');

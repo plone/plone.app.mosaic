@@ -878,12 +878,12 @@
     <value key="name">plone.app.standardtiles.contentlisting</value>
     <value key="label">Content listing</value>
     <value key="category">advanced</value>
-    <value key="tile_type">app</value>
+    <value key="tile_type">textapp</value>
     <value key="default_value"></value>
     <value key="read_only">false</value>
     <value key="settings">true</value>
     <value key="favorite">false</value>
-    <value key="rich_text">false</value>
+    <value key="rich_text">true</value>
     <value key="weight">10</value>
   </records>
 
@@ -923,7 +923,7 @@
     <value key="tile_type">textapp</value>
     <value key="default_value">&lt;p&gt;Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Sed posuere interdum sem. Quisque ligula eros ullamcorper quis, lacinia quis facilisis sed sapien. Mauris varius diam vitae arcu. Sed arcu lectus auctor vitae, consectetuer et venenatis eget velit. Sed augue orci, lacinia eu tincidunt et eleifend nec lacus.&lt;/p&gt;&lt;p&gt;Donec ultricies nisl ut felis, suspendisse potenti. Lorem ipsum ligula ut hendrerit mollis, ipsum erat vehicula risus, eu suscipit sem libero nec erat. Aliquam erat volutpat. Sed congue augue vitae neque. Nulla consectetuer porttitor pede. Fusce purus morbi tortor magna condimentum vel, placerat id blandit sit amet tortor.&lt;/p&gt;</value>
     <value key="read_only">false</value>
-    <value key="settings">false</value>
+    <value key="settings">true</value>
     <value key="favorite">false</value>
     <value key="rich_text">true</value>
     <value key="weight">110</value>
