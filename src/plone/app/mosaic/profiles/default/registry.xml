@@ -1030,7 +1030,7 @@
     </value>
     <value key="jscompilation">++plone++mosaic/plone-mosaic.js</value>
     <value key="csscompilation">++plone++mosaic/plone-mosaic.css</value>
-    <value key="last_compilation">2017-04-05 00:00:00</value>
+    <value key="last_compilation">2017-07-17 00:00:00</value>
     <value key="compile">True</value>
     <value key="enabled">True</value>
     <value key="expression">python: member is not None</value>

@@ -7,6 +7,9 @@ Changelog
 - Add simple descriptions for all the tiles listed in the docs.
   [cguardia]
 
+- Allow to nest columns inside a cell
+  [frapell]
+
 
 2.0rc5 (2017-04-06)
 -------------------
