@@ -10,6 +10,9 @@ Changelog
 - Allow to nest columns inside a cell
   [frapell]
 
+- Allow to include custom CSS on rows
+  [frapell]
+
 
 2.0rc5 (2017-04-06)
 -------------------
