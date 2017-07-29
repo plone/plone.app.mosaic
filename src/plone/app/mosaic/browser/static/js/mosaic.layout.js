@@ -478,6 +478,53 @@ define([
       }
     });
 
+    var applyCustomCss = function (e) {
+      if ($(e.target).attr('id') === 'custom-css-input-box'){
+        return;
+      }
+      $.each($("div.mosaic-set-custom-css"), function (){
+        var parent = $(this).parent();
+        var base_css = 'mosaic-grid-row';
+        if (parent.hasClass('mosaic-innergrid-row')){
+          base_css = 'mosaic-grid-row mosaic-innergrid-row';
+        }
+        var classes = $(this).find("input#custom-css-input-box").val();
+        base_css += ' ' + classes;
+        parent.attr('class', base_css);
+        $(this).remove();
+      });
+    };
+
+    var CustomCSSOnDblClick = function (e) {
+      // Only do this for "mosaic-grid-row" if advanced mode is enabled
+      var target = $(e.target);
+      var obj = target.parents("[data-panel]");
+      if (obj.hasClass('mosaic-advanced') && target.hasClass('mosaic-grid-row')){
+        // Check we don't have an input field already
+        if ($(target).find(".mosaic-set-custom-css").length > 0){
+          return;
+        }
+
+        // We are in advance mode
+        var custom_classes = [];
+        $.each(target.attr('class').split(' '), function () {
+          if ((this !== undefined) && (this !== 'mosaic-grid-row') && (this !== 'mosaic-innergrid-row')){
+            custom_classes.push(this);
+          }
+        });
+        var input = $("<input type='text' id='custom-css-input-box'></input>").val(custom_classes.join(' '));
+        var div = $("<div></div>")
+                  .addClass("mosaic-set-custom-css")
+                  .append($("<label>Custom CSS for this row:</label>"))
+                  .append(input);
+        target.append(div);
+      }
+
+    };
+
+    $($.mosaic.document).on('dblclick', '.mosaic-grid-row', CustomCSSOnDblClick);
+    $($.mosaic.document).on('click', applyCustomCss);
+
     // Loop through matched elements
     var total = this.length;
     return this.each(function (i) {
@@ -531,6 +578,7 @@ define([
       });
 
     });
+
   };
 
   /**
