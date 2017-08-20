@@ -4,6 +4,8 @@ Changelog
 2.0rc6 (unreleased)
 -------------------
 
+New features:
+
 - Add simple descriptions for all the tiles listed in the docs.
   [cguardia]
 
@@ -12,6 +14,17 @@ Changelog
 
 - Allow to include custom CSS on rows
   [frapell]
+
+Bug fixes:
+
+- Fix issue where TinyMCE was broken in properties overlay
+  [datakurre]
+
+- Fix issue where title field value was not set on some IE version
+  [datakurre]
+
+- Fix issue where block elements with display 'flex' were not blurred
+  [datakurre]
 
 
 2.0rc5 (2017-04-06)
