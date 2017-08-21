@@ -208,3 +208,28 @@ def upgrade_to_2_0rc5(context):
         PROFILE_ID.replace('default', 'to_5020'),
         'plone.app.registry'
     )
+
+
+def upgrade_to_2_0rc6(context):
+    # Remove table contextmenu actions from default rich text tiles
+    # (they were originally assigned only for special table tile and
+    # were accidentally assigned to the default tiles when the default
+    # table tile was removed).
+    registry = getUtility(IRegistry)
+    keys = [
+        'plone.app.mosaic.widget_actions.plone_app_z3cform_widget_RichTextFieldWidget.actions',  # noqa
+        'plone.app.mosaic.app_tiles.plone_app_standardtiles_html.available_actions'  # noqa
+    ]
+    values = [
+        'contextmenu-tableprops',
+        'contextmenu-cell',
+        'contextmenu-row',
+        'contextmenu-column',
+    ]
+    for key in keys:
+        try:
+            value = [v for v in registry[key]
+                     if v not in values]
+            registry[key] = type(registry[key])(value)
+        except KeyError:
+            pass

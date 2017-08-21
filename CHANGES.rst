@@ -17,6 +17,10 @@ New features:
 
 Bug fixes:
 
+- Fix issue where default rich text tiles had context menu
+  from legacy HTML table tile
+  [datakurre]
+
 - Fix issue where TinyMCE was broken in properties overlay
   [datakurre]
 
