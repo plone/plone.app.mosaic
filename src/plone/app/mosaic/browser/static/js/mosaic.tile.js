@@ -573,8 +573,6 @@ define([
       // Remove current tile
       this.$el.remove();
 
-      $.mosaic.undo.snapshot();
-
       // Cleanup original row
       $originalRow.mosaicCleanupRow();
 
@@ -973,7 +971,7 @@ define([
             });
           }
           var val = $el.find('.mosaic-tile-content > *').text();
-          $("#" + tile_config.id).find('input').attr('value', val);
+          $("#" + tile_config.id).find('input').val(val);
           break;
         case "z3c.form.browser.textarea.TextAreaWidget":
         case "z3c.form.browser.textarea.TextAreaFieldWidget":

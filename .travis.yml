@@ -6,6 +6,8 @@ env:
     - PLONE_VERSION=5.0.x
     - PLONE_VERSION=5.coredev
   global:
+    - ROBOT_BROWSER=phantomjs
+    - ROBOT_SELENIUM2LIBRARY_RUN_ON_FAILURE="Capture Page Screenshot"
     - ARTIFACTS_S3_BUCKET=plone-app-mosaic
     - secure: F9djE/1a4VvCidHCnWeF7qkwsUhVLZELv/ttSC1UamsbCCzIa0shUheF4MfAZBRcwtVVAlrid4VRnuYnxyDciy2jrL/qayLfze2ZKcZTfYKsNIrQzyZ4SUVZRB9ZSA6yUK3v+/GIie95as8MKM/UxRtn2RWw4doWGyKv8XBOL4U=
     - secure: buYYreaObmTNEuVTibj/kIyFnIoHCZdezeA8P0HwGHrTbIAwArBFfhG5PC1grT8MayN3f4sfY80d8sRhRATTPNX1smjjBfyni/Zon8OTpr6mGaGsHOg+HHHqocy3hZPlgg1yYLpUCfKCOc8pnq09lF06JwPxsIXAiV+oRHR446E=
@@ -36,11 +38,11 @@ install:
   - make clean all mode=release
 script:
   - bin/code-analysis
-  - ROBOT_BROWSER=phantomjs bin/test $TEST_OPTIONS
-  - bin/pybot -v BROWSER:phantomjs -d parts/test docs
+  - bin/test $TEST_OPTIONS
+  - bin/pybot -v BROWSER:phantomjs -v SELENIUM2LIBRARY_RUN_ON_FAILURE:"Capture Page Screenshot" -d parts/test docs
 after_script:
-  - ROBOT_BROWSER=phantomjs bin/createcoverage --output-dir=parts/test/coverage
-  - ROBOT_BROWSER=phantomjs bin/sphinx-build docs html
+  - bin/createcoverage --output-dir=parts/test/coverage
+  - bin/sphinx-build docs html
   - bundle install
   - bundle exec travis-artifacts upload --path html
   - bundle exec travis-artifacts upload --path parts/test
