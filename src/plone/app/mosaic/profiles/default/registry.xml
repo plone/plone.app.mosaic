@@ -667,10 +667,6 @@
       <element>toolbar-unlink</element>
       <element>toolbar-plonelink</element>
       <element>toolbar-code</element>
-      <element>contextmenu-tableprops</element>
-      <element>contextmenu-cell</element>
-      <element>contextmenu-row</element>
-      <element>contextmenu-column</element>
     </value>
   </record>
 
@@ -949,10 +945,6 @@
       <element>toolbar-unlink</element>
       <element>toolbar-plonelink</element>
       <element>toolbar-code</element>
-      <element>contextmenu-tableprops</element>
-      <element>contextmenu-cell</element>
-      <element>contextmenu-row</element>
-      <element>contextmenu-column</element>
     </value>
   </record>
 
