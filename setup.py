@@ -41,11 +41,11 @@ setup(
         'setuptools',
         'plone.api',
         'plone.subrequest>=1.8',
-        'plone.tiles>=1.8.2',
-        'plone.app.blocks>=4.0.6',
+        'plone.tiles>=1.8.3',
+        'plone.app.blocks>=4.1.0',
         'plone.app.tiles>=3.0.3',
-        'plone.app.drafts>=1.1.1',
-        'plone.app.standardtiles>=2.1.0',
+        'plone.app.drafts>=1.1.2',
+        'plone.app.standardtiles>=2.2.0',
         'Products.CMFPlone>=5.0.4'
     ],
     extras_require={'test': [
