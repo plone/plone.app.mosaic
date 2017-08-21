@@ -235,7 +235,7 @@ define([
           var tile = action_group.tiles[y];
           elm_action_group.append($(document.createElement("option"))
             .addClass("mosaic-option mosaic-option-" + normalizeClass(tile.name))
-            .attr("value", tile.name)
+            .attr("value", tile.name + ':' + x + ':' + y)  // optimize
             .html(tile.label)
           );
         }
@@ -470,7 +470,7 @@ define([
           .children(".mosaic-option-group-fields")
           .children().each(function () {
           if ($.mosaic.options.panels
-            .find(".mosaic-" + $(this).attr("value") + "-tile")
+            .find(".mosaic-" + $(this).attr("value").split(':')[0] + "-tile")
             .length === 0) {
             $(this).show().removeAttr("disabled");
           } else {
@@ -511,7 +511,6 @@ define([
       // Trigger inline validation draft auto save
       var lastChange = (new Date()).getTime();
       $(this).on('selectedtilechange', function () {
-        if ($.mosaic.overlay.app) { return; }
         if ($.mosaic.saving) { return; }  // skip when saving
         if ($.mosaic.modal) { return; }  // skip when there's modal
         if ((new Date()).getTime() - lastChange > 6000) {

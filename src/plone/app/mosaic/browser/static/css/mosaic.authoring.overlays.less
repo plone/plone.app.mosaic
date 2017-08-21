@@ -29,7 +29,14 @@
   bottom: 0;
   left: 0;
 
-  .mosaic-modal {
+  label .required.radio-widget::after {
+    content: '';
+  }
+
+  .plone-modal.mosaic-modal {
+    display: flex;
+    align-items: center;
+    align-content: center;
     overflow-x: hidden;
     overflow-y: auto;
     background: none;
@@ -38,6 +45,7 @@
     bottom: 0;
     left: 0;
   }
+
   .plone-modal-dialog{
     width: 80%;
     margin-right: auto !important;
@@ -46,17 +54,3 @@
     top: 0;
   }
 }
-
-.plone-modal-wrapper {
-  label .required.radio-widget::after {
-    content: '';
-  }
-}
-
-//.mosaic-overlay-ok-button {
-//  &:extend(.btn);
-//  &:extend(.btn-primary);
-//  &:hover {
-//    &:extend(.btn-primary:hover);
-//  }
-//}

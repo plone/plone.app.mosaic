@@ -444,7 +444,8 @@ define([
       exec: function (source) {
 
         // Local variables
-        var tile_config, tile_group, tile_type, x, y;
+        var tile_config, tile_group, tile_type, tile_index, x, y,
+            tile, url;
 
         // Check if value selected
         if ($(source).val() === "none") {
@@ -462,11 +463,29 @@ define([
         $.mosaic.options.panels.trigger("selectedtilechange");
 
         // Get tile config
-        for (x = 0; x < $.mosaic.options.tiles.length; x += 1) {
-          tile_group = $.mosaic.options.tiles[x];
-          for (y = 0; y < tile_group.tiles.length; y += 1) {
-            if (tile_group.tiles[y].name === tile_type) {
-              tile_config = tile_group.tiles[y];
+        if (tile_type.split(':').length === 3) {
+          tile_index = parseInt(tile_type.split(':')[2], 10);
+          tile_group = parseInt(tile_type.split(':')[1], 10);
+          tile_type = tile_type.split(':')[0];
+          try {
+            if ($.mosaic.options.tiles[tile_group]
+                                .tiles[tile_index].name === tile_type) {
+              tile_config = $.mosaic.options.tiles[tile_group]
+                                            .tiles[tile_index];
+            }
+          } catch (e) {}
+        }
+
+        if (!tile_config) {
+          for (x = 0; x < $.mosaic.options.tiles.length; x += 1) {
+            if (typeof tile_config === 'object') { break; }
+            tile_group = $.mosaic.options.tiles[x];
+            for (y = 0; y < tile_group.tiles.length; y += 1) {
+              if (typeof tile_config === 'object') { break; }
+              if (tile_group.tiles[y].name === tile_type) {
+                tile_config = tile_group.tiles[y];
+                break;
+              }
             }
           }
         }
@@ -480,18 +499,23 @@ define([
             return v.toString(16);
           });
 
-          var tileUrl = $.mosaic.options.context_url + '/@@' + tile_type + '/' + uid;
+          url = $.mosaic.options.context_url + '/@@' + tile_type + '/' + uid;
           var html = '<html><body>' + $.mosaic.getDefaultValue(tile_config) + '</body></html>';
-          $.mosaic.addAppTileHTML(tile_type, html, tileUrl);
+          $.mosaic.addAppTileHTML(tile_type, html, url);
         }else if (tile_config.tile_type === 'app') {
           // Load add form form selected tiletype
           var initial = true;
+          if (typeof tile_config['default_value'] === 'object') {
+          }
+          url = ($.mosaic.options.context_url + '/@@add-tile?tiletype=' +
+                     tile_type + '&form.button.Create=Create');
+          if (typeof tile_config['default_value'] === 'object') {
+            url += '&' + $.mosaic.encode(tile_config['default_value']);
+          }
           utils.loading.show();
           $.ajax({
             type: "GET",
-            url: $.mosaic.options.context_url +
-              '/@@add-tile?tiletype=' + tile_type +
-              '&form.button.Create=Create',
+            url: url,
             success: function(value, xhr) {
               utils.loading.hide();
               var $value, action_url, authenticator, modalFunc;
@@ -502,44 +526,44 @@ define([
               authenticator = $value.find('[name="_authenticator"]').val();
               // Open add form in modal when requires user input
               modalFunc = function(html) {
-                $.mosaic.overlay.app = new Modal($('.mosaic-toolbar'), {
+                $.mosaic.modal = new Modal($('.mosaic-toolbar'), {
                   html: html,
                   loadLinksWithinModal: true,
                   buttons: '.formControls > input[type="submit"], .actionButtons > input[type="submit"]'
                 });
-                $.mosaic.overlay.app.$el.off('after-render');
-                $.mosaic.overlay.app.on(
+                $.mosaic.modal.$el.off('after-render');
+                $.mosaic.modal.on(
                   'after-render',
                   function(event) {
                     /* Remove field errors since the user has not actually
                        been able to fill out the form yet */
                     if(initial){
-                      $('.field.error', $.mosaic.overlay.app.$modal)
+                      $('.field.error', $.mosaic.modal.$modal)
                         .removeClass('error');
-                      $('.fieldErrorBox,.portalMessage', $.mosaic.overlay.app.$modal).remove();
+                      $('.fieldErrorBox,.portalMessage', $.mosaic.modal.$modal).remove();
                       initial = false;
                     }
 
                     $('input[name*="cancel"]',
-                      $.mosaic.overlay.app.$modal)
+                      $.mosaic.modal.$modal)
                       .off('click').on('click', function() {
                         // Close overlay
-                        $.mosaic.overlay.app.hide();
-                        $.mosaic.overlay.app = null;
+                        $.mosaic.modal.hide();
+                        $.mosaic.modal = null;
                     });
                   }
                 );
-                $.mosaic.overlay.app.show();
-                $.mosaic.overlay.app.$el.off('formActionSuccess');
-                $.mosaic.overlay.app.on(
+                $.mosaic.modal.show();
+                $.mosaic.modal.$el.off('formActionSuccess');
+                $.mosaic.modal.on(
                   'formActionSuccess',
                   function (event, response, state, xhr) {
                     var tileUrl = xhr.getResponseHeader('X-Tile-Url');
                     if (tileUrl) {
                       $.mosaic.addAppTileHTML(
                         tile_type, response, tileUrl);
-                      $.mosaic.overlay.app.hide();
-                      $.mosaic.overlay.app = null;
+                      $.mosaic.modal.hide();
+                      $.mosaic.modal = null;
                     }
                   }
                 );
@@ -561,10 +585,9 @@ define([
                     '_authenticator': authenticator
                   },
                   success: function(value, state, xhr) {
-                    var tileUrl = xhr.getResponseHeader('X-Tile-Url');
-                    if (tileUrl) {
-                      $.mosaic.addAppTileHTML(
-                        tile_type, value, tileUrl);
+                    var url = xhr.getResponseHeader('X-Tile-Url');
+                    if (url) {
+                      $.mosaic.addAppTileHTML(tile_type, value, url);
                     } else {
                       modalFunc(value);
                     }
@@ -573,9 +596,18 @@ define([
               }
             }
           });
-
+        } else if (tile_config.tile_type === 'field') {
+          // Add field tile
+          url = './@@' + tile_config['tile'] + '?field=' + tile_type;
+          if (typeof tile_config.default_value === 'object') {
+            url += '&' + $.mosaic.encode(tile_config.default_value);
+          }
+          tile = $.mosaic.addTile(
+            tile_type, $.mosaic.getDefaultValue(tile_config), url);
+          if (!tile.isRichText()) {
+            tile.initializeContent();
+          }
         } else {
-
           // Add tile
           $.mosaic.addTile(
             tile_type, $.mosaic.getDefaultValue(tile_config));

@@ -20,7 +20,6 @@
  *    with this program; if not, write to the Free Software Foundation, Inc.,
  *    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
-window.DEBUG = true;
 require([
   'jquery',
   'mockup-patterns-base',
@@ -33,19 +32,31 @@ require([
 ], function($, Base) {
   'use strict';
 
-  var Layout = Base.extend({
+  return Base.extend({
     name: 'layout',
     trigger: '.pat-layout',
     parser: 'mockup',
     defaults: {
       attribute: 'class'
     },
-    init: function() {
-      var self = this;
+    init: function () {
+      var self = this, $body;
       self.options.data.$el = self.$el;
+
+      // Remove Plone Toolbar and its body classes
+      $('#edit-bar, .pat-toolbar').remove();
+      $(window).off('resize');
+      $body = $('body');
+      $body.attr('class').split(' ').forEach(function (className) {
+        if (className.indexOf('plone-toolbar') !== -1) {
+          $body.removeClass(className);
+        }
+      });
+      // Note: If Plone Toolbar is not completely removed, its body classes
+      // will reappear immediately.
+
+      // Init Mosaic
       $.mosaic.init({'data': self.options.data});
     }
   });
-
-  return Layout;
 });

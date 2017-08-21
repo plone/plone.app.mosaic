@@ -34,24 +34,24 @@ define([
   'jquery',
   'pat-logger',
   'underscore',
+  'mockup-utils',
+  'mockup-patterns-modal',
   'mosaic-url/mosaic.tile',
   'mosaic-url/mosaic.panel',
-  'mockup-patterns-modal',
-  'mockup-utils',
   'mosaic-url/mosaic.toolbar',
   'mosaic-url/mosaic.layout',
   'mosaic-url/mosaic.actions'
-], function($, logger, _, Tile, Panel, Modal, utils) {
+], function ($, logger, _, utils, Modal, Tile, Panel) {
   "use strict";
 
   var log = logger.getLogger('pat-mosaic');
 
-  // Create the mosaic namespace
+  // Define mosaic namespace
   if (typeof($.mosaic) === "undefined") {
     $.mosaic = {};
   }
 
-  // Set variables
+  // Define mosaic loading
   $.mosaic.loaded = false;
 
   // Define mosaic saving
@@ -193,14 +193,11 @@ define([
   '</div>');
 
   /**
-   * Called upon full initialization (that is: when all tiles have
-   * been loaded).
+   * Called upon when all tiles have been loaded.
+   *
    * @id jQuery.mosaic.initialized
    */
   $.mosaic.initialized = function () {
-    if ($.mosaic.loaded) {
-      return;
-    }
     $.mosaic.loaded = true;
     utils.loading.hide();
   };
@@ -212,142 +209,174 @@ define([
    * @param {Object} options Options used to initialize the UI
    */
   $.mosaic.init = function (options) {
+    var content, $content;
+
+    // Merge options
     options = $.extend({
       url: window.document.location.href,
       type: '',
       ignore_context: false
     }, options);
 
-    // Set document
+    // Show loading indicator
+    utils.loading.show();
+
+    // Set edited document
     $.mosaic.document = window.document;
 
-    // Local variables
-    var match;
+    // Set body class to toggle UI depending on this
+    $('body', $.mosaic.document).addClass('mosaic-enabled');
 
-    // Initialize modules
+    // Initialize actions
     $.mosaic.initActions();
 
-    // Get the url of the page
-    match = options.url.match(/^([\w#!:.?+=&%@!\-\/]+)\/edit$/);
-    if (match) {
-      options.url = match[1];
-    }
-
-    // Chop add
-    match = options.url
-      .match(/^([\w#:.?=%@!\-\/]+)\/\+\+add\+\+([\w#!:.?+=&%@!\-\/]+)$/);
-    if (match) {
-      options.url = match[1];
-      options.type = match[2];
-      options.ignore_context = true;
-    }
-
-    // Add global options
-    $.mosaic.options = options.data;
-    $.mosaic.options.url = options.url;
-    $.mosaic.options.ignore_context = options.ignore_context;
-    $.mosaic.options.tileheadelements = [];
+    // Initialize options
+    $.mosaic.options = options.data;  // XXX: Required options not documented
+    $.mosaic.tileHeadElements = [];
     $.mosaic.hasContentLayout = true;
 
-    var contentLayout = $.mosaic.getSelectedContentLayout();
-    if(contentLayout){
-      $.mosaic.applyLayout(contentLayout);
-    }else{
-      var contentRaw = $($.mosaic.options.customContentLayout_field_selector).val();
-      if(!contentRaw){
-        $.mosaic.selectLayout(true);
-      }else{
-        var $content = $.mosaic.getDomTreeFromHtml(contentRaw);
-        if($content.attr('id') === "no-layout"){
-          $.mosaic.selectLayout(true);
-        }else{
-          $('body').addClass('mosaic-layout-customized');
-          $.mosaic.hasContentLayout = false;
-          $.mosaic._init($content);
-        }
+    // Finalize init by loading static or customized layout content
 
-        // XXX There is a case where you can have an extraneous mid-edit tile
-        var $helper = $('.mosaic-helper-tile-new');
-        if($helper.length > 0){
-          $helper.parents('.mosaic-grid-row').remove();
-        }
+    // a) Get pre-defined content layout
+    content = $.mosaic.getSelectedContentLayout();
+    if (content) {
+      $.mosaic.applyLayout(content);
+      return;
+    }
+
+    // b) Get customized content layout
+    content = $.mosaic.getCustomContentLayout();
+    if (content) {
+      $content = $.mosaic.getDomTreeFromHtml(content);
+      if ($content.attr('id') !== "no-layout") {
+
+        // Remove unplaced saved helper tiles saved because of a fixed bug
+        $content.find('.mosaic-helper-tile-new')
+                .parents('.mosaic-grid-row').remove();
+
+        $('body').addClass('mosaic-layout-customized');
+        $.mosaic.hasContentLayout = false;
+        $.mosaic._init($content);
+        return;
       }
     }
+
+    // c) Let user select a pre-defined layout
+    $.mosaic.selectLayout(true);
   };
 
-  $.mosaic.getSelectedContentLayout = function(){
-    return $($.mosaic.options.contentLayout_field_selector).val();
+  $.mosaic.getCustomContentLayout = function () {
+    return $($.mosaic.options.customContentLayout_field_selector,
+      $.mosaic.document).val();
   };
 
-  $.mosaic.setSelectedContentLayout = function(value){
-    if(value){
+  $.mosaic.getSelectedContentLayout = function () {
+    return $($.mosaic.options.contentLayout_field_selector,
+      $.mosaic.document).val();
+  };
+
+  $.mosaic.setSelectedContentLayout = function (value) {
+    if (value) {
       $.mosaic.hasContentLayout = true;
       // Need to hide these buttons when not in custom content layout mode
       $('.mosaic-toolbar-secondary-functions', $.mosaic.document).hide();
       $('body').removeClass('mosaic-layout-customized');
-    }else{
+    } else {
       $('body').addClass('mosaic-layout-customized');
+      // Need to show these buttons when in custom content layout mode
+      $('.mosaic-toolbar-secondary-functions', $.mosaic.document).show();
       $.mosaic.hasContentLayout = false;
     }
-    return $($.mosaic.options.contentLayout_field_selector).attr('value', value);
+    return $($.mosaic.options.contentLayout_field_selector,
+      $.mosaic.document).attr('value', value);
   };
 
-
-  $.mosaic._initPanels = function ($content){
+  $.mosaic._initPanels = function ($content, callback) {
     $.mosaic.options.layout = $content.attr('data-layout');
+    if ($.mosaic.loaded) { utils.loading.show(); }
+
+    // Load site layout to be able to initialize all panels
+    $.ajax({
+      url: $.mosaic.options.layout,
+      cache: false
+    }).done(function (layoutHtml) {
+      $.mosaic.__initPanels($content, $('<div>' + layoutHtml + '</div>'), callback);
+    }).fail(function (xhr, type, status) {
+      $.mosaic.__initPanels($content, $(), callback);
+    }).always(function () {
+      if ($.mosaic.loaded) { utils.loading.hide(); }
+    });
+  };
+
+  $.mosaic.__initPanels = function ($content, $layout, callback) {
+    var panels = {};
 
     // Drop panels within panels (only the top level panels are editable)
-    $('[data-panel] [data-panel]', $.mosaic.document)
-      .removeAttr('data-panel');
+    $('[data-panel] [data-panel]', $content).removeAttr('data-panel');
+    $('[data-panel] [data-panel]', $.mosaic.document).removeAttr('data-panel');
 
+    // Initialize found panels from content
     $content.find("[data-panel]").each(function () {
       var panel = new Panel(this);
       panel.initialize($content);
-    });
-    // Pre-fill new panels from the layout
-    $("[data-panel]", $.mosaic.document).each(function () {
-      var panel = new Panel(this);
-      panel.prefill();
+      panels[$(this).attr('data-panel')] = panel;
     });
 
-    // Init app tiles
+    // Initialize rest of the panels from layout
+    $layout.find("[data-panel]").each(function () {
+      if (panels[$(this).attr('data-panel')] === undefined) {
+        var panel = new Panel(this);
+        panel.initialize($layout);
+        panels[$(this).attr('data-panel')] = panel;
+      }
+    });
+
+    // Store all initialized panels
     $.mosaic.options.panels = $(".mosaic-panel", $.mosaic.document);
 
+    // Init app tiles in panels
     $.mosaic.options.panels.find("[data-tile]").each(function () {
-      if(Tile.validTile(this)){
-        var tile = new Tile($(this).parent());
+      var tile;
+      if (Tile.validTile(this)) {
+        tile = new Tile(this);
         tile.initializeContent();
       }
     });
+
+    // Init grid editor for panels with mosaic-grid
+    $.mosaic.options.panels.mosaicLayout();
+
+    // Blur inactive content
+    $.mosaic.blur();
+
+    // Optional callback
+    if (typeof callback === 'function') { callback(); }
   };
 
   $.mosaic._init = function (content) {
-
-    $.mosaic._initPanels(content);
-
-    // Init overlay
-    $('.mosaic-original-content', $.mosaic.document).mosaicOverlay();
-
-    // Add toolbar div below menu
-    $("body").prepend($(document.createElement("div"))
-      .addClass("mosaic-toolbar")
-    );
-
-    // Add the toolbar to the options
-    $.mosaic.options.toolbar = $(".mosaic-toolbar");
-
-    // Init toolbar
-    $.mosaic.options.toolbar.mosaicToolbar();
-
     // Init layout
-    $.mosaic.options.panels.mosaicLayout();
+    $.mosaic._initPanels(content, function() {
+      // Init overlay
+      $('.mosaic-original-content', $.mosaic.document).mosaicOverlay();
+
+      // Init toolbar (expects panels been initialized)
+      $.mosaic.options.toolbar = $(document.createElement('div'))
+        .addClass('mosaic-toolbar').prependTo($('body')).mosaicToolbar();
+
+      // Signal initial load completed
+      $.mosaic.initialized();
+    });
+  };
+
+  $.mosaic.blur = function () {
+    // Local variables
+    var obj;
+
+    // Clear previous blur
+    $('.mosaic-blur', $.mosaic.document).removeClass('mosaic-blur');
 
     // Add blur to the rest of the content
     $("*", $.mosaic.document).each(function () {
-
-      // Local variables
-      var obj;
-
       obj = $(this);
 
       // Check if block element
@@ -383,42 +412,21 @@ define([
         }
       }
     });
-
-    // Init upload
-    // $.mosaic.initUpload();
-    $.mosaic.undo.init();
-
-    // on enabling, add class, disable toolbar classes, hide toolbar
-    $('.pat-toolbar').hide();
-    var $body = $('body');
-    $body.addClass('mosaic-enabled');
-    $body[0].className.split(' ').forEach(function(className){
-      if(className.indexOf('plone-toolbar') !== -1){
-        $body.removeClass(className);
-      }
-    });
-
-    $.mosaic.initialized();
   };
 
-  $.mosaic.applyLayout = function(layoutPath, callback){
-    if(callback === undefined){
-      callback = function(){};
-    }
-    utils.loading.show();
+  $.mosaic.applyLayout = function (layoutPath) {
+    if ($.mosaic.loaded) { utils.loading.show(); }
+
     $.ajax({
       url: $('body').attr('data-portal-url') + '/' + layoutPath,
       cache: false
     }).done(function(layoutHtml){
       var $content = $.mosaic.getDomTreeFromHtml(layoutHtml);
       $.mosaic.setSelectedContentLayout(layoutPath);
-      if($.mosaic.loaded){
-        // initialize panels
-        $.mosaic._initPanels($content);
-        // and setup layout for the new panels
-        $.mosaic.options.panels.mosaicLayout();
-      }else{
+      if(!$.mosaic.loaded){
         $.mosaic._init($content);
+      }else{
+        $.mosaic._initPanels($content);
       }
     }).fail(function(xhr, type, status){
       // use backup layout
@@ -429,7 +437,7 @@ define([
       }
       $.mosaic.applyLayout('++contentlayout++default/basic.html');
     }).always(function(){
-      utils.loading.hide();
+      if ($.mosaic.loaded) { utils.loading.hide(); }
     });
   };
 
@@ -457,7 +465,7 @@ define([
     modal.on('shown', function() {
       $('button.delete:visible', modal.$modal).off('click').on('click', function(e){
         e.preventDefault();
-        utils.loading.show();
+        if ($.mosaic.loaded) { utils.loading.show(); }
         var replacement = $('#layoutField', modal.$modal).val();
         $.ajax({
           url: $('body').attr('data-base-url') + '/@@manage-layouts-from-editor',
@@ -476,7 +484,7 @@ define([
         }).fail(function(){
           window.alert('Error deleting layout');
         }).always(function(){
-          utils.loading.hide();
+          if ($.mosaic.loaded) { utils.loading.hide(); }
         });
       });
       $('button.cancel:visible', modal.$modal).off('click').on('click', function(e){
@@ -488,7 +496,7 @@ define([
   };
 
   $.mosaic.deleteLayout = function(layout, callback){
-    utils.loading.show();
+    if ($.mosaic.loaded) { utils.loading.show(); }
     $.ajax({
       url: $('body').attr('data-base-url') + '/@@manage-layouts-from-editor',
       data: {
@@ -500,16 +508,14 @@ define([
     }).fail(function(){
       window.alert('Error loading data for existing assignments');
     }).always(function(){
-      utils.loading.hide();
+      if ($.mosaic.loaded) { utils.loading.hide(); }
     });
   };
 
   $.mosaic.manageCustomLayouts = function(){
     var $el = $('<div/>').appendTo('body');
     var modal = new Modal($el, {
-      html: $.mosaic.manageLayoutsTemplate($.extend({}, true, {
-
-      }, $.mosaic.options)),
+      html: $.mosaic.manageLayoutsTemplate($.extend({}, true, {}, $.mosaic.options)),
       content: null,
       buttons: '.plone-btn'
     });
@@ -535,23 +541,24 @@ define([
     modal.show();
   };
 
-
-  $.mosaic.selectLayout = function(initial){
-    if(initial !== undefined && initial){
-      // check if there is only 1 available layout and auto select
-      // if that is the case.
-      if($.mosaic.options.available_layouts.length === 1){
+  $.mosaic.selectLayout = function (initial) {
+    // a) When on new page and there's only 1 available layout, auto select it
+    if (initial !== undefined && initial) {
+      if ($.mosaic.options.available_layouts.length === 1) {
         var layout = $.mosaic.options.available_layouts[0];
         var layoutPath = '++contentlayout++' + layout.directory + '/' + layout.file;
         $.mosaic.applyLayout(layoutPath);
         return;
       }
     }
-    if($.mosaic.options.available_layouts.length === 0){
-      // use backup layout
+
+    // b) When there's no layout available, select a known default layout
+    if ($.mosaic.options.available_layouts.length === 0) {
       $.mosaic.applyLayout('++contentlayout++default/basic.html');
       return;
     }
+
+    // c) Show layout selector and apply selected layout
     var $el = $('<div/>').appendTo('body');
     var modal = new Modal($el, {
       html: $.mosaic.selectLayoutTemplate($.extend({}, true, {
@@ -576,15 +583,17 @@ define([
             layout = l;
           }
         });
-        var layoutPath = '++contentlayout++' + layout.path;
+        if (layout) {
+          layoutPath = '++contentlayout++' + layout.path;
+          $.mosaic.applyLayout(layoutPath);
+        }
         modal.hide();
-        $.mosaic.applyLayout(layoutPath);
       });
     });
     modal.show();
   };
 
-  $.mosaic.saveLayout = function(initial){
+  $.mosaic.saveLayout = function () {
     var $el = $('<div/>').appendTo('body');
     var modal = new Modal($el, {
       html: $.mosaic.saveLayoutTemplate($.extend({}, true, {
@@ -599,7 +608,7 @@ define([
         if(!layoutName){
           return;
         }
-        utils.loading.show();
+        if ($.mosaic.loaded) { utils.loading.show(); }
         e.preventDefault();
         var globalLayout = 'false';
         var $el = $('#globalLayout', modal.$modal);
@@ -625,7 +634,7 @@ define([
         }).fail(function(){
           window.alert('Error saving layout');
         }).always(function(){
-          utils.loading.hide();
+          if ($.mosaic.loaded) { utils.loading.hide(); }
           modal.hide();
         });
       });
@@ -672,24 +681,20 @@ define([
     }
 
     // Local variables
-    var tile_type_id, html_id, headelements, i;
+    var tile_type_id, html_id, head_elements, i;
 
     // Calc delete url
-    url = url.split('?')[0];
-    url = url.split('@@');
-    tile_type_id = url[1].split('/');
-    url = url[0] + '@@delete-tile?type=' + tile_type_id[0] + '&id=' +
-      tile_type_id[1] + '&confirm=true';
+    tile_type_id = url.split('?')[0].split('@@')[1].split('/');
     html_id = tile_type_id[0].replace(/\./g, '-') + '-' + tile_type_id[1];
 
     // Remove head elements
-    headelements = $.mosaic.options.tileheadelements[html_id];
-    if(headelements){
-      for (i = 0; i < headelements.length; i += 1) {
-        $(headelements[i], $.mosaic.document).remove();
+    head_elements = $.mosaic.tileHeadElements[html_id];
+    if (head_elements) {
+      for (i = 0; i < head_elements.length; i += 1) {
+        $(head_elements[i], $.mosaic.document).remove();
       }
     }
-    $.mosaic.options.tileheadelements[html_id] = [];
+    $.mosaic.tileHeadElements[html_id] = [];
   };
 
   /**
@@ -700,22 +705,23 @@ define([
    * @param {Object} dom Dom object of the tile
    */
   $.mosaic.addHeadTags = function (url, dom) {
+    if (!url || url === 'undefined') {
+      return;
+    }
 
     // Local variables
     var tile_type_id, html_id;
 
     // Calc url
-    url = url.split('?')[0];
-    url = url.split('@@');
-    tile_type_id = url[1].split('/');
+    tile_type_id = url.split('?')[0].split('@@')[1].split('/');
     html_id = tile_type_id[0].replace(/\./g, '-') + '-' + tile_type_id[1];
-    $.mosaic.options.tileheadelements[html_id] = [];
+    $.mosaic.tileHeadElements[html_id] = [];
 
     // Get head items
     dom.find(".temp_head_tag").children().each(function () {
 
       // Add element
-      $.mosaic.options.tileheadelements[html_id].push(this);
+      $.mosaic.tileHeadElements[html_id].push(this);
 
       // Add head elements
       $('head', $.mosaic.document).append(this);
@@ -744,6 +750,40 @@ define([
         queueName = 'fx';  // 'fx' autoexecutes by default
     }
     $(window).queue(queueName, callback);
+  };
+
+  /**
+   * Encode flat JavaScript object into query string
+   *
+   * @param {obj} object
+   */
+  $.mosaic.encode = function(obj) {
+    if (typeof obj !== 'object') { return ''; }
+    var str = [];
+    for(var p in obj) {
+      if (obj.hasOwnProperty(p)) {
+        str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+      }
+    }
+    return str.join("&");
+  };
+
+  /**
+   * Decode flat JavaScript object from query string
+   *
+   * @param {str} url or querystring
+   */
+  $.mosaic.decode = function(str) {
+    if (typeof str !== 'string') { return {}; }
+    var query = {};
+    var a = (
+      str.indexOf('?') !== -1 ? str.substr(str.indexOf('?') + 1) : str
+    ).split('&');
+    for (var i = 0; i < a.length; i++) {
+        var b = a[i].split('=');
+        query[decodeURIComponent(b[0])] = decodeURIComponent(b[1] || '');
+    }
+    return query;
   };
 
 });

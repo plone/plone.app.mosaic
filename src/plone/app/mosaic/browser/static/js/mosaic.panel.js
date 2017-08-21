@@ -5,8 +5,9 @@ immed: true, strict: true, maxlen: 150, maxerr: 9999, quotmark: false */
 define([
   'jquery',
   'pat-logger',
+  'pat-registry',
   'underscore'
-], function($, logger, _) {
+], function($, logger, Registry, _) {
   'use strict';
 
   var log = logger.getLogger('pat-mosaic');
@@ -16,11 +17,14 @@ define([
     this.$el = $(el);
   };
 
-  Panel.prototype.initialize = function($content){
+  Panel.prototype.initialize = function($content) {
     // Local variables
-    var panel_id = this.$el.data("panel"), panel_attr_id,
+    var panel_id = this.$el.attr("data-panel"), panel_attr_id,
         target = $("[data-panel=" + panel_id + "]", $.mosaic.document),
-        max_columns = (this.$el.data('max-columns') || 4);
+        max_columns = parseInt(this.$el.attr('data-max-columns'), 10) || 4;
+
+    // Ensure max columns on new panels
+    target.attr('data-max-columns', max_columns);
 
     // Implicitly initialize required panels with id matching element
     if (panel_id === 'content' && target.length === 0) {
@@ -34,7 +38,7 @@ define([
     // this panel
     if (panel_id === 'content') {
       panel_attr_id = target.attr('id');
-      if($('.mosaic-original-content', $.mosaic.document).size() === 0){
+      if ($('.mosaic-original-content', $.mosaic.document).length === 0) {
         target.before($(document.createElement("div"))
             .attr("id", panel_attr_id)
             .attr("class", target.attr("class"))
@@ -45,8 +49,10 @@ define([
         target
             .removeAttr('data-panel')
             .removeAttr('id')
-            .addClass('mosaic-original-content');
-      }else{
+            .addClass('mosaic-original-content')
+            .hide();
+        Registry.scan(target.prev());
+      } else {
         // re-initializing, so we just have to replace existing
         target.replaceWith($(document.createElement("div"))
             .attr("id", panel_attr_id)
@@ -55,6 +61,7 @@ define([
             .attr('data-panel', 'content')
             .attr('data-max-columns', max_columns)
             .html($content.find("[data-panel=" + panel_id + "]").html()));
+        Registry.scan(target);
       }
     } else {
       target.attr("class",
@@ -62,23 +69,7 @@ define([
       target.addClass('mosaic-panel');
       target.html($content.find("[data-panel=" +
           panel_id + "]").html());
-    }
-  };
-
-  Panel.prototype.prefill = function(){
-    if (!this.$el.hasClass('mosaic-panel')) {
-      log.info($(this));
-      $(this).addClass('mosaic-panel');
-      $(this).children().wrap($(
-        '<div class="mosaic-grid-row">' +
-          '<div class="mosaic-grid-cell mosaic-width-full mosaic-position-leftmost">' +
-            '<div class="movable removable mosaic-tile mosaic-text-tile">' +
-              '<div class="mosaic-tile-content">' +
-              '</div>' +
-            '</div>' +
-          '</div>' +
-        '</div>'
-      ));
+      Registry.scan(target);
     }
   };
 
