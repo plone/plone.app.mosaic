@@ -90,7 +90,7 @@ latest plone.app.mosaic is::
     plone.app.standardtiles = 2.2.0
     plone.app.blocks = 4.1.0
     plone.app.drafts = 1.1.2
-    plone.app.mosaic = 2.0rc6
+    plone.app.mosaic = 2.0rc7
     plone.formwidget.multifile = 2.0
     plone.jsonserializer = 0.9.3
 
