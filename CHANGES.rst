@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.0rc6 (unreleased)
+2.0rc6 (2017-08-21)
 -------------------
 
 New features:
