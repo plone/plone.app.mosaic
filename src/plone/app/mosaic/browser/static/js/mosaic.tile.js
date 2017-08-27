@@ -89,9 +89,26 @@ define([
     }
     that.focusCheckCount = 0;
 
-    that.$el.children(".mosaic-tile-content").off('blur').on('blur', function(){
+    that.$el.children(".mosaic-tile-content").off('blur').on('blur', that.saveDataContent());
+    if(that.$el.hasClass('mosaic-tile-inline')) {
+      that.$el.off('dblclick').on('dblclick', that.settingsClicked.bind(that));
+      that.$el.off('dragend').on('dragend', function() {
+          console.log('Drag end')
+      })
+    }
+    if(that.getConfig().name === 'plone.app.standardtiles.listfieldtile') {
+      that.$el.find('.itemHTML').off('change').on('change', function(e) {
+        console.log(e)
+      })
+    }
+
+
+  };
+
+  Tile.prototype.saveDataContent = function(){
+      var that = this;
       var tile_config = that.getConfig();
-      if(tile_config && tile_config.tile_type === 'textapp'){
+      if(tile_config && tile_config.tile_type === 'textapp') {
         var edit_url = that.getEditUrl();
         if(edit_url){
           var currentData = that.addInlineDataUrls();
@@ -108,13 +125,20 @@ define([
             _authenticator: utils.getAuthenticator(),
             'buttons.save': 'Save'
           };
+          
           data[tile_config.name + '.content'] = currentData;
+
           // need to save tile
           $.mosaic.queue(function(next){
             $.ajax({
               url: edit_url,
               method: 'POST',
-              data: data
+              data: data,
+              success: function(value) {
+                if(that.getConfig().name === "plone.app.standardtiles.contentlisting") {
+                    that.updateList(value)
+                }
+              }
             }).always(function(){
               that.$el.data('lastSavedData', currentData);
               that.$el.data('activeSave', false);
@@ -123,8 +147,16 @@ define([
           });
         }
       }
-    });
-  };
+  }
+
+  Tile.prototype.updateList = function(value) {
+    var that = this;
+
+    value = $.mosaic.getDomTreeFromHtml(value);
+
+    that.$el.find('.listing')
+        .replaceWith(value.find('.listing'));
+  }
 
   Tile.prototype.getDataTileEl = function(html, tileUrl){
     return this.$el.find('[data-tile]');
@@ -406,10 +438,14 @@ define([
 
     Tile.prototype.addInlineDataUrls = function() {
 
-   
     var that = this;
-    
+
     var contentClone = this.getContentEl().clone();
+
+    if(this.$el.hasClass('mosaic-plone.app.standardtiles.contentlisting-tile')){
+      contentClone =  this.$el.find('.itemHTML').clone();
+    }
+
     contentClone.find('.mosaic-tile-inline').each( function() {
         var inlineTile = new Tile(this);
 
@@ -417,11 +453,16 @@ define([
         var url = inlineTile.getUrl();
         if(!url && inlineTile.getConfig().tile_type === "field") {
           url = './@@plone.app.standardtiles.field?field=' + inlineTile.getType();
+        //Save the actual inline tile content during ajax request so we don't
+        //need to call the tile again later
+        }
+        if(inlineTile.getConfig().name === "plone.app.standardtiles.listfieldtile") {
+          var field = inlineTile.$el.find('.field');
+          url = url +'?field='+field.text();
         }
         //url += '&_inline=true';
         tileUrl.attr('data-tile', url);
-        //Save the actual inline tile content during ajax request so we don't
-        //need to call the tile again later
+        inlineTile.saveDataContent();
         that.$el.data(url, inlineTile.$el.find('.mosaic-inline-tile-content').html());
         inlineTile.$el.find('.mosaic-inline-tile-content').html(tileUrl);
       }
@@ -464,7 +505,9 @@ define([
       }
 
       // Init rich text
-      if (this.isRichText() && !this.$el.is('.mosaic-tile-inline')) {
+      if (this.isRichText() && !this.$el.is('.mosaic-tile-inline')
+        && (this.getConfig().name!=='plone.app.standardtiles.contentlisting'
+          || this.$el.hasClass('mosaic-helper-tile'))) {
         // Init rich editor
         this.setupWysiwyg();
       }
@@ -776,6 +819,7 @@ define([
         url = base ? [base, href].join('/')
                                  .replace(/\/+\.\//g, '/') : href;
         var original_url = url;
+
         // in case tile should be rendered differently for layout editor
         if(url.indexOf('?') === -1){
           url += '?';
@@ -797,14 +841,14 @@ define([
             $.mosaic.addHeadTags(href, value);
             var tileHtml = value.find('.temp_body_tag').html();
             that.fillContent(tileHtml, original_url);
-            var tiletype = that.getType();
-            if(tiletype === 'plone.app.standardtiles.html'){
+            if(tile_config.tile_type === 'textapp') {
               // a little gymnastics to make wysiwyg work here
               // Init rich editor
               if(!that.$el.data('lastSavedData')){
                 // save initial state
                 that.$el.data('lastSavedData', that.getHtmlContent());
               }
+              that.setupWysiwyg();
 
               /* HACK HACK HACK */
               /* this is so first focus actually works with tinymce. */
@@ -826,11 +870,10 @@ define([
                 }
                 that.blur();
               };
-              that.setupWysiwyg();
+              // that.setupWysiwyg();
 
               var richText = that.$el.find('.mosaic-tile-content');
               if(richText.parents('.mosaic-tile')) {
-
                 richText.find('[data-tile]').each(function() {
 
                   var inlineTile = new Tile($(this));
@@ -856,7 +899,6 @@ define([
                       });
                     }
 
-                      var dataTile = inlineTile.getDataTileEl();
                       dataTile.append(inlineTile.getHtmlContent());
 
                     }
@@ -886,10 +928,12 @@ define([
         var parent = $el.parent();
         parent.html(html);
         $content = this.getContentEl();
-      }else{
+      }
+      else{
         // otherwise, we use content to fill html
         $content = this.getContentEl();
         $content.html(html);
+
       }
       if(tileUrl && $content.size() > 0){
         tileUrl = tileUrl.replace(/&/gim, '&amp;');
@@ -1087,6 +1131,12 @@ define([
       // Get element
       var $content = that.$el.find('.mosaic-tile-content');
 
+      var $innerHTML = that.$el.find('.itemHTML');
+
+      if($innerHTML.length > 0) {
+        $content = $innerHTML;
+      }
+
       // Remove existing pattern
       try{
         $content.data("pattern-tinymce").destroy();
@@ -1244,9 +1294,17 @@ define([
           }
 
           // `change` event doesn't fire all the time so we do both here...
-          editor.on('keyup change', placeholder);
+          var updateTimeout;
+          editor.on('change keyup', function(e) {
+            clearTimeout(updateTimeout);
+            updateTimeout = null;
+            updateTimeout = setTimeout(function () {
+              that.saveDataContent();
+              clearTimeout(updateTimeout);
+              }, 1500);
+            placeholder();
+          });
           placeholder();
-
 
           editor.on('init', function(){
             var droppingTile = $('.mosaic-inline-dropping', $.mosaic.document);
@@ -1300,7 +1358,8 @@ define([
                  }
                 var tile = new Tile(droppingTile);
 
-                if (tile.getConfig().tile_type === "field") {
+                if (tile.getConfig().tile_type === "field" ||
+                    tile.getConfig().name ==="plone.app.standardtiles.listfieldtile") {
                     var clone = $('<span/>')
                         .attr('class', clone.attr('class'))
                         .html(clone.html());

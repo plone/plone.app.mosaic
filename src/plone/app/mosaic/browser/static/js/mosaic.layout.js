@@ -445,6 +445,7 @@ define([
         .off('mousedown', '.mosaic-tile-inline')
         .on('mousedown', '.mosaic-tile-inline', InlineMouseDown);
 
+
     var RichTextMouseLeave = function(){
 
         if($('.mosaic-tile-inline-divider', $.mosaic.document).length > 0) {
@@ -518,8 +519,9 @@ define([
 
     var FocusOnTinyMCE = function(e) {
       var targetTile = $(e.target).parents('.mosaic-tile');
-      var tinyMceId = targetTile.find('.mosaic-rich-text').attr('id');
-      tinyMCE.execCommand('mceFocus', false, tinyMceId);
+
+      var tinyMceID = targetTile.find('.mosaic-rich-text').attr('id');
+      tinymce.execCommand('mceFocus', false, tinyMceID);
 
       targetTile.addClass("mosaic-tile-inline-divider mosaic-selected-tile");
       $('.mosaic-original-tile').addClass('mosaic-inline-dropping')
@@ -582,7 +584,8 @@ define([
 
           //Check if hovering over a rich text tile
           //and set the timeout to focus on it
-          if ($(this).hasClass("mosaic-plone.app.standardtiles.html-tile")) {
+          if ($(this).hasClass("mosaic-plone.app.standardtiles.html-tile") ||
+          $(this).hasClass('mosaic-plone.app.standardtiles.contentlisting-tile')) { //This is super janky. Fix it later
             if($(this).hasClass("mosaic-helper-tile") === false
             && mceFocusTimer === null) {
                 mceFocusTimer = window.setTimeout(function() {
@@ -1389,7 +1392,8 @@ define([
     // when a tile with tinymce is dragged, you need to reload the tinymce editor
     // for all tiles edited over it... This is nasty but seems to be needed.
     // If not done, those *other* tiles will not be editable
-    $('.mosaic-tile:not(".mosaic-helper-tile") .mosaic-tile-content.mosaic-rich-text').each(function(){
+    $('.mosaic-tile:not(".mosaic-helper-tile") .mosaic-tile-content.mosaic-rich-text, ' +
+        '.mosaic-tile:not(".mosaic-helper-tile") .mosaic-tile-content>.mosaic-rich-text').each(function(){
       var atile = new Tile($(this).parent());
       atile.setupWysiwyg();
     });
@@ -2150,10 +2154,10 @@ define([
         var tile = new Tile(this);
         tile.saveForm();
       });
-      // $(this).find(".mosaic-tile-inline").each(function() {
-      //     var tile = new Tile(this);
-      //     tile.saveForm();
-      // })
+      $(this).find(".mosaic-tile-inline").each(function() {
+          var tile = new Tile(this);
+          tile.saveForm();
+      })
     });
   };
 

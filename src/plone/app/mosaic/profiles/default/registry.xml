@@ -795,6 +795,20 @@
   </records>
   -->
 
+  <records prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_listfieldtile"
+           interface="plone.app.mosaic.interfaces.ITile">
+    <value key="name">plone.app.standardtiles.listfieldtile</value>
+    <value key="label">List Field</value>
+    <value key="category">applications</value>
+    <value key="tile_type">app</value>
+    <value key="default_value"></value>
+    <value key="read_only">false</value>
+    <value key="settings">true</value>
+    <value key="favorite">false</value>
+    <value key="rich_text">false</value>
+    <value key="weight">20</value>
+  </records>
+
   <records prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_discussion"
            interface="plone.app.mosaic.interfaces.ITile">
     <value key="name">plone.app.standardtiles.discussion</value>
@@ -869,6 +883,7 @@
     <value key="weight">30</value>
   </records>
 
+
   <records prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_contentlisting"
            interface="plone.app.mosaic.interfaces.ITile">
     <value key="name">plone.app.standardtiles.contentlisting</value>
@@ -882,6 +897,33 @@
     <value key="rich_text">true</value>
     <value key="weight">10</value>
   </records>
+
+  <record name="plone.app.mosaic.app_tiles.plone_app_standardtiles_contentlisting.available_actions">
+    <field type="plone.registry.field.List">
+      <title>Available actions for the contentlisting tile</title>
+      <value_type type="plone.registry.field.TextLine" />
+    </field>
+    <value>
+      <element>toolbar-styleselect</element>
+      <element>toolbar-bold</element>
+      <element>toolbar-italic</element>
+      <element>toolbar-alignleft</element>
+      <element>toolbar-aligncenter</element>
+      <element>toolbar-alignright</element>
+      <element>toolbar-alignjustify</element>
+      <element>toolbar-bullist</element>
+      <element>toolbar-numlist</element>
+      <element>toolbar-table</element>
+      <element>toolbar-ploneimage</element>
+      <element>toolbar-unlink</element>
+      <element>toolbar-plonelink</element>
+      <element>toolbar-code</element>
+      <element>contextmenu-tableprops</element>
+      <element>contextmenu-cell</element>
+      <element>contextmenu-row</element>
+      <element>contextmenu-column</element>
+    </value>
+  </record>
 
   <records prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_existingcontent"
            interface="plone.app.mosaic.interfaces.ITile">

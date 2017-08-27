@@ -275,7 +275,8 @@ define([
         $.mosaic.saving = true;
         $('.mosaic-selected-tile', $.mosaic.document).each(function() {
           var tile = new Tile(this);
-          tile.blur();
+          tile.saveDataContent();
+          // tile.blur();
         });
         $.mosaic.options.toolbar.trigger("selectedtilechange");
         $.mosaic.queue(function(next) {
@@ -472,7 +473,8 @@ define([
         }
 
         // Create new app tile
-        if (tile_config.tile_type === 'textapp') {
+        if (tile_config.tile_type === 'textapp' && 
+            tile_type!=="plone.app.standardtiles.contentlisting") {
           // an app tile
           // generate uid for it: http://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript
           var uid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
@@ -483,7 +485,8 @@ define([
           var tileUrl = $.mosaic.options.context_url + '/@@' + tile_type + '/' + uid;
           var html = '<html><body>' + $.mosaic.getDefaultValue(tile_config) + '</body></html>';
           $.mosaic.addAppTileHTML(tile_type, html, tileUrl);
-        }else if (tile_config.tile_type === 'app') {
+        }else if (tile_config.tile_type === 'app' || 
+            tile_type==="plone.app.standardtiles.contentlisting") {
           // Load add form form selected tiletype
           var initial = true;
           utils.loading.show();
