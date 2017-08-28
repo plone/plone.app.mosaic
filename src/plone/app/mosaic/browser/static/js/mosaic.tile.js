@@ -261,23 +261,22 @@ define([
         if (tile_group.tiles[y].tile_type === 'field') {
           var widget = tile_group.tiles[y].widget.split('.');
           widget = widget[widget.length - 1];
-          tile_group.tiles[y].settings = true;
-          // switch(widget) {
-          // case "TextWidget":
-          // case "TextFieldWidget":
-          // case "TextAreaWidget":
-          // case "TextAreaFieldWidget":
-          // case "TextLinesWidget":
-          // case "TextLinesFieldWidget":
-          // case "WysiwygWidget":
-          // case "WysiwygFieldWidget":
-          // case "RichTextWidget":
-          // case "RichTextFieldWidget":
-          //   tile_group.tiles[y].settings = false;
-          //   break;
-          // default:
-          //   tile_group.tiles[y].settings = true;
-          // }
+          switch(widget) {
+          case "TextWidget":
+          case "TextFieldWidget":
+          case "TextAreaWidget":
+          case "TextAreaFieldWidget":
+          case "TextLinesWidget":
+          case "TextLinesFieldWidget":
+          case "WysiwygWidget":
+          case "WysiwygFieldWidget":
+          case "RichTextWidget":
+          case "RichTextFieldWidget":
+            tile_group.tiles[y].settings = false;
+            break;
+          default:
+            tile_group.tiles[y].settings = true;
+          }
         }
         if (tile_group.tiles[y].name === tiletype) {
           tile_config = tile_group.tiles[y];
@@ -529,7 +528,7 @@ define([
       };
 
       // Add settings icon
-      if (tile_config &&
+      if (tile_config && tile_config.settings &&
             this.$el.hasClass('mosaic-read-only-tile') === false) {
         _addButton('Edit', 'settings', this.settingsClicked.bind(this));
       }
