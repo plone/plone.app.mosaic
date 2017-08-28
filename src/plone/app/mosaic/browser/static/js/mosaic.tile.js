@@ -96,11 +96,6 @@ define([
           console.log('Drag end')
       })
     }
-    if(that.getConfig().name === 'plone.app.standardtiles.listfieldtile') {
-      that.$el.find('.itemHTML').off('change').on('change', function(e) {
-        console.log(e)
-      })
-    }
 
 
   };
@@ -462,7 +457,6 @@ define([
         }
         //url += '&_inline=true';
         tileUrl.attr('data-tile', url);
-        inlineTile.saveDataContent();
         that.$el.data(url, inlineTile.$el.find('.mosaic-inline-tile-content').html());
         inlineTile.$el.find('.mosaic-inline-tile-content').html(tileUrl);
       }
@@ -572,7 +566,7 @@ define([
       };
 
       // Add settings icon
-      if (tile_config &&
+      if (tile_config && tile_config.settings &&
             this.$el.hasClass('mosaic-read-only-tile') === false) {
         _addButton('Edit', 'settings', this.settingsClicked.bind(this));
       }
