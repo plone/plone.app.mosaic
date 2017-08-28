@@ -793,8 +793,7 @@ define([
             var tileHtml = value.find('.temp_body_tag').html();
             that.fillContent(tileHtml, original_url);
             var tiletype = that.getType();
-            // if(tiletype === 'plone.app.standardtiles.html'){
-              if(tile_config.tile.type === 'textapp') {
+            if(tiletype === 'plone.app.standardtiles.html'){
               // a little gymnastics to make wysiwyg work here
               // Init rich editor
               if(!that.$el.data('lastSavedData')){
@@ -1298,7 +1297,8 @@ define([
                 //And get the innerHTML of the wrap
                 clone.wrap('<p>');
 
-                var tiny = window.tinyMCE.get(this.getAttribute('id'));
+                var tinyID = that.$el.find('.mosaic-rich-text').attr('id');
+                var tiny = window.tinyMCE.get(tinyID);
 
                 tiny.execCommand('mceInsertContent', false,
                     clone.parent().html());

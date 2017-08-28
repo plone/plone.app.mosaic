@@ -422,26 +422,10 @@ define([
 
     }
 
-    var EditOnDblClick = function(e) {
-      var elm = $(e.target);
-      if (elm.hasClass('.mosaic-tile-inline') === false) {
-          elm = elm.parents('.mosaic-tile-inline')
-      }
-      //get parent rich text tile of inline tile
-      var parent = elm.parents('.mosaic-tile');
-      //Set all inline tiles content noneditable
-      parent.find('.mosaic-tile-inline').attr('contenteditable', 'false');
-      //Set the content of the clicked inlinetile editable
-      elm.attr('contenteditable', 'true');
-    }
 
     $($.mosaic.document)
         .off('mousedown', '.mosaic-tile-inline')
         .on('mousedown', '.mosaic-tile-inline', InlineMouseDown);
-
-    $($.mosaic.document)
-        .off('dblclick', '.mosaic-tile-inline')
-        .on('dblclick', '.mosaic-tile-inline', EditOnDblClick);
 
 
     var RichTextMouseLeave = function(){
