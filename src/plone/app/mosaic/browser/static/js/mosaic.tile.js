@@ -79,7 +79,7 @@ define([
     that.tinymce = null;
     that.$el = $(el);
     if(!that.$el.is('.mosaic-tile') && !that.$el.is('.mosaic-inlinetile')){
-      that.$el.parents('.mosaic-inlinetile');
+     that.$el.parents('.mosaic-inlinetile');
       if(!that.$el.is('.mosaic-inlinetile')) {
         // XXX we need to get the outer-most container of the node here always
         that.$el = that.$el.parents('.mosaic-tile');
@@ -1017,14 +1017,19 @@ define([
       // Get element
       var $content = that.$el.find('.mosaic-tile-content');
 
-      $content.find('.mosaic-inlinetile').each(function() {
+      //If we're initializing the tiles, search for tile
+      //references from the content and render them.
+      if($content.parents('.mosaic-tile-loading')) {
+          $content.find('[data-tile]').each(function() {
           var inlineTile = new Tile($(this));
-          inlineTile.initialize();
           inlineTile.initializeContent();
           inlineTile.$el.addClass("mceNonEditable");
           var dataTile = inlineTile.getDataTileEl();
           dataTile.append(inlineTile.getHtmlContent())
-      })
+          });
+      }
+
+
 
 
       // Remove existing pattern
@@ -1174,7 +1179,6 @@ define([
               }
             }
           });
-
           if(toolbar.length === 0){
             editor.on('keydown', function(e){
               if(e.keyCode === 13){
@@ -1187,6 +1191,7 @@ define([
           // `change` event doesn't fire all the time so we do both here...
           editor.on('keyup change', placeholder);
           placeholder();
+
 
           editor.on('init', function(){
             /*
@@ -1201,6 +1206,32 @@ define([
                 that._focus();
               }, 100);
             }
+
+            var droppingTile = $('.mosaic-inline-dropping', $.mosaic.document).clone();
+            if(that.$el.hasClass('mosaic-tile-inline-divider') &&
+                droppingTile.size() > 0){
+
+                droppingTile.find('.mosaic-divider, .mosaic-tile-control,' +
+                '.mosaic-tile-outer-border, .mosaic-tile-inner-border,' +
+                '.mosaic-tile-label-content, .mosaic-tile-label-left, .mosaic-rich-text-toolbar').remove();
+
+                droppingTile.find('.mosaic-tile-content')
+                    .removeClass('mosaic-tile-content')
+                    .addClass('mosaic-inline-tile-content')
+                    .attr('contenteditable', 'false');
+
+                droppingTile.removeClass('mosaic-tile movable removable mosaic-inline-dropping')
+                    .addClass('mosaic-inline-tile mceNonEditable');
+
+                //Wrap the droppingTile inside <div> so that we don't
+                //lose the outermost element when using the html()
+                droppingTile.wrap('<p>');
+                this.execCommand('mceInsertContent', false, droppingTile.parent().html());
+
+                $('.mosaic-inline-dropping', $.mosaic.document).remove();
+                that.$el.removeClass('mosaic-tile-inline-divider');
+            }
+            // }
           });
         }
       }}));
