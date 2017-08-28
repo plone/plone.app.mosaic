@@ -405,18 +405,25 @@ define([
     };
 
     Tile.prototype.addInlineDataUrls = function() {
+
+   
+    var that = this;
+    
     var contentClone = this.getContentEl().clone();
     contentClone.find('.mosaic-tile-inline').each( function() {
-        var ilTile = new Tile(this);
+        var inlineTile = new Tile(this);
 
         var tileUrl = $('<'+this.nodeName+'/>');
-        var url = ilTile.getUrl();
-        if(!url && ilTile.getConfig().tile_type === "field") {
-          url = './@@plone.app.standardtiles.field?field=' + ilTile.getType();
+        var url = inlineTile.getUrl();
+        if(!url && inlineTile.getConfig().tile_type === "field") {
+          url = './@@plone.app.standardtiles.field?field=' + inlineTile.getType();
         }
-        url += '&_inline=true';
+        //url += '&_inline=true';
         tileUrl.attr('data-tile', url);
-        ilTile.$el.find('.mosaic-inline-tile-content').html(tileUrl);
+        //Save the actual inline tile content during ajax request so we don't
+        //need to call the tile again later
+        that.$el.data(url, inlineTile.$el.find('.mosaic-inline-tile-content').html());
+        inlineTile.$el.find('.mosaic-inline-tile-content').html(tileUrl);
       }
     )
     return contentClone.html();
@@ -601,8 +608,6 @@ define([
 
       // Remove current tile
       this.$el.remove();
-
-      $.mosaic.undo.snapshot();
 
       // Cleanup original row
       $originalRow.mosaicCleanupRow();
@@ -826,23 +831,35 @@ define([
               var richText = that.$el.find('.mosaic-tile-content');
               if(richText.parents('.mosaic-tile')) {
 
-                  richText.find('[data-tile]').each(function() {
+                richText.find('[data-tile]').each(function() {
 
-                      var inlineTile = new Tile($(this));
+                  var inlineTile = new Tile($(this));
 
-                      if(inlineTile.$el.hasClass('mosaic-tile') === false) {
-                          inlineTile.initializeContent();
-                          inlineTile.$el.addClass("mceNonEditable");
-                          if(inlineTile.$el.prop('tagName') === 'SPAN') {
-                            inlineTile.getContentEl().children().each(function() {
-                              var div_transform = $('<span/>');
-                              div_transform.html(this.innerHTML);
-                              $(this).replaceWith(div_transform);
-                            });
-                          }
-                          var dataTile = inlineTile.getDataTileEl();
-                          dataTile.append(inlineTile.getHtmlContent());
-                      }
+                  var dataTile = inlineTile.getDataTileEl();
+                  //If we previously have saved the content of inline tile,
+                  //we use it instead of calling the tile again.
+                  if (that.$el.data(dataTile.attr('data-tile'))) {
+                    dataTile.replaceWith(that.$el.data(dataTile.attr('data-tile')));
+                    that.$el.removeData(dataTile.attr('data-tile'));
+                  }
+
+                  else if (inlineTile.$el.hasClass('mosaic-tile') === false) {
+                    inlineTile.initializeContent();
+                    inlineTile.$el.addClass("mceNonEditable");
+
+                    if (inlineTile.$el.prop('tagName') === 'SPAN') {
+
+                      inlineTile.getContentEl().children().each(function() {
+                      var div_transform = $('<span/>');
+                      div_transform.html(this.innerHTML);
+                      $(this).replaceWith(div_transform);
+                      });
+                    }
+
+                      var dataTile = inlineTile.getDataTileEl();
+                      dataTile.append(inlineTile.getHtmlContent());
+
+                    }
                   });
               }
 
@@ -1230,10 +1247,6 @@ define([
           editor.on('keyup change', placeholder);
           placeholder();
 
-          // editor.on('click', function(e) {
-          //     console.log('Element clicked: ', e.target.nodeName);
-          // });
-
 
           editor.on('init', function(){
             var droppingTile = $('.mosaic-inline-dropping', $.mosaic.document);
@@ -1262,6 +1275,7 @@ define([
                     .removeClass('mosaic-tile-content mce-content-body')
                     .addClass('mosaic-inline-tile-content')
                     .removeAttr('id');
+
                 clone.find('[contentEditable]').removeAttr('contentEditable');
                 clone.wrap('<p>');
 
@@ -1302,6 +1316,7 @@ define([
 
                 tiny.execCommand('mceInsertContent', false,
                     clone.parent().html());
+
                 tiny.execCommand('mceCleanup', false);
 
                 droppingTile.remove();

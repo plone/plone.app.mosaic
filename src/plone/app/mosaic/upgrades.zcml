@@ -324,4 +324,12 @@
       handler=".upgrades.upgrade_to_2_0rc5"
       />
 
+  <genericsetup:upgradeStep
+      profile="plone.app.mosaic:default"
+      source="5020"
+      destination="5021"
+      title="Remove table specific context menu from the default rich text tiles"
+      handler=".upgrades.upgrade_to_2_0rc6"
+      />
+
 </configure>

@@ -1,11 +1,40 @@
 Changelog
 =========
 
-2.0rc6 (unreleased)
+2.0rc8 (unreleased)
 -------------------
+
+- Nothing changed yet.
+
+
+2.0rc7 (2017-08-21)
+-------------------
+
+New features:
 
 - Add simple descriptions for all the tiles listed in the docs.
   [cguardia]
+
+- Allow to nest columns inside a cell
+  [frapell]
+
+- Allow to include custom CSS on rows
+  [frapell]
+
+Bug fixes:
+
+- Fix issue where default rich text tiles had context menu
+  from legacy HTML table tile
+  [datakurre]
+
+- Fix issue where TinyMCE was broken in properties overlay
+  [datakurre]
+
+- Fix issue where title field value was not set on some IE version
+  [datakurre]
+
+- Fix issue where block elements with display 'flex' were not blurred
+  [datakurre]
 
 
 2.0rc5 (2017-04-06)

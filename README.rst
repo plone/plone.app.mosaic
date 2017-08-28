@@ -84,13 +84,13 @@ Installation
 A example set of dependencies' version pins for Plone 5 that works with the
 latest plone.app.mosaic is::
 
-    plone.tiles = 1.8.2
-    plone.subrequest = 1.8
+    plone.tiles = 1.8.3
+    plone.subrequest = 1.8.1
     plone.app.tiles = 3.0.3
-    plone.app.standardtiles = 2.1.0
-    plone.app.blocks = 4.0.6
-    plone.app.drafts = 1.1.1
-    plone.app.mosaic = 2.0rc5
+    plone.app.standardtiles = 2.2.0
+    plone.app.blocks = 4.1.0
+    plone.app.drafts = 1.1.2
+    plone.app.mosaic = 2.0rc7
     plone.formwidget.multifile = 2.0
     plone.jsonserializer = 0.9.3
 

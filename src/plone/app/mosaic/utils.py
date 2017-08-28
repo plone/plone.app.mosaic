@@ -32,6 +32,11 @@ from zope.schema.interfaces import IField
 
 import os
 
+WIDGET_NAMES_MAP = {
+    'plone.app.z3cform.widget.RichTextWidget':
+    'plone.app.z3cform.widget.RichTextFieldWidget'
+}
+
 
 def _getWidgetName(field, widgets, request):
     if field.__name__ in widgets:
@@ -39,12 +44,14 @@ def _getWidgetName(field, widgets, request):
     else:
         factory = getMultiAdapter((field, request), IFieldWidget)
     if isinstance(factory, basestring):
-        return factory
-    elif isinstance(factory, ParameterizedWidget):
-        factory = factory.widget_factory
-    elif not isinstance(factory, type):
-        factory = factory.__class__
-    return '{0:s}.{1:s}'.format(factory.__module__, factory.__name__)
+        name = factory
+    else:
+        if isinstance(factory, ParameterizedWidget):
+            factory = factory.widget_factory
+        elif not isinstance(factory, type):
+            factory = factory.__class__
+        name = '{0:s}.{1:s}'.format(factory.__module__, factory.__name__)
+    return WIDGET_NAMES_MAP.get(name, name)
 
 
 def getPersistentResourceDirectory(id_, container=None):

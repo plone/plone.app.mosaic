@@ -667,10 +667,6 @@
       <element>toolbar-unlink</element>
       <element>toolbar-plonelink</element>
       <element>toolbar-code</element>
-      <element>contextmenu-tableprops</element>
-      <element>contextmenu-cell</element>
-      <element>contextmenu-row</element>
-      <element>contextmenu-column</element>
     </value>
   </record>
 
@@ -949,10 +945,6 @@
       <element>toolbar-unlink</element>
       <element>toolbar-plonelink</element>
       <element>toolbar-code</element>
-      <element>contextmenu-tableprops</element>
-      <element>contextmenu-cell</element>
-      <element>contextmenu-row</element>
-      <element>contextmenu-column</element>
     </value>
   </record>
 
@@ -1030,7 +1022,7 @@
     </value>
     <value key="jscompilation">++plone++mosaic/plone-mosaic.js</value>
     <value key="csscompilation">++plone++mosaic/plone-mosaic.css</value>
-    <value key="last_compilation">2017-04-05 00:00:00</value>
+    <value key="last_compilation">2017-07-24 12:00:00</value>
     <value key="compile">True</value>
     <value key="enabled">True</value>
     <value key="expression">python: member is not None</value>
