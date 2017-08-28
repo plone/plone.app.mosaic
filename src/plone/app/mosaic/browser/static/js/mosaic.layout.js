@@ -460,9 +460,6 @@ define([
         .off('mousedown', '.mosaic-tile-inline')
         .on('mousedown', '.mosaic-tile-inline', InlineMouseDown);
 
-    $($.mosaic.document)
-        .off('dblclick', '.mosaic-tile-inline')
-        .on('dblclick', '.mosaic-tile-inline', EditOnDblClick);
 
 
     var RichTextMouseLeave = function(){
@@ -538,10 +535,8 @@ define([
 
     var FocusOnTinyMCE = function(e) {
       var targetTile = $(e.target).parents('.mosaic-tile');
-      var tileContent = targetTile.children('.mosaic-tile-content');
-     // tileContent.focus();
-      // var tile = new Tile(targetTile);
-      // tile.focus();
+      var tinyMceId = targetTile.find('.mosaic-rich-text').attr('id');
+      tinyMCE.execCommand('mceFocus', false, tinyMceId);
 
       targetTile.addClass("mosaic-tile-inline-divider mosaic-selected-tile");
       $('.mosaic-original-tile').addClass('mosaic-inline-dropping')
