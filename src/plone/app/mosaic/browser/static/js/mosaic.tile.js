@@ -144,7 +144,9 @@ define([
   };
 
   Tile.prototype.getHtmlContent = function() {
-    return this.getContentEl().html();
+    var $content = this.getContentEl();
+    var editor = tinymce.get($content.attr('id'));
+    return editor ? editor.getContent() : $content.html();
   };
 
   Tile.prototype.getEditUrl = function() {
