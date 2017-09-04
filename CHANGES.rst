@@ -4,7 +4,16 @@ Changelog
 2.0rc8 (unreleased)
 -------------------
 
-- Nothing changed yet.
+WARNING: Upgrading from plone.app.mosaic 1.x will make pages with mosaic layout
+look empty until plone.app.blocks has been upgraded (upgrade steps been run).
+After upgrade, you may need to manually tweak Plone registry to only display
+the desired tiles.
+
+Bug fixes:
+
+- Fix regression in 2.0.rc7 where removal of dead code was not completed
+  resulting in a runtim error
+  [datakurre]
 
 
 2.0rc7 (2017-08-21)
@@ -39,11 +48,6 @@ Bug fixes:
 
 2.0rc5 (2017-04-06)
 -------------------
-
-WARNING: Upgrading from plone.app.mosaic 1.x will make pages with mosaic layout
-look empty until plone.app.blocks has been upgraded (upgrade steps been run).
-After upgrade, you may need to manually tweak Plone registry to only display
-the desired tiles.
 
 New features:
 
