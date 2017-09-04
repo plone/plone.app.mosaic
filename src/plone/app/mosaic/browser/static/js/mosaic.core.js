@@ -384,10 +384,6 @@ define([
       }
     });
 
-    // Init upload
-    // $.mosaic.initUpload();
-    $.mosaic.undo.init();
-
     // on enabling, add class, disable toolbar classes, hide toolbar
     $('.pat-toolbar').hide();
     var $body = $('body');
