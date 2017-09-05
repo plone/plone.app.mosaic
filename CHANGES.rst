@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.0rc8 (unreleased)
+2.0rc8 (2017-09-05)
 -------------------
 
 WARNING: Upgrading from plone.app.mosaic 1.x will make pages with mosaic layout
