@@ -4,6 +4,7 @@ sudo: false
 env:
   matrix:
     - PLONE_VERSION=5.0.x
+    - PLONE_VERSION=5.1.x
     - PLONE_VERSION=5.coredev
   global:
     - ROBOT_BROWSER=phantomjs
@@ -11,6 +12,9 @@ env:
     - ARTIFACTS_S3_BUCKET=plone-app-mosaic
     - secure: F9djE/1a4VvCidHCnWeF7qkwsUhVLZELv/ttSC1UamsbCCzIa0shUheF4MfAZBRcwtVVAlrid4VRnuYnxyDciy2jrL/qayLfze2ZKcZTfYKsNIrQzyZ4SUVZRB9ZSA6yUK3v+/GIie95as8MKM/UxRtn2RWw4doWGyKv8XBOL4U=
     - secure: buYYreaObmTNEuVTibj/kIyFnIoHCZdezeA8P0HwGHrTbIAwArBFfhG5PC1grT8MayN3f4sfY80d8sRhRATTPNX1smjjBfyni/Zon8OTpr6mGaGsHOg+HHHqocy3hZPlgg1yYLpUCfKCOc8pnq09lF06JwPxsIXAiV+oRHR446E=
+matrix:
+  allow_failures:
+    - env: PLONE_VERSION=5.coredev
 cache:
   pip: true
   directories:
