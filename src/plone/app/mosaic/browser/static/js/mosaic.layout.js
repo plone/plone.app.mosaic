@@ -1003,6 +1003,7 @@ define([
                 )
               );
             });
+            $(".mosaic-panel", $.mosaic.document).removeClass('inner-subcolumn');
         };
 
       // If top
