@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 from Acquisition import aq_base
 from Acquisition import aq_parent
-from plone import api
 from plone.app.blocks.layoutbehavior import ILayoutAware
 from plone.app.mosaic.interfaces import IMosaicLayer
 from plone.transformchain.interfaces import ITransform
 from repoze.xmliter.serializer import XMLSerializer
+from zope.browser.interfaces import IBrowserView
 from zope.component import getAdapters
 from zope.component import queryMultiAdapter
+from zope.component.hooks import getSite
 from zope.interface import implementer
 from zope.viewlet.interfaces import IViewlet
 from zope.viewlet.interfaces import IViewletManager
@@ -19,6 +20,17 @@ import re
 logger = logging.getLogger(__name__)
 
 LAYOUT_NAME = re.compile(r'[a-zA-Z_\-]+/[a-zA-Z_\-]+')
+
+
+def getContext(context):
+    """Return a safe context.
+    In case a IBrowserView was passed (e.g. due to a 404 page), return the
+    portal object.
+    """
+    context = aq_parent(aq_base(context))
+    if IBrowserView.providedBy(context):
+        return getSite()
+    return context
 
 
 @implementer(ITransform)
@@ -62,7 +74,7 @@ class HTTPHeaders(TransformBase):
     order = 8800
 
     def transform(self, result, encoding):
-        context = aq_parent(aq_base(self.published)) or api.portal.get()
+        context = getContext(self.published)
         manager = queryMultiAdapter(
             (context, self.request, self.published),
             IViewletManager, name='plone.httpheaders'
@@ -87,7 +99,7 @@ class HTMLLanguage(TransformBase):
     order = 8800
 
     def transform(self, result, encoding):
-        context = aq_parent(aq_base(self.published)) or api.portal.get()
+        context = getContext(self.published)
         state = queryMultiAdapter(
             (context, self.request),
             name='plone_portal_state'
@@ -107,7 +119,7 @@ class BodyClass(TransformBase):
     order = 8800
 
     def transform(self, result, encoding):
-        context = aq_parent(aq_base(self.published)) or api.portal.get()
+        context = getContext(self.published)
         layout = queryMultiAdapter(
             (context, self.request),
             name='plone_layout'
@@ -166,7 +178,7 @@ class PatternSettings(TransformBase):
     order = 8800
 
     def transform(self, result, encoding):
-        context = aq_parent(aq_base(self.published)) or api.portal.get()
+        context = getContext(self.published)
         layout = queryMultiAdapter(
             (context, self.request),
             name='plone_layout'
