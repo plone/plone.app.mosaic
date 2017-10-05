@@ -39,7 +39,6 @@ setup(
     zip_safe=False,
     install_requires=[
         'setuptools',
-        'plone.api',
         'plone.subrequest>=1.8',
         'plone.tiles>=1.8.3',
         'plone.app.blocks>=4.1.0',

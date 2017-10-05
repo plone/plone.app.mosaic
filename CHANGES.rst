@@ -4,7 +4,9 @@ Changelog
 2.0rc9 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Transform: Acquire a safe context or the portal object.
+  In cases of a 404 page, the context is a browser view.
+  [thet]
 
 
 2.0rc8 (2017-09-05)
