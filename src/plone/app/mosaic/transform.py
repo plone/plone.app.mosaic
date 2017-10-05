@@ -28,7 +28,7 @@ def getContext(context):
     portal object.
     """
     context = aq_parent(aq_base(context))
-    if IBrowserView.providedBy(context):
+    if not context or IBrowserView.providedBy(context):
         return getSite()
     return context
 
