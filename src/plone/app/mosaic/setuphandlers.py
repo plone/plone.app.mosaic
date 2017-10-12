@@ -5,9 +5,11 @@ from plone.app.blocks.utils import resolveResource
 from plone.app.mosaic.interfaces import IMosaicLayer
 from plone.app.mosaic.utils import getPersistentResourceDirectory
 from plone.resource.manifest import MANIFEST_FILENAME
+from Products.CMFPlone.interfaces import INonInstallable
 from StringIO import StringIO
 from zope.component import getUtility
 from zope.interface import alsoProvides
+from zope.interface import implementer
 from zope.schema.interfaces import IVocabularyFactory
 
 
@@ -24,6 +26,23 @@ title = Basic (Custom)
 description = Example content layout
 file = basic.html
 """
+
+
+@implementer(INonInstallable)
+class HiddenProfiles(object):
+
+    def getNonInstallableProfiles(self):
+        """Hide uninstall profile from site-creation and quickinstaller"""
+        return [
+            # in any case we got an uninstall, here we hide it
+            'plone.app.mosaic:uninstall',
+            # and lets hide our dependencies as well.
+            'plone.app.drafts:default',
+            'plone.app.blocks:default',
+            'plone.app.standardtiles:default',
+            'plone.app.tiles:default',
+            'plone.formwidget.querystring:default',
+        ]
 
 
 def post_handler(context):

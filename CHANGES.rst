@@ -4,6 +4,12 @@ Changelog
 2.0rc9 (unreleased)
 -------------------
 
+Bug fixes:
+
+- Hide dependencies - like blocks and tiles - of Mosaic from appearing at Plone site setup.
+  This reduces confusion and removes clutter from the setup screen.
+  [jensens]
+
 - Transform: Acquire a safe context or the portal object.
   In cases of a 404 page, the context is a browser view.
   [thet]
@@ -20,7 +26,7 @@ the desired tiles.
 Bug fixes:
 
 - Fix regression in 2.0.rc7 where removal of dead code was not completed
-  resulting in a runtim error
+  resulting in a runtime error
   [datakurre]
 
 
