@@ -14,11 +14,15 @@
   <genericsetup:registerProfile
       name="default"
       title="Mosaic"
-      description="Installs Mosaic layout support for Plone"
+      description="Installs Mosaic layout support."
       directory="profiles/default"
       provides="Products.GenericSetup.interfaces.EXTENSION"
       post_handler="plone.app.mosaic.setuphandlers.post_handler"
       />
+
+  <utility
+      factory=".setuphandlers.HiddenProfiles"
+      name="plone.app.mosaic-hiddenprofiles" />
 
   <!-- View method auto-enabler -->
   <subscriber
