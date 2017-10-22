@@ -15,7 +15,7 @@ from plone.memoize import view
 from plone.protect.utils import addTokenToUrl
 from Products.CMFDynamicViewFTI.interfaces import ISelectableBrowserDefault
 from Products.CMFPlone.utils import parent
-from urllib import quote
+from six.moves.urllib.parse import quote
 from zExceptions import NotFound
 from zope.browsermenu.interfaces import IBrowserMenu
 from zope.browsermenu.menu import BrowserMenu

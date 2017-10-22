@@ -14,6 +14,9 @@ Bug fixes:
   In cases of a 404 page, the context is a browser view.
   [thet]
 
+- Imports are Python3 compatible 
+  [b4oshany]
+
 
 2.0rc8 (2017-09-05)
 -------------------

@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
-from setuptools import setup, find_packages
+from setuptools import find_packages
+from setuptools import setup
+
 
 version = '2.0rc9.dev0'
 
@@ -39,13 +41,14 @@ setup(
     zip_safe=False,
     install_requires=[
         'setuptools',
+        'six',
         'plone.subrequest>=1.8',
         'plone.tiles>=1.8.3',
         'plone.app.blocks>=4.1.0',
         'plone.app.tiles>=3.0.3',
         'plone.app.drafts>=1.1.2',
         'plone.app.standardtiles>=2.2.0',
-        'Products.CMFPlone>=5.0.4'
+        'Products.CMFPlone>=5.0.4',
     ],
     extras_require={'test': [
         'plone.app.testing',
