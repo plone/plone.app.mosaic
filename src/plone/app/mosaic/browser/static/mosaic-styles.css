@@ -1,6 +1,7 @@
 /* Images will never be bigger then a tile */
 .mosaic-tile img {
   max-width: 100%;
+  height: auto;
 }
 .mosaic-tile-align-center {
   text-align: center;

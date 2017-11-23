@@ -6,6 +6,10 @@ Changelog
 
 Bug fixes:
 
+- Image in "Existing-Content" Tile scaled width only, height was kept and aspect-ratio broke.
+  Fixes https://github.com/plone/plone.app.standardtiles/issues/83.
+  [jensens]
+
 - Hide dependencies - like blocks and tiles - of Mosaic from appearing at Plone site setup.
   This reduces confusion and removes clutter from the setup screen.
   [jensens]
@@ -14,7 +18,7 @@ Bug fixes:
   In cases of a 404 page, the context is a browser view.
   [thet]
 
-- Imports are Python3 compatible 
+- Imports are Python3 compatible
   [b4oshany]
 
 
