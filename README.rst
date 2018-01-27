@@ -76,6 +76,22 @@ App tiles
 ..  _plone.tiles: https://pypi.python.org/pypi/plone.tiles
 
 
+Advanced Editor usage
+---------------------
+
+Advanced mode
+    If you press the "alt" key you will be shown the layout structure, labels for your tiles and css classes for rows.
+
+Custom classes on rows
+    Also in the advanced mode, you're able to add custom classes on rows by double clicking the displayed row class.
+
+Subcolumns
+    In order to nest columns inside a cell, drag a tile, then press the "ctrl" key and drop the tile close to an existing one, either before or after it, in accordance to the shown insert marker.
+
+Fluid rows
+    For fluid (full width) rows select any tile in the row and choose "Fluid" from the "Format" menu.
+
+
 Installation
 ------------
 
