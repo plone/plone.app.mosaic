@@ -12,7 +12,41 @@
 .mosaic-grid-row {
   position: relative;
   .make-row(@gutter: @plone-grid-gutter-width);
-  .clearfix();
+}
+
+body.template-layout,
+body.mosaic-enabled {
+  .outer-wrapper > .container {
+    // remove fixed width of wrapping container
+    width: auto;
+    .mosaic-grid-row {
+      margin-left: auto;
+      margin-right: auto;
+      // add width to row instead
+      @media (min-width: @plone-screen-sm-min) {
+        width: @plone-container-sm;
+      }
+      @media (min-width: @plone-screen-md-min) {
+        width: @plone-container-md;
+      }
+      @media (min-width: @plone-screen-lg-min) {
+        width: @plone-container-lg;
+      }
+      .mosaic-innergrid-row {
+        width: auto;
+        .make-row(@gutter: @plone-grid-gutter-width);
+
+      }
+    }
+    .mosaic-grid-row-fluid {
+      margin-left: (@plone-grid-gutter-width / -2);
+      margin-right: (@plone-grid-gutter-width / -2);
+      padding-left: (@plone-grid-gutter-width / 2);
+      padding-right: (@plone-grid-gutter-width / 2);
+      width: auto;
+      max-width: none;
+    }
+  }
 }
 
 // grid definition for viewing

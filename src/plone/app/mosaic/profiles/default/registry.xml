@@ -146,6 +146,7 @@
       <element>tile-align-right</element>
       <element>tile-align-left</element>
       <element>tile-remove-format</element>
+      <element>grid-row-fluid</element>
       <element>grid-row-dark</element>
       <element>grid-row-remove-format</element>
     </value>
@@ -231,6 +232,17 @@
     <value key="icon">true</value>
     <value key="favorite">false</value>
     <value key="weight">220</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IFormat"
+           prefix="plone.app.mosaic.formats.grid_row_fluid">
+    <value key="name">grid-row-fluid</value>
+    <value key="category">row</value>
+    <value key="label">Fluid</value>
+    <value key="action">row-toggle-class</value>
+    <value key="icon">true</value>
+    <value key="favorite">false</value>
+    <value key="weight">100</value>
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IFormat"

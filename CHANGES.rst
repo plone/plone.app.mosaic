@@ -4,6 +4,14 @@ Changelog
 2.0rc9 (unreleased)
 -------------------
 
+New features:
+
+- Add functionality for fluid (full width) rows.
+  [agitator, davilima6]
+
+- Add documentation for advanced editor features.
+  [agitator, davilima6]
+
 Bug fixes:
 
 - Image in "Existing-Content" Tile scaled width only, height was kept and aspect-ratio broke.
