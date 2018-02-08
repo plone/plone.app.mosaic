@@ -233,3 +233,10 @@ def upgrade_to_2_0rc6(context):
             registry[key] = type(registry[key])(value)
         except KeyError:
             pass
+
+
+def add_fluid_row_styles(context):
+    context.runImportStepFromProfile(
+        PROFILE_ID.replace('default', 'to_5022'),
+        'plone.app.registry'
+    )
