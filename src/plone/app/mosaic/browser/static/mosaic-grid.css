@@ -17,12 +17,24 @@
 .mosaic-grid-row:before,
 .mosaic-grid-row:after,
 .mosaic-grid-row:before,
-.mosaic-grid-row:after {
+.mosaic-grid-row:after,
+body.template-layout .outer-wrapper > .container .mosaic-grid-row .mosaic-innergrid-row:before,
+body.template-layout .outer-wrapper > .container .mosaic-grid-row .mosaic-innergrid-row:after,
+body.template-layout .outer-wrapper > .container .mosaic-grid-row .mosaic-innergrid-row:before,
+body.template-layout .outer-wrapper > .container .mosaic-grid-row .mosaic-innergrid-row:after,
+body.mosaic-enabled .outer-wrapper > .container .mosaic-grid-row .mosaic-innergrid-row:before,
+body.mosaic-enabled .outer-wrapper > .container .mosaic-grid-row .mosaic-innergrid-row:after,
+body.mosaic-enabled .outer-wrapper > .container .mosaic-grid-row .mosaic-innergrid-row:before,
+body.mosaic-enabled .outer-wrapper > .container .mosaic-grid-row .mosaic-innergrid-row:after {
   content: " ";
   display: table;
 }
 .mosaic-grid-row:after,
-.mosaic-grid-row:after {
+.mosaic-grid-row:after,
+body.template-layout .outer-wrapper > .container .mosaic-grid-row .mosaic-innergrid-row:after,
+body.template-layout .outer-wrapper > .container .mosaic-grid-row .mosaic-innergrid-row:after,
+body.mosaic-enabled .outer-wrapper > .container .mosaic-grid-row .mosaic-innergrid-row:after,
+body.mosaic-enabled .outer-wrapper > .container .mosaic-grid-row .mosaic-innergrid-row:after {
   clear: both;
 }
 /* Grid classes, these can also be nested */
@@ -31,21 +43,47 @@
   margin-left: -15px;
   margin-right: -15px;
 }
-.mosaic-grid-row:before,
-.mosaic-grid-row:after {
-  content: " ";
-  display: table;
+body.template-layout .outer-wrapper > .container,
+body.mosaic-enabled .outer-wrapper > .container {
+  width: auto;
 }
-.mosaic-grid-row:after {
-  clear: both;
+body.template-layout .outer-wrapper > .container .mosaic-grid-row,
+body.mosaic-enabled .outer-wrapper > .container .mosaic-grid-row {
+  margin-left: auto;
+  margin-right: auto;
 }
-.mosaic-grid-row:before,
-.mosaic-grid-row:after {
-  content: " ";
-  display: table;
+@media (min-width: 768px) {
+  body.template-layout .outer-wrapper > .container .mosaic-grid-row,
+  body.mosaic-enabled .outer-wrapper > .container .mosaic-grid-row {
+    width: 750px;
+  }
 }
-.mosaic-grid-row:after {
-  clear: both;
+@media (min-width: 992px) {
+  body.template-layout .outer-wrapper > .container .mosaic-grid-row,
+  body.mosaic-enabled .outer-wrapper > .container .mosaic-grid-row {
+    width: 970px;
+  }
+}
+@media (min-width: 1200px) {
+  body.template-layout .outer-wrapper > .container .mosaic-grid-row,
+  body.mosaic-enabled .outer-wrapper > .container .mosaic-grid-row {
+    width: 1170px;
+  }
+}
+body.template-layout .outer-wrapper > .container .mosaic-grid-row .mosaic-innergrid-row,
+body.mosaic-enabled .outer-wrapper > .container .mosaic-grid-row .mosaic-innergrid-row {
+  width: auto;
+  margin-left: -15px;
+  margin-right: -15px;
+}
+body.template-layout .outer-wrapper > .container .mosaic-grid-row-fluid,
+body.mosaic-enabled .outer-wrapper > .container .mosaic-grid-row-fluid {
+  margin-left: -15px;
+  margin-right: -15px;
+  padding-left: 15px;
+  padding-right: 15px;
+  width: auto;
+  max-width: none;
 }
 /* Widths, these are abstracted out so that pixel-based layouts or other
    similar approaches can be retrofitted without changing the markup,

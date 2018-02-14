@@ -1,0 +1,21 @@
+<registry>
+
+  <records interface="plone.app.mosaic.interfaces.IFormat"
+           prefix="plone.app.mosaic.formats.grid_row_fluid">
+    <value key="name">grid-row-fluid</value>
+    <value key="category">row</value>
+    <value key="label">Fluid</value>
+    <value key="action">row-toggle-class</value>
+    <value key="icon">true</value>
+    <value key="favorite">false</value>
+    <value key="weight">100</value>
+  </records>
+
+  <record name="plone.app.mosaic.default_available_actions">
+    <value purge="false">
+      <element>grid-row-fluid</element>
+    </value>
+  </record>
+
+
+</registry>

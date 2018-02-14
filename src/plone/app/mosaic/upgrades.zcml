@@ -332,4 +332,21 @@
       handler=".upgrades.upgrade_to_2_0rc6"
       />
 
+  <genericsetup:registerProfile
+      name="to_5022"
+      title="Upgrade profile to 5022"
+      description=""
+      directory="profiles/upgrades/to_5022"
+      for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
+  <genericsetup:upgradeStep
+      profile="plone.app.mosaic:default"
+      source="5021"
+      destination="5022"
+      title="Add fluid row styles"
+      handler=".upgrades.add_fluid_row_styles"
+      />
+
 </configure>
