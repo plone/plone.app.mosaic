@@ -29,6 +29,10 @@ Bug fixes:
 - Imports are Python3 compatible
   [b4oshany]
 
+- Cleanup old code that would initialize TinyMCE several times for richtext tiles
+  Fixes `issue 407 <https://github.com/plone/plone.app.mosaic/issues/407>`_.
+  [frapell]
+
 
 2.0rc8 (2017-09-05)
 -------------------
