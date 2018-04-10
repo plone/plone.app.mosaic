@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from Acquisition import aq_base
-from Acquisition import aq_parent
+from Acquisition import aq_chain
 from plone.app.blocks.layoutbehavior import ILayoutAware
 from plone.app.mosaic.interfaces import IMosaicLayer
 from plone.transformchain.interfaces import ITransform
@@ -27,7 +27,14 @@ def getContext(context):
     In case a IBrowserView was passed (e.g. due to a 404 page), return the
     portal object.
     """
-    context = aq_parent(aq_base(context))
+    # Resolve physical path of the nearest context
+    for ob in aq_chain(context):
+        try:
+            if aq_base(ob).portal_type:
+                context = ob
+                break
+        except (AttributeError, AssertionError):
+            continue
     if not context or IBrowserView.providedBy(context):
         return getSite()
     return context
