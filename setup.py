@@ -3,11 +3,11 @@ from setuptools import find_packages
 from setuptools import setup
 
 
-version = '2.0rc9.dev0'
+version = '2.1.0.dev0'
 
 long_description = (
     open('README.rst').read() + '\n' +
-    open('CHANGES.rst').read()+ '\n'
+    open('CHANGES.rst').read() + '\n'
 )
 
 setup(

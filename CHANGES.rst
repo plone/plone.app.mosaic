@@ -1,8 +1,8 @@
 Changelog
 =========
 
-2.0rc9 (unreleased)
--------------------
+2.1.0 (unreleased)
+------------------
 
 New features:
 
