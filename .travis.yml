@@ -5,7 +5,8 @@ env:
   matrix:
     - PLONE_VERSION=5.0.x
     - PLONE_VERSION=5.1.x
-    - PLONE_VERSION=5.coredev
+    - PLONE_VERSION=5.1.coredev
+    - PLONE_VERSION=5.2.coredev
   global:
     - ROBOT_BROWSER=phantomjs
     - ROBOT_SELENIUM2LIBRARY_RUN_ON_FAILURE="Capture Page Screenshot"
@@ -14,7 +15,7 @@ env:
     - secure: buYYreaObmTNEuVTibj/kIyFnIoHCZdezeA8P0HwGHrTbIAwArBFfhG5PC1grT8MayN3f4sfY80d8sRhRATTPNX1smjjBfyni/Zon8OTpr6mGaGsHOg+HHHqocy3hZPlgg1yYLpUCfKCOc8pnq09lF06JwPxsIXAiV+oRHR446E=
 matrix:
   allow_failures:
-    - env: PLONE_VERSION=5.coredev
+    - env: PLONE_VERSION=5.2.coredev
 cache:
   pip: true
   directories:
