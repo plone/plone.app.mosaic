@@ -61,7 +61,7 @@ body.mosaic-enabled .outer-wrapper > .container .mosaic-grid-row {
 @media (min-width: 992px) {
   body.template-layout .outer-wrapper > .container .mosaic-grid-row,
   body.mosaic-enabled .outer-wrapper > .container .mosaic-grid-row {
-    width: 970px;
+    width: 990px;
   }
 }
 @media (min-width: 1200px) {
