@@ -15,6 +15,7 @@ env:
     - secure: buYYreaObmTNEuVTibj/kIyFnIoHCZdezeA8P0HwGHrTbIAwArBFfhG5PC1grT8MayN3f4sfY80d8sRhRATTPNX1smjjBfyni/Zon8OTpr6mGaGsHOg+HHHqocy3hZPlgg1yYLpUCfKCOc8pnq09lF06JwPxsIXAiV+oRHR446E=
 matrix:
   allow_failures:
+    - env: PLONE_VERSION=5.1.coredev
     - env: PLONE_VERSION=5.2.coredev
 cache:
   pip: true
