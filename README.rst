@@ -89,7 +89,7 @@ Installation
 The dependencies are already version pinned in Plones ecosystem.
 
 However, if a newer version of mosaic is needed,
-the good know set for the version can be found at Github, Mosaic Code repository, in the file `versions.cfg <https://github.com/plone/plone.app.mosaic/blob/master/versions.cfg>`_.
+the good known set for the version can be found at Github, Mosaic Code repository, in the file `versions.cfg <https://github.com/plone/plone.app.mosaic/blob/master/versions.cfg>`_.
 
 After the add-on activation, the new content layout and editor support can be
 enabled for any content type by enabling behaviors **Layout support** and
