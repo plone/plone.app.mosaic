@@ -13,15 +13,16 @@ long_description = (
 setup(
     name='plone.app.mosaic',
     version=version,
-    description='Plone Mosaic',
+    description='Plone Mosaic Site Builder and Site Layout',
     long_description=long_description,
     # Get more strings from
     # http://pypi.python.org/pypi?%3Aaction=list_classifiers
     classifiers=[
-        'Development Status :: 4 - Beta',
+        'Development Status :: 5 - Production/Stable',
         'Environment :: Web Environment',
         'Framework :: Plone',
         'Framework :: Plone :: 5.0',
+        'Framework :: Plone :: 5.1',
         'License :: OSI Approved :: GNU General Public License v2 (GPLv2)',
         'Programming Language :: Python',
         'Programming Language :: Python :: 2.7',
@@ -29,9 +30,9 @@ setup(
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
         'Topic :: Software Development :: Libraries :: Python Modules',
     ],
-    keywords='',
-    author='',
-    author_email='',
+    keywords='site builder collage',
+    author='The Plone Community',
+    author_email='foundation@plone.org',
     url='https://github.com/plone/plone.app.mosaic',
     license='gpl',
     packages=find_packages('src'),

@@ -1,9 +1,8 @@
 Plone Mosaic
 ============
 
-**Plone Mosaic** is a new layout solution for Plone.
-It's built for Plone 5,
-but should also work on Plone 4.3 with plone.app.widgets.
+**Plone Mosaic** is a site builder and layout solution for Plone.
+
 Read this introduction and `the package documentation`__ for more details how to use this package.
 
 __  http://plone-app-mosaic.s3-website-us-east-1.amazonaws.com/latest/
