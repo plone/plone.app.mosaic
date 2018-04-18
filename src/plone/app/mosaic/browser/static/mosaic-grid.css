@@ -18,23 +18,23 @@
 .mosaic-grid-row:after,
 .mosaic-grid-row:before,
 .mosaic-grid-row:after,
-body.template-layout .outer-wrapper > .container .mosaic-grid-row .mosaic-innergrid-row:before,
-body.template-layout .outer-wrapper > .container .mosaic-grid-row .mosaic-innergrid-row:after,
-body.template-layout .outer-wrapper > .container .mosaic-grid-row .mosaic-innergrid-row:before,
-body.template-layout .outer-wrapper > .container .mosaic-grid-row .mosaic-innergrid-row:after,
-body.mosaic-enabled .outer-wrapper > .container .mosaic-grid-row .mosaic-innergrid-row:before,
-body.mosaic-enabled .outer-wrapper > .container .mosaic-grid-row .mosaic-innergrid-row:after,
-body.mosaic-enabled .outer-wrapper > .container .mosaic-grid-row .mosaic-innergrid-row:before,
-body.mosaic-enabled .outer-wrapper > .container .mosaic-grid-row .mosaic-innergrid-row:after {
+body.template-layout.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row .mosaic-innergrid-row:before,
+body.template-layout.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row .mosaic-innergrid-row:after,
+body.template-layout.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row .mosaic-innergrid-row:before,
+body.template-layout.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row .mosaic-innergrid-row:after,
+body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row .mosaic-innergrid-row:before,
+body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row .mosaic-innergrid-row:after,
+body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row .mosaic-innergrid-row:before,
+body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row .mosaic-innergrid-row:after {
   content: " ";
   display: table;
 }
 .mosaic-grid-row:after,
 .mosaic-grid-row:after,
-body.template-layout .outer-wrapper > .container .mosaic-grid-row .mosaic-innergrid-row:after,
-body.template-layout .outer-wrapper > .container .mosaic-grid-row .mosaic-innergrid-row:after,
-body.mosaic-enabled .outer-wrapper > .container .mosaic-grid-row .mosaic-innergrid-row:after,
-body.mosaic-enabled .outer-wrapper > .container .mosaic-grid-row .mosaic-innergrid-row:after {
+body.template-layout.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row .mosaic-innergrid-row:after,
+body.template-layout.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row .mosaic-innergrid-row:after,
+body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row .mosaic-innergrid-row:after,
+body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row .mosaic-innergrid-row:after {
   clear: both;
 }
 /* Grid classes, these can also be nested */
@@ -43,41 +43,41 @@ body.mosaic-enabled .outer-wrapper > .container .mosaic-grid-row .mosaic-innergr
   margin-left: -15px;
   margin-right: -15px;
 }
-body.template-layout .outer-wrapper > .container,
-body.mosaic-enabled .outer-wrapper > .container {
+body.template-layout.no-portlet-columns .outer-wrapper > .container,
+body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container {
   width: auto;
 }
-body.template-layout .outer-wrapper > .container .mosaic-grid-row,
-body.mosaic-enabled .outer-wrapper > .container .mosaic-grid-row {
+body.template-layout.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row,
+body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row {
   margin-left: auto;
   margin-right: auto;
 }
 @media (min-width: 768px) {
-  body.template-layout .outer-wrapper > .container .mosaic-grid-row,
-  body.mosaic-enabled .outer-wrapper > .container .mosaic-grid-row {
+  body.template-layout.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row,
+  body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row {
     width: 750px;
   }
 }
 @media (min-width: 992px) {
-  body.template-layout .outer-wrapper > .container .mosaic-grid-row,
-  body.mosaic-enabled .outer-wrapper > .container .mosaic-grid-row {
-    width: 990px;
+  body.template-layout.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row,
+  body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row {
+    width: 970px;
   }
 }
 @media (min-width: 1200px) {
-  body.template-layout .outer-wrapper > .container .mosaic-grid-row,
-  body.mosaic-enabled .outer-wrapper > .container .mosaic-grid-row {
+  body.template-layout.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row,
+  body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row {
     width: 1170px;
   }
 }
-body.template-layout .outer-wrapper > .container .mosaic-grid-row .mosaic-innergrid-row,
-body.mosaic-enabled .outer-wrapper > .container .mosaic-grid-row .mosaic-innergrid-row {
+body.template-layout.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row .mosaic-innergrid-row,
+body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row .mosaic-innergrid-row {
   width: auto;
   margin-left: -15px;
   margin-right: -15px;
 }
-body.template-layout .outer-wrapper > .container .mosaic-grid-row-fluid,
-body.mosaic-enabled .outer-wrapper > .container .mosaic-grid-row-fluid {
+body.template-layout.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row-fluid,
+body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row-fluid {
   margin-left: -15px;
   margin-right: -15px;
   padding-left: 15px;
