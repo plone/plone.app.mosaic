@@ -117,7 +117,12 @@
       factory=".transform.PatternSettings"
       />
 
-  <adapter name="layout" factory=".index.get_layout" />
+  <adapter
+      for="*
+           .interfaces.IMosaicLayer"
+      name="layout"
+      factory=".layoutpolicy.MosaicBodyClasses"
+      />
 
   <include package=".browser" />
 
