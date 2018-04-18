@@ -1,9 +1,10 @@
+# -*- coding: utf-8 -*-
 from plone.app.layout.globals.interfaces import IBodyClassAdapter
-from zope.interface import implementer
 from plone.portlets.interfaces import IPortletManager
-from plone.portlets.interfaces import IPortletAssignmentMapping
-from zope.component import getUtility
+from plone.portlets.interfaces import IPortletRetriever
 from zope.component import getMultiAdapter
+from zope.component import getUtility
+from zope.interface import implementer
 
 
 @implementer(IBodyClassAdapter)
@@ -21,8 +22,9 @@ class MosaicBodyClasses(object):
                                  name=manager_name,
                                  context=self.context
                                  )
-            mapping = getMultiAdapter((self.context, manager),
-                                      IPortletAssignmentMapping)
-            if mapping.items():
+            retriever = getMultiAdapter((self.context, manager),
+                                        IPortletRetriever
+                                        )
+            if retriever.getPortlets():
                 return
         return ['no-portlet-columns']
