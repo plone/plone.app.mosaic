@@ -4,7 +4,8 @@ Changelog
 2.1.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fluid row styles only make sense on pages without portlets and are now only active if no portlet columns are shown.
+  [agitator]
 
 
 2.1.0 (2018-04-13)
