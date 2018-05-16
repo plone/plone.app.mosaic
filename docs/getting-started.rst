@@ -42,7 +42,7 @@ After the installation it needs to be activated in the Add-on control panel.
     Show Plone Mosaic activation
         Go to  ${PLONE_URL}/prefs_install_products_form
 
-        Element should contain  ${SELECTOR_ADDONS_MOSAIC}  Mosaic
+        Wait Until Element Contains  ${SELECTOR_ADDONS_MOSAIC}  Mosaic
         Highlight  ${SELECTOR_ADDONS_MOSAIC}
         Capture and crop page screenshot
         ...  _screenshots/mosaic-product-activated.png
@@ -183,7 +183,7 @@ like the publishing date or the short name.
        Run keyword and ignore error  Set window size  1024  1200
        Wait Until Element Is Visible  css=.mosaic-toolbar
        Click element  css=.mosaic-button-properties
-       
+
        Highlight  css=.autotoc-nav
 
        Capture and crop page screenshot
