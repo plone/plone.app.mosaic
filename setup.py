@@ -50,7 +50,7 @@ setup(
         'plone.app.drafts>=1.1.2',
         'plone.app.standardtiles>=2.2.0',
         'Products.CMFPlone>=5.0.4',
-        'plone.app.layout>=2.8.0',
+        'plone.app.layout',
     ],
     extras_require={'test': [
         'plone.app.testing',
