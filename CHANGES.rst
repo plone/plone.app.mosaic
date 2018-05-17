@@ -4,7 +4,9 @@ Changelog
 2.1.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fluid row styles only make sense on pages without portlets.
+  In Plone 5.1.3 we can check that automatically (with plone.app.layout 2.8.0) and those styles are only active if no portlet columns are shown.
+  [agitator]
 
 
 2.1.0 (2018-04-13)
