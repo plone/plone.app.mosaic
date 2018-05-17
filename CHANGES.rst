@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.1.1 (unreleased)
+2.1.1 (2018-05-17)
 ------------------
 
 - Fluid row styles only make sense on pages without portlets.
