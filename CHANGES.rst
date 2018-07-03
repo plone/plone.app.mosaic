@@ -4,7 +4,8 @@ Changelog
 2.1.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Update `versions.cfg` to latest
+  [petschki]
 
 
 2.1.1 (2018-05-17)
