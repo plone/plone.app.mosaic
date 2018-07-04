@@ -4,7 +4,10 @@ Changelog
 2.1.2 (unreleased)
 ------------------
 
-- Update `versions.cfg` to latest
+- when deleting custom layout within ``manage custom layouts`` do not show currently selected layout in ``replacement layout`` listing.
+  [petschki]
+
+- Update ``versions.cfg`` to latest
   [petschki]
 
 

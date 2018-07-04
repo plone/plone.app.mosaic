@@ -178,7 +178,7 @@ define([
           '<label for="layoutField">Replacement Layout</label>' +
           '<select name="layout" class="form-control" id="layoutField">' +
             '<% _.each(available_layouts.concat(user_layouts), function(l){ %>' +
-              '<% if(l.path !== layout.path){ %>' +
+              '<% if(l.path !== layout_deleting.path){ %>' +
                 '<option value="<%- l.path %>"><%- l.title %></option>' +
               '<% } %>' +
             '<% }); %>' +
@@ -443,7 +443,7 @@ define([
     var modal = new Modal($el, {
       html: $.mosaic.deleteLayoutTemplate($.extend({}, true, {
         existing: existing,
-        layout: layout,
+        layout_deleting: layout,
         selected: $.mosaic.getSelectedContentLayout() === '++contentlayout++' + layout.path
       }, $.mosaic.options)),
       content: null,
