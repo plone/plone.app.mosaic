@@ -349,4 +349,14 @@
       handler=".upgrades.add_fluid_row_styles"
       />
 
+  <genericsetup:upgradeDepends
+      profile="plone.app.mosaic:default"
+      source="5022"
+      destination="5023"
+      title="layout management fix -> replacement layout listing"
+      import_profile="plone.app.mosaic:default"
+      import_steps="plone.app.registry"
+      run_deps="false"
+      />
+
 </configure>
