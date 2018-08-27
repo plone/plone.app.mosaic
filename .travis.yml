@@ -9,6 +9,9 @@ cache:
     - eggs
 addons:
   firefox: 45.8.0esr
+matrix:
+  allow_failures:
+  - env: PLONE_VERSION=4.3
 before_install:
   - cp test-$PLONE_VERSION.x.cfg buildout.cfg
   - export DISPLAY=:99.0
