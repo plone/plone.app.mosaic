@@ -4,7 +4,8 @@ Changelog
 1.0.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Add uninstall profile.
+  [hvelarde]
 
 
 1.0 (2016-04-11)
