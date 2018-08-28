@@ -335,7 +335,7 @@ class MainTemplate(BrowserView):
 
         # 4) Resolve layout using resource or subrequest lookup
         if not layout:
-            context_path = self.context.absolute_url_path() + '/'
+            context_path = '/'.join(self.context.getPhysicalPath()) + '/'
             layout_path = urljoin(context_path, layout_path)
             layout = resolveResource(layout_path)
 
