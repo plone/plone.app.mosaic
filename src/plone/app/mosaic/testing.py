@@ -50,6 +50,11 @@ class PloneAppMosaic(PloneSandboxLayer):
                        plone.app.standardtiles,
                        context=configurationContext)
 
+        import plone.app.widgets
+        xmlconfig.file('configure.zcml',
+                       plone.app.widgets,
+                       context=configurationContext)
+
         import plone.app.mosaic
         xmlconfig.file('configure.zcml',
                        plone.app.mosaic,

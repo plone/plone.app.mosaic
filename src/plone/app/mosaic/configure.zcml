@@ -1,8 +1,11 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
     xmlns:zcml="http://namespaces.zope.org/zcml"
     i18n_domain="plone">
+
+  <five:registerPackage package="." />
 
   <!-- Include dependencies -->
   <include package="plone.tiles" />
@@ -16,6 +19,13 @@
       title="Plone Mosaic"
       description="Installs Mosaic layout support for Dexterity content types"
       directory="profiles/default"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
+  <genericsetup:registerProfile
+      name="uninstall"
+      title="plone.app.mosaic:uninstall"
+      directory="profiles/uninstall"
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 

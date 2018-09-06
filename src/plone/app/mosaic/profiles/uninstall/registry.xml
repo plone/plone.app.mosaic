@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<registry>
+
+  <!-- interfaces -->
+  <records interface="plone.app.mosaic.interfaces.IAction" remove="true" />
+  <records interface="plone.app.mosaic.interfaces.IFormat" remove="true" />
+  <records interface="plone.app.mosaic.interfaces.ITile" remove="true" />
+  <records interface="plone.app.mosaic.interfaces.IWeightedDict" remove="true" />
+
+  <!-- records -->
+  <record name="plone.app.mosaic.app_tiles.plone_app_standardtiles_attachment.available_actions" remove="true" />
+  <record name="plone.app.mosaic.app_tiles.plone_app_standardtiles_contentlisting.available_actions" remove="true" />
+  <record name="plone.app.mosaic.app_tiles.plone_app_standardtiles_discussion.available_actions" remove="true" />
+  <record name="plone.app.mosaic.app_tiles.plone_app_standardtiles_document_byline.available_actions" remove="true" />
+  <record name="plone.app.mosaic.app_tiles.plone_app_standardtiles_embed.available_actions" remove="true" />
+  <record name="plone.app.mosaic.app_tiles.plone_app_standardtiles_existingcontent.available_actions" remove="true" />
+  <record name="plone.app.mosaic.app_tiles.plone_app_standardtiles_image.available_actions" remove="true" />
+  <record name="plone.app.mosaic.app_tiles.plone_app_standardtiles_keywords.available_actions" remove="true" />
+  <record name="plone.app.mosaic.app_tiles.plone_app_standardtiles_navigation.available_actions" remove="true" />
+  <record name="plone.app.mosaic.app_tiles.plone_app_standardtiles_rawhtml.available_actions" remove="true" />
+  <record name="plone.app.mosaic.app_tiles.plone_app_standardtiles_related_items.available_actions" remove="true" />
+  <record name="plone.app.mosaic.app_tiles.plone_app_standardtiles_rss.available_actions" remove="true" />
+  <record name="plone.app.mosaic.app_tiles.plone_app_standardtiles_tableofcontents.available_actions" remove="true" />
+  <record name="plone.app.mosaic.default_available_actions" remove="true" />
+  <record name="plone.app.mosaic.default_omitted_fields" remove="true" />
+  <record name="plone.app.mosaic.default_widget_actions" remove="true" />
+  <record name="plone.app.mosaic.hidden_content_layouts" remove="true" />
+  <record name="plone.app.mosaic.structure_tiles.bullets.available_actions" remove="true" />
+  <record name="plone.app.mosaic.structure_tiles.heading.available_actions" remove="true" />
+  <record name="plone.app.mosaic.structure_tiles.numbers.available_actions" remove="true" />
+  <record name="plone.app.mosaic.structure_tiles.subheading.available_actions" remove="true" />
+  <record name="plone.app.mosaic.structure_tiles.table.available_actions" remove="true" />
+  <record name="plone.app.mosaic.structure_tiles.text.available_actions" remove="true" />
+
+</registry>
