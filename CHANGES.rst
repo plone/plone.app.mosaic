@@ -4,6 +4,14 @@ Changelog
 2.1.2 (unreleased)
 ------------------
 
+Breaking change:
+
+- Change IRichtext field in provide document content layout and newsitem content layout from IRichText-text to IRichTextBehavior-text.
+  Needed because of a breaking change in plone.app.contenttypes 1.4.12 which is/will be included in Plone 5.1.4 and later.
+  If you have saved user/global content layouts in your site or in custom add'ons on filesystem, please change these layouts as well when you upgrade to Plone 5.1.4 or later.
+  You can find contentlayouts in you site in the ZMI under portal_resources in the contentlayout folder.
+  [fredvd]
+
 - when deleting custom layout within ``manage custom layouts`` do not show currently selected layout in ``replacement layout`` listing.
   [petschki]
 
