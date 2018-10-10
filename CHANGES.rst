@@ -7,6 +7,9 @@ Changelog
 - Feature: provide ability to give options to field renderer
   [vangheem]
 
+- Removed old code that duplicated TinyMCE editors (ported from master)
+  [obct537]
+
 - Fix: plone_pattern_setting view lookup ran into empty, now renders all.
   [jensens]
 

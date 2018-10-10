@@ -709,28 +709,6 @@ define([
                 that.$el.data('lastSavedData', that.getHtmlContent());
               }
 
-              /* HACK HACK HACK */
-              /* this is so first focus actually works with tinymce. */
-              /* I hate this... */
-              var tries = 0;
-              var _check = function(){
-                if(tries > 20){
-                  return;
-                }
-                if(!that.tinymce){
-                  setTimeout(_check, 20);
-                  tries += 1;
-                  return;
-                }
-                try{
-                  that.tinymce.focus();
-                }catch(e){
-                  // ignore this error...
-                }
-                that.blur();
-              };
-              that.setupWysiwyg();
-              _check();
             }
           },
           error: function(){
