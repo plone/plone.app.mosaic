@@ -359,4 +359,14 @@
       run_deps="false"
       />
 
+  <genericsetup:upgradeDepends
+      profile="plone.app.mosaic:default"
+      source="5023"
+      destination="5024"
+      title="add plone-container-xl width and fix row widths for enabled left toolbar"
+      import_profile="plone.app.mosaic:default"
+      import_steps="plone.app.registry"
+      run_deps="false"
+      />
+
 </configure>

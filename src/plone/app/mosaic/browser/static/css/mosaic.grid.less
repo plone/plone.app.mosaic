@@ -33,18 +33,66 @@ body.mosaic-enabled {
         @media (min-width: @plone-screen-lg-min) {
           width: @plone-container-lg;
         }
+        @media (min-width: @plone-screen-xl-min) {
+          width: @plone-container-xl;
+        }
         .mosaic-innergrid-row {
           width: auto;
           .make-row(@gutter: @plone-grid-gutter-width);
         }
+
+        &.mosaic-grid-row-fluid {
+          margin-left: (@plone-grid-gutter-width / -2);
+          margin-right: (@plone-grid-gutter-width / -2);
+          padding-left: (@plone-grid-gutter-width / 2);
+          padding-right: (@plone-grid-gutter-width / 2);
+          width: auto;
+          max-width: none;
+        }
       }
-      .mosaic-grid-row-fluid {
-        margin-left: (@plone-grid-gutter-width / -2);
-        margin-right: (@plone-grid-gutter-width / -2);
-        padding-left: (@plone-grid-gutter-width / 2);
-        padding-right: (@plone-grid-gutter-width / 2);
-        width: auto;
-        max-width: none;
+    }
+  }
+}
+
+// row widths for logged-in users
+
+body.plone-toolbar-left-default {
+  &.no-portlet-columns {
+    .outer-wrapper > .container {
+      .mosaic-grid-row {
+        @media (min-width: (@plone-screen-sm-min + @plone-left-toolbar)) {
+          width: (@plone-container-sm - @plone-left-toolbar);
+        }
+        @media (min-width: (@plone-screen-md-min + @plone-left-toolbar)) {
+          width: (@plone-container-md - @plone-left-toolbar);
+        }
+        @media (min-width: (@plone-screen-lg-min + @plone-left-toolbar)) {
+          width: (@plone-container-lg - @plone-left-toolbar);
+        }
+        @media (min-width: (@plone-screen-xl-min + @plone-left-toolbar)) {
+          width: (@plone-container-xl - @plone-left-toolbar);
+        }
+      }
+    }
+  }
+}
+
+body.plone-toolbar-left-expanded {
+  &.no-portlet-columns {
+    .outer-wrapper > .container {
+      .mosaic-grid-row {
+        @media (min-width: (@plone-screen-sm-min + @plone-left-toolbar-expanded)) {
+          width: (@plone-container-sm - @plone-left-toolbar-expanded);
+        }
+        @media (min-width: (@plone-screen-md-min + @plone-left-toolbar-expanded)) {
+          width: (@plone-container-md - @plone-left-toolbar-expanded);
+        }
+        @media (min-width: (@plone-screen-lg-min + @plone-left-toolbar-expanded)) {
+          width: (@plone-container-lg - @plone-left-toolbar-expanded);
+        }
+        @media (min-width: (@plone-screen-xl-min + @plone-left-toolbar-expanded)) {
+          width: (@plone-container-xl - @plone-left-toolbar-expanded);
+        }
       }
     }
   }
@@ -100,3 +148,4 @@ body.mosaic-enabled {
     .make-xs-column((@columns / 3 * 2); @gutter: @plone-grid-gutter-width);
   }
 }
+
