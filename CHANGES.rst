@@ -13,6 +13,9 @@ Changelog
 - add uninstall profile for Plone versions >= 5
   [petschki]
 
+- fix Plone 5.2 tests
+  [petschki]
+
 
 2.1.1 (2018-05-17)
 ------------------
