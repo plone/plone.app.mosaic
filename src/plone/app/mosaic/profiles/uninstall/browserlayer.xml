@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<layers>
+  <layer remove="true"
+      name="plone.app.mosaic"
+      interface="plone.app.mosaic.interfaces.IMosaicLayer"
+      />
+</layers>

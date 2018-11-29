@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<registry>
+
+  <!-- interfaces -->
+  <records interface="plone.app.mosaic.interfaces.IAction" remove="true" />
+  <records interface="plone.app.mosaic.interfaces.IFormat" remove="true" />
+  <records interface="plone.app.mosaic.interfaces.ITile" remove="true" />
+  <records interface="plone.app.mosaic.interfaces.IWeightedDict" remove="true" />
+
+  <!-- records -->
+  <record name="plone.app.mosaic.app_tiles.plone_app_standardtiles_html.available_actions" remove="true" />
+  <record name="plone.app.mosaic.default_available_actions" remove="true" />
+  <record name="plone.app.mosaic.default_omitted_fields" remove="true" />
+  <record name="plone.app.mosaic.default_widget_actions" remove="true" />
+  <record name="plone.app.mosaic.hidden_content_layouts" remove="true" />
+
+</registry>

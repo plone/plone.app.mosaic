@@ -10,6 +10,9 @@ Changelog
 - Update ``versions.cfg`` to latest
   [petschki]
 
+- add uninstall profile for Plone versions >= 5
+  [petschki]
+
 
 2.1.1 (2018-05-17)
 ------------------
