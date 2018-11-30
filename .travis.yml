@@ -1,20 +1,28 @@
 language: python
-python: 2.7
 sudo: false
 env:
-  matrix:
-    - PLONE_VERSION=5.0.x
-    - PLONE_VERSION=5.1.x
-    - PLONE_VERSION=5.2.x
   global:
-    - ROBOT_BROWSER=phantomjs
-    - ROBOT_SELENIUM2LIBRARY_RUN_ON_FAILURE="Capture Page Screenshot"
-    - ARTIFACTS_S3_BUCKET=plone-app-mosaic
+      - ARTIFACTS_S3_BUCKET=plone-app-mosaic
     - secure: F9djE/1a4VvCidHCnWeF7qkwsUhVLZELv/ttSC1UamsbCCzIa0shUheF4MfAZBRcwtVVAlrid4VRnuYnxyDciy2jrL/qayLfze2ZKcZTfYKsNIrQzyZ4SUVZRB9ZSA6yUK3v+/GIie95as8MKM/UxRtn2RWw4doWGyKv8XBOL4U=
     - secure: buYYreaObmTNEuVTibj/kIyFnIoHCZdezeA8P0HwGHrTbIAwArBFfhG5PC1grT8MayN3f4sfY80d8sRhRATTPNX1smjjBfyni/Zon8OTpr6mGaGsHOg+HHHqocy3hZPlgg1yYLpUCfKCOc8pnq09lF06JwPxsIXAiV+oRHR446E=
+addons:
+  # XXX: use an older Firefox ESR as we are stuck with selenium = 2.53.5
+  #      https://github.com/SeleniumHQ/selenium/issues/2739#issuecomment-249482533
+  firefox: 45.9.0esr
 matrix:
-  allow_failures:
-    - env: PLONE_VERSION=5.2.x
+  include:
+    - python: "2.7"
+      env: PLONE_VERSION=5.0.x
+    - python: "2.7"
+      env: PLONE_VERSION=5.1.x
+    - python: "2.7"
+      env: PLONE_VERSION=5.2.x
+    - python: "3.6"
+      env: PLONE_VERSION=5.2.x
+    - python: "3.7"
+      env: PLONE_VERSION=5.2.x
+      dist: xenial
+      sudo: true
 cache:
   pip: true
   directories:
@@ -29,8 +37,6 @@ before_install:
   - echo "eggs-directory = $HOME/buildout-cache/eggs" >> $HOME/.buildout/default.cfg
   - pip install zc.buildout
   - cp test-$PLONE_VERSION.cfg buildout.cfg
-  - export DISPLAY=:99.0
-  - sh -e /etc/init.d/xvfb start
 install:
   - nvm install node
   - nvm use node
@@ -40,10 +46,14 @@ install:
   - mkdir -p parts/test/_screenshots
   - make install
   - make clean all mode=release
+before_script:
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
+  - firefox -v
 script:
   - bin/code-analysis
   - bin/test $TEST_OPTIONS
-#  - bin/pybot -v BROWSER:phantomjs -v SELENIUM2LIBRARY_RUN_ON_FAILURE:"Capture Page Screenshot" -d parts/test docs
+  - bin/pybot -v SELENIUM2LIBRARY_RUN_ON_FAILURE:"Capture Page Screenshot" -d parts/test docs
 after_script:
   - bin/createcoverage --output-dir=parts/test/coverage
 #  - bin/sphinx-build docs html
@@ -55,8 +65,8 @@ after_script:
 #  - 'echo "Sphinx: http://plone-app-mosaic.s3-website-us-east-1.amazonaws.com/artifacts/${TRAVIS_BUILD_NUMBER}/${TRAVIS_JOB_NUMBER}/"'
 #  - 'echo "Robot: http://plone-app-mosaic.s3-website-us-east-1.amazonaws.com/artifacts/${TRAVIS_BUILD_NUMBER}/${TRAVIS_JOB_NUMBER}/report.html"'
 after_success:
-#  - pip install -q coveralls
-#  - coveralls
+  - pip install -q coveralls
+  - coveralls
 irc:
 #  channels:
 #    - irc.freenode.org#plone-testing
