@@ -1,17 +1,14 @@
 language: python
 sudo: false
-
 env:
   global:
       - ARTIFACTS_S3_BUCKET=plone-app-mosaic
     - secure: F9djE/1a4VvCidHCnWeF7qkwsUhVLZELv/ttSC1UamsbCCzIa0shUheF4MfAZBRcwtVVAlrid4VRnuYnxyDciy2jrL/qayLfze2ZKcZTfYKsNIrQzyZ4SUVZRB9ZSA6yUK3v+/GIie95as8MKM/UxRtn2RWw4doWGyKv8XBOL4U=
     - secure: buYYreaObmTNEuVTibj/kIyFnIoHCZdezeA8P0HwGHrTbIAwArBFfhG5PC1grT8MayN3f4sfY80d8sRhRATTPNX1smjjBfyni/Zon8OTpr6mGaGsHOg+HHHqocy3hZPlgg1yYLpUCfKCOc8pnq09lF06JwPxsIXAiV+oRHR446E=
-
 addons:
   # XXX: use an older Firefox ESR as we are stuck with selenium = 2.53.5
   #      https://github.com/SeleniumHQ/selenium/issues/2739#issuecomment-249482533
   firefox: 45.9.0esr
-
 matrix:
   include:
     - python: "2.7"
@@ -26,14 +23,12 @@ matrix:
       env: PLONE_VERSION=5.2.x
       dist: xenial
       sudo: true
-
 cache:
   pip: true
   directories:
     - node_modules
     - components
     - $HOME/buildout-cache
-
 before_install:
   - mkdir -p $HOME/buildout-cache/{eggs,downloads}
   - mkdir $HOME/.buildout
