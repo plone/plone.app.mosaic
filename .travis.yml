@@ -5,8 +5,7 @@ env:
   matrix:
     - PLONE_VERSION=5.0.x
     - PLONE_VERSION=5.1.x
-    - PLONE_VERSION=5.1.coredev
-    - PLONE_VERSION=5.2.coredev
+    - PLONE_VERSION=5.2.x
   global:
     - ROBOT_BROWSER=phantomjs
     - ROBOT_SELENIUM2LIBRARY_RUN_ON_FAILURE="Capture Page Screenshot"
@@ -15,8 +14,7 @@ env:
     - secure: buYYreaObmTNEuVTibj/kIyFnIoHCZdezeA8P0HwGHrTbIAwArBFfhG5PC1grT8MayN3f4sfY80d8sRhRATTPNX1smjjBfyni/Zon8OTpr6mGaGsHOg+HHHqocy3hZPlgg1yYLpUCfKCOc8pnq09lF06JwPxsIXAiV+oRHR446E=
 matrix:
   allow_failures:
-    - env: PLONE_VERSION=5.1.coredev
-    - env: PLONE_VERSION=5.2.coredev
+    - env: PLONE_VERSION=5.2.x
 cache:
   pip: true
   directories:
@@ -45,25 +43,25 @@ install:
 script:
   - bin/code-analysis
   - bin/test $TEST_OPTIONS
-  - bin/pybot -v BROWSER:phantomjs -v SELENIUM2LIBRARY_RUN_ON_FAILURE:"Capture Page Screenshot" -d parts/test docs
+#  - bin/pybot -v BROWSER:phantomjs -v SELENIUM2LIBRARY_RUN_ON_FAILURE:"Capture Page Screenshot" -d parts/test docs
 after_script:
   - bin/createcoverage --output-dir=parts/test/coverage
-  - bin/sphinx-build docs html
-  - bundle install
-  - bundle exec travis-artifacts upload --path html
-  - bundle exec travis-artifacts upload --path parts/test
-  - bundle exec travis-artifacts upload --target-path latest --path html
-  - bundle exec travis-artifacts upload --target-path latest --path parts/test
-  - 'echo "Sphinx: http://plone-app-mosaic.s3-website-us-east-1.amazonaws.com/artifacts/${TRAVIS_BUILD_NUMBER}/${TRAVIS_JOB_NUMBER}/"'
-  - 'echo "Robot: http://plone-app-mosaic.s3-website-us-east-1.amazonaws.com/artifacts/${TRAVIS_BUILD_NUMBER}/${TRAVIS_JOB_NUMBER}/report.html"'
+#  - bin/sphinx-build docs html
+#  - bundle install
+#  - bundle exec travis-artifacts upload --path html
+#  - bundle exec travis-artifacts upload --path parts/test
+#  - bundle exec travis-artifacts upload --target-path latest --path html
+#  - bundle exec travis-artifacts upload --target-path latest --path parts/test
+#  - 'echo "Sphinx: http://plone-app-mosaic.s3-website-us-east-1.amazonaws.com/artifacts/${TRAVIS_BUILD_NUMBER}/${TRAVIS_JOB_NUMBER}/"'
+#  - 'echo "Robot: http://plone-app-mosaic.s3-website-us-east-1.amazonaws.com/artifacts/${TRAVIS_BUILD_NUMBER}/${TRAVIS_JOB_NUMBER}/report.html"'
 after_success:
-  - pip install -q coveralls
-  - coveralls
+#  - pip install -q coveralls
+#  - coveralls
 irc:
-  channels:
-    - irc.freenode.org#plone-testing
-  template:
-    - '%{repository}#%{build_number} (%{branch} | %{commit} | %{author}): %{message}'
-    - 'Change: %{compare_url}'
-    - 'Details: %{build_url}'
-    - 'Artifacts: http://plone-app-mosaic.s3-website-us-east-1.amazonaws.com/latest/'
+#  channels:
+#    - irc.freenode.org#plone-testing
+#  template:
+#    - '%{repository}#%{build_number} (%{branch} | %{commit} | %{author}): %{message}'
+#    - 'Change: %{compare_url}'
+#    - 'Details: %{build_url}'
+#    - 'Artifacts: http://plone-app-mosaic.s3-website-us-east-1.amazonaws.com/latest/'

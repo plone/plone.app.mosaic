@@ -27,7 +27,7 @@ class TestAddForm(unittest.TestCase):
         if add_view is None:
             add_view = queryMultiAdapter((container, self.request, ti))
         add_view.__name__ = ti.factory
-        return add_view.__of__(container)
+        return add_view
 
     def test_add_form_removes_groups(self):
         login(self.portal, TEST_USER_NAME)
