@@ -129,8 +129,8 @@ Clone and build:
 
     $ git clone https://github.com/plone/plone.app.mosaic
     $ cd plone.app.mosaic
-    $ python bootstrap.py  # clean python 2.7 virtualenv recommended
-    $ bin/buildout
+    $ make bin/buildout
+    $ make bin/instance
 
 Startup:
 
@@ -200,8 +200,8 @@ To script screenshots into the Sphinx documentation, use the development buildou
 
     $ git clone https://github.com/plone/plone.app.mosaic
     $ cd plone.app.mosaic
-    $ python bootstrap.py  # clean python 2.7 virtualenv recommended
-    $ bin/buildout -c develop.cfg
+    $ make bin/buildout
+    $ make bin/instance
 
 To speed up your iterations, before compiling the docs, start the robot server with:
 
