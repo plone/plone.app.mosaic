@@ -1,6 +1,13 @@
 Changelog
 =========
 
+2.0.0.dev19 (unreleased)
+------------------------
+
+- Strip out protect.js script from responses
+  [vangheem]
+
+
 2.0.0.dev18 (2018-10-21)
 ------------------------
 

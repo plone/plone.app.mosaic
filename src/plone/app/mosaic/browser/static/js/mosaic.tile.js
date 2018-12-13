@@ -679,12 +679,12 @@ define([
         url = base ? [base, href].join('/')
                                  .replace(/\/+\.\//g, '/') : href;
         // in case tile should be rendered differently for layout editor
-        if(url.indexOf('?') === -1){
-          url += '?';
-        }else{
-          url += '&';
-        }
         if(url.indexOf('_layouteditor') === -1){
+          if(url.indexOf('?') === -1){
+            url += '?';
+          }else if(url.charAt(url.length - 1) != '&') {
+            url += '&';
+          }
           url += '_layouteditor=true';
         }
         $.ajax({
@@ -694,6 +694,7 @@ define([
             that.$el.removeClass('mosaic-tile-loading');
             // Get dom tree
             value = $.mosaic.getDomTreeFromHtml(value);
+            value.find('#protect-script').remove();
 
             // Add head tags
             $.mosaic.addHeadTags(href, value);
@@ -708,7 +709,6 @@ define([
                 // save initial state
                 that.$el.data('lastSavedData', that.getHtmlContent());
               }
-
             }
           },
           error: function(){
