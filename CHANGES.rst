@@ -13,6 +13,9 @@ Changelog
 - add uninstall profile for Plone versions >= 5
   [petschki]
 
+- Add styles to remove top-margin on first elements in a grid-cell
+  [MrTango]
+
 
 2.1.1 (2018-05-17)
 ------------------
