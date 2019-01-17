@@ -1,6 +1,21 @@
 Plone Mosaic
 ============
 
+**Fork of mosaic for castle cms**
+
+(right now, it's unclear if it is worth getting back onto master)
+
+
+Building bundle:
+
+    ./bin/plone-compile-resources --site-id=Castle --bundle=mosaic
+
+
+Releasing:
+
+    python setup.py sdist
+
+
 **Plone Mosaic** is a new layout solution for Plone.
 It's built for Plone 5,
 but should also work on Plone 4.3 with plone.app.widgets.

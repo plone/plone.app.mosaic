@@ -1,6 +1,12 @@
 Changelog
 =========
 
+2.0.0.dev20 (01/17/2019)
+------------------------
+
+- fix select layout view
+  [vangheem]
+
 2.0.0.dev19 (unreleased)
 ------------------------
 
