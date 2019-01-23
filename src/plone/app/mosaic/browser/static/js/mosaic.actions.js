@@ -461,6 +461,7 @@ define([
           for (y = 0; y < tile_group.tiles.length; y += 1) {
             if (tile_group.tiles[y].name === tile_type) {
               tile_config = tile_group.tiles[y];
+              break;
             }
           }
         }
@@ -484,8 +485,8 @@ define([
           $.ajax({
             type: "GET",
             url: $.mosaic.options.context_url +
-              '/@@add-tile?tiletype=' + tile_type +
-              '&form.button.Create=Create',
+              '/@@add-tile?tiletype=' + (tile_config.tile_type_id || tile_type) +
+              '&form.button.Create=Create&tile_id=' + (tile_config.name || ''),
             success: function(value, xhr) {
               utils.loading.hide();
               var $value, action_url, authenticator, modalFunc;

@@ -1,6 +1,12 @@
 Changelog
 =========
 
+2.0.0.dev21 (01/23/2019)
+------------------------
+
+- be able to specify `tile_type_id` in tile config
+  [vangheem]
+
 2.0.0.dev20 (01/17/2019)
 ------------------------
 
