@@ -1,6 +1,11 @@
 Changelog
 =========
 
+2.0.0.dev22 (01/24/2019)
+------------------------
+
+- tweak so form is auto submitted correctly with dynamic
+
 2.0.0.dev21 (01/23/2019)
 ------------------------
 

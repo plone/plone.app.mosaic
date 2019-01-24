@@ -553,7 +553,9 @@ define([
                   url: action_url,
                   data: {
                     'buttons.save': 'Save',
-                    '_authenticator': authenticator
+                    '_authenticator': authenticator,
+                    // might just be ignored but necessary when used...
+                    'castle.cms.dynamic.tile_id': tile_config.name
                   },
                   success: function(value, state, xhr) {
                     var tileUrl = xhr.getResponseHeader('X-Tile-Url');
