@@ -486,7 +486,7 @@ define([
       var tile_config = this.getConfig();
 
       // Check if app tile
-      if (tile_config.tile_type === 'app') {
+      if (tile_config && tile_config.tile_type === 'app') {
 
         // Get url
         var tile_url = this.getUrl();

@@ -1,6 +1,12 @@
 Changelog
 =========
 
+2.0.0.dev24 (01/24/2019)
+------------------------
+
+- Handle missing tile config when deleting
+  [vangheem]
+
 2.0.0.dev23 (01/24/2019)
 ------------------------
 
