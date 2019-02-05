@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import six
+
 from copy import deepcopy
 from operator import itemgetter
 from plone.app.mosaic.interfaces import IMosaicRegistryAdapter
@@ -39,10 +41,8 @@ def getCategoryIndex(tiles, category):
     return None
 
 
-def weightedSort(x, y):
-    weight_x = x[1]['weight']
-    weight_y = y[1]['weight']
-    return cmp(weight_x, weight_y)
+def weightedSort(x):
+    return x[1]['weight']
 
 
 @implementer(IMosaicRegistryAdapter)
@@ -83,12 +83,11 @@ class MosaicRegistry(object):
             config[action_type] = []
             key = '{0:s}.{1:s}'.format(self.prefix, action_type)
             actions = settings.get(key, {}).items()
-            actions.sort(cmp=weightedSort)
             for key, action in actions:
                 # sort items
                 items = action.get('items', {})
                 if isinstance(items, dict):
-                    items = items.values()
+                    items = list(items.values())
                 if items:
                     action['items'] = items
                     action['items'].sort(key=itemgetter('weight'))
@@ -120,8 +119,8 @@ class MosaicRegistry(object):
         config['tiles'] = config.get('tiles', [])
         categories = settings.get(
             '{0:s}.tiles_categories'.format(self.prefix), {})
-        sorted_categories = [(x, categories[x]) for x in categories.keys()]
-        sorted_categories.sort(cmp=weightedSort)
+        sorted_categories = list(categories.items())
+        sorted_categories.sort(key=weightedSort)
         for key, category in sorted_categories:
             category['tiles'] = []
             config['tiles'].append(category)
@@ -131,8 +130,8 @@ class MosaicRegistry(object):
         config['formats'] = config.get('formats', [])
         categories = settings.get(
             '{0:s}.format_categories'.format(self.prefix), {})
-        sorted_categories = [(x, categories[x]) for x in categories.keys()]
-        sorted_categories.sort(cmp=weightedSort)
+        sorted_categories = list(categories.items())
+        sorted_categories.sort(key=weightedSort)
         for key, category in sorted_categories:
             category['actions'] = []
             config['formats'].append(category)
@@ -154,8 +153,8 @@ class MosaicRegistry(object):
         config['richtext_contextmenu'] = config.get('richtext_contextmenu', [])
         categories = settings.get(
             '{0:s}.tinymce_categories'.format(self.prefix), {})
-        sorted_categories = [(x, categories[x]) for x in categories.keys()]
-        sorted_categories.sort(cmp=weightedSort)
+        sorted_categories = list(categories.items())
+        sorted_categories.sort(key=weightedSort)
         for key, category in sorted_categories:
             category['actions'] = []
             config['richtext_toolbar'].append(category)
