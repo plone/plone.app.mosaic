@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-import six
-
 from copy import deepcopy
 from operator import itemgetter
 from plone.app.mosaic.interfaces import IMosaicRegistryAdapter
