@@ -6,7 +6,6 @@ from plone.app.mosaic.interfaces import IMosaicLayer
 from plone.app.mosaic.utils import getPersistentResourceDirectory
 from plone.resource.manifest import MANIFEST_FILENAME
 from Products.CMFPlone.interfaces import INonInstallable
-from six import StringIO
 from zope.component import getUtility
 from zope.interface import alsoProvides
 from zope.interface import implementer
@@ -55,14 +54,9 @@ def create_ttw_site_layout_examples(portal):
     alsoProvides(request, IMosaicLayer)
     sitelayout = getPersistentResourceDirectory(SITE_LAYOUT_RESOURCE_NAME)
     custom = getPersistentResourceDirectory('custom', sitelayout)
-    custom.writeFile(MANIFEST_FILENAME, StringIO(EXAMPLE_SITE_LAYOUT))
+    custom.writeFile(MANIFEST_FILENAME, EXAMPLE_SITE_LAYOUT)
     custom.writeFile(
-        'site.html',
-        StringIO(
-            resolveResource(
-                '++sitelayout++default/default.html'
-            ).encode('utf-8')
-        )
+        'site.html', resolveResource('++sitelayout++default/default.html')
     )
 
 
@@ -73,14 +67,9 @@ def create_ttw_content_layout_examples(portal):
         CONTENT_LAYOUT_RESOURCE_NAME
     )
     custom = getPersistentResourceDirectory('custom', contentlayout)
-    custom.writeFile(MANIFEST_FILENAME, StringIO(EXAMPLE_CONTENT_LAYOUT))
+    custom.writeFile(MANIFEST_FILENAME, EXAMPLE_CONTENT_LAYOUT)
     custom.writeFile(
-        'basic.html',
-        StringIO(
-            resolveResource(
-                '++contentlayout++default/basic.html'
-            ).encode('utf-8')
-        )
+        'basic.html', resolveResource('++contentlayout++default/basic.html')
     )
 
 
