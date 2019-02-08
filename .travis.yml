@@ -26,6 +26,7 @@ cache:
     - components
     - $HOME/buildout-cache
 before_install:
+  - sudo apt-get install -y xvfb
   - mkdir -p $HOME/buildout-cache/{eggs,downloads}
   - mkdir $HOME/.buildout
   - echo "[buildout]" > $HOME/.buildout/default.cfg
