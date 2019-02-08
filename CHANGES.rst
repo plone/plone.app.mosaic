@@ -4,13 +4,17 @@ Changelog
 2.1.2 (unreleased)
 ------------------
 
-- when deleting custom layout within ``manage custom layouts`` do not show currently selected layout in ``replacement layout`` listing.
-  [petschki]
-
-- Update ``versions.cfg`` to latest
-  [petschki]
+New features:
 
 - add uninstall profile for Plone versions >= 5
+  [petschki]
+
+- add python 3 compatibility
+  [petschki]
+
+Biug fixes:
+
+- when deleting custom layout within ``manage custom layouts`` do not show currently selected layout in ``replacement layout`` listing.
   [petschki]
 
 
