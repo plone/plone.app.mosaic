@@ -46,7 +46,7 @@ setup(
     install_requires=[
         'setuptools',
         'six',
-        'plone.subrequest>=1.8',
+        'plone.subrequest>=1.9.0',
         'plone.tiles>=1.8.3',
         'plone.app.blocks>=4.1.0',
         'plone.app.tiles>=3.0.3',
