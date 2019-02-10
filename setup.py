@@ -50,7 +50,7 @@ setup(
         'plone.tiles>=2.2.0',
         'plone.app.blocks>=4.3.0',
         'plone.app.tiles>=3.1.1',
-        'plone.app.drafts>=1.1.2',
+        'plone.app.drafts>=1.1.3',
         'plone.app.standardtiles>=2.3.1',
         'Products.CMFPlone>=5.1.4',
         'plone.app.layout',
