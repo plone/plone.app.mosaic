@@ -82,8 +82,11 @@ node_modules: package.json
 	npm install
 	touch node_modules
 
-bin/buildout: requirements.txt
-	bin/pip install -r requirements.txt
+bootstrap-buildout.py:
+	curl -k -O https://bootstrap.pypa.io/bootstrap-buildout.py
+
+bin/buildout: bootstrap-buildout.py buildout.cfg
+	python bootstrap-buildout.py -c buildout.cfg
 
 bin/instance: $(BUILDOUT_BIN) buildout.cfg develop.cfg
 	$(BUILDOUT_BIN) -N $(BUILDOUT_ARGS) -c develop.cfg \

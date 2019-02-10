@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# bin/detect <build-dir>
+
+BUILD_DIR=$1
+[ -f $BUILD_DIR/heroku.cfg ] || exit 1 # fail fast if no heroku.cfg
+
+echo Plone

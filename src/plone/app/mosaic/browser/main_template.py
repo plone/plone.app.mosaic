@@ -1,7 +1,4 @@
 # -*- coding: utf-8 -*-
-from Products.CMFPlone.browser.interfaces import IMainTemplate
-from Products.Five import BrowserView
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from hashlib import md5
 from lxml import etree
 from lxml import html
@@ -12,9 +9,10 @@ from plone.dexterity.browser.add import DefaultAddView
 from plone.memoize import ram
 from plone.memoize import view
 from plone.resource.interfaces import IResourceDirectory
+from Products.CMFPlone.browser.interfaces import IMainTemplate
+from Products.Five import BrowserView
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from repoze.xmliter.utils import getHTMLSerializer
-from six.moves import filter
-from six.moves import map
 from six.moves.urllib.parse import unquote
 from six.moves.urllib.parse import urljoin
 from zExceptions import NotFound
@@ -100,9 +98,9 @@ def parse_data_slots(value):
         prepends = children
         appends = ''
 
-    wrappers = list(filter(bool, list(map(str.strip, wrappers.split()))))
-    prepends = list(filter(bool, list(map(str.strip, prepends.split()))))
-    appends = list(filter(bool, list(map(str.strip, appends.split()))))
+    wrappers = filter(bool, map(str.strip, wrappers.split()))
+    prepends = filter(bool, map(str.strip, prepends.split()))
+    appends = filter(bool, map(str.strip, appends.split()))
 
     return wrappers, prepends, appends
 

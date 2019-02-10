@@ -31,7 +31,6 @@ from zope.interface import Interface
 from zope.schema.interfaces import IField
 
 import os
-import six
 
 WIDGET_NAMES_MAP = {
     'plone.app.z3cform.widget.RichTextWidget':
@@ -44,7 +43,7 @@ def _getWidgetName(field, widgets, request):
         factory = widgets[field.__name__]
     else:
         factory = getMultiAdapter((field, request), IFieldWidget)
-    if isinstance(factory, six.text_type):
+    if isinstance(factory, basestring):
         name = factory
     else:
         if isinstance(factory, ParameterizedWidget):

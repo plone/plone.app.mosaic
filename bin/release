@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# bin/release <build-dir>
+
+cat << EOF
+---
+addons:
+  - heroku-postgresql:dev
+default_process_types:
+  web: python configure_zopeconf.py; bin/instance console
+EOF

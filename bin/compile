@@ -1,0 +1,102 @@
+#!/usr/bin/env bash
+
+set -eo pipefail
+
+# Heroku has opinions on indentation, let's respect them
+indent() {
+  sed -u 's/^/       /'
+}
+
+BUILD_DIR=$1  # -> temp dir that contains whatever is in the git repo
+CACHE_DIR=$2  # -> use this dir for caching between compiles
+ENV_DIR=$3  # -> environment variables are stored as files inside here
+INSTALL_DIR="$BUILD_DIR/.heroku/vendor/buildout"  # -> after buildout is
+# finished, copy results to this dir so they get compressed into a Heroku slug
+UI_URL=https://launchpad.net/plone/5.0/5.0.8/+download/Plone-5.0.8-UnifiedInstaller.tgz
+UI_TARBALL=Plone-5.0.8-UnifiedInstaller.tgz
+UI_DIR=Plone-5.0.8-UnifiedInstaller
+
+
+# make sure dirs exist
+mkdir -p $CACHE_DIR
+mkdir -p $INSTALL_DIR
+
+echo "-----> Use build cache"
+if [ -d $CACHE_DIR/bin ]; then
+    echo "Get buildout results from the previous build" | indent
+    cp -r $CACHE_DIR/bin  $BUILD_DIR/
+    cp -r $CACHE_DIR/eggs  $BUILD_DIR/
+    cp -r $CACHE_DIR/parts  $BUILD_DIR/
+    cp -r $CACHE_DIR/var  $BUILD_DIR/
+else
+    echo "Cache empty, let's fix that" | indent
+    echo "Prime with Unified Installer cache" | indent
+    curl -OL $UI_URL
+    echo "Unpacking Installer" | indent
+    tar xfz $UI_TARBALL
+    cd $UI_DIR
+    echo "Unpacking Installer cache" | indent
+    tar xfj packages/buildout-cache.tar.bz2
+    echo "Moving cache eggs to build directory" | indent
+    cp -r buildout-cache/eggs $BUILD_DIR/
+    echo "Clean up Installer files" | indent
+    cd ..
+    rm -rf $UI_TARBALL $UI_DIR
+
+fi
+
+echo "-----> Read BUILDOUT_CFG from env vars, or use default"
+if [ -f $ENV_DIR/BUILDOUT_CFG ]; then
+    export "BUILDOUT_CFG=$(cat $ENV_DIR/BUILDOUT_CFG)"
+    echo "Found ${BUILDOUT_CFG}" | indent
+else
+    export "BUILDOUT_CFG=heroku.cfg"
+    echo "Using default: heroku.cfg" | indent
+fi
+
+echo "-----> Read BUILDOUT_VERBOSITY from env vars, or use default"
+if [ -f $ENV_DIR/BUILDOUT_VERBOSITY ]; then
+    export "BUILDOUT_VERBOSITY=$(cat $ENV_DIR/BUILDOUT_VERBOSITY)"
+    echo "Use verbosity: ${BUILDOUT_VERBOSITY}" | indent
+else
+    export "BUILDOUT_VERBOSITY="
+    echo "Use default buildout verbosity" | indent
+fi
+
+echo "-----> Read BOOTSTRAP_PY_URL from env vars, or use default"
+if [ -f $ENV_DIR/BOOTSTRAP_PY_URL ]; then
+    export "BOOTSTRAP_PY_URL=$(cat $ENV_DIR/BOOTSTRAP_PY_URL)"
+    echo "Use custom bootstrap.py: ${BOOTSTRAP_PY_URL}" | indent
+else
+    export "BOOTSTRAP_PY_URL=http://downloads.buildout.org/2/bootstrap.py"
+    echo "Use default bootstrap.py: ${BOOTSTRAP_PY_URL}" | indent
+fi
+
+cd $BUILD_DIR
+echo "-----> Bootstrap buildout"
+curl -o bootstrap.py -L "${BOOTSTRAP_PY_URL}"
+python bootstrap.py -c $BUILDOUT_CFG
+echo "-----> Run bin/buildout -c ${BUILDOUT_CFG} ${BUILDOUT_VERBOSITY}"
+bin/buildout -c $BUILDOUT_CFG $BUILDOUT_VERBOSITY
+
+echo "-----> Fix paths in zope.conf"
+sed "s|${BUILD_DIR}|/app|" parts/instance/etc/zope.conf > zope.conf.new
+mv zope.conf.new parts/instance/etc/zope.conf
+
+echo "-----> Copy results to cache"
+cp -r $BUILD_DIR/bin $CACHE_DIR
+cp -r $BUILD_DIR/eggs $CACHE_DIR
+cp -r $BUILD_DIR/parts $CACHE_DIR
+cp -r $BUILD_DIR/var $CACHE_DIR
+
+echo "-----> Copy results to slug"
+cp -r $BUILD_DIR/bin $INSTALL_DIR
+cp -r $BUILD_DIR/eggs $INSTALL_DIR
+cp -r $BUILD_DIR/parts $INSTALL_DIR
+cp -r $BUILD_DIR/var $INSTALL_DIR
+
+echo "-----> Copy configure_zopeconf.py script to slug"
+curl -OL "https://raw.githubusercontent.com/plone/heroku-buildpack-plone/master/configure_zopeconf.py"
+cp -r $BUILD_DIR/configure_zopeconf.py $INSTALL_DIR
+
+echo "Done" | indent
