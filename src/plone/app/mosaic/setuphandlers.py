@@ -12,14 +12,14 @@ from zope.interface import implementer
 from zope.schema.interfaces import IVocabularyFactory
 
 
-EXAMPLE_SITE_LAYOUT = """\
+EXAMPLE_SITE_LAYOUT = b"""\
 [sitelayout]
 title = Plone layout (Custom)
 description = Example site layout
 file = site.html
 """
 
-EXAMPLE_CONTENT_LAYOUT = """\
+EXAMPLE_CONTENT_LAYOUT = b"""\
 [contentlayout]
 title = Basic (Custom)
 description = Example content layout
@@ -56,7 +56,8 @@ def create_ttw_site_layout_examples(portal):
     custom = getPersistentResourceDirectory('custom', sitelayout)
     custom.writeFile(MANIFEST_FILENAME, EXAMPLE_SITE_LAYOUT)
     custom.writeFile(
-        'site.html', resolveResource('++sitelayout++default/default.html')
+        'site.html',
+        resolveResource('++sitelayout++default/default.html').encode('utf-8'),
     )
 
 
@@ -69,7 +70,8 @@ def create_ttw_content_layout_examples(portal):
     custom = getPersistentResourceDirectory('custom', contentlayout)
     custom.writeFile(MANIFEST_FILENAME, EXAMPLE_CONTENT_LAYOUT)
     custom.writeFile(
-        'basic.html', resolveResource('++contentlayout++default/basic.html')
+        'basic.html',
+        resolveResource('++contentlayout++default/basic.html').encode('utf-8'),
     )
 
 
