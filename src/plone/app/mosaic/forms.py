@@ -10,7 +10,6 @@ class MosaicDefaultAddForm(add.DefaultAddForm):
 
     hidden_fields = [
         'IRichText.text',
-        'IRichTextBehavior.text',
         'IVersionable.changeNote'
     ]
 

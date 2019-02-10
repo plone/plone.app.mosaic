@@ -1,14 +1,8 @@
 # -*- coding: utf-8 -*-
-from Products.CMFCore.utils import getToolByName
 from plone.app.mosaic.testing import PLONE_APP_MOSAIC_INTEGRATION
 from plone.browserlayer.utils import registered_layers
 from plone.registry.interfaces import IRegistry
 from zope.component import getUtility
-try:
-    from Products.CMFPlone.utils import get_installer
-except ImportError:
-    # BBB for Plone 5.0 and lower.
-    get_installer = None
 
 import unittest
 
@@ -32,13 +26,8 @@ class InstallTestCase(unittest.TestCase):
         self.portal = self.layer['portal']
 
     def test_installed(self):
-        if get_installer is None:
-            qi = getToolByName(self.portal, 'portal_quickinstaller')
-            installed = qi.isProductInstalled(PROJECTNAME)
-        else:
-            qi = get_installer(self.portal)
-            installed = qi.is_product_installed(PROJECTNAME)
-        self.assertTrue(installed)
+        qi = self.portal['portal_quickinstaller']
+        self.assertTrue(qi.isProductInstalled(PROJECTNAME))
 
     def test_addon_layer(self):
         layers = [l.getName() for l in registered_layers()]
@@ -67,21 +56,11 @@ class UninstallTestCase(unittest.TestCase):
 
     def setUp(self):
         self.portal = self.layer['portal']
-        if get_installer is None:
-            qi = getToolByName(self.portal, 'portal_quickinstaller')
-            qi.uninstallProducts(products=[PROJECTNAME])
-        else:
-            qi = get_installer(self.portal)
-            qi.uninstall_product(PROJECTNAME)
+        self.qi = self.portal['portal_quickinstaller']
+        self.qi.uninstallProducts(products=[PROJECTNAME])
 
     def test_uninstalled(self):
-        if get_installer is None:
-            qi = getToolByName(self.portal, 'portal_quickinstaller')
-            installed = qi.isProductInstalled(PROJECTNAME)
-        else:
-            qi = get_installer(self.portal)
-            installed = qi.is_product_installed(PROJECTNAME)
-        self.assertFalse(installed)
+        self.assertFalse(self.qi.isProductInstalled(PROJECTNAME))
 
     def test_addon_layer_removed(self):
         layers = [l.getName() for l in registered_layers()]
