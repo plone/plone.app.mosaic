@@ -9,7 +9,7 @@ New features:
 - add uninstall profile for Plone versions >= 5
   [petschki]
 
-- add python 3 compatibility
+- add Python 3 compatibility
   [petschki]
 
 Biug fixes:
