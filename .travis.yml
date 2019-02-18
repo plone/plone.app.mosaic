@@ -6,9 +6,11 @@ env:
     - secure: F9djE/1a4VvCidHCnWeF7qkwsUhVLZELv/ttSC1UamsbCCzIa0shUheF4MfAZBRcwtVVAlrid4VRnuYnxyDciy2jrL/qayLfze2ZKcZTfYKsNIrQzyZ4SUVZRB9ZSA6yUK3v+/GIie95as8MKM/UxRtn2RWw4doWGyKv8XBOL4U=
     - secure: buYYreaObmTNEuVTibj/kIyFnIoHCZdezeA8P0HwGHrTbIAwArBFfhG5PC1grT8MayN3f4sfY80d8sRhRATTPNX1smjjBfyni/Zon8OTpr6mGaGsHOg+HHHqocy3hZPlgg1yYLpUCfKCOc8pnq09lF06JwPxsIXAiV+oRHR446E=
 addons:
-  # XXX: use an older Firefox ESR as we are stuck with selenium = 2.53.5
-  #      https://github.com/SeleniumHQ/selenium/issues/2739#issuecomment-249482533
-  firefox: 45.9.0esr
+  apt:
+    sources:
+      - google-chrome
+    packages:
+      - google-chrome-stable
 matrix:
   include:
     - python: "2.7"
@@ -19,6 +21,8 @@ matrix:
       env: PLONE_VERSION=5.2.x
     - python: "3.7"
       env: PLONE_VERSION=5.2.x
+      dist: xenial
+      sudo: true
 cache:
   pip: true
   directories:
@@ -26,7 +30,13 @@ cache:
     - components
     - $HOME/buildout-cache
 before_install:
-  - sudo apt-get install -y xvfb
+# install chrome webdriver
+  - mkdir webdriver;
+    wget https://github.com/mozilla/geckodriver/releases/download/v0.20.0/geckodriver-v0.20.0-linux64.tar.gz;
+    tar -xzf geckodriver-v0.20.0-linux64.tar.gz -C webdriver;
+    wget https://chromedriver.storage.googleapis.com/2.40/chromedriver_linux64.zip;
+    unzip chromedriver_linux64.zip -d webdriver;
+    export PATH=$PATH:$(pwd)/webdriver;
   - mkdir -p $HOME/buildout-cache/{eggs,downloads}
   - mkdir $HOME/.buildout
   - echo "[buildout]" > $HOME/.buildout/default.cfg
@@ -44,14 +54,14 @@ install:
   - make install
   - make clean all mode=release
 before_script:
-  - export DISPLAY=:99.0
-  - sh -e /etc/init.d/xvfb start
-  - firefox -v
+  - 'export DISPLAY=:99.0'
+  - Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
+  - sleep 3
 script:
 # Run code-analysis, except on Python 3.6, which mysteriously fails to find zc.buildout.
   - python --version 2> /dev/stdout | grep 3.6 || bin/code-analysis
   - bin/test $TEST_OPTIONS
-  - bin/pybot -v SELENIUM2LIBRARY_RUN_ON_FAILURE:"Capture Page Screenshot" -d parts/test docs
+  - PYTHONPATH=$(pwd)/parts/tests bin/pybot -v BROWSER:headlesschrome docs
 after_script:
   - bin/createcoverage --output-dir=parts/test/coverage
 #  - bin/sphinx-build docs html
