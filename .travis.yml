@@ -61,7 +61,7 @@ script:
 # Run code-analysis, except on Python 3.6, which mysteriously fails to find zc.buildout.
   - python --version 2> /dev/stdout | grep 3.6 || bin/code-analysis
   - bin/test $TEST_OPTIONS
-  - bin/pybot -v BROWSER:headlesschrome -v SELENIUM2LIBRARY_RUN_ON_FAILURE:"Capture Page Screenshot" -d parts/test docs
+#  - bin/pybot -v BROWSER:headlesschrome -v SELENIUM2LIBRARY_RUN_ON_FAILURE:"Capture Page Screenshot" -d parts/test docs
 after_script:
   - bin/createcoverage --output-dir=parts/test/coverage
 #  - bin/sphinx-build docs html
