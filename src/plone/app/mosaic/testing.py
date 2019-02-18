@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from plone.app.robotframework.testing import REMOTE_LIBRARY_BUNDLE_FIXTURE
+from plone.app.robotframework.testing import PLONE_ROBOT_FIXTURE
 from plone.app.testing import applyProfile
 from plone.app.testing import FunctionalTesting
 from plone.app.testing import IntegrationTesting
@@ -62,6 +62,7 @@ PLONE_APP_MOSAIC_FUNCTIONAL = FunctionalTesting(
     name='PLONE_APP_MOSAIC_FUNCTIONAL')
 
 PLONE_APP_MOSAIC_ROBOT = FunctionalTesting(
-    bases=(REMOTE_LIBRARY_BUNDLE_FIXTURE,
-           PLONE_APP_MOSAIC, z2.ZSERVER_FIXTURE),
+    bases=(PLONE_APP_MOSAIC,
+           PLONE_ROBOT_FIXTURE,
+           z2.ZSERVER_FIXTURE),
     name='PLONE_APP_MOSAIC_ROBOT')
