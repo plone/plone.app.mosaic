@@ -5,6 +5,7 @@ from plone.app.blocks.layoutbehavior import ILayoutAware
 from plone.app.mosaic.interfaces import IMosaicLayer
 from plone.transformchain.interfaces import ITransform
 from repoze.xmliter.serializer import XMLSerializer
+from six.moves import map
 from zope.browser.interfaces import IBrowserView
 from zope.component import getAdapters
 from zope.component import queryMultiAdapter
@@ -80,7 +81,7 @@ class HTTPHeaders(TransformBase):
             IViewletManager, name='plone.httpheaders'
         )
         if manager is not None:
-            headers = map(str.lower, self.request.response.headers)
+            headers = list(map(str.lower, self.request.response.headers))
             for name, viewlet in getAdapters(
                 (context, self.request, self.published, manager),
                 IViewlet

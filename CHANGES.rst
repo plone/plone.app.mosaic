@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.1.2 (unreleased)
+2.2.1 (unreleased)
 ------------------
 
 - add plone-container-xl width for mosaic-rows and fix layout when left toolbar is enabled/expanded
@@ -9,8 +9,21 @@ Changelog
 
 - when deleting custom layout within ``manage custom layouts`` do not show currently selected layout in ``replacement layout`` listing.
   [petschki]
+  
+2.2.0 (2019-02-20)
+------------------
 
-- Update ``versions.cfg`` to latest
+New features:
+
+- add uninstall profile for Plone versions >= 5
+  [petschki]
+
+- add python 3 compatibility
+  [petschki]
+
+Bug fixes:
+
+- when deleting custom layout within ``manage custom layouts`` do not show currently selected layout in ``replacement layout`` listing.
   [petschki]
 
 

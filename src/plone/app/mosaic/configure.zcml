@@ -20,6 +20,13 @@
       post_handler="plone.app.mosaic.setuphandlers.post_handler"
       />
 
+  <genericsetup:registerProfile
+      name="uninstall"
+      title="plone.app.mosaic:uninstall"
+      directory="profiles/uninstall"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
   <utility
       factory=".setuphandlers.HiddenProfiles"
       name="plone.app.mosaic-hiddenprofiles" />

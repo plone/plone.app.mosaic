@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<object name="portal_controlpanel">
+  <configlet remove="true"
+      title="Mosaic Layout Editor"
+      action_id="mosaic-layout-editor"
+      appId="plone.app.mosaic"
+      category="Products"
+      />
+</object>
