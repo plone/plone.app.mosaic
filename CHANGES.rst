@@ -6,9 +6,6 @@ Changelog
 
 - add plone-container-xl width for mosaic-rows and fix layout when left toolbar is enabled/expanded
   [petschki]
-
-- when deleting custom layout within ``manage custom layouts`` do not show currently selected layout in ``replacement layout`` listing.
-  [petschki]
   
 2.2.0 (2019-02-20)
 ------------------
