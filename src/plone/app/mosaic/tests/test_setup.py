@@ -6,6 +6,11 @@ from zope.component import getUtility
 
 import unittest
 
+try:
+    from Products.CMFPlone.utils import get_installer
+except ImportError:
+    # BBB for Plone 5.0 and lower.
+    get_installer = None
 
 PROJECTNAME = 'plone.app.mosaic'
 
@@ -26,7 +31,10 @@ class InstallTestCase(unittest.TestCase):
         self.portal = self.layer['portal']
 
     def test_installed(self):
-        qi = self.portal['portal_quickinstaller']
+        if get_installer is None:
+            qi = self.portal['portal_quickinstaller']
+        else:
+            qi = get_installer(self.portal)
         self.assertTrue(qi.isProductInstalled(PROJECTNAME))
 
     def test_addon_layer(self):
@@ -56,7 +64,10 @@ class UninstallTestCase(unittest.TestCase):
 
     def setUp(self):
         self.portal = self.layer['portal']
-        self.qi = self.portal['portal_quickinstaller']
+        if get_installer is None:
+            self.qi = self.portal['portal_quickinstaller']
+        else:
+            self.qi = get_installer(self.portal)
         self.qi.uninstallProducts(products=[PROJECTNAME])
 
     def test_uninstalled(self):

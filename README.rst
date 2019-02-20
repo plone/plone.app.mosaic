@@ -92,51 +92,53 @@ The dependencies are already version pinned in Plones ecosystem.
 However, if a newer version of mosaic is needed,
 the good known set for the version can be found at Github, Mosaic Code repository, in the file `versions.cfg <https://github.com/plone/plone.app.mosaic/blob/master/versions.cfg>`_.
 
+An example `buildout.cfg` could look like this::
+
+    [buildout]
+    extends =
+        https://dist.plone.org/release/5.2-latest/versions.cfg
+        https://raw.githubusercontent.com/plone/plone.app.mosaic/2.2.0/versions.cfg
+
+    parts =
+        instance
+        ...
+
+    [instance]
+    recipe = plone.recipe.zope2instance
+    eggs =
+        Plone
+        plone.app.mosaic
+
+    ...
+
+
 After the add-on activation, the new content layout and editor support can be
 enabled for any content type by enabling behaviors **Layout support** and
 **Drafting support**.
 
 
-Status
-------
-
-**Plone Mosaic** is considered to be in early production phase.
-All feature are working and Mosaic is used in production.
-
-But `there may still be bugs, which should be reported.`__
-
-Translations are still missing.
-
-Not all the features of Plone Mosaic have yet easily accessible UI (e.g.
-layouts can be created into *portal_resources* and bound to content types as
-named views only through Zope Management Interface, ZMI).
-
-__ https://github.com/plone/plone.app.mosaic/milestones/11
-
-
 Backend development
 -------------------
 
-Plone 5 version of Plone Mosaic is available for development using
-``plips/plip-mosaic.cfg`` at Plone 5 coredev-buildout.
+Plone 5:
 
-Plone 4 version of Plone Mosaic can be developed by cloning the product
-directly.
-
-Clone and build:
-
-..  code:: bash
+Clone and build::
 
     $ git clone https://github.com/plone/plone.app.mosaic
     $ cd plone.app.mosaic
-    $ python bootstrap.py  # clean python 2.7 virtualenv recommended
-    $ bin/buildout
+    $ python3.7 -m venv .
+    $ ./bin/pip install -r requirements.txt
+    $ ./bin/buildout
+    $ ./bin/instance fg
 
-Startup:
 
-..  code:: bash
+For Python 2.7 do exactly the same but create a virtualenv with::
 
-    $ bin/demo
+    $ virtualenv .
+
+instead of::
+
+    $ python3.7 -m venv .
 
 Get started:
 
@@ -146,25 +148,18 @@ Get started:
 * from the *Display*-menu, select the new entry *Mosaic layout*
 * click *Edit* to see the new *Mosaic Editor*
 
-Alternatively you can also use ``bin/instance fg``.
 
-.. For impatient types, there is also an online demo installation available:
-   http://plone-app-mosaic.herokuapp.com. It needs about 60 seconds to spin up and
-   it will purge all changes after about an hour of non-usage.
+Plone 4:
+
+Development for plone.app.mosaic has moved to Plone 5 and Python 3.
+To use plone.app.mosaic in Plone4 please use the related release on
+https://pypi.org
 
 
 Frontend development
 --------------------
 
-Plone Mosaic requires javascript and css bundles,
-which must be manually updated for Plone 4.3.x with:
-
-.. code:: bash
-
-   $ make install
-   $ make clean all mode=release
-
-The bundle can also be built with source maps and watched for changes with:
+Build the bundle with:
 
 .. code:: bash
 
@@ -200,8 +195,8 @@ To script screenshots into the Sphinx documentation, use the development buildou
 
     $ git clone https://github.com/plone/plone.app.mosaic
     $ cd plone.app.mosaic
-    $ python bootstrap.py  # clean python 2.7 virtualenv recommended
-    $ bin/buildout -c develop.cfg
+    $ make bin/buildout
+    $ make bin/instance
 
 To speed up your iterations, before compiling the docs, start the robot server with:
 

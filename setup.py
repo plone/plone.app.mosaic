@@ -3,7 +3,7 @@ from setuptools import find_packages
 from setuptools import setup
 
 
-version = '2.1.2.dev0'
+version = '2.2.0.dev0'
 
 long_description = (
     open('README.rst').read() + '\n' +
@@ -23,9 +23,12 @@ setup(
         'Framework :: Plone',
         'Framework :: Plone :: 5.0',
         'Framework :: Plone :: 5.1',
+        'Framework :: Plone :: 5.2',
         'License :: OSI Approved :: GNU General Public License v2 (GPLv2)',
         'Programming Language :: Python',
         'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
         'Topic :: Internet :: WWW/HTTP',
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
         'Topic :: Software Development :: Libraries :: Python Modules',
@@ -43,13 +46,13 @@ setup(
     install_requires=[
         'setuptools',
         'six',
-        'plone.subrequest>=1.8',
-        'plone.tiles>=1.8.3',
-        'plone.app.blocks>=4.1.0',
-        'plone.app.tiles>=3.0.3',
-        'plone.app.drafts>=1.1.2',
-        'plone.app.standardtiles>=2.2.0',
-        'Products.CMFPlone>=5.0.4',
+        'plone.subrequest>=1.9.0',
+        'plone.tiles>=2.2.0',
+        'plone.app.blocks>=4.3.1',
+        'plone.app.tiles>=3.1.1',
+        'plone.app.drafts>=1.1.3',
+        'plone.app.standardtiles>=2.3.1',
+        'Products.CMFPlone>=5.1.4',
         'plone.app.layout',
     ],
     extras_require={'test': [

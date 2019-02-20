@@ -2,13 +2,13 @@
 
     *** Settings ***
 
+    Library  OperatingSystem
+
     Resource  plone/app/robotframework/server.robot
     Resource  plone/app/robotframework/keywords.robot
     Resource  Selenium2Screenshots/keywords.robot
 
     Resource  ${RESOURCE_DIR}/_selectors.robot
-
-    Library  OperatingSystem
 
     Suite Setup  Run keywords  Suite Setup  Test Setup
     Suite Teardown  Run keywords  Test teardown  Suite Teardown

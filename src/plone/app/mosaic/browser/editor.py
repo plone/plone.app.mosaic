@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-from AccessControl import getSecurityManager
 from AccessControl import Unauthorized
+from AccessControl import getSecurityManager
 from plone import api
 from plone.app.blocks.interfaces import CONTENT_LAYOUT_MANIFEST_FORMAT
 from plone.app.blocks.interfaces import CONTENT_LAYOUT_RESOURCE_NAME
@@ -14,19 +14,24 @@ from plone.protect.authenticator import createToken
 from plone.registry.interfaces import IRegistry
 from plone.resource.manifest import MANIFEST_FILENAME
 from plone.resource.utils import queryResourceDirectory
-from six.moves.configparser import SafeConfigParser
+from six.moves.configparser import ConfigParser
 from zExceptions import NotFound
 from zope.component import getUtility
 from zope.publisher.browser import BrowserView
 
-import io
 import json
 import six
 
 
 def loadManifest(data):
-    parser = SafeConfigParser(None, multidict)
-    parser.readfp(io.BytesIO(data))
+    if six.PY2:
+        parser = ConfigParser(None, multidict)
+        parser.readfp(six.StringIO(data))
+    else:
+        if isinstance(data, six.binary_type):
+            data = data.decode()
+        parser = ConfigParser(dict_type=multidict, strict=False)
+        parser.read_string(data)
     return parser
 
 
