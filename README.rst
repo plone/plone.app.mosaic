@@ -129,8 +129,6 @@ Clone and build::
     $ python3.7 -m venv .
     $ ./bin/pip install -r requirements.txt
     $ ./bin/buildout
-    $ ./bin/instance fg
-
 
 For Python 2.7 do exactly the same but create a virtualenv with::
 
@@ -140,13 +138,18 @@ instead of::
 
     $ python3.7 -m venv .
 
+
+Startup::
+
+    $ ./bin/instance fg
+
+
 Get started:
 
-* open a browser at ``http://localhost:55001/plone/++add++Document``
-* login as ``admin`` with password ``secret``
-* save the new page
-* from the *Display*-menu, select the new entry *Mosaic layout*
-* click *Edit* to see the new *Mosaic Editor*
+ * open a browser at ``http://localhost:8080/``
+ * create a Plone Site (user **admin**, pass **admin**)
+ * on the ``Welcome to Plone`` select the new entry **Mosaic layout** from the **Display**-menu
+ * click **Edit** to see the new **Mosaic Editor**
 
 
 Plone 4:
