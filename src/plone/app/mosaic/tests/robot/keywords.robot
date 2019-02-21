@@ -39,10 +39,21 @@ an example document
   ...  description=This is an example document
   ...  text=<p>This document will soon have a custom layout.</p>
 
+select mosaic layout view
+  Go to  ${PLONE_URL}/example-document
+
+  Wait Until Element Is Visible  ${SELECTOR_CONTENTMENU_DISPLAY_LINK}
+  Click element  ${SELECTOR_CONTENTMENU_DISPLAY_LINK}
+  Wait Until Element Is Visible  id=plone-contentmenu-display-layout_view
+
+  Mouse over  id=plone-contentmenu-display-layout_view
+  Click element  id=plone-contentmenu-display-layout_view
+
 Setup Mosaic Example Page
     Open test browser
 
     Given a logged-in site administrator
       and an example document
+     then select mosaic layout view
 
     Run keyword and ignore error  Set window size  1024  1500
