@@ -54,6 +54,9 @@ setup(
         'plone.app.standardtiles>=2.3.1',
         'Products.CMFPlone>=5.1.4',
         'plone.app.layout',
+        # new IRichTextBehavior Interface class
+        'plone.app.contenttypes>=2.0.0',
+        'plone.behavior>=1.3.0',
     ],
     extras_require={'test': [
         'plone.app.testing',

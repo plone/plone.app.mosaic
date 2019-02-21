@@ -4,10 +4,15 @@ Changelog
 2.2.1 (unreleased)
 ------------------
 
+Bug fixes:
+
 - add plone-container-xl width for mosaic-rows and fix layout when left toolbar is enabled/expanded
   [petschki]
 
 - Fix action button sorting (see #439)
+  [petschki]
+
+- Fix issue with renamed IRichTextBehavior class and pin versions for Plone 5.1
   [petschki]
 
 
