@@ -80,7 +80,8 @@ class MosaicRegistry(object):
         for action_type in ['primary_actions', 'secondary_actions']:
             config[action_type] = []
             key = '{0:s}.{1:s}'.format(self.prefix, action_type)
-            actions = settings.get(key, {}).items()
+            actions = list(settings.get(key, {}).items())
+            actions.sort(key=weightedSort)
             for key, action in actions:
                 # sort items
                 items = action.get('items', {})

@@ -6,7 +6,11 @@ Changelog
 
 - add plone-container-xl width for mosaic-rows and fix layout when left toolbar is enabled/expanded
   [petschki]
-  
+
+- Fix action button sorting (see #439)
+  [petschki]
+
+
 2.2.0 (2019-02-20)
 ------------------
 
