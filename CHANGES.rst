@@ -23,6 +23,9 @@ Biug fixes:
 - when deleting custom layout within ``manage custom layouts`` do not show currently selected layout in ``replacement layout`` listing.
   [petschki]
 
+- Add styles to remove top-margin on first elements in a grid-cell
+  [MrTango]
+
 
 2.1.1 (2018-05-17)
 ------------------
