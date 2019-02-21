@@ -4,9 +4,9 @@ Changelog
 2.2.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
-
+- add plone-container-xl width for mosaic-rows and fix layout when left toolbar is enabled/expanded
+  [petschki]
+  
 2.2.0 (2019-02-20)
 ------------------
 
@@ -18,7 +18,7 @@ New features:
 - add python 3 compatibility
   [petschki]
 
-Biug fixes:
+Bug fixes:
 
 - when deleting custom layout within ``manage custom layouts`` do not show currently selected layout in ``replacement layout`` listing.
   [petschki]

@@ -61,7 +61,7 @@ body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .mosaic-grid-
 @media (min-width: 992px) {
   body.template-layout.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row,
   body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row {
-    width: 970px;
+    width: 990px;
   }
 }
 @media (min-width: 1200px) {
@@ -70,20 +70,66 @@ body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .mosaic-grid-
     width: 1170px;
   }
 }
+@media (min-width: 1600px) {
+  body.template-layout.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row,
+  body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row {
+    width: 1570px;
+  }
+}
 body.template-layout.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row .mosaic-innergrid-row,
 body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row .mosaic-innergrid-row {
   width: auto;
   margin-left: -15px;
   margin-right: -15px;
 }
-body.template-layout.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row-fluid,
-body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row-fluid {
+body.template-layout.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row.mosaic-grid-row-fluid,
+body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row.mosaic-grid-row-fluid {
   margin-left: -15px;
   margin-right: -15px;
   padding-left: 15px;
   padding-right: 15px;
   width: auto;
   max-width: none;
+}
+@media (min-width: 828px) {
+  body.plone-toolbar-left-default.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row {
+    width: 690px;
+  }
+}
+@media (min-width: 1052px) {
+  body.plone-toolbar-left-default.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row {
+    width: 930px;
+  }
+}
+@media (min-width: 1260px) {
+  body.plone-toolbar-left-default.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row {
+    width: 1110px;
+  }
+}
+@media (min-width: 1660px) {
+  body.plone-toolbar-left-default.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row {
+    width: 1510px;
+  }
+}
+@media (min-width: 888px) {
+  body.plone-toolbar-left-expanded.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row {
+    width: 630px;
+  }
+}
+@media (min-width: 1112px) {
+  body.plone-toolbar-left-expanded.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row {
+    width: 870px;
+  }
+}
+@media (min-width: 1320px) {
+  body.plone-toolbar-left-expanded.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row {
+    width: 1050px;
+  }
+}
+@media (min-width: 1720px) {
+  body.plone-toolbar-left-expanded.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row {
+    width: 1450px;
+  }
 }
 /* Widths, these are abstracted out so that pixel-based layouts or other
    similar approaches can be retrofitted without changing the markup,
