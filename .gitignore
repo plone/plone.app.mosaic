@@ -37,3 +37,4 @@ bootstrap-buildout.py
 pip-selfcheck.json
 .Python
 pyvenv.cfg
+package-lock.json

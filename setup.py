@@ -46,7 +46,7 @@ setup(
     install_requires=[
         'setuptools',
         'six',
-        'plone.subrequest>=1.9.0',
+        'plone.subrequest>=1.8.6',
         'plone.tiles>=2.2.0',
         'plone.app.blocks>=4.3.1',
         'plone.app.tiles>=3.1.1',
@@ -54,6 +54,9 @@ setup(
         'plone.app.standardtiles>=2.3.1',
         'Products.CMFPlone>=5.1.4',
         'plone.app.layout',
+        # new IRichTextBehavior Interface class
+        'plone.app.contenttypes>=2.0.0',
+        'plone.behavior>=1.3.0',
     ],
     extras_require={'test': [
         'plone.app.testing',
