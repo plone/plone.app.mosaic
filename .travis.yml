@@ -1,10 +1,5 @@
 language: python
 sudo: false
-env:
-  global:
-    - ARTIFACTS_S3_BUCKET=plone-app-mosaic
-    - secure: F9djE/1a4VvCidHCnWeF7qkwsUhVLZELv/ttSC1UamsbCCzIa0shUheF4MfAZBRcwtVVAlrid4VRnuYnxyDciy2jrL/qayLfze2ZKcZTfYKsNIrQzyZ4SUVZRB9ZSA6yUK3v+/GIie95as8MKM/UxRtn2RWw4doWGyKv8XBOL4U=
-    - secure: buYYreaObmTNEuVTibj/kIyFnIoHCZdezeA8P0HwGHrTbIAwArBFfhG5PC1grT8MayN3f4sfY80d8sRhRATTPNX1smjjBfyni/Zon8OTpr6mGaGsHOg+HHHqocy3hZPlgg1yYLpUCfKCOc8pnq09lF06JwPxsIXAiV+oRHR446E=
 addons:
   apt:
     sources:
@@ -32,8 +27,6 @@ cache:
 before_install:
 # install chrome webdriver
   - mkdir webdriver;
-    wget https://github.com/mozilla/geckodriver/releases/download/v0.20.0/geckodriver-v0.20.0-linux64.tar.gz;
-    tar -xzf geckodriver-v0.20.0-linux64.tar.gz -C webdriver;
     wget https://chromedriver.storage.googleapis.com/2.40/chromedriver_linux64.zip;
     unzip chromedriver_linux64.zip -d webdriver;
     export PATH=$PATH:$(pwd)/webdriver;
@@ -60,26 +53,11 @@ before_script:
 script:
 # Run code-analysis, except on Python 3.6, which mysteriously fails to find zc.buildout.
   - python --version 2> /dev/stdout | grep 3.6 || bin/code-analysis
-  - bin/test $TEST_OPTIONS
-#  - bin/pybot -v BROWSER:headlesschrome -v SELENIUM2LIBRARY_RUN_ON_FAILURE:"Capture Page Screenshot" -d parts/test docs
+  - bin/test --all
 after_script:
   - bin/createcoverage --output-dir=parts/test/coverage
-#  - bin/sphinx-build docs html
-#  - bundle install
-#  - bundle exec travis-artifacts upload --path html
-#  - bundle exec travis-artifacts upload --path parts/test
-#  - bundle exec travis-artifacts upload --target-path latest --path html
-#  - bundle exec travis-artifacts upload --target-path latest --path parts/test
-#  - 'echo "Sphinx: http://plone-app-mosaic.s3-website-us-east-1.amazonaws.com/artifacts/${TRAVIS_BUILD_NUMBER}/${TRAVIS_JOB_NUMBER}/"'
-#  - 'echo "Robot: http://plone-app-mosaic.s3-website-us-east-1.amazonaws.com/artifacts/${TRAVIS_BUILD_NUMBER}/${TRAVIS_JOB_NUMBER}/report.html"'
 after_success:
   - pip install -q coveralls
   - coveralls
 notifications:
   irc: irc.freenode.org#plone-testing
-#irc:
-#  template:
-#    - '%{repository}#%{build_number} (%{branch} | %{commit} | %{author}): %{message}'
-#    - 'Change: %{compare_url}'
-#    - 'Details: %{build_url}'
-#    - 'Artifacts: http://plone-app-mosaic.s3-website-us-east-1.amazonaws.com/latest/'

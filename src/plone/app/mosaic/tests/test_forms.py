@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from plone.app.mosaic.testing import PLONE_APP_MOSAIC_DEXTERITY_INTEGRATION
+from plone.app.mosaic.testing import PLONE_APP_MOSAIC_INTEGRATION
 from plone.app.testing import login
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
@@ -11,7 +11,7 @@ import unittest
 
 
 class TestAddForm(unittest.TestCase):
-    layer = PLONE_APP_MOSAIC_DEXTERITY_INTEGRATION
+    layer = PLONE_APP_MOSAIC_INTEGRATION
 
     def setUp(self):
         self.app = self.layer['app']

@@ -4,7 +4,8 @@ Changelog
 2.2.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- refactor testsuites and add robottests
+  [petschki]
 
 
 2.2.1 (2019-02-21)
