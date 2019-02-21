@@ -119,7 +119,7 @@ enabled for any content type by enabling behaviors **Layout support** and
 **Note for Plone 5.1:**
 
 Since version ``2.2.x`` we use the renamed IRichTextBehavior behavior from ``plone.app.contenttypes >= 2.0.0``.
-The dependent versions are pinned in ``setup.py``.
+The dependent versions are pinned in ``versions.cfg``.
 To keep the Plone 5.1 standard versions you have to stay on the ``2.1.x`` versions.
 
 
