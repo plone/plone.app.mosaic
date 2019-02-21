@@ -369,4 +369,14 @@
       run_deps="false"
       />
 
+  <genericsetup:upgradeDepends
+      profile="plone.app.mosaic:default"
+      source="5024"
+      destination="5025"
+      title="recompile resources"
+      import_profile="plone.app.mosaic:default"
+      import_steps="plone.app.registry"
+      run_deps="false"
+      />
+
 </configure>
