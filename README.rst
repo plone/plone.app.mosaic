@@ -89,14 +89,23 @@ Installation
 
 *The dependencies are already version pinned in Plones ecosystem.*
 
+After the add-on activation, the new content layout and editor support can be
+enabled for any content type by enabling behaviors **Layout support** and
+**Drafting support**.
+
+
+**Note for Plone 5.1:**
+
+Since version ``2.2.x`` the renamed IRichTextBehavior behavior is used from ``plone.app.contenttypes >= 2.0.0`` so to keep the Plone 5.1 standard versions you have to stay on the ``2.1.x`` branch.
+
 However, if a newer version of mosaic is needed,
 the good known set for the version can be found at Github, Mosaic Code repository, in the file `versions.cfg <https://github.com/plone/plone.app.mosaic/blob/master/versions.cfg>`_
 
-An example `buildout.cfg` could look like this::
+An example ``buildout.cfg`` for Plone ``5.1.x`` with plone.app.mosaic ``2.2.x`` could look like this::
 
     [buildout]
     extends =
-        https://dist.plone.org/release/5.2-latest/versions.cfg
+        https://dist.plone.org/release/5.1-latest/versions.cfg
         https://raw.githubusercontent.com/plone/plone.app.mosaic/master/versions.cfg
 
     parts =
@@ -111,16 +120,6 @@ An example `buildout.cfg` could look like this::
 
     ...
 
-After the add-on activation, the new content layout and editor support can be
-enabled for any content type by enabling behaviors **Layout support** and
-**Drafting support**.
-
-
-**Note for Plone 5.1:**
-
-Since version ``2.2.x`` we use the renamed IRichTextBehavior behavior from ``plone.app.contenttypes >= 2.0.0``.
-The dependent versions are pinned in ``versions.cfg``.
-To keep the Plone 5.1 standard versions you have to stay on the ``2.1.x`` versions.
 
 
 Backend development
