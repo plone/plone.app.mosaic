@@ -12,7 +12,10 @@ Bug fixes:
 - Fix action button sorting (see #439)
   [petschki]
 
-- Fix issue with renamed IRichTextBehavior class and pin versions for Plone 5.1
+- Fix issue with renamed IRichTextBehavior class
+  [petschki]
+
+- Plone 5.1 compatible versions
   [petschki]
 
 
