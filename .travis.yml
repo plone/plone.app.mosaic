@@ -35,7 +35,7 @@ before_install:
   - echo "[buildout]" > $HOME/.buildout/default.cfg
   - echo "download-cache = $HOME/buildout-cache/downloads" >> $HOME/.buildout/default.cfg
   - echo "eggs-directory = $HOME/buildout-cache/eggs" >> $HOME/.buildout/default.cfg
-  - pip install zc.buildout
+  - pip install -r requirements.txt
   - cp test-$PLONE_VERSION.cfg buildout.cfg
 install:
   - nvm install node
