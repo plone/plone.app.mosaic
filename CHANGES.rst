@@ -7,6 +7,9 @@ Changelog
 - refactor testsuites and add robottests
   [petschki]
 
+- Fix pip install command in .travis.yml
+  [staeff]
+
 
 2.2.1 (2019-02-21)
 ------------------
