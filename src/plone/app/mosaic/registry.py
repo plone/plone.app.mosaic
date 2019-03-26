@@ -43,6 +43,11 @@ def weightedSort(x):
     return x[1]['weight']
 
 
+def safe_weight_sortkey(x):
+    weight = x.get('weight', None)
+    return weight if weight is not None else 9000
+
+
 @implementer(IMosaicRegistryAdapter)
 @adapter(IRegistry)
 class MosaicRegistry(object):
@@ -89,7 +94,7 @@ class MosaicRegistry(object):
                     items = list(items.values())
                 if items:
                     action['items'] = items
-                    action['items'].sort(key=itemgetter('weight'))
+                    action['items'].sort(key=safe_weight_sortkey)
                     for x in action['items']:
                         x['value'] = x['name']
 
@@ -144,7 +149,7 @@ class MosaicRegistry(object):
                 config['formats'][index]['actions'].append(format)
         # sort the formats
         for format in config['formats']:
-            format['actions'].sort(key=itemgetter('weight'))
+            format['actions'].sort(key=safe_weight_sortkey)
         return config
 
     def mapTinyMCEActionCategories(self, settings, config):
@@ -168,7 +173,7 @@ class MosaicRegistry(object):
             if index is not None:
                 config['richtext_toolbar'][index]['actions'].append(action)
         for group in config['richtext_toolbar']:
-            group['actions'].sort(key=itemgetter('weight'))
+            group['actions'].sort(key=safe_weight_sortkey)
         return config
 
     def mapTinyMCEContextMenuFormats(self, settings, config):
@@ -179,7 +184,7 @@ class MosaicRegistry(object):
             if index is not None:
                 config['richtext_contextmenu'][index]['actions'].append(action)
         for group in config['richtext_contextmenu']:
-            group['actions'].sort(key=itemgetter('weight'))
+            group['actions'].sort(key=safe_weight_sortkey)
         return config
 
     # def mapStructureTiles(self, settings, config):
@@ -193,7 +198,7 @@ class MosaicRegistry(object):
     #        if index is not None:
     #            config['tiles'][index]['tiles'].append(tile)
     #    for tile in config['tiles']:
-    #        tile['tiles'].sort(key=itemgetter('weight'))
+    #        tile['tiles'].sort(key=safe_weight_sortkey)
     #    return config
     #
     # def mapApplicationTiles(self, settings, config):
@@ -205,7 +210,7 @@ class MosaicRegistry(object):
     #        if index is not None:
     #            config['tiles'][index]['tiles'].append(tile)
     #    for tile in config['tiles']:
-    #        tile['tiles'].sort(key=itemgetter('weight'))
+    #        tile['tiles'].sort(key=safe_weight_sortkey)
     #    return config
 
     def mapTiles(self, settings, config, tile_category):
@@ -218,7 +223,7 @@ class MosaicRegistry(object):
             if index is not None:
                 config['tiles'][index]['tiles'].append(tile)
         for tile in config['tiles']:
-            tile['tiles'].sort(key=itemgetter('weight'))
+            tile['tiles'].sort(key=safe_weight_sortkey)
         return config
 
     # BBB: needs a bit of thought, I'm nowhere near satisfied with this
