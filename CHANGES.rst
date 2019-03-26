@@ -4,6 +4,9 @@ Changelog
 2.2.2 (unreleased)
 ------------------
 
+- safely read tile weight from registry
+  [petschki]
+
 - refactor testsuites and add robottests
   [petschki]
 
