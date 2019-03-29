@@ -4,10 +4,15 @@
   height: auto;
 }
 /*
-  prevent margin-top for first element's like h2,
+  prevent margin-top for first heading element's,
   to have the grid-cells starting at the same horizontal level
 */
-.mosaic-tile-content :first-child {
+.mosaic-tile-content h1:first-child,
+.mosaic-tile-content h2:first-child,
+.mosaic-tile-content h3:first-child,
+.mosaic-tile-content h4:first-child,
+.mosaic-tile-content h5:first-child,
+.mosaic-tile-content h6:first-child {
   margin-top: 0;
 }
 .mosaic-tile-align-center {

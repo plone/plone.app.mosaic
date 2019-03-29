@@ -4,6 +4,9 @@ Changelog
 2.2.2 (unreleased)
 ------------------
 
+- be more specific when removing top-margin
+  [petschki]
+
 - safely read tile weight from registry
   [petschki]
 
