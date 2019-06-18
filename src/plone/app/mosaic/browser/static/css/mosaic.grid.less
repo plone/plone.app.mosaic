@@ -1,7 +1,5 @@
-@import (reference) "@{barcelonetaPath}/less/variables.plone.less";
-@import (reference) "@{barcelonetaPath}/less/mixin.grid.plone.less";
-@plone-mosaic-bootstrap: "@{staticPath}/components/bootstrap";
-@import (reference) "@{plone-mosaic-bootstrap}/less/bootstrap.less";
+@import "@{barcelonetaPath}/less/variables.plone.less";
+@import (reference) "@{bootstrapPath}/less/bootstrap.less";
 
 
 @columns: @plone-grid-columns;
@@ -113,6 +111,7 @@ body.plone-toolbar-left-expanded {
   .make-md-column((@columns / 4); @gutter: @plone-grid-gutter-width);
 }
 .mosaic-width-three-quarters {
+  .make-sm-column((@columns / 2); @gutter: @plone-grid-gutter-width);
   .make-md-column((@columns / 4 * 3); @gutter: @plone-grid-gutter-width);
 }
 .mosaic-width-third {
