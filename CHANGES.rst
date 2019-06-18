@@ -4,6 +4,12 @@ Changelog
 2.2.2 (unreleased)
 ------------------
 
+- fix .mosaic-width-quarter/.mosaic-width-three-quarters grid CSS to wrap correctly
+  [petschki]
+
+- refactor mosaic-grid.less imports to avoid duplicated CSS selectors. (#453)
+  [petschki]
+
 - be more specific when removing top-margin
   [petschki]
 
