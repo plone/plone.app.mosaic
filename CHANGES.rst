@@ -19,6 +19,9 @@ Changelog
 - Fix bytestring join in main_template.py
   [1letter]
 
+- Bugfix in robottest
+  [1letter]
+
 
 2.2.1 (2019-02-21)
 ------------------
