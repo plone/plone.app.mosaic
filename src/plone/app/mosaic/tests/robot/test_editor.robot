@@ -33,8 +33,8 @@ Show the Mosaic editing capabilities
     ...  css=.plone-modal
 
     ## XXX: Only double click worked on Firefox 52
-    # Click element  jquery=a[data-value="default/basic.html"]
-    Double click element  jquery=a[data-value="default/basic.html"]
+    Click element  jquery=a[data-value="default/basic.html"]
+    # Double click element  jquery=a[data-value="default/basic.html"]
 
     # Show the properties view in Mosaic editor
     Run keyword and ignore error  Set window size  1024  1200
@@ -111,7 +111,8 @@ Show the Mosaic editing capabilities
     # Show how the custom layout looks after saving
 
     Click button  css=.mosaic-button-save
-    Wait until page contains  Changes saved
+    Sleep   5
+    Confirm Action
     Capture and crop page screenshot
     ...  _screenshots/mosaic-page-saved.png
     ...  css=html
