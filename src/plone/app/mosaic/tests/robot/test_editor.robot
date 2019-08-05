@@ -111,8 +111,7 @@ Show the Mosaic editing capabilities
     # Show how the custom layout looks after saving
 
     Click button  css=.mosaic-button-save
-    Sleep   5
-    Confirm Action
+    Handle Alert  action=ACCEPT  timeout=5
     Capture and crop page screenshot
     ...  _screenshots/mosaic-page-saved.png
     ...  css=html
