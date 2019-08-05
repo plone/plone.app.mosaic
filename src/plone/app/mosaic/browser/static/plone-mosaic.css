@@ -8,12 +8,37 @@
   margin: 0 5px 0 0;
 }
 .mosaic-toolbar .mosaic-menu {
+  /* cannot extend from .form-control because of media selectors ... reuse definitions here */
+  height: 34px;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 1.42857143;
+  color: #555555;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #ccc;
+  border-radius: 4px;
   display: inline-block;
   margin: 0 5px 0 0;
   width: auto;
+  /* Apply bootstrap styles for select2 menus */
 }
 .mosaic-toolbar .mosaic-menu.mosaic-menu-insert {
   margin-right: 0;
+}
+.mosaic-toolbar .mosaic-menu.select2-container a.select2-choice {
+  border: 0;
+  padding: 0;
+  box-shadow: none;
+}
+.mosaic-toolbar .mosaic-menu.select2-container a.select2-choice,
+.mosaic-toolbar .mosaic-menu.select2-container a.select2-choice:hover {
+  background-color: transparent;
+  background-image: none;
+}
+.mosaic-toolbar .mosaic-menu.select2-container a.select2-choice .select2-arrow {
+  border: 0;
+  background: none;
 }
 .mosaic-toolbar .mosaic-button-group {
   display: inline-block;
@@ -65,16 +90,6 @@
   .mosaic-toolbar-secondary-functions {
     padding: 0 15px;
   }
-}
-/* Apply bootstrap styles for select2 menus */
-.mosaic-toolbar .mosaic-menu.select2-container a.select2-choice {
-  border: 0;
-  padding: 0;
-  box-shadow: none;
-}
-.mosaic-toolbar .mosaic-menu.select2-container a.select2-choice .select2-arrow {
-  border: 0;
-  background: none;
 }
 /* Hide mosaic-menu labels with select2 */
 .mosaic-enabled .select2-results {
@@ -788,16 +803,11 @@
   margin-right: auto;margin-left: auto;padding-left: 15px;padding-right: 15px;
 }
 @media screen and (max-width: 767px) {
-}.mosaic-toolbar .mosaic-menu {
-  display: block;width: 100%;height: 34px;padding: 6px 12px;font-size: 14px;line-height: 1.42857143;color: #555555;background-color: #fff;background-image: none;border: 1px solid #ccc;border-radius: 4px;-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);-webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;-o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
-}
-@media (min-width: 768px) {
-}.mosaic-toolbar button,
-.mosaic-toolbar .mosaic-menu.select2-container a.select2-choice {
+}@media (min-width: 768px) {
+}.mosaic-toolbar button {
   display: inline-block;margin-bottom: 0;font-weight: normal;text-align: center;vertical-align: middle;touch-action: manipulation;cursor: pointer;background-image: none;border: 1px solid transparent;white-space: nowrap;padding: 6px 12px;font-size: 14px;line-height: 1.42857143;border-radius: 4px;-webkit-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;
 }
-.mosaic-toolbar button,
-.mosaic-toolbar .mosaic-menu.select2-container a.select2-choice {
+.mosaic-toolbar button {
   color: #333;background-color: #fff;border-color: #ccc;
 }
 .mosaic-toolbar button:hover,
@@ -821,9 +831,6 @@
 }
 .mosaic-toolbar .mosaic-menu.select2-container a.select2-choice .select2-arrow b {
   display: inline-block;width: 0;height: 0;margin-left: 2px;vertical-align: middle;border-top: 4px dashed;border-top: 4px solid \9;border-right: 4px solid transparent;border-left: 4px solid transparent;
-}
-.mosaic-toolbar .mosaic-menu.select2-container {
-  position: relative;
 }
 .mosaic-toolbar,
 .mosaic-dropdown {
