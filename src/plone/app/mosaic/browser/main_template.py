@@ -176,7 +176,11 @@ def cook_layout(layout, ajax):
 
     template = TEMPLATE
     metal = 'xmlns:metal="http://namespaces.zope.org/metal"'
-    return (template % ''.join(result)).replace(metal, '')
+
+    if six.PY2:
+        return (template % ''.join(result)).replace(metal, '')
+
+    return (template % (b''.join(result).decode("utf-8"))).replace(metal, '')
 
 
 class ViewPageTemplateString(ViewPageTemplateFile):
