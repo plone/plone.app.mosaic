@@ -111,7 +111,8 @@ Show the Mosaic editing capabilities
     # Show how the custom layout looks after saving
 
     Click button  css=.mosaic-button-save
-    # Handle Alert  action=ACCEPT  timeout=5
+    # some people reported sporadic page unload alert ... if so, accept it
+    Run keyword and ignore error  Handle Alert  action=ACCEPT  timeout=5
     Capture and crop page screenshot
     ...  _screenshots/mosaic-page-saved.png
     ...  css=html
