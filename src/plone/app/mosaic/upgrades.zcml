@@ -379,4 +379,15 @@
       run_deps="false"
       />
 
+  <genericsetup:upgradeDepends
+      profile="plone.app.mosaic:default"
+      source="5025"
+      destination="5026"
+      title="Update resources"
+      description="Remove duplicate CSS selectors introduced with bootstrap less reference"
+      import_profile="plone.app.mosaic:default"
+      import_steps="plone.app.registry"
+      run_deps="false"
+      />
+
 </configure>

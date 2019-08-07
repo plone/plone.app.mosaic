@@ -13,13 +13,15 @@ BUNDLE_LESS = $(STATIC)/plone-mosaic.css
 BUNDLE_GRID_LESS = $(STATIC)/mosaic-grid.css
 BUNDLE_STYLES_LESS = $(STATIC)/mosaic-styles.css
 CURRENT_DIR = $(shell pwd)
-LESS_OPTS = '--modify-var=staticPath="$(CURRENT_DIR)"' \
-            '--modify-var=barcelonetaPath="$(CURRENT_DIR)/components/plonetheme.barceloneta/plonetheme/barceloneta/theme"' \
-            '--modify-var=plone-toolbar-draft-color=rgb(250,184,42)' \
-            '--modify-var=plone-toolbar-pending-color=rgb(226,231,33)' \
-            '--modify-var=plone-toolbar-private-color=rgb(196,24,60)' \
-            '--modify-var=plone-toolbar-internal-color=rgb(250,184,42)' \
-            '--modify-var=plone-toolbar-internally-published-color=rgb(136,61,250)'
+LESS_OPTS = --modify-var=staticPath="$(CURRENT_DIR)" \
+            --modify-var=bootstrapPath="$(CURRENT_DIR)/components/bootstrap" \
+            --modify-var=barcelonetaPath="$(CURRENT_DIR)/components/plonetheme.barceloneta/plonetheme/barceloneta/theme" \
+            --modify-var=plone-toolbar-draft-color="rgb(250,184,42)" \
+            --modify-var=plone-toolbar-pending-color="rgb(226,231,33)" \
+            --modify-var=plone-toolbar-private-color="rgb(196,24,60)" \
+            --modify-var=plone-toolbar-internal-color="rgb(250,184,42)" \
+            --modify-var=plone-toolbar-internally-published-color="rgb(136,61,250)" \
+            --verbose
 RJS_OPTIONS = paths.pat-logger=$(CURRENT_DIR)/components/patternslib/src/core/logger paths.logging=$(CURRENT_DIR)/components/logging/src/logging
 
 # if mode variable is empty, setting debug build mode

@@ -18,8 +18,8 @@
     "text-loader": "0.0.1",
     "url-loader": "^1.1.2",
     "watch": "^0.16.0",
-    "webpack": "^4.29.5",
-    "webpack-dev-server": "^3.2.0",
+    "webpack": "^4.34.0",
+    "webpack-dev-server": "^3.7.2",
     "webpack-merge": "^0.14.0"
   },
   "dependencies": {
