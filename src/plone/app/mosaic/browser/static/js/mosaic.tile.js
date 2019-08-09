@@ -1066,7 +1066,7 @@ define([
           editor = tinymce.get(editor_id);
           var content = $('.mosaic-' + tiletype + '-tile', $.mosaic.document).find('.mosaic-tile-content').html();
           $textarea.val(content);
-          if (editor) {
+          if (editor && editor.parser) {
             editor.setContent(content);
           }
           break;
