@@ -28,7 +28,7 @@ define([
   var _positionActiveTinyMCE = function(){
     /* XXX warning, this needs to be split into a filter call for some reason.
        one selector bombs out */
-    var $toolbar = $('.mosaic-rich-text-toolbar').filter(':visible');
+    var $toolbar = $('.mosaic-selected-tile .mosaic-rich-text-toolbar').filter(':visible');
     if($toolbar.size() === 0 || $toolbar.find('.mce-first').size() === 0){
       /* make sure it actually has a toolbar */
       return;
@@ -47,7 +47,10 @@ define([
     // make the tiny toolbar sticky, it'll get shifted
     var $window = $(window);
 
-    if(($tile.offset().top - $toolbar.height()) < $window.scrollTop()){
+    // Will include the mosaic toolbar height
+    var mosaic_toolbar_height = $(".mosaic-toolbar").height();
+
+    if(($tile.offset().top - $toolbar.height()) < ($window.scrollTop() + mosaic_toolbar_height)){
       // just checking if we reached the top of the tile + size of toolbar
       if(!$toolbar.hasClass('sticky')){
         $('body').addClass('mce-sticky');
