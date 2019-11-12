@@ -1163,22 +1163,31 @@ define([
       }
 
       // Define placeholder updater
-      var _placeholder = function() {
+      var _placeholder = function(visible) {
         var $inside = $content.find('p > *');
-        if (($inside.length === 0 || ($inside.length === 1 && $inside.is('br'))) &&
+        if (visible &&
+            ($inside.length === 0 || ($inside.length === 1 && $inside.is('br'))) &&
             $content.text().replace(/^\s+|\s+$/g, '').length === 0) {
           $content.addClass('mosaic-tile-content-empty');
           if($content.find('p').length === 0){
             $content.empty().append('<p></p>');
           }
+          return true;
         } else {
           $content.removeClass('mosaic-tile-content-empty');
+          return false;
         }
       };
+      var delay = 100;
       var timeout = 0;
-      var placeholder = function(){
+      var placeholder = function(visible){
         clearTimeout(timeout);
-        timeout = setTimeout(_placeholder, 100);
+        if (_placeholder(visible) && delay < 120000) {
+          timeout = setTimeout(function() { placeholder(visible); }, delay);
+          delay = delay + 100;
+        } else {
+          delay = 100;
+        }
       };
 
       var paste_as_text = $.mosaic.options.tinymce.tiny.paste_as_text || false;
@@ -1238,8 +1247,8 @@ define([
           }
 
           // `change` event doesn't fire all the time so we do both here...
-          editor.on('keyup change', placeholder);
-          placeholder();
+          editor.on('focus', function() { placeholder(false); });
+          editor.on('blur', function() { placeholder(true); });
 
           editor.on('init', function(){
             /*
@@ -1254,6 +1263,7 @@ define([
                 that._focus();
               }, 100);
             }
+            placeholder(true);
           });
         }
       }}));
