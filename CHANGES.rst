@@ -4,6 +4,9 @@ Changelog
 2.2.2 (unreleased)
 ------------------
 
+- Improve tinymce toolbar sticky computation
+  [frapell]
+
 - fix .mosaic-width-quarter/.mosaic-width-three-quarters grid CSS to wrap correctly
   [petschki]
 
