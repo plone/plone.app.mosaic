@@ -188,7 +188,7 @@ define([
           .find(".mosaic-" + field_tile.name + "-tile")
             .length !== 0) {
           $($.mosaic.document.getElementById(field_tile.id))
-            .addClass('mosaic-hidden');
+            .html("<p>A "+field_tile.label+" tile is in use, you may edit via the tile properties.</p>");
         }
       }
 
