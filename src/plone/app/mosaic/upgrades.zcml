@@ -390,4 +390,13 @@
       run_deps="false"
       />
 
+  <genericsetup:upgradeDepends
+      profile="plone.app.mosaic:default"
+      source="5026"
+      destination="5027"
+      title="TinyMCE sticky toolbar fix "
+      import_steps="plone.app.registry"
+      run_deps="false"
+      />
+
 </configure>
