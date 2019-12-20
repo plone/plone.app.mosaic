@@ -67,36 +67,57 @@ def cook_layout_cachekey(func, layout, ajax):
 
 
 def parse_data_slots(value):
-    """Parse data-slots value into slots used to wrap node, prepend to node or
-    append to node.
+    """Parse data-slots value into slots used to wrap node, wrapped by node,
+    prepend to node or append to node.
 
        >>> parse_data_slots('')
-       ([], [], [])
+       ([], [], [], [])
 
        >>> parse_data_slots('foo bar')
-       (['foo', 'bar'], [], [])
+       (['foo', 'bar'], [], [], [])
 
        >>> parse_data_slots('foo bar > foobar')
-       (['foo', 'bar'], ['foobar'], [])
+       (['foo', 'bar'], [], ['foobar'], [])
 
        >>> parse_data_slots('> foobar')
-       ([], ['foobar'], [])
+       ([], [], ['foobar'], [])
 
        >>> parse_data_slots('> foo * bar')
-       ([], ['foo'], ['bar'])
+       ([], [], ['foo'], ['bar'])
 
        >>> parse_data_slots('foobar > foo * bar')
-       (['foobar'], ['foo'], ['bar'])
+       (['foobar'], [], ['foo'], ['bar'])
 
        >>> parse_data_slots('foo > * bar')
-       (['foo'], [], ['bar'])
+       (['foo'], [], [], ['bar'])
+
+       >>> parse_data_slots('foo | wrapped > * bar')
+       (['foo'], ['wrapped'], [], ['bar'])
+
+       >>> parse_data_slots('| wrapped > * bar')
+       ([], ['wrapped'], [], ['bar'])
+
+       >>> parse_data_slots('| wrapped > bar')
+       ([], ['wrapped'], ['bar'], [])
+
+       >>> parse_data_slots('| wrapped')
+       ([], ['wrapped'], [], [])
 
     """
     value = unquote(value)
-    if '>' in value:
+    if '|' in value:
+        wrappers, value = value.split('|', 1)
+        if '>' in value:
+            wrapped, children = value.split('>', 1)
+        else:
+            wrapped = value
+            children = ''
+    elif '>' in value:
         wrappers, children = value.split('>', 1)
+        wrapped = ''
     else:
         wrappers = value
+        wrapped = ''
         children = ''
     if '*' in children:
         prepends, appends = children.split('*', 1)
@@ -105,14 +126,15 @@ def parse_data_slots(value):
         appends = ''
 
     wrappers = filter(bool, map(str.strip, wrappers.split()))
+    wrapped = filter(bool, map(str.strip, wrapped.split()))
     prepends = filter(bool, map(str.strip, prepends.split()))
     appends = filter(bool, map(str.strip, appends.split()))
 
-    return wrappers, prepends, appends
+    return wrappers, wrapped, prepends, appends
 
 
 def wrap_append_prepend_slots(node, data_slots):
-    wrappers, prepends, appends = parse_data_slots(data_slots)
+    wrappers, wrapped, prepends, appends = parse_data_slots(data_slots)
 
     for panelId in wrappers:
         slot = etree.Element('{{{0:s}}}{1:s}'.format(NSMAP['metal'], panelId),
@@ -133,6 +155,14 @@ def wrap_append_prepend_slots(node, data_slots):
         slot = etree.Element('{{{0:s}}}{1:s}'.format(NSMAP['metal'], panelId),
                              nsmap=NSMAP)
         slot.attrib['define-slot'] = panelId
+        node.append(slot)
+
+    for panelId in reversed(wrapped):
+        slot = etree.Element('{{{0:s}}}{1:s}'.format(NSMAP['metal'], panelId),
+                             nsmap=NSMAP)
+        slot.attrib['define-slot'] = panelId
+        for child in node.iterchildren():
+            slot.append(child)
         node.append(slot)
 
     return wrappers + prepends + appends
