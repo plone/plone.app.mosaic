@@ -1,5 +1,0 @@
-source 'https://rubygems.org'
-gem 'mime-types', '2.6.2'
-gem 'faraday', '0.8.9'
-gem 'net-ssh', '2.9.2'
-gem 'travis-artifacts'

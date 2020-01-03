@@ -47,7 +47,7 @@ class TransformBase(object):
         self.request = request
 
     def transform(self, result, encoding):
-        raise NotImplemented
+        raise NotImplementedError
 
     def transformBytes(self, result, encoding):
         return None

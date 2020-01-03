@@ -1,6 +1,9 @@
 language: python
 python: 2.7
 sudo: false
+dist: xenial
+services:
+  - xvfb
 env:
   matrix:
     - PLONE_VERSION=5.0.x
@@ -29,8 +32,6 @@ before_install:
   - echo "eggs-directory = $HOME/buildout-cache/eggs" >> $HOME/.buildout/default.cfg
   - pip install zc.buildout
   - cp test-$PLONE_VERSION.cfg buildout.cfg
-  - export DISPLAY=:99.0
-  - sh -e /etc/init.d/xvfb start
 install:
   - nvm install node
   - nvm use node
@@ -47,11 +48,11 @@ script:
 after_script:
   - bin/createcoverage --output-dir=parts/test/coverage
   - bin/sphinx-build docs html
-  - bundle install
-  - bundle exec travis-artifacts upload --path html
-  - bundle exec travis-artifacts upload --path parts/test
-  - bundle exec travis-artifacts upload --target-path latest --path html
-  - bundle exec travis-artifacts upload --target-path latest --path parts/test
+  - curl -sL https://raw.githubusercontent.com/travis-ci/artifacts/master/install | bash
+  - artifacts upload --path html
+  - artifacts upload --path parts/test
+  - artifacts upload --target-path latest --path html
+  - artifacts upload --target-path latest --path parts/test
   - 'echo "Sphinx: http://plone-app-mosaic.s3-website-us-east-1.amazonaws.com/artifacts/${TRAVIS_BUILD_NUMBER}/${TRAVIS_JOB_NUMBER}/"'
   - 'echo "Robot: http://plone-app-mosaic.s3-website-us-east-1.amazonaws.com/artifacts/${TRAVIS_BUILD_NUMBER}/${TRAVIS_JOB_NUMBER}/report.html"'
 after_success:
