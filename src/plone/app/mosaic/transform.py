@@ -12,6 +12,7 @@ from zope.component.hooks import getSite
 from zope.interface import implementer
 from zope.viewlet.interfaces import IViewlet
 from zope.viewlet.interfaces import IViewletManager
+from OFS.SimpleItem import SimpleItem
 
 import logging
 import re
@@ -29,12 +30,9 @@ def getContext(context):
     """
     # Resolve physical path of the nearest context
     for ob in aq_chain(context):
-        try:
-            if aq_base(ob).portal_type:
-                context = ob
-                break
-        except (AttributeError, AssertionError):
-            continue
+        if isinstance(aq_base(ob), SimpleItem):
+            context = ob
+            break
     if not context or IBrowserView.providedBy(context):
         return getSite()
     return context
