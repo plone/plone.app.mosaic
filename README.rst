@@ -172,6 +172,7 @@ Build the bundle with:
 .. code:: bash
 
    $ npm install
+   $ bower install
    $ make clean all watch
 
 
