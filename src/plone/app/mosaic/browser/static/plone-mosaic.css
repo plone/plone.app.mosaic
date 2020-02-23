@@ -491,24 +491,26 @@
   top: 0px;
   bottom: 0px;
 }
-.mosaic-resize-leftmost {
+
+.mosaic-resize-0 {
   margin-left: 0%;
 }
-.mosaic-resize-third {
+.mosaic-resize-4 {
   margin-left: 33.33%;
 }
-.mosaic-resize-two-thirds {
+.mosaic-resize-8 {
   margin-left: 66.67%;
 }
-.mosaic-resize-quarter {
+.mosaic-resize-3 {
   margin-left: 25%;
 }
-.mosaic-resize-half {
+.mosaic-resize-6 {
   margin-left: 50%;
 }
-.mosaic-resize-three-quarters {
+.mosaic-resize-9 {
   margin-left: 75%;
 }
+
 .mosaic-layout-customized .mosaic-resize-handle {
   display: block;
 }
@@ -893,6 +895,7 @@ body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .mosaic-grid-
 }
 /* Grid classes, these can also be nested */
 .mosaic-grid-row {
+  position: relative;
   display: flex;
   flex-wrap: wrap;
   margin-left: -15px;
