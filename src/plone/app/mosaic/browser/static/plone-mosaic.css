@@ -315,7 +315,8 @@
   /* Add row style labels */
 }
 .mosaic-panel.mosaic-advanced .mosaic-empty-row:first-child + .mosaic-grid-row {
-  border-top: 2px dashed #ccc;
+  /*border-top: 2px dashed #ccc;*/
+  border-top: 2px dashed red;
 }
 .mosaic-panel.mosaic-advanced .mosaic-grid-row:not(.mosaic-empty-row) {
   padding: 5px;
@@ -892,7 +893,8 @@ body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .mosaic-grid-
 }
 /* Grid classes, these can also be nested */
 .mosaic-grid-row {
-  position: relative;
+  display: flex;
+  flex-wrap: wrap;
   margin-left: -15px;
   margin-right: -15px;
 }

@@ -71,7 +71,7 @@ define([
       $(this).addClass('mosaic-panel');
       $(this).children().wrap($(
         '<div class="mosaic-grid-row">' +
-          '<div class="mosaic-grid-cell mosaic-width-full mosaic-position-leftmost">' +
+          '<div class="mosaic-grid-cell col-12 mosaic-position-leftmost">' +
             '<div class="movable removable mosaic-tile mosaic-text-tile">' +
               '<div class="mosaic-tile-content">' +
               '</div>' +
