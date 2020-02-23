@@ -63,12 +63,12 @@ define([
       'col-12',
     ],
     positionClasses: [
-      'mosaic-position-leftmost',
-      'mosaic-position-quarter',
-      'mosaic-position-third',
-      'mosaic-position-half',
-      'mosaic-position-two-thirds',
-      'mosaic-position-three-quarters'
+      'mosaic-position-0',
+      'mosaic-position-3',
+      'mosaic-position-4',
+      'mosaic-position-6',
+      'mosaic-position-8',
+      'mosaic-position-9'
     ]
   };
 
@@ -676,7 +676,7 @@ define([
           $($.mosaic.document.createElement("div"))
             .addClass("mosaic-grid-row mosaic-empty-row")
             .append($($.mosaic.document.createElement("div"))
-              .addClass("mosaic-grid-cell mosaic-position-leftmost col-12")
+              .addClass("mosaic-grid-cell col-12 mosaic-position-0")
               .append($($.mosaic.document.createElement("div"))
                 .append($($.mosaic.document.createElement("div"))
                   .addClass("mosaic-tile-outer-border")
@@ -694,7 +694,7 @@ define([
             $($.mosaic.document.createElement("div"))
               .addClass("mosaic-grid-row mosaic-empty-row")
               .append($($.mosaic.document.createElement("div"))
-                .addClass("mosaic-grid-cell mosaic-position-leftmost col-12")
+                .addClass("mosaic-grid-cell col-12 mosaic-position-0")
                 .append($($.mosaic.document.createElement("div"))
                   .append($($.mosaic.document.createElement("div"))
                     .addClass("mosaic-tile-outer-border")
@@ -715,7 +715,7 @@ define([
           $($.mosaic.document.createElement("div"))
             .addClass("mosaic-grid-row mosaic-empty-row")
             .append($($.mosaic.document.createElement("div"))
-              .addClass("mosaic-grid-cell mosaic-position-leftmost col-12")
+              .addClass("mosaic-grid-cell col-12 mosaic-position-0")
               .append($($.mosaic.document.createElement("div"))
                 .append($($.mosaic.document.createElement("div"))
                   .addClass("mosaic-tile-outer-border")
@@ -993,7 +993,7 @@ define([
           tile_to_drop = $($.mosaic.document.createElement("div"))
                           .addClass("mosaic-grid-row mosaic-innergrid-row")
                           .append($($.mosaic.document.createElement("div"))
-                            .addClass("mosaic-grid-cell mosaic-position-leftmost col-12")
+                            .addClass("mosaic-grid-cell col-12 mosaic-position-0")
                             .append($($.mosaic.document.createElement("div"))
                               .append($($.mosaic.document.createElement("div"))
                                 .addClass("mosaic-innergrid-outer-border")
@@ -1036,7 +1036,7 @@ define([
               .before($($.mosaic.document.createElement("div"))
                 .addClass("mosaic-grid-row")
                 .append($($.mosaic.document.createElement("div"))
-                  .addClass("mosaic-grid-cell mosaic-position-leftmost col-12")
+                  .addClass("mosaic-grid-cell col-12 mosaic-position-0")
                   .append($(prev_elms.get().reverse()).clone(true).mosaicAddDrag())
                 )
               );
@@ -1050,7 +1050,7 @@ define([
               .after($($.mosaic.document.createElement("div"))
                 .addClass("mosaic-grid-row")
                 .append($($.mosaic.document.createElement("div"))
-                  .addClass("mosaic-grid-cell mosaic-position-leftmost col-12")
+                  .addClass("mosaic-grid-cell col-12 mosaic-position-0")
                   .append(next_elms.clone(true).mosaicAddDrag())
                 )
               );
@@ -1066,9 +1066,9 @@ define([
           // Create column with dragged tile in it
           if (dir === "left") {
             drop.parent()
-              .addClass("mosaic-position-half")
+              .addClass("mosaic-position-6")
               .before($($.mosaic.document.createElement("div"))
-                .addClass("mosaic-grid-cell mosaic-position-leftmost col-6")
+                .addClass("mosaic-grid-cell col-6 mosaic-position-0")
                 .append(
                   original_tile
                     .clone(true)
@@ -1080,9 +1080,9 @@ define([
             );
           } else {
             drop.parent()
-              .addClass("mosaic-position-leftmost")
+              .addClass("mosaic-position-0")
               .after($($.mosaic.document.createElement("div"))
-                .addClass("mosaic-grid-cell mosaic-position-half col-6")
+                .addClass("mosaic-grid-cell col-6 mosaic-position-6")
                 .append(
                   original_tile
                     .clone(true)
@@ -1208,17 +1208,17 @@ define([
 
           // 1 column
           case 1:
-            $(this).addClass("mosaic-position-leftmost col-12");
+            $(this).addClass("col-12 mosaic-position-0");
             break;
 
           // 2 columns
           case 2:
             switch (i) {
             case 0:
-              $(this).addClass("mosaic-position-leftmost col-6");
+              $(this).addClass("col-6 mosaic-position-0");
               break;
             case 1:
-              $(this).addClass("mosaic-position-half col-6");
+              $(this).addClass("col-6 mosaic-position-6");
               break;
             }
             break;
@@ -1227,13 +1227,13 @@ define([
           case 3:
             switch (i) {
             case 0:
-              $(this).addClass("mosaic-position-leftmost col-4");
+              $(this).addClass("col-4 mosaic-position-0");
               break;
             case 1:
-              $(this).addClass("mosaic-position-third col-4");
+              $(this).addClass("col-4 mosaic-position-4");
               break;
             case 2:
-              $(this).addClass("mosaic-position-two-thirds col-4");
+              $(this).addClass("col-4 mosaic-position-8");
               break;
             }
             break;
@@ -1242,16 +1242,16 @@ define([
           case 4:
             switch (i) {
             case 0:
-              $(this).addClass("mosaic-position-leftmost col-3");
+              $(this).addClass("col-3 mosaic-position-0");
               break;
             case 1:
-              $(this).addClass("mosaic-position-quarter col-3");
+              $(this).addClass("col-3 mosaic-position-3");
               break;
             case 2:
-              $(this).addClass("mosaic-position-half col-3");
+              $(this).addClass("col-3 mosaic-position-6");
               break;
             case 3:
-              $(this).addClass("mosaic-position-three-quarters col-3");
+              $(this).addClass("col-3 mosaic-position-9");
               break;
             }
             break;
@@ -1276,26 +1276,30 @@ define([
 
       // Check number of columns
       var nr_of_columns = $(this).children(".mosaic-grid-cell").length;
+
       switch (nr_of_columns) {
-      case 2:
-        $(this).append($($.mosaic.document.createElement("div"))
-          .addClass("mosaic-resize-handle mosaic-resize-handle-center mosaic-resize-handle-one " + $($(this).children(".mosaic-grid-cell").get(1))  // jshint ignore:line
-            .mosaicGetPositionClass().replace("position", "resize")
-          )
-        );
-        break;
-      case 3:
-        $(this).append($($.mosaic.document.createElement("div"))
-          .addClass("mosaic-resize-handle mosaic-resize-handle-center mosaic-resize-handle-one " + $($(this).children(".mosaic-grid-cell").get(1))  // jshint ignore:line
-            .mosaicGetPositionClass().replace("position", "resize")
-          )
-        );
-        $(this).append($($.mosaic.document.createElement("div"))
-          .addClass("mosaic-resize-handle mosaic-resize-handle-center mosaic-resize-handle-two " + $($(this).children(".mosaic-grid-cell").get(2))  // jshint ignore:line
-            .mosaicGetPositionClass().replace("position", "resize")
-          )
-        );
-        break;
+        case 2:
+          $(this).append($($.mosaic.document.createElement("div"))
+            .addClass(
+              "mosaic-resize-handle mosaic-resize-handle-center mosaic-resize-handle-one " +
+              $($(this).children(".mosaic-grid-cell").get(1)).mosaicGetPositionClass().replace("position", "resize")
+            )
+          );
+          break;
+        case 3:
+          $(this).append($($.mosaic.document.createElement("div"))
+            .addClass(
+              "mosaic-resize-handle mosaic-resize-handle-center mosaic-resize-handle-one " +
+              $($(this).children(".mosaic-grid-cell").get(1)).mosaicGetPositionClass().replace("position", "resize")
+            )
+          );
+          $(this).append($($.mosaic.document.createElement("div"))
+            .addClass(
+              "mosaic-resize-handle mosaic-resize-handle-center mosaic-resize-handle-two " +
+              $($(this).children(".mosaic-grid-cell").get(2)).mosaicGetPositionClass().replace("position", "resize")
+            )
+          );
+          break;
       }
 
       // Mouse down handler on resize handle
@@ -1683,7 +1687,7 @@ define([
       $($.mosaic.document.createElement("div"))
         .addClass("mosaic-grid-row")
         .append($($.mosaic.document.createElement("div"))
-          .addClass("mosaic-grid-cell mosaic-position-leftmost col-6")
+          .addClass("mosaic-grid-cell col-6")
           .append($($.mosaic.document.createElement("div"))
             .addClass("movable removable mosaic-tile mosaic-" + type + "-tile")
             .append($($.mosaic.document.createElement("div"))
@@ -1791,85 +1795,84 @@ define([
    */
   $.mosaic.getPageContent = function (exportLayout) {
     var getLayoutRow = function(obj){
-        var body = "";
+      var body = "";
 
-        // Check if not an empty row
-        if ($(obj).hasClass("mosaic-empty-row") === false &&
-            $(obj).find('.mosaic-tile').length >= 0) {
+      // Check if not an empty row
+      if ($(obj).hasClass("mosaic-empty-row") === false &&
+        $(obj).find('.mosaic-tile').length >= 0) {
 
-            // Add row open tag
-            classNames = $(obj).attr("class");
-            body += '      <div class="' + classNames + '">\n';
+        // Add row open tag
+        classNames = $(obj).attr("class");
+        body += '      <div class="' + classNames + '">\n';
 
-            // Loop through rows
-            $(obj).children(".mosaic-grid-cell").each(function () {
+        // Loop through rows
+        $(obj).children(".mosaic-grid-cell").each(function () {
 
-                // Add column size
-                switch ($(this).mosaicGetPositionClass()) {
-                    case "mosaic-position-leftmost":
-                    position = 1;
-                    break;
-                    case "mosaic-position-quarter":
-                    position = 4;
-                    break;
-                    case "mosaic-position-third":
-                    position = 5;
-                    break;
-                    case "mosaic-position-half":
-                    position = 7;
-                    break;
-                    case "mosaic-position-two-thirds":
-                    position = 9;
-                    break;
-                    case "mosaic-position-three-quarters":
-                    position = 10;
-                    break;
-                }
+          // Add column size
+          switch ($(this).mosaicGetPositionClass()) {
+            case "mosaic-position-0":
+              position = 1;
+              break;
+            case "mosaic-position-3":
+              position = 4;
+              break;
+            case "mosaic-position-4":
+              position = 5;
+              break;
+            case "mosaic-position-6":
+              position = 7;
+              break;
+            case "mosaic-position-8":
+              position = 9;
+              break;
+            case "mosaic-position-9":
+              position = 10;
+              break;
+          }
 
-                // Add column size
-                switch ($(this).mosaicGetWidthClass()) {
-                  case "col-6":
-                    size = 6;
-                    break;
-                  case "col-3":
-                    size = 3;
-                    break;
-                  case "col-4":
-                    size = 4;
-                    break;
-                  case "col8":
-                    size = 8;
-                    break;
-                  case "col-9":
-                    size = 9;
-                    break;
-                  case "col-12":
-                    size = 12;
-                    break;
-                }
+          // Add column size
+          switch ($(this).mosaicGetWidthClass()) {
+            case "col-6":
+              size = 6;
+              break;
+            case "col-3":
+              size = 3;
+              break;
+            case "col-4":
+              size = 4;
+              break;
+            case "col8":
+              size = 8;
+              break;
+            case "col-9":
+              size = 9;
+              break;
+            case "col-12":
+              size = 12;
+              break;
+          }
 
-                // Add cell start tag
-                body += '        <div class="' + $(this).attr("class") + '">\n';  // jshint ignore:line
+          // Add cell start tag
+          body += '        <div class="' + $(this).attr("class") + '">\n';  // jshint ignore:line
 
 
-                $(this).children().each(function () {
-                    if ($(this).hasClass("mosaic-tile")){
-                        var tile = new Tile(this);
-                        body += tile.getHtmlBody(exportLayout);
-                    } else if ($(this).hasClass("mosaic-innergrid-row")){
-                        body += getLayoutRow(this);
-                    }
+          $(this).children().each(function () {
+            if ($(this).hasClass("mosaic-tile")){
+              var tile = new Tile(this);
+              body += tile.getHtmlBody(exportLayout);
+            } else if ($(this).hasClass("mosaic-innergrid-row")){
+              body += getLayoutRow(this);
+            }
+          });
 
-                });
+          // Add cell end tag
+          body += '        </div>\n';
+        });
 
-                // Add cell end tag
-                body += '        </div>\n';
-            });
-
-            // Add row close tag
-            body += '      </div>\n';
-        }
-        return body;
+        // Add row close tag
+        body += '      </div>\n';
+      }
+      return body;
     };
 
     // Content
@@ -1969,25 +1972,24 @@ define([
    */
   function GetPositionClassByInt(position) {
     switch (position) {
-    case 0:
-      return "mosaic-position-leftmost";
-    case 25:
-      return "mosaic-position-quarter";
-    case 33:
-      return "mosaic-position-third";
-    case 50:
-      return "mosaic-position-half";
-    case 66:
-    case 67:
-      return "mosaic-position-two-thirds";
-    case 75:
-      return "mosaic-position-three-quarters";
+      case 0:
+        return "mosaic-position-0";
+      case 25:
+        return "mosaic-position-3";
+      case 33:
+        return "mosaic-position-4";
+      case 50:
+        return "mosaic-position-6";
+      case 66:
+      case 67:
+        return "mosaic-position-8";
+      case 75:
+        return "mosaic-position-9";
     }
 
     // Fallback
-    return "mosaic-position-leftmost";
+    return "mosaic-position-0";
   }
-
 
   return {
     Tile: Tile
