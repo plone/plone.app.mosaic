@@ -315,8 +315,7 @@
   /* Add row style labels */
 }
 .mosaic-panel.mosaic-advanced .mosaic-empty-row:first-child + .mosaic-grid-row {
-  /*border-top: 2px dashed #ccc;*/
-  border-top: 2px dashed red;
+  border-top: 2px dashed #ccc;
 }
 .mosaic-panel.mosaic-advanced .mosaic-grid-row:not(.mosaic-empty-row) {
   padding: 5px;
@@ -491,7 +490,6 @@
   top: 0px;
   bottom: 0px;
 }
-
 .mosaic-resize-0 {
   margin-left: 0%;
 }
@@ -510,7 +508,6 @@
 .mosaic-resize-9 {
   margin-left: 75%;
 }
-
 .mosaic-layout-customized .mosaic-resize-handle {
   display: block;
 }
