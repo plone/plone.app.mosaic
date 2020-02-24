@@ -1007,7 +1007,7 @@
     </value>
   </records>
 
-  <!-- <records prefix="plone.bundles/mosaic-grid"
+  <records prefix="plone.bundles/mosaic-grid"
            interface='Products.CMFPlone.interfaces.IBundleRegistry'>
     <value key="jscompilation">++plone++mosaic/mosaic-grid.js</value>
     <value key="csscompilation">++plone++mosaic/mosaic-grid.css</value>
@@ -1015,7 +1015,7 @@
     <value key="compile">False</value>
     <value key="merge_with">default</value>
     <value key="enabled">True</value>
-  </records> -->
+  </records>
 
   <records prefix="plone.bundles/mosaic-styles"
            interface='Products.CMFPlone.interfaces.IBundleRegistry'>
