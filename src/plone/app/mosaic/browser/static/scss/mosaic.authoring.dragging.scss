@@ -1,0 +1,255 @@
+/* Placeholders */
+.mosaic-panel .documentFirstHeading,
+.mosaic-panel .documentDescription {
+    min-height: 1.1875em;
+}
+
+/* Opacity icons */
+.mosaic-blur {
+    opacity: 0.4;
+}
+
+/* Hover icons */
+.mosaic-tile-control {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    z-index: 500;
+    display: none;
+}
+
+.mosaic-drag-handle {
+    background: transparent none no-repeat center center;
+    top: 0px;
+    bottom: 0px;
+    height: auto;
+    width: auto;
+    left: 0px;
+    right: 0px;
+    cursor: move;
+}
+
+.mosaic-selected-tile .mosaic-drag-handle {
+    z-index: 1;
+}
+
+.mosaic-tile-buttons {
+  bottom: 0px;
+  height: auto;
+  right: 0px;
+  top: auto;
+  width: auto;
+
+  button,
+  button:hover {
+    /* also some reset in here */
+    background-color: #f8f8f8;
+    border-left: 1px solid #dedede;
+    border-top: 1px solid #dedede;
+    color: #292929;
+    margin: 0px;
+    padding: 6px 8px;
+  }
+
+  button:hover {
+    background-color: #fff;
+  }
+
+  button:first-child {
+    border-top-left-radius: 5px;
+  }
+
+  button::before {
+    width: 0.8em;
+    height: 0.8em;
+    display: inline-block;
+    margin: 0em 0.3em 0.4em 0.1em;
+    text-align: center;
+    vertical-align: middle;
+  }
+
+  .mosaic-btn-settings::before {
+    content: url('../img/edit.svg');
+  }
+
+  .mosaic-btn-delete::before {
+    content: url('../img/remove.svg');
+  }
+
+  .mosaic-btn-confirm::before {
+    content: url('../img/confirm.svg');
+  }
+}
+
+.mosaic-selected-tile .mosaic-tile-label,
+.mosaic-tile:hover .mosaic-tile-label,
+.mosaic-tile:focus .mosaic-tile-label,
+.mosaic-advanced .mosaic-tile-label {
+    display: block !important;
+}
+
+.mosaic-tile-label {
+    top: -2px;
+    left: -252px;
+    width: 250px;
+    color: white;
+    height: 24px;
+    text-align: right;
+}
+
+.mosaic-tile-label-left {
+    float: right;
+    width: 8px;
+    height: 24px;
+    background: #545454;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+
+.mosaic-tile-label-content {
+    height: 24px;
+    font-size: 80%;
+    font-weight: bold;
+    line-height: 24px;
+    background: #545454;
+    float: right;
+    position: relative;
+    padding-left: 4px;
+    padding-right: 8px;
+}
+
+.mosaic-info-icon:hover {
+    background-position: -28px -56px;
+}
+
+.mosaic-tile:hover .mosaic-tile-control {
+    display: none;
+}
+
+.mosaic-selected-tile .mosaic-tile-control {
+    display: block !important;
+}
+
+/* Show move icon while hovering over a tile */
+.mosaic-tile:hover .mosaic-drag-handle {
+    display: block;
+}
+
+/* Hide icons while dragging or resizing*/
+.mosaic-panel-dragging {
+    min-height: 1px;
+}
+
+.mosaic-panel-dragging .mosaic-tile:hover .mosaic-tile-control {
+    display: none;
+}
+
+.mosaic-panel-resizing .mosaic-tile:hover .mosaic-tile-control {
+    display: none;
+}
+
+/* Show move icon on helper */
+.mosaic-helper-tile .mosaic-drag-handle {
+    display: block !important;
+}
+
+/* Empty row */
+.mosaic-panel-dragging {
+  .mosaic-empty-row:nth-last-child(2),
+  .mosaic-empty-row:first-child {
+    height: 12px;
+  }
+
+  .mosaic-grid-row:not(.mosaic-empty-row) {
+    .mosaic-empty-row {
+        height: 12px;
+    }
+  }
+}
+
+/* Inner subcolumns */
+.mosaic-panel .mosaic-innergrid-row:hover {
+    border: dashed 2px #3469d0;
+    padding-top: 10px;
+}
+
+.mosaic-panel.mosaic-advanced {
+  .mosaic-empty-row:first-child + .mosaic-grid-row {
+    border-top: 2px dashed #ccc;
+  }
+
+  .mosaic-grid-row:not(.mosaic-empty-row) {
+    padding: 5px;
+    border-bottom: 2px dashed #ccc;
+    border-left: 2px dashed #ccc;
+    border-right: 2px dashed #ccc;
+
+    .mosaic-grid-cell {
+      padding: 5px;
+      border-left: 2px dashed #ccc;
+    }
+
+    .mosaic-grid-cell:first-child {
+      border-left: none;
+    }
+
+    .mosaic-innergrid-row:hover {
+      border: dashed 2px #3469d0;
+      padding-top: 10px;
+    }
+
+    .mosaic-innergrid-row {
+      padding: 5px;
+      border-bottom: 2px dashed #ccc;
+      border-left: 2px dashed #ccc;
+      border-right: 2px dashed #ccc;
+      border-top: 2px dashed #ccc;
+      margin-left: -7px;
+      margin-right: 0px;
+      margin-bottom: 10px;
+
+      .mosaic-grid-cell {
+        padding: 5px;
+        border-left: 2px dashed #ccc;
+      }
+
+      .mosaic-grid-cell:first-child {
+        border-left: none;
+      }
+
+    }
+  }
+
+  .mosaic-empty-row .mosaic-grid-cell {
+    height: 12px;
+    > div {
+      height: 12px;
+    }
+  }
+
+  /* Add room for empty row placeholders when dragging */
+  &.mosaic-panel-dragging {
+    .mosaic-grid-row {
+      border-top: 2px dashed #ccc;
+      &.mosaic-empty-row {
+        margin-top: 6px;
+        height: 12px;
+        border: none;
+      }
+    }
+  }
+
+  /* Add row style labels */
+  .mosaic-grid-row:not(.mosaic-empty-row):before {
+    position: absolute;
+    display: block;
+    content: attr(class);
+    color: #ccc;
+    font-weight: bold;
+    right: 0;
+    bottom: 0;
+    z-index: 100;
+    white-space: nowrap;
+  }
+}
+/* @end */
