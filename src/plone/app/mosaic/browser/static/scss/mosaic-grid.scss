@@ -1,0 +1,54 @@
+@import "../../../../../../../node_modules/bootstrap/scss/functions";
+@import "../../../../../../../node_modules/bootstrap/scss/variables";
+@import "variables.bootstrap.scss";
+@import "../../../../../../../node_modules/bootstrap/scss/mixins";
+
+@import "variables.plone.scss";
+
+.mosaic-grid-row {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -15px;
+  margin-left: -15px;
+}
+
+.balavec {
+  @extend .mosaic-grid-row
+}
+
+body.template-layout,
+body.mosaic-enabled {
+  &.no-portlet-columns {
+    .outer-wrapper > .container {
+      width: 100%;
+      max-width: none;
+      padding-right: 15px;
+      padding-left: 15px;
+      margin-right: auto;
+      margin-left: auto;
+      .mosaic-grid-row {
+        margin-right: auto;
+        margin-left: auto;
+        @include make-container-max-widths();
+        .mosaic-innergrid-row {
+          width: auto;
+        }
+        &.mosaic-grid-row-fluid {
+          max-width: none;
+        }
+      }
+    }
+  }
+}
+
+body.plone-toolbar-left-default,
+body.plone-toolbar-left-expanded {
+  &.no-portlet-columns {
+    .outer-wrapper > .container {
+      .mosaic-grid-row {
+        @include make-container-max-widths();
+      }
+    }
+  }
+}

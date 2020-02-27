@@ -1,0 +1,62 @@
+.mosaic-hidden {
+    display: none !important;
+}
+
+.mosaic-overlay-blocker {
+    z-index: 2999;
+    width: 100%;
+    height: 100%;
+    opacity: 0.4;
+    background-color: black;
+    display: none;
+    top: 0px;
+    left: 0px;
+    position: fixed;
+    //  _position: absolute;
+    //  _top: expression(eval((document.body.scrollTop)?document.body.scrollTop:document.documentElement.scrollTop));
+}
+
+.plone-modal-wrapper.mosaic-overlay {
+  display: none;
+  padding-right: 0px;
+  z-index: 3002;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background: rgba(0,0,0,0.5);
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  .mosaic-modal {
+    overflow-x: hidden;
+    overflow-y: auto;
+    background: none;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+  .plone-modal-dialog{
+    width: 80%;
+    margin-right: auto !important;
+    margin-left: auto !important;
+    left: 0;
+    top: 0;
+  }
+}
+
+.plone-modal-wrapper {
+  label .required.radio-widget::after {
+    content: '';
+  }
+}
+
+//.mosaic-overlay-ok-button {
+//  &:extend(.btn);
+//  &:extend(.btn-primary);
+//  &:hover {
+//    &:extend(.btn-primary:hover);
+//  }
+//}

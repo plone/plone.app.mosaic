@@ -1,0 +1,19 @@
+.mosaic-select-layout {
+  .global-layouts,
+  .user-layouts {
+
+    &::after {
+      clear: both;
+      content: ' ';
+      display: table;
+    }
+  }
+  .user-layouts {
+    border-top: 1px solid #ddd;
+    margin-top: 15px;
+  }
+}
+
+.mosaic-select-layout-description {
+    font-size: 100% !important;
+}

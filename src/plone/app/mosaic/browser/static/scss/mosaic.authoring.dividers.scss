@@ -1,0 +1,64 @@
+
+.mosaic-set-custom-css {
+  width: 30%;
+}
+
+.mosaic-divider {
+    position: absolute;
+    z-index: 600;
+    display: none;
+}
+
+.mosaic-divider-top {
+    width: auto;
+    height: 12px;
+    top: -6px;
+    left: -5px;
+    right: 0px;
+    background: url(../img/divider_horizontal.png) 0px -12px;
+}
+
+.mosaic-divider-bottom {
+    width: auto;
+    height: 12px;
+    left: -5px;
+    right: 0px;
+    top: auto;
+    bottom: -6px;
+    background: url(../img/divider_horizontal.png) 0px -12px;
+}
+
+.mosaic-divider-right {
+    width: 12px;
+    height: auto;
+    left: auto;
+    right: -6px;
+    top: -5px;
+    bottom: 0px;
+    background: url(../img/divider_vertical.png) -12px 0px;
+}
+
+.mosaic-divider-left {
+    width: 12px;
+    height: auto;
+    left: -6px;
+    top: -5px;
+    bottom: 0px;
+    background: url(../img/divider_vertical.png) -12px 0px;
+}
+
+.mosaic-divider-left .mosaic-divider-dot, .mosaic-divider-right .mosaic-divider-dot {
+    background-image: url(../img/divider_vertical.png);
+    width: 12px;
+    height: 12px;
+}
+
+.mosaic-divider-top .mosaic-divider-dot, .mosaic-divider-bottom .mosaic-divider-dot {
+    background-image: url(../img/divider_horizontal.png);
+    width: 12px;
+    height: 12px;
+}
+
+.mosaic-selected-divider {
+    display: block !important;
+}
