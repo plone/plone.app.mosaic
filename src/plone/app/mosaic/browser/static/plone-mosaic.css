@@ -2500,6 +2500,8 @@ body.template-layout.no-portlet-columns .outer-wrapper > .container .mosaic-grid
 body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row.mosaic-grid-row-fluid,
 body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row-fluid.balavec {
   max-width: none;
+  margin-right: -15px;
+  margin-left: -15px;
 }
 
 @media (min-width: 576px) {

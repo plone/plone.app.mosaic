@@ -36,6 +36,8 @@ body.mosaic-enabled {
         }
         &.mosaic-grid-row-fluid {
           max-width: none;
+          margin-right: -15px;
+          margin-left: -15px;
         }
       }
     }
