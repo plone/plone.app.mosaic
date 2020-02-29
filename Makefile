@@ -8,20 +8,7 @@ STATIC = src/plone/app/mosaic/browser/static
 
 SOURCE_JS = build.js $(shell find $(STATIC)/js -name "*.js")
 BUNDLE_JS = $(STATIC)/plone-mosaic.js
-SOURCE_LESS = $(shell find $(STATIC)/css -name "*.less")
-BUNDLE_LESS = $(STATIC)/plone-mosaic.css
-BUNDLE_GRID_LESS = $(STATIC)/mosaic-grid.css
-BUNDLE_STYLES_LESS = $(STATIC)/mosaic-styles.css
 CURRENT_DIR = $(shell pwd)
-LESS_OPTS = --modify-var=staticPath="$(CURRENT_DIR)" \
-            --modify-var=bootstrapPath="$(CURRENT_DIR)/components/bootstrap" \
-            --modify-var=barcelonetaPath="$(CURRENT_DIR)/components/plonetheme.barceloneta/plonetheme/barceloneta/theme" \
-            --modify-var=plone-toolbar-draft-color="rgb(250,184,42)" \
-            --modify-var=plone-toolbar-pending-color="rgb(226,231,33)" \
-            --modify-var=plone-toolbar-private-color="rgb(196,24,60)" \
-            --modify-var=plone-toolbar-internal-color="rgb(250,184,42)" \
-            --modify-var=plone-toolbar-internally-published-color="rgb(136,61,250)" \
-            --verbose
 RJS_OPTIONS = paths.pat-logger=$(CURRENT_DIR)/components/patternslib/src/core/logger paths.logging=$(CURRENT_DIR)/components/logging/src/logging
 
 # if mode variable is empty, setting debug build mode
@@ -33,7 +20,7 @@ endif
 
 all: build
 
-build: $(BUNDLE_JS) $(BUNDLE_LESS) $(BUNDLE_GRID_LESS) $(BUNDLE_STYLES_LESS)
+build: $(BUNDLE_JS)
 
 install:
 	npm install
@@ -50,20 +37,11 @@ else
 endif
 	rm $(BUNDLE_JS).tmp
 
-$(BUNDLE_LESS): $(SOURCE_LESS)
-	lessc $(LESS_OPTS) $(STATIC)/css/mosaic.pattern.less > $(BUNDLE_LESS)
-
-$(BUNDLE_GRID_LESS): $(SOURCE_LESS)
-	lessc $(LESS_OPTS) $(STATIC)/css/mosaic.grid.less > $(BUNDLE_GRID_LESS)
-
-$(BUNDLE_STYLES_LESS): $(SOURCE_LESS)
-	lessc $(LESS_OPTS) $(STATIC)/css/mosaic.styles.less > $(BUNDLE_STYLES_LESS)
-
 watch:
 	watch make $(STATIC)
 
 clean:
-	rm -f $(BUNDLE_JS) $(BUNDLE_JS).map $(BUNDLE_LESS) $(BUNDLE_GRID_LESS) $(BUNDLE_STYLES_LESS)
+	rm -f $(BUNDLE_JS) $(BUNDLE_JS).map
 
 watch_instance: bin/instance
 	RELOAD_PATH=src bin/instance fg
