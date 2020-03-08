@@ -584,7 +584,6 @@ define([
 
       // Set toolbar
       $.mosaic.options.toolbar.trigger("selectedtilechange");
-      $.mosaic.options.toolbar.mosaicSetResizeHandleLocation();
     };
 
     Tile.prototype.settingsClicked = function(e){
@@ -872,7 +871,6 @@ define([
     Tile.prototype._change = function(){
       // Set actions
       $.mosaic.options.toolbar.trigger("selectedtilechange");
-      $.mosaic.options.panels.mosaicSetResizeHandleLocation();
       this.saveForm();
     };
 

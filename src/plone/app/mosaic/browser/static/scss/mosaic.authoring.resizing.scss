@@ -1,13 +1,16 @@
-.mosaic-panel-dragging .mosaic-resize-handle {
+.mosaic-panel-dragging .mosaic-resize-handle,
+.mosaic-panel-resizing .mosaic-resize-handle-1:hover,
+.mosaic-panel-resizing .mosaic-resize-handle-2:hover,
+.mosaic-panel-resizing .mosaic-resize-handle-3:hover,
+.mosaic-panel-resizing .mosaic-resize-handle-4:hover,
+.mosaic-panel-resizing .mosaic-resize-handle-5:hover,
+.mosaic-panel-resizing .mosaic-resize-handle-6:hover,
+.mosaic-panel-resizing .mosaic-resize-handle-7:hover,
+.mosaic-panel-resizing .mosaic-resize-handle-8:hover,
+.mosaic-panel-resizing .mosaic-resize-handle-9:hover,
+.mosaic-panel-resizing .mosaic-resize-handle-10:hover,
+.mosaic-panel-resizing .mosaic-resize-handle-11:hover {
   display: none;
-}
-
-.mosaic-panel-resizing .mosaic-resize-handle-one:hover {
-  display: none;
-}
-
-.mosaic-panel-resizing .mosaic-resize-handle-two:hover {
-    display: none;
 }
 
 .mosaic-panel-resizing {
@@ -32,18 +35,7 @@
 
 .mosaic-resize-handle:hover {
     background-image: url(../img/window.png);
-}
-
-.mosaic-resize-handle-left:hover {
-    background-position: -40px 0px;
-}
-
-.mosaic-resize-handle-center:hover {
     background-position: -45px 0px;
-}
-
-.mosaic-resize-handle-right:hover {
-    background-position: -50px 0px;
 }
 
 .mosaic-resize-handle.mosaic-resize-handle-helper {
@@ -71,28 +63,52 @@
     margin-left: 0%;
 }
 
-.mosaic-resize-4 {
-    margin-left: 33.33%;
+.mosaic-resize-1 {
+    margin-left: 8.33%;
 }
 
-.mosaic-resize-8 {
-    margin-left: 66.67%;
+.mosaic-resize-2 {
+    margin-left: 16.66%;
 }
 
 .mosaic-resize-3 {
     margin-left: 25%;
 }
 
+.mosaic-resize-4 {
+    margin-left: 33.33%;
+}
+
+.mosaic-resize-5 {
+    margin-left: 41.66%;
+}
+
 .mosaic-resize-6 {
     margin-left: 50%;
+}
+
+.mosaic-resize-7 {
+    margin-left: 58.33%;
+}
+
+.mosaic-resize-8 {
+    margin-left: 66.66%;
 }
 
 .mosaic-resize-9 {
     margin-left: 75%;
 }
 
+.mosaic-resize-10 {
+    margin-left: 83.33%;
+}
+
+.mosaic-resize-11 {
+    margin-left: 91.66%;
+}
+
 .mosaic-layout-customized {
-    .mosaic-resize-handle{
+    .mosaic-resize-handle {
         display: block;
     }
 }

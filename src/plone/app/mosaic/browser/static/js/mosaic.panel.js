@@ -20,7 +20,7 @@ define([
     // Local variables
     var panel_id = this.$el.data("panel"), panel_attr_id,
         target = $("[data-panel=" + panel_id + "]", $.mosaic.document),
-        max_columns = (this.$el.data('max-columns') || 4);
+        max_columns = (this.$el.data('max-columns') || 12);
 
     // Implicitly initialize required panels with id matching element
     if (panel_id === 'content' && target.length === 0) {
