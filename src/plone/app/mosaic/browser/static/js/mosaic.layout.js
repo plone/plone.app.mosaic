@@ -1,8 +1,8 @@
 /**
  * This plugin is used to create a mosaic layout.
  *
- * @author Rob Gietema
- * @version 0.1
+ * @author Rob Gietema, Robert Kuzma
+ * @version 1.0
  * @licstart  The following is the entire license notice for the JavaScript
  *            code in this page.
  *
@@ -64,12 +64,31 @@ define([
     ],
     positionClasses: [
       'mosaic-position-0',
+      'mosaic-position-1',
+      'mosaic-position-2',
       'mosaic-position-3',
       'mosaic-position-4',
+      'mosaic-position-5',
       'mosaic-position-6',
+      'mosaic-position-7',
       'mosaic-position-8',
-      'mosaic-position-9'
-    ]
+      'mosaic-position-9',
+      'mosaic-position-10',
+      'mosaic-position-11',
+    ],
+    resizeHandleClasses: [
+      'mosaic-resize-handle-1',
+      'mosaic-resize-handle-2',
+      'mosaic-resize-handle-3',
+      'mosaic-resize-handle-4',
+      'mosaic-resize-handle-5',
+      'mosaic-resize-handle-6',
+      'mosaic-resize-handle-7',
+      'mosaic-resize-handle-8',
+      'mosaic-resize-handle-9',
+      'mosaic-resize-handle-10',
+      'mosaic-resize-handle-11',
+    ],
   };
 
   /**
@@ -193,7 +212,6 @@ define([
 
           // Set actions
           $.mosaic.options.toolbar.trigger("selectedtilechange");
-          $.mosaic.options.panels.mosaicSetResizeHandleLocation();
         }
       }
 
@@ -227,8 +245,6 @@ define([
 
       // Find resize helper
       $(".mosaic-resize-handle-helper", $.mosaic.document).each(function () {
-        var columns;
-
         var cur_snap_offset;
 
         // Get helper
@@ -245,8 +261,11 @@ define([
 
         // Get closest snap location
         var snap = 25;
-        var snap_offset = 1000;
-        $([25, 33, 50, 67, 75]).each(function () {
+        var snap_offset = 25;
+
+        var grid_percent = GetGridPercentList();
+
+        $(grid_percent).each(function () {
           cur_snap_offset = Math.abs(this - mouse_percentage);
           if (cur_snap_offset < snap_offset) {
             snap = this;
@@ -254,134 +273,60 @@ define([
           }
         });
 
-        // If 2 columns
-        if (helper.data("nr_of_columns") === 2) {
-
-          // Check if resize
-          if (helper.data("column_sizes").split(" ")[0] !== snap) {
-
-            // Loop through columns
-            row.children(".mosaic-resize-placeholder").each(function (i) {
-
-              // First column
-              if (i === 0) {
-
-                // Set new width and position
-                $(this)
-                  .removeClass($.mosaic.layout.widthClasses.join(" "))
-                  .addClass(GetWidthClassByInt(parseInt(snap, 10)));
-
-              // Second column
-              } else {
-
-                // Set new width and position
-                $(this)
-                  .removeClass($.mosaic.layout.positionClasses.join(" ").replace(/position/g, "resize"))
-                  .removeClass($.mosaic.layout.widthClasses.join(" "))
-                  .addClass(GetWidthClassByInt(parseInt(100 - snap, 10)))
-                  .addClass(GetPositionClassByInt(parseInt(snap, 10)).replace("position", "resize"));
-
-                // Set helper
-                helper
-                  .removeClass($.mosaic.layout.positionClasses.join(" ").replace(/position/g, "resize"))
-                  .addClass(GetPositionClassByInt(parseInt(snap, 10)).replace("position", "resize"));
-              }
-            });
-
-            // Set new size
-            $(this).data("column_sizes", snap + " " + (100 - snap));
-          }
-
-        // Else 3 columns
-        } else {
-
-          // Get resize handle index
-          var resize_handle_index = $(this).data("resize_handle_index");
-
-          // Check if first resize handle
-          if (resize_handle_index === 1) {
-
-            // Check if resize
-            if ((helper.data("column_sizes").split(" ")[$(this).data("resize_handle_index") - 1] !== snap) &&
-                (parseInt(snap, 10) <= 50)) {
-
-              // Get columns
-              columns = row.children(".mosaic-resize-placeholder");
-
-              // Remove position and width classes
-              columns
-                .removeClass($.mosaic.layout.positionClasses.join(" ").replace(/position/g, "resize"))
-                .removeClass($.mosaic.layout.widthClasses.join(" "));
-              helper
-                .removeClass($.mosaic.layout.positionClasses.join(" ").replace(/position/g, "resize"))
-                .addClass(GetPositionClassByInt(parseInt(snap, 10)).replace("position", "resize"));
-
-              // Get layout
-              switch (parseInt(snap, 10)) {
-              case 25:
-                $(columns.get(0)).addClass(GetPositionClassByInt(0).replace("position", "resize") + " " + GetWidthClassByInt(25));
-                $(columns.get(1)).addClass(GetPositionClassByInt(25).replace("position", "resize") + " " + GetWidthClassByInt(50));
-                $(columns.get(2)).addClass(GetPositionClassByInt(75).replace("position", "resize") + " " + GetWidthClassByInt(25));
-                helper.data("column_sizes", "25 50 25");
-                break;
-              case 33:
-                $(columns.get(0)).addClass(GetPositionClassByInt(0).replace("position", "resize") + " " + GetWidthClassByInt(33));
-                $(columns.get(1)).addClass(GetPositionClassByInt(33).replace("position", "resize") + " " + GetWidthClassByInt(33));
-                $(columns.get(2)).addClass(GetPositionClassByInt(66).replace("position", "resize") + " " + GetWidthClassByInt(33));
-                helper.data("column_sizes", "33 33 33");
-                break;
-              case 50:
-                $(columns.get(0)).addClass(GetPositionClassByInt(0).replace("position", "resize") + " " + GetWidthClassByInt(50));
-                $(columns.get(1)).addClass(GetPositionClassByInt(50).replace("position", "resize") + " " + GetWidthClassByInt(25));
-                $(columns.get(2)).addClass(GetPositionClassByInt(75).replace("position", "resize") + " " + GetWidthClassByInt(25));
-                helper.data("column_sizes", "50 25 25");
-                break;
-              }
-            }
-
-          // Else second resize handle
-          } else {
-
-            // Check if resize
-            if ((helper.data("column_sizes").split(" ")[$(this).data("resize_handle_index")] !== (100 - snap)) &&
-                (parseInt(snap, 10) >= 50)) {
-
-              // Get columns
-              columns = row.children(".mosaic-resize-placeholder");
-
-              // Remove position and width classes
-              columns
-                .removeClass($.mosaic.layout.positionClasses.join(" ").replace(/position/g, "resize"))
-                .removeClass($.mosaic.layout.widthClasses.join(" "));
-              helper
-                .removeClass($.mosaic.layout.positionClasses.join(" ").replace(/position/g, "resize"))
-                .addClass(GetPositionClassByInt(parseInt(snap, 10)).replace("position", "resize"));
-
-              // Get layout
-              switch (parseInt(snap, 10)) {
-              case 50:
-                $(columns.get(0)).addClass(GetPositionClassByInt(0).replace("position", "resize") + " " + GetWidthClassByInt(25));
-                $(columns.get(1)).addClass(GetPositionClassByInt(25).replace("position", "resize") + " " + GetWidthClassByInt(25));
-                $(columns.get(2)).addClass(GetPositionClassByInt(50).replace("position", "resize") + " " + GetWidthClassByInt(50));
-                helper.data("column_sizes", "25 25 50");
-                break;
-              case 66:
-              case 67:
-                $(columns.get(0)).addClass(GetPositionClassByInt(0).replace("position", "resize") + " " + GetWidthClassByInt(33));
-                $(columns.get(1)).addClass(GetPositionClassByInt(33).replace("position", "resize") + " " + GetWidthClassByInt(33));
-                $(columns.get(2)).addClass(GetPositionClassByInt(66).replace("position", "resize") + " " + GetWidthClassByInt(33));
-                helper.data("column_sizes", "33 33 33");
-                break;
-              case 75:
-                $(columns.get(0)).addClass(GetPositionClassByInt(0).replace("position", "resize") + " " + GetWidthClassByInt(25));
-                $(columns.get(1)).addClass(GetPositionClassByInt(25).replace("position", "resize") + " " + GetWidthClassByInt(50));
-                $(columns.get(2)).addClass(GetPositionClassByInt(75).replace("position", "resize") + " " + GetWidthClassByInt(25));
-                helper.data("column_sizes", "25 50 25");
-                break;
-              }
-            }
+        var snap_size = GetBootstrapColByPercent(snap);
+        var resize_handle_index = helper.data("resize_handle_index");
+        var column_sizes = helper.data("column_sizes");
+        var col_size_before = 0;
+        for (var i = 0; i < column_sizes.length; i++) {
+          if (i < resize_handle_index - 1) {
+            col_size_before += column_sizes[i];
           }
         }
+        var col_size = snap_size - col_size_before;
+        var col_lr_sum = column_sizes[resize_handle_index - 1] + column_sizes[resize_handle_index];
+
+        if (helper.data("nr_of_columns") > 1 && col_size < col_lr_sum) {
+
+          // Loop through columns
+          row.children(".mosaic-resize-placeholder").each(function (i) {
+
+            // Left column
+            if (i === resize_handle_index - 1) {
+
+              // Set new width and position
+              $(this)
+                .removeClass($.mosaic.layout.widthClasses.join(" "))
+                .addClass(GetWidthClassByColSize(col_size))
+                .data("col_size", col_size);
+
+              column_sizes[i] = col_size;
+
+            // Right column
+            } else if(i === resize_handle_index) {
+
+              // Set new width and position
+              $(this)
+                .removeClass($.mosaic.layout.positionClasses.join(" ").replace(/position/g, "resize"))
+                .removeClass($.mosaic.layout.widthClasses.join(" "))
+                .addClass(GetWidthClassByColSize(col_lr_sum - col_size))
+                .addClass(GetPositionClassByColSize(col_size).replace("position", "resize"));
+
+              // Set helper
+              helper
+                .removeClass($.mosaic.layout.positionClasses.join(" ").replace(/position/g, "resize"))
+                .addClass(GetPositionClassByColSize(snap_size).replace("position", "resize"));
+
+              column_sizes[i] = col_lr_sum - col_size;
+
+            }
+
+          });
+
+          // Set new size
+          $(this).data("column_sizes", column_sizes);
+
+        }
+
       });
     };
 
@@ -390,6 +335,7 @@ define([
     $($.mosaic.document).off('dragover').on('dragover', DocumentMousemove);
 
     // Handle mouse up event
+    // When resizing is done on mouse up event apply the changes to the div elements
     var DocumentMouseup = function (e) {
 
       // Find resize helper
@@ -399,18 +345,18 @@ define([
         var panel = $(this).parents("[data-panel]");
 
         // Get column sizes
-        var column_sizes = $(this).data("column_sizes").split(" ");
+        var column_sizes = $(this).data("column_sizes");
 
         // Set column sizes
         $(this).parent().children(".mosaic-grid-cell").each(function (i) {
           var offset_x = 0;
-          for (var j = 0; j < i; j += 1) {
-            offset_x += parseInt(column_sizes[j], 10);
+          for (var j = 0; j < i; j++) {
+            offset_x += column_sizes[j];
           }
           $(this)
             .removeClass($.mosaic.layout.positionClasses.join(" "))
             .removeClass($.mosaic.layout.widthClasses.join(" "))
-            .addClass(GetPositionClassByInt(offset_x) + " " + GetWidthClassByInt(parseInt(column_sizes[i], 10)));
+            .addClass(GetPositionClassByColSize(offset_x) + " " + GetWidthClassByColSize(column_sizes[i]));
         });
 
         // Remove resizing state
@@ -420,14 +366,15 @@ define([
 
         // Set resize handles
         $(this).parent().mosaicSetResizeHandles();
-        panel.mosaicSetResizeHandleLocation();
         var $tile = panel.find(".mosaic-selected-tile");
         if($tile.size() > 0){
           var tile = new Tile($tile);
           tile.select();
         }
+
         // Remove helper
         $(this).remove();
+
       });
     };
 
@@ -809,6 +756,25 @@ define([
   };
 
   /**
+   * Get the resize handle class index of the matched element
+   *
+   * @id jQuery.mosaicGetResizeHandleClassId
+   * @return {Integer} Id of the resize handle class
+   */
+  $.fn.mosaicGetResizeHandleClassId = function () {
+
+    // Loop through resize handle classes
+    for (var i = 0; i < $.mosaic.layout.resizeHandleClasses.length; i++) {
+      if ($(this).hasClass($.mosaic.layout.resizeHandleClasses[i])) {
+        return i + 1;
+      }
+    }
+
+    // Fallback
+    return 1;
+  };
+
+  /**
    * Add draggable to matched elements
    *
    * @id jQuery.mosaicAddDrag
@@ -827,6 +793,7 @@ define([
         helper.css("top", event.pageY + 3 - offset.top);
         helper.css("left", event.pageX + 3 - offset.left);
       };
+
       var DragStop = function () {
         var helper = $('.mosaic-helper-tile', $.mosaic.document);
         $($.mosaic.document)
@@ -837,6 +804,7 @@ define([
         helper.mosaicHandleDragEnd();
         helper.remove();
       };
+
       return tile.each(function () {
         tile.find('div.mosaic-drag-handle')
           .unbind('mousedown')
@@ -880,6 +848,7 @@ define([
           });
         });
       });
+
     });
   };
 
@@ -1196,67 +1165,37 @@ define([
     return this.each(function () {
 
       // Resize columns in the row
+      var column_sizes = [];
       var nr_of_columns = $(this).children(".mosaic-grid-cell").length;
+
       $(this)
         .children(".mosaic-grid-cell").each(function (i) {
+
           $(this)
             .removeClass($.mosaic.layout.widthClasses.join(" "))
             .removeClass($.mosaic.layout.positionClasses.join(" "));
 
-          // Set width / position
-          switch (nr_of_columns) {
+          var position = 0;
+          var col_size = Math.floor(12 / nr_of_columns);
+          var col_size_last = 12 - (col_size * (nr_of_columns - 1));
 
-          // 1 column
-          case 1:
-            $(this).addClass("col-12 mosaic-position-0");
-            break;
-
-          // 2 columns
-          case 2:
-            switch (i) {
-            case 0:
-              $(this).addClass("col-6 mosaic-position-0");
-              break;
-            case 1:
-              $(this).addClass("col-6 mosaic-position-6");
-              break;
+          for (var j = 0; j < nr_of_columns; j++) {
+            if (j > 0) {
+              position = position + col_size;
             }
-            break;
-
-          // 3 columns
-          case 3:
-            switch (i) {
-            case 0:
-              $(this).addClass("col-4 mosaic-position-0");
-              break;
-            case 1:
-              $(this).addClass("col-4 mosaic-position-4");
-              break;
-            case 2:
-              $(this).addClass("col-4 mosaic-position-8");
-              break;
+            if (j === nr_of_columns - 1) {
+              col_size = col_size_last;
             }
-            break;
-
-          // 4 columns
-          case 4:
-            switch (i) {
-            case 0:
-              $(this).addClass("col-3 mosaic-position-0");
-              break;
-            case 1:
-              $(this).addClass("col-3 mosaic-position-3");
-              break;
-            case 2:
-              $(this).addClass("col-3 mosaic-position-6");
-              break;
-            case 3:
-              $(this).addClass("col-3 mosaic-position-9");
-              break;
+            if (i === j) {
+              column_sizes.push(col_size);
+              $(this).addClass("col-" + col_size + " mosaic-position-" + position).data("col_size", col_size);
             }
-            break;
           }
+
         });
+
+      $(this).data("column_sizes", column_sizes);
+
     });
   };
 
@@ -1277,29 +1216,19 @@ define([
       // Check number of columns
       var nr_of_columns = $(this).children(".mosaic-grid-cell").length;
 
-      switch (nr_of_columns) {
-        case 2:
+      if (nr_of_columns > 1 && nr_of_columns <= 12) {
+
+        for (var i = 0; i < (nr_of_columns - 1); i++) {
+
           $(this).append($($.mosaic.document.createElement("div"))
             .addClass(
-              "mosaic-resize-handle mosaic-resize-handle-center mosaic-resize-handle-one " +
-              $($(this).children(".mosaic-grid-cell").get(1)).mosaicGetPositionClass().replace("position", "resize")
-            )
+              "mosaic-resize-handle mosaic-resize-handle-" + (i + 1) + " " +
+              $($(this).children(".mosaic-grid-cell").get(i + 1)).mosaicGetPositionClass().replace("position", "resize")
+            ).data("resize_handle_index", i + 1)
           );
-          break;
-        case 3:
-          $(this).append($($.mosaic.document.createElement("div"))
-            .addClass(
-              "mosaic-resize-handle mosaic-resize-handle-center mosaic-resize-handle-one " +
-              $($(this).children(".mosaic-grid-cell").get(1)).mosaicGetPositionClass().replace("position", "resize")
-            )
-          );
-          $(this).append($($.mosaic.document.createElement("div"))
-            .addClass(
-              "mosaic-resize-handle mosaic-resize-handle-center mosaic-resize-handle-two " +
-              $($(this).children(".mosaic-grid-cell").get(2)).mosaicGetPositionClass().replace("position", "resize")
-            )
-          );
-          break;
+
+        }
+
       }
 
       // Mouse down handler on resize handle
@@ -1309,23 +1238,13 @@ define([
         var column_sizes = [];
         $(this).parent().children(".mosaic-grid-cell").each(function () {
 
-          // Add column size
-          switch ($(this).mosaicGetWidthClass()) {
-            case "col-6":
-              column_sizes.push("50");
+          var mosaicWidthClass = $(this).mosaicGetWidthClass();
+
+          for (var i = 0; i < 12; i++) {
+            if (mosaicWidthClass === "col-" + (i + 1)) {
+              column_sizes.push(i + 1);
               break;
-            case "col-3":
-              column_sizes.push("25");
-              break;
-            case "col-4":
-              column_sizes.push("33");
-              break;
-            case "col-8":
-              column_sizes.push("66");
-              break;
-            case "col-9":
-              column_sizes.push("75");
-              break;
+            }
           }
 
           // Add placeholder
@@ -1338,10 +1257,7 @@ define([
         });
 
         // Get resize handle index
-        var resize_handle_index = 1;
-        if ($(this).hasClass("mosaic-resize-handle-two")) {
-          resize_handle_index = 2;
-        }
+        var resize_handle_index = $(this).mosaicGetResizeHandleClassId();
 
         // Add helper
         $(this).parent().append($($.mosaic.document.createElement("div"))
@@ -1349,7 +1265,7 @@ define([
           .addClass($(this).mosaicGetPositionClass().replace("position", "resize"))
           .data("row_width", $(this).parent().width())
           .data("nr_of_columns", $(this).parent().children(".mosaic-grid-cell").length)
-          .data("column_sizes", column_sizes.join(" "))
+          .data("column_sizes", column_sizes)
           .data("resize_handle_index", resize_handle_index)
         );
 
@@ -1410,93 +1326,8 @@ define([
         del_row.remove();
       }
 
-      // XXX ROW MERGING COMMENTED OUT FOR NOW
-      // Check if prev row exists and if both rows only have 1 column
-      // if ((original_row.prevAll(".mosaic-grid-row").length > 0) && (original_row.children(".mosaic-grid-cell").length === 1) &&
-      //     (original_row.prev().children(".mosaic-grid-cell").length === 1)) {
-      //
-      //   // Merge rows
-      //   original_row.children(".mosaic-grid-cell").prepend(
-      //     original_row.prev().children(".mosaic-grid-cell").children(".mosaic-tile")
-      //       .clone(true)
-      //       .mosaicAddDrag()
-      //   );
-      //   original_row.prev().remove();
-      // }
-      //
-      // // Check if next row exists and if both rows only have 1 column
-      // if ((original_row.nextAll(".mosaic-grid-row").length > 0) && (original_row.children(".mosaic-grid-cell").length === 1) &&
-      //     (original_row.next().children(".mosaic-grid-cell").length === 1)) {
-      //
-      //   // Merge rows
-      //   original_row.children(".mosaic-grid-cell").append(
-      //     original_row.next().children(".mosaic-grid-cell").children(".mosaic-tile")
-      //       .clone(true)
-      //       .mosaicAddDrag()
-      //   );
-      //   original_row.next().remove();
-      // }
-
       // Set resize handles
       original_row.mosaicSetResizeHandles();
-    });
-  };
-
-  /**
-   * Set the location of the resize handle (left, right or center)
-   *
-   * @id jQuery.mosaicSetResizeHandleLocation
-   * @return {Object} jQuery object
-   */
-  $.fn.mosaicSetResizeHandleLocation = function () {
-
-    // Get panel
-    var obj = $(this);
-
-    // Loop through rows
-    obj.children(".mosaic-grid-row").each(function () {
-
-      // Get row
-      var row = $(this);
-
-      // Get cells
-      var cells = row.children(".mosaic-grid-cell");
-
-      // Check if 2 or 3 columns
-      if ((cells.length === 2) || (cells.length === 3)) {
-
-        // Remove location classes
-        row.children(".mosaic-resize-handle").removeClass("mosaic-resize-handle-left mosaic-resize-handle-center mosaic-resize-handle-right");
-
-        // Check if first column is selected
-        if ($(cells.get(0)).children(".mosaic-tile").hasClass("mosaic-selected-tile")) {
-
-          // Set location
-          row.children(".mosaic-resize-handle-one").addClass("mosaic-resize-handle-left");
-          row.children(".mosaic-resize-handle-two").addClass("mosaic-resize-handle-center");
-
-        // Check if second columns is selected
-        } else if ($(cells.get(1)).children(".mosaic-tile").hasClass("mosaic-selected-tile")) {
-
-          // Set location
-          row.children(".mosaic-resize-handle-one").addClass("mosaic-resize-handle-right");
-          row.children(".mosaic-resize-handle-two").addClass("mosaic-resize-handle-left");
-
-        // Check if third column is selected
-        } else if (cells.length === 3 && $(cells.get(2)).children(".mosaic-tile").hasClass("mosaic-selected-tile")) {
-
-          // Set location
-          row.children(".mosaic-resize-handle-one").addClass("mosaic-resize-handle-center");
-          row.children(".mosaic-resize-handle-two").addClass("mosaic-resize-handle-right");
-
-        // No tile selected
-        } else {
-
-          // Set location
-          row.children(".mosaic-resize-handle-one").addClass("mosaic-resize-handle-center");
-          row.children(".mosaic-resize-handle-two").addClass("mosaic-resize-handle-center");
-        }
-      }
     });
   };
 
@@ -1808,53 +1639,28 @@ define([
         // Loop through rows
         $(obj).children(".mosaic-grid-cell").each(function () {
 
-          // Add column size
-          switch ($(this).mosaicGetPositionClass()) {
-            case "mosaic-position-0":
-              position = 1;
-              break;
-            case "mosaic-position-3":
-              position = 4;
-              break;
-            case "mosaic-position-4":
-              position = 5;
-              break;
-            case "mosaic-position-6":
-              position = 7;
-              break;
-            case "mosaic-position-8":
-              position = 9;
-              break;
-            case "mosaic-position-9":
-              position = 10;
-              break;
-          }
-
-          // Add column size
-          switch ($(this).mosaicGetWidthClass()) {
-            case "col-6":
-              size = 6;
-              break;
-            case "col-3":
-              size = 3;
-              break;
-            case "col-4":
-              size = 4;
-              break;
-            case "col8":
-              size = 8;
-              break;
-            case "col-9":
-              size = 9;
-              break;
-            case "col-12":
-              size = 12;
-              break;
-          }
+          // // Add column size
+          // var mosaicPositionClass = $(this).mosaicGetPositionClass();
+          //
+          // for (var i = 0; i < 12; i++) {
+          //   if (mosaicPositionClass === "mosaic-position-" + i) {
+          //     position = i + 1;
+          //     break;
+          //   }
+          // }
+          //
+          // // Add column size
+          // var mosaicWidthClass = $(this).mosaicGetWidthClass();
+          //
+          // for (var j = 0; j < 12; j++) {
+          //   if (mosaicWidthClass === "col-" + (j + 1)) {
+          //     size = j + 1;
+          //     break;
+          //   }
+          // }
 
           // Add cell start tag
           body += '        <div class="' + $(this).attr("class") + '">\n';  // jshint ignore:line
-
 
           $(this).children().each(function () {
             if ($(this).hasClass("mosaic-tile")){
@@ -1867,6 +1673,7 @@ define([
 
           // Add cell end tag
           body += '        </div>\n';
+
         });
 
         // Add row close tag
@@ -1936,27 +1743,33 @@ define([
   };
 
   /**
+   * Get a list of percentage steps for each column in the grid
+   *
+   * @id GetGridPercentList
+   * @return {Array} List of percent steps of the width class
+   */
+  function GetGridPercentList() {
+    var low = 0, high = 100, grid = 12, grid_percent = [];
+    var step = 100 / grid;
+    var a = low, b = high - Math.ceil(step);
+    while (a < b) {
+      grid_percent.push(Math.round(a += step));
+    }
+
+    return grid_percent;
+  }
+
+  /**
    * Get the name of the width class of the given integer
    *
-   * @id GetWidthClassByInt
-   * @param {Integer} column_width Percentage of the column width
+   * @id GetWidthClassByColSize
+   * @param {Integer} col_size Bootstrap col width id
    * @return {String} Classname of the width class of the given integer
    */
-  function GetWidthClassByInt(column_width) {
-    switch (column_width) {
-      case 25:
-        return "col-3";
-      case 33:
-        return "col-4";
-      case 50:
-        return "col-6";
-      case 66:
-      case 67:
-        return "col-8";
-      case 75:
-        return "col-9";
-      case 100:
-        return "col-12";
+  function GetWidthClassByColSize(col_size) {
+
+    if (col_size) {
+      return "col-" + col_size;
     }
 
     // Fallback
@@ -1966,29 +1779,39 @@ define([
   /**
    * Get the name of the position class of the given integer
    *
-   * @id GetPositionClassByInt
-   * @param {Integer} position Percentage of the column position
+   * @id GetPositionClassByColSize
+   * @param {Integer} col_size Bootstrap col width id
    * @return {String} Classname of the position class of the given integer
    */
-  function GetPositionClassByInt(position) {
-    switch (position) {
-      case 0:
-        return "mosaic-position-0";
-      case 25:
-        return "mosaic-position-3";
-      case 33:
-        return "mosaic-position-4";
-      case 50:
-        return "mosaic-position-6";
-      case 66:
-      case 67:
-        return "mosaic-position-8";
-      case 75:
-        return "mosaic-position-9";
+  function GetPositionClassByColSize(col_size) {
+
+    if (col_size) {
+      return "mosaic-position-" + col_size;
     }
 
     // Fallback
     return "mosaic-position-0";
+  }
+
+  /**
+   * Get the bootstrap col width id by width size
+   *
+   * @id GetBootstrapColByPercent
+   * @param {Integer} width Percentage of the column position
+   * @return {Integer} Bootstrap col width id of the given integer
+   */
+  function GetBootstrapColByPercent(width) {
+
+    var grid_percent = GetGridPercentList();
+
+    for (var i = 0; i < grid_percent.length; i++) {
+      if (width === grid_percent[i]) {
+        return (i + 1);
+      }
+    }
+
+    // Fallback
+    return 12;
   }
 
   return {
