@@ -1,13 +1,11 @@
 language: python
 sudo: false
 addons:
+  # chrome: stable
   apt:
     update: true
-    chrome: stable
-    sources:
-      - google-chrome
     packages:
-      - google-chrome-stable
+      - firefox-geckodriver
 matrix:
   include:
     - python: "2.7"
@@ -26,10 +24,10 @@ cache:
     - $HOME/buildout-cache
 before_install:
 # install chrome webdriver
-  - mkdir webdriver;
-    wget https://chromedriver.storage.googleapis.com/2.40/chromedriver_linux64.zip;
-    unzip chromedriver_linux64.zip -d webdriver;
-    export PATH=$PATH:$(pwd)/webdriver;
+  # - mkdir webdriver;
+  #   wget https://chromedriver.storage.googleapis.com/2.40/chromedriver_linux64.zip;
+  #   unzip chromedriver_linux64.zip -d webdriver;
+  #   export PATH=$PATH:$(pwd)/webdriver;
   - mkdir -p $HOME/buildout-cache/{eggs,downloads}
   - mkdir $HOME/.buildout
   - echo "[buildout]" > $HOME/.buildout/default.cfg
