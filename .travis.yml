@@ -2,6 +2,7 @@ language: python
 sudo: false
 addons:
   apt:
+    update: true
     chrome: stable
     sources:
       - google-chrome
