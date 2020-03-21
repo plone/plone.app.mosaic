@@ -13,7 +13,7 @@ ${FIXTURE}  plone.app.mosaic.testing.PLONE_APP_MOSAIC_ACCEPTANCE
 @{DIMENSIONS}  1024  800
 ${RESOURCE_DIR}  ${CURDIR}
 
-${BROWSER} =  Firefox
+${BROWSER}  chrome
 
 ${SELECTOR_ADDONS_ENABLED}  jquery=#activated-products
 ${SELECTOR_ADDONS_MOSAIC}  ${SELECTOR_ADDONS_ENABLED} ul li h3:contains('Mosaic')
