@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-from AccessControl import Unauthorized
 from AccessControl import getSecurityManager
+from AccessControl import Unauthorized
 from plone import api
 from plone.app.blocks.interfaces import CONTENT_LAYOUT_MANIFEST_FORMAT
 from plone.app.blocks.interfaces import CONTENT_LAYOUT_RESOURCE_NAME
@@ -54,6 +54,7 @@ class ManageLayoutView(BrowserView):
     """
     Handle saving layouts from mosaic layout editor from users
     """
+
     def __call__(self):
         self.request.response.setHeader('Content-type', 'application/json')
         if self.request.form.get('action') == 'save':

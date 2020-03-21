@@ -6,6 +6,7 @@ from zope.component import getUtility
 from zope.interface import implementer
 from zope.interface import Interface
 
+
 try:
     from plone.app.layout.globals.interfaces import IBodyClassAdapter
 except Exception as e:
