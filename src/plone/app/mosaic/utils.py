@@ -135,8 +135,8 @@ def getContentLayoutsForType(pt, context=None):
         result.append(value)
     if context is not None:
         result = [value for value in result
-                  if not value.get('permission') or
-                  checkPermission(value.get('permission'), context)]
+                  if not value.get('permission')
+                  or checkPermission(value.get('permission'), context)]
     result.sort(key=lambda l: l.get('sort_key', '') or l.get('title', ''))
     return result
 

@@ -52,7 +52,7 @@ TEMPLATE = """\
         ajax_load request/ajax_load | python: False;
         toolbar_class python:request.cookies.get('plone-toolbar', 'plone-toolbar-left pat-toolbar');
         dummy python:request.RESPONSE.setHeader('X-UA-Compatible', 'IE=edge,chrome=1');">
-%s
+{0}
 </metal:page>"""  # noqa
 
 
@@ -178,9 +178,9 @@ def cook_layout(layout, ajax):
     metal = 'xmlns:metal="http://namespaces.zope.org/metal"'
 
     if six.PY2:
-        return (template % ''.join(result)).replace(metal, '')
+        return (template.format(''.join(result)).replace(metal, ''))
 
-    return (template % (b''.join(result).decode("utf-8"))).replace(metal, '')
+    return (template.format((b''.join(result).decode("utf-8"))).replace(metal, ''))
 
 
 class ViewPageTemplateString(ViewPageTemplateFile):

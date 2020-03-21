@@ -213,7 +213,7 @@ def getAvailableViewMethods(context):
 
 
 class DisplayLayoutMenu(BrowserMenu):
-    def getMenuItems(self, context, request):
+    def getMenuItems(self, context, request):  # noqa for now - C901 is too complex
         # Check required parameters
         if context is None or request is None:
             return []
@@ -335,6 +335,6 @@ class LayoutAwareDefaultViewSelectionView(DefaultViewSelectionView):
         )
         vocab = vocab_factory(self.context)
         return (
-            list(super(LayoutAwareDefaultViewSelectionView, self).vocab) +
-            [(term.value, term.title) for term in vocab]
+            list(super(LayoutAwareDefaultViewSelectionView, self).vocab)
+            + [(term.value, term.title) for term in vocab]
         )

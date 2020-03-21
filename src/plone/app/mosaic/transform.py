@@ -43,7 +43,7 @@ class TransformBase(object):
         self.request = request
 
     def transform(self, result, encoding):
-        raise NotImplemented
+        raise NotImplementedError
 
     def transformBytes(self, result, encoding):
         return None
@@ -143,8 +143,8 @@ class BodyClass(TransformBase):
 
         # Get contentLayout body class
         if (
-            'template-layout' in body_classes or
-            'template-layout_view' in body_classes
+            'template-layout' in body_classes
+            or 'template-layout_view' in body_classes
         ):
             adapted = ILayoutAware(context, None)
             if adapted is not None:
@@ -159,8 +159,8 @@ class BodyClass(TransformBase):
                     # into layout-default-document
                     names = LAYOUT_NAME.findall(layout)
                     if len(names) == 1:
-                        body_classes.append('layout-' +
-                                            names[0].replace('/', '-'))
+                        body_classes.append('layout-'
+                                            + names[0].replace('/', '-'))
                 else:
                     body_classes.append('layout-custom')
 

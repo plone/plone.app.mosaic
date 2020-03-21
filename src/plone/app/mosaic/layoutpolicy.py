@@ -9,7 +9,7 @@ from zope.interface import Interface
 
 try:
     from plone.app.layout.globals.interfaces import IBodyClassAdapter
-except Exception as e:
+except Exception as e:  # noqa F841
     class IBodyClassAdapter(Interface):
         """ Pseudo adapter class if plone.app.layout is < 2.8.0 """
 
