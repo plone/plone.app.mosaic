@@ -3,7 +3,7 @@ from setuptools import find_packages
 from setuptools import setup
 
 
-version = '2.2.2.dev0'
+version = '3.0.0.dev0'
 
 long_description = (
     open('README.rst').read() + '\n' +
@@ -21,8 +21,6 @@ setup(
         'Development Status :: 5 - Production/Stable',
         'Environment :: Web Environment',
         'Framework :: Plone',
-        'Framework :: Plone :: 5.0',
-        'Framework :: Plone :: 5.1',
         'Framework :: Plone :: 5.2',
         'License :: OSI Approved :: GNU General Public License v2 (GPLv2)',
         'Programming Language :: Python',
@@ -52,7 +50,7 @@ setup(
         'plone.app.tiles>=3.1.1',
         'plone.app.drafts>=1.1.3',
         'plone.app.standardtiles>=2.3.1',
-        'Products.CMFPlone>=5.1.4',
+        'Products.CMFPlone>=5.2',
         'plone.app.layout',
         # new IRichTextBehavior Interface class
         'plone.app.contenttypes>=2.0.0',

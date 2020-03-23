@@ -33,6 +33,7 @@ from zope.schema.interfaces import IField
 import os
 import six
 
+
 WIDGET_NAMES_MAP = {
     'plone.app.z3cform.widget.RichTextWidget':
     'plone.app.z3cform.widget.RichTextFieldWidget'
@@ -134,8 +135,8 @@ def getContentLayoutsForType(pt, context=None):
         result.append(value)
     if context is not None:
         result = [value for value in result
-                  if not value.get('permission') or
-                  checkPermission(value.get('permission'), context)]
+                  if not value.get('permission')
+                  or checkPermission(value.get('permission'), context)]
     result.sort(key=lambda l: l.get('sort_key', '') or l.get('title', ''))
     return result
 
