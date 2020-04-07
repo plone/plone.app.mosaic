@@ -1,10 +1,10 @@
 Changelog
 =========
 
-3.0.0 (unreleased)
+2.2.2 (unreleased)
 ------------------
 
-- Dendencies on newer plone.app.contenttypes with Plone 5.2 made a major release necessary.
+- Fix plone.app.contenttypes dependency for Plone 5.1
   [agitator]
 
 - Improve tinymce toolbar sticky computation
