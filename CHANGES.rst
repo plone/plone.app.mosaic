@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.2.2 (unreleased)
+2.2.2 (2020-04-07)
 ------------------
 
 - Fix plone.app.contenttypes dependency for Plone 5.1
