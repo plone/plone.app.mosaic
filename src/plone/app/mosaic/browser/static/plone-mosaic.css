@@ -1767,6 +1767,23 @@ input[type="button"].btn-block {
   content: url("../img/confirm.svg");
 }
 
+.mosaic-selected-tile .mosaic-tile-side-tools,
+.mosaic-tile:hover .mosaic-tile-side-tools,
+.mosaic-tile:focus .mosaic-tile-side-tools,
+.mosaic-advanced .mosaic-tile-side-tools {
+  display: block !important;
+}
+
+.mosaic-tile-side-tools {
+  top: -2px;
+  left: -102px;
+  width: 100px;
+}
+
+.mosaic-tile-side-tools .mosaic-tile-label {
+  margin-bottom: 3px;
+}
+
 .mosaic-selected-tile .mosaic-tile-label,
 .mosaic-tile:hover .mosaic-tile-label,
 .mosaic-tile:focus .mosaic-tile-label,
@@ -1776,8 +1793,8 @@ input[type="button"].btn-block {
 
 .mosaic-tile-label {
   top: -2px;
-  left: -252px;
-  width: 250px;
+  left: -100px;
+  width: 100px;
   color: white;
   height: 24px;
   text-align: right;
@@ -1792,6 +1809,7 @@ input[type="button"].btn-block {
   border-bottom-left-radius: 8px;
 }
 
+.mosaic-tile-label-reset,
 .mosaic-tile-label-content {
   height: 24px;
   font-size: 80%;
@@ -1802,6 +1820,15 @@ input[type="button"].btn-block {
   position: relative;
   padding-left: 4px;
   padding-right: 8px;
+}
+
+.mosaic-tile-label-reset a {
+  color: white;
+  text-decoration: none;
+}
+
+.mosaic-tile-label-reset a:hover, .mosaic-tile-label-reset a:active, .mosaic-tile-label-reset a:focus {
+  color: white;
 }
 
 .mosaic-info-icon:hover {
@@ -2045,7 +2072,7 @@ input[type="button"].btn-block {
 }
 
 .mosaic-resize-placeholder {
-  position: absolute;
+  position: absolute !important;
   height: 100%;
 }
 
@@ -2107,6 +2134,10 @@ input[type="button"].btn-block {
 
 .mosaic-resize-11 {
   margin-left: 91.66%;
+}
+
+.mosaic-resize-12 {
+  margin-left: 100%;
 }
 
 .mosaic-layout-customized .mosaic-resize-handle {

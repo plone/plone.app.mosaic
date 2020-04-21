@@ -30,7 +30,7 @@
     left: -6px;
     z-index: 500;
     cursor: ew-resize;
-    display:none;
+    display: none;
 }
 
 .mosaic-resize-handle:hover {
@@ -43,7 +43,7 @@
 }
 
 .mosaic-resize-placeholder {
-    position: absolute;
+    position: absolute !important;
     height: 100%;
 }
 
@@ -105,6 +105,10 @@
 
 .mosaic-resize-11 {
     margin-left: 91.66%;
+}
+
+.mosaic-resize-12 {
+    margin-left: 100%;
 }
 
 .mosaic-layout-customized {
