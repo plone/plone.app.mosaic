@@ -76,6 +76,7 @@ define([
       'mosaic-position-9',
       'mosaic-position-10',
       'mosaic-position-11',
+      'mosaic-position-12',
     ],
     resizeHandleClasses: [
       'mosaic-resize-handle-1',
