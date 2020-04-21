@@ -448,19 +448,51 @@ define([
 
       // Add label
       if (tile_config) {
+
+        var side_tools = $($.mosaic.document.createElement("div")).addClass("mosaic-tile-control mosaic-tile-side-tools");
+
         this.$el.prepend(
-          $($.mosaic.document.createElement("div"))
-              .addClass("mosaic-tile-control mosaic-tile-label")
+          side_tools.append(
+            $($.mosaic.document.createElement("div"))
+              .addClass("mosaic-tile-label")
               .append(
               $($.mosaic.document.createElement("div"))
-                  .addClass("mosaic-tile-label-content")
-                  .html(tile_config.label)
-          )
+                .addClass("mosaic-tile-label-content")
+                .html(tile_config.label)
+              )
               .append(
-              $($.mosaic.document.createElement("div"))
+                $($.mosaic.document.createElement("div"))
                   .addClass("mosaic-tile-label-left")
+              )
           )
         );
+
+        var can_reset = this.$el.parent().hasClass("col");
+        if (!can_reset) {
+
+          var _addResetAnchor = function (click) {
+            var reset = document.createElement("a");
+            reset.href = "javascript:";
+            reset.textContent = "Reset";
+            $(reset).on("click", click);
+            return reset;
+          };
+
+          side_tools.append(
+            $($.mosaic.document.createElement("div"))
+              .addClass("mosaic-tile-label")
+              .append(
+                $($.mosaic.document.createElement("div"))
+                  .addClass("mosaic-tile-label-reset")
+                  .append(_addResetAnchor(this.resetClicked.bind(this)))
+              )
+              .append(
+                $($.mosaic.document.createElement("div"))
+                  .addClass("mosaic-tile-label-left")
+              )
+          );
+        }
+
       }
 
       this.makeMovable();
@@ -477,6 +509,25 @@ define([
             )
         );
       });
+    };
+
+    Tile.prototype.resetClicked = function(e) {
+      e.preventDefault();
+      var that = this;
+
+      that.$el.parent()
+        .removeClass("col-1 col-2 col-3 col-4 col-5 col-6 col-7 col-8 col-9 col-10 col-11 col-12")
+        .addClass("col");
+
+      $(e.target).parent().parent().remove();
+
+      // Get original row
+      var $originalRow = that.$el.parent().parent();
+
+      // Cleanup original row
+      $originalRow.mosaicCleanupRow();
+      $originalRow.mosaicSetResizeHandles();
+
     };
 
     Tile.prototype.initializeButtons = function(){
