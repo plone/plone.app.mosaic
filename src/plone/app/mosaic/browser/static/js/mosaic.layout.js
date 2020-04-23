@@ -127,7 +127,7 @@ define([
         if ($(".mosaic-panel", $.mosaic.document).hasClass('mosaic-advanced')){
             $(".mosaic-panel", $.mosaic.document).removeClass('mosaic-advanced');
         } else {
-            var date = new Date()
+            var date = new Date();
             $(".mosaic-panel", $.mosaic.document).addClass('mosaic-advanced');
             $(".mosaic-panel", $.mosaic.document).data('advanced-enabled', date.getTime());
         }
@@ -249,7 +249,7 @@ define([
       // Find resize helper
       $(".mosaic-resize-handle-helper", $.mosaic.document).each(function () {
 
-        console.log("===================");
+        // console.log("===================");
 
         var cur_snap_offset;
 
@@ -288,45 +288,29 @@ define([
           column_sizes.push(col_size);
         });
 
-        /*
-
-        var count_zeros = 0;
-        var col_zeros = 12;
-
-        for(var i = 0; i < column_sizes.length; ++i){
-          if(column_sizes[i] === 0) {
-            count_zeros++;
-          } else {
-            col_zeros -= column_sizes[i];
-          }
-        }
-        console.log("count_zeros", count_zeros);
-        var col_zero = 12;
-        if (count_zeros > 0) {
-          col_zero = Math.floor(col_zeros / count_zeros);
-
-          for(var i = 0; i < column_sizes.length; ++i){
-            if(column_sizes[i] === 0) {
-              column_sizes[i] = col_zero;
-            }
-          }
-
-        }
-
-        */
-
         var col_size_before = 0;
+        var col_size_this = 0;
+        var col_size_after = 0;
         for (var i = 0; i < column_sizes.length; i++) {
           if (i < resize_handle_index) {
-            col_size_before += column_sizes[i];
+            col_size_before += column_sizes[i] ? column_sizes[i] : 2;
+          }
+          if (i == resize_handle_index) {
+            col_size_this += column_sizes[i];
+          }
+          if (i > resize_handle_index) {
+            col_size_after += column_sizes[i] ? column_sizes[i] : 2;
           }
         }
         var col_size = snap_size - col_size_before;
+        var col_size_max = 12 - col_size_before - col_size_after;
+        col_size = col_size > col_size_max ? col_size_max : col_size;
 
-        console.log("column_sizes", column_sizes);
-        console.log("col_size", col_size);
-        console.log("col_size_before", col_size_before);
-        console.log("resize_handle_index", resize_handle_index);
+        // console.log("column_sizes", column_sizes);
+        // console.log("col_size_before", col_size_before);
+        // console.log("col_size_after", col_size_after);
+        // console.log("col_size", col_size);
+        // console.log("resize_handle_index", resize_handle_index);
 
         if (helper.data("nr_of_columns") > 1) {
 
@@ -337,10 +321,14 @@ define([
             if (i === resize_handle_index) {
 
               // Set new width and position
+              // TODO: It seems data("col_size") is not needed any more ... commenting out # 2020-04-21
+              // $(this)
+              //   .removeClass($.mosaic.layout.widthClasses.join(" "))
+              //   .addClass(GetWidthClassByColSize(col_size))
+              //   .data("col_size", col_size);
               $(this)
                 .removeClass($.mosaic.layout.widthClasses.join(" "))
-                .addClass(GetWidthClassByColSize(col_size))
-                .data("col_size", col_size);
+                .addClass(GetWidthClassByColSize(col_size));
 
               column_sizes[i] = col_size;
 
@@ -931,7 +919,7 @@ define([
   };
 
   /**
-   * Event handler for drag end
+   * Event handler for drag end - add new tile
    *
    * @id jQuery.mosaicHandleDragEnd
    * @return {Object} jQuery object
@@ -1246,39 +1234,43 @@ define([
       var column_sizes = [];
       var nr_of_columns = $(this).children(".mosaic-grid-cell").length;
 
-      $(this)
-        .children(".mosaic-grid-cell").each(function (i) {
+      // This will reset the width classes - it will automatically set the widths and positions.
 
-          $(this)
-            .removeClass($.mosaic.layout.widthClasses.join(" "))
-            .removeClass($.mosaic.layout.positionClasses.join(" "));
+      $(this).children(".mosaic-grid-cell").each(function (i) {
 
-          var position = 0;
-          var col_size = Math.floor(12 / nr_of_columns);
-          var col_size_last = 12 - (col_size * (nr_of_columns - 1));
+        $(this)
+          .removeClass($.mosaic.layout.widthClasses.join(" "))
+          .removeClass($.mosaic.layout.positionClasses.join(" "));
 
-          console.log("------")
-          console.log(position)
-          console.log(col_size)
-          console.log(nr_of_columns)
-          console.log("------")
+        var position = 0;
+        var col_size = Math.floor(12 / nr_of_columns);
+        var col_size_last = 12 - (col_size * (nr_of_columns - 1));
 
-          for (var j = 0; j < nr_of_columns; j++) {
-            if (j > 0) {
-              position = position + col_size;
-            }
-            if (j === nr_of_columns - 1) {
-              col_size = col_size_last;
-            }
-            if (i === j) {
-              column_sizes.push(col_size);
-              // TODO: Clean up the col_size and position variables if we will not need them.
-              // $(this).addClass("col-" + col_size + " mosaic-position-" + position).data("col_size", col_size);
-              $(this).addClass("col").data("col_size", col_size);
-            }
+        console.log("------")
+        console.log("position", position)
+        console.log("col_size", col_size)
+        console.log("col_size_last", col_size_last)
+        console.log("nr_of_columns", nr_of_columns)
+        console.log("------")
+
+        for (var j = 0; j < nr_of_columns; j++) {
+          if (j > 0) {
+            position = position + col_size;
           }
+          if (j === nr_of_columns - 1) {
+            col_size = col_size_last;
+          }
+          if (i === j) {
+            column_sizes.push(col_size);
+            // TODO: Clean up the col_size and position variables if we will not need them.
+            // TODO: It seems data("col_size") is not needed any more ... commenting out # 2020-04-21
+            // $(this).addClass("col-" + col_size + " mosaic-position-" + position).data("col_size", col_size);
+            // $(this).addClass("col").data("col_size", col_size);
+            $(this).addClass("col");
+          }
+        }
 
-        });
+      });
 
       $(this).data("column_sizes", column_sizes);
 
