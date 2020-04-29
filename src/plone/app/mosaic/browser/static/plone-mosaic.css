@@ -2074,6 +2074,7 @@ input[type="button"].btn-block {
 .mosaic-resize-placeholder {
   position: absolute !important;
   height: 100%;
+  z-index: 100;
 }
 
 .mosaic-resize-placeholder-inner-border {
@@ -2086,6 +2087,15 @@ input[type="button"].btn-block {
   left: 0px;
   top: 0px;
   bottom: 0px;
+}
+
+.mosaic-resize-placeholder-inner-border .info {
+  position: absolute;
+  right: 0px;
+  border: 1px dashed #3569d0;
+  background: white;
+  padding: 3px 7px;
+  color: #3569d0;
 }
 
 .mosaic-resize-0 {
@@ -2596,6 +2606,7 @@ body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .mosaic-grid-
   -webkit-touch-callout: default;
   -webkit-user-select: text;
   -moz-user-select: text;
+  -ms-user-select: text;
   -ms-user-select: text;
   user-select: text;
 }

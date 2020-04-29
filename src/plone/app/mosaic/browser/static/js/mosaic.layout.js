@@ -164,11 +164,9 @@ define([
           $.mosaic.document).each(function () {
 
           // Remove resizing state
-          $(this).parents("[data-panel]")
-            .removeClass("mosaic-panel-resizing");
+          $(this).parents("[data-panel]").removeClass("mosaic-panel-resizing");
           $(this).parent().removeClass("mosaic-row-resizing");
-          $(this).parent().children(".mosaic-resize-placeholder")
-            .remove();
+          $(this).parent().children(".mosaic-resize-placeholder").remove();
 
           // Remove helper
           $(this).remove();
@@ -249,7 +247,7 @@ define([
       // Find resize helper
       $(".mosaic-resize-handle-helper", $.mosaic.document).each(function () {
 
-        // console.log("===================");
+        console.log("===================");
 
         var cur_snap_offset;
 
@@ -304,13 +302,19 @@ define([
         }
         var col_size = snap_size - col_size_before;
         var col_size_max = 12 - col_size_before - col_size_after;
-        col_size = col_size > col_size_max ? col_size_max : col_size;
+        // col_size should not be larger than max size and not less than 0
+        col_size = col_size > col_size_max ? col_size_max : col_size < 0 ? 0 : col_size;
 
-        // console.log("column_sizes", column_sizes);
-        // console.log("col_size_before", col_size_before);
-        // console.log("col_size_after", col_size_after);
-        // console.log("col_size", col_size);
-        // console.log("resize_handle_index", resize_handle_index);
+        var col_size_handle = col_size_before + col_size;
+
+        console.log("column_sizes", column_sizes);
+        console.log("snap_size", snap_size);
+        console.log("col_size_before", col_size_before);
+        console.log("col_size_after", col_size_after);
+        console.log("col_size_max", col_size_max);
+        console.log("col_size", col_size);
+        console.log("col_size_handle", col_size_handle);
+        console.log("resize_handle_index", resize_handle_index);
 
         if (helper.data("nr_of_columns") > 1) {
 
@@ -328,13 +332,14 @@ define([
               //   .data("col_size", col_size);
               $(this)
                 .removeClass($.mosaic.layout.widthClasses.join(" "))
-                .addClass(GetWidthClassByColSize(col_size));
+                .addClass(GetWidthClassByColSize(col_size))
+                .find(".info").html(col_size);
 
               column_sizes[i] = col_size;
 
               helper
                 .removeClass($.mosaic.layout.positionClasses.join(" ").replace(/position/g, "resize"))
-                .addClass(GetPositionClassByColSize(snap_size).replace("position", "resize"));
+                .addClass(GetPositionClassByColSize(col_size_handle).replace("position", "resize"));
 
             }
 
@@ -1296,6 +1301,8 @@ define([
 
       if (nr_of_columns > 1 && nr_of_columns <= 12) {
 
+        console.log("nr_of_columns > 1 && nr_of_columns <= 12")
+
         var column_sizes = [];
         var zero_count = 0;
         var col_sum = 0;
@@ -1323,6 +1330,9 @@ define([
 
           resize_col_size = resize_col_size + col_size;
           margin_left = Math.round(resize_col_size / 12 * 10000) / 100;
+
+          console.log("resize_col_size", resize_col_size)
+
           $(this).append($($.mosaic.document.createElement("div"))
             .addClass(
               "mosaic-resize-handle mosaic-resize-handle-" + (i + 1) + " mosaic-resize-" + resize_col_size
@@ -1330,6 +1340,11 @@ define([
           );
 
         }
+
+        console.log("$.fn.mosaicSetResizeHandles")
+        console.log("column_sizes", column_sizes)
+        console.log("zero_count", zero_count)
+        console.log("col_size", col_size)
 
       }
 
@@ -1341,6 +1356,11 @@ define([
         $(this).parent().children(".mosaic-grid-cell").each(function () {
 
           var mosaicWidthClass = $(this).mosaicGetWidthClass();
+          var mosaicDataClass = mosaicWidthClass.replace("col", "data");  // data class holds original column widths
+          var mosaicPositionClass = $(this).mosaicGetPositionClass();
+          var mosaicResizeClass = mosaicPositionClass.replace("position", "resize");
+
+          var col_size = GetColSizeByColClass(mosaicWidthClass);  // get the initiall size of the column
 
           for (var i = 0; i < 12; i++) {
             if (mosaicWidthClass === "col-" + (i + 1)) {
@@ -1351,9 +1371,13 @@ define([
 
           // Add placeholder
           $(this).parent().append($($.mosaic.document.createElement("div"))
-            .addClass("mosaic-resize-placeholder " + $(this).mosaicGetWidthClass() + " " + $(this).mosaicGetPositionClass().replace("position", "resize"))  // jshint ignore:line
+            .addClass("mosaic-resize-placeholder " + mosaicWidthClass + " " + mosaicDataClass + " " + mosaicResizeClass)  // jshint ignore:line
             .append($($.mosaic.document.createElement("div"))
               .addClass("mosaic-resize-placeholder-inner-border")
+              .append($($.mosaic.document.createElement("div"))
+                .addClass("info")
+                .html(col_size)
+              )
             )
           );
         });
