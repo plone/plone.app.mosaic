@@ -94,7 +94,7 @@ require([
 
     $('#content-core').on('clicked', '#autotoc-item-autotoc-2', function(e){
       e.preventDefault();
-      loadEditor();      
+      loadEditor();
     });
 
   });

@@ -505,7 +505,7 @@ define([
                 $.mosaic.overlay.app = new Modal($('.mosaic-toolbar'), {
                   html: html,
                   loadLinksWithinModal: true,
-                  buttons: '.formControls > input[type="submit"], .actionButtons > input[type="submit"]'
+                  buttons: '.formControls > button[type="submit"], .actionButtons > button[type="submit"]'
                 });
                 $.mosaic.overlay.app.$el.off('after-render');
                 $.mosaic.overlay.app.on(
