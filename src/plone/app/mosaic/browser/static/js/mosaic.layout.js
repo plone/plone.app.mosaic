@@ -63,6 +63,21 @@ define([
       'col-11',
       'col-12',
     ],
+    dataClasses: [
+      'mosaic-col',
+      'mosaic-col-1',
+      'mosaic-col-2',
+      'mosaic-col-3',
+      'mosaic-col-4',
+      'mosaic-col-5',
+      'mosaic-col-6',
+      'mosaic-col-7',
+      'mosaic-col-8',
+      'mosaic-col-9',
+      'mosaic-col-10',
+      'mosaic-col-11',
+      'mosaic-col-12',
+    ],
     positionClasses: [
       'mosaic-position-0',
       'mosaic-position-1',
@@ -230,7 +245,7 @@ define([
     // Bind event and add to array
     $($.mosaic.document).off('mousedown').on('mousedown', DocumentMousedown);
 
-    // Handle mouse move event
+    // Handle mouse move event: when holding down mouse left button and dragging the handler left or right.
     var DocumentMousemove = function (e) {
 
       // Find resize helper
@@ -316,6 +331,7 @@ define([
         console.log("col_size_handle", col_size_handle);
         console.log("resize_handle_index", resize_handle_index);
 
+
         if (helper.data("nr_of_columns") > 1) {
 
           // Loop through columns
@@ -324,15 +340,22 @@ define([
             // Left column
             if (i === resize_handle_index) {
 
+              var mosaicDataClass = $(this).mosaicGetDataClass();
+              var data_size = GetColSizeByColClass(mosaicDataClass, "mosaic-col-");
+
+              console.log("data_size", data_size);
+
               // Set new width and position
               // TODO: It seems data("col_size") is not needed any more ... commenting out # 2020-04-21
               // $(this)
               //   .removeClass($.mosaic.layout.widthClasses.join(" "))
               //   .addClass(GetWidthClassByColSize(col_size))
               //   .data("col_size", col_size);
+              var col_size_class = GetWidthClassByColSize(col_size);
               $(this)
                 .removeClass($.mosaic.layout.widthClasses.join(" "))
-                .addClass(GetWidthClassByColSize(col_size))
+                .removeClass($.mosaic.layout.dataClasses.join(" "))
+                .addClass("mosaic-" + col_size_class + " " + col_size_class)
                 .find(".info").html(col_size);
 
               column_sizes[i] = col_size;
@@ -747,6 +770,34 @@ define([
         );
       }
     });
+  };
+
+  /**
+   * Get the width class of the matched elements
+   *
+   * @id jQuery.mosaicGetDataClass
+   * @return {String} Name of the width class
+   */
+  $.fn.mosaicGetDataClass = function () {
+
+    var x;
+
+    // Loop through width classes
+    for (x in $.mosaic.layout.dataClasses) {
+
+      if ($.mosaic.layout.dataClasses.hasOwnProperty(x)) {
+
+        // If class found
+        if ($(this).hasClass($.mosaic.layout.dataClasses[x])) {
+
+          // Return the width class
+          return $.mosaic.layout.dataClasses[x];
+        }
+      }
+    }
+
+    // Fallback
+    return $.mosaic.layout.dataClasses[0];
   };
 
   /**
@@ -1324,6 +1375,11 @@ define([
         var resize_col_size = 0;
         var margin_left = 0;
         col_size = 0;
+
+        // $(this).append($($.mosaic.document.createElement("div"))
+        //   .addClass("mosaic-grid-bg")
+        // );
+
         for (var i = 0; i < nr_of_columns; i++) {
 
           col_size = column_sizes[i] ? column_sizes[i] : zero_col;
@@ -1356,14 +1412,18 @@ define([
         $(this).parent().children(".mosaic-grid-cell").each(function () {
 
           var mosaicWidthClass = $(this).mosaicGetWidthClass();
-          var mosaicDataClass = mosaicWidthClass.replace("col", "data");  // data class holds original column widths
+          var mosaicDataClass = mosaicWidthClass.replace("col", "mosaic-col");  // data class holds original column widths
           var mosaicPositionClass = $(this).mosaicGetPositionClass();
           var mosaicResizeClass = mosaicPositionClass.replace("position", "resize");
 
           var col_size = GetColSizeByColClass(mosaicWidthClass);  // get the initiall size of the column
 
+          if (col_size == 0) {
+            col_size = "0 (2)";
+          }
+
           for (var i = 0; i < 12; i++) {
-            if (mosaicWidthClass === "col-" + (i + 1)) {
+            if (mosaicWidthClass === "mosaic-col-" + (i + 1)) {
               column_sizes.push(i + 1);
               break;
             }
@@ -1926,10 +1986,12 @@ define([
    * @param {String} Classname of the position class
    * @return {Integer} col_size Bootstrap col width id
    */
-  function GetColSizeByColClass(col_class) {
+  function GetColSizeByColClass(col_class, prefix) {
+
+    prefix = prefix || "col-";
 
     for (var i = 0; i < 12; i++) {
-      if (col_class === "col-" + (i + 1)) {
+      if (col_class === prefix + (i + 1)) {
         return i + 1;
       }
     }
