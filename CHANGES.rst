@@ -4,7 +4,8 @@ Changelog
 2.2.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Remove obsolete ``mockup-patterns-base`` -> use ``pat-base``
+  [petschki]
 
 
 2.2.2 (2020-04-07)
