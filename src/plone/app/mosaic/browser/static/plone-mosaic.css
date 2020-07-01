@@ -596,6 +596,10 @@
   position: absolute;
   margin-top: -40px;
 }
+.mosaic-panel .mosaic-rich-text-toolbar .mce-menu {
+  top: 34px !important;
+  /* sorry for that ... hopefully not needed in TinyMCE 5.x anymore */
+}
 /* Outer border */
 .mosaic-panel .mosaic-tile-outer-border {
   position: absolute;

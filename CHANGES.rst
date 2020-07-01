@@ -7,6 +7,9 @@ Changelog
 - Remove obsolete ``mockup-patterns-base`` -> use ``pat-base``
   [petschki]
 
+- fix TinyMCE dropdown menus in toolbar by implementing ``ui_container`` option
+  [petschki]
+
 
 2.2.2 (2020-04-07)
 ------------------

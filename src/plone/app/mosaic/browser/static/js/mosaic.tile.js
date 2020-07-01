@@ -1006,9 +1006,8 @@ define([
       var id = 'mosaic-rich-text-init-' + random_id;
       $content.attr('id', id);
       $content.siblings('.mosaic-rich-text-toolbar').remove();
-      var $editorContainer = $('<div class="mosaic-rich-text-toolbar"></div>')
-        .attr('id', $content.attr('id') + '-panel');
-      $content.before($editorContainer);
+      var $editorToolbar = $('<div class="mosaic-rich-text-toolbar" />').attr('id', id + '-toolbar');
+      $content.before($editorToolbar);
 
       // Build toolbar and contextmenu
       var actions, group, x, y,
@@ -1094,76 +1093,80 @@ define([
       }
       // Init rich editor
       pattern = new TinyMCE($content, $.extend(
-        true, {}, $.mosaic.options.tinymce, { inline: false, tiny: {
-        body_id: id,
-        selector: "#" + id,
-        inline: true,
-        paste_as_text: paste_as_text,
-        fixed_toolbar_container: '#' + $editorContainer.attr('id'),
-        theme_advanced_toolbar_align: "right",
-        menubar: false,
-        toolbar: toolbar.join(' ') || false,
-        statusbar: false,
-        contextmenu: cmenu.join(' ') || false,
-        plugins: $.mosaic.options.tinymce.tiny.plugins.concat(
-          cmenu.length ? ['contextmenu'] : []
-        ),
-        setup: function(editor) {
-          that.tinymce = editor;
-          editor.on('focus', function(e) {
-            if (e.target.id) {
-              if($('.mosaic-helper-tile').length === 0){
-                that.select();
-                positionActiveTinyMCE();
-              }else{
-                // XXX this is such a hack..
-                // SOMETHING is causing tinymce to focus *after* it has been blurred
-                // from dragging. It's a weird state where it think it is focused
-                // but it's dragging. This fixes it, sort of. Sometimes you can
-                // still detect a flicker when the modes are switching
-                setTimeout(function(){
-                  $('.mce-edit-focus').each(function(){
-                    var tile = new Tile($(this).parent());
-                    tile.blur();
-                    var tiny = window.tinyMCE.get(this.getAttribute('id'));
-                    if(tiny){
-                      tiny.hide();
-                    }
-                  });
-                }, 10);
-              }
-            }
-          });
+        true, {}, $.mosaic.options.tinymce, {
+          inline: false,
+          tiny: {
+            body_id: id,
+            selector: "#" + id,
+            inline: true,
+            paste_as_text: paste_as_text,
+            fixed_toolbar_container: '#' + $editorToolbar.attr('id'),
+            ui_container: '#' + $editorToolbar.attr('id'),
+            theme_advanced_toolbar_align: "right",
+            menubar: false,
+            toolbar: toolbar.join(' ') || false,
+            statusbar: false,
+            contextmenu: cmenu.join(' ') || false,
+            plugins: $.mosaic.options.tinymce.tiny.plugins.concat(
+              cmenu.length ? ['contextmenu'] : []
+            ),
+            setup: function(editor) {
+              that.tinymce = editor;
+              editor.on('focus', function(e) {
+                if (e.target.id) {
+                  if($('.mosaic-helper-tile').length === 0){
+                    that.select();
+                    positionActiveTinyMCE();
+                  }else{
+                    // XXX this is such a hack..
+                    // SOMETHING is causing tinymce to focus *after* it has been blurred
+                    // from dragging. It's a weird state where it think it is focused
+                    // but it's dragging. This fixes it, sort of. Sometimes you can
+                    // still detect a flicker when the modes are switching
+                    setTimeout(function(){
+                      $('.mce-edit-focus').each(function(){
+                        var tile = new Tile($(this).parent());
+                        tile.blur();
+                        var tiny = window.tinyMCE.get(this.getAttribute('id'));
+                        if(tiny){
+                          tiny.hide();
+                        }
+                      });
+                    }, 10);
+                  }
+                }
+              });
 
-          if(toolbar.length === 0){
-            editor.on('keydown', function(e){
-              if(e.keyCode === 13){
-                e.preventDefault();
-                return;
+              if(toolbar.length === 0){
+                editor.on('keydown', function(e){
+                  if(e.keyCode === 13){
+                    e.preventDefault();
+                    return;
+                  }
+                });
               }
-            });
+
+              // `change` event doesn't fire all the time so we do both here...
+              editor.on('keyup change', placeholder);
+              placeholder();
+
+              editor.on('init', function(){
+                /*
+                  since focusing on a rich text tile before tinymce is initialized
+                  can cause some very weird issues where the toolbar won't show,
+                  we need to delay focus on rich text tiles
+                */
+                that.$el.data('tinymce-loaded', true);
+                if(that.$el.data('delayed-focus') === true){
+                  that.$el.data('delayed-focus', false);
+                  setTimeout(function(){
+                    that._focus();
+                  }, 100);
+                }
+              });
+            }
           }
-
-          // `change` event doesn't fire all the time so we do both here...
-          editor.on('keyup change', placeholder);
-          placeholder();
-
-          editor.on('init', function(){
-            /*
-              since focusing on a rich text tile before tinymce is initialized
-              can cause some very weird issues where the toolbar won't show,
-              we need to delay focus on rich text tiles
-            */
-            that.$el.data('tinymce-loaded', true);
-            if(that.$el.data('delayed-focus') === true){
-              that.$el.data('delayed-focus', false);
-              setTimeout(function(){
-                that._focus();
-              }, 100);
-            }
-          });
-        }
-      }}));
+        }));
 
       // Set editor class
       $content.addClass('mosaic-rich-text');
