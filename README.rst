@@ -96,7 +96,7 @@ enabled for any content type by enabling behaviors **Layout support** and
 
 **Note for Plone 5.1:**
 
-Since version ``2.2.x`` the renamed IRichTextBehavior behavior is used from ``plone.app.contenttypes >= 2.0.0`` so to keep the Plone 5.1 standard versions you have to stay on the ``2.1.x`` branch.
+Since version ``2.2.x`` the renamed IRichTextBehavior behavior is used from ``plone.app.contenttypes >= 2.0.0`` to keep the Plone 5.1 compatibility pin plone.app.contenttypes to ``2.0.2``.
 
 However, if a newer version of mosaic is needed,
 the good known set for the version can be found at Github, Mosaic Code repository, in the file `versions.cfg <https://github.com/plone/plone.app.mosaic/blob/master/versions.cfg>`_

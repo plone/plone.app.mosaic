@@ -1,8 +1,21 @@
 Changelog
 =========
 
-2.2.2 (unreleased)
+2.2.3 (unreleased)
 ------------------
+
+- Remove obsolete ``mockup-patterns-base`` -> use ``pat-base``
+  [petschki]
+
+- fix TinyMCE dropdown menus in toolbar by implementing ``ui_container`` option
+  [petschki]
+
+
+2.2.2 (2020-04-07)
+------------------
+
+- Fix plone.app.contenttypes dependency for Plone 5.1
+  [agitator]
 
 - Improve tinymce toolbar sticky computation
   [frapell]

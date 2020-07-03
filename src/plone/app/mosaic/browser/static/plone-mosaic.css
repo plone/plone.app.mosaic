@@ -2254,6 +2254,10 @@ input[type="button"].btn-block {
   margin-top: -40px;
 }
 
+.mosaic-panel .mosaic-rich-text-toolbar .mce-menu {
+  top: 34px !important;
+}
+
 /* Outer border */
 .mosaic-panel .mosaic-tile-outer-border {
   position: absolute;

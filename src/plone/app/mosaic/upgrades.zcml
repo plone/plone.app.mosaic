@@ -399,4 +399,13 @@
       run_deps="false"
       />
 
+  <genericsetup:upgradeDepends
+      profile="plone.app.mosaic:default"
+      source="5027"
+      destination="5028"
+      title="JS/CSS Resource updates"
+      import_steps="plone.app.registry"
+      run_deps="false"
+      />
+
 </configure>

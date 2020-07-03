@@ -1,6 +1,6 @@
 exclude .bowerrc .coveragerc Gemfile resources bootstrap-buildout.py
 exclude Makefile *.cfg *.in *.nix *.sh *.conf *.js *.json Procfile .jshintrc
-global-exclude *.pyc
+global-exclude *.pyc __pycache__
 graft docs
 graft src
 include LICENSE *.txt *.rst *.GPL *.py
