@@ -259,7 +259,7 @@ define([
         $(this).css("left", e.pageX + 3 - offset.left);
       });
 
-      // Find resize helper
+      // Find resize helper - there is actually only one
       $(".mosaic-resize-handle-helper", $.mosaic.document).each(function () {
 
         console.log("===================");
@@ -331,39 +331,60 @@ define([
         console.log("col_size_handle", col_size_handle);
         console.log("resize_handle_index", resize_handle_index);
 
-
         if (helper.data("nr_of_columns") > 1) {
 
           // Loop through columns
-          row.children(".mosaic-resize-placeholder").each(function (i) {
+          row.children(".mosaic-resize-placeholder").each(function (index) {
+
+            var mosaicDataClass = $(this).mosaicGetDataClass();
+            var data_size = GetColSizeByColClass(mosaicDataClass, "mosaic-col-");
+
+            // If there are columns before this column and the column width is not set,
+            // then set it to the value of 2 and add a Reset button to the Tile.
+            if (index < resize_handle_index && data_size === 0) {
+              column_sizes[index] = 2;
+
+              var $mosaicGridCell = $(this).parent().children(".mosaic-grid-cell").get(index);
+              var $tileSideTools = $($mosaicGridCell).children(".mosaic-tile").first().children(".mosaic-tile-side-tools").first();
+
+              $tileSideTools.children(".mosaic-tile-label").children(".mosaic-tile-label-reset").parent().remove();
+
+              $tileSideTools.append(
+                $($.mosaic.document.createElement("div"))
+                  .addClass("mosaic-tile-label")
+                  .append(
+                    $($.mosaic.document.createElement("div"))
+                      .addClass("mosaic-tile-label-reset")
+                      .append(AddResetAnchor($tileSideTools))
+                  )
+                  .append(
+                    $($.mosaic.document.createElement("div"))
+                      .addClass("mosaic-tile-label-left")
+                  )
+              );
+            }
 
             // Left column
-            if (i === resize_handle_index) {
+            if (index === resize_handle_index) {
+              column_sizes[index] = col_size;
 
-              var mosaicDataClass = $(this).mosaicGetDataClass();
-              var data_size = GetColSizeByColClass(mosaicDataClass, "mosaic-col-");
+              var mosaic_resize_class = "mosaic-resize-0";
+              if (column_sizes.length > 1 && index > 0) {
+                var _value = 0;
+                for (var i = 0; i < index; i++) {
+                  _value += column_sizes[i];
+                }
+                mosaic_resize_class = "mosaic-resize-" + _value;
+              }
 
-              console.log("data_size", data_size);
-
-              // Set new width and position
-              // TODO: It seems data("col_size") is not needed any more ... commenting out # 2020-04-21
-              // $(this)
-              //   .removeClass($.mosaic.layout.widthClasses.join(" "))
-              //   .addClass(GetWidthClassByColSize(col_size))
-              //   .data("col_size", col_size);
               var col_size_class = GetWidthClassByColSize(col_size);
               $(this)
                 .removeClass($.mosaic.layout.widthClasses.join(" "))
                 .removeClass($.mosaic.layout.dataClasses.join(" "))
-                .addClass("mosaic-" + col_size_class + " " + col_size_class)
-                .find(".info").html(col_size);
-
-              column_sizes[i] = col_size;
-
-              helper
                 .removeClass($.mosaic.layout.positionClasses.join(" ").replace(/position/g, "resize"))
-                .addClass(GetPositionClassByColSize(col_size_handle).replace("position", "resize"));
-
+                .addClass("mosaic-" + col_size_class + " " + col_size_class + " " + mosaic_resize_class)
+                .find(".info")
+                .html(col_size);
             }
 
           });
@@ -404,44 +425,26 @@ define([
           for (var j = 0; j < i; j++) {
             offset_x += column_sizes[j];
           }
+
           $(this)
-            .removeClass($.mosaic.layout.positionClasses.join(" "))
+            .removeClass($.mosaic.layout.positionClasses.join(" "))  // probably not needed, but just for cleaning up
             .removeClass($.mosaic.layout.widthClasses.join(" "))
-            .addClass(GetPositionClassByColSize(offset_x) + " " + GetWidthClassByColSize(column_sizes[i]));
+            .addClass(GetWidthClassByColSize(column_sizes[i]));
 
           var can_reset = $(this).hasClass("col");
           if (!can_reset && i === resize_handle_index) {
-            var _addResetAnchor = function (click) {
-              var reset = document.createElement("a");
-              reset.href = "javascript:";
-              reset.textContent = "Reset";
-              $(reset).on("click", click);
-              return reset;
-            };
-
             $(this).children(".mosaic-tile").first().children(".mosaic-tile-side-tools").each(function (i) {
-                var that = $(this);
+                var $tileSideTools = $(this);
 
-                that.children(".mosaic-tile-label").children(".mosaic-tile-label-reset").parent().remove();
+                $tileSideTools.children(".mosaic-tile-label").children(".mosaic-tile-label-reset").parent().remove();
 
-                that.append(
+                $tileSideTools.append(
                   $($.mosaic.document.createElement("div"))
                     .addClass("mosaic-tile-label")
                     .append(
                       $($.mosaic.document.createElement("div"))
                         .addClass("mosaic-tile-label-reset")
-                        .append(_addResetAnchor(function (e) {
-                          e.preventDefault();
-
-                          that.parent().parent()
-                            .removeClass("col-1 col-2 col-3 col-4 col-5 col-6 col-7 col-8 col-9 col-10 col-11 col-12")
-                            .addClass("col");
-
-                          that.parent().parent().parent().mosaicSetResizeHandles();
-
-                          $(e.target).parent().parent().remove();
-
-                        }))
+                        .append(AddResetAnchor($tileSideTools))
                     )
                     .append(
                       $($.mosaic.document.createElement("div"))
@@ -1352,7 +1355,7 @@ define([
 
       if (nr_of_columns > 1 && nr_of_columns <= 12) {
 
-        console.log("nr_of_columns > 1 && nr_of_columns <= 12")
+        console.log("nr_of_columns > 1 && nr_of_columns <= 12");
 
         var column_sizes = [];
         var zero_count = 0;
@@ -1407,31 +1410,41 @@ define([
       // Mouse down handler on resize handle
       $(this).children(".mosaic-resize-handle").mousedown(function (/* e */) {
 
+        var $mosaicGridCellChildren = $(this).parent().children(".mosaic-grid-cell");
+
         // Get number of columns and current sizes
+        var nr_of_columns = $mosaicGridCellChildren.length;
         var column_sizes = [];
-        $(this).parent().children(".mosaic-grid-cell").each(function () {
+
+        if (nr_of_columns > 1 && nr_of_columns <= 12) {
+          for (var i = 0; i < nr_of_columns; i++) {
+            var col_size = GetColSizeByColClass($($mosaicGridCellChildren.get(i)).mosaicGetWidthClass());
+            column_sizes.push(col_size);
+          }
+        }
+
+        $mosaicGridCellChildren.each(function (index) {
 
           var mosaicWidthClass = $(this).mosaicGetWidthClass();
           var mosaicDataClass = mosaicWidthClass.replace("col", "mosaic-col");  // data class holds original column widths
-          var mosaicPositionClass = $(this).mosaicGetPositionClass();
-          var mosaicResizeClass = mosaicPositionClass.replace("position", "resize");
-
           var col_size = GetColSizeByColClass(mosaicWidthClass);  // get the initiall size of the column
 
           if (col_size == 0) {
             col_size = "0 (2)";
           }
 
-          for (var i = 0; i < 12; i++) {
-            if (mosaicWidthClass === "mosaic-col-" + (i + 1)) {
-              column_sizes.push(i + 1);
-              break;
+          var mosaic_resize_class = "mosaic-resize-0";
+          if (column_sizes.length > 1 && index > 0) {
+            var _value = 0;
+            for (var i = 0; i < index; i++) {
+              _value += column_sizes[i];
             }
+            mosaic_resize_class = "mosaic-resize-" + _value;
           }
 
           // Add placeholder
           $(this).parent().append($($.mosaic.document.createElement("div"))
-            .addClass("mosaic-resize-placeholder " + mosaicWidthClass + " " + mosaicDataClass + " " + mosaicResizeClass)  // jshint ignore:line
+            .addClass("mosaic-resize-placeholder " + mosaicWidthClass + " " + mosaicDataClass + " " + mosaic_resize_class)  // jshint ignore:line
             .append($($.mosaic.document.createElement("div"))
               .addClass("mosaic-resize-placeholder-inner-border")
               .append($($.mosaic.document.createElement("div"))
@@ -1450,7 +1463,7 @@ define([
           .addClass("mosaic-resize-handle mosaic-resize-handle-helper")
           .addClass($(this).mosaicGetPositionClass().replace("position", "resize"))
           .data("row_width", $(this).parent().width())
-          .data("nr_of_columns", $(this).parent().children(".mosaic-grid-cell").length)
+          .data("nr_of_columns", nr_of_columns)
           .data("column_sizes", column_sizes)
           .data("resize_handle_index", resize_handle_index)
         );
@@ -1926,6 +1939,24 @@ define([
     }else{
       $customLayout.val($.mosaic.getPageContent());
     }
+  };
+
+  var AddResetAnchor = function ($tileSideTools) {
+    var reset = document.createElement("a");
+    reset.href = "javascript:";
+    reset.textContent = "Reset";
+    $(reset).on("click", { el: $tileSideTools }, function (e) {
+      e.preventDefault();
+
+      e.data.el.parent().parent()
+        .removeClass("col-1 col-2 col-3 col-4 col-5 col-6 col-7 col-8 col-9 col-10 col-11 col-12")
+        .addClass("col");
+
+      e.data.el.parent().parent().parent().mosaicSetResizeHandles();
+
+      $(e.target).parent().parent().remove();
+    });
+    return reset;
   };
 
   /**
