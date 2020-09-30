@@ -336,33 +336,34 @@ define([
           // Loop through columns
           row.children(".mosaic-resize-placeholder").each(function (index) {
 
-            var mosaicDataClass = $(this).mosaicGetDataClass();
-            var data_size = GetColSizeByColClass(mosaicDataClass, "mosaic-col-");
-
-            // If there are columns before this column and the column width is not set,
-            // then set it to the value of 2 and add a Reset button to the Tile.
-            if (index < resize_handle_index && data_size === 0) {
-              column_sizes[index] = 2;
-
-              var $mosaicGridCell = $(this).parent().children(".mosaic-grid-cell").get(index);
-              var $tileSideTools = $($mosaicGridCell).children(".mosaic-tile").first().children(".mosaic-tile-side-tools").first();
-
-              $tileSideTools.children(".mosaic-tile-label").children(".mosaic-tile-label-reset").parent().remove();
-
-              $tileSideTools.append(
-                $($.mosaic.document.createElement("div"))
-                  .addClass("mosaic-tile-label")
-                  .append(
-                    $($.mosaic.document.createElement("div"))
-                      .addClass("mosaic-tile-label-reset")
-                      .append(AddResetAnchor($tileSideTools))
-                  )
-                  .append(
-                    $($.mosaic.document.createElement("div"))
-                      .addClass("mosaic-tile-label-left")
-                  )
-              );
-            }
+            // // If there are columns before this column and the column width is not set,
+            // // then set it to the value of 2 and add a Reset button to the Tile.
+            //
+            // var mosaicDataClass = $(this).mosaicGetDataClass();
+            // var data_size = GetColSizeByColClass(mosaicDataClass, "mosaic-col-");
+            //
+            // if (index < resize_handle_index && data_size === 0) {
+            //   column_sizes[index] = 2;
+            //
+            //   var $mosaicGridCell = $(this).parent().children(".mosaic-grid-cell").get(index);
+            //   var $tileSideTools = $($mosaicGridCell).children(".mosaic-tile").first().children(".mosaic-tile-side-tools").first();
+            //
+            //   $tileSideTools.children(".mosaic-tile-label").children(".mosaic-tile-label-reset").parent().remove();
+            //
+            //   $tileSideTools.append(
+            //     $($.mosaic.document.createElement("div"))
+            //       .addClass("mosaic-tile-label")
+            //       .append(
+            //         $($.mosaic.document.createElement("div"))
+            //           .addClass("mosaic-tile-label-reset")
+            //           .append(AddResetAnchor($tileSideTools, column_sizes[index]))
+            //       )
+            //       .append(
+            //         $($.mosaic.document.createElement("div"))
+            //           .addClass("mosaic-tile-label-left")
+            //       )
+            //   );
+            // }
 
             // Left column
             if (index === resize_handle_index) {
@@ -433,7 +434,7 @@ define([
 
           var can_reset = $(this).hasClass("col");
           if (!can_reset && i === resize_handle_index) {
-            $(this).children(".mosaic-tile").first().children(".mosaic-tile-side-tools").each(function (i) {
+            $(this).children(".mosaic-tile").first().children(".mosaic-tile-side-tools").each(function (index) {
                 var $tileSideTools = $(this);
 
                 $tileSideTools.children(".mosaic-tile-label").children(".mosaic-tile-label-reset").parent().remove();
@@ -444,7 +445,7 @@ define([
                     .append(
                       $($.mosaic.document.createElement("div"))
                         .addClass("mosaic-tile-label-reset")
-                        .append(AddResetAnchor($tileSideTools))
+                        .append(AddResetAnchor($tileSideTools, column_sizes[i]))
                     )
                     .append(
                       $($.mosaic.document.createElement("div"))
@@ -1941,10 +1942,11 @@ define([
     }
   };
 
-  var AddResetAnchor = function ($tileSideTools) {
+  var AddResetAnchor = function ($tileSideTools, cols) {
     var reset = document.createElement("a");
+    var cols_str = (typeof cols === "undefined") ? "" : " (" + cols + ")";
     reset.href = "javascript:";
-    reset.textContent = "Reset";
+    reset.textContent = "Reset" + cols_str;
     $(reset).on("click", { el: $tileSideTools }, function (e) {
       e.preventDefault();
 

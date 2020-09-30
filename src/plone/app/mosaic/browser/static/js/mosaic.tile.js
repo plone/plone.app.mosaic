@@ -470,10 +470,14 @@ define([
         var can_reset = this.$el.parent().hasClass("col");
         if (!can_reset) {
 
+          var classes = this.$el.parent().attr('class').split(" ");
+          var cols = this.getValueFromClasses(classes, 'col-');
+          var cols_str = (typeof cols === "undefined") ? "" : " (" + cols + ")";
+
           var _addResetAnchor = function (click) {
             var reset = document.createElement("a");
             reset.href = "javascript:";
-            reset.textContent = "Reset";
+            reset.textContent = "Reset" + cols_str;
             $(reset).on("click", click);
             return reset;
           };
