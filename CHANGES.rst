@@ -4,7 +4,8 @@ Changelog
 2.2.4 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix Flake8 errors
+  [jugmac00]
 
 
 2.2.3 (2020-07-02)
