@@ -200,6 +200,19 @@ define([
     });
 
     // Register generic re-usable toggle row class format action
+    $.mosaic.registerAction('row-toggle-bootstrap-class', {
+      exec: function () {
+        var name;
+        if (arguments.length > 0 && arguments[0].value) {
+          name = arguments[0].value;
+          $(".mosaic-selected-tile", $.mosaic.document)
+            .parents('.mosaic-grid-row').first()
+            .toggleClass(name);
+        }
+      }
+    });
+
+    // Register generic re-usable toggle row class format action
     $.mosaic.registerAction('row-remove-format', {
       exec: function () {
         var i, j, group, action, name;
@@ -211,7 +224,7 @@ define([
               name = $.mosaic.getPrefixedClassName(action.name);
               $(".mosaic-selected-tile", $.mosaic.document)
                 .parents('.mosaic-grid-row').first()
-                .removeClass(name);
+                .removeClass(name).removeClass(action.name);
             }
           }
         }
