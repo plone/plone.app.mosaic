@@ -200,14 +200,29 @@ define([
     });
 
     // Register generic re-usable toggle row class format action
-    $.mosaic.registerAction('row-toggle-bootstrap-class', {
+    $.mosaic.registerAction('row-toggle-row-cols', {
       exec: function () {
         var name;
+        var klass = "row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4";
+
         if (arguments.length > 0 && arguments[0].value) {
           name = arguments[0].value;
+          if(name == "row-cols-1234") {
+            klass = "row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4";
+          } else if(name == "row-cols-1224") {
+            klass = "row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-4";
+          } else if(name == "row-cols-2244") {
+            klass = "row-cols-2 row-cols-sm-2 row-cols-md-4 row-cols-lg-4";
+          } else if(name == "row-cols-1233") {
+            klass = "row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-3";
+          } else if(name == "row-cols-1223") {
+            klass = "row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3";
+          } else if(name == "row-cols-1122") {
+            klass = "row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-2";
+          }
           $(".mosaic-selected-tile", $.mosaic.document)
             .parents('.mosaic-grid-row').first()
-            .toggleClass(name);
+            .toggleClass(klass);
         }
       }
     });
