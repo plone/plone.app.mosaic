@@ -203,21 +203,19 @@ define([
     $.mosaic.registerAction('row-toggle-row-cols', {
       exec: function () {
         var name;
-        var klass = "row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4";
+        var klass = "row-cols-2 row-cols-sm-2 row-cols-md-4 row-cols-lg-4";
 
         if (arguments.length > 0 && arguments[0].value) {
           name = arguments[0].value;
-          if(name == "row-cols-1234") {
-            klass = "row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4";
-          } else if(name == "row-cols-1224") {
-            klass = "row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-4";
-          } else if(name == "row-cols-2244") {
+          if(name == "row-cols-4422") {
             klass = "row-cols-2 row-cols-sm-2 row-cols-md-4 row-cols-lg-4";
-          } else if(name == "row-cols-1233") {
+          } else if(name == "row-cols-4221") {
+            klass = "row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-4";
+          } else if(name == "row-cols-3321") {
             klass = "row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-3";
-          } else if(name == "row-cols-1223") {
+          } else if(name == "row-cols-3221") {
             klass = "row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3";
-          } else if(name == "row-cols-1122") {
+          } else if(name == "row-cols-2211") {
             klass = "row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-2";
           }
           $(".mosaic-selected-tile", $.mosaic.document)

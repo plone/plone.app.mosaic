@@ -148,12 +148,11 @@
       <element>tile-remove-format</element>
       <element>grid-row-fluid</element>
       <element>grid-row-dark</element>
-      <element>row-cols-1122</element>
-      <element>row-cols-1223</element>
-      <element>row-cols-1233</element>
-      <element>row-cols-1234</element>
-      <element>row-cols-1224</element>
-      <element>row-cols-2244</element>
+      <element>row-cols-2211</element>
+      <element>row-cols-3221</element>
+      <element>row-cols-3321</element>
+      <element>row-cols-4221</element>
+      <element>row-cols-4422</element>
       <element>grid-row-remove-format</element>
     </value>
   </record>
@@ -263,10 +262,10 @@
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.formats.row_cols_1122">
-    <value key="name">row-cols-1122</value>
+           prefix="plone.app.mosaic.formats.row_cols_2211">
+    <value key="name">row-cols-2211</value>
     <value key="category">row</value>
-    <value key="label">Row 2 Columns 1122</value>
+    <value key="label">Columns LG2/MD2/SM1/XS1</value>
     <value key="action">row-toggle-row-cols</value>
     <value key="icon">true</value>
     <value key="favorite">false</value>
@@ -274,10 +273,10 @@
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.formats.row_cols_1223">
-    <value key="name">row-cols-1223</value>
+           prefix="plone.app.mosaic.formats.row_cols_3221">
+    <value key="name">row-cols-3221</value>
     <value key="category">row</value>
-    <value key="label">Row 3 Columns 1223</value>
+    <value key="label">Columns LG3/MD2/SM2/XS1</value>
     <value key="action">row-toggle-row-cols</value>
     <value key="icon">true</value>
     <value key="favorite">false</value>
@@ -285,10 +284,10 @@
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.formats.row_cols_1233">
-    <value key="name">row-cols-1233</value>
+           prefix="plone.app.mosaic.formats.row_cols_3321">
+    <value key="name">row-cols-3321</value>
     <value key="category">row</value>
-    <value key="label">Row 3 Columns 1233</value>
+    <value key="label">Columns LG3/MD3/SM2/XS1</value>
     <value key="action">row-toggle-row-cols</value>
     <value key="icon">true</value>
     <value key="favorite">false</value>
@@ -296,10 +295,10 @@
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.formats.row_cols_1234">
-    <value key="name">row-cols-1234</value>
+           prefix="plone.app.mosaic.formats.row_cols_4221">
+    <value key="name">row-cols-4221</value>
     <value key="category">row</value>
-    <value key="label">Row 4 Columns 1234</value>
+    <value key="label">Columns LG4/MD2/SM2/XS1</value>
     <value key="action">row-toggle-row-cols</value>
     <value key="icon">true</value>
     <value key="favorite">false</value>
@@ -307,27 +306,15 @@
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.formats.row_cols_1224">
-    <value key="name">row-cols-1224</value>
+           prefix="plone.app.mosaic.formats.row_cols_4422">
+    <value key="name">row-cols-4422</value>
     <value key="category">row</value>
-    <value key="label">Row 4 Columns 1224</value>
+    <value key="label">Columns LG4/MD4/SM2/XS2</value>
     <value key="action">row-toggle-row-cols</value>
     <value key="icon">true</value>
     <value key="favorite">false</value>
     <value key="weight">140</value>
   </records>
-
-  <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.formats.row_cols_2244">
-    <value key="name">row-cols-2244</value>
-    <value key="category">row</value>
-    <value key="label">Row 4 Columns 2244</value>
-    <value key="action">row-toggle-row-cols</value>
-    <value key="icon">true</value>
-    <value key="favorite">false</value>
-    <value key="weight">140</value>
-  </records>
-
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
            prefix="plone.app.mosaic.formats.grid_row_remove_format">
