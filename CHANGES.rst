@@ -10,6 +10,8 @@ Changelog
 - fix TinyMCE dropdown menus in toolbar by implementing ``ui_container`` option
   [petschki]
 
+- Add row columns presets feature for the row stiles
+  [balavec]
 
 2.2.2 (2020-04-07)
 ------------------
