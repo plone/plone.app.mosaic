@@ -599,7 +599,7 @@ define([
         e.preventDefault();
         var globalLayout = 'false';
         var $el = $('#globalLayout', modal.$modal);
-        if($el.size() > 0 && $el[0].checked){
+        if($el.length > 0 && $el[0].checked){
           globalLayout = 'true';
         }
         $.ajax({

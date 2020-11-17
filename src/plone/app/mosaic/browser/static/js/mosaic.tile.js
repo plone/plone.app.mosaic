@@ -29,7 +29,7 @@ define([
     /* XXX warning, this needs to be split into a filter call for some reason.
        one selector bombs out */
     var $toolbar = $('.mosaic-selected-tile .mosaic-rich-text-toolbar').filter(':visible');
-    if($toolbar.size() === 0 || $toolbar.find('.mce-first').size() === 0){
+    if($toolbar.length === 0 || $toolbar.find('.mce-first').length === 0){
       /* make sure it actually has a toolbar */
       return;
     }
@@ -170,7 +170,7 @@ define([
     var tile_url = this.$el.find('.tileUrl').html();
     if(!tile_url){
       var $tileUrlEl = this.$el.find('[data-tileUrl]');
-      if($tileUrlEl.size() > 0){
+      if($tileUrlEl.length > 0){
         tile_url = $tileUrlEl.attr('data-tileUrl');
       }
     }
@@ -851,7 +851,7 @@ define([
         $content = this.getContentEl();
         $content.html(html);
       }
-      if(tileUrl && $content.size() > 0){
+      if(tileUrl && $content.length > 0){
         tileUrl = tileUrl.replace(/&/gim, '&amp;');
         // also need to fix duplicate &amp;
         while(tileUrl.indexOf('&amp;&amp;') !== -1){
@@ -872,7 +872,7 @@ define([
         return;  // no patterns, ignore this
       }
       var $content = this.$el.children(".mosaic-tile-content");
-      if($content.size() === 0){
+      if($content.length === 0){
         return;
       }
       if(html === undefined){
@@ -892,7 +892,7 @@ define([
         return;  // no patterns, ignore this
       }
       var $el = this.$el.find(".mosaic-tile-content");
-      if($el.size() === 0){
+      if($el.length === 0){
         return;
       }
       if($el[0]._preScanHTML){
@@ -914,7 +914,7 @@ define([
           this.$el.hasClass("mosaic-read-only-tile") === false) {
         // un-select existing
         var $tile = $(".mosaic-selected-tile", $.mosaic.document);
-        if($tile.size() === 1){
+        if($tile.length === 1){
           var tile = new Tile($tile);
           tile.blur();
         }
@@ -995,7 +995,7 @@ define([
         case "z3c.form.browser.text.TextWidget":
         case "z3c.form.browser.text.TextFieldWidget":
           var $el = $('.mosaic-panel .mosaic-' + tiletype + '-tile', $.mosaic.document);
-          if($el.size() > 1){
+          if($el.length > 1){
             // XXX weird case here.
             // if you use content tile, it'll render a title field tile that matches this
             // and you get weird issues saving data. This is to distinguish this case
@@ -1230,7 +1230,7 @@ define([
       if($el.is('.mosaic-tile')){
         return true;
       }
-      if($el.parents('.mosaic-tile').size() > 0){
+      if($el.parents('.mosaic-tile').length > 0){
         return true;
       }
       return false;

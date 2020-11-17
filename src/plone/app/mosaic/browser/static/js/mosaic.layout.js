@@ -465,7 +465,7 @@ define([
         // Set resize handles
         $(this).parent().mosaicSetResizeHandles();
         var $tile = panel.find(".mosaic-selected-tile");
-        if($tile.size() > 0){
+        if($tile.length > 0){
           var tile = new Tile($tile);
           tile.select();
         }
@@ -614,7 +614,7 @@ define([
 
         // Select first tile in biggest panel
         var $tile = $.mosaic.options.panels.eq(index).find('.mosaic-tile:first');
-        if($tile.size() > 0){
+        if($tile.length > 0){
           var tile = new Tile($tile);
           tile.select();
         }
@@ -1253,7 +1253,7 @@ define([
     var tile = new Tile($tile);
 
     var $content = original_tile.find('.mosaic-tile-content');
-    if($content.size() > 0 && $content[0]._preScanHTML){
+    if($content.length > 0 && $content[0]._preScanHTML){
       /* set the correct, pre-registry html so tiles render correctly */
       tile.cacheHtml($content[0]._preScanHTML);
     }

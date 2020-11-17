@@ -34,7 +34,7 @@ define([
     // this panel
     if (panel_id === 'content') {
       panel_attr_id = target.attr('id');
-      if($('.mosaic-original-content', $.mosaic.document).size() === 0){
+      if($('.mosaic-original-content', $.mosaic.document).length === 0){
         target.before($(document.createElement("div"))
             .attr("id", panel_attr_id)
             .attr("class", target.attr("class"))
