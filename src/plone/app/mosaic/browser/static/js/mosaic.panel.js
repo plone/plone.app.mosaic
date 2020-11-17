@@ -34,7 +34,7 @@ define([
     // this panel
     if (panel_id === 'content') {
       panel_attr_id = target.attr('id');
-      if($('.mosaic-original-content', $.mosaic.document).size() === 0){
+      if($('.mosaic-original-content', $.mosaic.document).length === 0){
         target.before($(document.createElement("div"))
             .attr("id", panel_attr_id)
             .attr("class", target.attr("class"))
@@ -70,7 +70,7 @@ define([
       log.info($(this));
       $(this).addClass('mosaic-panel');
       $(this).children().wrap($(
-        '<div class="mosaic-grid-row">' +
+        '<div class="mosaic-grid-row row">' +
           '<div class="mosaic-grid-cell mosaic-position-0 col-12">' +
             '<div class="movable removable mosaic-tile mosaic-text-tile">' +
               '<div class="mosaic-tile-content">' +

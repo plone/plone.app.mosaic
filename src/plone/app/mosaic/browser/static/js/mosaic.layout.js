@@ -465,7 +465,7 @@ define([
         // Set resize handles
         $(this).parent().mosaicSetResizeHandles();
         var $tile = panel.find(".mosaic-selected-tile");
-        if($tile.size() > 0){
+        if($tile.length > 0){
           var tile = new Tile($tile);
           tile.select();
         }
@@ -545,7 +545,7 @@ define([
         var parent = $(this).parent();
         var base_css = 'mosaic-grid-row';
         if (parent.hasClass('mosaic-innergrid-row')){
-          base_css = 'mosaic-grid-row mosaic-innergrid-row';
+          base_css = 'mosaic-grid-row mosaic-innergrid-row row';
         }
         var classes = $(this).find("input#custom-css-input-box").val();
         base_css += ' ' + classes;
@@ -614,7 +614,7 @@ define([
 
         // Select first tile in biggest panel
         var $tile = $.mosaic.options.panels.eq(index).find('.mosaic-tile:first');
-        if($tile.size() > 0){
+        if($tile.length > 0){
           var tile = new Tile($tile);
           tile.select();
         }
@@ -719,7 +719,7 @@ define([
       $(this).find(".mosaic-grid-row:not(.mosaic-innergrid-row)").each(function (i) {
         $(this).before(
           $($.mosaic.document.createElement("div"))
-            .addClass("mosaic-grid-row mosaic-empty-row")
+            .addClass("mosaic-grid-row mosaic-empty-row row")
             .append($($.mosaic.document.createElement("div"))
               .addClass("mosaic-grid-cell col")
               .append($($.mosaic.document.createElement("div"))
@@ -737,7 +737,7 @@ define([
         if ($(this).nextAll(".mosaic-grid-row").length === 0) {
           $(this).after(
             $($.mosaic.document.createElement("div"))
-              .addClass("mosaic-grid-row mosaic-empty-row")
+              .addClass("mosaic-grid-row mosaic-empty-row row")
               .append($($.mosaic.document.createElement("div"))
                 .addClass("mosaic-grid-cell col")
                 .append($($.mosaic.document.createElement("div"))
@@ -758,7 +758,7 @@ define([
       if ($(this).find(".mosaic-grid-row:not(.mosaic-innergrid-row)").length === 0) {
         $(this).append(
           $($.mosaic.document.createElement("div"))
-            .addClass("mosaic-grid-row mosaic-empty-row")
+            .addClass("mosaic-grid-row mosaic-empty-row row")
             .append($($.mosaic.document.createElement("div"))
               .addClass("mosaic-grid-cell col")
               .append($($.mosaic.document.createElement("div"))
@@ -1086,7 +1086,7 @@ define([
                           .addClass("mosaic-new-tile");
       if (obj.hasClass('inner-subcolumn')){
           tile_to_drop = $($.mosaic.document.createElement("div"))
-                          .addClass("mosaic-grid-row mosaic-innergrid-row")
+                          .addClass("mosaic-grid-row mosaic-innergrid-row row")
                           .append($($.mosaic.document.createElement("div"))
                             .addClass("mosaic-grid-cell col")
                             .append($($.mosaic.document.createElement("div"))
@@ -1129,7 +1129,7 @@ define([
           if (prev_elms.length > 0) {
             drop.parent().parent()
               .before($($.mosaic.document.createElement("div"))
-                .addClass("mosaic-grid-row")
+                .addClass("mosaic-grid-row row")
                 .append($($.mosaic.document.createElement("div"))
                   .addClass("mosaic-grid-cell col")
                   .append($(prev_elms.get().reverse()).clone(true).mosaicAddDrag())
@@ -1143,7 +1143,7 @@ define([
           if (next_elms.length > 0) {
             drop.parent().parent()
               .after($($.mosaic.document.createElement("div"))
-                .addClass("mosaic-grid-row")
+                .addClass("mosaic-grid-row row")
                 .append($($.mosaic.document.createElement("div"))
                   .addClass("mosaic-grid-cell col")
                   .append(next_elms.clone(true).mosaicAddDrag())
@@ -1253,7 +1253,7 @@ define([
     var tile = new Tile($tile);
 
     var $content = original_tile.find('.mosaic-tile-content');
-    if($content.size() > 0 && $content[0]._preScanHTML){
+    if($content.length > 0 && $content[0]._preScanHTML){
       /* set the correct, pre-registry html so tiles render correctly */
       tile.cacheHtml($content[0]._preScanHTML);
     }
@@ -1716,7 +1716,7 @@ define([
     // Add helper
     $($.mosaic.options.panels.get(0)).append(
       $($.mosaic.document.createElement("div"))
-        .addClass("mosaic-grid-row")
+        .addClass("mosaic-grid-row row")
         .append($($.mosaic.document.createElement("div"))
           .addClass("mosaic-grid-cell col")
           .append($($.mosaic.document.createElement("div"))

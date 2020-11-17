@@ -65,7 +65,7 @@ require([
         dataType: 'JSON'
       }).done(function(data){
         var $el = $('#show-hide-editor');
-        if($el.size() === 0){
+        if($el.length === 0){
           $el = $('<div id="show-hide-editor" />');
           $('.show-hide-layouts').append($el);
         }

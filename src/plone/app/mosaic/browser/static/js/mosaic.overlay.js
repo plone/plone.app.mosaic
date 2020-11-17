@@ -68,7 +68,7 @@ define([
       // Init overlay
       var $modalStructure = $(
         '<div class="plone-modal-wrapper mosaic-overlay">' +
-          '<div class="mosaic-modal fade in" style="position: absolute; padding: 20px;">' +
+          '<div class="mosaic-modal" style="position: absolute; padding: 20px;">' +
             '<div class="plone-modal-dialog">' +
               '<div class="plone-modal-content">' +
                 '<div class="plone-modal-header"><a class="plone-modal-close">×</a></div>' +
@@ -179,14 +179,14 @@ define([
       form.find($.mosaic.options.contentLayout_selector).addClass('mosaic-hidden');
 
       // Hide title and description
-      if($('.mosaic-IDublinCore-title-tile').size() > 0){
+      if($('.mosaic-IDublinCore-title-tile').length > 0){
         form.find('#formfield-form-widgets-IDublinCore-title')
           .addClass('mosaic-hidden');
       }else{
         form.find('#formfield-form-widgets-IDublinCore-title')
           .removeClass('mosaic-hidden');
       }
-      if($('.mosaic-IDublinCore-description-tile').size() > 0){
+      if($('.mosaic-IDublinCore-description-tile').length > 0){
         form.find('#formfield-form-widgets-IDublinCore-description')
           .addClass('mosaic-hidden');
       }else{
@@ -226,7 +226,7 @@ define([
       visible_tabs.eq(0).addClass('active');
       var $fieldset = form.find('#fieldset-' +
           visible_tabs.eq(0).attr('href').split('-')[1]);
-      if($fieldset.size() === 0){
+      if($fieldset.length === 0){
           $fieldset = form.find(
               'fieldset:not(.mosaic-hidden)').eq(0);
       }
