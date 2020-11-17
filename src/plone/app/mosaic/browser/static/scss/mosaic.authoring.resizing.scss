@@ -26,7 +26,10 @@
     height: auto;
     top: 0px;
     bottom: 0px;
-    width: 12px;
+    width: 12px !important;
+    max-width: 12px !important;
+    padding-right: 0 !important;
+    padding-left: 0 !important;
     left: -6px;
     z-index: 500;
     cursor: ew-resize;
