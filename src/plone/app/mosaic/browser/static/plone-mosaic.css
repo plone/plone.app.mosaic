@@ -1895,28 +1895,29 @@ input[type="button"].btn-block {
   border-top: 2px dashed #ccc;
 }
 
-.mosaic-panel.mosaic-advanced .mosaic-grid-row:not(.mosaic-empty-row), .mosaic-panel.mosaic-advanced .balavec:not(.mosaic-empty-row) {
+.mosaic-panel.mosaic-advanced .mosaic-grid-row:not(.mosaic-empty-row):not(:last-child), .mosaic-panel.mosaic-advanced .balavec:not(.mosaic-empty-row):not(:last-child) {
   padding: 5px;
   border-bottom: 2px dashed #ccc;
   border-left: 2px dashed #ccc;
   border-right: 2px dashed #ccc;
 }
 
-.mosaic-panel.mosaic-advanced .mosaic-grid-row:not(.mosaic-empty-row) .mosaic-grid-cell, .mosaic-panel.mosaic-advanced .balavec:not(.mosaic-empty-row) .mosaic-grid-cell {
+.mosaic-panel.mosaic-advanced .mosaic-grid-row:not(.mosaic-empty-row):not(:last-child) .mosaic-grid-cell, .mosaic-panel.mosaic-advanced .balavec:not(.mosaic-empty-row):not(:last-child) .mosaic-grid-cell {
+  position: relative;
   padding: 5px;
   border-left: 2px dashed #ccc;
 }
 
-.mosaic-panel.mosaic-advanced .mosaic-grid-row:not(.mosaic-empty-row) .mosaic-grid-cell:first-child, .mosaic-panel.mosaic-advanced .balavec:not(.mosaic-empty-row) .mosaic-grid-cell:first-child {
+.mosaic-panel.mosaic-advanced .mosaic-grid-row:not(.mosaic-empty-row):not(:last-child) .mosaic-grid-cell:first-child, .mosaic-panel.mosaic-advanced .balavec:not(.mosaic-empty-row):not(:last-child) .mosaic-grid-cell:first-child {
   border-left: none;
 }
 
-.mosaic-panel.mosaic-advanced .mosaic-grid-row:not(.mosaic-empty-row) .mosaic-innergrid-row:hover, .mosaic-panel.mosaic-advanced .balavec:not(.mosaic-empty-row) .mosaic-innergrid-row:hover {
+.mosaic-panel.mosaic-advanced .mosaic-grid-row:not(.mosaic-empty-row):not(:last-child) .mosaic-innergrid-row:hover, .mosaic-panel.mosaic-advanced .balavec:not(.mosaic-empty-row):not(:last-child) .mosaic-innergrid-row:hover {
   border: dashed 2px #3469d0;
   padding-top: 10px;
 }
 
-.mosaic-panel.mosaic-advanced .mosaic-grid-row:not(.mosaic-empty-row) .mosaic-innergrid-row, .mosaic-panel.mosaic-advanced .balavec:not(.mosaic-empty-row) .mosaic-innergrid-row {
+.mosaic-panel.mosaic-advanced .mosaic-grid-row:not(.mosaic-empty-row):not(:last-child) .mosaic-innergrid-row, .mosaic-panel.mosaic-advanced .balavec:not(.mosaic-empty-row):not(:last-child) .mosaic-innergrid-row {
   padding: 5px;
   border-bottom: 2px dashed #ccc;
   border-left: 2px dashed #ccc;
@@ -1927,12 +1928,12 @@ input[type="button"].btn-block {
   margin-bottom: 10px;
 }
 
-.mosaic-panel.mosaic-advanced .mosaic-grid-row:not(.mosaic-empty-row) .mosaic-innergrid-row .mosaic-grid-cell, .mosaic-panel.mosaic-advanced .balavec:not(.mosaic-empty-row) .mosaic-innergrid-row .mosaic-grid-cell {
+.mosaic-panel.mosaic-advanced .mosaic-grid-row:not(.mosaic-empty-row):not(:last-child) .mosaic-innergrid-row .mosaic-grid-cell, .mosaic-panel.mosaic-advanced .balavec:not(.mosaic-empty-row):not(:last-child) .mosaic-innergrid-row .mosaic-grid-cell {
   padding: 5px;
   border-left: 2px dashed #ccc;
 }
 
-.mosaic-panel.mosaic-advanced .mosaic-grid-row:not(.mosaic-empty-row) .mosaic-innergrid-row .mosaic-grid-cell:first-child, .mosaic-panel.mosaic-advanced .balavec:not(.mosaic-empty-row) .mosaic-innergrid-row .mosaic-grid-cell:first-child {
+.mosaic-panel.mosaic-advanced .mosaic-grid-row:not(.mosaic-empty-row):not(:last-child) .mosaic-innergrid-row .mosaic-grid-cell:first-child, .mosaic-panel.mosaic-advanced .balavec:not(.mosaic-empty-row):not(:last-child) .mosaic-innergrid-row .mosaic-grid-cell:first-child {
   border-left: none;
 }
 
@@ -1944,26 +1945,30 @@ input[type="button"].btn-block {
   height: 12px;
 }
 
-.mosaic-panel.mosaic-advanced.mosaic-panel-dragging .mosaic-grid-row, .mosaic-panel.mosaic-advanced.mosaic-panel-dragging .balavec {
+.mosaic-panel.mosaic-advanced.mosaic-panel-dragging .mosaic-grid-row:not(:last-child), .mosaic-panel.mosaic-advanced.mosaic-panel-dragging .balavec:not(:last-child) {
   border-top: 2px dashed #ccc;
 }
 
-.mosaic-panel.mosaic-advanced.mosaic-panel-dragging .mosaic-grid-row.mosaic-empty-row, .mosaic-panel.mosaic-advanced.mosaic-panel-dragging .mosaic-empty-row.balavec {
+.mosaic-panel.mosaic-advanced.mosaic-panel-dragging .mosaic-grid-row:not(:last-child).mosaic-empty-row, .mosaic-panel.mosaic-advanced.mosaic-panel-dragging .balavec:not(:last-child).mosaic-empty-row {
   margin-top: 6px;
   height: 12px;
   border: none;
 }
 
-.mosaic-panel.mosaic-advanced .mosaic-grid-row:not(.mosaic-empty-row):before, .mosaic-panel.mosaic-advanced .balavec:not(.mosaic-empty-row):before {
+.mosaic-panel.mosaic-advanced .mosaic-grid-row:not(.mosaic-empty-row):not(:last-child):before, .mosaic-panel.mosaic-advanced .balavec:not(.mosaic-empty-row):not(:last-child):before {
   position: absolute;
   display: block;
   content: attr(class);
-  color: #ccc;
+  color: gray;
   font-weight: bold;
+  left: 0;
   right: 0;
   bottom: 0;
   z-index: 100;
   white-space: nowrap;
+  background: #fcfcfc;
+  text-align: right;
+  padding: 0 5px;
 }
 
 /* @end */
