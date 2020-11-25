@@ -13,6 +13,9 @@ Changelog
 - Add row columns presets feature for the row stiles
   [balavec]
 
+- Fix advanced mode tile insert
+  [balavec]
+
 2.2.2 (2020-04-07)
 ------------------
 
