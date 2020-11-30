@@ -16,6 +16,9 @@ Changelog
 - Fix advanced mode tile insert
   [balavec]
 
+- Update for Boostrap 5
+  [agitator]
+
 2.2.2 (2020-04-07)
 ------------------
 

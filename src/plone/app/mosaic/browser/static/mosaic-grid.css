@@ -7,12 +7,24 @@
   display: none;
 }
 
-.mosaic-grid-row, .balavec {
+.mosaic-grid-row {
   position: relative;
+  --bs-gutter-x: 1.5rem;
+  --bs-gutter-y: 0;
   display: flex;
   flex-wrap: wrap;
-  margin-right: -15px;
-  margin-left: -15px;
+  margin-top: calc(var(--bs-gutter-y) * -1);
+  margin-right: calc(var(--bs-gutter-x) / -2);
+  margin-left: calc(var(--bs-gutter-x) / -2);
+}
+
+.mosaic-grid-row > * {
+  flex-shrink: 0;
+  width: 100%;
+  max-width: 100%;
+  padding-right: calc(var(--bs-gutter-x) / 2);
+  padding-left: calc(var(--bs-gutter-x) / 2);
+  margin-top: var(--bs-gutter-y);
 }
 
 body.template-layout.no-portlet-columns .outer-wrapper > .container,
@@ -25,89 +37,38 @@ body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container {
   margin-left: auto;
 }
 
-body.template-layout.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row, body.template-layout.no-portlet-columns .outer-wrapper > .container .balavec,
-body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row,
-body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .balavec {
+body.template-layout.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row,
+body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row {
+  margin-right: auto;
+  margin-left: auto;
+  --bs-gutter-x: 1.5rem;
+  width: 100%;
+  padding-right: calc(var(--bs-gutter-x) / 2);
+  padding-left: calc(var(--bs-gutter-x) / 2);
   margin-right: auto;
   margin-left: auto;
 }
 
-@media (min-width: 576px) {
-  body.template-layout.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row, body.template-layout.no-portlet-columns .outer-wrapper > .container .balavec,
-  body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row,
-  body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .balavec {
-    max-width: 540px;
-  }
-}
-
-@media (min-width: 768px) {
-  body.template-layout.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row, body.template-layout.no-portlet-columns .outer-wrapper > .container .balavec,
-  body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row,
-  body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .balavec {
-    max-width: 720px;
-  }
-}
-
-@media (min-width: 992px) {
-  body.template-layout.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row, body.template-layout.no-portlet-columns .outer-wrapper > .container .balavec,
-  body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row,
-  body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .balavec {
-    max-width: 960px;
-  }
-}
-
-@media (min-width: 1200px) {
-  body.template-layout.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row, body.template-layout.no-portlet-columns .outer-wrapper > .container .balavec,
-  body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row,
-  body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .balavec {
-    max-width: 1140px;
-  }
-}
-
-body.template-layout.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row .mosaic-innergrid-row, body.template-layout.no-portlet-columns .outer-wrapper > .container .balavec .mosaic-innergrid-row,
-body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row .mosaic-innergrid-row,
-body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .balavec .mosaic-innergrid-row {
+body.template-layout.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row .mosaic-innergrid-row,
+body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row .mosaic-innergrid-row {
   width: auto;
 }
 
-body.template-layout.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row.mosaic-grid-row-fluid, body.template-layout.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row-fluid.balavec,
-body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row.mosaic-grid-row-fluid,
-body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row-fluid.balavec {
+body.template-layout.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row.mosaic-grid-row-fluid,
+body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row.mosaic-grid-row-fluid {
   max-width: none;
   margin-right: -15px;
   margin-left: -15px;
 }
 
-@media (min-width: 576px) {
-  body.plone-toolbar-left-default.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row, body.plone-toolbar-left-default.no-portlet-columns .outer-wrapper > .container .balavec,
-  body.plone-toolbar-left-expanded.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row,
-  body.plone-toolbar-left-expanded.no-portlet-columns .outer-wrapper > .container .balavec {
-    max-width: 540px;
-  }
-}
-
-@media (min-width: 768px) {
-  body.plone-toolbar-left-default.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row, body.plone-toolbar-left-default.no-portlet-columns .outer-wrapper > .container .balavec,
-  body.plone-toolbar-left-expanded.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row,
-  body.plone-toolbar-left-expanded.no-portlet-columns .outer-wrapper > .container .balavec {
-    max-width: 720px;
-  }
-}
-
-@media (min-width: 992px) {
-  body.plone-toolbar-left-default.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row, body.plone-toolbar-left-default.no-portlet-columns .outer-wrapper > .container .balavec,
-  body.plone-toolbar-left-expanded.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row,
-  body.plone-toolbar-left-expanded.no-portlet-columns .outer-wrapper > .container .balavec {
-    max-width: 960px;
-  }
-}
-
-@media (min-width: 1200px) {
-  body.plone-toolbar-left-default.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row, body.plone-toolbar-left-default.no-portlet-columns .outer-wrapper > .container .balavec,
-  body.plone-toolbar-left-expanded.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row,
-  body.plone-toolbar-left-expanded.no-portlet-columns .outer-wrapper > .container .balavec {
-    max-width: 1140px;
-  }
+body.plone-toolbar-left-default.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row,
+body.plone-toolbar-left-expanded.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row {
+  --bs-gutter-x: 1.5rem;
+  width: 100%;
+  padding-right: calc(var(--bs-gutter-x) / 2);
+  padding-left: calc(var(--bs-gutter-x) / 2);
+  margin-right: auto;
+  margin-left: auto;
 }
 
 /*# sourceMappingURL=mosaic-grid.css.map */

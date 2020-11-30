@@ -16,14 +16,12 @@
 
 .mosaic-grid-row {
   position: relative;
-  display: flex;
-  flex-wrap: wrap;
-  margin-right: -15px;
-  margin-left: -15px;
-}
+  @include make-row();
 
-.balavec {
-  @extend .mosaic-grid-row
+  > * {
+    @include make-col-ready();
+  }
+
 }
 
 body.template-layout,
@@ -39,7 +37,7 @@ body.mosaic-enabled {
       .mosaic-grid-row {
         margin-right: auto;
         margin-left: auto;
-        @include make-container-max-widths();
+        @include make-container();
         .mosaic-innergrid-row {
           width: auto;
         }
@@ -58,7 +56,7 @@ body.plone-toolbar-left-expanded {
   &.no-portlet-columns {
     .outer-wrapper > .container {
       .mosaic-grid-row {
-        @include make-container-max-widths();
+        @include make-container();
       }
     }
   }
