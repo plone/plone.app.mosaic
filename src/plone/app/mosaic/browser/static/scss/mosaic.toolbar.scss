@@ -2,7 +2,7 @@
 @import "../../../../../../../node_modules/bootstrap/scss/variables";
 @import "../../../../../../../node_modules/bootstrap/scss/mixins";
 @import "../../../../../../../node_modules/bootstrap/scss/navbar";
-@import "../../../../../../../node_modules/bootstrap/scss/buttons";
+// @import "../../../../../../../node_modules/bootstrap/scss/buttons";
 @import "variables.plone.scss";
 
 $mosaic-toolbar-height: 40px;
@@ -41,22 +41,22 @@ $mosaic-toolbar-color: #2c6596;
       border: 0;
   }
 
-  button {
-      @extend .btn;
-      @extend .btn-secondary;
-      margin: 0 5px 0 0;
+  // button {
+  //     @extend .btn;
+  //     @extend .btn-secondary;
+  //     margin: 0 5px 0 0;
 
-      &.mosaic-button-save {
-        @extend .btn-success;
-        &:hover {
-          @extend .btn-success:hover;
-        }
-      }
+  //     &.mosaic-button-save {
+  //       @extend .btn-success;
+  //       &:hover {
+  //         @extend .btn-success:hover;
+  //       }
+  //     }
 
-      &:hover {
-        @extend .btn-secondary:hover;
-      }
-  }
+  //     &:hover {
+  //       @extend .btn-secondary:hover;
+  //     }
+  // }
 
   .mosaic-menu {
     height: $input-height;
@@ -95,16 +95,16 @@ $mosaic-toolbar-color: #2c6596;
       }
 
       &:hover {
-        @extend .btn-primary:hover;
+        // @extend .btn-primary:hover;
         a.select2-choice {
-          @extend .btn-primary:hover;
+          // @extend .btn-primary:hover;
         }
       }
 
       &.select2-dropdown-open {
-        @extend .btn-primary:active;
+        // @extend .btn-primary:active;
         a.select2-choice {
-          @extend .btn-primary:active;
+          // @extend .btn-primary:active;
         }
       }
     }
