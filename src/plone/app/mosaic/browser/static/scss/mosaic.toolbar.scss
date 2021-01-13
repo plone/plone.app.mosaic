@@ -5,261 +5,269 @@
 // @import "../../../../../../../node_modules/bootstrap/scss/buttons";
 @import "variables.plone.scss";
 
-$mosaic-toolbar-height: 40px;
-$mosaic-toolbar-color: #2c6596;
-
-.caret {
-  display: inline-block;
-  width: 0;
-  height: 0;
-  margin-left: 2px;
-  vertical-align: middle;
-  border-top:   $plone-caret-width-base dashed;
-  border-right: $plone-caret-width-base solid transparent;
-  border-left:  $plone-caret-width-base solid transparent;
-}
+// $mosaic-toolbar-height: 40px;
+// $mosaic-toolbar-color: #2c6596;
 
 .mosaic-toolbar {
-  position: fixed;
-  top: 0;
-  right: 0;
-  left: 0;
   z-index: $zindex-fixed;
-  padding: 10px;
+}
 
-  background: $mosaic-toolbar-color;
+// .caret {
+//   display: inline-block;
+//   width: 0;
+//   height: 0;
+//   margin-left: 2px;
+//   vertical-align: middle;
+//   border-top:   $plone-caret-width-base dashed;
+//   border-right: $plone-caret-width-base solid transparent;
+//   border-left:  $plone-caret-width-base solid transparent;
+// }
 
-  .select2-display-none {
-    display: none;
+.mosaic-toolbar {
+  //   position: fixed;
+  //   top: 0;
+  //   right: 0;
+  //   left: 0;
+  //   z-index: $zindex-fixed;
+  //   padding: 10px;
+
+  //   background: $mosaic-toolbar-color;
+
+  //   .select2-display-none {
+  //     display: none;
+  //   }
+
+  //   fieldset {
+  //       display: inline;
+
+  //       margin: 0 1em 0 0;
+  //       padding: 0;
+  //       border: 0;
+  //   }
+
+  //   // button {
+  //   //     @extend .btn;
+  //   //     @extend .btn-secondary;
+  //   //     margin: 0 5px 0 0;
+
+  //   //     &.mosaic-button-save {
+  //   //       @extend .btn-success;
+  //   //       &:hover {
+  //   //         @extend .btn-success:hover;
+  //   //       }
+  //   //     }
+
+  //   //     &:hover {
+  //   //       @extend .btn-secondary:hover;
+  //   //     }
+  //   // }
+  .select2-container {
+    margin-bottom: 0;
   }
-
-  fieldset {
-      display: inline;
-
-      margin: 0 1em 0 0;
-      padding: 0;
-      border: 0;
-  }
-
-  // button {
-  //     @extend .btn;
-  //     @extend .btn-secondary;
-  //     margin: 0 5px 0 0;
-
-  //     &.mosaic-button-save {
-  //       @extend .btn-success;
-  //       &:hover {
-  //         @extend .btn-success:hover;
-  //       }
-  //     }
-
-  //     &:hover {
-  //       @extend .btn-secondary:hover;
-  //     }
-  // }
 
   .mosaic-menu {
-    height: $input-height;
-    padding: $plone-padding-base-vertical $plone-padding-base-horizontal;
-    font-size: $font-size-base;
-    line-height: $line-height-base;
-    color: $input-color;
-    background-color: $input-bg;
-    background-image: none;
-    border: 1px solid $input-border-color;
-    border-radius: $input-border-radius;
-    display: inline-block;
-    margin: 0 5px 0 0;
-    width: auto;
+    //     height: $input-height;
+    //     padding: $plone-padding-base-vertical $plone-padding-base-horizontal;
+    //     font-size: $font-size-base;
+    //     line-height: $line-height-base;
+    //     color: $input-color;
+    //     background-color: $input-bg;
+    //     background-image: none;
+    //     border: 1px solid $input-border-color;
+    //     border-radius: $input-border-radius;
+    //     display: inline-block;
+    //     margin: 0 5px 0 0;
+    //     width: auto;
 
-    &.mosaic-menu-insert {
-        margin-right: 0;
-    }
+    //     &.mosaic-menu-insert {
+    //         margin-right: 0;
+    //     }
 
-    /* Apply bootstrap styles for select2 menus */
-    &.select2-container {
-      a.select2-choice {
-        border: 0;
-        padding: 0;
-        box-shadow: none;
+    //     /* Apply bootstrap styles for select2 menus */
+    //     &.select2-container {
+    //       a.select2-choice {
+    //         border: 0;
+    //         padding: 0;
+    //         box-shadow: none;
 
-        &, &:hover {
-          background-color: transparent;
-          background-image: none;
-        }
-        .select2-arrow {
-          border: 0;
-          background: none;
-          b { @extend .caret; }
-        }
-      }
+    //         &, &:hover {
+    //           background-color: transparent;
+    //           background-image: none;
+    //         }
+    //         .select2-arrow {
+    //           border: 0;
+    //           background: none;
+    //           b { @extend .caret; }
+    //         }
+    //       }
 
-      &:hover {
-        // @extend .btn-primary:hover;
-        a.select2-choice {
-          // @extend .btn-primary:hover;
-        }
-      }
+    //       &:hover {
+    //         // @extend .btn-primary:hover;
+    //         a.select2-choice {
+    //           // @extend .btn-primary:hover;
+    //         }
+    //       }
 
-      &.select2-dropdown-open {
-        // @extend .btn-primary:active;
-        a.select2-choice {
-          // @extend .btn-primary:active;
-        }
-      }
-    }
+    //       &.select2-dropdown-open {
+    //         // @extend .btn-primary:active;
+    //         a.select2-choice {
+    //           // @extend .btn-primary:active;
+    //         }
+    //       }
+    //     }
   }
 
-  .mosaic-button-group {
-    display: inline-block;
-    position: relative;
+//   .mosaic-button-group {
+//     display: inline-block;
+//     position: relative;
 
-    .btn-container {
-      display: none;
-    }
-    &.active {
-      .btn-container {
-        display: block;
-        left: 0px;
-        position: absolute;
-        // top: $mosaic-toolbar-height;
-        top: 33px;
-      }
-    }
+//     .btn-container {
+//       display: none;
+//     }
 
-    .btn-container {
-      background-color: $mosaic-toolbar-color;
+//     &.active {
+//       .btn-container {
+//         display: block!important;
+//         left: 0px;
+//         position: absolute;
+//         // top: $mosaic-toolbar-height;
+//         top: 33px;
+//       }
+//     }
 
-      .mosaic-button {
-        border-radius: 0px;
-        min-width: 170px;
-        text-align: left;
-        width: 100%;
-      }
-    }
-  }
-}
+//     .btn-container {
+//       // background-color: $secondary;
 
-.mosaic-inline-toolbar {
-  position: relative;
-  width: 100%;
-}
+//       .mosaic-button {
+//         // border-radius: 0px;
+//         // min-width: 170px;
+//         text-align: left;
+//         width: 100%;
+//       }
+//     }
+//   }
+// }
 
-.mosaic-toolbar-content {
-  display: flex;
-  flex-flow: wrap;
-  justify-content: space-between;
-  min-height: $mosaic-toolbar-height;
-  background: $mosaic-toolbar-color;
-}
+// .mosaic-inline-toolbar {
+//   position: relative;
+//   width: 100%;
+// }
 
-.mosaic-toolbar-primary-functions {
-    padding-left: 0;
-    box-shadow: none;
-}
+// .mosaic-toolbar-content {
+//   display: flex;
+//   flex-flow: wrap;
+//   justify-content: space-between;
+//   min-height: $mosaic-toolbar-height;
+//   background: $mosaic-toolbar-color;
+// }
 
-.mosaic-toolbar-secondary-functions {
-    box-shadow: none;
-}
+// .mosaic-toolbar-primary-functions {
+//     padding-left: 0;
+//     box-shadow: none;
+// }
 
-@media screen and (max-width: 768px) {
-    .mosaic-toolbar-primary-functions,
-    .mosaic-toolbar-secondary-functions {
-        padding: 0 15px;
-    }
-}
+// .mosaic-toolbar-secondary-functions {
+//     box-shadow: none;
+// }
 
-/* Hide mosaic-menu labels with select2 */
-.mosaic-enabled .select2-results {
-  max-height: none;
-  li.select2-result.mosaic-option.mosaic-option-none {
-    display: none !important;
-  }
-}
+// @media screen and (max-width: 768px) {
+//     .mosaic-toolbar-primary-functions,
+//     .mosaic-toolbar-secondary-functions {
+//         padding: 0 15px;
+//     }
+// }
 
-.mosaic-enabled .select2-hidden-accessible { display: none; }  // For Plone 4
+// /* Hide mosaic-menu labels with select2 */
+// .mosaic-enabled .select2-results {
+//   max-height: none;
+//   li.select2-result.mosaic-option.mosaic-option-none {
+//     display: none !important;
+//   }
+// }
 
-/* Apply bootstrap toolbar styles for select2 results */
-.mosaic-dropdown {
-  @extend .navbar;
-  @extend .mosaic-toolbar-content;
-  background: white;
+// .mosaic-enabled .select2-hidden-accessible { display: none; }  // For Plone 4
 
-  li.select2-disabled {
-    background: none;
-    color: #888888;
-  }
+// /* Apply bootstrap toolbar styles for select2 results */
+// .mosaic-dropdown {
+//   @extend .navbar;
+//   @extend .mosaic-toolbar-content;
+//   background: white;
 
-  /* Fix dropdown positioning */
-  position: fixed !important;
-  top: 53px !important;
-  left: auto !important;
-  right: 0 !important;
+//   li.select2-disabled {
+//     background: none;
+//     color: #888888;
+//   }
 
-  /* Layout menu items in horizontally aligned groups */
-  & > ul {
-    float: right;
-    & > li {
-      float: left;
-      margin-right: 5px;
-    }
-  }
+//   /* Fix dropdown positioning */
+//   position: fixed !important;
+//   top: 53px !important;
+//   left: auto !important;
+//   right: 0 !important;
 
-  /* Fix border to better fit with navbar */
-  &.select2-drop-auto-width {
-    border-top: none;
-  }
+//   /* Layout menu items in horizontally aligned groups */
+//   & > ul {
+//     float: right;
+//     & > li {
+//       float: left;
+//       margin-right: 5px;
+//     }
+//   }
 
-  /* Avoid select2 from stealing TinyMCE focus */
-  .select2-focusser,
-  .select2-search,
-  .select2-search input {
-    display: none !important;
-  }
-}
+//   /* Fix border to better fit with navbar */
+//   &.select2-drop-auto-width {
+//     border-top: none;
+//   }
 
-.mosaic-select-layout{
-  ul{
-    list-style: none;
-    margin:0;
-    padding:0;
-    li{
-      float: left;
-      margin: 2px;
+//   /* Avoid select2 from stealing TinyMCE focus */
+//   .select2-focusser,
+//   .select2-search,
+//   .select2-search input {
+//     display: none !important;
+//   }
+// }
 
-      img{
-        max-height: 300px;
-        max-width: 300px;
-      }
-      p{
-        font-size: 125%;
-        text-align: center;
-      }
+// .mosaic-select-layout{
+//   ul{
+//     list-style: none;
+//     margin:0;
+//     padding:0;
+//     li{
+//       float: left;
+//       margin: 2px;
 
-      &:hover{
-        outline: 1px solid #DDDDDD;
-        background-color: white;
-      }
-    }
-  }
-}
+//       img{
+//         max-height: 300px;
+//         max-width: 300px;
+//       }
+//       p{
+//         font-size: 125%;
+//         text-align: center;
+//       }
 
-.plone-modal-footer{
-  clear: both;
-}
+//       &:hover{
+//         outline: 1px solid #DDDDDD;
+//         background-color: white;
+//       }
+//     }
+//   }
+// }
 
-// fixes for dragging images
-.mosaic-enabled {
-  .mosaic-tile img {
-    pointer-events: none;
-  }
-  .mosaic-tile .mce-edit-focus img {
-    pointer-events: all;
-  }
-}
+// .plone-modal-footer{
+//   clear: both;
+// }
 
-@media screen and (max-width: 768px) {
-  .mosaic-dropdown {
-    top: 99px !important;
-  }
-}
+// // fixes for dragging images
+// .mosaic-enabled {
+//   .mosaic-tile img {
+//     pointer-events: none;
+//   }
+//   .mosaic-tile .mce-edit-focus img {
+//     pointer-events: all;
+//   }
+// }
+
+// @media screen and (max-width: 768px) {
+//   .mosaic-dropdown {
+//     top: 99px !important;
+//   }
+// }

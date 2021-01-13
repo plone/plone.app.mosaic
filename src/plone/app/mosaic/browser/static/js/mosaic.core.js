@@ -330,7 +330,7 @@ define([
 
     // Add toolbar div below menu
     $("body").prepend($(document.createElement("div"))
-      .addClass("mosaic-toolbar")
+      .addClass("mosaic-toolbar bg-light position-fixed top-0 start-0 end-0 p-2")
     );
 
     // Add the toolbar to the options

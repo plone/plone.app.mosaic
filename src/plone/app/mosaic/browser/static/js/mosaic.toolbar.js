@@ -168,18 +168,30 @@ define([
       }
 
     } else {
-      $el = $(document.createElement("button"));
-      // Create button
-      parent.append($el
-        .addClass("mosaic-button mosaic-button-" + normalizeClass(action.name) + (action.icon ? ' mosaic-icon' : ''))
-        .html(action.label)
-        .attr("title", action.label)
-        .attr("type", "button")
-        .data("action", action.action)
-        .mousedown(function () {
-          $(this).mosaicExecAction();
-        })
-      );
+
+      if(normalizeClass(action.name) == "layout") {
+        $el = $(document.createElement("div"));
+        // Create button
+        parent.append($el
+          .addClass("ms-3 d-flex align-items-center me-2 text-secondary mosaic-button mosaic-button-" + normalizeClass(action.name) + (action.icon ? ' mosaic-icon' : ''))
+          .html(action.label)
+        );
+  
+      } else {
+        $el = $(document.createElement("button"));
+        // Create button
+        parent.append($el
+          .addClass("btn btn-sm btn-secondary mosaic-button mosaic-button-" + normalizeClass(action.name) + (action.icon ? ' mosaic-icon' : ''))
+          .html(action.label)
+          .attr("title", action.label)
+          .attr("type", "button")
+          .data("action", action.action)
+          .mousedown(function () {
+            $(this).mosaicExecAction();
+          })
+        );  
+      }
+
     }
     if($.mosaic.actionManager.actions[action.name]){
       if(!$.mosaic.actionManager.actions[action.name].visible()){
@@ -200,7 +212,7 @@ define([
         actions.primary_actions.append(
           $(document.createElement("fieldset"))
             .addClass(
-                "mosaic-button-group mosaic-button-group-" +
+                "d-flex d-grid gap-2 btn-group mosaic-button-group mosaic-button-group-" +
                 normalizeClass(action_group.name))
         );
         elm_action_group = actions.primary_actions.children(
@@ -297,25 +309,25 @@ define([
 
       // Add mosaic toolbar class
       obj.append($(document.createElement("div"))
-        .addClass("mosaic-inline-toolbar")
+        .addClass("mosaic-inline-toolbar w-100")
       );
       obj = obj.children(".mosaic-inline-toolbar");
 
       // Add content
       obj.append($(document.createElement("div"))
-        .addClass("mosaic-toolbar-content")
+        .addClass("mosaic-toolbar-content d-flex justify-content-between")
       );
       content = obj.children(".mosaic-toolbar-content");
 
       // Add primary and secondary function div's
       actions = {};
       content.append($(document.createElement("div"))
-        .addClass("mosaic-toolbar-primary-functions")
+        .addClass("mosaic-toolbar-primary-functions d-flex d-grid gap-2")
       );
       actions.primary_actions =
         content.children(".mosaic-toolbar-primary-functions");
       content.append($(document.createElement("div"))
-        .addClass("mosaic-toolbar-secondary-functions")
+        .addClass("mosaic-toolbar-secondary-functions d-flex d-grid gap-2")
       );
       actions.secondary_actions =
         content.children(".mosaic-toolbar-secondary-functions");
@@ -337,13 +349,13 @@ define([
             action_group = $.mosaic.options[a][x];
             var classNamePart = normalizeClass($.mosaic.options[a][x].name);
             var $group = $(document.createElement("div"))
-                         .addClass("mosaic-button-group mosaic-button-group-" +
+                         .addClass("d-flex mosaic-button-group mosaic-button-group-" +
                           classNamePart);
             $group.append(AddControl($group, $.extend({}, true, action_group, {
               action: action_group.name.toLowerCase(),
               name: action_group.name.toLowerCase()
             })));
-            var $btnContainer = $(document.createElement("div")).addClass('btn-container');
+            var $btnContainer = $(document.createElement("div")).addClass('btn-container d-flex d-grid gap-2');
             $group.append($btnContainer);
             actions[a].append($group);
             for (y = 0; y < action_group.actions.length; y += 1) {
