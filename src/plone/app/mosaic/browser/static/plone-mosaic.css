@@ -1,3 +1,4 @@
+@charset "UTF-8";
 .nav {
   display: flex;
   flex-wrap: wrap;
@@ -90,7 +91,7 @@
   display: block;
 }
 
-.navbar {
+.navbar, .mosaic-dropdown {
   position: relative;
   display: flex;
   flex-wrap: wrap;
@@ -100,8 +101,11 @@
   padding-bottom: 0.5rem;
 }
 
-.navbar > .container,
-.navbar > .container-fluid, .navbar > .container-sm, .navbar > .container-md, .navbar > .container-lg, .navbar > .container-xl, .navbar > .container-xxl {
+.navbar > .container, .mosaic-dropdown .navbar > .container, .navbar .mosaic-dropdown > .container, .mosaic-dropdown > .container,
+.navbar > .container-fluid,
+.mosaic-dropdown .navbar > .container-fluid,
+.navbar .mosaic-dropdown > .container-fluid,
+.mosaic-dropdown > .container-fluid, .navbar > .container-sm, .mosaic-dropdown .navbar > .container-sm, .navbar .mosaic-dropdown > .container-sm, .mosaic-dropdown > .container-sm, .navbar > .container-md, .mosaic-dropdown .navbar > .container-md, .navbar .mosaic-dropdown > .container-md, .mosaic-dropdown > .container-md, .navbar > .container-lg, .mosaic-dropdown .navbar > .container-lg, .navbar .mosaic-dropdown > .container-lg, .mosaic-dropdown > .container-lg, .navbar > .container-xl, .mosaic-dropdown .navbar > .container-xl, .navbar .mosaic-dropdown > .container-xl, .mosaic-dropdown > .container-xl, .navbar > .container-xxl, .mosaic-dropdown .navbar > .container-xxl, .navbar .mosaic-dropdown > .container-xxl, .mosaic-dropdown > .container-xxl {
   display: flex;
   flex-wrap: inherit;
   align-items: center;
@@ -409,7 +413,7 @@
   color: #fff;
 }
 
-.navbar {
+.navbar, .mosaic-dropdown {
   position: relative;
   display: flex;
   flex-wrap: wrap;
@@ -419,8 +423,11 @@
   padding-bottom: 0.5rem;
 }
 
-.navbar > .container,
-.navbar > .container-fluid, .navbar > .container-sm, .navbar > .container-md, .navbar > .container-lg, .navbar > .container-xl, .navbar > .container-xxl {
+.navbar > .container, .mosaic-dropdown .navbar > .container, .navbar .mosaic-dropdown > .container, .mosaic-dropdown > .container,
+.navbar > .container-fluid,
+.mosaic-dropdown .navbar > .container-fluid,
+.navbar .mosaic-dropdown > .container-fluid,
+.mosaic-dropdown > .container-fluid, .navbar > .container-sm, .mosaic-dropdown .navbar > .container-sm, .navbar .mosaic-dropdown > .container-sm, .mosaic-dropdown > .container-sm, .navbar > .container-md, .mosaic-dropdown .navbar > .container-md, .navbar .mosaic-dropdown > .container-md, .mosaic-dropdown > .container-md, .navbar > .container-lg, .mosaic-dropdown .navbar > .container-lg, .navbar .mosaic-dropdown > .container-lg, .mosaic-dropdown > .container-lg, .navbar > .container-xl, .mosaic-dropdown .navbar > .container-xl, .navbar .mosaic-dropdown > .container-xl, .mosaic-dropdown > .container-xl, .navbar > .container-xxl, .mosaic-dropdown .navbar > .container-xxl, .navbar .mosaic-dropdown > .container-xxl, .mosaic-dropdown > .container-xxl {
   display: flex;
   flex-wrap: inherit;
   align-items: center;
@@ -732,8 +739,127 @@
   z-index: 1030;
 }
 
+.mosaic-toolbar .select2-display-none {
+  display: none;
+}
+
 .mosaic-toolbar .select2-container {
   margin-bottom: 0;
+}
+
+.mosaic-toolbar .mosaic-menu {
+  width: auto;
+}
+
+.mosaic-toolbar .mosaic-menu.select2-container a.select2-choice {
+  border: 0;
+  padding: 0;
+  box-shadow: none;
+}
+
+.mosaic-toolbar .mosaic-menu.select2-container a.select2-choice, .mosaic-toolbar .mosaic-menu.select2-container a.select2-choice:hover {
+  background-color: transparent;
+  background-image: none;
+}
+
+.mosaic-toolbar .mosaic-menu.select2-container a.select2-choice .select2-arrow {
+  border: 0;
+  background: none;
+}
+
+.mosaic-toolbar-content, .mosaic-dropdown {
+  display: flex;
+  flex-flow: wrap;
+  justify-content: space-between;
+}
+
+.mosaic-toolbar-secondary-functions {
+  box-shadow: none;
+}
+
+/* Hide mosaic-menu labels with select2 */
+.mosaic-enabled .select2-results {
+  max-height: none;
+  width: 100%;
+}
+
+.mosaic-enabled .select2-results li.select2-result.mosaic-option.mosaic-option-none {
+  display: none !important;
+}
+
+/* Apply bootstrap toolbar styles for select2 results */
+.mosaic-dropdown {
+  background: white;
+  /* Fix dropdown positioning */
+  position: fixed !important;
+  top: 53px !important;
+  left: auto !important;
+  right: 0 !important;
+  /* Layout menu items in horizontally aligned groups */
+  /* Avoid select2 from stealing TinyMCE focus */
+}
+
+.mosaic-dropdown li.select2-disabled  {
+  background: none;
+  color: #888888;
+}
+
+.mosaic-dropdown > ul {
+  float: right;
+}
+
+.mosaic-dropdown > ul > li {
+  float: left;
+  margin-right: 5px;
+}
+
+.mosaic-dropdown.select2-drop-active {
+  border: 1px solid gray;
+  border-radius: 0;
+}
+
+.mosaic-dropdown .select2-focusser,
+.mosaic-dropdown .select2-search,
+.mosaic-dropdown .select2-search input {
+  display: none !important;
+}
+
+.mosaic-select-layout ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.mosaic-select-layout ul li {
+  float: left;
+  margin: 2px;
+}
+
+.mosaic-select-layout ul li img {
+  max-height: 300px;
+  max-width: 300px;
+}
+
+.mosaic-select-layout ul li p {
+  font-size: 125%;
+  text-align: center;
+}
+
+.mosaic-select-layout ul li:hover {
+  outline: 1px solid #DDDDDD;
+  background-color: white;
+}
+
+.plone-modal-footer {
+  clear: both;
+}
+
+.mosaic-enabled .mosaic-tile img {
+  pointer-events: none;
+}
+
+.mosaic-enabled .mosaic-tile .mce-edit-focus img {
+  pointer-events: all;
 }
 
 /* Placeholders */
