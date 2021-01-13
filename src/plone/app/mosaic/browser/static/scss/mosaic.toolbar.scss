@@ -33,9 +33,9 @@
 
   //   background: $mosaic-toolbar-color;
 
-  //   .select2-display-none {
-  //     display: none;
-  //   }
+    .select2-display-none {
+      display: none;
+    }
 
   //   fieldset {
   //       display: inline;
@@ -77,44 +77,44 @@
     //     border-radius: $input-border-radius;
     //     display: inline-block;
     //     margin: 0 5px 0 0;
-    //     width: auto;
+        width: auto;
 
     //     &.mosaic-menu-insert {
     //         margin-right: 0;
     //     }
 
     //     /* Apply bootstrap styles for select2 menus */
-    //     &.select2-container {
-    //       a.select2-choice {
-    //         border: 0;
-    //         padding: 0;
-    //         box-shadow: none;
+        &.select2-container {
+          a.select2-choice {
+            border: 0;
+            padding: 0;
+            box-shadow: none;
 
-    //         &, &:hover {
-    //           background-color: transparent;
-    //           background-image: none;
-    //         }
-    //         .select2-arrow {
-    //           border: 0;
-    //           background: none;
-    //           b { @extend .caret; }
-    //         }
-    //       }
+            &, &:hover {
+              background-color: transparent;
+              background-image: none;
+            }
+            .select2-arrow {
+              border: 0;
+              background: none;
+              // b { @extend .caret; }
+            }
+          }
 
-    //       &:hover {
-    //         // @extend .btn-primary:hover;
-    //         a.select2-choice {
-    //           // @extend .btn-primary:hover;
-    //         }
-    //       }
+          &:hover {
+            // @extend .btn-primary:hover;
+            a.select2-choice {
+              // @extend .btn-primary:hover;
+            }
+          }
 
-    //       &.select2-dropdown-open {
-    //         // @extend .btn-primary:active;
-    //         a.select2-choice {
-    //           // @extend .btn-primary:active;
-    //         }
-    //       }
-    //     }
+          &.select2-dropdown-open {
+            // @extend .btn-primary:active;
+            a.select2-choice {
+              // @extend .btn-primary:active;
+            }
+          }
+        }
   }
 
 //   .mosaic-button-group {
@@ -153,22 +153,22 @@
 //   width: 100%;
 // }
 
-// .mosaic-toolbar-content {
-//   display: flex;
-//   flex-flow: wrap;
-//   justify-content: space-between;
+.mosaic-toolbar-content {
+  display: flex;
+  flex-flow: wrap;
+  justify-content: space-between;
 //   min-height: $mosaic-toolbar-height;
 //   background: $mosaic-toolbar-color;
-// }
+}
 
 // .mosaic-toolbar-primary-functions {
 //     padding-left: 0;
 //     box-shadow: none;
 // }
 
-// .mosaic-toolbar-secondary-functions {
-//     box-shadow: none;
-// }
+.mosaic-toolbar-secondary-functions {
+    box-shadow: none;
+}
 
 // @media screen and (max-width: 768px) {
 //     .mosaic-toolbar-primary-functions,
@@ -177,54 +177,60 @@
 //     }
 // }
 
-// /* Hide mosaic-menu labels with select2 */
-// .mosaic-enabled .select2-results {
-//   max-height: none;
-//   li.select2-result.mosaic-option.mosaic-option-none {
-//     display: none !important;
-//   }
-// }
+/* Hide mosaic-menu labels with select2 */
+.mosaic-enabled .select2-results {
+  max-height: none;
+  width: 100%;
+  li.select2-result.mosaic-option.mosaic-option-none {
+    display: none !important;
+  }
+}
 
 // .mosaic-enabled .select2-hidden-accessible { display: none; }  // For Plone 4
 
-// /* Apply bootstrap toolbar styles for select2 results */
-// .mosaic-dropdown {
-//   @extend .navbar;
-//   @extend .mosaic-toolbar-content;
-//   background: white;
+/* Apply bootstrap toolbar styles for select2 results */
+.mosaic-dropdown {
+  @extend .navbar;
+  @extend .mosaic-toolbar-content;
+  background: white;
 
-//   li.select2-disabled {
-//     background: none;
-//     color: #888888;
-//   }
+  li.select2-disabled {
+    background: none;
+    color: #888888;
+  }
 
-//   /* Fix dropdown positioning */
-//   position: fixed !important;
-//   top: 53px !important;
-//   left: auto !important;
-//   right: 0 !important;
+  /* Fix dropdown positioning */
+  position: fixed !important;
+  top: 53px !important;
+  left: auto !important;
+  right: 0 !important;
 
-//   /* Layout menu items in horizontally aligned groups */
-//   & > ul {
-//     float: right;
-//     & > li {
-//       float: left;
-//       margin-right: 5px;
-//     }
-//   }
+  /* Layout menu items in horizontally aligned groups */
+  & > ul {
+    float: right;
+    & > li {
+      float: left;
+      margin-right: 5px;
+    }
+  }
 
 //   /* Fix border to better fit with navbar */
 //   &.select2-drop-auto-width {
 //     border-top: none;
 //   }
 
-//   /* Avoid select2 from stealing TinyMCE focus */
-//   .select2-focusser,
-//   .select2-search,
-//   .select2-search input {
-//     display: none !important;
-//   }
-// }
+  &.select2-drop-active {
+    border: 1px solid gray;
+    border-radius: 0;
+  }
+
+  /* Avoid select2 from stealing TinyMCE focus */
+  .select2-focusser,
+  .select2-search,
+  .select2-search input {
+    display: none !important;
+  }
+}
 
 .mosaic-select-layout{
   ul{
