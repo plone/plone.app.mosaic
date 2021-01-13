@@ -41,10 +41,9 @@ body.template-layout.no-portlet-columns .outer-wrapper > .container .mosaic-grid
 body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row {
   margin-right: auto;
   margin-left: auto;
-  --bs-gutter-x: 1.5rem;
   width: 100%;
-  padding-right: calc(var(--bs-gutter-x) / 2);
-  padding-left: calc(var(--bs-gutter-x) / 2);
+  padding-right: var(--bs-gutter-x, 0.75rem);
+  padding-left: var(--bs-gutter-x, 0.75rem);
   margin-right: auto;
   margin-left: auto;
 }
@@ -63,10 +62,9 @@ body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .mosaic-grid-
 
 body.plone-toolbar-left-default.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row,
 body.plone-toolbar-left-expanded.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row {
-  --bs-gutter-x: 1.5rem;
   width: 100%;
-  padding-right: calc(var(--bs-gutter-x) / 2);
-  padding-left: calc(var(--bs-gutter-x) / 2);
+  padding-right: var(--bs-gutter-x, 0.75rem);
+  padding-left: var(--bs-gutter-x, 0.75rem);
   margin-right: auto;
   margin-left: auto;
 }
