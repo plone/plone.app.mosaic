@@ -1,3 +1,47 @@
+.container,
+.container-fluid,
+.container-sm,
+.container-md,
+.container-lg,
+.container-xl,
+.container-xxl {
+  width: 100%;
+  padding-right: var(--bs-gutter-x, 0.75rem);
+  padding-left: var(--bs-gutter-x, 0.75rem);
+  margin-right: auto;
+  margin-left: auto;
+}
+
+@media (min-width: 576px) {
+  .container, .container-sm {
+    max-width: 540px;
+  }
+}
+
+@media (min-width: 768px) {
+  .container, .container-sm, .container-md {
+    max-width: 720px;
+  }
+}
+
+@media (min-width: 992px) {
+  .container, .container-sm, .container-md, .container-lg {
+    max-width: 960px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .container, .container-sm, .container-md, .container-lg, .container-xl {
+    max-width: 1140px;
+  }
+}
+
+@media (min-width: 1400px) {
+  .container, .container-sm, .container-md, .container-lg, .container-xl, .container-xxl {
+    max-width: 1320px;
+  }
+}
+
 .mosaic-grid-bg {
   position: absolute;
   background: #fff;
@@ -29,44 +73,73 @@
 
 body.template-layout.no-portlet-columns .outer-wrapper > .container,
 body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container {
-  width: 100%;
-  max-width: none;
-  padding-right: 15px;
-  padding-left: 15px;
-  margin-right: auto;
-  margin-left: auto;
+  max-width: unset;
+  padding-left: unset;
+  padding-right: unset;
+}
+
+body.template-layout.no-portlet-columns .outer-wrapper > .container > .row,
+body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container > .row {
+  margin: 0;
+}
+
+body.template-layout.no-portlet-columns .outer-wrapper > .container > .row #portal-column-content,
+body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container > .row #portal-column-content {
+  padding: 0;
 }
 
 body.template-layout.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row,
 body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row {
-  margin-right: auto;
-  margin-left: auto;
   width: 100%;
   padding-right: var(--bs-gutter-x, 0.75rem);
   padding-left: var(--bs-gutter-x, 0.75rem);
   margin-right: auto;
   margin-left: auto;
+  padding: 0;
 }
 
-body.template-layout.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row .mosaic-innergrid-row,
-body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row .mosaic-innergrid-row {
-  width: auto;
+@media (min-width: 576px) {
+  body.template-layout.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row,
+  body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row {
+    max-width: 540px;
+  }
+}
+
+@media (min-width: 768px) {
+  body.template-layout.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row,
+  body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row {
+    max-width: 720px;
+  }
+}
+
+@media (min-width: 992px) {
+  body.template-layout.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row,
+  body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row {
+    max-width: 960px;
+  }
+}
+
+@media (min-width: 1200px) {
+  body.template-layout.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row,
+  body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row {
+    max-width: 1140px;
+  }
+}
+
+@media (min-width: 1400px) {
+  body.template-layout.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row,
+  body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row {
+    max-width: 1320px;
+  }
 }
 
 body.template-layout.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row.mosaic-grid-row-fluid,
 body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row.mosaic-grid-row-fluid {
-  max-width: none;
-  margin-right: -15px;
-  margin-left: -15px;
-}
-
-body.plone-toolbar-left-default.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row,
-body.plone-toolbar-left-expanded.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row {
-  width: 100%;
-  padding-right: var(--bs-gutter-x, 0.75rem);
-  padding-left: var(--bs-gutter-x, 0.75rem);
-  margin-right: auto;
-  margin-left: auto;
+  max-width: unset;
+  padding-left: unset;
+  padding-right: unset;
+  margin-left: 0;
+  margin-right: 0;
 }
 
 /*# sourceMappingURL=mosaic-grid.css.map */
