@@ -736,27 +736,6 @@
   margin-bottom: 0;
 }
 
-.mosaic-toolbar .mosaic-button-group {
-  display: inline-block;
-  position: relative;
-}
-
-.mosaic-toolbar .mosaic-button-group .btn-container {
-  display: none;
-}
-
-.mosaic-toolbar .mosaic-button-group.active .btn-container {
-  display: block !important;
-  left: 0px;
-  position: absolute;
-  top: 33px;
-}
-
-.mosaic-toolbar .mosaic-button-group .btn-container .mosaic-button {
-  text-align: left;
-  width: 100%;
-}
-
 /* Placeholders */
 .mosaic-panel .documentFirstHeading,
 .mosaic-panel .documentDescription {
