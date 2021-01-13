@@ -397,7 +397,7 @@ define([
     $.mosaic.registerAction('customizelayout', {
       exec: function () {
         $.mosaic.setSelectedContentLayout('');  // clear selected layout, will use stored layout then
-        $('.mosaic-toolbar-secondary-functions').show();
+        $('.mosaic-toolbar-secondary-functions').removeClass("d-none");
         $('.mosaic-button-customizelayout').hide();
         $('.mosaic-button-savelayout').show();
         // go through each tile and add movable

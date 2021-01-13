@@ -283,7 +283,7 @@ define([
     if(value){
       $.mosaic.hasContentLayout = true;
       // Need to hide these buttons when not in custom content layout mode
-      $('.mosaic-toolbar-secondary-functions', $.mosaic.document).hide();
+      $('.mosaic-toolbar-secondary-functions', $.mosaic.document).addClass("d-none");
       $('body').removeClass('mosaic-layout-customized');
     }else{
       $('body').addClass('mosaic-layout-customized');
@@ -330,7 +330,7 @@ define([
 
     // Add toolbar div below menu
     $("body").prepend($(document.createElement("div"))
-      .addClass("mosaic-toolbar bg-light position-fixed top-0 start-0 end-0 p-2")
+      .addClass("mosaic-toolbar bg-light position-fixed top-0 start-0 end-0 p-2 border-bottom shadow-sm")
     );
 
     // Add the toolbar to the options

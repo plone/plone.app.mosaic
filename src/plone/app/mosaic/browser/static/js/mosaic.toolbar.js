@@ -202,7 +202,7 @@ define([
   }
 
   $.fn._mosaicToolbarLayoutEditor = function(actions){
-    $('.mosaic-toolbar-secondary-functions', this).show();
+    $('.mosaic-toolbar-secondary-functions', this).removeClass("d-none");
 
     var x, y, action_group, elm_action_group;
     // Add formats to toolbar
@@ -369,7 +369,7 @@ define([
       obj._mosaicToolbarLayoutEditor(actions);
       if($.mosaic.hasContentLayout){
         // hide these options if static
-        $('.mosaic-toolbar-secondary-functions', this).hide();
+        $('.mosaic-toolbar-secondary-functions', this).addClass("d-none");
       }
 
       // Reposition toolbar on scroll
