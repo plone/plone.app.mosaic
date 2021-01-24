@@ -532,6 +532,27 @@ define([
         });
       });
 
+      obj.find('select.mosaic-menu-format').on('select2-open', function (e) {
+        var $format_select = $(this);
+        var $options = $format_select.find('option');
+        var $format_menu = $(".mosaic-dropdown.mosaic-dropdown-format");
+        var action_types = $.mosaic.actionManager.actions;
+        $options.each(function () {
+          var $option = $(this);
+          var action_name = $option.data('action');
+          var action_class = $option.val();
+          var action_type = action_types[action_name];
+          var $menu_option = $format_menu.find('li.mosaic-option').filter(function (i, e) {
+            return $(e).hasClass($option[0].className);
+          });
+          if (action_class && action_type && action_type.check && action_type.check(action_class)) {
+            $menu_option.addClass('mosaic-format-selected');
+          } else {
+            $menu_option.removeClass('mosaic-format-selected');
+          }
+        });
+      });
+
       // Trigger inline validation draft auto save
       var lastChange = (new Date()).getTime();
       $(this).on('selectedtilechange', function () {

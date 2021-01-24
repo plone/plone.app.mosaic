@@ -312,6 +312,13 @@
   background: none;
   color: #888888;
 }
+.mosaic-dropdown li.mosaic-format-selected {
+  border-left: 5px solid #888888;
+  background-color: #dddddd;
+}
+.mosaic-dropdown li.mosaic-format-selected > div.select2-result-label {
+  padding-left: 15px;
+}
 .mosaic-dropdown > ul {
   float: right;
 }

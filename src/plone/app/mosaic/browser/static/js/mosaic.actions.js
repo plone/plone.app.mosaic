@@ -171,7 +171,11 @@ define([
            $(".mosaic-selected-tile", $.mosaic.document)
              .toggleClass(name);
          }
-       }
+       },
+       check: function (name) {
+        name = $.mosaic.getPrefixedClassName(name);
+        return $(".mosaic-selected-tile", $.mosaic.document).hasClass(name);
+      }
      });
 
     // Register generic re-usable toggle tile class format action
@@ -202,6 +206,12 @@ define([
             .parents('.mosaic-grid-row').first()
             .toggleClass(name);
         }
+      },
+      check: function (name) {
+        name = $.mosaic.getPrefixedClassName(name);
+        return $(".mosaic-selected-tile", $.mosaic.document)
+          .parents('.mosaic-grid-row').first()
+          .hasClass(name);
       }
     });
 
