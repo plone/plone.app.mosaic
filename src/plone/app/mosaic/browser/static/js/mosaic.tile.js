@@ -958,7 +958,7 @@ define([
             that.$el.find('.mce-edit-focus').removeClass('mce-edit-focus');
             that._focus();
           }
-        }, 50);
+        }, 150);
       };
       if(that.isRichText() && that.focusCheckCount < 30){
         _checkForTinyFocus();
@@ -1041,11 +1041,13 @@ define([
       // Get element
       var $content = that.$el.find('.mosaic-tile-content');
 
+      // set loaded state
+      that.$el.data('tinymce-loaded', false);
+
       // Remove existing pattern
       try{
         $content.data("pattern-tinymce").destroy();
         $content.removeData("pattern-tinymce");
-        that.$el.data('tinymce-loaded', false);
       }catch(e){
           // this can fail...
       }
@@ -1214,7 +1216,7 @@ define([
                   that.$el.data('delayed-focus', false);
                   setTimeout(function(){
                     that._focus();
-                  }, 100);
+                  }, 50);
                 }
               });
             }
