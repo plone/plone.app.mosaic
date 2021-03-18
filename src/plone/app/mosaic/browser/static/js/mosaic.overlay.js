@@ -127,7 +127,7 @@ define([
     if (mode === 'all' && $.mosaic.overlay_hide_fields) {
 
       // Get form tabs
-      formtabs = form.find("nav");
+      formtabs = form.find("nav, ul.formTabs, select.formTabs");
 
       // Show form tabs
       formtabs.removeClass('mosaic-hidden');
@@ -187,17 +187,21 @@ define([
       });
 
       // Get visible tabs
-      visible_tabs = formtabs.children(':not(.mosaic-hidden)');
+      visible_tabs = formtabs.find('a:not(.mosaic-hidden)');
 
       // Select first tab
-      visible_tabs.eq(0).addClass('active');
-      var $fieldset = form.find('#fieldset-' +
-          visible_tabs.eq(0).attr('href').split('-')[1]);
-      if($fieldset.size() === 0){
-          $fieldset = form.find(
-              'fieldset:not(.mosaic-hidden)').eq(0);
+      if (visible_tabs.length) {
+        visible_tabs.eq(0).addClass('active');
+        var $fieldset = form.find('#fieldset-' +
+            visible_tabs.eq(0).attr('href').split('-')[1]);
+        if($fieldset.size() === 0){
+            $fieldset = form.find(
+                'fieldset:not(.mosaic-hidden)').eq(0);
+        }
+        $fieldset.addClass('active');
+      } else if (formtabs.is('select')) {
+        formtabs[0].value = formtabs.find('option').eq('0').val();
       }
-      $fieldset.addClass('active');
     } else if (mode === 'field') {
 
       // Get fieldset and field

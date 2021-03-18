@@ -755,8 +755,10 @@ define([
       var DragMove = function (event) {
         var helper = $('.mosaic-helper-tile', $.mosaic.document);
         var offset = helper.parents("[data-panel]").offset();
-        helper.css("top", event.pageY + 3 - offset.top);
-        helper.css("left", event.pageX + 3 - offset.left);
+        if (offset) {
+          helper.css("top", event.pageY + 3 - offset.top);
+          helper.css("left", event.pageX + 3 - offset.left);
+        }
       };
       var DragStop = function () {
         var helper = $('.mosaic-helper-tile', $.mosaic.document);
