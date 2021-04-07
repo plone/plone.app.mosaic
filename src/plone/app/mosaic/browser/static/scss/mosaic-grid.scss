@@ -1,83 +1,46 @@
 @import "../../../../../../../node_modules/bootstrap/scss/functions";
 @import "../../../../../../../node_modules/bootstrap/scss/variables";
-@import "variables.bootstrap.scss";
 @import "../../../../../../../node_modules/bootstrap/scss/mixins";
-@import "../../../../../../../node_modules/bootstrap/scss/containers";
-
-@import "variables.plone.scss";
-
-.mosaic-grid-bg {
-  position: absolute;
-  background: #fff;
-  width: 100%;
-  height: 100%;
-  z-index: 100;
-  display: none;
-}
 
 .mosaic-grid-row {
   position: relative;
-  @include make-row();
-  // outline: 1px dotted blue;
-  > * {
-    @include make-col-ready();
-  }
-
 }
 
 body.template-layout,
 body.mosaic-enabled {
   &.no-portlet-columns {
-    .outer-wrapper > .container {
-      // outline: 1px blue solid;
+    .outer-wrapper>.container {
       max-width: unset;
       padding-left: unset;
       padding-right: unset;
 
       >.row {
         margin: 0;
-        // --bs-gutter-x: 0;
+
         #portal-column-content {
           padding: 0;
         }
       }
-      // @include make-container();
 
       .mosaic-grid-row {
-        // outline: 1px solid green;
         @include make-container();
         padding: 0;
-        @each $breakpoint, $container-max-width in $container-max-widths {
+
+        @each $breakpoint,
+        $container-max-width in $container-max-widths {
           @include media-breakpoint-up($breakpoint, $grid-breakpoints) {
-                max-width: $container-max-width;
-            }
+            max-width: $container-max-width;
+          }
         }
       }
 
-
       .mosaic-grid-row.mosaic-grid-row-fluid {
         max-width: unset;
-        // outline: 1px dashed fuchsia;
         padding-left: unset;
         padding-right: unset;
-        // @include make-row();
         margin-left: 0;
         margin-right: 0;
       }
-
     }
   }
 }
-
-// body.plone-toolbar-left-default,
-// body.plone-toolbar-left-expanded {
-//   &.no-portlet-columns {
-//     .outer-wrapper > .container {
-//       .mosaic-grid-row {
-//         // @include make-container();
-//       }
-//     }
-//   }
-// }
-
-
