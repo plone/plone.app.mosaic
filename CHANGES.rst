@@ -4,6 +4,9 @@ Changelog
 2.2.3 (unreleased)
 ------------------
 
+- Add ``row`` class to each ``mosaic-grid-row``, get rid of bootstrap dependencies
+  [balavec]
+
 - Remove obsolete ``mockup-patterns-base`` -> use ``pat-base``
   [petschki]
 
