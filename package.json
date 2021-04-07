@@ -31,6 +31,7 @@
     "webpack-merge": "^0.14.0"
   },
   "dependencies": {
+    "bootstrap": "^5.0.0-beta3",
     "brace": "^0.10.0"
   },
   "scripts": {
