@@ -567,7 +567,7 @@ define([
         // We are in advance mode
         var custom_classes = [];
         $.each(target.attr('class').split(' '), function () {
-          if ((this !== undefined) && (this !== 'mosaic-grid-row') && (this !== 'mosaic-innergrid-row')){
+          if ((this !== undefined) && (this !== 'mosaic-grid-row') && (this !== 'mosaic-innergrid-row') && (this !== 'row')){
             custom_classes.push(this);
           }
         });

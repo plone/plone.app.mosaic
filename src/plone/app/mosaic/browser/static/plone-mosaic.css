@@ -397,6 +397,10 @@
   border: none;
 }
 
+.mosaic-panel.mosaic-advanced .mosaic-grid-row {
+  padding-bottom: 25px !important;
+}
+
 .mosaic-panel.mosaic-advanced .mosaic-grid-row:not(.mosaic-empty-row):not(:last-child):before {
   position: absolute;
   display: block;
@@ -408,14 +412,19 @@
   bottom: 0;
   z-index: 100;
   white-space: nowrap;
-  background: #fcfcfc;
+  background: #e5e4e3;
   text-align: right;
-  padding: 0 5px;
+  padding: 1px 5px;
 }
 
 /* @end */
 .mosaic-set-custom-css {
+  background: #f5f4f3;
   width: 30%;
+}
+
+.mosaic-set-custom-css label {
+  padding-right: 10px;
 }
 
 .mosaic-divider {
