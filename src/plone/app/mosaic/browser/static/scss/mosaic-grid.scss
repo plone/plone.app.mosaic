@@ -191,3 +191,62 @@ body.mosaic-enabled {
 // }
 
 
+// MEDIA QUERY DEBUG STYLES
+// @import "../../../../../../../node_modules/bootstrap/scss/mixins/breakpoints";
+
+// @media (max-width: breakpoint-max('xl', $grid-breakpoints)) {
+//   body {
+//     background: yellow !important;
+
+//     &::before {
+//       content: "up to xl";
+//       position: sticky;
+//       top: 0;
+//       left: 0;
+
+//     }
+//   }
+// }
+
+// @media (max-width: breakpoint-max('lg', $grid-breakpoints)) {
+//   body {
+//     background: lightblue !important;
+
+//     &::before {
+//       content: "up to lg";
+//       position: sticky;
+//       top: 0;
+//       left: 0;
+//     }
+
+//   }
+// }
+
+// @media (max-width: breakpoint-max('md', $grid-breakpoints)) {
+//   body {
+//     background: lightgreen !important;
+
+//     &::before {
+//       content: "up to md";
+//       position: sticky;
+//       top: 0;
+//       left: 0;
+//     }
+
+//   }
+// }
+
+// @media (max-width: breakpoint-max('sm', $grid-breakpoints)) {
+//   body {
+//     background: pink !important;
+
+//     &::before {
+//       content: "up to sm";
+//       position: sticky;
+//       top: 0;
+//       left: 0;
+//     }
+
+//   }
+
+// }
