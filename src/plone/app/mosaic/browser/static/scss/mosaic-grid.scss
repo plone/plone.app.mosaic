@@ -6,30 +6,27 @@
 //
 //@import "variables.plone.scss";
 
+// BREAKPOINT DEFINITIONS COPIED FROM BOOTSTRAP
 // scss-docs-start grid-breakpoints
-$grid-breakpoints: (
-  xs: 0,
+$grid-breakpoints: (xs: 0,
   sm: 576px,
   md: 768px,
   lg: 992px,
   xl: 1200px,
-  xxl: 1400px
-);
+  xxl: 1400px);
 // scss-docs-end grid-breakpoints
 
 // scss-docs-start container-max-widths
-$container-max-widths: (
-  sm: 540px,
+$container-max-widths: (sm: 540px,
   md: 720px,
   lg: 960px,
   xl: 1140px,
-  xxl: 1320px
-);
+  xxl: 1320px);
 // scss-docs-end container-max-widths
 
 @function breakpoint-min($name, $breakpoints: $grid-breakpoints) {
   $min: map-get($breakpoints, $name);
-  @return if($min != 0, $min, null);
+  @return if($min !=0, $min, null);
 }
 
 @function breakpoint-max($name, $breakpoints: $grid-breakpoints) {
@@ -41,6 +38,7 @@ $container-max-widths: (
 // Makes the @content apply to the given breakpoint and wider.
 @mixin media-breakpoint-up($name, $breakpoints: $grid-breakpoints) {
   $min: breakpoint-min($name, $breakpoints);
+
   @if $min {
     @media (min-width: $min) {
       @content;
@@ -52,8 +50,6 @@ $container-max-widths: (
   }
 }
 
-
-
 .mosaic-grid-bg {
   position: absolute;
   background: #fff;
@@ -64,6 +60,7 @@ $container-max-widths: (
 }
 
 .mosaic-grid-row {
+  background: lightblue;
   position: relative;
   --bs-gutter-x: 1.5rem;
   --bs-gutter-y: 0;
@@ -72,7 +69,8 @@ $container-max-widths: (
   margin-top: calc(var(--bs-gutter-y) * -1);
   margin-right: calc(var(--bs-gutter-x) / -2);
   margin-left: calc(var(--bs-gutter-x) / -2);
-  > * {
+
+  >* {
     flex-shrink: 0;
     width: 100%;
     max-width: 100%;
@@ -130,7 +128,7 @@ $container-max-widths: (
 body.template-layout,
 body.mosaic-enabled {
   &.no-portlet-columns {
-    .outer-wrapper > .container {
+    .outer-wrapper>.container {
       // outline: 1px blue solid;
       max-width: unset;
       padding-left: unset;
@@ -138,11 +136,13 @@ body.mosaic-enabled {
 
       >.row {
         margin: 0;
+
         // --bs-gutter-x: 0;
         #portal-column-content {
           padding: 0;
         }
       }
+
       // @include make-container();
 
       .mosaic-grid-row {
@@ -154,16 +154,14 @@ body.mosaic-enabled {
         margin-right: auto;
         margin-left: auto;
         padding: 0;
-        @each $breakpoint, $container-max-width in $container-max-widths {
-          @include media-breakpoint-up($breakpoint, $grid-breakpoints) {
-                max-width: $container-max-width;
-            }
-        }
 
+        @each $breakpoint,
+        $container-max-width in $container-max-widths {
+          @include media-breakpoint-up($breakpoint, $grid-breakpoints) {
+            max-width: $container-max-width;
           }
         }
 
-        //@include make-grid-columns();
       }
 
 
