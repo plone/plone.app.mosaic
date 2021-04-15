@@ -6,6 +6,7 @@
 //
 //@import "variables.plone.scss";
 
+
 // BREAKPOINT DEFINITIONS COPIED FROM BOOTSTRAP
 // scss-docs-start grid-breakpoints
 $grid-breakpoints: (xs: 0,
@@ -50,6 +51,7 @@ $container-max-widths: (sm: 540px,
   }
 }
 
+// MOSAIC GRID STYLES
 .mosaic-grid-bg {
   position: absolute;
   background: #fff;
@@ -60,7 +62,7 @@ $container-max-widths: (sm: 540px,
 }
 
 .mosaic-grid-row {
-  background: lightblue;
+  // background: lightblue;
   position: relative;
   --bs-gutter-x: 1.5rem;
   --bs-gutter-y: 0;
@@ -79,6 +81,7 @@ $container-max-widths: (sm: 540px,
     margin-top: var(--bs-gutter-y);
   }
 
+  // responsive columns size exceptions - order is key!
   @media (max-width: breakpoint-max('md', $grid-breakpoints)) {
 
     // sm size
@@ -89,7 +92,7 @@ $container-max-widths: (sm: 540px,
     .col-5,
     .col-6 {
       width: 50%;
-      background: green;
+      // background: green;
     }
 
     .col-7,
@@ -118,7 +121,7 @@ $container-max-widths: (sm: 540px,
     .col-11,
     .col-12 {
       width: 100%;
-      background: red;
+      // background: red;
     }
   }
 
@@ -164,7 +167,6 @@ body.mosaic-enabled {
 
       }
 
-
       .mosaic-grid-row.mosaic-grid-row-fluid {
         max-width: unset;
         // outline: 1px dashed fuchsia;
@@ -179,6 +181,7 @@ body.mosaic-enabled {
   }
 }
 
+// todo: decide if still needed
 // body.plone-toolbar-left-default,
 // body.plone-toolbar-left-expanded {
 //   &.no-portlet-columns {
