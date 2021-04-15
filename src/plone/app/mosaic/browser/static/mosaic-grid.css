@@ -27,6 +27,42 @@
   margin-top: var(--bs-gutter-y);
 }
 
+@media (max-width: 767.98px) {
+  .mosaic-grid-row .col-1,
+  .mosaic-grid-row .col-2,
+  .mosaic-grid-row .col-3,
+  .mosaic-grid-row .col-4,
+  .mosaic-grid-row .col-5,
+  .mosaic-grid-row .col-6 {
+    width: 50%;
+  }
+  .mosaic-grid-row .col-7,
+  .mosaic-grid-row .col-8,
+  .mosaic-grid-row .col-9,
+  .mosaic-grid-row .col-10,
+  .mosaic-grid-row .col-11,
+  .mosaic-grid-row .col-12 {
+    width: 100%;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .mosaic-grid-row .col-1,
+  .mosaic-grid-row .col-2,
+  .mosaic-grid-row .col-3,
+  .mosaic-grid-row .col-4,
+  .mosaic-grid-row .col-5,
+  .mosaic-grid-row .col-6,
+  .mosaic-grid-row .col-7,
+  .mosaic-grid-row .col-8,
+  .mosaic-grid-row .col-9,
+  .mosaic-grid-row .col-10,
+  .mosaic-grid-row .col-11,
+  .mosaic-grid-row .col-12 {
+    width: 100%;
+  }
+}
+
 body.template-layout.no-portlet-columns .outer-wrapper > .container,
 body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container {
   max-width: unset;
@@ -86,66 +122,6 @@ body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .mosaic-grid-
   body.template-layout.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row,
   body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row {
     max-width: 1320px;
-  }
-}
-
-@media (max-width: 575.98px) {
-  body.template-layout.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row .col-1,
-  body.template-layout.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row .col-2,
-  body.template-layout.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row .col-3,
-  body.template-layout.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row .col-4,
-  body.template-layout.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row .col-5,
-  body.template-layout.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row .col-6,
-  body.template-layout.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row .col-7,
-  body.template-layout.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row .col-8,
-  body.template-layout.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row .col-9,
-  body.template-layout.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row .col-10,
-  body.template-layout.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row .col-11,
-  body.template-layout.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row .col-12,
-  body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row .col-1,
-  body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row .col-2,
-  body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row .col-3,
-  body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row .col-4,
-  body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row .col-5,
-  body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row .col-6,
-  body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row .col-7,
-  body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row .col-8,
-  body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row .col-9,
-  body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row .col-10,
-  body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row .col-11,
-  body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row .col-12 {
-    width: 100%;
-  }
-}
-
-@media (max-width: 767.98px) {
-  body.template-layout.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row .col-1,
-  body.template-layout.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row .col-2,
-  body.template-layout.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row .col-3,
-  body.template-layout.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row .col-4,
-  body.template-layout.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row .col-5,
-  body.template-layout.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row .col-6,
-  body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row .col-1,
-  body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row .col-2,
-  body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row .col-3,
-  body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row .col-4,
-  body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row .col-5,
-  body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row .col-6 {
-    width: 50%;
-  }
-  body.template-layout.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row .col-7,
-  body.template-layout.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row .col-8,
-  body.template-layout.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row .col-9,
-  body.template-layout.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row .col-10,
-  body.template-layout.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row .col-11,
-  body.template-layout.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row .col-12,
-  body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row .col-7,
-  body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row .col-8,
-  body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row .col-9,
-  body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row .col-10,
-  body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row .col-11,
-  body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row .col-12 {
-    width: 100%;
   }
 }
 
