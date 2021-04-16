@@ -9,20 +9,24 @@
 
 // BREAKPOINT DEFINITIONS COPIED FROM BOOTSTRAP
 // scss-docs-start grid-breakpoints
-$grid-breakpoints: (xs: 0,
+$grid-breakpoints: (
+  xs: 0,
   sm: 576px,
   md: 768px,
   lg: 992px,
   xl: 1200px,
-  xxl: 1400px);
+  xxl: 1400px
+);
 // scss-docs-end grid-breakpoints
 
 // scss-docs-start container-max-widths
-$container-max-widths: (sm: 540px,
+$container-max-widths: (
+  sm: 540px,
   md: 720px,
   lg: 960px,
   xl: 1140px,
-  xxl: 1320px);
+  xxl: 1320px
+);
 // scss-docs-end container-max-widths
 
 @function breakpoint-min($name, $breakpoints: $grid-breakpoints) {
@@ -82,32 +86,44 @@ $container-max-widths: (sm: 540px,
   }
 
   // responsive columns size exceptions - order is key!
+
+  // example column layout for lg breakpoint to demonstrate the
+  // possibility of different responsive layouts.
+  // feel free adjust to your needs!
+
+  // @media (max-width: breakpoint-max('lg', $grid-breakpoints)) {
+
+  //   // sm size
+
+
+  //   .col-1,
+  //   .col-2,
+  //   .col-3,
+  //   .col-4,
+  //   .col-5,
+  //   .col-6 {
+  //     width: 50%;
+  //     background: green;
+  //   }
+
+  //   .col-7,
+  //   .col-8,
+  //   .col-9,
+  //   .col-10,
+  //   .col-11,
+  //   .col-12 {
+  //     width: 100%;
+  //     background: red;
+  //   }
+  // }
+
   @media (max-width: breakpoint-max('md', $grid-breakpoints)) {
 
+    .col {
+      flex: 0 0 auto;
+    }
+
     // sm size
-    .col-1,
-    .col-2,
-    .col-3,
-    .col-4,
-    .col-5,
-    .col-6 {
-      width: 50%;
-      // background: green;
-    }
-
-    .col-7,
-    .col-8,
-    .col-9,
-    .col-10,
-    .col-11,
-    .col-12 {
-      width: 100%;
-    }
-  }
-
-  @media (max-width: breakpoint-max('sm', $grid-breakpoints)) {
-
-    // xs size
     .col-1,
     .col-2,
     .col-3,
@@ -121,7 +137,6 @@ $container-max-widths: (sm: 540px,
     .col-11,
     .col-12 {
       width: 100%;
-      // background: red;
     }
   }
 
@@ -146,11 +161,7 @@ body.mosaic-enabled {
         }
       }
 
-      // @include make-container();
-
       .mosaic-grid-row {
-        // outline: 1px solid green;
-        //@include make-container();
         width: 100%;
         padding-right: var(--bs-gutter-x, 0.75rem);
         padding-left: var(--bs-gutter-x, 0.75rem);

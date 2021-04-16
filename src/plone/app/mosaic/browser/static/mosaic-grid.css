@@ -28,25 +28,9 @@
 }
 
 @media (max-width: 767.98px) {
-  .mosaic-grid-row .col-1,
-  .mosaic-grid-row .col-2,
-  .mosaic-grid-row .col-3,
-  .mosaic-grid-row .col-4,
-  .mosaic-grid-row .col-5,
-  .mosaic-grid-row .col-6 {
-    width: 50%;
+  .mosaic-grid-row .col {
+    flex: 0 0 auto;
   }
-  .mosaic-grid-row .col-7,
-  .mosaic-grid-row .col-8,
-  .mosaic-grid-row .col-9,
-  .mosaic-grid-row .col-10,
-  .mosaic-grid-row .col-11,
-  .mosaic-grid-row .col-12 {
-    width: 100%;
-  }
-}
-
-@media (max-width: 575.98px) {
   .mosaic-grid-row .col-1,
   .mosaic-grid-row .col-2,
   .mosaic-grid-row .col-3,
