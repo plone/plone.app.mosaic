@@ -183,8 +183,11 @@ class LayoutsEditor(BrowserView):
                 return self.show()
             elif action == 'hide':
                 return self.hide()
-        from Products.CMFPlone.resources import add_bundle_on_request
-        add_bundle_on_request(self.request, 'layouts-editor')
+        try:
+            from Products.CMFPlone.resources import add_bundle_on_request
+            add_bundle_on_request(self.request, 'layouts-editor')
+        except ImportError:
+            pass
         return super(LayoutsEditor, self).__call__()
 
     def show(self):

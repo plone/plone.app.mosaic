@@ -109,7 +109,21 @@ define([
   };
 
   Tile.prototype.getHtmlContent = function(){
-    return this.$el.children('.mosaic-tile-content').html();
+    var tile_html = this.$el.children('.mosaic-tile-content').html();
+    // Undo the transforms that TinyMCE makes
+    var $html = $('<div />').html(tile_html);
+    $html.find('script[type="mce-no/type"]').attr('type', '');
+    $html.find('script[type^="mce-"]').each(function (i, el) {
+      var $el = $(el);
+      var type = $el.attr('type');
+      $el.attr('type', type.substr(4, type.length));
+    });
+    $html.find('*[data-mce-src]').attr('data-mce-src', '');
+    $html.find('*[data-mce-href]').attr('data-mce-href', '');
+    $html.find('*[data-mce-style]').attr('data-mce-style', '');
+    $html.find('*[data-mce-tabindex]').attr('data-mce-tabindex', '');
+    $html.find('span.CmCaReT').remove();
+    return $html.html()
   };
 
   Tile.prototype.getEditUrl = function(){
