@@ -1066,17 +1066,11 @@
            interface='Products.CMFPlone.interfaces.IResourceRegistry'>
     <value key="url">++plone++mosaic/js</value>
     <value key="js">++plone++mosaic/js/mosaic.pattern.js</value>
-    <value key="css">
-      <element>++plone++mosaic/css/mosaic.pattern.less</element>
-    </value>
   </records>
 
   <records prefix="plone.resources/layouts-editor"
            interface='Products.CMFPlone.interfaces.IResourceRegistry'>
     <value key="js">++plone++mosaic/js/layouts-editor.js</value>
-    <value key="css">
-      <element>++plone++mosaic/css/layouts-editor.less</element>
-    </value>
   </records>
 
   <records prefix="plone.bundles/mosaic-grid"
