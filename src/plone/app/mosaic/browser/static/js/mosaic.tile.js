@@ -454,16 +454,8 @@ define([
         this.$el.prepend(
           side_tools.append(
             $($.mosaic.document.createElement("div"))
-              .addClass("mosaic-tile-label")
-              .append(
-              $($.mosaic.document.createElement("div"))
-                .addClass("mosaic-tile-label-content")
-                .html(tile_config.label)
-              )
-              .append(
-                $($.mosaic.document.createElement("div"))
-                  .addClass("mosaic-tile-label-left")
-              )
+              .addClass("mosaic-tile-label content")
+              .html(tile_config.label)
           )
         );
 
@@ -484,16 +476,8 @@ define([
 
           side_tools.append(
             $($.mosaic.document.createElement("div"))
-              .addClass("mosaic-tile-label")
-              .append(
-                $($.mosaic.document.createElement("div"))
-                  .addClass("mosaic-tile-label-reset")
-                  .append(_addResetAnchor(this.resetClicked.bind(this)))
-              )
-              .append(
-                $($.mosaic.document.createElement("div"))
-                  .addClass("mosaic-tile-label-left")
-              )
+              .addClass("mosaic-tile-label reset")
+              .append(_addResetAnchor(this.resetClicked.bind(this)))
           );
         }
 
@@ -523,7 +507,7 @@ define([
         .removeClass("col-1 col-2 col-3 col-4 col-5 col-6 col-7 col-8 col-9 col-10 col-11 col-12")
         .addClass("col");
 
-      $(e.target).parent().parent().remove();
+      $(e.target).closest(".reset").remove();
 
       // Get original row
       var $originalRow = that.$el.parent().parent();

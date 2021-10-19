@@ -92,9 +92,6 @@
   top: -2px;
   left: -102px;
   width: 100px;
-  .mosaic-tile-label {
-    margin-bottom: 3px;
-  }
 }
 
 .mosaic-selected-tile .mosaic-tile-label,
@@ -105,42 +102,23 @@
 }
 
 .mosaic-tile-label {
-    top: -2px;
-    left: -100px;
-    width: 100px;
     color: white;
-    height: 24px;
     text-align: right;
-}
-
-.mosaic-tile-label-left {
-    float: right;
-    width: 8px;
-    height: 24px;
-    background: #545454;
+    background-color: #3469d0;
     border-top-left-radius: 8px;
     border-bottom-left-radius: 8px;
-}
+    font-size:80%;
+    font-weight:bold;
+    padding:2px 5px;
+    margin-bottom:2px;
 
-.mosaic-tile-label-reset,
-.mosaic-tile-label-content {
-    height: 24px;
-    font-size: 80%;
-    font-weight: bold;
-    line-height: 24px;
-    background: #545454;
-    float: right;
-    position: relative;
-    padding-left: 4px;
-    padding-right: 8px;
-}
-
-.mosaic-tile-label-reset a {
-  color: white;
-  text-decoration: none;
-  &:hover, &:active, &:focus {
-    color: white;
-  }
+    a {
+      color: white;
+      text-decoration: none;
+      &:hover, &:active, &:focus {
+        color: white;
+      }
+    }
 }
 
 .mosaic-info-icon:hover {

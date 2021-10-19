@@ -348,20 +348,12 @@ define([
             //   var $mosaicGridCell = $(this).parent().children(".mosaic-grid-cell").get(index);
             //   var $tileSideTools = $($mosaicGridCell).children(".mosaic-tile").first().children(".mosaic-tile-side-tools").first();
             //
-            //   $tileSideTools.children(".mosaic-tile-label").children(".mosaic-tile-label-reset").parent().remove();
+            //   $tileSideTools.children(".mosaic-tile-label.reset").remove();
             //
             //   $tileSideTools.append(
             //     $($.mosaic.document.createElement("div"))
-            //       .addClass("mosaic-tile-label")
-            //       .append(
-            //         $($.mosaic.document.createElement("div"))
-            //           .addClass("mosaic-tile-label-reset")
-            //           .append(AddResetAnchor($tileSideTools, column_sizes[index]))
-            //       )
-            //       .append(
-            //         $($.mosaic.document.createElement("div"))
-            //           .addClass("mosaic-tile-label-left")
-            //       )
+            //       .addClass("mosaic-tile-label reset")
+            //       .append(AddResetAnchor($tileSideTools, column_sizes[index]))
             //   );
             // }
 
@@ -437,20 +429,12 @@ define([
             $(this).children(".mosaic-tile").first().children(".mosaic-tile-side-tools").each(function (index) {
                 var $tileSideTools = $(this);
 
-                $tileSideTools.children(".mosaic-tile-label").children(".mosaic-tile-label-reset").parent().remove();
+                $tileSideTools.children(".mosaic-tile-label.reset").remove();
 
                 $tileSideTools.append(
                   $($.mosaic.document.createElement("div"))
-                    .addClass("mosaic-tile-label")
-                    .append(
-                      $($.mosaic.document.createElement("div"))
-                        .addClass("mosaic-tile-label-reset")
-                        .append(AddResetAnchor($tileSideTools, column_sizes[i]))
-                    )
-                    .append(
-                      $($.mosaic.document.createElement("div"))
-                        .addClass("mosaic-tile-label-left")
-                    )
+                    .addClass("mosaic-tile-label reset")
+                    .append(AddResetAnchor($tileSideTools, column_sizes[i]))
                 );
             });
           }
@@ -959,6 +943,7 @@ define([
               clone
                 .css({
                   "width": originaltile.width(),
+                  "max-height": "50%",
                   "position": "absolute",
                   "opacity": 0.5
                 })

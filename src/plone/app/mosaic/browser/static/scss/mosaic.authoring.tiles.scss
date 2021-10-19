@@ -59,9 +59,6 @@
     left: -2px;
     top: -2px;
     bottom: -2px;
-    -webkit-border-radius: 2px;
-    -moz-border-radius: 2px;
-    border-radius: 2px;
 }
 
 /* Inner border */
@@ -110,25 +107,20 @@
 }
 
 /* Selected tile */
-.mosaic-panel .mosaic-selected-tile .mosaic-tile-outer-border {
-    border: 2px solid #3469d0;
-    background-color: #FFFFE1;
+.mosaic-panel .mosaic-selected-tile {
+    &, &:hover {
+        .mosaic-tile-outer-border {
+            border: 2px solid #3469d0;
+        }
+    }
 }
-
-.mosaic-panel .mosaic-selected-tile.mosaic-read-only-tile .mosaic-tile-outer-border {
-    border: 2px solid #3469d0;
-    background-color: #F0F0EE;
-}
-
-.mosaic-panel .mosaic-selected-tile.mosaic-read-only-tile:hover .mosaic-tile-outer-border {
-    border: 2px solid #3469d0;
-    background-color: #F0F0EE;
-}
-
-/* Selected tile hover */
-.mosaic-panel .mosaic-selected-tile:hover .mosaic-tile-outer-border {
-    border: 2px solid #3469d0;
-    background-color: #FFFFE1;
+/* selected readonly tile */
+.mosaic-panel .mosaic-selected-tile.mosaic-read-only-tile {
+    &, &:hover {
+        .mosaic-tile-outer-border {
+            background-color: #F0F0EE;
+        }
+    }
 }
 
 /* Selected tile on remove button hover */
