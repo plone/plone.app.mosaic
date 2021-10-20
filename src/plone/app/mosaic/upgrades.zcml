@@ -408,4 +408,12 @@
       run_deps="false"
       />
 
+  <genericsetup:upgradeStep
+      profile="plone.app.mosaic:default"
+      source="5028"
+      destination="6000"
+      title="Upgrade registry configuration"
+      handler=".upgrades.upgrade_registry"
+      />
+
 </configure>
