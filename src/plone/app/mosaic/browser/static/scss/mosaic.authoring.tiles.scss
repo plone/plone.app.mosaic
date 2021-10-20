@@ -43,6 +43,7 @@
 .mosaic-panel .mosaic-rich-text-toolbar{
     position: absolute;
     margin-top: -40px;
+    z-index:50;
     .mce-menu {
         top: 34px!important;
     }

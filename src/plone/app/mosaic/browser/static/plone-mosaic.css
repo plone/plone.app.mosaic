@@ -1823,6 +1823,7 @@
 .mosaic-panel .mosaic-rich-text-toolbar {
   position: absolute;
   margin-top: -40px;
+  z-index: 50;
 }
 
 .mosaic-panel .mosaic-rich-text-toolbar .mce-menu {
