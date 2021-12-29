@@ -4,6 +4,9 @@ Changelog
 2.2.3 (unreleased)
 ------------------
 
+- Remove obsolete BS3 demo.
+  [jensens]
+
 - Remove obsolete ``mockup-patterns-base`` -> use ``pat-base``
   [petschki]
 
