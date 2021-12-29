@@ -1,2 +1,5 @@
-setuptools==42.0.2
-zc.buildout==2.13.3
+-c constraints.txt
+-e .[test]
+
+# WSGI: A system for configuration of WSGI web components in declarative .ini format.
+Paste

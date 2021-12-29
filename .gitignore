@@ -9,8 +9,11 @@
 *.js.map
 *.tmp*
 .*.cfg
+.installed.txt
+*-mxdev.txt
 .DS_Store
 .idea
+/.make-sentinels/
 /bin/
 /build/
 /develop-eggs/
@@ -23,12 +26,14 @@
 /fake-eggs/
 /html/
 /include/
+/instance/
 /lib/
 /local/
 /parts/
 /resources/theme/
 /result
 /var/
+/venv/
 components
 node_modules
 !.isort.cfg

@@ -1,17 +1,11 @@
-# -*- coding: utf-8 -*-
 from plone.app.mosaic.testing import PLONE_APP_MOSAIC_INTEGRATION
 from plone.browserlayer.utils import registered_layers
 from plone.registry.interfaces import IRegistry
 from zope.component import getUtility
+from Products.CMFPlone.utils import get_installer
 
 import unittest
 
-
-try:
-    from Products.CMFPlone.utils import get_installer
-except ImportError:
-    # BBB for Plone 5.0 and lower.
-    get_installer = None
 
 PROJECTNAME = "plone.app.mosaic"
 
@@ -36,7 +30,7 @@ class InstallTestCase(unittest.TestCase):
             qi = self.portal["portal_quickinstaller"]
         else:
             qi = get_installer(self.portal)
-        self.assertTrue(qi.isProductInstalled(PROJECTNAME))
+        self.assertTrue(qi.is_product_installed(PROJECTNAME))
 
     def test_addon_layer(self):
         layers = [layer.getName() for layer in registered_layers()]
@@ -69,10 +63,10 @@ class UninstallTestCase(unittest.TestCase):
             self.qi = self.portal["portal_quickinstaller"]
         else:
             self.qi = get_installer(self.portal)
-        self.qi.uninstallProducts(products=[PROJECTNAME])
+        self.qi.uninstall_product(PROJECTNAME)
 
     def test_uninstalled(self):
-        self.assertFalse(self.qi.isProductInstalled(PROJECTNAME))
+        self.assertFalse(self.qi.is_product_installed(PROJECTNAME))
 
     def test_addon_layer_removed(self):
         layers = [layer.getName() for layer in registered_layers()]

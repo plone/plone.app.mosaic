@@ -4,6 +4,10 @@ Changelog
 3.0.0 (unreleased)
 ------------------
 
+- Remove buildout and use mxdev/Makefile based approach.
+  Plone 6 only.
+  [jensens]
+
 - Fix Flake8 errors
   [jugmac00]
 
@@ -16,7 +20,7 @@ Changelog
 - Fix advanced mode tile insert
   [balavec]
 
-- Update for Boostrap 5
+- Update for Bootstrap 5
   [agitator]
 
 2.2.3 (2020-07-02)
