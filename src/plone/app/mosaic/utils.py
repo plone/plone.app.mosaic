@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from AccessControl.security import checkPermission
 from plone.app.blocks.interfaces import CONTENT_LAYOUT_MANIFEST_FORMAT
 from plone.app.blocks.interfaces import CONTENT_LAYOUT_RESOURCE_NAME
@@ -45,14 +44,14 @@ def _getWidgetName(field, widgets, request):
         factory = widgets[field.__name__]
     else:
         factory = getMultiAdapter((field, request), IFieldWidget)
-    if isinstance(factory, six.text_type):
+    if isinstance(factory, str):
         name = factory
     else:
         if isinstance(factory, ParameterizedWidget):
             factory = factory.widget_factory
         elif not isinstance(factory, type):
             factory = factory.__class__
-        name = '{0:s}.{1:s}'.format(factory.__module__, factory.__name__)
+        name = f'{factory.__module__:s}.{factory.__name__:s}'
     return WIDGET_NAMES_MAP.get(name, name)
 
 
@@ -100,7 +99,7 @@ def extractFieldInformation(schema, context, request, prefix):
                 continue
             if not IOmittedField.providedBy(field):
                 yield {
-                    'id': '{0:s}.{1:s}'.format(schema.__identifier__, name),
+                    'id': f'{schema.__identifier__:s}.{name:s}',
                     'name': prefix + name,
                     'title': schema[name].title,
                     'widget': _getWidgetName(schema[name], widgets, request),

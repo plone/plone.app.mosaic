@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from plone import api
 from plone.app.mosaic import _
 from zope.publisher.browser import BrowserView
@@ -27,7 +26,7 @@ class MosaicUploadView(BrowserView):
             error = {}
             error['status'] = 1
             error['message'] =\
-                _(u"Not allowed to upload a file of this type to this folder")
+                _("Not allowed to upload a file of this type to this folder")
             return json.dumps(error)
 
         # 2) check if the current user has permissions to add stuff
@@ -36,7 +35,7 @@ class MosaicUploadView(BrowserView):
             error = {}
             error['status'] = 1
             error['message'] =\
-                _(u"You do not have permission to upload files in this folder")
+                _("You do not have permission to upload files in this folder")
             return json.dumps(error)
 
         # Get an unused filename without path
@@ -67,7 +66,7 @@ class MosaicUploadView(BrowserView):
         if not obj:
             error = {}
             error['status'] = 1
-            error['message'] = _(u"Could not upload the file")
+            error['message'] = _("Could not upload the file")
             return json.dumps(error)
 
         obj.reindexObject()
@@ -99,7 +98,7 @@ class MosaicUploadView(BrowserView):
                 sc = ''
             else:
                 sc = str(count)
-            newid = "copy{0:s}_of_{1:s}".format(sc, id)
+            newid = f"copy{sc:s}_of_{id:s}"
             if context.check_id(newid) is None \
                     and getattr(context, newid, None) is None:
                 return newid

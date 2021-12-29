@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from plone.app.blocks.layoutbehavior import ILayoutAware
 from plone.app.mosaic.testing import PLONE_APP_MOSAIC_INTEGRATION
 from plone.app.mosaic.widget import LayoutWidget

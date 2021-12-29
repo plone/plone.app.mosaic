@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from AccessControl import getSecurityManager
 from plone import api
 from plone.app.blocks.layoutbehavior import ILayoutAware
@@ -118,20 +117,20 @@ class LayoutWidget(BaseWidget, TextAreaWidget):
             # BBB Plone 4.3.x
             result['tinymce'] = result['tinymce']['pattern_options']
 
-        result['customContentLayout_selector'] = '#formfield-{0:s}'.format(
+        result['customContentLayout_selector'] = '#formfield-{:s}'.format(
             self.name.replace('.', '-')
         )
-        result['contentLayout_selector'] = '#formfield-{0:s}'.format(
+        result['contentLayout_selector'] = '#formfield-{:s}'.format(
             self.name.replace(
                 '.', '-'
             ).replace(
                 '-customContentLayout', '-contentLayout'
             )
         )
-        result['customContentLayout_field_selector'] = '[name="{0:s}"]'.format(
+        result['customContentLayout_field_selector'] = '[name="{:s}"]'.format(
             self.name
         )
-        result['contentLayout_field_selector'] = '[name="{0:s}"]'.format(
+        result['contentLayout_field_selector'] = '[name="{:s}"]'.format(
             self.name.replace('.customContentLayout', '.contentLayout')
         )
 
@@ -152,7 +151,7 @@ class LayoutWidget(BaseWidget, TextAreaWidget):
         :returns: Arguments which will be passed to _base
         :rtype: dict
         """
-        args = super(LayoutWidget, self)._base_args()
+        args = super()._base_args()
         args['name'] = self.name
         args['value'] = self.value
 
@@ -211,7 +210,7 @@ class LayoutWidget(BaseWidget, TextAreaWidget):
             return self.form.__name__
         except AttributeError:
             pass
-        return u''
+        return ''
 
     def _form_status(self):
         """Return the current status message of the underlying form"""
@@ -223,7 +222,7 @@ class LayoutWidget(BaseWidget, TextAreaWidget):
             return self.form.status
         except AttributeError:
             pass
-        return u''
+        return ''
 
 
 @adapter(getSpecification(ILayoutAware['customContentLayout']), IMosaicLayer)

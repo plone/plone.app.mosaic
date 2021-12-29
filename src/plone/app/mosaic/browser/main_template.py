@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from hashlib import md5
 from lxml import etree
 from lxml import html
@@ -13,8 +12,6 @@ from Products.CMFPlone.browser.interfaces import IMainTemplate
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from repoze.xmliter.utils import getHTMLSerializer
-from six.moves import filter
-from six.moves import map
 from six.moves.urllib.parse import unquote
 from six.moves.urllib.parse import urljoin
 from zExceptions import NotFound
@@ -57,7 +54,7 @@ TEMPLATE = """\
 
 
 def cook_layout_cachekey(func, layout, ajax):
-    if isinstance(layout, six.text_type):
+    if isinstance(layout, str):
         layout = layout.encode('utf-8', 'replace')
     return md5(layout).hexdigest(), ajax
 
@@ -141,7 +138,7 @@ def cook_layout(layout, ajax):
     layout = re.sub('\r', '\n', re.sub('\r\n', '\n', layout))
 
     # Parse layout
-    if isinstance(layout, six.text_type):
+    if isinstance(layout, str):
         result = getHTMLSerializer([layout.encode('utf-8')], encoding='utf-8')
     else:
         result = getHTMLSerializer([layout], encoding='utf-8')
@@ -180,13 +177,13 @@ def cook_layout(layout, ajax):
     if six.PY2:
         return (template.format(''.join(result)).replace(metal, ''))
 
-    return (template.format((b''.join(result).decode("utf-8"))).replace(metal, ''))
+    return (template.format(b''.join(result).decode("utf-8")).replace(metal, ''))
 
 
 class ViewPageTemplateString(ViewPageTemplateFile):
 
     def __init__(self, text):
-        super(ViewPageTemplateString, self).__init__(__file__)
+        super().__init__(__file__)
         self.pt_edit(text, 'text/html')
         self._cook()
 
@@ -201,7 +198,7 @@ class ViewPageTemplateString(ViewPageTemplateFile):
 class Macro(list):
     def __repr__(self):
         # Override the default list.__repr__ to hide the contents of list
-        return '<{0:s}.{1:s} object at 0x{2:x}>'.format(
+        return '<{:s}.{:s} object at 0x{:x}>'.format(
             self.__class__.__module__,
             self.__class__.__name__,
             id(self)

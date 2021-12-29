@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from plone.app.blocks.layoutbehavior import ILayoutAware
 from plone.dexterity.browser import add
 from Products.CMFCore.utils import getToolByName
@@ -31,7 +30,7 @@ class MosaicDefaultAddForm(add.DefaultAddForm):
         return True
 
     def updateFieldsFromSchemata(self):
-        super(MosaicDefaultAddForm, self).updateFieldsFromSchemata()
+        super().updateFieldsFromSchemata()
         if not self.mosaic_enabled:
             return
 
@@ -45,12 +44,12 @@ class MosaicDefaultAddForm(add.DefaultAddForm):
 
     def nextURL(self):
         if not self.mosaic_enabled:
-            return super(MosaicDefaultAddForm, self).nextURL()
+            return super().nextURL()
         # very hacky way to get url of object created.
         # only other way would be override a bunch of code I do not
         # feel very comfortable overridding
         if self.immediate_view is not None:
-            return '{0:s}/@@edit'.format(
+            return '{:s}/@@edit'.format(
                 '/'.join(self.immediate_view.split('/')[:-1]))
         else:
             return self.context.absolute_url()

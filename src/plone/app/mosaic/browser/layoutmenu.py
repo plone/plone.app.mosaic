@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from plone import api
 from plone.app.blocks.interfaces import IBlocksTransformEnabled
 from plone.app.blocks.layoutbehavior import ILayoutBehaviorAdaptable
@@ -46,7 +45,7 @@ def absolute_path(path):
 class DisplayLayoutTraverser(SimpleHandler):
 
     def __init__(self, context, request):
-        super(DisplayLayoutTraverser, self).__init__(context)
+        super().__init__(context)
         self.request = request
 
     def traverse(self, name, remaining):
@@ -60,7 +59,7 @@ class DisplayLayoutTraverser(SimpleHandler):
             raise NotFound(self.context, name, self.request)
 
         aliases = fti.getMethodAliases() or {}
-        layout = '++layout++{0:s}'.format(name)
+        layout = f'++layout++{name:s}'
         resource_path = absolute_path(aliases.get(layout))
 
         if resource_path is None:
@@ -74,7 +73,7 @@ class DisplayLayoutTraverser(SimpleHandler):
 class DisplayContentLayoutTraverser(SimpleHandler):
 
     def __init__(self, context, request):
-        super(DisplayContentLayoutTraverser, self).__init__(context)
+        super().__init__(context)
         self.request = request
 
     def traverse(self, name, remaining):
@@ -95,14 +94,14 @@ class DisplayContentLayoutTraverser(SimpleHandler):
 class DisplayLayoutView(DefaultView):
 
     def __init__(self, context, request, layout):
-        super(DisplayLayoutView, self).__init__(context, request)
+        super().__init__(context, request)
         self.resource_path = layout
 
     def __call__(self):
         try:
             return resolveResource(self.resource_path)
         except NotFound as e:
-            logger.warning('Missing layout {0:s}'.format(e))
+            logger.warning(f'Missing layout {e:s}')
             raise
 
 
@@ -117,14 +116,14 @@ class HiddenDisplaySubMenuItem(DisplaySubMenuItem):
         if layout_menu.available():
             return False
         else:
-            return super(HiddenDisplaySubMenuItem, self).available()
+            return super().available()
 
 
 @implementer(IContentMenuItem)
 @adapter(ILayoutBehaviorAdaptable, IMosaicLayer)
 class DisplayLayoutSubMenuItem(BrowserSubMenuItem):
 
-    title = _(u'label_choose_display', default=u'Display')
+    title = _('label_choose_display', default='Display')
     submenuId = 'plone_contentmenu_layout'
 
     order = 25  # between display menu and factories menu:
@@ -145,14 +144,14 @@ class DisplayLayoutSubMenuItem(BrowserSubMenuItem):
     @property
     def description(self):
         if self.disabled():
-            return _(u'title_remove_index_html_for_display_control',
-                     default=u'Delete or rename the index_html item to gain '
-                             u'full control over how this folder is '
-                             u'displayed.')
+            return _('title_remove_index_html_for_display_control',
+                     default='Delete or rename the index_html item to gain '
+                             'full control over how this folder is '
+                             'displayed.')
         else:
-            return _(u'title_choose_default_layout',
-                     default=u'Select a predefined layout for this folder, '
-                             u'or set a content item as its default view.')
+            return _('title_choose_default_layout',
+                     default='Select a predefined layout for this folder, '
+                             'or set a content item as its default view.')
 
     @property
     def action(self):
@@ -245,7 +244,7 @@ class DisplayLayoutMenu(BrowserMenu):
             if term.value in folder_methods:
                 is_selected = term.value == folder_layout
                 id_ = term.value.split('++')[-1]
-                actionUrl = '{0:s}/selectViewTemplate?templateId={1:s}'.format(
+                actionUrl = '{:s}/selectViewTemplate?templateId={:s}'.format(
                     folder_url, quote(term.value))
                 actionUrl = addTokenToUrl(actionUrl, request)
                 folder_results.append({
@@ -273,7 +272,7 @@ class DisplayLayoutMenu(BrowserMenu):
             if term.value in context_methods:
                 is_selected = term.value == context_layout
                 id_ = term.value.split('++')[-1]
-                actionUrl = '{0:s}/selectViewTemplate?templateId={1:s}'.format(
+                actionUrl = '{:s}/selectViewTemplate?templateId={:s}'.format(
                     context_url, quote(term.value))
                 actionUrl = addTokenToUrl(actionUrl, request)
                 context_results.append({
@@ -335,6 +334,6 @@ class LayoutAwareDefaultViewSelectionView(DefaultViewSelectionView):
         )
         vocab = vocab_factory(self.context)
         return (
-            list(super(LayoutAwareDefaultViewSelectionView, self).vocab)
+            list(super().vocab)
             + [(term.value, term.title) for term in vocab]
         )

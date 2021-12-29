@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from AccessControl import Unauthorized
 from plone.app.blocks.interfaces import CONTENT_LAYOUT_RESOURCE_NAME
 from plone.app.mosaic.testing import PLONE_APP_MOSAIC_INTEGRATION
@@ -61,13 +60,13 @@ class TestManageLayouts(unittest.TestCase):
         layout_resources = queryResourceDirectory(
             CONTENT_LAYOUT_RESOURCE_NAME, 'custom')
 
-        user_directory = layout_resources['user-layouts/{0:s}'.format(TEST_USER_ID)]  # noqa
+        user_directory = layout_resources[f'user-layouts/{TEST_USER_ID:s}']  # noqa
         self.assertTrue('my-layout.html' in user_directory.listDirectory())
 
         # now try to delete user layout
         self.request.form.update({
             'action': 'deletelayout',
-            'layout': 'custom/user-layouts/{0:s}/my-layout.html'.format(TEST_USER_ID)  # noqa
+            'layout': f'custom/user-layouts/{TEST_USER_ID:s}/my-layout.html'  # noqa
         })
         self.portal.restrictedTraverse('@@manage-layouts-from-editor')()
         self.assertTrue('my-layout.html' not in user_directory.listDirectory())
@@ -110,7 +109,7 @@ class TestManageLayouts(unittest.TestCase):
         # now try to delete user layout
         self.request.form.update({
             'action': 'deletelayout',
-            'layout': 'custom/user-layouts/{0:s}/my-layout.html'.format(TEST_USER_ID)  # noqa
+            'layout': f'custom/user-layouts/{TEST_USER_ID:s}/my-layout.html'  # noqa
         })
         self.portal.restrictedTraverse('@@manage-layouts-from-editor')()
         self.assertTrue('my-layout.html' not in user_directory.listDirectory())

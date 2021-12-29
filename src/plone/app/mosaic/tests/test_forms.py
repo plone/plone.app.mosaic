@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from plone.app.mosaic.testing import PLONE_APP_MOSAIC_INTEGRATION
 from plone.app.testing import login
 from plone.app.testing import setRoles

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from plone.portlets.interfaces import IPortletManager
 from plone.portlets.interfaces import IPortletRetriever
 from zope.component import getMultiAdapter
@@ -15,7 +14,7 @@ except Exception as e:  # noqa F841
 
 
 @implementer(IBodyClassAdapter)
-class MosaicBodyClasses(object):
+class MosaicBodyClasses:
 
     def __init__(self, context, request):
         self.context = context

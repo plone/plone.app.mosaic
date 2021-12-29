@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from plone.app.mosaic.testing import PLONE_APP_MOSAIC_ACCEPTANCE
 from plone.app.testing import ROBOT_TEST_LEVEL
 from plone.testing import layered

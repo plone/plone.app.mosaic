@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from AccessControl import getSecurityManager
 from AccessControl import Unauthorized
 from plone import api
@@ -28,7 +27,7 @@ def loadManifest(data):
         parser = ConfigParser(None, multidict)
         parser.readfp(six.StringIO(data))
     else:
-        if isinstance(data, six.binary_type):
+        if isinstance(data, bytes):
             data = data.decode()
         parser = ConfigParser(dict_type=multidict, strict=False)
         parser.read_string(data)
@@ -39,7 +38,7 @@ def dumpManifest(parser):
     txt = ''
     for section in parser.sections():
         opts = '\n'.join([k + ' = ' + v for k, v in parser.items(section)])
-        txt += '[contentlayout]\n{opts}\n\n'.format(opts=opts)
+        txt += f'[contentlayout]\n{opts}\n\n'
     return txt
 
 
@@ -82,7 +81,7 @@ class ManageLayoutView(BrowserView):
                 raise Unauthorized("User not allowed to delete global layout")
         else:
             # check this user is allowed to delete this template
-            user_dir = 'custom/user-layouts/{0:s}'.format(
+            user_dir = 'custom/user-layouts/{:s}'.format(
                 api.user.get_current().getId())
             if not layout_path.startswith(user_dir):
                 raise Unauthorized("You are not allowed to delete this layout")
@@ -208,7 +207,7 @@ class ManageLayoutView(BrowserView):
         return json.dumps(
             {
                 'success': True,
-                'layout': '++contentlayout++{0}/{1}'.format(
+                'layout': '++contentlayout++{}/{}'.format(
                     layout_dir_name,
                     layout_filename
                 ),
@@ -236,7 +235,7 @@ class LayoutsEditor(BrowserView):
                 return self.hide()
         from Products.CMFPlone.resources import add_bundle_on_request
         add_bundle_on_request(self.request, 'layouts-editor')
-        return super(LayoutsEditor, self).__call__()
+        return super().__call__()
 
     def show(self):
         registry = getUtility(IRegistry)
@@ -251,7 +250,7 @@ class LayoutsEditor(BrowserView):
         hidden = registry['plone.app.mosaic.hidden_content_layouts']
         key = self.request.form.get('layout')
         if key and key not in hidden:
-            hidden.append(six.text_type(key))
+            hidden.append(str(key))
             registry['plone.app.mosaic.hidden_content_layouts'] = hidden
 
     def get_layout_id(self, layout):
@@ -278,14 +277,14 @@ class LayoutsEditor(BrowserView):
     def content_config(self):
         return json.dumps({
             'actionUrl': (
-                '{0}/++contentlayout++/custom/'
+                '{}/++contentlayout++/custom/'
                 '@@plone.resourceeditor.filemanager-actions'.format(
                     self.context.absolute_url()
                 )
             ),
             'uploadUrl': (
-                '{0}/portal_resources/contentlayout/custom/'
-                'themeFileUpload?_authenticator={1}'.format(
+                '{}/portal_resources/contentlayout/custom/'
+                'themeFileUpload?_authenticator={}'.format(
                     self.context.absolute_url(),
                     createToken()
                 )
@@ -296,14 +295,14 @@ class LayoutsEditor(BrowserView):
     def site_config(self):
         return json.dumps({
             'actionUrl': (
-                '{0}/++sitelayout++/custom/'
+                '{}/++sitelayout++/custom/'
                 '@@plone.resourceeditor.filemanager-actions'.format(
                     self.context.absolute_url()
                 )
             ),
             'uploadUrl': (
-                '{0}/portal_resources/sitelayout/custom/'
-                'themeFileUpload?_authenticator={1}'.format(
+                '{}/portal_resources/sitelayout/custom/'
+                'themeFileUpload?_authenticator={}'.format(
                     self.context.absolute_url(),
                     createToken()
                 )

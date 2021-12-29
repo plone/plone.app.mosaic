@@ -1,11 +1,9 @@
-# -*- coding: utf-8 -*-
 from Acquisition import aq_base
 from Acquisition import aq_parent
 from plone.app.blocks.layoutbehavior import ILayoutAware
 from plone.app.mosaic.interfaces import IMosaicLayer
 from plone.transformchain.interfaces import ITransform
 from repoze.xmliter.serializer import XMLSerializer
-from six.moves import map
 from zope.browser.interfaces import IBrowserView
 from zope.component import getAdapters
 from zope.component import queryMultiAdapter
@@ -35,7 +33,7 @@ def getContext(context):
 
 
 @implementer(ITransform)
-class TransformBase(object):
+class TransformBase:
     """Transform base class"""
 
     def __init__(self, published, request):
