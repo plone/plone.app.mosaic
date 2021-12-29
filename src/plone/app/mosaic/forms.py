@@ -8,9 +8,9 @@ class MosaicDefaultAddForm(add.DefaultAddForm):
     autoGroups = False
 
     hidden_fields = [
-        'IRichText.text',
-        'IRichTextBehavior.text',
-        'IVersionable.changeNote'
+        "IRichText.text",
+        "IRichTextBehavior.text",
+        "IVersionable.changeNote",
     ]
 
     @property
@@ -23,9 +23,9 @@ class MosaicDefaultAddForm(add.DefaultAddForm):
 
         # so we have it in the schemata, but is the view the default view
         # for the content type?
-        portal_types = getToolByName(self.context, 'portal_types')
+        portal_types = getToolByName(self.context, "portal_types")
         ptype = portal_types[self.portal_type]
-        if ptype.default_view != 'layout_view':
+        if ptype.default_view != "layout_view":
             return False
         return True
 
@@ -49,8 +49,7 @@ class MosaicDefaultAddForm(add.DefaultAddForm):
         # only other way would be override a bunch of code I do not
         # feel very comfortable overridding
         if self.immediate_view is not None:
-            return '{:s}/@@edit'.format(
-                '/'.join(self.immediate_view.split('/')[:-1]))
+            return "{:s}/@@edit".format("/".join(self.immediate_view.split("/")[:-1]))
         else:
             return self.context.absolute_url()
 

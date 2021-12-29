@@ -28,18 +28,17 @@ file = basic.html
 
 @implementer(INonInstallable)
 class HiddenProfiles:
-
     def getNonInstallableProfiles(self):
         """Hide uninstall profile from site-creation and quickinstaller"""
         return [
             # in any case we got an uninstall, here we hide it
-            'plone.app.mosaic:uninstall',
+            "plone.app.mosaic:uninstall",
             # and lets hide our dependencies as well.
-            'plone.app.drafts:default',
-            'plone.app.blocks:default',
-            'plone.app.standardtiles:default',
-            'plone.app.tiles:default',
-            'plone.formwidget.querystring:default',
+            "plone.app.drafts:default",
+            "plone.app.blocks:default",
+            "plone.app.standardtiles:default",
+            "plone.app.tiles:default",
+            "plone.formwidget.querystring:default",
         ]
 
 
@@ -52,37 +51,32 @@ def create_ttw_site_layout_examples(portal):
     request = portal.REQUEST
     alsoProvides(request, IMosaicLayer)
     sitelayout = getPersistentResourceDirectory(SITE_LAYOUT_RESOURCE_NAME)
-    custom = getPersistentResourceDirectory('custom', sitelayout)
+    custom = getPersistentResourceDirectory("custom", sitelayout)
     custom.writeFile(MANIFEST_FILENAME, EXAMPLE_SITE_LAYOUT)
     custom.writeFile(
-        'site.html',
-        resolveResource('++sitelayout++default/default.html').encode('utf-8'),
+        "site.html",
+        resolveResource("++sitelayout++default/default.html").encode("utf-8"),
     )
 
 
 def create_ttw_content_layout_examples(portal):
     request = portal.REQUEST
     alsoProvides(request, IMosaicLayer)
-    contentlayout = getPersistentResourceDirectory(
-        CONTENT_LAYOUT_RESOURCE_NAME
-    )
-    custom = getPersistentResourceDirectory('custom', contentlayout)
+    contentlayout = getPersistentResourceDirectory(CONTENT_LAYOUT_RESOURCE_NAME)
+    custom = getPersistentResourceDirectory("custom", contentlayout)
     custom.writeFile(MANIFEST_FILENAME, EXAMPLE_CONTENT_LAYOUT)
     custom.writeFile(
-        'basic.html',
-        resolveResource('++contentlayout++default/basic.html').encode('utf-8'),
+        "basic.html",
+        resolveResource("++contentlayout++default/basic.html").encode("utf-8"),
     )
 
 
 def create_ttw_layout_examples(portal):
-    factory = getUtility(IVocabularyFactory, name='plone.availableSiteLayouts')
+    factory = getUtility(IVocabularyFactory, name="plone.availableSiteLayouts")
     vocab = factory(portal)
-    if '++sitelayout++default/default.html' in vocab:
+    if "++sitelayout++default/default.html" in vocab:
         create_ttw_site_layout_examples(portal)
-    factory = getUtility(
-        IVocabularyFactory,
-        name='plone.availableContentLayouts'
-    )
+    factory = getUtility(IVocabularyFactory, name="plone.availableContentLayouts")
     vocab = factory(portal)
-    if '/++contentlayout++default/basic.html' in vocab:
+    if "/++contentlayout++default/basic.html" in vocab:
         create_ttw_content_layout_examples(portal)
