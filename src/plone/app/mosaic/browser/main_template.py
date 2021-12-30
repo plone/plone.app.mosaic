@@ -39,6 +39,7 @@ TEMPLATE = """\
         context_state context/@@plone_context_state;
         plone_view context/@@plone;
         plone_layout context/@@plone_layout;
+        icons python:context.restrictedTraverse('@@iconresolver');
         lang portal_state/language;
         view nocall: view | nocall: plone_view;
         dummy python:plone_layout.mark_view(view);
