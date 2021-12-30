@@ -13,36 +13,34 @@
   --bs-gutter-y: 0;
   display: flex;
   flex-wrap: wrap;
-  margin-top: calc(-1 * var(--bs-gutter-y));
-  margin-right: calc(-.5 * var(--bs-gutter-x));
-  margin-left: calc(-.5 * var(--bs-gutter-x));
+  margin-top: calc(var(--bs-gutter-y) * -1);
+  margin-right: calc(var(--bs-gutter-x) / -2);
+  margin-left: calc(var(--bs-gutter-x) / -2);
 }
-
 .mosaic-grid-row > * {
   flex-shrink: 0;
   width: 100%;
   max-width: 100%;
-  padding-right: calc(var(--bs-gutter-x) * .5);
-  padding-left: calc(var(--bs-gutter-x) * .5);
+  padding-right: calc(var(--bs-gutter-x) / 2);
+  padding-left: calc(var(--bs-gutter-x) / 2);
   margin-top: var(--bs-gutter-y);
 }
-
 @media (max-width: 767.98px) {
   .mosaic-grid-row .col {
     flex: 0 0 auto;
   }
   .mosaic-grid-row .col-1,
-  .mosaic-grid-row .col-2,
-  .mosaic-grid-row .col-3,
-  .mosaic-grid-row .col-4,
-  .mosaic-grid-row .col-5,
-  .mosaic-grid-row .col-6,
-  .mosaic-grid-row .col-7,
-  .mosaic-grid-row .col-8,
-  .mosaic-grid-row .col-9,
-  .mosaic-grid-row .col-10,
-  .mosaic-grid-row .col-11,
-  .mosaic-grid-row .col-12 {
+.mosaic-grid-row .col-2,
+.mosaic-grid-row .col-3,
+.mosaic-grid-row .col-4,
+.mosaic-grid-row .col-5,
+.mosaic-grid-row .col-6,
+.mosaic-grid-row .col-7,
+.mosaic-grid-row .col-8,
+.mosaic-grid-row .col-9,
+.mosaic-grid-row .col-10,
+.mosaic-grid-row .col-11,
+.mosaic-grid-row .col-12 {
     width: 100%;
   }
 }
@@ -53,17 +51,14 @@ body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container {
   padding-left: unset;
   padding-right: unset;
 }
-
 body.template-layout.no-portlet-columns .outer-wrapper > .container > .row,
 body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container > .row {
   margin: 0;
 }
-
 body.template-layout.no-portlet-columns .outer-wrapper > .container > .row #portal-column-content,
 body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container > .row #portal-column-content {
   padding: 0;
 }
-
 body.template-layout.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row,
 body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row {
   width: 100%;
@@ -73,42 +68,36 @@ body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .mosaic-grid-
   margin-left: auto;
   padding: 0;
 }
-
 @media (min-width: 576px) {
   body.template-layout.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row,
-  body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row {
+body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row {
     max-width: 540px;
   }
 }
-
 @media (min-width: 768px) {
   body.template-layout.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row,
-  body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row {
+body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row {
     max-width: 720px;
   }
 }
-
 @media (min-width: 992px) {
   body.template-layout.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row,
-  body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row {
+body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row {
     max-width: 960px;
   }
 }
-
 @media (min-width: 1200px) {
   body.template-layout.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row,
-  body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row {
+body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row {
     max-width: 1140px;
   }
 }
-
 @media (min-width: 1400px) {
   body.template-layout.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row,
-  body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row {
+body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row {
     max-width: 1320px;
   }
 }
-
 body.template-layout.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row.mosaic-grid-row-fluid,
 body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container .mosaic-grid-row.mosaic-grid-row-fluid {
   max-width: unset;
