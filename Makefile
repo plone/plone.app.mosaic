@@ -69,7 +69,6 @@ all:style testrun
 # And add help text after each target name starting with '\#\#'
 .PHONY: help
 help: ## This help message
-help: ## This help message
 	@echo "${OK_COLOR}This is the Makefile for ${WARN_COLOR}${PROJECT_NAME}${NO_COLOR}"
 	@echo
 	@echo "${WARN_COLOR}Additional parameters:${NO_COLOR}"
@@ -322,3 +321,5 @@ ifneq ("$(wildcard Dockerfile)", "")
 else
 	@echo "$(ERROR_COLOR)A 'Dockerfile' is required to build an image.$(NO_COLOR)"
 endif
+
+include webpack.mk
