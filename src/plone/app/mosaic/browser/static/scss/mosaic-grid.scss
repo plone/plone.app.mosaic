@@ -1,11 +1,61 @@
-@import "../../../../../../../node_modules/bootstrap/scss/functions";
-@import "../../../../../../../node_modules/bootstrap/scss/variables";
-@import "variables.bootstrap.scss";
-@import "../../../../../../../node_modules/bootstrap/scss/mixins";
-@import "../../../../../../../node_modules/bootstrap/scss/containers";
+//@import "../../../../../../../node_modules/bootstrap/scss/functions";
+//@import "../../../../../../../node_modules/bootstrap/scss/variables";
+//@import "variables.bootstrap.scss";
+//@import "../../../../../../../node_modules/bootstrap/scss/mixins";
+//@import "../../../../../../../node_modules/bootstrap/scss/containers";
+//
+//@import "variables.plone.scss";
 
-@import "variables.plone.scss";
 
+// BREAKPOINT DEFINITIONS COPIED FROM BOOTSTRAP
+// scss-docs-start grid-breakpoints
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+  xxl: 1400px
+);
+// scss-docs-end grid-breakpoints
+
+// scss-docs-start container-max-widths
+$container-max-widths: (
+  sm: 540px,
+  md: 720px,
+  lg: 960px,
+  xl: 1140px,
+  xxl: 1320px
+);
+// scss-docs-end container-max-widths
+
+@function breakpoint-min($name, $breakpoints: $grid-breakpoints) {
+  $min: map-get($breakpoints, $name);
+  @return if($min !=0, $min, null);
+}
+
+@function breakpoint-max($name, $breakpoints: $grid-breakpoints) {
+  $max: map-get($breakpoints, $name);
+  @return if($max and $max > 0, $max - .02, null);
+}
+
+// Media of at least the minimum breakpoint width. No query for the smallest breakpoint.
+// Makes the @content apply to the given breakpoint and wider.
+@mixin media-breakpoint-up($name, $breakpoints: $grid-breakpoints) {
+  $min: breakpoint-min($name, $breakpoints);
+
+  @if $min {
+    @media (min-width: $min) {
+      @content;
+    }
+  }
+
+  @else {
+    @content;
+  }
+}
+
+// MOSAIC GRID STYLES
 .mosaic-grid-bg {
   position: absolute;
   background: #fff;
@@ -16,19 +66,87 @@
 }
 
 .mosaic-grid-row {
+  // background: lightblue;
   position: relative;
-  @include make-row();
-  // outline: 1px dotted blue;
-  > * {
-    @include make-col-ready();
+  --bs-gutter-x: 1.5rem;
+  --bs-gutter-y: 0;
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: calc(var(--bs-gutter-y) * -1);
+  margin-right: calc(var(--bs-gutter-x) / -2);
+  margin-left: calc(var(--bs-gutter-x) / -2);
+
+  >* {
+    flex-shrink: 0;
+    width: 100%;
+    max-width: 100%;
+    padding-right: calc(var(--bs-gutter-x) / 2);
+    padding-left: calc(var(--bs-gutter-x) / 2);
+    margin-top: var(--bs-gutter-y);
   }
+
+  // responsive columns size exceptions - order is key!
+
+  // example column layout for lg breakpoint to demonstrate the
+  // possibility of different responsive layouts.
+  // feel free adjust to your needs!
+
+  // @media (max-width: breakpoint-max('lg', $grid-breakpoints)) {
+
+  //   // sm size
+
+
+  //   .col-1,
+  //   .col-2,
+  //   .col-3,
+  //   .col-4,
+  //   .col-5,
+  //   .col-6 {
+  //     width: 50%;
+  //     background: green;
+  //   }
+
+  //   .col-7,
+  //   .col-8,
+  //   .col-9,
+  //   .col-10,
+  //   .col-11,
+  //   .col-12 {
+  //     width: 100%;
+  //     background: red;
+  //   }
+  // }
+
+  @media (max-width: breakpoint-max('md', $grid-breakpoints)) {
+
+    .col {
+      flex: 0 0 auto;
+    }
+
+    // sm size
+    .col-1,
+    .col-2,
+    .col-3,
+    .col-4,
+    .col-5,
+    .col-6,
+    .col-7,
+    .col-8,
+    .col-9,
+    .col-10,
+    .col-11,
+    .col-12 {
+      width: 100%;
+    }
+  }
+
 
 }
 
 body.template-layout,
 body.mosaic-enabled {
   &.no-portlet-columns {
-    .outer-wrapper > .container {
+    .outer-wrapper>.container {
       // outline: 1px blue solid;
       max-width: unset;
       padding-left: unset;
@@ -36,24 +154,29 @@ body.mosaic-enabled {
 
       >.row {
         margin: 0;
+
         // --bs-gutter-x: 0;
         #portal-column-content {
           padding: 0;
         }
       }
-      // @include make-container();
 
       .mosaic-grid-row {
-        // outline: 1px solid green;
-        @include make-container();
+        width: 100%;
+        padding-right: var(--bs-gutter-x, 0.75rem);
+        padding-left: var(--bs-gutter-x, 0.75rem);
+        margin-right: auto;
+        margin-left: auto;
         padding: 0;
-        @each $breakpoint, $container-max-width in $container-max-widths {
-          @include media-breakpoint-up($breakpoint, $grid-breakpoints) {
-                max-width: $container-max-width;
-            }
-        }
-      }
 
+        @each $breakpoint,
+        $container-max-width in $container-max-widths {
+          @include media-breakpoint-up($breakpoint, $grid-breakpoints) {
+            max-width: $container-max-width;
+          }
+        }
+
+      }
 
       .mosaic-grid-row.mosaic-grid-row-fluid {
         max-width: unset;
@@ -69,6 +192,7 @@ body.mosaic-enabled {
   }
 }
 
+// todo: decide if still needed
 // body.plone-toolbar-left-default,
 // body.plone-toolbar-left-expanded {
 //   &.no-portlet-columns {
@@ -81,3 +205,62 @@ body.mosaic-enabled {
 // }
 
 
+// MEDIA QUERY DEBUG STYLES
+// @import "../../../../../../../node_modules/bootstrap/scss/mixins/breakpoints";
+
+// @media (max-width: breakpoint-max('xl', $grid-breakpoints)) {
+//   body {
+//     background: yellow !important;
+
+//     &::before {
+//       content: "up to xl";
+//       position: sticky;
+//       top: 0;
+//       left: 0;
+
+//     }
+//   }
+// }
+
+// @media (max-width: breakpoint-max('lg', $grid-breakpoints)) {
+//   body {
+//     background: lightblue !important;
+
+//     &::before {
+//       content: "up to lg";
+//       position: sticky;
+//       top: 0;
+//       left: 0;
+//     }
+
+//   }
+// }
+
+// @media (max-width: breakpoint-max('md', $grid-breakpoints)) {
+//   body {
+//     background: lightgreen !important;
+
+//     &::before {
+//       content: "up to md";
+//       position: sticky;
+//       top: 0;
+//       left: 0;
+//     }
+
+//   }
+// }
+
+// @media (max-width: breakpoint-max('sm', $grid-breakpoints)) {
+//   body {
+//     background: pink !important;
+
+//     &::before {
+//       content: "up to sm";
+//       position: sticky;
+//       top: 0;
+//       left: 0;
+//     }
+
+//   }
+
+// }
