@@ -83,7 +83,7 @@ class ManageLayoutView(BrowserView):
                 raise Unauthorized("User not allowed to delete global layout")
         else:
             # check this user is allowed to delete this template
-            user_dir = "custom/user-layouts/{:s}".format(api.user.get_current().getId())
+            user_dir = f"custom/user-layouts/{api.user.get_current().getId():s}"
             if not layout_path.startswith(user_dir):
                 raise Unauthorized("You are not allowed to delete this layout")
 

@@ -12,8 +12,8 @@ from Products.CMFPlone.browser.interfaces import IMainTemplate
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from repoze.xmliter.utils import getHTMLSerializer
-from six.moves.urllib.parse import unquote
-from six.moves.urllib.parse import urljoin
+from urllib.parse import unquote
+from urllib.parse import urljoin
 from zExceptions import NotFound
 from zope.component import getMultiAdapter
 from zope.interface import alsoProvides
@@ -23,7 +23,6 @@ import logging
 import os
 import pkg_resources
 import re
-import six
 
 
 NSMAP = {"metal": "http://namespaces.zope.org/metal"}
@@ -108,28 +107,28 @@ def parse_data_slots(value):
 def wrap_append_prepend_slots(node, data_slots):
     wrappers, prepends, appends = parse_data_slots(data_slots)
 
-    for panelId in wrappers:
+    for panel_id in wrappers:
         slot = etree.Element(
-            "{{{0:s}}}{1:s}".format(NSMAP["metal"], panelId), nsmap=NSMAP
+            "{{{0:s}}}{1:s}".format(NSMAP["metal"], panel_id), nsmap=NSMAP
         )
-        slot.attrib["define-slot"] = panelId
+        slot.attrib["define-slot"] = panel_id
         slot_parent = node.getparent()
         slot_parent_index = slot_parent.index(node)
         slot.append(node)
         slot_parent.insert(slot_parent_index, slot)
 
-    for panelId in prepends:
+    for panel_id in prepends:
         slot = etree.Element(
-            "{{{0:s}}}{1:s}".format(NSMAP["metal"], panelId), nsmap=NSMAP
+            "{{{0:s}}}{1:s}".format(NSMAP["metal"], panel_id), nsmap=NSMAP
         )
-        slot.attrib["define-slot"] = panelId
+        slot.attrib["define-slot"] = panel_id
         node.insert(0, slot)
 
-    for panelId in appends:
+    for panel_id in appends:
         slot = etree.Element(
-            "{{{0:s}}}{1:s}".format(NSMAP["metal"], panelId), nsmap=NSMAP
+            "{{{0:s}}}{1:s}".format(NSMAP["metal"], panel_id), nsmap=NSMAP
         )
-        slot.attrib["define-slot"] = panelId
+        slot.attrib["define-slot"] = panel_id
         node.append(slot)
 
     return wrappers + prepends + appends
@@ -177,9 +176,6 @@ def cook_layout(layout, ajax):
     template = TEMPLATE
     metal = 'xmlns:metal="http://namespaces.zope.org/metal"'
 
-    if six.PY2:
-        return template.format("".join(result)).replace(metal, "")
-
     return template.format(b"".join(result).decode("utf-8")).replace(metal, "")
 
 
@@ -209,39 +205,15 @@ class Macro(list):
 
 
 def resolve_ajax_main_template():
-    # Plone 5
     main_template = os.path.join("browser", "templates", "ajax_main_template.pt")
-    if pkg_resources.resource_exists("Products.CMFPlone", main_template):
-        filename = pkg_resources.resource_filename("Products.CMFPlone", main_template)
-        return ViewPageTemplateFile(filename)
-    else:
-        return resolve_main_template()
+    filename = pkg_resources.resource_filename("Products.CMFPlone", main_template)
+    return ViewPageTemplateFile(filename)
 
 
 def resolve_main_template():
-    # Plone 5
     main_template = os.path.join("browser", "templates", "main_template.pt")
-    if pkg_resources.resource_exists("Products.CMFPlone", main_template):
-        filename = pkg_resources.resource_filename("Products.CMFPlone", main_template)
-        return ViewPageTemplateFile(filename)
-
-    # Plone 4 with Sunburst
-    sunburst_main_template = os.path.join(
-        "skins", "sunburst_templates", "main_template.pt"
-    )
-    if pkg_resources.resource_exists("plonetheme.sunburst", sunburst_main_template):
-        filename = pkg_resources.resource_filename(
-            "plonetheme.sunburst", sunburst_main_template
-        )
-        return ViewPageTemplateFile(filename)
-
-    # Fallback
-    skins_main_template = os.path.join("skins", "plone_templates", "main_template.pt")
-    if pkg_resources.resource_exists("Products.CMFPlone", skins_main_template):
-        filename = pkg_resources.resource_filename(
-            "Products.CMFPlone", skins_main_template
-        )
-        return ViewPageTemplateFile(filename)
+    filename = pkg_resources.resource_filename("Products.CMFPlone", main_template)
+    return ViewPageTemplateFile(filename)
 
 
 @implementer(IMainTemplate, IBlocksTransformEnabled)
@@ -253,18 +225,17 @@ class MainTemplate(BrowserView):
     def __call__(self):
         if self.request.form.get("ajax_load"):
             return self.ajax_template()
-        else:
-            return self.main_template()
+        return self.main_template()
 
     @property
     def template(self):
         try:
             return self.layout
         except NotFound:
-            if self.request.form.get("ajax_load"):
-                return self.ajax_template
-            else:
-                return self.main_template
+            pass
+        if self.request.form.get("ajax_load"):
+            return self.ajax_template
+        return self.main_template
 
     @property
     def layout(self):

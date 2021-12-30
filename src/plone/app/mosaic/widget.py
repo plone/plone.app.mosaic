@@ -123,7 +123,7 @@ class LayoutWidget(BaseWidget, TextAreaWidget):
                 "-customContentLayout", "-contentLayout"
             )
         )
-        result["customContentLayout_field_selector"] = '[name="{:s}"]'.format(self.name)
+        result["customContentLayout_field_selector"] = f'[name="{self.name:s}"]'
         result["contentLayout_field_selector"] = '[name="{:s}"]'.format(
             self.name.replace(".customContentLayout", ".contentLayout")
         )
