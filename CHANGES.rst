@@ -4,6 +4,9 @@ Changelog
 3.0.0 (unreleased)
 ------------------
 
+- pyupgrade, black, isort
+  [jensens]
+
 - Remove buildout and use mxdev/Makefile based approach.
   Plone 6 only.
   [jensens]
