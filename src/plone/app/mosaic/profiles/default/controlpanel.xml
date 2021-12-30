@@ -1,11 +1,17 @@
 <?xml version="1.0"?>
-<object name="portal_controlpanel"
-        xmlns:i18n="http://xml.zope.org/namespaces/i18n" i18n:domain="plone">
-  <configlet title="Mosaic Layout Editor" action_id="mosaic-layout-editor"
+<object xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+        name="portal_controlpanel"
+        i18n:domain="plone"
+>
+  <configlet action_id="mosaic-layout-editor"
              appId="plone.app.mosaic"
-             category="Products" condition_expr=""
-             url_expr="string:${portal_url}/@@layouts-editor" visible="True"
-             i18n:attributes="title">
+             category="Products"
+             condition_expr=""
+             title="Mosaic Layout Editor"
+             url_expr="string:${portal_url}/@@layouts-editor"
+             visible="True"
+             i18n:attributes="title"
+  >
     <permission>Manage portal</permission>
   </configlet>
 </object>

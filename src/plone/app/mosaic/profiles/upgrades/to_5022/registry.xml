@@ -1,7 +1,8 @@
 <registry>
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.formats.grid_row_fluid">
+           prefix="plone.app.mosaic.formats.grid_row_fluid"
+  >
     <value key="name">grid-row-fluid</value>
     <value key="category">row</value>
     <value key="label">Fluid</value>

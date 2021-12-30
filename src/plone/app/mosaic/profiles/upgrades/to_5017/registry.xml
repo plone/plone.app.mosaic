@@ -28,28 +28,32 @@
     </value>
   </record>
   <record name="plone.app.mosaic.app_tiles.plone_app_standardtiles_rawhtml.available_actions"
-          remove="True" />
+          remove="True"
+  />
 
-  <records prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_html"
-           interface="plone.app.mosaic.interfaces.ITile">
+  <records interface="plone.app.mosaic.interfaces.ITile"
+           prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_html"
+  >
     <value key="name">plone.app.standardtiles.html</value>
     <value key="label">Rich Text</value>
     <value key="category">structure</value>
     <value key="tile_type">textapp</value>
-    <value key="default_value">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Sed posuere interdum sem. Quisque ligula eros ullamcorper quis, lacinia quis facilisis sed sapien. Mauris varius diam vitae arcu. Sed arcu lectus auctor vitae, consectetuer et venenatis eget velit. Sed augue orci, lacinia eu tincidunt et eleifend nec lacus.&lt;/p&gt;&lt;p&gt;Donec ultricies nisl ut felis, suspendisse potenti. Lorem ipsum ligula ut hendrerit mollis, ipsum erat vehicula risus, eu suscipit sem libero nec erat. Aliquam erat volutpat. Sed congue augue vitae neque. Nulla consectetuer porttitor pede. Fusce purus morbi tortor magna condimentum vel, placerat id blandit sit amet tortor.&lt;/p&gt;</value>
+    <value key="default_value">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Sed posuere interdum sem. Quisque ligula eros ullamcorper quis, lacinia quis facilisis sed sapien. Mauris varius diam vitae arcu. Sed arcu lectus auctor vitae, consectetuer et venenatis eget velit. Sed augue orci, lacinia eu tincidunt et eleifend nec lacus./ppDonec ultricies nisl ut felis, suspendisse potenti. Lorem ipsum ligula ut hendrerit mollis, ipsum erat vehicula risus, eu suscipit sem libero nec erat. Aliquam erat volutpat. Sed congue augue vitae neque. Nulla consectetuer porttitor pede. Fusce purus morbi tortor magna condimentum vel, placerat id blandit sit amet tortor./p</value>
     <value key="read_only">false</value>
     <value key="settings">false</value>
     <value key="favorite">false</value>
     <value key="rich_text">true</value>
     <value key="weight">110</value>
   </records>
-  <records prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_rawhtml"
-           interface="plone.app.mosaic.interfaces.ITile"
-           remove="True" />
+  <records interface="plone.app.mosaic.interfaces.ITile"
+           prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_rawhtml"
+           remove="True"
+  />
 
   <!-- new bundle for the mosaic grid -->
-  <records prefix="plone.bundles/mosaic-grid"
-           interface='Products.CMFPlone.interfaces.IBundleRegistry'>
+  <records interface="Products.CMFPlone.interfaces.IBundleRegistry"
+           prefix="plone.bundles/mosaic-grid"
+  >
     <value key="csscompilation">++plone++mosaic/mosaic-grid.css</value>
     <value key="last_compilation">2016-09-06 00:00:00</value>
     <value key="compile">False</value>
@@ -58,54 +62,72 @@
   </records>
 
   <!-- deprecated attachment and image tiles -->
-  <records prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_attachment"
-           interface="plone.app.mosaic.interfaces.ITile"
-           remove="True" />
+  <records interface="plone.app.mosaic.interfaces.ITile"
+           prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_attachment"
+           remove="True"
+  />
   <record name="plone.app.mosaic.app_tiles.plone_app_standardtiles_attachment.available_actions"
-          remove="True" />
+          remove="True"
+  />
 
-  <records prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_image"
-           interface="plone.app.mosaic.interfaces.ITile"
-           remove="True" />
+  <records interface="plone.app.mosaic.interfaces.ITile"
+           prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_image"
+           remove="True"
+  />
   <record name="plone.app.mosaic.app_tiles.plone_app_standardtiles_image.available_actions"
-          remove="True" />
+          remove="True"
+  />
 
 
   <!-- remove tile html chunks that we do not care about -->
-  <records prefix="plone.app.mosaic.structure_tiles.heading"
-           interface="plone.app.mosaic.interfaces.ITile"
-           remove="True" />
+  <records interface="plone.app.mosaic.interfaces.ITile"
+           prefix="plone.app.mosaic.structure_tiles.heading"
+           remove="True"
+  />
   <record name="plone.app.mosaic.structure_tiles.heading.available_actions"
-          remove="True" />
-  <records prefix="plone.app.mosaic.structure_tiles.subheading"
-           interface="plone.app.mosaic.interfaces.ITile"
-           remove="True" />
+          remove="True"
+  />
+  <records interface="plone.app.mosaic.interfaces.ITile"
+           prefix="plone.app.mosaic.structure_tiles.subheading"
+           remove="True"
+  />
   <record name="plone.app.mosaic.structure_tiles.subheading.available_actions"
-          remove="True" />
-  <records prefix="plone.app.mosaic.structure_tiles.text"
-           interface="plone.app.mosaic.interfaces.ITile"
-           remove="True" />
+          remove="True"
+  />
+  <records interface="plone.app.mosaic.interfaces.ITile"
+           prefix="plone.app.mosaic.structure_tiles.text"
+           remove="True"
+  />
   <record name="plone.app.mosaic.structure_tiles.text.available_actions"
-          remove="True" />
-  <records prefix="plone.app.mosaic.structure_tiles.bullets"
-           interface="plone.app.mosaic.interfaces.ITile"
-           remove="True" />
+          remove="True"
+  />
+  <records interface="plone.app.mosaic.interfaces.ITile"
+           prefix="plone.app.mosaic.structure_tiles.bullets"
+           remove="True"
+  />
   <record name="plone.app.mosaic.structure_tiles.bullets.available_actions"
-          remove="True" />
-  <records prefix="plone.app.mosaic.structure_tiles.numbers"
-           interface="plone.app.mosaic.interfaces.ITile"
-           remove="True" />
+          remove="True"
+  />
+  <records interface="plone.app.mosaic.interfaces.ITile"
+           prefix="plone.app.mosaic.structure_tiles.numbers"
+           remove="True"
+  />
   <record name="plone.app.mosaic.structure_tiles.numbers.available_actions"
-          remove="True" />
-  <records prefix="plone.app.mosaic.structure_tiles.table"
-           interface="plone.app.mosaic.interfaces.ITile"
-           remove="True" />
+          remove="True"
+  />
+  <records interface="plone.app.mosaic.interfaces.ITile"
+           prefix="plone.app.mosaic.structure_tiles.table"
+           remove="True"
+  />
   <record name="plone.app.mosaic.structure_tiles.table.available_actions"
-          remove="True" />
+          remove="True"
+  />
 
   <!-- upgrades for new values... -->
-  <record field="actions" interface="plone.app.mosaic.interfaces.IWidgetAction"
-          name="plone.app.mosaic.widget_actions.plone_app_z3cform_widget_RichTextFieldWidget.actions">
+  <record field="actions"
+          interface="plone.app.mosaic.interfaces.IWidgetAction"
+          name="plone.app.mosaic.widget_actions.plone_app_z3cform_widget_RichTextFieldWidget.actions"
+  >
     <value>
       <element>toolbar-styleselect</element>
       <element>toolbar-bold</element>

@@ -12,10 +12,11 @@
   </record>
 
   <!-- Primary actions -->
-  <records prefix="plone.app.mosaic.primary_actions.save"
-           interface='plone.app.mosaic.interfaces.IAction'>
+  <records interface="plone.app.mosaic.interfaces.IAction"
+           prefix="plone.app.mosaic.primary_actions.save"
+  >
     <value key="name">save</value>
-    <value key="fieldset"></value>
+    <value key="fieldset" />
     <value key="label">Save</value>
     <value key="action">save</value>
     <value key="icon">False</value>
@@ -23,10 +24,11 @@
     <value key="weight">10</value>
   </records>
 
-  <records prefix="plone.app.mosaic.primary_actions.cancel"
-           interface='plone.app.mosaic.interfaces.IAction'>
+  <records interface="plone.app.mosaic.interfaces.IAction"
+           prefix="plone.app.mosaic.primary_actions.cancel"
+  >
     <value key="name">cancel</value>
-    <value key="fieldset"></value>
+    <value key="fieldset" />
     <value key="label">Cancel</value>
     <value key="action">cancel</value>
     <value key="icon">False</value>
@@ -34,10 +36,11 @@
     <value key="weight">20</value>
   </records>
 
-  <records prefix="plone.app.mosaic.primary_actions.properties"
-           interface='plone.app.mosaic.interfaces.IAction'>
+  <records interface="plone.app.mosaic.interfaces.IAction"
+           prefix="plone.app.mosaic.primary_actions.properties"
+  >
     <value key="name">properties</value>
-    <value key="fieldset"></value>
+    <value key="fieldset" />
     <value key="label">Properties</value>
     <value key="action">properties</value>
     <value key="icon">False</value>
@@ -45,8 +48,9 @@
     <value key="weight">30</value>
   </records>
 
-  <records prefix="plone.app.mosaic.primary_actions.preview"
-           interface='plone.app.mosaic.interfaces.IAction'>
+  <records interface="plone.app.mosaic.interfaces.IAction"
+           prefix="plone.app.mosaic.primary_actions.preview"
+  >
     <value key="name">preview</value>
     <value key="fieldset">Layout</value>
     <value key="label">Preview</value>
@@ -56,8 +60,9 @@
     <value key="weight">40</value>
   </records>
 
-  <records prefix="plone.app.mosaic.primary_actions.customizelayout"
-           interface='plone.app.mosaic.interfaces.IAction'>
+  <records interface="plone.app.mosaic.interfaces.IAction"
+           prefix="plone.app.mosaic.primary_actions.customizelayout"
+  >
     <value key="name">customizelayout</value>
     <value key="fieldset">Layout</value>
     <value key="label">Customize</value>
@@ -67,8 +72,9 @@
     <value key="weight">50</value>
   </records>
 
-  <records prefix="plone.app.mosaic.primary_actions.changelayout"
-           interface='plone.app.mosaic.interfaces.IAction'>
+  <records interface="plone.app.mosaic.interfaces.IAction"
+           prefix="plone.app.mosaic.primary_actions.changelayout"
+  >
     <value key="name">changelayout</value>
     <value key="fieldset">Layout</value>
     <value key="label">Change</value>
@@ -78,8 +84,9 @@
     <value key="weight">60</value>
   </records>
 
-  <records prefix="plone.app.mosaic.primary_actions.savelayout"
-           interface='plone.app.mosaic.interfaces.IAction'>
+  <records interface="plone.app.mosaic.interfaces.IAction"
+           prefix="plone.app.mosaic.primary_actions.savelayout"
+  >
     <value key="name">savelayout</value>
     <value key="fieldset">Layout</value>
     <value key="label">Save</value>
@@ -89,10 +96,11 @@
     <value key="weight">70</value>
   </records>
 
-  <records prefix="plone.app.mosaic.secondary_actions.format"
-           interface='plone.app.mosaic.interfaces.IAction'>
+  <records interface="plone.app.mosaic.interfaces.IAction"
+           prefix="plone.app.mosaic.secondary_actions.format"
+  >
     <value key="name">format</value>
-    <value key="fieldset"></value>
+    <value key="fieldset" />
     <value key="label">Format</value>
     <value key="action">format</value>
     <value key="icon">False</value>
@@ -101,16 +109,18 @@
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IWeightedDict"
-           prefix="plone.app.mosaic.secondary_actions.format.items.format">
+           prefix="plone.app.mosaic.secondary_actions.format.items.format"
+  >
     <value key="name">none</value>
     <value key="label">Format</value>
     <value key="weight">10</value>
   </records>
 
-  <records prefix="plone.app.mosaic.secondary_actions.insert"
-           interface='plone.app.mosaic.interfaces.IAction'>
+  <records interface="plone.app.mosaic.interfaces.IAction"
+           prefix="plone.app.mosaic.secondary_actions.insert"
+  >
     <value key="name">insert</value>
-    <value key="fieldset"></value>
+    <value key="fieldset" />
     <value key="label">Insert</value>
     <value key="action">insert</value>
     <value key="icon">False</value>
@@ -119,7 +129,8 @@
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IWeightedDict"
-           prefix="plone.app.mosaic.secondary_actions.insert.items.insert">
+           prefix="plone.app.mosaic.secondary_actions.insert.items.insert"
+  >
     <value key="name">none</value>
     <value key="label">Insert</value>
     <value key="weight">10</value>
@@ -160,14 +171,16 @@
 
   <!-- Format categories -->
   <records interface="plone.app.mosaic.interfaces.IWeightedDict"
-           prefix="plone.app.mosaic.format_categories.tile">
+           prefix="plone.app.mosaic.format_categories.tile"
+  >
     <value key="name">tile</value>
     <value key="label">Tile</value>
     <value key="weight">10</value>
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IWeightedDict"
-           prefix="plone.app.mosaic.format_categories.row">
+           prefix="plone.app.mosaic.format_categories.row"
+  >
     <value key="name">row</value>
     <value key="label">Row</value>
     <value key="weight">90</value>
@@ -175,7 +188,8 @@
 
   <!-- Formats -->
   <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.formats.tile_align_center">
+           prefix="plone.app.mosaic.formats.tile_align_center"
+  >
     <value key="name">tile-align-center</value>
     <value key="category">tile</value>
     <value key="label">Center content</value>
@@ -186,7 +200,8 @@
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.formats.tile_padding_right">
+           prefix="plone.app.mosaic.formats.tile_padding_right"
+  >
     <value key="name">tile-padding-right</value>
     <value key="category">tile</value>
     <value key="label">Padding right</value>
@@ -197,7 +212,8 @@
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.formats.tile_padding_bottom">
+           prefix="plone.app.mosaic.formats.tile_padding_bottom"
+  >
     <value key="name">tile-padding-bottom</value>
     <value key="category">tile</value>
     <value key="label">Padding bottom</value>
@@ -208,7 +224,8 @@
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.formats.tile_align_left">
+           prefix="plone.app.mosaic.formats.tile_align_left"
+  >
     <value key="name">tile-align-left</value>
     <value key="category">tile</value>
     <value key="label">Float left</value>
@@ -219,7 +236,8 @@
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.formats.tile_remove_format">
+           prefix="plone.app.mosaic.formats.tile_remove_format"
+  >
     <value key="name">tile-remove-format</value>
     <value key="category">tile</value>
     <value key="label">(Remove format)</value>
@@ -230,7 +248,8 @@
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.formats.tile_align_right">
+           prefix="plone.app.mosaic.formats.tile_align_right"
+  >
     <value key="name">tile-align-right</value>
     <value key="category">tile</value>
     <value key="label">Float right</value>
@@ -241,7 +260,8 @@
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.formats.grid_row_fluid">
+           prefix="plone.app.mosaic.formats.grid_row_fluid"
+  >
     <value key="name">grid-row-fluid</value>
     <value key="category">row</value>
     <value key="label">Fluid</value>
@@ -252,7 +272,8 @@
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.formats.grid_row_dark">
+           prefix="plone.app.mosaic.formats.grid_row_dark"
+  >
     <value key="name">grid-row-dark</value>
     <value key="category">row</value>
     <value key="label">Dark background</value>
@@ -263,7 +284,8 @@
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.formats.row_cols_2211">
+           prefix="plone.app.mosaic.formats.row_cols_2211"
+  >
     <value key="name">row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-2</value>
     <value key="category">row</value>
     <value key="label">Columns L2/M2/S1</value>
@@ -274,7 +296,8 @@
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.formats.row_cols_3221">
+           prefix="plone.app.mosaic.formats.row_cols_3221"
+  >
     <value key="name">row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3</value>
     <value key="category">row</value>
     <value key="label">Columns L3/M2/S2</value>
@@ -285,7 +308,8 @@
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.formats.row_cols_3321">
+           prefix="plone.app.mosaic.formats.row_cols_3321"
+  >
     <value key="name">row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-3</value>
     <value key="category">row</value>
     <value key="label">Columns L3/M3/S2</value>
@@ -296,7 +320,8 @@
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.formats.row_cols_4221">
+           prefix="plone.app.mosaic.formats.row_cols_4221"
+  >
     <value key="name">row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-4</value>
     <value key="category">row</value>
     <value key="label">Columns L4/M2/S2</value>
@@ -307,7 +332,8 @@
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.formats.row_cols_4421">
+           prefix="plone.app.mosaic.formats.row_cols_4421"
+  >
     <value key="name">row-cols-1 row-cols-sm-2 row-cols-md-4 row-cols-lg-4</value>
     <value key="category">row</value>
     <value key="label">Columns L4/M4/S2</value>
@@ -318,7 +344,8 @@
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.formats.row_cols_6321">
+           prefix="plone.app.mosaic.formats.row_cols_6321"
+  >
     <value key="name">row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-6</value>
     <value key="category">row</value>
     <value key="label">Columns L6/M3/S2</value>
@@ -329,7 +356,8 @@
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.formats.grid_row_remove_format">
+           prefix="plone.app.mosaic.formats.grid_row_remove_format"
+  >
     <value key="name">grid-row-remove-format</value>
     <value key="category">row</value>
     <value key="label">(Remove format)</value>
@@ -342,56 +370,64 @@
   <!-- TinyMCE toolbar groups -->
 
   <records interface="plone.app.mosaic.interfaces.IWeightedDict"
-           prefix="plone.app.mosaic.tinymce_categories.actions">
+           prefix="plone.app.mosaic.tinymce_categories.actions"
+  >
     <value key="name">actions</value>
     <value key="label">Actions</value>
     <value key="weight">10</value>
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IWeightedDict"
-           prefix="plone.app.mosaic.tinymce_categories.styles">
+           prefix="plone.app.mosaic.tinymce_categories.styles"
+  >
     <value key="name">styles</value>
     <value key="label">Styles</value>
     <value key="weight">20</value>
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IWeightedDict"
-           prefix="plone.app.mosaic.tinymce_categories.text">
+           prefix="plone.app.mosaic.tinymce_categories.text"
+  >
     <value key="name">text</value>
     <value key="label">Text</value>
     <value key="weight">30</value>
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IWeightedDict"
-           prefix="plone.app.mosaic.tinymce_categories.justify">
+           prefix="plone.app.mosaic.tinymce_categories.justify"
+  >
     <value key="name">justify</value>
     <value key="label">Justify</value>
     <value key="weight">40</value>
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IWeightedDict"
-           prefix="plone.app.mosaic.tinymce_categories.lists">
+           prefix="plone.app.mosaic.tinymce_categories.lists"
+  >
     <value key="name">lists</value>
     <value key="label">Lists</value>
     <value key="weight">50</value>
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IWeightedDict"
-           prefix="plone.app.mosaic.tinymce_categories.table">
+           prefix="plone.app.mosaic.tinymce_categories.table"
+  >
     <value key="name">table</value>
     <value key="label">Table</value>
     <value key="weight">60</value>
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IWeightedDict"
-           prefix="plone.app.mosaic.tinymce_categories.selection">
+           prefix="plone.app.mosaic.tinymce_categories.selection"
+  >
     <value key="name">selection</value>
     <value key="label">Selection</value>
     <value key="weight">70</value>
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IWeightedDict"
-           prefix="plone.app.mosaic.tinymce_categories.actions">
+           prefix="plone.app.mosaic.tinymce_categories.actions"
+  >
     <value key="name">code</value>
     <value key="label">Code</value>
     <value key="weight">0</value>
@@ -400,7 +436,8 @@
   <!-- TinyMCE toolbar actions -->
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.richtext_toolbar.undo">
+           prefix="plone.app.mosaic.richtext_toolbar.undo"
+  >
     <value key="name">toolbar-undo</value>
     <value key="category">actions</value>
     <value key="label">Undo</value>
@@ -411,7 +448,8 @@
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.richtext_toolbar.redo">
+           prefix="plone.app.mosaic.richtext_toolbar.redo"
+  >
     <value key="name">toolbar-redo</value>
     <value key="category">actions</value>
     <value key="label">Redo</value>
@@ -422,7 +460,8 @@
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.richtext_toolbar.styleselect">
+           prefix="plone.app.mosaic.richtext_toolbar.styleselect"
+  >
     <value key="name">toolbar-styleselect</value>
     <value key="category">styles</value>
     <value key="label">Styles</value>
@@ -433,7 +472,8 @@
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.richtext_toolbar.styleselect">
+           prefix="plone.app.mosaic.richtext_toolbar.styleselect"
+  >
     <value key="name">toolbar-styleselect</value>
     <value key="category">styles</value>
     <value key="label">Styles</value>
@@ -444,7 +484,8 @@
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.richtext_toolbar.bold">
+           prefix="plone.app.mosaic.richtext_toolbar.bold"
+  >
     <value key="name">toolbar-bold</value>
     <value key="category">text</value>
     <value key="label">B</value>
@@ -455,7 +496,8 @@
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.richtext_toolbar.italic">
+           prefix="plone.app.mosaic.richtext_toolbar.italic"
+  >
     <value key="name">toolbar-italic</value>
     <value key="category">text</value>
     <value key="label">I</value>
@@ -466,7 +508,8 @@
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.richtext_toolbar.removeformat">
+           prefix="plone.app.mosaic.richtext_toolbar.removeformat"
+  >
     <value key="name">toolbar-removeformat</value>
     <value key="category">styles</value>
     <value key="label">Remove formatting</value>
@@ -477,7 +520,8 @@
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.richtext_toolbar.alignleft">
+           prefix="plone.app.mosaic.richtext_toolbar.alignleft"
+  >
     <value key="name">toolbar-alignleft</value>
     <value key="category">justify</value>
     <value key="label">Left-aligned</value>
@@ -488,7 +532,8 @@
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.richtext_toolbar.aligncenter">
+           prefix="plone.app.mosaic.richtext_toolbar.aligncenter"
+  >
     <value key="name">toolbar-aligncenter</value>
     <value key="category">justify</value>
     <value key="label">Center</value>
@@ -499,7 +544,8 @@
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.richtext_toolbar.alignright">
+           prefix="plone.app.mosaic.richtext_toolbar.alignright"
+  >
     <value key="name">toolbar-alignright</value>
     <value key="category">justify</value>
     <value key="label">Right-aligned</value>
@@ -510,7 +556,8 @@
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.richtext_toolbar.alignjustify">
+           prefix="plone.app.mosaic.richtext_toolbar.alignjustify"
+  >
     <value key="name">toolbar-alignjustify</value>
     <value key="category">justify</value>
     <value key="label">Justified</value>
@@ -521,7 +568,8 @@
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.richtext_toolbar.bullist">
+           prefix="plone.app.mosaic.richtext_toolbar.bullist"
+  >
     <value key="name">toolbar-bullist</value>
     <value key="category">lists</value>
     <value key="label">Unordered list</value>
@@ -532,7 +580,8 @@
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.richtext_toolbar.numlist">
+           prefix="plone.app.mosaic.richtext_toolbar.numlist"
+  >
     <value key="name">toolbar-numlist</value>
     <value key="category">lists</value>
     <value key="label">Ordered list</value>
@@ -543,7 +592,8 @@
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.richtext_toolbar.outdent">
+           prefix="plone.app.mosaic.richtext_toolbar.outdent"
+  >
     <value key="name">toolbar-outdent</value>
     <value key="category">lists</value>
     <value key="label">Outdent</value>
@@ -554,7 +604,8 @@
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.richtext_toolbar.indent">
+           prefix="plone.app.mosaic.richtext_toolbar.indent"
+  >
     <value key="name">toolbar-indent</value>
     <value key="category">lists</value>
     <value key="label">Indent</value>
@@ -565,7 +616,8 @@
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.richtext_toolbar.table">
+           prefix="plone.app.mosaic.richtext_toolbar.table"
+  >
     <value key="name">toolbar-table</value>
     <value key="category">lists</value>
     <value key="label">Table</value>
@@ -576,7 +628,8 @@
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.richtext_toolbar.ploneimage">
+           prefix="plone.app.mosaic.richtext_toolbar.ploneimage"
+  >
     <value key="name">toolbar-ploneimage</value>
     <value key="category">selection</value>
     <value key="label">Image</value>
@@ -587,7 +640,8 @@
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.richtext_toolbar.unlink">
+           prefix="plone.app.mosaic.richtext_toolbar.unlink"
+  >
     <value key="name">toolbar-unlink</value>
     <value key="category">selection</value>
     <value key="label">Unlink</value>
@@ -598,7 +652,8 @@
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.richtext_toolbar.plonelink">
+           prefix="plone.app.mosaic.richtext_toolbar.plonelink"
+  >
     <value key="name">toolbar-plonelink</value>
     <value key="category">selection</value>
     <value key="label">Link</value>
@@ -609,7 +664,8 @@
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.richtext_toolbar.anchor">
+           prefix="plone.app.mosaic.richtext_toolbar.anchor"
+  >
     <value key="name">toolbar-anchor</value>
     <value key="category">selection</value>
     <value key="label">Anchor</value>
@@ -620,7 +676,8 @@
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.richtext_toolbar.code">
+           prefix="plone.app.mosaic.richtext_toolbar.code"
+  >
     <value key="name">toolbar-code</value>
     <value key="category">code</value>
     <value key="label">Edit Code</value>
@@ -633,7 +690,8 @@
   <!-- TinyMCE contextmenu actions -->
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.richtext_contextmenu.tableprops">
+           prefix="plone.app.mosaic.richtext_contextmenu.tableprops"
+  >
     <value key="name">contextmenu-tableprops</value>
     <value key="category">table</value>
     <value key="label">Table properties</value>
@@ -644,7 +702,8 @@
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.richtext_contextmenu.cell">
+           prefix="plone.app.mosaic.richtext_contextmenu.cell"
+  >
     <value key="name">contextmenu-cell</value>
     <value key="category">table</value>
     <value key="label">Cell</value>
@@ -655,7 +714,8 @@
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.richtext_contextmenu.row">
+           prefix="plone.app.mosaic.richtext_contextmenu.row"
+  >
     <value key="name">contextmenu-row</value>
     <value key="category">table</value>
     <value key="label">Row</value>
@@ -666,7 +726,8 @@
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.richtext_contextmenu.column">
+           prefix="plone.app.mosaic.richtext_contextmenu.column"
+  >
     <value key="name">contextmenu-column</value>
     <value key="category">table</value>
     <value key="label">Column</value>
@@ -722,16 +783,20 @@
     </value>
   </record>
 
-  <record field="name" interface="plone.app.mosaic.interfaces.IWidgetAction"
-          name="plone.app.mosaic.widget_actions.plone_app_z3cform_widget_RichTextFieldWidget.name">
+  <record field="name"
+          interface="plone.app.mosaic.interfaces.IWidgetAction"
+          name="plone.app.mosaic.widget_actions.plone_app_z3cform_widget_RichTextFieldWidget.name"
+  >
     <field type="plone.registry.field.TextLine">
       <title>Name</title>
     </field>
     <value>plone.app.z3cform.widget.RichTextFieldWidget</value>
   </record>
 
-  <record field="actions" interface="plone.app.mosaic.interfaces.IWidgetAction"
-          name="plone.app.mosaic.widget_actions.plone_app_z3cform_widget_RichTextFieldWidget.actions">
+  <record field="actions"
+          interface="plone.app.mosaic.interfaces.IWidgetAction"
+          name="plone.app.mosaic.widget_actions.plone_app_z3cform_widget_RichTextFieldWidget.actions"
+  >
     <field type="plone.registry.field.List">
       <title>Actions</title>
       <value_type type="plone.registry.field.TextLine" />
@@ -756,42 +821,48 @@
 
   <!-- Tile categories -->
   <records interface="plone.app.mosaic.interfaces.IWeightedDict"
-           prefix="plone.app.mosaic.tiles_categories.structure">
+           prefix="plone.app.mosaic.tiles_categories.structure"
+  >
     <value key="name">structure</value>
     <value key="label">Structure</value>
     <value key="weight">10</value>
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IWeightedDict"
-           prefix="plone.app.mosaic.tiles_categories.media">
+           prefix="plone.app.mosaic.tiles_categories.media"
+  >
     <value key="name">media</value>
     <value key="label">Media</value>
     <value key="weight">20</value>
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IWeightedDict"
-           prefix="plone.app.mosaic.tiles_categories.fields">
+           prefix="plone.app.mosaic.tiles_categories.fields"
+  >
     <value key="name">fields</value>
     <value key="label">Fields</value>
     <value key="weight">30</value>
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IWeightedDict"
-           prefix="plone.app.mosaic.tiles_categories.applications">
+           prefix="plone.app.mosaic.tiles_categories.applications"
+  >
     <value key="name">applications</value>
     <value key="label">Applications</value>
     <value key="weight">40</value>
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IWeightedDict"
-           prefix="plone.app.mosaic.tiles_categories.properties">
+           prefix="plone.app.mosaic.tiles_categories.properties"
+  >
     <value key="name">properties</value>
     <value key="label">Properties</value>
     <value key="weight">50</value>
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IWeightedDict"
-           prefix="plone.app.mosaic.tiles_categories.advanced">
+           prefix="plone.app.mosaic.tiles_categories.advanced"
+  >
     <value key="name">advanced</value>
     <value key="label">Advanced</value>
     <value key="weight">60</value>
@@ -817,13 +888,14 @@
   </records>
   -->
 
-  <records prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_navigation"
-           interface="plone.app.mosaic.interfaces.ITile">
+  <records interface="plone.app.mosaic.interfaces.ITile"
+           prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_navigation"
+  >
     <value key="name">plone.app.standardtiles.navigation</value>
     <value key="label">Navigation</value>
     <value key="category">structure</value>
     <value key="tile_type">app</value>
-    <value key="default_value"></value>
+    <value key="default_value" />
     <value key="read_only">false</value>
     <value key="settings">true</value>
     <value key="favorite">false</value>
@@ -831,13 +903,14 @@
     <value key="weight">110</value>
   </records>
 
-  <records prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_embed"
-           interface="plone.app.mosaic.interfaces.ITile">
+  <records interface="plone.app.mosaic.interfaces.ITile"
+           prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_embed"
+  >
     <value key="name">plone.app.standardtiles.embed</value>
     <value key="label">Embed</value>
     <value key="category">media</value>
     <value key="tile_type">app</value>
-    <value key="default_value"></value>
+    <value key="default_value" />
     <value key="read_only">false</value>
     <value key="settings">true</value>
     <value key="favorite">false</value>
@@ -879,13 +952,14 @@
   </records>
   -->
 
-  <records prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_discussion"
-           interface="plone.app.mosaic.interfaces.ITile">
+  <records interface="plone.app.mosaic.interfaces.ITile"
+           prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_discussion"
+  >
     <value key="name">plone.app.standardtiles.discussion</value>
     <value key="label">Discussion</value>
     <value key="category">applications</value>
     <value key="tile_type">app</value>
-    <value key="default_value"></value>
+    <value key="default_value" />
     <value key="read_only">false</value>
     <value key="settings">true</value>
     <value key="favorite">false</value>
@@ -911,13 +985,14 @@
   </records>
   -->
 
-  <records prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_document_byline"
-           interface="plone.app.mosaic.interfaces.ITile">
+  <records interface="plone.app.mosaic.interfaces.ITile"
+           prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_document_byline"
+  >
     <value key="name">plone.app.standardtiles.document_byline</value>
     <value key="label">Document byline</value>
     <value key="category">properties</value>
     <value key="tile_type">app</value>
-    <value key="default_value"></value>
+    <value key="default_value" />
     <value key="read_only">false</value>
     <value key="settings">true</value>
     <value key="favorite">false</value>
@@ -925,13 +1000,14 @@
     <value key="weight">10</value>
   </records>
 
-  <records prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_related_items"
-           interface="plone.app.mosaic.interfaces.ITile">
+  <records interface="plone.app.mosaic.interfaces.ITile"
+           prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_related_items"
+  >
     <value key="name">plone.app.standardtiles.related_items</value>
     <value key="label">Related items</value>
     <value key="category">properties</value>
     <value key="tile_type">app</value>
-    <value key="default_value"></value>
+    <value key="default_value" />
     <value key="read_only">false</value>
     <value key="settings">true</value>
     <value key="favorite">false</value>
@@ -939,13 +1015,14 @@
     <value key="weight">20</value>
   </records>
 
-  <records prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_keywords"
-           interface="plone.app.mosaic.interfaces.ITile">
+  <records interface="plone.app.mosaic.interfaces.ITile"
+           prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_keywords"
+  >
     <value key="name">plone.app.standardtiles.keywords</value>
     <value key="label">Keywords</value>
     <value key="category">properties</value>
     <value key="tile_type">app</value>
-    <value key="default_value"></value>
+    <value key="default_value" />
     <value key="read_only">false</value>
     <value key="settings">true</value>
     <value key="favorite">false</value>
@@ -953,13 +1030,14 @@
     <value key="weight">30</value>
   </records>
 
-  <records prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_contentlisting"
-           interface="plone.app.mosaic.interfaces.ITile">
+  <records interface="plone.app.mosaic.interfaces.ITile"
+           prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_contentlisting"
+  >
     <value key="name">plone.app.standardtiles.contentlisting</value>
     <value key="label">Content listing</value>
     <value key="category">advanced</value>
     <value key="tile_type">app</value>
-    <value key="default_value"></value>
+    <value key="default_value" />
     <value key="read_only">false</value>
     <value key="settings">true</value>
     <value key="favorite">false</value>
@@ -967,13 +1045,14 @@
     <value key="weight">10</value>
   </records>
 
-  <records prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_existingcontent"
-           interface="plone.app.mosaic.interfaces.ITile">
+  <records interface="plone.app.mosaic.interfaces.ITile"
+           prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_existingcontent"
+  >
     <value key="name">plone.app.standardtiles.existingcontent</value>
     <value key="label">Existing Content</value>
     <value key="category">advanced</value>
     <value key="tile_type">app</value>
-    <value key="default_value"></value>
+    <value key="default_value" />
     <value key="read_only">false</value>
     <value key="settings">true</value>
     <value key="favorite">false</value>
@@ -981,13 +1060,14 @@
     <value key="weight">20</value>
   </records>
 
-  <records prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_rss"
-           interface="plone.app.mosaic.interfaces.ITile">
+  <records interface="plone.app.mosaic.interfaces.ITile"
+           prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_rss"
+  >
     <value key="name">plone.app.standardtiles.rss</value>
     <value key="label">RSS</value>
     <value key="category">advanced</value>
     <value key="tile_type">app</value>
-    <value key="default_value"></value>
+    <value key="default_value" />
     <value key="read_only">false</value>
     <value key="settings">true</value>
     <value key="favorite">false</value>
@@ -995,13 +1075,14 @@
     <value key="weight">30</value>
   </records>
 
-  <records prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_html"
-           interface="plone.app.mosaic.interfaces.ITile">
+  <records interface="plone.app.mosaic.interfaces.ITile"
+           prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_html"
+  >
     <value key="name">plone.app.standardtiles.html</value>
     <value key="label">Rich Text</value>
     <value key="category">structure</value>
     <value key="tile_type">textapp</value>
-    <value key="default_value">&lt;p&gt;Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Sed posuere interdum sem. Quisque ligula eros ullamcorper quis, lacinia quis facilisis sed sapien. Mauris varius diam vitae arcu. Sed arcu lectus auctor vitae, consectetuer et venenatis eget velit. Sed augue orci, lacinia eu tincidunt et eleifend nec lacus.&lt;/p&gt;&lt;p&gt;Donec ultricies nisl ut felis, suspendisse potenti. Lorem ipsum ligula ut hendrerit mollis, ipsum erat vehicula risus, eu suscipit sem libero nec erat. Aliquam erat volutpat. Sed congue augue vitae neque. Nulla consectetuer porttitor pede. Fusce purus morbi tortor magna condimentum vel, placerat id blandit sit amet tortor.&lt;/p&gt;</value>
+    <value key="default_value">pLorem ipsum dolor sit amet, consectetuer adipiscing elit. Sed posuere interdum sem. Quisque ligula eros ullamcorper quis, lacinia quis facilisis sed sapien. Mauris varius diam vitae arcu. Sed arcu lectus auctor vitae, consectetuer et venenatis eget velit. Sed augue orci, lacinia eu tincidunt et eleifend nec lacus./ppDonec ultricies nisl ut felis, suspendisse potenti. Lorem ipsum ligula ut hendrerit mollis, ipsum erat vehicula risus, eu suscipit sem libero nec erat. Aliquam erat volutpat. Sed congue augue vitae neque. Nulla consectetuer porttitor pede. Fusce purus morbi tortor magna condimentum vel, placerat id blandit sit amet tortor./p</value>
     <value key="read_only">false</value>
     <value key="settings">false</value>
     <value key="favorite">false</value>
@@ -1057,24 +1138,28 @@
     <value>++contentlayout++default/news_item.html</value>
   </record>
 
-  <records prefix="plone.resources/mosaic-base"
-           interface='Products.CMFPlone.interfaces.IResourceRegistry'>
+  <records interface="Products.CMFPlone.interfaces.IResourceRegistry"
+           prefix="plone.resources/mosaic-base"
+  >
     <value key="url">++plone++mosaic/js</value>
   </records>
 
-  <records prefix="plone.resources/mosaic"
-           interface='Products.CMFPlone.interfaces.IResourceRegistry'>
+  <records interface="Products.CMFPlone.interfaces.IResourceRegistry"
+           prefix="plone.resources/mosaic"
+  >
     <value key="url">++plone++mosaic/js</value>
     <value key="js">++plone++mosaic/js/mosaic.pattern.js</value>
   </records>
 
-  <records prefix="plone.resources/layouts-editor"
-           interface='Products.CMFPlone.interfaces.IResourceRegistry'>
+  <records interface="Products.CMFPlone.interfaces.IResourceRegistry"
+           prefix="plone.resources/layouts-editor"
+  >
     <value key="js">++plone++mosaic/js/layouts-editor.js</value>
   </records>
 
-  <records prefix="plone.bundles/mosaic-grid"
-           interface='Products.CMFPlone.interfaces.IBundleRegistry'>
+  <records interface="Products.CMFPlone.interfaces.IBundleRegistry"
+           prefix="plone.bundles/mosaic-grid"
+  >
     <value key="jscompilation">++plone++mosaic/mosaic-grid.js</value>
     <value key="csscompilation">++plone++mosaic/mosaic-grid.css</value>
     <value key="last_compilation">2019-06-18 10:30:00</value>
@@ -1083,8 +1168,9 @@
     <value key="enabled">True</value>
   </records>
 
-  <records prefix="plone.bundles/mosaic-styles"
-           interface='Products.CMFPlone.interfaces.IBundleRegistry'>
+  <records interface="Products.CMFPlone.interfaces.IBundleRegistry"
+           prefix="plone.bundles/mosaic-styles"
+  >
     <value key="jscompilation">++plone++mosaic/mosaic-styles.js</value>
     <value key="csscompilation">++plone++mosaic/mosaic-styles.css</value>
     <value key="last_compilation">2019-02-21 12:00:00</value>
@@ -1093,9 +1179,12 @@
     <value key="enabled">True</value>
   </records>
 
-  <records prefix="plone.bundles/mosaic"
-           interface='Products.CMFPlone.interfaces.IBundleRegistry'>
-    <value key="resources" purge="false">
+  <records interface="Products.CMFPlone.interfaces.IBundleRegistry"
+           prefix="plone.bundles/mosaic"
+  >
+    <value key="resources"
+           purge="false"
+    >
       <element>mosaic</element>
     </value>
     <value key="jscompilation">++plone++mosaic/plone-mosaic.js</value>
@@ -1119,9 +1208,12 @@
     </value>
   </records>
 
-  <records prefix="plone.bundles/layouts-editor"
-           interface='Products.CMFPlone.interfaces.IBundleRegistry'>
-    <value key="resources" purge="false">
+  <records interface="Products.CMFPlone.interfaces.IBundleRegistry"
+           prefix="plone.bundles/layouts-editor"
+  >
+    <value key="resources"
+           purge="false"
+    >
       <element>layouts-editor</element>
     </value>
     <value key="jscompilation">++plone++mosaic/layouts-editor.js</value>

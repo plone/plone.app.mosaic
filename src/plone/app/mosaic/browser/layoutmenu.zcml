@@ -1,11 +1,13 @@
-<configure xmlns="http://namespaces.zope.org/zope"
-           xmlns:zcml="http://namespaces.zope.org/zcml"
-           xmlns:browser="http://namespaces.zope.org/browser">
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:zcml="http://namespaces.zope.org/zcml"
+    >
 
   <!-- Define ++layout++ traverser -->
   <adapter
-      name="layout"
       factory=".layoutmenu.DisplayLayoutTraverser"
+      name="layout"
       />
 
   <!-- Define the layout menu -->
@@ -17,41 +19,41 @@
 
   <!-- Hide the default -->
   <adapter
-      for="plone.app.blocks.layoutbehavior.ILayoutBehaviorAdaptable
-               ..interfaces.IMosaicLayer"
-      name="plone.contentmenu.display"
       factory=".layoutmenu.HiddenDisplaySubMenuItem"
       provides="plone.app.contentmenu.interfaces.IContentMenuItem"
+      for="plone.app.blocks.layoutbehavior.ILayoutBehaviorAdaptable
+           ..interfaces.IMosaicLayer"
+      name="plone.contentmenu.display"
       />
 
   <!-- Display the custom menu -->
   <adapter
-      for="plone.app.blocks.layoutbehavior.ILayoutBehaviorAdaptable
-               ..interfaces.IMosaicLayer"
-      name="plone.contentmenu.layout"
       factory=".layoutmenu.DisplayLayoutSubMenuItem"
       provides="plone.app.contentmenu.interfaces.IContentMenuItem"
+      for="plone.app.blocks.layoutbehavior.ILayoutBehaviorAdaptable
+           ..interfaces.IMosaicLayer"
+      name="plone.contentmenu.layout"
       />
 
   <!-- Fix default view selection to allow ++layout++-traverser -->
   <configure package="plone.app.content.browser">
 
     <browser:page
-        for="plone.app.blocks.layoutbehavior.ILayoutBehaviorAdaptable"
-        layer="plone.app.mosaic.interfaces.IMosaicLayer"
         name="select_default_view"
+        for="plone.app.blocks.layoutbehavior.ILayoutBehaviorAdaptable"
         class="plone.app.mosaic.browser.layoutmenu.LayoutAwareDefaultViewSelectionView"
         template="templates/select_default_view.pt"
         permission="cmf.ModifyViewTemplate"
+        layer="plone.app.mosaic.interfaces.IMosaicLayer"
         />
 
     <browser:page
-        for="plone.app.blocks.layoutbehavior.ILayoutBehaviorAdaptable"
-        layer="plone.app.mosaic.interfaces.IMosaicLayer"
         name="selectViewTemplate"
+        for="plone.app.blocks.layoutbehavior.ILayoutBehaviorAdaptable"
         class="plone.app.mosaic.browser.layoutmenu.LayoutAwareDefaultViewSelectionView"
         attribute="selectViewTemplate"
         permission="cmf.ModifyViewTemplate"
+        layer="plone.app.mosaic.interfaces.IMosaicLayer"
         />
 
   </configure>
