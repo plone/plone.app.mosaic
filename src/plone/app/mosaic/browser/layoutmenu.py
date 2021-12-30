@@ -14,7 +14,7 @@ from plone.memoize import view
 from plone.protect.utils import addTokenToUrl
 from Products.CMFDynamicViewFTI.interfaces import ISelectableBrowserDefault
 from Products.CMFPlone.utils import parent
-from six.moves.urllib.parse import quote
+from urllib.parse import quote
 from zExceptions import NotFound
 from zope.browsermenu.interfaces import IBrowserMenu
 from zope.browsermenu.menu import BrowserMenu
@@ -63,8 +63,7 @@ class DisplayLayoutTraverser(SimpleHandler):
 
         if resource_path is None:
             raise NotFound(self.context, name, self.request)
-        else:
-            return DisplayLayoutView(self.context, self.request, resource_path)
+        return DisplayLayoutView(self.context, self.request, resource_path)
 
 
 @implementer(ITraversable)
@@ -112,10 +111,7 @@ class HiddenDisplaySubMenuItem(DisplaySubMenuItem):
             IContentMenuItem,
             name="plone.contentmenu.layout",
         )
-        if layout_menu.available():
-            return False
-        else:
-            return super().available()
+        return layout_menu.available() and super().available()
 
 
 @implementer(IContentMenuItem)
@@ -132,7 +128,7 @@ class DisplayLayoutSubMenuItem(BrowserSubMenuItem):
     # workflows menu - order=40
 
     def __init__(self, context, request):
-        BrowserSubMenuItem.__init__(self, context, request)
+        super().__init__(context, request)
         self.context_state = getMultiAdapter(
             (context, request), name="plone_context_state"
         )
@@ -150,24 +146,19 @@ class DisplayLayoutSubMenuItem(BrowserSubMenuItem):
                 "full control over how this folder is "
                 "displayed.",
             )
-        else:
-            return _(
-                "title_choose_default_layout",
-                default="Select a predefined layout for this folder, "
-                "or set a content item as its default view.",
-            )
+        return _(
+            "title_choose_default_layout",
+            default="Select a predefined layout for this folder, "
+            "or set a content item as its default view.",
+        )
 
     @property
     def action(self):
         if self.disabled():
             return ""
-        else:
-            if self.context_state.is_default_page():
-                return (
-                    self.context_state.parent().absolute_url() + "/select_default_view"
-                )
-            else:
-                return self.context.absolute_url() + "/select_default_view"
+        if self.context_state.is_default_page():
+            return self.context_state.parent().absolute_url() + "/select_default_view"
+        return self.context.absolute_url() + "/select_default_view"
 
     @view.memoize
     def available(self):
@@ -175,17 +166,14 @@ class DisplayLayoutSubMenuItem(BrowserSubMenuItem):
             return False
 
         context = self.context
+        if context is None:
+            return False
+
         vocab_factory = getUtility(
             IVocabularyFactory, name="plone.availableDisplayLayouts"
         )
         vocab = vocab_factory(context)
-
-        if context is None:
-            return False
-        if len(vocab) > 0:
-            return True
-        else:
-            return False
+        return len(vocab) > 0
 
     def selected(self):
         return False
@@ -195,13 +183,9 @@ class DisplayLayoutSubMenuItem(BrowserSubMenuItem):
         # From: plone.app.contentmenu.menu.DisplayMenuSubMenuItem.disabled:
         if IFolderContentsView.providedBy(self.request):
             return True
-        context = self.context
-        if not getattr(context, "isPrincipiaFolderish", False):
+        if not getattr(self.context, "isPrincipiaFolderish", False):
             return False
-        elif "index_html" not in context.objectIds():
-            return False
-        else:
-            return True
+        return "index_html" in self.context.objectIds()
 
 
 def getAvailableViewMethods(context):
@@ -247,28 +231,29 @@ class DisplayLayoutMenu(BrowserMenu):
                 if folder_default is not None:
                     folder_layout = folder_default.getLayout()
         for term in folder_vocab or []:
-            if term.value in folder_methods:
-                is_selected = term.value == folder_layout
-                id_ = term.value.split("++")[-1]
-                actionUrl = "{:s}/selectViewTemplate?templateId={:s}".format(
-                    folder_url, quote(term.value)
-                )
-                actionUrl = addTokenToUrl(actionUrl, request)
-                folder_results.append(
-                    {
-                        "title": term.title,
-                        "description": "",
-                        "action": actionUrl,
-                        "selected": is_selected,
-                        "icon": None,
-                        "extra": {
-                            "id": "folder-layout-" + id_,
-                            "separator": None,
-                            "class": is_selected and "actionMenuSelected" or "",
-                        },
-                        "submenu": None,
-                    }
-                )
+            if term.value not in folder_methods:
+                continue
+            is_selected = term.value == folder_layout
+            id_ = term.value.split("++")[-1]
+            actionUrl = "{:s}/selectViewTemplate?templateId={:s}".format(
+                folder_url, quote(term.value)
+            )
+            actionUrl = addTokenToUrl(actionUrl, request)
+            folder_results.append(
+                {
+                    "title": term.title,
+                    "description": "",
+                    "action": actionUrl,
+                    "selected": is_selected,
+                    "icon": None,
+                    "extra": {
+                        "id": "folder-layout-" + id_,
+                        "separator": None,
+                        "class": "actionMenuSelected" if is_selected else "",
+                    },
+                    "submenu": None,
+                }
+            )
 
         # Get context layout options
         context_methods = getAvailableViewMethods(context)
@@ -279,28 +264,29 @@ class DisplayLayoutMenu(BrowserMenu):
         if context_default is not None:
             context_layout = context_default.getLayout()
         for term in context_vocab:
-            if term.value in context_methods:
-                is_selected = term.value == context_layout
-                id_ = term.value.split("++")[-1]
-                actionUrl = "{:s}/selectViewTemplate?templateId={:s}".format(
-                    context_url, quote(term.value)
-                )
-                actionUrl = addTokenToUrl(actionUrl, request)
-                context_results.append(
-                    {
-                        "title": term.title,
-                        "description": "",
-                        "action": actionUrl,
-                        "selected": is_selected,
-                        "icon": None,
-                        "extra": {
-                            "id": "plone-contentmenu-layout-" + id_,
-                            "separator": None,
-                            "class": is_selected and "actionMenuSelected" or "",
-                        },
-                        "submenu": None,
-                    }
-                )
+            if term.value not in context_methods:
+                continue
+            is_selected = term.value == context_layout
+            id_ = term.value.split("++")[-1]
+            actionUrl = "{:s}/selectViewTemplate?templateId={:s}".format(
+                context_url, quote(term.value)
+            )
+            actionUrl = addTokenToUrl(actionUrl, request)
+            context_results.append(
+                {
+                    "title": term.title,
+                    "description": "",
+                    "action": actionUrl,
+                    "selected": is_selected,
+                    "icon": None,
+                    "extra": {
+                        "id": "plone-contentmenu-layout-" + id_,
+                        "separator": None,
+                        "class": "actionMenuSelected" if is_selected else "",
+                    },
+                    "submenu": None,
+                }
+            )
 
         # Merge the results with the original display meny
         menu = getUtility(IBrowserMenu, "plone_contentmenu_display")

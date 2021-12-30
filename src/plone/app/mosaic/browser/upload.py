@@ -52,13 +52,8 @@ class MosaicUploadView(BrowserView):
         obj = getattr(context, newid, None)
 
         # Set title
-        # Attempt to use Archetypes mutator if there is one,
-        # in case it uses a custom storage
         if title:
-            try:
-                obj.setTitle(title)
-            except AttributeError:
-                obj.title = title
+            obj.title = title
 
         # set primary field
         pf = obj.getPrimaryField()

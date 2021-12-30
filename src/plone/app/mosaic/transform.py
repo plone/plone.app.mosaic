@@ -50,15 +50,13 @@ class TransformBase:
         return None
 
     def transformIterable(self, result, encoding):
-        if self.published is None:
-            return None
-        if not isinstance(result, XMLSerializer):
-            return None
-        if not self.request.get("plone.app.blocks.enabled", False):
-            return None
-        if self.request.get("plone.app.blocks.disabled", False):
-            return None
-        if not IMosaicLayer.providedBy(self.request):
+        if (
+            self.published is None
+            or not isinstance(result, XMLSerializer)
+            or not self.request.get("plone.app.blocks.enabled", False)
+            or self.request.get("plone.app.blocks.disabled", False)
+            or not IMosaicLayer.providedBy(self.request)
+        ):
             return None
         return self.transform(result, encoding)
 
