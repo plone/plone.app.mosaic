@@ -336,9 +336,7 @@ class MosaicRegistry:
                 getattr(args["context"].aq_inner, "aq_parent", None).absolute_url()
                 + "/"
             )
-        else:
-            # context can be None, at least in tests.  Do nothing
-            # then.  See test_config in test_mosaicregistry.py
-            pass
+        # context can be None, at least in tests.  Do nothing
+        # then.  See test_config in test_mosaicregistry.py
 
         return config

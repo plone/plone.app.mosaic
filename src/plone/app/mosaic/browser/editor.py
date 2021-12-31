@@ -1,5 +1,6 @@
 from AccessControl import getSecurityManager
 from AccessControl import Unauthorized
+from configparser import ConfigParser
 from plone import api
 from plone.app.blocks.interfaces import CONTENT_LAYOUT_MANIFEST_FORMAT
 from plone.app.blocks.interfaces import CONTENT_LAYOUT_RESOURCE_NAME
@@ -13,24 +14,19 @@ from plone.protect.authenticator import createToken
 from plone.registry.interfaces import IRegistry
 from plone.resource.manifest import MANIFEST_FILENAME
 from plone.resource.utils import queryResourceDirectory
-from six.moves.configparser import ConfigParser
+from Products.CMFPlone.resources import add_bundle_on_request
 from zExceptions import NotFound
 from zope.component import getUtility
 from zope.publisher.browser import BrowserView
 
 import json
-import six
 
 
 def loadManifest(data):
-    if six.PY2:
-        parser = ConfigParser(None, multidict)
-        parser.readfp(six.StringIO(data))
-    else:
-        if isinstance(data, bytes):
-            data = data.decode()
-        parser = ConfigParser(dict_type=multidict, strict=False)
-        parser.read_string(data)
+    if isinstance(data, bytes):
+        data = data.decode()
+    parser = ConfigParser(dict_type=multidict, strict=False)
+    parser.read_string(data)
     return parser
 
 
@@ -44,9 +40,11 @@ def dumpManifest(parser):
 
 def removeLayout(parser, filename):
     for section in parser.sections():
-        if parser.has_option(section, "file"):
-            if parser.get(section, "file") == filename:
-                parser.remove_section(section)
+        if (
+            parser.has_option(section, "file")
+            and parser.get(section, "file") == filename
+        ):
+            parser.remove_section(section)
 
 
 class ManageLayoutView(BrowserView):
@@ -58,9 +56,9 @@ class ManageLayoutView(BrowserView):
         self.request.response.setHeader("Content-type", "application/json")
         if self.request.form.get("action") == "save":
             return self.save()
-        elif self.request.form.get("action") == "existing":
+        if self.request.form.get("action") == "existing":
             return self.existing()
-        elif self.request.form.get("action") == "deletelayout":
+        if self.request.form.get("action") == "deletelayout":
             return self.deletelayout()
 
     def _get_layout_path(self, val):
@@ -218,8 +216,6 @@ class LayoutsEditor(BrowserView):
                 return self.show()
             elif action == "hide":
                 return self.hide()
-        from Products.CMFPlone.resources import add_bundle_on_request
-
         add_bundle_on_request(self.request, "layouts-editor")
         return super().__call__()
 
