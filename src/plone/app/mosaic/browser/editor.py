@@ -63,7 +63,7 @@ class ManageLayoutView(BrowserView):
 
     def _get_layout_path(self, val):
         if "++contentlayout++" not in val:
-            val = "++contentlayout++" + val
+            return f"++contentlayout++{val}"
         return val
 
     def deletelayout(self):
@@ -153,7 +153,7 @@ class ManageLayoutView(BrowserView):
             except NotFound:
                 users_directory.makeDirectory(user_id)
                 user_directory = users_directory[user_id]
-            layout_dir_name = "custom/user-layouts/" + user_id
+            layout_dir_name = f"custom/user-layouts/{user_id}"
             layout_resources = user_directory
         else:
             # user needs plone.ManageContentLayouts permission to make
@@ -180,7 +180,7 @@ class ManageLayoutView(BrowserView):
         if MANIFEST_FILENAME in layout_resources.listDirectory():
             manifest = loadManifest(layout_resources.readFile(MANIFEST_FILENAME))
         else:
-            manifest = loadManifest("")
+            manifest = ConfigParser(dict_type=multidict, strict=False)
 
         sections = manifest.sections()
         manifest.add_section("new")
@@ -207,33 +207,34 @@ class ManageLayoutView(BrowserView):
 
 
 class LayoutsEditor(BrowserView):
+    def __init__(self, context, request):
+        super().__init__(context, request)
+        self.registry = getUtility(IRegistry)
+
     def __call__(self):
         if self.request.form.get("list-contentlayouts"):
             return self.list_contentlayouts()
         action = self.request.form.get("action")
-        if action:
-            if action == "show":
-                return self.show()
-            elif action == "hide":
-                return self.hide()
+        if action == "show":
+            return self.show()
+        if action == "hide":
+            return self.hide()
         add_bundle_on_request(self.request, "layouts-editor")
         return super().__call__()
 
     def show(self):
-        registry = getUtility(IRegistry)
-        hidden = registry["plone.app.mosaic.hidden_content_layouts"]
+        hidden = self.registry["plone.app.mosaic.hidden_content_layouts"]
         key = self.request.form.get("layout")
         if key and key in hidden:
             hidden.remove(key)
-            registry["plone.app.mosaic.hidden_content_layouts"] = hidden
+            self.registry["plone.app.mosaic.hidden_content_layouts"] = hidden
 
     def hide(self):
-        registry = getUtility(IRegistry)
-        hidden = registry["plone.app.mosaic.hidden_content_layouts"]
+        hidden = self.registry["plone.app.mosaic.hidden_content_layouts"]
         key = self.request.form.get("layout")
         if key and key not in hidden:
             hidden.append(str(key))
-            registry["plone.app.mosaic.hidden_content_layouts"] = hidden
+            self.registry["plone.app.mosaic.hidden_content_layouts"] = hidden
 
     def get_layout_id(self, layout):
         return "++layout++" + layout.replace("++contentlayout++", "").replace(
@@ -242,15 +243,13 @@ class LayoutsEditor(BrowserView):
 
     def list_contentlayouts(self):
         result = []
-        registry = getUtility(IRegistry)
-        hidden = registry["plone.app.mosaic.hidden_content_layouts"]
+        hidden = self.registry["plone.app.mosaic.hidden_content_layouts"]
         layouts = getLayoutsFromResources(CONTENT_LAYOUT_MANIFEST_FORMAT)
         for key, value in layouts.items():
-            _for = value.get("for", "")
             result.append(
                 {
                     "key": key,
-                    "_for": _for,
+                    "_for": value.get("for", ""),
                     "title": value.get("title", ""),
                     "hidden": key in hidden,
                 }
@@ -263,16 +262,12 @@ class LayoutsEditor(BrowserView):
         return json.dumps(
             {
                 "actionUrl": (
-                    "{}/++contentlayout++/custom/"
-                    "@@plone.resourceeditor.filemanager-actions".format(
-                        self.context.absolute_url()
-                    )
+                    f"{self.context.absolute_url()}/++contentlayout++/custom/"
+                    "@@plone.resourceeditor.filemanager-actions"
                 ),
                 "uploadUrl": (
-                    "{}/portal_resources/contentlayout/custom/"
-                    "themeFileUpload?_authenticator={}".format(
-                        self.context.absolute_url(), createToken()
-                    )
+                    f"{self.context.absolute_url()}/portal_resources/contentlayout/custom/"
+                    f"themeFileUpload?_authenticator={createToken()}"
                 ),
             }
         )
@@ -282,16 +277,12 @@ class LayoutsEditor(BrowserView):
         return json.dumps(
             {
                 "actionUrl": (
-                    "{}/++sitelayout++/custom/"
-                    "@@plone.resourceeditor.filemanager-actions".format(
-                        self.context.absolute_url()
-                    )
+                    f"{self.context.absolute_url()}/++sitelayout++/custom/"
+                    "@@plone.resourceeditor.filemanager-actions"
                 ),
                 "uploadUrl": (
-                    "{}/portal_resources/sitelayout/custom/"
-                    "themeFileUpload?_authenticator={}".format(
-                        self.context.absolute_url(), createToken()
-                    )
+                    f"{self.context.absolute_url()}/portal_resources/sitelayout/custom/"
+                    f"themeFileUpload?_authenticator={createToken()}"
                 ),
             }
         )

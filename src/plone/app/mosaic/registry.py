@@ -186,32 +186,6 @@ class MosaicRegistry:
             group["actions"].sort(key=safe_weight_sortkey)
         return config
 
-    # def mapStructureTiles(self, settings, config):
-    #    # Structure Tiles
-    #    tiles = settings.get('%s.structure_tiles' % self.prefix, {})
-    #
-    #    for key, tile in tiles.items():
-    #        if not 'category' in tile:
-    #            continue
-    #        index = getCategoryIndex(config['tiles'], tile['category'])
-    #        if index is not None:
-    #            config['tiles'][index]['tiles'].append(tile)
-    #    for tile in config['tiles']:
-    #        tile['tiles'].sort(key=safe_weight_sortkey)
-    #    return config
-    #
-    # def mapApplicationTiles(self, settings, config):
-    #    tiles = settings.get('%s.app_tiles' % self.prefix, {})
-    #    for key, tile in tiles.items():
-    #        if not 'category' in tile:
-    #            continue
-    #        index = getCategoryIndex(config['tiles'], tile['category'])
-    #        if index is not None:
-    #            config['tiles'][index]['tiles'].append(tile)
-    #    for tile in config['tiles']:
-    #        tile['tiles'].sort(key=safe_weight_sortkey)
-    #    return config
-
     def mapTiles(self, settings, config, tile_category):
         tiles = settings.get(f"{self.prefix:s}.{tile_category:s}", {})
         for key, tile in tiles.items():

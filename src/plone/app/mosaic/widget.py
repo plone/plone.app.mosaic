@@ -77,16 +77,14 @@ class LayoutWidget(BaseWidget, TextAreaWidget):
         """
         if "type" in self.request.form:
             return self.request.form["type"]
-        elif IAddForm.providedBy(getattr(self.form, "__parent__", None)):
+        if IAddForm.providedBy(getattr(self.form, "__parent__", None)):
             return getattr(
                 getattr(self.form, "__parent__", self.form), "portal_type", None
             )
-        else:
-            try:
-                return self.context.portal_type
-            except AttributeError:
-                pass
-        return None
+        try:
+            return self.context.portal_type
+        except AttributeError:
+            pass
 
     def get_options(self):
         registry = queryUtility(IRegistry)
@@ -111,10 +109,6 @@ class LayoutWidget(BaseWidget, TextAreaWidget):
         )
         result["context_url"] = self.context.absolute_url()
         result["tinymce"] = get_tinymce_options(self.context, self.field, self.request)
-        if "pattern_options" in result["tinymce"]:
-            # BBB Plone 4.3.x
-            result["tinymce"] = result["tinymce"]["pattern_options"]
-
         result["customContentLayout_selector"] = "#formfield-{:s}".format(
             self.name.replace(".", "-")
         )
@@ -128,7 +122,7 @@ class LayoutWidget(BaseWidget, TextAreaWidget):
             self.name.replace(".customContentLayout", ".contentLayout")
         )
 
-        result["available_layouts"] = getContentLayoutsForType(pt, self.context)  # noqa
+        result["available_layouts"] = getContentLayoutsForType(pt, self.context)
         result["user_layouts"] = getUserContentLayoutsForType(pt)
 
         return {"data": result}
@@ -177,9 +171,9 @@ class LayoutWidget(BaseWidget, TextAreaWidget):
         if fti is None:
             return ""
 
-        behaviors = getattr(fti, "behaviors", None) or []
+        behaviors = set(getattr(fti, "behaviors", None) or [])
 
-        if not (LAYOUT_BEHAVIORS & set(behaviors)):
+        if not (LAYOUT_BEHAVIORS & behaviors):
             return ""
 
         return fti.default_view
