@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<registry>
+
+  <record name="plone.app.mosaic.hidden_content_layouts">
+    <field type="plone.registry.field.List">
+      <title>Hidden content layouts</title>
+      <value_type type="plone.registry.field.TextLine" />
+    </field>
+    <value>
+      <element>custom/basic.html</element>
+    </value>
+  </record>
+
+  <record name="plone.app.blocks.default_layout">
+    <field type="plone.registry.field.ASCIILine" />
+    <value>++contentlayout++default/basic.html</value>
+  </record>
+
+  <record name="plone.app.blocks.default_layout.Document">
+    <field type="plone.registry.field.ASCIILine" />
+    <value>++contentlayout++default/document.html</value>
+  </record>
+
+  <record name="plone.app.blocks.default_layout.Event">
+    <field type="plone.registry.field.ASCIILine" />
+    <value>++contentlayout++default/basic.html</value>
+  </record>
+
+  <record name="plone.app.blocks.default_layout.Folder">
+    <field type="plone.registry.field.ASCIILine" />
+    <value>++contentlayout++default/basic.html</value>
+  </record>
+
+  <record name="plone.app.blocks.default_layout.News-Item">
+    <field type="plone.registry.field.ASCIILine" />
+    <value>++contentlayout++default/news_item.html</value>
+  </record>
+
+</registry>

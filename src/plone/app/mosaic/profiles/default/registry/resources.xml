@@ -1,0 +1,99 @@
+<?xml version="1.0"?>
+<registry>
+
+  <records interface="Products.CMFPlone.interfaces.IResourceRegistry"
+           prefix="plone.resources/mosaic-base"
+  >
+    <value key="url">++plone++mosaic/js</value>
+  </records>
+
+  <records interface="Products.CMFPlone.interfaces.IResourceRegistry"
+           prefix="plone.resources/mosaic"
+  >
+    <value key="url">++plone++mosaic/js</value>
+    <value key="js">++plone++mosaic/js/mosaic.pattern.js</value>
+  </records>
+
+  <records interface="Products.CMFPlone.interfaces.IResourceRegistry"
+           prefix="plone.resources/layouts-editor"
+  >
+    <value key="js">++plone++mosaic/js/layouts-editor.js</value>
+  </records>
+
+  <records interface="Products.CMFPlone.interfaces.IBundleRegistry"
+           prefix="plone.bundles/mosaic-grid"
+  >
+    <value key="jscompilation">++plone++mosaic/mosaic-grid.js</value>
+    <value key="csscompilation">++plone++mosaic/mosaic-grid.css</value>
+    <value key="last_compilation">2019-06-18 10:30:00</value>
+    <value key="compile">False</value>
+    <value key="merge_with">default</value>
+    <value key="enabled">True</value>
+  </records>
+
+  <records interface="Products.CMFPlone.interfaces.IBundleRegistry"
+           prefix="plone.bundles/mosaic-styles"
+  >
+    <value key="jscompilation">++plone++mosaic/mosaic-styles.js</value>
+    <value key="csscompilation">++plone++mosaic/mosaic-styles.css</value>
+    <value key="last_compilation">2019-02-21 12:00:00</value>
+    <value key="compile">False</value>
+    <value key="merge_with">default</value>
+    <value key="enabled">True</value>
+  </records>
+
+  <records interface="Products.CMFPlone.interfaces.IBundleRegistry"
+           prefix="plone.bundles/mosaic"
+  >
+    <value key="resources"
+           purge="false"
+    >
+      <element>mosaic</element>
+    </value>
+    <value key="jscompilation">++plone++mosaic/plone-mosaic.js</value>
+    <value key="csscompilation">++plone++mosaic/plone-mosaic.css</value>
+    <value key="last_compilation">2021-11-03 14:00:00</value>
+    <value key="compile">True</value>
+    <value key="enabled">True</value>
+    <value key="expression">python: member is not None</value>
+    <value key="depends">plone-logged-in</value>
+    <value key="stub_js_modules">
+      <element>jquery</element>
+      <element>tinymce</element>
+      <element>underscore</element>
+      <element>pat-logger</element>
+      <element>pat-registry</element>
+      <element>mockup-patterns-base</element>
+      <element>mockup-patterns-modal</element>
+      <element>mockup-patterns-tinymce</element>
+      <element>mockup-patterns-relateditems</element>
+      <element>mockup-utils</element>
+    </value>
+  </records>
+
+  <records interface="Products.CMFPlone.interfaces.IBundleRegistry"
+           prefix="plone.bundles/layouts-editor"
+  >
+    <value key="resources"
+           purge="false"
+    >
+      <element>layouts-editor</element>
+    </value>
+    <value key="jscompilation">++plone++mosaic/layouts-editor.js</value>
+    <value key="csscompilation">++plone++mosaic/layouts-editor.css</value>
+    <value key="last_compilation">2017-04-05 00:00:00</value>
+    <value key="compile">True</value>
+    <value key="enabled">False</value>
+    <value key="depends">plone-logged-in</value>
+    <value key="stub_js_modules">
+      <element>jquery</element>
+      <element>underscore</element>
+      <element>pat-logger</element>
+      <element>pat-registry</element>
+      <element>mockup-patterns-base</element>
+      <element>mockup-patterns-relateditems</element>
+      <element>mockup-utils</element>
+    </value>
+  </records>
+
+</registry>

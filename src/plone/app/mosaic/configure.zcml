@@ -46,7 +46,6 @@
   <!-- Mosaic Editor Widget -->
   <adapter
       factory=".widget.LayoutFieldWidget"
-      zcml:condition="installed plone.app.widgets"
       />
   <!-- Hide site layout fields when not enabled -->
   <adapter

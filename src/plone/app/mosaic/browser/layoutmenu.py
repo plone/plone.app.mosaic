@@ -82,10 +82,9 @@ class DisplayContentLayoutTraverser(SimpleHandler):
         if resource_path in vocab:
             self.request.URL = self.context.absolute_url() + "/"
             return DisplayLayoutView(self.context, self.request, resource_path)
-        else:
-            # Fallback to the original resource traverser
-            traverser = ContentLayoutTraverser(self.context, self.request)
-            return traverser.traverse(name, remaining)
+        # Fallback to the original resource traverser
+        traverser = ContentLayoutTraverser(self.context, self.request)
+        return traverser.traverse(name, remaining)
 
 
 @implementer(IBlocksTransformEnabled)
