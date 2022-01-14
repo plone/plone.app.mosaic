@@ -1,9 +1,4 @@
-/**
- * This plugin is used to create a mosaic toolbar.
- *
- * @author Rob Gietema
- */
-
+// This plugin is used to create a mosaic toolbar.
 import $ from "jquery";
 import Tile from "./mosaic.tile";
 

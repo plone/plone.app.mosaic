@@ -1,9 +1,4 @@
-/**
- * This plugin is used to register and execute actions.
- *
- * @author Rob Gietema
- */
-
+// This plugin is used to register and execute actions.
 import $ from "jquery";
 import Tile from "./mosaic.tile";
 import Modal from "mockup/src/pat/modal/modal";

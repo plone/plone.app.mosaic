@@ -1,9 +1,4 @@
-/**
- * This plugin is used to display an overlay
- *
- * @author Rob Gietema
- */
-
+// This plugin is used to display an overlay
 import $ from "jquery";
 
 // Define mosaic namespace if it doesn't exist

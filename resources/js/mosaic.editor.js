@@ -1,9 +1,4 @@
-/**
- * This plugin is used to set an element to be editable.
- *
- * @author Rob Gietema
- */
-
+// This plugin is used to set an element to be editable.
 import $ from "jquery";
 
 const tinymce = window.tinymce;

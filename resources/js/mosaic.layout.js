@@ -1,8 +1,4 @@
-/**
- * This plugin is used to create a mosaic layout.
- *
- * @author Rob Gietema, Robert Kuzma
- */
+// This plugin is used to create a mosaic layout.
 import $ from "jquery";
 import _ from "underscore";
 import Tile from "./mosaic.tile";

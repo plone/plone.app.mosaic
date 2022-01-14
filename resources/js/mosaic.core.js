@@ -1,8 +1,4 @@
-/**
- * This plugin is used to define the mosaic namespace
- *
- * @author Rob Gietema
- */
+// This plugin is used to define the mosaic namespace
 import $ from "jquery";
 import _ from "underscore";
 import Tile from "./mosaic.tile";
