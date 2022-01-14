@@ -43,5 +43,6 @@ src/plone/app/mosaic/browser/static/js/mosaic-compiled.js
 bootstrap-buildout.py
 pip-selfcheck.json
 .Python
+.python-version
 pyvenv.cfg
 package-lock.json
