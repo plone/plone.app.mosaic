@@ -15,11 +15,7 @@ export default Base.extend({
 
         const $ = (await import("jquery")).default;
         (await import("./mosaic.core")).default;
-        (await import("./mosaic.layout")).default;
-        (await import("./mosaic.toolbar")).default;
-        (await import("./mosaic.actions")).default;
         (await import("./mosaic.editor")).default;
-        (await import("./mosaic.overlay")).default;
 
         var self = this;
         self.options.data.$el = self.$el;

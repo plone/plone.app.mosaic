@@ -2,6 +2,7 @@
 import $ from "jquery";
 import _ from "underscore";
 import Tile from "./mosaic.tile";
+import "./mosaic.overlay";
 
 // Define mosaic namespace if it doesn't exist
 if (typeof $.mosaic === "undefined") {

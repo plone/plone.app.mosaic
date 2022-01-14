@@ -3,6 +3,7 @@ import $ from "jquery";
 import Tile from "./mosaic.tile";
 import Modal from "mockup/src/pat/modal/modal";
 import utils from "mockup/src/core/utils";
+import "./mosaic.overlay";
 
 // Define mosaic namespace if it doesn't exist
 if (typeof $.mosaic === "undefined") {
