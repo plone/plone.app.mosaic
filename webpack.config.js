@@ -5,7 +5,8 @@ const mockup_config = require("mockup/webpack.config.js");
 module.exports = async (env, argv) => {
     let config = {
         entry: {
-            "mosaic-bundle": path.resolve(__dirname, "resources/mosaic-bundle-config"),
+            "plone-mosaic": path.resolve(__dirname, "resources/plone-mosaic-config"),
+            "layouts-editor": path.resolve(__dirname, "resources/js/layouts-editor"),
         },
     };
     config = await mockup_config(env, argv, __dirname);
