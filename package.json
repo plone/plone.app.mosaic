@@ -21,7 +21,7 @@
         "babel-loader": "^8.2.3",
         "copy-webpack-plugin": "^10.0.0",
         "copyfiles": "^2.4.1",
-        "core-js": "3.19.1",
+        "core-js": "3.20.2",
         "cross-env": "^7.0.3",
         "css-loader": "^6.5.0",
         "eslint": "^8.2.0",
@@ -54,7 +54,7 @@
         "@patternslib/patternslib": "^6.3.2",
         "jquery": "3.6.0",
         "ua-parser-js": "0.7.28",
-        "underscore": "1.13.1"
+        "underscore": "1.13.2"
     },
     "resolutions-comments": {
         "ua-parser-js": "See https://github.com/faisalman/ua-parser-js/issues/536"
