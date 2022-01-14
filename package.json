@@ -8,13 +8,6 @@
         "yarn": "^1.3.2"
     },
     "dependencies": {
-        "@patternslib/patternslib": "^6.2.0",
-        "bootstrap": "^5.1.1",
-        "bootstrap-icons": "^1.7.1",
-        "jquery": "^3.6.0",
-        "jquery-form": "4.3.0",
-        "jquery.browser": "0.1.0",
-        "jquery.cookie": "1.4.1",
         "mockup": "git+https://github.com/plone/mockup.git#es6"
     },
     "devDependencies": {
@@ -73,8 +66,8 @@
         "ua-parser-js": "See https://github.com/faisalman/ua-parser-js/issues/536"
     },
     "scripts": {
-        "watch:webpack": "NODE_ENV=development webpack --config webpack.config.js --watch",
-        "start": "npm-run-all clean --parallel start:*"
+        "build": "NODE_ENV=production webpack --config webpack.config.js",
+        "watch:webpack": "NODE_ENV=development webpack --config webpack.config.js --watch"
     },
     "browserslist": {
         "production": [
