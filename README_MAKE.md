@@ -70,14 +70,11 @@ They aim to ease development and deployment of *Plone 6+*
     Zope/Plone application server configuration. Used by *cookiecutter-zope-instance*
 `Makefile`
     The configuration for *make*
-`requirement{%- if cookiecutter.mode == "adon" %}_barebone{%- endif %}.txt`
+`requirements.txt`
     The core requirements.
 `sources.ini`
     *mxdev* is used to develop with sources from VCS like Git.
     If you need sources from git, add them here.
-
-`Dockerfile`
-    Minimal configuration to build an Docker image using *make* based on the official `plone-backend <https://github.com/plone/plone-backend>`_ image.
 
 ## Tools
 
