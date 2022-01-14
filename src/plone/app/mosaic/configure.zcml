@@ -44,9 +44,7 @@
   <adapter factory=".registry.MosaicRegistry" />
 
   <!-- Mosaic Editor Widget -->
-  <adapter
-      factory=".widget.LayoutFieldWidget"
-      />
+  <adapter factory=".widget.LayoutFieldWidget" />
   <!-- Hide site layout fields when not enabled -->
   <adapter
       factory=".widget.HideSiteLayoutFields"
