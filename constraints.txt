@@ -1,4 +1,4 @@
--c https://dist.plone.org/release/6.0.0a2/constraints.txt
+-c https://dist.plone.org/release/6.0-dev/constraints.txt
 
 ploneapp.mosaic==
 plone.app.blocks==4.3.2
