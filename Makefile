@@ -63,7 +63,7 @@ RUN_PREREQUISITES=${INSTANCE_TARGET}
 
 # install and run
 .PHONY: all # full install, test and run
-all:style testrun
+all:style test run
 
 # Add the following 'help' target to your Makefile
 # And add help text after each target name starting with '\#\#'
