@@ -1,51 +1,33 @@
-/* Layout Mosaic pattern.
- *
- * Options:
- *
- * Documentation:
- *
- * License:
- *    Copyright (C) 2014 Plone Foundation
- *
- *    This program is free software; you can redistribute it and/or modify it
- *    under the terms of the GNU General Public License as published by the
- *    Free Software Foundation; either version 2 of the License.
- *
- *    This program is distributed in the hope that it will be useful, but
- *    WITHOUT ANY WARRANTY; without even the implied warranty of
- *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
- *    Public License for more details.
- *
- *    You should have received a copy of the GNU General Public License along
- *    with this program; if not, write to the Free Software Foundation, Inc.,
- *    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
- */
-window.DEBUG = true;
-require([
-  'jquery',
-  'pat-base',
-  'mosaic-url/mosaic.core',
-  'mosaic-url/mosaic.layout',
-  'mosaic-url/mosaic.toolbar',
-  'mosaic-url/mosaic.actions',
-  'mosaic-url/mosaic.editor',
-  'mosaic-url/mosaic.overlay',
-], function($, Base) {
-  'use strict';
+// Layout Mosaic pattern.
+import "regenerator-runtime/runtime"; // needed for ``await`` support
+import Base from "@patternslib/patternslib/src/core/base";
+import Parser from "@patternslib/patternslib/src/core/parser";
 
-  var Layout = Base.extend({
-    name: 'layout',
-    trigger: '.pat-layout',
-    parser: 'mockup',
-    defaults: {
-      attribute: 'class'
+export const parser = new Parser("layout");
+parser.addArgument("attribute", "class");
+
+export default Base.extend({
+    name: "layout",
+    trigger: ".pat-layout",
+
+    async init() {
+        this.options = parser.parse(this.el);
+
+        const $ = (await import("jquery")).default;
+        (await import("./mosaic.core")).default;
+        (await import("./mosaic.layout")).default;
+        (await import("./mosaic.toolbar")).default;
+        (await import("./mosaic.actions")).default;
+        (await import("./mosaic.editor")).default;
+        (await import("./mosaic.overlay")).default;
+
+        var self = this;
+        self.options.data.$el = self.$el;
+        $.mosaic.init({
+            data: {
+                attribute: this.options.attribute,
+                $el: this.$el,
+            },
+        });
     },
-    init: function() {
-      var self = this;
-      self.options.data.$el = self.$el;
-      $.mosaic.init({'data': self.options.data});
-    }
-  });
-
-  return Layout;
 });
