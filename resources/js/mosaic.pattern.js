@@ -16,6 +16,9 @@ export default Base.extend({
         const $ = (await import("jquery")).default;
         (await import("./mosaic.core")).default;
         (await import("./mosaic.editor")).default;
+        import("../scss/plone-mosaic.scss");
+        import("../scss/mosaic-styles.scss");
+        import("../scss/mosaic-grid.scss");
 
         var self = this;
         self.options.data.$el = self.$el;

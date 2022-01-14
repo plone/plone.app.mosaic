@@ -1,6 +1,7 @@
 import $ from "jquery";
 import _ from "underscore";
 import utils from "mockup/src/core/utils";
+import "../scss/layouts-editor.scss";
 
 $(document).ready(function () {
     var EditorTemplate = _.template(
