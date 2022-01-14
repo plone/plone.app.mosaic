@@ -1,6 +1,6 @@
 process.traceDeprecation = true;
 const path = require("path");
-const mockup_config = require("mockup/webpack.config.js");
+const patternslib_config = require("@patternslib/patternslib/webpack/webpack.config");
 
 module.exports = async (env, argv) => {
     let config = {
@@ -9,7 +9,8 @@ module.exports = async (env, argv) => {
             "layouts-editor": path.resolve(__dirname, "resources/js/layouts-editor"),
         },
     };
-    config = await mockup_config(env, argv, __dirname);
+
+    config = patternslib_config(env, argv, config, ["mockup"]);
     config.output.path = path.resolve(__dirname, "src/plone/app/mosaic/browser/static");
 
     return config;
