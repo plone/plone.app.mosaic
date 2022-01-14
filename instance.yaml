@@ -15,3 +15,4 @@ default_context:
     load_zcml:
         package_includes: ['plone.app.mosaic']
     db_storage: direct
+    debug_mode: on
