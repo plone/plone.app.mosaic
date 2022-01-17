@@ -44,12 +44,12 @@ ADDONFOLDER=${ADDONBASE}src/
 INSTANCE_YAML=instance.yaml
 INSTANCE_FOLDER=instance
 
-PIP_PARAMS= --pre --use-deprecated legacy-resolver
+PIP_PARAMS= --pre
 
 ##############################################################################
 # targets and prerequisites
 # target has to be one file, otherwise step gets executes for each file separate
-PREPARE_PREREQUISITES=${PIP_REQUIREMENTS_IN_FILE} ${CONSTRAINTS_IN} sources.ini ${ADDONBASE}setup.cfg
+PREPARE_PREREQUISITES=${PIP_REQUIREMENTS_IN_FILE} ${CONSTRAINTS_IN} sources.ini ${ADDONBASE}setup.py
 PREPARE_TARGET=requirements-mxdev.txt
 INSTALL_PREREQUSISTES=${PREPARE_TARGET}
 INSTALL_TARGET=.installed.txt
@@ -141,8 +141,8 @@ endif
 
 PIP_SENTINEL=${SENTINELFOLDER}pip.sentinel
 ${PIP_SENTINEL}: ${VENV_SENTINEL} ${CONSTRAINTS_IN} ${SENTINEL}
-	@echo "$(OK_COLOR)Install pip according to ${CONSTRAINTS_IN}$(NO_COLOR)"
-	@${PYBIN}pip install -c ${CONSTRAINTS_IN} pip wheel
+	@echo "$(OK_COLOR)Install pip 22 dev from git/main$(NO_COLOR)"
+	@${PYBIN}pip install git+https://github.com/pypa/pip.git#egg=pip wheel setuptools
 	@touch ${PIP_SENTINEL}
 
 ##############################################################################
@@ -321,5 +321,3 @@ ifneq ("$(wildcard Dockerfile)", "")
 else
 	@echo "$(ERROR_COLOR)A 'Dockerfile' is required to build an image.$(NO_COLOR)"
 endif
-
-include webpack.mk

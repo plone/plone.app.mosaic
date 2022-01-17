@@ -40,18 +40,12 @@ setup(
     zip_safe=False,
     install_requires=[
         "setuptools",
-        "six",
-        "plone.subrequest>=1.8.6",
-        "plone.tiles>=2.2.0",
-        "plone.app.blocks>=4.3.1",
-        "plone.app.tiles>3.2.1",
-        "plone.app.drafts>=1.1.3",
-        "plone.app.standardtiles>=2.3.1",
-        "Products.CMFPlone>=5.1",
-        "plone.app.layout",
-        # new IRichTextBehavior Interface class
-        "plone.app.contenttypes>=2.0.0",
-        "plone.behavior>=1.3.0",
+        "Products.CMFPlone>=6.0.0a2",
+        "plone.subrequest",
+        "plone.app.blocks",
+        "plone.app.tiles",
+        "plone.app.drafts",
+        "plone.app.standardtiles",
     ],
     extras_require={
         "test": [
