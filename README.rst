@@ -94,18 +94,14 @@ enabled for any content type by enabling behaviors **Layout support** and
 **Drafting support**.
 
 
-**Note for Plone 5.1:**
-
-Since version ``2.2.x`` the renamed IRichTextBehavior behavior is used from ``plone.app.contenttypes >= 2.0.0`` to keep the Plone 5.1 compatibility pin plone.app.contenttypes to ``2.0.2``.
-
 However, if a newer version of mosaic is needed,
 the good known set for the version can be found at Github, Mosaic Code repository, in the file `versions.cfg <https://github.com/plone/plone.app.mosaic/blob/master/versions.cfg>`_
 
-An example ``buildout.cfg`` for Plone ``5.1.x`` with plone.app.mosaic ``2.2.x`` could look like this::
+An example ``buildout.cfg`` for Plone ``6.x`` could look like this::
 
     [buildout]
     extends =
-        https://dist.plone.org/release/5.1-latest/versions.cfg
+        https://dist.plone.org/release/6.0-latest/versions.cfg
         https://raw.githubusercontent.com/plone/plone.app.mosaic/master/versions.cfg
 
     parts =
@@ -122,31 +118,16 @@ An example ``buildout.cfg`` for Plone ``5.1.x`` with plone.app.mosaic ``2.2.x`` 
 
 
 
-Backend development
--------------------
+Development
+-----------
 
-Plone 5:
+Plone 6:
 
 Clone and build::
 
     $ git clone https://github.com/plone/plone.app.mosaic
     $ cd plone.app.mosaic
-    $ python3.7 -m venv .
-    $ ./bin/pip install -r requirements.txt
-    $ ./bin/buildout
-
-For Python 2.7 do exactly the same but create a virtualenv with::
-
-    $ virtualenv .
-
-instead of::
-
-    $ python3.7 -m venv .
-
-
-Startup::
-
-    $ ./bin/instance fg
+    $ make run
 
 
 Get started:
@@ -157,46 +138,23 @@ Get started:
  * click **Edit** to see the new **Mosaic Editor**
 
 
-Plone 4:
+JS & CSS Development::
 
-Development for plone.app.mosaic has moved to Plone 5 and Python 3.
-To use plone.app.mosaic in Plone4 please use the related release on
-https://pypi.org
+    $ yarn install
+    $ yarn start
 
+In the resource registry hange the resource path for `mosaic` and `layouts-editor` to
+    - `http://localhost:8011/dist/plone-mosaic.js`
+    - `http://localhost:8011/dist/layouts-editor.js`
 
-Frontend development
---------------------
+This will use the resources from webpack server on port 8011 then.
 
-Build the bundle with:
-
-.. code:: bash
-
-   $ npm install
-   $ node_modules/.bin/bower install
-   $ make clean all watch
+The javascript and scss files to work on are in the package root under `resources` and
+will be compiled into minified production bundles with `yarn build`.
 
 
-Webpack based frontent development
-----------------------------------
-
-Plone Mosaic can be developed with Webpack running:
-
-.. code:: bash
-
-   $ make watch_theme
-
-or starting the instances either manually or with ``make watch_instance`` and starting the Webpack development server with:
-
-.. code:: bash
-
-   $ make watch_webpack
-
-Once you have activated theme called **Plone Mosaic**,
-the editor will be reloaded and rebuilt by Webpack development server after each filesystem change.
-
-
-Documentation screenshots
--------------------------
+Documentation screenshots [TODOO: UPDATE GENERATED DOCUMENTATION]
+-----------------------------------------------------------------
 
 To script screenshots into the Sphinx documentation, use the development buildout:
 
