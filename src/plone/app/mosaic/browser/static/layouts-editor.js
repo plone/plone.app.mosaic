@@ -6255,59 +6255,6 @@ module.exports = function (i) {
 
 /***/ }),
 
-/***/ 10878:
-/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
-
-var ___EXPOSE_LOADER_IMPORT___ = __webpack_require__(19755);
-var ___EXPOSE_LOADER_GET_GLOBAL_THIS___ = __webpack_require__(27672);
-var ___EXPOSE_LOADER_GLOBAL_THIS___ = ___EXPOSE_LOADER_GET_GLOBAL_THIS___;
-___EXPOSE_LOADER_GLOBAL_THIS___["$"] = ___EXPOSE_LOADER_IMPORT___;
-___EXPOSE_LOADER_GLOBAL_THIS___["jQuery"] = ___EXPOSE_LOADER_IMPORT___;
-module.exports = ___EXPOSE_LOADER_IMPORT___;
-
-
-/***/ }),
-
-/***/ 27672:
-/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
-
-"use strict";
-
-
-// eslint-disable-next-line func-names
-module.exports = function () {
-  if (typeof globalThis === "object") {
-    return globalThis;
-  }
-
-  var g;
-
-  try {
-    // This works if eval is allowed (see CSP)
-    // eslint-disable-next-line no-new-func
-    g = this || new Function("return this")();
-  } catch (e) {
-    // This works if the window reference is available
-    if (typeof window === "object") {
-      return window;
-    } // This works if the self reference is available
-
-
-    if (typeof self === "object") {
-      return self;
-    } // This works if the global reference is available
-
-
-    if (typeof __webpack_require__.g !== "undefined") {
-      return __webpack_require__.g;
-    }
-  }
-
-  return g;
-}();
-
-/***/ }),
-
 /***/ 19755:
 /***/ (function(module, exports) {
 
@@ -18415,7 +18362,8 @@ module.exports = styleTagTransform;
 /******/ 		// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
 /******/ 		var installedChunks = {
 /******/ 			62397: 0,
-/******/ 			50200: 0
+/******/ 			50200: 0,
+/******/ 			19755: 0
 /******/ 		};
 /******/ 		
 /******/ 		__webpack_require__.f.j = function(chunkId, promises) {
@@ -18659,9 +18607,9 @@ __webpack_require__.d(modules_namespaceObject, {
 
 // EXTERNAL MODULE: ./node_modules/regenerator-runtime/runtime.js
 var runtime = __webpack_require__(35666);
-// EXTERNAL MODULE: ./node_modules/jquery/dist/jquery-exposed.js
-var jquery_exposed = __webpack_require__(10878);
-var jquery_exposed_default = /*#__PURE__*/__webpack_require__.n(jquery_exposed);
+// EXTERNAL MODULE: ./node_modules/jquery/dist/jquery.js
+var jquery = __webpack_require__(19755);
+var jquery_default = /*#__PURE__*/__webpack_require__.n(jquery);
 ;// CONCATENATED MODULE: ./node_modules/underscore/modules/_setup.js
 // Current version.
 var VERSION = '1.13.2';
@@ -21388,7 +21336,7 @@ var QueryHelper = function QueryHelper(options) {
     sort_order: "reverse",
     pathDepth: 1
   };
-  self.options = jquery_exposed_default().extend({}, defaults, options);
+  self.options = jquery_default().extend({}, defaults, options);
   self.pattern = self.options.pattern;
 
   if (self.pattern === undefined || self.pattern === null) {
@@ -21451,7 +21399,7 @@ var QueryHelper = function QueryHelper(options) {
       searchOptions = {};
     }
 
-    searchOptions = jquery_exposed_default().extend({}, {
+    searchOptions = jquery_default().extend({}, {
       useBaseCriteria: true,
       additionalCriterias: []
     }, searchOptions);
@@ -21514,7 +21462,7 @@ var QueryHelper = function QueryHelper(options) {
       url += "&";
     }
 
-    return url + jquery_exposed_default().param(self.getQueryData());
+    return url + jquery_default().param(self.getQueryData());
   };
 
   self.selectAjax = function () {
@@ -21563,7 +21511,7 @@ var QueryHelper = function QueryHelper(options) {
       }),
       attributes: JSON.stringify(self.options.attributes)
     };
-    jquery_exposed_default().ajax({
+    jquery_default().ajax({
       url: self.options.vocabularyUrl,
       dataType: "JSON",
       data: data,
@@ -21594,13 +21542,13 @@ var Loading = function Loading(options) {
     options = {};
   }
 
-  self.options = jquery_exposed_default().extend({}, defaults, options);
+  self.options = jquery_default().extend({}, defaults, options);
 
   self.init = function () {
-    self.$el = jquery_exposed_default()("." + self.className);
+    self.$el = jquery_default()("." + self.className);
 
     if (self.$el.length === 0) {
-      self.$el = jquery_exposed_default()("<div><div></div></div>");
+      self.$el = jquery_default()("<div><div></div></div>");
       self.$el.addClass(self.className).hide().appendTo("body");
     }
   };
@@ -21619,8 +21567,8 @@ var Loading = function Loading(options) {
       // go through all modals and backdrops and make sure we have a higher
       // z-index to use
       zIndex = 10005;
-      jquery_exposed_default()(".modal-wrapper,.-modal-backdrop").each(function () {
-        zIndex = Math.max(zIndex, jquery_exposed_default()(this).css("zIndex") || 10005);
+      jquery_default()(".modal-wrapper,.-modal-backdrop").each(function () {
+        zIndex = Math.max(zIndex, jquery_default()(this).css("zIndex") || 10005);
       });
       zIndex += 1;
     }
@@ -21648,10 +21596,10 @@ var Loading = function Loading(options) {
 };
 
 var getAuthenticator = function getAuthenticator() {
-  var $el = jquery_exposed_default()('input[name="_authenticator"]');
+  var $el = jquery_default()('input[name="_authenticator"]');
 
   if ($el.length === 0) {
-    $el = jquery_exposed_default()('a[href*="_authenticator"]');
+    $el = jquery_default()('a[href*="_authenticator"]');
 
     if ($el.length > 0) {
       return $el.attr("href").split("_authenticator=")[1];
@@ -21701,7 +21649,7 @@ var getWindow = function getWindow() {
 };
 
 var parseBodyTag = function parseBodyTag(txt) {
-  return jquery_exposed_default()(/<body[^>]*>[^]*<\/body>/im.exec(txt)[0].replace("<body", "<div").replace("</body>", "</div>")).eq(0).html();
+  return jquery_default()(/<body[^>]*>[^]*<\/body>/im.exec(txt)[0].replace("<body", "<div").replace("</body>", "</div>")).eq(0).html();
 };
 
 var featureSupport = {
@@ -21722,14 +21670,14 @@ var featureSupport = {
 
 var bool = function bool(val) {
   if (typeof val === "string") {
-    val = jquery_exposed_default().trim(val).toLowerCase();
+    val = jquery_default().trim(val).toLowerCase();
   }
 
   return ["false", false, "0", 0, "", undefined, null].indexOf(val) === -1;
 };
 
 var escapeHTML = function escapeHTML(val) {
-  return jquery_exposed_default()("<div/>").text(val).html();
+  return jquery_default()("<div/>").text(val).html();
 };
 
 var removeHTML = function removeHTML(val) {
@@ -21940,36 +21888,36 @@ var update = injectStylesIntoStyleTag_default()(layouts_editor/* default */.Z, o
 
 
 
-jquery_exposed_default()(document).ready(function () {
+jquery_default()(document).ready(function () {
   var EditorTemplate = index_default.template('<table class="table listing">' + "<thead>" + "<th>Title</th>" + "<th>Path</th>" + "<th>Types</th>" + "<th>Actions</th>" + "</thead>" + "<tbody>" + "<% _.each(items, function(item){ %>" + '<tr data-layout-key="<%- item.key %>">' + "<td><%- item.title %></td>" + "<td><%- item.key %></td>" + '<td><%- item._for || "all" %></td>' + "<td>" + "<% if(item.hidden){ %>" + '<a href="#" class="showit">Show</a>' + "<% }else{ %>" + '<a href="#" class="hideit">Hide</a>' + "<% } %>" + "</td>" + "</tr>" + "<% }); %>" + "</tbody" + "</table>");
 
   var loadEditor = function loadEditor() {
     var baseUrl = window.location.origin + window.location.pathname;
     var url = baseUrl + "?list-contentlayouts=true";
     utils.loading.show();
-    jquery_exposed_default().ajax({
+    jquery_default().ajax({
       url: url,
       dataType: "JSON"
     }).done(function (data) {
-      var $el = jquery_exposed_default()("#show-hide-editor");
+      var $el = jquery_default()("#show-hide-editor");
 
       if ($el.length === 0) {
-        $el = jquery_exposed_default()('<div id="show-hide-editor" />');
-        jquery_exposed_default()(".show-hide-layouts").append($el);
+        $el = jquery_default()('<div id="show-hide-editor" />');
+        jquery_default()(".show-hide-layouts").append($el);
       }
 
       $el.empty();
       $el.html(EditorTemplate({
         items: data
       }));
-      jquery_exposed_default()(".showit,.hideit", $el).click(function (e) {
+      jquery_default()(".showit,.hideit", $el).click(function (e) {
         utils.loading.show();
         e.preventDefault();
-        jquery_exposed_default().ajax({
+        jquery_default().ajax({
           url: baseUrl,
           data: {
-            action: jquery_exposed_default()(this).hasClass("showit") && "show" || "hide",
-            layout: jquery_exposed_default()(this).parents("tr").attr("data-layout-key"),
+            action: jquery_default()(this).hasClass("showit") && "show" || "hide",
+            layout: jquery_default()(this).parents("tr").attr("data-layout-key"),
             _authenticator: utils.getAuthenticator()
           }
         }).done(function () {
@@ -21981,7 +21929,7 @@ jquery_exposed_default()(document).ready(function () {
     });
   };
 
-  jquery_exposed_default()("#content-core").on("clicked", "#autotoc-item-autotoc-2", function (e) {
+  jquery_default()("#content-core").on("clicked", "#autotoc-item-autotoc-2", function (e) {
     e.preventDefault();
     loadEditor();
   });
