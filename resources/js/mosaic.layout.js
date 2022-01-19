@@ -1,6 +1,7 @@
 // This plugin is used to create a mosaic layout.
 import $ from "jquery";
 import _ from "underscore";
+import tinymce from "tinymce/tinymce";
 import Tile from "./mosaic.tile";
 import "./mosaic.overlay";
 
@@ -253,7 +254,7 @@ $.fn.mosaicLayout = function () {
             var snap_size = GetBootstrapColByPercent(snap);
 
             var column_sizes = [];
-            row.children(".mosaic-resize-placeholder").each(function (i) {
+            row.children(".mosaic-resize-placeholder").each(function () {
                 var col_size = GetColSizeByColClass($(this).mosaicGetWidthClass());
                 column_sizes.push(col_size);
             });
@@ -360,7 +361,7 @@ $.fn.mosaicLayout = function () {
 
     // Handle mouse up event
     // When resizing is done on mouse up event apply the changes to the div elements
-    var DocumentMouseup = function (e) {
+    var DocumentMouseup = function () {
         // Find resize helper
         $(".mosaic-resize-handle-helper", $.mosaic.document).each(function () {
             var resize_handle_index = $(this).data("resize_handle_index");
@@ -395,7 +396,7 @@ $.fn.mosaicLayout = function () {
                             .children(".mosaic-tile")
                             .first()
                             .children(".mosaic-tile-side-tools")
-                            .each(function (index) {
+                            .each(function () {
                                 var $tileSideTools = $(this);
 
                                 $tileSideTools
@@ -682,7 +683,7 @@ $.fn.mosaicAddEmptyRows = function () {
         // Loop through rows
         $(this)
             .find(".mosaic-grid-row:not(.mosaic-innergrid-row)")
-            .each(function (i) {
+            .each(function () {
                 $(this).before(
                     $($.mosaic.document.createElement("div"))
                         .addClass("mosaic-grid-row mosaic-empty-row")
@@ -1354,7 +1355,7 @@ $.fn.mosaicSetResizeHandles = function () {
             var zero_count = 0;
             var col_sum = 0;
 
-            for (var i = 0; i < nr_of_columns; i++) {
+            for (let i = 0; i < nr_of_columns; i++) {
                 var col_size = GetColSizeByColClass(
                     $($(this).children(".mosaic-grid-cell").get(i)).mosaicGetWidthClass()
                 );
@@ -1378,7 +1379,7 @@ $.fn.mosaicSetResizeHandles = function () {
             //   .addClass("mosaic-grid-bg")
             // );
 
-            for (var i = 0; i < nr_of_columns; i++) {
+            for (let i = 0; i < nr_of_columns; i++) {
                 col_size = column_sizes[i] ? column_sizes[i] : zero_col;
 
                 resize_col_size = resize_col_size + col_size;
@@ -1847,7 +1848,6 @@ $.mosaic.getDefaultValue = function (tile_config) {
                     } else {
                         return "";
                     }
-                    break;
                 default:
                     return (
                         '<div class="discreet">Placeholder for field:<br/><b>' +
@@ -1855,7 +1855,6 @@ $.mosaic.getDefaultValue = function (tile_config) {
                         "</b></div>"
                     );
             }
-            break;
         default:
             return tile_config.default_value;
     }
@@ -2111,7 +2110,3 @@ function GetBootstrapColByPercent(width) {
     // Fallback
     return 12;
 }
-
-return {
-    Tile: Tile,
-};

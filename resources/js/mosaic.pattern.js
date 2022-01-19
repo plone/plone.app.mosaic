@@ -9,6 +9,7 @@ parser.addArgument("attribute", "class");
 export default Base.extend({
     name: "layout",
     trigger: ".pat-layout",
+    parser: "mockup",
 
     async init() {
         this.options = parser.parse(this.el);

@@ -1,5 +1,5 @@
 import $ from "jquery";
-import logging from "../../core/logging";
+import logging from "@patternslib/patternslib/src/core/logging";
 
 const log = logging.getLogger("pat-mosaic");
 
