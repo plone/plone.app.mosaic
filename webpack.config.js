@@ -13,5 +13,9 @@ module.exports = async (env, argv) => {
     config = patternslib_config(env, argv, config, ["mockup"]);
     config.output.path = path.resolve(__dirname, "src/plone/app/mosaic/browser/static");
 
+    if (process.env.NODE_ENV === "development") {
+        config.devServer.port = "8011";
+    }
+
     return config;
 };
