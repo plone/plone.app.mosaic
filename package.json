@@ -39,6 +39,7 @@
         "regenerator-runtime": "^0.13.9",
         "sass": "^1.43.4",
         "sass-loader": "^12.3.0",
+	"select2": "^4.1.0",
         "style-loader": "^3.3.0",
         "terser-webpack-plugin": "^5.2.5",
         "timezone-mock": "^1.2.2",
