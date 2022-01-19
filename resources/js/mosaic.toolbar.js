@@ -1,6 +1,7 @@
 // This plugin is used to create a mosaic toolbar.
 import $ from "jquery";
 import Tile from "./mosaic.tile";
+import "select2";
 
 // Define mosaic namespace if it doesn't exist
 if (typeof $.mosaic === "undefined") {
