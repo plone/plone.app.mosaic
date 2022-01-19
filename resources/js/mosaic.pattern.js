@@ -23,11 +23,9 @@ export default Base.extend({
 
         var self = this;
         self.options.data.$el = self.$el;
+
         $.mosaic.init({
-            data: {
-                attribute: this.options.attribute,
-                $el: this.$el,
-            },
+            data: self.options.data,
         });
     },
 });
