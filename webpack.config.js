@@ -5,8 +5,8 @@ const patternslib_config = require("@patternslib/patternslib/webpack/webpack.con
 module.exports = async (env, argv) => {
     let config = {
         entry: {
-            "plone-mosaic": path.resolve(__dirname, "resources/plone-mosaic-config"),
-            "layouts-editor": path.resolve(__dirname, "resources/js/layouts-editor"),
+            "plone-mosaic.min": path.resolve(__dirname, "resources/plone-mosaic-config"),
+            "layouts-editor.min": path.resolve(__dirname, "resources/js/layouts-editor"),
         },
     };
 
