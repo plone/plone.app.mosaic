@@ -1,8 +1,8 @@
 // This plugin is used to register and execute actions.
 import $ from "jquery";
-import Modal from "mockup/src/pat/modal/modal";
+import Modal from "@plone/mockup/src/pat/modal/modal";
 import Tile from "./mosaic.tile";
-import utils from "mockup/src/core/utils";
+import utils from "@plone/mockup/src/core/utils";
 import "./mosaic.overlay";
 import "jquery-form";
 import "select2";

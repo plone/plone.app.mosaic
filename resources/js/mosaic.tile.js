@@ -1,10 +1,10 @@
 import $ from "jquery";
 import _ from "underscore";
-import utils from "mockup/src/core/utils";
+import utils from "@plone/mockup/src/core/utils";
 import logging from "@patternslib/patternslib/src/core/logging";
 import tinymce from "tinymce/tinymce";
-import TinyMCE from "mockup/src/pat/tinymce/tinymce";
-import Modal from "mockup/src/pat/modal/modal";
+import TinyMCE from "@plone/mockup/src/pat/tinymce/tinymce";
+import Modal from "@plone/mockup/src/pat/modal/modal";
 import Registry from "@patternslib/patternslib/src/core/registry";
 import "./mosaic.overlay";
 
