@@ -141,8 +141,8 @@ endif
 
 PIP_SENTINEL=${SENTINELFOLDER}pip.sentinel
 ${PIP_SENTINEL}: ${VENV_SENTINEL} ${CONSTRAINTS_IN} ${SENTINEL}
-	@echo "$(OK_COLOR)Install pip 22 dev from git/main$(NO_COLOR)"
-	@${PYBIN}pip install git+https://github.com/pypa/pip.git#egg=pip wheel setuptools
+	@echo "$(OK_COLOR)Install pip$(NO_COLOR)"
+	@${PYBIN}pip install -U pip>=22.0.2 wheel setuptools
 	@touch ${PIP_SENTINEL}
 
 ##############################################################################
@@ -151,7 +151,7 @@ ${PIP_SENTINEL}: ${VENV_SENTINEL} ${CONSTRAINTS_IN} ${SENTINEL}
 MXDEV_SENTINEL=${SENTINELFOLDER}pip-mxdev.sentinel
 ${MXDEV_SENTINEL}: ${PIP_SENTINEL}
 	@echo "$(OK_COLOR)Install mxdev$(NO_COLOR)"
-	@${PYBIN}pip install mxdev
+	@${PYBIN}pip install mxdev>=2.0.0
 	@touch ${MXDEV_SENTINEL}
 
 .PHONY: prepare
