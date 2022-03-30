@@ -57,7 +57,6 @@ class LayoutWidget(BaseWidget, TextAreaWidget):
         # Disable Mosaic editor on unexpected view names
         if self._form_name() in FORM_DENYS:
             return False
-        breakpoint()
         if "++addtranslation++" in self.request.URL:
             return False
         # Disable Mosaic editor when the form has a status message,
