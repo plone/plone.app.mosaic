@@ -4,6 +4,9 @@ Changelog
 3.0.0 (unreleased)
 ------------------
 
+- Do not load mosaic editor on babel add form (`++addtranslation++...`).
+  [jensens]
+
 - pyupgrade, black, isort
   [jensens]
 
@@ -25,6 +28,7 @@ Changelog
 
 - Update for Bootstrap 5
   [agitator]
+
 
 2.2.3 (2020-07-02)
 ------------------

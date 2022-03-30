@@ -29,15 +29,14 @@ from zope.interface import implementer
 from zope.interface import implementer_only
 
 
-LAYOUT_VIEWS = ["layout_view", "@@layout_view"]
+LAYOUT_VIEWS = {"layout_view", "@@layout_view"}
 
 LAYOUT_BEHAVIORS = {
     "plone.app.blocks.layoutbehavior.ILayoutAware",
     "plone.layoutaware",
 }
 
-FORMS_BLACKLIST = ["babel_edit"]
-
+FORM_DENYS = {"babel_edit"}
 
 class ILayoutWidget(ITextAreaWidget):
     """Marker interface for the LayoutWidget."""
@@ -56,9 +55,11 @@ class LayoutWidget(BaseWidget, TextAreaWidget):
     @memoize
     def enabled(self):
         # Disable Mosaic editor on unexpected view names
-        if self._form_name() in FORMS_BLACKLIST:
+        if self._form_name() in FORM_DENYS:
             return False
-
+        breakpoint()
+        if "++addtranslation++" in self.request.URL:
+            return False
         # Disable Mosaic editor when the form has a status message,
         # because the Mosaic editor is currently unable to properly show
         # validation errors
