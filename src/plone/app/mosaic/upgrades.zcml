@@ -409,12 +409,21 @@
       run_deps="false"
       />
 
+  <genericsetup:registerProfile
+      name="to_6000"
+      title="Upgrade profile to 6000"
+      description=""
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
+      directory="profiles/upgrades/to_6000"
+      />
+
   <genericsetup:upgradeStep
       title="Upgrade registry configuration"
       profile="plone.app.mosaic:default"
       source="5028"
       destination="6000"
-      handler=".upgrades.upgrade_registry"
+      handler=".upgrades.upgrade_to_6000"
       />
 
 </configure>

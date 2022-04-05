@@ -1,0 +1,29 @@
+<registry>
+
+  <!-- update bundle values -->
+  <records prefix="plone.bundles/mosaic" interface='Products.CMFPlone.interfaces.IBundleRegistry'>
+    <value key="expression">python: member is not None</value>
+    <value key="depends"></value>
+  </records>
+
+  <records prefix="plone.bundles/layouts-editor" interface='Products.CMFPlone.interfaces.IBundleRegistry'>
+    <value key="expression">python: member is not None</value>
+    <value key="depends"></value>
+  </records>
+
+  <!-- remove obsolete bundles -->
+  <records prefix="plone.bundles/mosaic-grid"
+           interface="Products.CMFPlone.interfaces.IBundleRegistry"
+           remove="true">
+  </records>
+
+  <records prefix="plone.bundles/mosaic-styles"
+           interface="Products.CMFPlone.interfaces.IBundleRegistry"
+           remove="true">
+  </records>
+
+  <!-- remove old 'conditionalcomment' value in bundle -->
+  <record name="plone.bundles/mosaic-styles.conditionalcomment" remove="true" />
+  <record name="plone.bundles/mosaic-grid.conditionalcomment" remove="true" />
+
+</registry>

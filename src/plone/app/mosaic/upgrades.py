@@ -229,3 +229,9 @@ def add_fluid_row_styles(context):
     context.runImportStepFromProfile(
         PROFILE_ID.replace("default", "to_5022"), "plone.app.registry"
     )
+
+
+def upgrade_to_6000(context):
+    context.runImportStepFromProfile(
+        PROFILE_ID.replace("default", "to_6000"), "plone.app.registry"
+    )
