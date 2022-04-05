@@ -22,8 +22,4 @@
            remove="true">
   </records>
 
-  <!-- remove old 'conditionalcomment' value in bundle -->
-  <record name="plone.bundles/mosaic-styles.conditionalcomment" remove="true" />
-  <record name="plone.bundles/mosaic-grid.conditionalcomment" remove="true" />
-
 </registry>
