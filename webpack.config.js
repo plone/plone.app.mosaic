@@ -8,6 +8,29 @@ module.exports = async (env, argv) => {
             "plone-mosaic.min": path.resolve(__dirname, "resources/plone-mosaic-config"),
             "layouts-editor.min": path.resolve(__dirname, "resources/js/layouts-editor"),
         },
+        externals: {
+            "window": "window",
+            "$": "jquery",
+            "jquery": "jQuery",
+            "window.jquery": "jQuery",
+            "bootstrap": true,
+        },
+        optimization: {
+            splitChunks: {
+                cacheGroups: {
+                    tinymce: {
+                        name: "tinymce",
+                        test: /[\\/]node_modules[\\/]tinymce.*[\\/]/,
+                        chunks: "all",
+                    },
+                    select2: {
+                        name: "select2",
+                        test: /[\\/]node_modules[\\/]select2.*[\\/]/,
+                        chunks: "all",
+                    },
+                },
+            },
+        },
     };
 
     config = patternslib_config(env, argv, config, ["mockup"]);

@@ -1,6 +1,14 @@
 
-.mosaic-set-custom-css {
-  width: 30%;
+.mosaic-grid-row .mosaic-set-custom-css {
+  text-align:right;
+  position:absolute;
+  bottom:0;
+  z-index:101;
+  background-color:#fcfcfc;
+
+  input {
+      min-width:30%;
+  }
 }
 
 .mosaic-divider {
