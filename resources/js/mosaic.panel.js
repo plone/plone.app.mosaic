@@ -1,7 +1,7 @@
 import $ from "jquery";
 import logging from "@patternslib/patternslib/src/core/logging";
 
-const log = logging.getLogger("pat-mosaic");
+const log = logging.getLogger("pat-mosaic/panel");
 
 /* Panel class */
 class Panel {

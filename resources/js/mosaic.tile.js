@@ -9,7 +9,29 @@ import Modal from "mockup/src/pat/modal/modal";
 import Registry from "@patternslib/patternslib/src/core/registry";
 import "./mosaic.overlay";
 
-const log = logging.getLogger("pat-mosaic");
+const log = logging.getLogger("pat-mosaic/tile");
+
+var _TILE_TYPE_CACHE = {};
+const BUTTON_ICON_MAP = {
+    delete: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">' +
+        '<path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>' +
+        '</svg>',
+    cancel: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">' +
+        '<path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>' +
+        '<path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>' +
+        '</svg>',
+    confirm: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle" viewBox="0 0 16 16">' +
+        '<path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>' +
+        '<path d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z"/>' +
+        '</svg>',
+    edit: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">' +
+        '<path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>' +
+        '<path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>' +
+        '</svg>',
+    settings: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-sliders" viewBox="0 0 16 16">' +
+        '<path fill-rule="evenodd" d="M11.5 2a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM9.05 3a2.5 2.5 0 0 1 4.9 0H16v1h-2.05a2.5 2.5 0 0 1-4.9 0H0V3h9.05zM4.5 7a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM2.05 8a2.5 2.5 0 0 1 4.9 0H16v1H6.95a2.5 2.5 0 0 1-4.9 0H0V8h2.05zm9.45 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm-2.45 1a2.5 2.5 0 0 1 4.9 0H16v1h-2.05a2.5 2.5 0 0 1-4.9 0H0v-1h9.05z"/>' +
+        '</svg>'
+}
 
 // so we don't get spammed with missing tile warnings
 var _missing_tile_configs = [];
@@ -91,51 +113,13 @@ class Tile {
         var self = this;
         self.tinymce = null;
         self.mosaic = mosaic;
+        self.el = el;
         self.$el = $(el);
         if (!self.$el.is(".mosaic-tile")) {
             // XXX we need to get the outer-most container of the node here always
             self.$el = self.$el.parents(".mosaic-tile");
         }
         self.focusCheckCount = 0;
-
-        self.$el
-            .children(".mosaic-tile-content")
-            .off("blur")
-            .on("blur", function () {
-                var tile_config = self.getConfig();
-                if (tile_config && tile_config.tile_type === "textapp") {
-                    var edit_url = self.getEditUrl();
-                    if (edit_url) {
-                        var currentData = self.getHtmlContent();
-                        if (currentData === self.$el.data("lastSavedData")) {
-                            // not dirty, do not save
-                            return;
-                        }
-                        // we also need to prevent double saving, conflict errors
-                        if (self.$el.data("activeSave")) {
-                            return;
-                        }
-                        self.$el.data("activeSave", true);
-                        var data = {
-                            "_authenticator": utils.getAuthenticator(),
-                            "buttons.save": "Save",
-                        };
-                        data[tile_config.name + ".content"] = currentData;
-                        // need to save tile
-                        self.mosaic.queue(function (next) {
-                            $.ajax({
-                                url: edit_url,
-                                method: "POST",
-                                data: data,
-                            }).always(function () {
-                                self.$el.data("lastSavedData", currentData);
-                                self.$el.data("activeSave", false);
-                                next();
-                            });
-                        });
-                    }
-                }
-            });
     }
     getDataTileEl(html, tileUrl) {
         return this.$el.find("[data-tile]");
@@ -209,15 +193,15 @@ class Tile {
     }
     getType() {
         // previously this.mosaic.getTileType
+        var self = this;
+        var classNames = self.$el.attr("class");
+        if(classNames in _TILE_TYPE_CACHE) {
+            return _TILE_TYPE_CACHE[classNames];
+        }
         var tiletype = "";
-        var classes = this.$el.attr("class").split(" ");
-        for(const cls of classes) {
-            // Local variables
-            var classname;
-
-            classname = cls.match(/^mosaic-([\w.\-]+)-tile$/);
+        for(const cls of classNames.split(" ")) {
+            let classname = cls.match(/^mosaic-([\w.\-]+)-tile$/);
             if (classname !== null) {
-
                 if (classname[1] !== "selected" &&
                     classname[1] !== "new" &&
                     classname[1] !== "read-only" &&
@@ -231,20 +215,17 @@ class Tile {
 
         if (!tiletype) {
             log.error(
-                "Could not find tile type on element with classes: " + classes.join(", ")
+                `Could not find tile type on element ${self.$el} with classes: ${classNames}`
             );
-        }else{
-            log.info(`Found tile type "${tiletype}"`)
+        } else {
+            log.info(`Found tile type "${tiletype}" for element ${self.el}`)
         }
-
+        _TILE_TYPE_CACHE[classNames] = tiletype;
         return tiletype;
     }
     getConfig() {
         var tile_config;
         var tiletype = this.getType();
-        if(!this.mosaic.options) {
-            debugger;
-        }
         // Get tile config
         for (var x = 0; x < this.mosaic.options.tiles.length; x += 1) {
             var found = false;
@@ -439,8 +420,10 @@ class Tile {
             return false;
         }
     }
-    initialize() {
+    async initialize() {
         var tile_config = this.getConfig();
+
+        log.info(`Setup ${tile_config}`);
 
         // Check read only
         if (tile_config && tile_config.read_only) {
@@ -451,7 +434,7 @@ class Tile {
         // Init rich text
         if (this.isRichText()) {
             // Init rich editor
-            this.setupWysiwyg();
+            await this.setupWysiwyg();
         }
 
         // Add border divs
@@ -546,10 +529,15 @@ class Tile {
 
         var _addButton = function (label, name, click) {
             var btn = document.createElement("button");
-            btn.className = "mosaic-btn-" + name;
+            btn.className = `btn btn-sm btn-${name === "confirm" ? "danger" : "light"} mosaic-btn-${name}`;
             btn.textContent = label;
             buttons.push(btn);
             $(btn).on("click", click);
+            if(!(name in BUTTON_ICON_MAP)) {
+                log.warn(`could not find button icon "${name}"`);
+            } else {
+                $(btn).prepend(BUTTON_ICON_MAP[name] + " ");
+            }
             return btn;
         };
 
@@ -726,7 +714,7 @@ class Tile {
         });
         return value;
     }
-    initializeContent() {
+    async initializeContent() {
         var self = this;
 
         // Local variables
@@ -875,9 +863,9 @@ class Tile {
     }
     cacheHtml(html) {
         /* Cache html on the tile element.
-             This is only used by the scanRegistry method so
-             we can reset the html of the html when running the pattern registry.
-             */
+            This is only used by the scanRegistry method so
+            we can reset the html of the html when running the pattern registry.
+            */
         if (this.isRichText()) {
             return; // no patterns, ignore this
         }
@@ -897,9 +885,6 @@ class Tile {
             If we do not do this, tiles do not render correctly when
             adding, dragging and dropping.
           */
-        if (this.isRichText()) {
-            return; // no patterns, ignore this
-        }
         var $el = this.$el.find(".mosaic-tile-content");
         if ($el.length === 0) {
             return;
@@ -918,16 +903,15 @@ class Tile {
     }
     select() {
         var self = this;
-        if (this.$el.hasClass("mosaic-selected-tile") === false &&
-            this.$el.hasClass("mosaic-read-only-tile") === false) {
+        if (self.$el.hasClass("mosaic-selected-tile") === false &&
+            self.$el.hasClass("mosaic-read-only-tile") === false) {
             // un-select existing
-            var $tile = $(".mosaic-selected-tile", self.mosaic.document);
-            if ($tile.length === 1) {
-                var tile = new Tile(self.mosaic, $tile);
-                tile.$el.trigger("blur");
+            if($(".mosaic-selected-tile").length) {
+                var selected_tile = new Tile(self.mosaic, $(".mosaic-selected-tile")[0])
+                selected_tile.blur();
             }
-
-            this.focus();
+            // select current tile
+            self.focus();
         }
     }
     _change() {
@@ -936,14 +920,15 @@ class Tile {
         this.saveForm();
     }
     blur() {
-        this.$el.removeClass("mosaic-selected-tile").children(".mosaic-tile-content").trigger("blur");
+        log.info(`Blur ${this.getType()}`);
+        this.$el.removeClass("mosaic-selected-tile");
         this.$el.find(".mce-edit-focus").removeClass("mce-edit-focus");
         this._change();
     }
     _focus() {
         var self = this;
         this.$el.addClass("mosaic-selected-tile");
-        this.$el.children(".mosaic-tile-content").focus();
+        this.$el.children(".mosaic-tile-content").trigger("focus");
         this._change();
         this.initializeButtons();
 
@@ -973,10 +958,12 @@ class Tile {
         }
     }
     focus() {
-        if (this.isRichText() && this.$el.data("tinymce-loaded") !== true) {
-            this.$el.data("delayed-focus", true);
+        log.info(`Focus ${this.getType()}`);
+        var self = this;
+        if (self.isRichText() && self.$el.attr("data-tinymce-loaded") !== true) {
+            self.$el.attr("data-delayed-focus", true);
         } else {
-            this._focus();
+            self._focus();
         }
     }
     saveForm() {
@@ -1054,14 +1041,15 @@ class Tile {
             }
         }
     }
-    setupWysiwyg() {
+    async setupWysiwyg() {
         var self = this;
 
         // Get element
         var $content = self.$el.find(".mosaic-tile-content");
+        log.info("Setup wysiwyg");
 
         // set loaded state
-        self.$el.data("tinymce-loaded", false);
+        self.$el.attr("data-tinymce-loaded", false);
 
         // Remove existing pattern
         try {
@@ -1086,7 +1074,7 @@ class Tile {
         $content.before($editorToolbar);
 
         // Build toolbar and contextmenu
-        var actions, group, x, y, toolbar, cmenu;
+        var actions, toolbar, cmenu;
 
         // Get tiletype
         var tiletype = self.getType();
@@ -1099,22 +1087,20 @@ class Tile {
 
         // Get actions
         actions = self.mosaic.options.default_available_actions;
-        for (x = 0; x < self.mosaic.options.tiles.length; x += 1) {
-            group = self.mosaic.options.tiles[x];
-            for (y = 0; y < group.tiles.length; y += 1) {
-                if (group.tiles[y].name === tiletype) {
-                    actions = actions.concat(group.tiles[y].available_actions);
+        for (const group of self.mosaic.options.tiles) {
+            for (const tile of group.tiles) {
+                if (tile.name === tiletype) {
+                    actions = actions.concat(tile.available_actions);
                 }
             }
         }
 
         // Build toolbar
         toolbar = [];
-        for (x = 0; x < self.mosaic.options.richtext_toolbar.length; x += 1) {
-            group = self.mosaic.options.richtext_toolbar[x];
-            for (y = 0; y < group.actions.length; y += 1) {
-                if ($.inArray(group.actions[y].name, actions) > -1) {
-                    toolbar.push(group.actions[y].action);
+        for (const group of self.mosaic.options.richtext_toolbar) {
+            for (const action of group.actions) {
+                if ($.inArray(action.name, actions) > -1) {
+                    toolbar.push(action.action);
                 }
             }
             if (toolbar.length && toolbar[toolbar.length - 1] != "|") {
@@ -1127,11 +1113,10 @@ class Tile {
 
         // Build contextmenu
         cmenu = [];
-        for (x = 0; x < self.mosaic.options.richtext_contextmenu.length; x += 1) {
-            group = self.mosaic.options.richtext_contextmenu[x];
-            for (y = 0; y < group.actions.length; y += 1) {
-                if ($.inArray(group.actions[y].name, actions) > -1) {
-                    cmenu.push(group.actions[y].action);
+        for (const group of self.mosaic.options.richtext_contextmenu) {
+            for (const action of group.actions) {
+                if (action.name in actions) {
+                    cmenu.push(action.action);
                 }
             }
             if (cmenu.length && cmenu[cmenu.length - 1] != "|") {
@@ -1166,7 +1151,7 @@ class Tile {
             paste_as_text = true;
         }
         // Init rich editor
-        var pattern = new TinyMCE(
+        var pattern = await new TinyMCE(
             $content,
             $.extend(true, {}, self.mosaic.options.tinymce, {
                 inline: false,
@@ -1200,8 +1185,7 @@ class Tile {
                                     // still detect a flicker when the modes are switching
                                     setTimeout(function () {
                                         $(".mce-edit-focus").each(function () {
-                                            var tile = new Tile(self.mosaic, $(this).parent());
-                                            tile.trigger("blur");
+                                            self.$el.trigger("blur");
                                             var tiny = window.tinyMCE.get(
                                                 this.getAttribute("id")
                                             );
@@ -1233,9 +1217,9 @@ class Tile {
                             can cause some very weird issues where the toolbar won't show,
                             we need to delay focus on rich text tiles
                             */
-                            self.$el.data("tinymce-loaded", true);
-                            if (self.$el.data("delayed-focus") === true) {
-                                self.$el.data("delayed-focus", false);
+                            self.$el.attr("data-tinymce-loaded", true);
+                            if (self.$el.attr("data-delayed-focus") === true) {
+                                self.$el.attr("data-delayed-focus", false);
                                 setTimeout(function () {
                                     self._focus();
                                 }, 50);
@@ -1248,16 +1232,6 @@ class Tile {
 
         // Set editor class
         $content.addClass("mosaic-rich-text");
-    }
-    static validTile(el) {
-        var $el = $(el);
-        if ($el.is(".mosaic-tile")) {
-            return true;
-        }
-        if ($el.parents(".mosaic-tile").length > 0) {
-            return true;
-        }
-        return false;
     }
 }
 

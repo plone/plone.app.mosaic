@@ -29,38 +29,11 @@ export default class Overlay {
             "</div>"
         );
 
-        // Destroy possible TinyMCE patterns before DOM move
-        $(".pat-tinymce", $form).each(function () {
-            if ($(this).data("pattern-tinymce")) {
-                try {
-                    $(this).data("pattern-tinymce").destroy();
-                } catch (e) {
-                    // ignore.
-                }
-            }
-        });
-
         $(".modal-header", $modalStructure).prepend("<h2 class='modal-title'>" + $h1.text() + "</h2>");
         $(".modal-body", $modalStructure).append($form);
         $(document.body).append($modalStructure);
         self.$overlay = $modalStructure;
         self.modal = new bootstrap.Modal(document.getElementById('mosaic-original-content-modal'), {});
-
-        // Re-initialize possible TinyMCE patterns after DOM move
-        $(".pat-tinymce", $form).each(function () {
-            if ($(this).data("pattern-tinymce")) {
-                try {
-                    $(this).data("pattern-tinymce").init();
-                } catch (e) {
-                    // ignore.
-                }
-            }
-        });
-        try {
-            $(".pat-textareamimetypeselector").trigger("change");
-        } catch (e) {
-            // ignore.
-        }
 
         // we don't want to show the original el.
         $el.hide();

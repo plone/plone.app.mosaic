@@ -7,7 +7,7 @@ import "./mosaic.overlay";
 import "jquery-form";
 import "select2";
 
-const log = logging.getLogger("pat-mosaic");
+const log = logging.getLogger("pat-mosaic/actions");
 
 class ActionManager {
     constructor(mosaic) {
@@ -194,10 +194,7 @@ class ActionManager {
         self.registerAction("save", {
             exec: function () {
                 mosaic.saving = true;
-                $(".mosaic-selected-tile", mosaic.document).each(function () {
-                    var tile = new Tile(mosaic, this);
-                    tile.trigger("blur");
-                });
+                self.blurSelectedTile();
                 mosaic.toolbar.SelectedTileChange();
                 mosaic.queue(function (next) {
                     mosaic.layoutManager.saveLayoutToForm();
@@ -230,7 +227,7 @@ class ActionManager {
                     "#form-widgets-ILayoutAware-customContentLayout, " +
                     "[name='form.widgets.ILayoutAware.customContentLayout']"
                 )
-                    .focus()
+                    .trigger("focus")
                     .trigger("blur");
 
                 // Layout preview
@@ -304,7 +301,7 @@ class ActionManager {
                 $(".mosaic-button-group-layout").removeClass("active");
             },
             visible: function () {
-                return mosaic.hasContentLayout && mosaic.options.canChangeLayout;
+                return mosaic.options.canChangeLayout;
             },
         });
 
@@ -357,7 +354,7 @@ class ActionManager {
                 // Execute the action
                 self.execAction($(source).val());
                 // Reset menu
-                $(source).select2("val", "none"); // $(source).val("none");
+                $(source).select2("val", "none");
             },
         });
 
@@ -375,10 +372,7 @@ class ActionManager {
                 }
 
                 // Deselect tiles
-                $(".mosaic-selected-tile", mosaic.document)
-                    .removeClass("mosaic-selected-tile")
-                    .children(".mosaic-tile-content")
-                    .trigger("blur");
+                self.blurSelectedTile()
 
                 // Set actions
                 mosaic.toolbar.SelectedTileChange();
@@ -517,12 +511,11 @@ class ActionManager {
                     });
                 } else {
                     // Add tile
-                    mosaic.addTile(tile_type, mosaic.layoutManager.getDefaultValue(tile_config));
+                    mosaic.layoutManager.addTile(tile_type, mosaic.layoutManager.getDefaultValue(tile_config));
                 }
 
                 // Reset menu
-                $(source).select2("val", "none"); // $(source).val("none");
-
+                $(source).select2("val", "none");
 
                 // Normal exit
                 return true;
@@ -530,7 +523,7 @@ class ActionManager {
         });
 
         // Handle keypress event, check for shortcuts
-        $(document).keypress(function (e) {
+        $(document).on("keypress", function (e) {
             // Action name
             var action = "";
 
@@ -563,6 +556,14 @@ class ActionManager {
             return true;
         });
     };
+
+    blurSelectedTile() {
+        var self = this;
+        $(".mosaic-selected-tile", self.mosaic.document).each(function () {
+            var tile = new Tile(self.mosaic, this);
+            tile.blur();
+        });
+    }
 }
 
 export default ActionManager;

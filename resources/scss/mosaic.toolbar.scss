@@ -13,16 +13,16 @@
 
 .mosaic-toolbar {
 
-    .select2-display-none {
-      display: none;
-    }
+  .select2-display-none {
+    display: none;
+  }
 
   .select2-container {
     margin-bottom: 0;
   }
 
   .mosaic-menu {
-    width: auto;
+    min-width:12rem;
 
     &.select2-container {
       a.select2-choice {

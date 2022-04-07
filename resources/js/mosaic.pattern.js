@@ -5,11 +5,26 @@ import _ from "underscore";
 import Base from "@patternslib/patternslib/src/core/base";
 import utils from "mockup/src/core/utils";
 import Modal from "mockup/src/pat/modal/modal";
+import logging from "@patternslib/patternslib/src/core/logging";
 
 import SelectLayoutTemplate from "./templates/select_layout.xml";
 import SaveLayoutTemplate from "./templates/save_layout.xml";
 import ManageLayoutsTemplate from "./templates/manage_layouts.xml";
 import DeleteLayoutTemplate from "./templates/delete_layout.xml";
+
+logging.setLevel("INFO");
+const log = logging.getLogger("pat-mosaic");
+
+function validTile(el) {
+    var $el = $(el);
+    if ($el.is(".mosaic-tile")) {
+        return true;
+    }
+    if ($el.parents(".mosaic-tile").length > 0) {
+        return true;
+    }
+    return false;
+}
 
 export default Base.extend({
     name: "layout",
@@ -76,7 +91,7 @@ export default Base.extend({
 
         const contentLayout = self.getSelectedContentLayout();
         if (contentLayout) {
-            self.applyLayout(contentLayout);
+            await self.applyLayout(contentLayout);
         } else {
             var contentRaw = $(self.options.customContentLayout_field_selector).val();
             if (!contentRaw) {
@@ -92,10 +107,10 @@ export default Base.extend({
                 }
 
                 // XXX There is a case where you can have an extraneous mid-edit tile
-                var $helper = $(".mosaic-helper-tile-new");
-                if ($helper.length > 0) {
-                    $helper.parents(".mosaic-grid-row").remove();
-                }
+                // var $helper = $(".mosaic-helper-tile-new");
+                // if ($helper.length > 0) {
+                //     $helper.parents(".mosaic-grid-row").remove();
+                // }
             }
         }
 
@@ -151,9 +166,10 @@ export default Base.extend({
         // Init app tiles
         const Tile = (await import("./mosaic.tile")).default;
 
-        self.panels.find("[data-tile]").each(function () {
-            if (Tile.validTile(this)) {
-                var tile = new Tile(self, $(this).parent());
+        self.panels.find("[data-tile]").each(function (idx) {
+            log.info(`Panel tile counter: ${idx}`);
+            if (validTile(this)) {
+                var tile = new Tile(self, this);
                 tile.initializeContent();
             }
         });
@@ -171,17 +187,9 @@ export default Base.extend({
         self.overlay = new Overlay(self.options, self.panels);
         self.overlay.initialize();
 
-        // Add toolbar div below menu
-        $("body").prepend(
-            $(document.createElement("div")).addClass(
-                "mosaic-toolbar bg-light position-fixed top-0 start-0 end-0 p-2 border-bottom shadow-sm"
-            )
-        );
-
-        const Toolbar = (await import("./mosaic.toolbar")).default;
-
         // Init toolbar
-        self.toolbar = new Toolbar(self, $(".mosaic-toolbar"));
+        const Toolbar = (await import("./mosaic.toolbar")).default;
+        self.toolbar = new Toolbar(self);
         self.toolbar.initToolbar();
 
         // Add blur to the rest of the content
@@ -233,17 +241,16 @@ export default Base.extend({
         self.initialized();
     },
 
-    applyLayout: function (layoutPath, callback) {
+    applyLayout: async function (layoutPath) {
         var self = this;
-        if (callback === undefined) {
-            callback = function () {};
-        }
         utils.loading.show();
+
         $.ajax({
             url: $("body").attr("data-portal-url") + "/" + layoutPath,
             cache: false,
         })
             .done(async function (layoutHtml) {
+                log.info(`Apply layout ${layoutPath} with content ${layoutHtml}`)
                 var $content = self.getDomTreeFromHtml(layoutHtml);
                 self.setSelectedContentLayout(layoutPath);
                 if (self.loaded) {
@@ -253,7 +260,7 @@ export default Base.extend({
                     self._init($content);
                 }
             })
-            .fail(function (xhr, type, status) {
+            .fail(async function (xhr, type, status) {
                 // use backup layout
                 if (status === "Not Found") {
                     window.alert(
@@ -264,7 +271,7 @@ export default Base.extend({
                         "Error loading layout specified for this content. Falling back to basic layout."
                     );
                 }
-                self.applyLayout("++contentlayout++default/basic.html");
+                await self.applyLayout("++contentlayout++default/basic.html");
             })
             .always(function () {
                 utils.loading.hide();
@@ -322,7 +329,7 @@ export default Base.extend({
                             _authenticator: utils.getAuthenticator(),
                         },
                     })
-                        .done(function (data) {
+                        .done(async function (data) {
                             modal.hide();
                             callback(data);
                             if (
@@ -330,7 +337,7 @@ export default Base.extend({
                                 self.getSelectedContentLayout() ===
                                     "++contentlayout++" + layout.path
                             ) {
-                                self.applyLayout("++contentlayout++" + replacement);
+                                await self.applyLayout("++contentlayout++" + replacement);
                             }
                         })
                         .fail(function () {
@@ -409,7 +416,7 @@ export default Base.extend({
         modal.show();
     },
 
-    selectLayout: function (initial) {
+    selectLayout: async function (initial) {
         var self = this;
         if (initial !== undefined && initial) {
             // check if there is only 1 available layout and auto select
@@ -417,13 +424,13 @@ export default Base.extend({
             if (self.options.available_layouts.length === 1) {
                 var layout = self.options.available_layouts[0];
                 var layoutPath = "++contentlayout++" + layout.directory + "/" + layout.file;
-                self.applyLayout(layoutPath);
+                await self.applyLayout(layoutPath);
                 return;
             }
         }
         if (self.options.available_layouts.length === 0) {
             // use backup layout
-            self.applyLayout("++contentlayout++default/basic.html");
+            await self.applyLayout("++contentlayout++default/basic.html");
             return;
         }
         var $el = $("<div/>").appendTo("body");
@@ -435,12 +442,15 @@ export default Base.extend({
                     {
                         hasCustomLayouts: self._hasCustomLayouts(),
                         portal_url: $("body").attr("data-portal-url"),
+
                     },
                     self.options
                 )
             ),
             content: null,
             buttons: ".plone-btn",
+            modalSizeClass: "modal-lg",
+            position: "center top",
         });
         modal.on("shown", function () {
             $(".manage-custom-layouts a", modal.$modal)
@@ -452,23 +462,23 @@ export default Base.extend({
                 });
             $("li a", modal.$modal)
                 .off("click")
-                .on("click", function (e) {
+                .on("click", async function (e) {
                     e.preventDefault();
-                    var layout;
+                    var layoutPath;
                     var layout_id = $(this).attr("data-value");
-                    _.each(
-                        self.options.available_layouts.concat(
-                            self.options.user_layouts
-                        ),
-                        function (l) {
-                            if (l.path === layout_id) {
-                                layout = l;
-                            }
+                    for(const l of self.options.available_layouts.concat(
+                        self.options.user_layouts
+                    )) {
+                        if (l.path === layout_id) {
+                            layoutPath = "++contentlayout++" + l.path;
                         }
-                    );
-                    var layoutPath = "++contentlayout++" + layout.path;
+                    }
+                    if(!layoutPath) {
+                        alert("Layout does not exist!");
+                        return;
+                    }
                     modal.hide();
-                    self.applyLayout(layoutPath);
+                    await self.applyLayout(layoutPath);
                 });
         });
         modal.show();
@@ -519,12 +529,12 @@ export default Base.extend({
                             layout: self.layoutManager.getPageContent(true),
                         },
                     })
-                        .done(function (result) {
+                        .done(async function (result) {
                             if (result.success) {
                                 self.options.available_layouts =
                                     result.available_layouts;
                                 self.options.user_layouts = result.user_layouts;
-                                self.applyLayout(result.layout);
+                                await self.applyLayout(result.layout);
                             }
                         })
                         .fail(function () {

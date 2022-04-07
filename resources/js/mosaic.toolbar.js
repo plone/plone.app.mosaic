@@ -2,7 +2,6 @@
 import "regenerator-runtime/runtime"; // needed for ``await`` support
 import $ from "jquery";
 import Tile from "./mosaic.tile";
-import "select2";
 
 var normalizeClass = function (val) {
     return val.replace(/(_|\.|\/)/g, "-").toLowerCase();
@@ -13,171 +12,116 @@ class Toolbar {
     constructor(mosaic, el) {
         var self = this;
         self.mosaic = mosaic;
-        self.$el = $(el);
+        self.$el = $(document.createElement("div")).addClass(
+            "mosaic-toolbar bg-light position-fixed top-0 start-0 end-0 p-2 border-bottom shadow-sm"
+        );
+
+        // Add toolbar div below menu
+        $("body").prepend(self.$el);
+
+        self.lastChange = (new Date()).getTime();
     };
 
     initToolbar() {
         var self = this;
+        // Local variables
+        var content,
+            actions,
+            a,
+            action_group,
+            y;
 
-        return self.$el.each(function () {
-            // Local variables
-            var obj,
-                content,
-                actions,
-                a,
-                x,
-                action_group,
-                y,
-                RepositionToolbar;
+        // Empty
+        self.$el.html("");
 
-            // Get current object
-            obj = $(this);
+        // Add mosaic toolbar class
+        self.$el.append(
+            $(document.createElement("div")).addClass("mosaic-inline-toolbar w-100")
+        );
+        self.$el = self.$el.children(".mosaic-inline-toolbar");
 
-            // Empty object
-            obj.html("");
+        // Add content
+        self.$el.append(
+            $(document.createElement("div")).addClass(
+                "mosaic-toolbar-content d-flex justify-content-between"
+            )
+        );
+        content = self.$el.children(".mosaic-toolbar-content");
 
-            // Add mosaic toolbar class
-            obj.append(
-                $(document.createElement("div")).addClass("mosaic-inline-toolbar w-100")
-            );
-            obj = obj.children(".mosaic-inline-toolbar");
+        // Add primary and secondary function div's
+        actions = {};
+        content.append(
+            $(document.createElement("div")).addClass(
+                "mosaic-toolbar-primary-functions d-flex d-grid gap-2"
+            )
+        );
+        actions.primary_actions = content.children(".mosaic-toolbar-primary-functions");
+        content.append(
+            $(document.createElement("div")).addClass(
+                "mosaic-toolbar-secondary-functions d-flex d-grid gap-2"
+            )
+        );
+        actions.secondary_actions = content.children(
+            ".mosaic-toolbar-secondary-functions"
+        );
 
-            // Add content
-            obj.append(
-                $(document.createElement("div")).addClass(
-                    "mosaic-toolbar-content d-flex justify-content-between"
-                )
-            );
-            content = obj.children(".mosaic-toolbar-content");
+        // Loop through action groups
+        for (a in actions) {
+            // Add actions to toolbar
+            for (const action of self.mosaic.options[a]) {
+                // If single action
+                if (action.actions === undefined) {
+                    // Add control
+                    self.AddControl(actions[a], action);
 
-            // Add primary and secondary function div's
-            actions = {};
-            content.append(
-                $(document.createElement("div")).addClass(
-                    "mosaic-toolbar-primary-functions d-flex d-grid gap-2"
-                )
-            );
-            actions.primary_actions = content.children(".mosaic-toolbar-primary-functions");
-            content.append(
-                $(document.createElement("div")).addClass(
-                    "mosaic-toolbar-secondary-functions d-flex d-grid gap-2"
-                )
-            );
-            actions.secondary_actions = content.children(
-                ".mosaic-toolbar-secondary-functions"
-            );
-
-            // Loop through action groups
-            for (a in actions) {
-                // Add actions to toolbar
-                for (x = 0; x < self.mosaic.options[a].length; x += 1) {
-                    // If single action
-                    if (self.mosaic.options[a][x].actions === undefined) {
-                        // Add control
-                        self.AddControl(actions[a], self.mosaic.options[a][x]);
-
-                        // If fieldset
-                    } else {
-                        action_group = self.mosaic.options[a][x];
-                        var classNamePart = normalizeClass(self.mosaic.options[a][x].name);
-                        var $group = $(document.createElement("div")).addClass(
-                            "d-flex mosaic-button-group mosaic-button-group-" + classNamePart
-                        );
-                        $group.append(
-                            self.AddControl(
-                                $group,
-                                $.extend({}, true, action_group, {
-                                    action: action_group.name.toLowerCase(),
-                                    name: action_group.name.toLowerCase(),
-                                })
-                            )
-                        );
-                        var $btnContainer = $(document.createElement("div")).addClass(
-                            "btn-container d-flex d-grid gap-2"
-                        );
-                        $group.append($btnContainer);
-                        actions[a].append($group);
-                        for (y = 0; y < action_group.actions.length; y += 1) {
-                            // Add control
-                            self.AddControl($btnContainer, action_group.actions[y]);
-                        }
-                    }
-                }
-            }
-
-            self._mosaicToolbarLayoutEditor(actions);
-            if (self.mosaic.hasContentLayout) {
-                // hide these options if static
-                $(".mosaic-toolbar-secondary-functions", this).addClass("d-none");
-            }
-
-            // Reposition toolbar on scroll
-            RepositionToolbar = function () {
-                // Local variables
-                var left;
-
-                if (
-                    parseInt($(window).scrollTop(), 10) >
-                    parseInt(obj.parent().offset().top, 10)
-                ) {
-                    if (obj.hasClass("mosaic-inline-toolbar")) {
-                        left = obj.offset().left;
-
-                        obj.width(obj.width())
-                            .css({
-                                "left": left,
-                                "margin-left": "0px",
-                            })
-                            .removeClass("mosaic-inline-toolbar")
-                            .addClass("mosaic-external-toolbar")
-                            .parent()
-                            .height(obj.height());
-                    }
+                // If fieldset
                 } else {
-                    if (obj.hasClass("mosaic-external-toolbar")) {
-                        obj.css({
-                            "width": "",
-                            "left": "",
-                            "margin-left": "",
-                        })
-                            .removeClass("mosaic-external-toolbar")
-                            .addClass("mosaic-inline-toolbar")
-                            .parent()
-                            .css("height", "");
+                    action_group = action;
+                    var classNamePart = normalizeClass(action.name);
+                    var $group = $(document.createElement("div")).addClass(
+                        "d-flex mosaic-button-group mosaic-button-group-" + classNamePart
+                    );
+                    $group.append(
+                        self.AddControl(
+                            $group,
+                            $.extend({}, true, action_group, {
+                                action: action_group.name.toLowerCase(),
+                                name: action_group.name.toLowerCase(),
+                            })
+                        )
+                    );
+                    var $btnContainer = $(document.createElement("div")).addClass(
+                        "btn-container d-flex d-grid gap-2"
+                    );
+                    $group.append($btnContainer);
+                    actions[a].append($group);
+                    for (y = 0; y < action_group.actions.length; y += 1) {
+                        // Add control
+                        self.AddControl($btnContainer, action_group.actions[y]);
                     }
                 }
-            };
+            }
+        }
 
-            // Bind method and add to array
-            $(window).on("scroll", RepositionToolbar);
+        self._mosaicToolbarLayoutEditor(actions);
 
-            // Set default actions
-            self.SelectedTileChange();
+        if (self.mosaic.hasContentLayout) {
+            // hide these options if static
+            $(".mosaic-toolbar-secondary-functions", self.$el).addClass("d-none");
+        }
 
-            // Apply select2 for menus
-            $(".mosaic-menu").each(function () {
-                $(this).select2({
-                    width: "style",
-                    dropdownCssClass:
-                        "mosaic-dropdown mosaic-dropdown-" + $(this).data("action"),
-                    dropdownAutoWidth: true,
-                    minimumResultsForSearch: 99,
-                });
-            });
-        });
+        // Set default actions
+        self.SelectedTileChange();
     };
 
     SelectedTileChange = function () {
         // Local variables
-        var self = this, obj, tiletype, actions, x, tile_group, y;
+        var self = this, tiletype, actions;
 
         // Disable edit html source
         self.mosaic.layoutManager.disableEditHtmlSource();
 
-        // Get object
-        obj = $(this);
-
-        var $selected_tile = $(".mosaic-selected-tile", self.mosaic.document);
+        var $selected_tile = $(".mosaic-selected-tile");
         if ($selected_tile.length > 0) {
             var tile = new Tile(self.mosaic, $selected_tile);
             tiletype = tile.getType();
@@ -185,11 +129,10 @@ class Toolbar {
 
         // Get actions
         actions = self.mosaic.options.default_available_actions;
-        for (x = 0; x < self.mosaic.options.tiles.length; x += 1) {
-            tile_group = self.mosaic.options.tiles[x];
-            for (y = 0; y < tile_group.tiles.length; y += 1) {
-                if (tile_group.tiles[y].name === tiletype) {
-                    actions = actions.concat(tile_group.tiles[y].available_actions);
+        for (const tile_group of self.mosaic.options.tiles) {
+            for (const tile of tile_group.tiles) {
+                if (tile.name === tiletype) {
+                    actions = actions.concat(tile.available_actions);
                 }
             }
         }
@@ -200,38 +143,37 @@ class Toolbar {
         }
 
         // Show option groups
-        obj.find(".mosaic-option-group").show();
+        self.$el.find(".mosaic-option-group").show();
 
         // Hide all actions (but not complete menus)
-        obj.find(".mosaic-button").hide();
-        obj.find(".mosaic-menu-format")
+        self.$el.find(".mosaic-button").hide();
+        self.$el.find(".mosaic-menu-format")
             .find(".mosaic-option")
             .hide()
             .attr("disabled", "disabled");
-        $(obj.find(".mosaic-menu-format").find(".mosaic-option").get(0))
+        $(self.$el.find(".mosaic-menu-format").find(".mosaic-option").get(0))
             .show()
             .removeAttr("disabled");
 
         // Show actions
-        $(actions).each(function (i, val) {
+        for(const val of actions) {
             if (self.mosaic.actionManager.actions[val]) {
                 if (!self.mosaic.actionManager.actions[val].visible()) {
                     return;
                 }
             }
-            obj.find(".mosaic-button-" + val).show();
-            obj.find(".mosaic-icon-menu-" + val).show();
-            obj.find(".select2-container.mosaic-menu-" + val).show();
-            obj.find(".mosaic-option-" + val)
+            self.$el.find(".mosaic-button-" + val).show();
+            self.$el.find(".mosaic-icon-menu-" + val).show();
+            self.$el.find(".mosaic-option-" + val)
                 .show()
                 .removeAttr("disabled");
-        });
+        };
         if (self.mosaic.actionManager.actions.layout.visible()) {
             $(".mosaic-button-layout").show();
         }
 
         // Disable used field tiles
-        obj.find(".mosaic-menu-insert")
+        self.$el.find(".mosaic-menu-insert")
             .children(".mosaic-option-group-fields")
             .children()
             .each(function () {
@@ -247,7 +189,7 @@ class Toolbar {
             });
 
         // Hide option group if no visible items
-        obj.find(".mosaic-option-group").each(function () {
+        self.$el.find(".mosaic-option-group").each(function () {
             if ($(this).children(":enabled").length === 0) {
                 $(this).hide();
             }
@@ -257,6 +199,22 @@ class Toolbar {
             $(".mosaic-button-savelayout").show();
         } else {
             $(".mosaic-button-savelayout").hide();
+        }
+
+        // auto save
+        if (
+            !self.mosaic.overlay.app &&
+            !self.mosaic.saving &&
+            !self.mosaic.modal &&
+            ((new Date()).getTime() - self.lastChange) > 6000
+        ) {
+            self.mosaic.queue(function(next){
+                self.mosaic.layoutManager.saveLayoutToForm();
+                $("#form-widgets-ILayoutAware-customContentLayout, " +
+                "[name='form.widgets.ILayoutAware.customContentLayout']").trigger("blur");
+                next();
+            });
+            self.lastChange = (new Date()).getTime();
         }
     }
 
@@ -350,9 +308,9 @@ class Toolbar {
                 parent.append(
                     $el
                         .addClass(
-                            "mosaic-menu mosaic-menu-" + action.name.replace(/_/g, "-")
+                            "pat-select2 mosaic-menu mosaic-menu-" + action.name.replace(/_/g, "-")
                         )
-                        .data("action", action.action)
+                        .attr("data-pat-select2", JSON.stringify({"minimumResultsForSearch": -1}))
                         .on("change", function (e) {
                             self.mosaic.actionManager.execAction(action.action, e.target);
                         })
@@ -458,8 +416,7 @@ class Toolbar {
         var x, y, action_group, elm_action_group;
         // Add formats to toolbar
         if (self.mosaic.options.formats !== undefined) {
-            for (x = 0; x < self.mosaic.options.formats.length; x += 1) {
-                action_group = self.mosaic.options.formats[x];
+            for (const action_group of self.mosaic.options.formats) {
                 actions.primary_actions.append(
                     $(document.createElement("fieldset")).addClass(
                         "d-flex d-grid gap-2 btn-group mosaic-button-group mosaic-button-group-" +
@@ -469,10 +426,10 @@ class Toolbar {
                 elm_action_group = actions.primary_actions.children(
                     ".mosaic-button-group-" + action_group.name.replace(/_/g, "-")
                 );
-                for (y = 0; y < action_group.actions.length; y += 1) {
-                    if (action_group.actions[y].favorite) {
+                for (const action of action_group.actions) {
+                    if (action.favorite) {
                         // Add control
-                        self.AddControl(elm_action_group, action_group.actions[y]);
+                        self.AddControl(elm_action_group, action);
                     }
                 }
                 if (elm_action_group.children().length === 0) {
@@ -484,8 +441,7 @@ class Toolbar {
         // Add items to the insert menu
         if (self.mosaic.options.tiles !== undefined) {
             var elm_select_insert = actions.secondary_actions.find(".mosaic-menu-insert");
-            for (x = 0; x < self.mosaic.options.tiles.length; x += 1) {
-                action_group = self.mosaic.options.tiles[x];
+            for (const action_group of self.mosaic.options.tiles) {
                 elm_select_insert.append(
                     $(document.createElement("optgroup"))
                         .addClass(
@@ -497,8 +453,7 @@ class Toolbar {
                 elm_action_group = actions.secondary_actions.find(
                     ".mosaic-option-group-" + normalizeClass(action_group.name)
                 );
-                for (y = 0; y < action_group.tiles.length; y += 1) {
-                    var tile = action_group.tiles[y];
+                for (const tile of action_group.tiles) {
                     elm_action_group.append(
                         $(document.createElement("option"))
                             .addClass(
@@ -517,8 +472,7 @@ class Toolbar {
         // Add items to the format menu
         if (self.mosaic.options.formats !== undefined) {
             var elm_select_format = actions.secondary_actions.find(".mosaic-menu-format");
-            for (x = 0; x < self.mosaic.options.formats.length; x += 1) {
-                action_group = self.mosaic.options.formats[x];
+            for (const action_group of self.mosaic.options.formats) {
                 elm_select_format.append(
                     $(document.createElement("optgroup"))
                         .addClass(
@@ -530,8 +484,7 @@ class Toolbar {
                 elm_action_group = actions.secondary_actions.find(
                     ".mosaic-option-group-" + normalizeClass(action_group.name)
                 );
-                for (y = 0; y < action_group.actions.length; y += 1) {
-                    var action = action_group.actions[y];
+                for (const action of action_group.actions) {
                     if (action.favorite === false) {
                         elm_action_group.append(
                             $(document.createElement("option"))

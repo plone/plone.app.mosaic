@@ -7,7 +7,7 @@ import tinymce from "tinymce/tinymce";
 import Tile from "./mosaic.tile";
 import "./mosaic.overlay";
 
-const log = logging.getLogger("pat-mosaic");
+const log = logging.getLogger("pat-mosaic/layout");
 export default class LayoutManager {
 
     constructor(mosaic) {
@@ -159,7 +159,7 @@ export default class LayoutManager {
         });
     }
 
-    addTile(type, value, tileUrl) {
+    async addTile(type, value, tileUrl) {
         var self = this;
         // Set dragging state
         self.mosaic.panels.addClass("mosaic-panel-dragging mosaic-panel-dragging-new");
@@ -211,7 +211,7 @@ export default class LayoutManager {
         }
 
         var tile = new Tile(self.mosaic, helper);
-        tile.initialize();
+        await tile.initialize();
         tile.cacheHtml();
         tile.scanRegistry();
     }
@@ -906,14 +906,14 @@ export default class LayoutManager {
         // Loop through matched elements
         var total = self.mosaic.panels.length;
 
-        return self.mosaic.panels.each(function (i) {
+        for(var i=0; i < total; i++) {
             // Get current object
-            var obj = $(this);
+            var obj = $(self.mosaic.panels[i]);
 
             // Add icons and dividers
-            obj.find(".mosaic-tile").each(function () {
+            obj.find(".mosaic-tile").each(async function () {
                 var tile = new Tile(self.mosaic, this);
-                tile.initialize();
+                await tile.initialize();
                 tile.scanRegistry();
             });
             obj.find(".mosaic-tile").mosaicAddDrag();
@@ -954,7 +954,7 @@ export default class LayoutManager {
                     );
                 });
             });
-        });
+        };
     }
 
     initJQueryHelpers() {
@@ -1440,8 +1440,8 @@ export default class LayoutManager {
 
                         // Resize current column
                         drop.parent()
-                            .removeClass(self.mosaic.layout.widthClasses.join(" "))
-                            .removeClass(self.mosaic.layout.positionClasses.join(" "))
+                            .removeClass(self.layout.widthClasses.join(" "))
+                            .removeClass(self.layout.positionClasses.join(" "))
                             .addClass("col");
 
                         log.info("Now inside here left right");

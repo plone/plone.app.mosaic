@@ -2,7 +2,7 @@
     <h1>Select Layout</h1>
     <div class="mosaic-select-layout">
         <div class="global-layouts">
-            <ul>
+            <ul class="d-flex flex-wrap justify-content-around">
             <% _.each(available_layouts, function(layout) {
                 var screenshot = layout.preview || layout.screenshot;
                 if(!screenshot) {
@@ -18,7 +18,7 @@
         <% if(user_layouts.length > 0) { %>
         <div class="user-layouts">
             <h4>My Layouts</h4>
-            <ul>
+            <ul class="d-flex flex-wrap">
             <% _.each(user_layouts, function(layout){
                 var screenshot = layout.preview || layout.screenshot;
                 if(!screenshot){
