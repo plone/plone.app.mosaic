@@ -210,33 +210,31 @@ class Tile {
     getType() {
         // previously this.mosaic.getTileType
         var tiletype = "";
-        var $el = this.$el;
-        var classNames = $el.attr("class");
-        var classes = [];
-        if (classNames) {
-            classes = $el.attr("class").split(" ");
-            $(classes).each(function () {
-                // Local variables
-                var classname;
+        var classes = this.$el.attr("class").split(" ");
+        for(const cls of classes) {
+            // Local variables
+            var classname;
 
-                classname = this.match(/^mosaic-([\w.\-]+)-tile$/);
-                if (classname !== null) {
-                    if (classname[1] !== "selected" &&
-                        classname[1] !== "new" &&
-                        classname[1] !== "read-only" &&
-                        classname[1] !== "helper" &&
-                        classname[1] !== "original" &&
-                        classname[1] !== "edited") {
-                        tiletype = classname[1];
-                    }
+            classname = cls.match(/^mosaic-([\w.\-]+)-tile$/);
+            if (classname !== null) {
+
+                if (classname[1] !== "selected" &&
+                    classname[1] !== "new" &&
+                    classname[1] !== "read-only" &&
+                    classname[1] !== "helper" &&
+                    classname[1] !== "original" &&
+                    classname[1] !== "edited") {
+                    tiletype = classname[1];
                 }
-            });
+            }
         }
 
         if (!tiletype) {
             log.error(
                 "Could not find tile type on element with classes: " + classes.join(", ")
             );
+        }else{
+            log.info(`Found tile type "${tiletype}"`)
         }
 
         return tiletype;
@@ -575,13 +573,13 @@ class Tile {
         }
 
         if (buttons.length > 0) {
-            var $btns = $(this.mosaic.document.createElement("div")).addClass(
+            var $btns = $("<div />").addClass(
                 "mosaic-tile-control mosaic-tile-buttons"
             );
-            this.$el.prepend($btns);
-            buttons.forEach(function ($btn) {
+            for (const $btn of buttons) {
                 $btns.append($btn);
-            });
+            };
+            this.$el.prepend($btns);
         }
     }
     cancelClicked(e) {
@@ -926,7 +924,7 @@ class Tile {
             var $tile = $(".mosaic-selected-tile", self.mosaic.document);
             if ($tile.length === 1) {
                 var tile = new Tile(self.mosaic, $tile);
-                tile.trigger("blur");
+                tile.$el.trigger("blur");
             }
 
             this.focus();

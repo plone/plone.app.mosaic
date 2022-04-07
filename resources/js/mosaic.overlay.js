@@ -1,5 +1,6 @@
 // This plugin is used to display an overlay
 import $ from "jquery";
+import "bootstrap";
 
 export default class Overlay {
     constructor(options, panels) {
@@ -15,19 +16,17 @@ export default class Overlay {
 
         // Init overlay
         var $modalStructure = $(
-            '<div class="plone-modal-wrapper mosaic-overlay">' +
-                '<div class="mosaic-modal" style="position: absolute; padding: 20px;">' +
-                '<div class="plone-modal-dialog">' +
-                '<div class="plone-modal-content">' +
-                '<div class="plone-modal-header"><a class="plone-modal-close">×</a></div>' +
-                '<div class="plone-modal-body"></div>' +
-                '<div class="plone-modal-footer">' +
-                '<div class="pattern-modal-buttons"></div>' +
+            '<div class="modal fade" id="mosaic-original-content-modal">' +
+                '<div class="modal-dialog modal-xl">' +
+                    '<div class="modal-content">' +
+                        '<div class="modal-header"><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></div>' +
+                        '<div class="modal-body"></div>' +
+                        '<div class="modal-footer">' +
+                            '<div class="pattern-modal-buttons"></div>' +
+                        "</div>" +
+                    "</div>" +
                 "</div>" +
-                "</div>" +
-                "</div>" +
-                "</div>" +
-                "</div>"
+            "</div>"
         );
 
         // Destroy possible TinyMCE patterns before DOM move
@@ -41,10 +40,11 @@ export default class Overlay {
             }
         });
 
-        $(".plone-modal-header", $modalStructure).append("<h2>" + $h1.text() + "</h2>");
-        $(".plone-modal-body", $modalStructure).append($form);
+        $(".modal-header", $modalStructure).prepend("<h2 class='modal-title'>" + $h1.text() + "</h2>");
+        $(".modal-body", $modalStructure).append($form);
         $(document.body).append($modalStructure);
         self.$overlay = $modalStructure;
+        self.modal = new bootstrap.Modal(document.getElementById('mosaic-original-content-modal'), {});
 
         // Re-initialize possible TinyMCE patterns after DOM move
         $(".pat-tinymce", $form).each(function () {
@@ -64,11 +64,6 @@ export default class Overlay {
 
         // we don't want to show the original el.
         $el.hide();
-
-        // Add lightbox
-        $(document.body).prepend(
-            $(document.createElement("div")).addClass("mosaic-overlay-blocker")
-        );
     }
 
     open (mode, tile_config) {
@@ -77,16 +72,14 @@ export default class Overlay {
         var form, formtabs, tile_group, x, visible_tabs, field_tile, field, fieldset;
 
         // Expand the overlay
-        self.$overlay.show().addClass("active");
-        $(".mosaic-overlay-blocker").show();
-        $("body").addClass("plone-modal-open");
+        self.modal.show();
 
         // Get form
         form = self.$overlay.find("form");
 
         // Clear actions
         if ($(".mosaic-overlay-ok-button").length === 0) {
-            $(".mosaic-overlay .formControls").children("input").hide();
+            $(".mosaic-overlay .formControls").children("button").hide();
             $(".mosaic-overlay .pattern-modal-buttons").append(
                 $(document.createElement("input"))
                     .attr({
@@ -95,17 +88,11 @@ export default class Overlay {
                     })
                     .addClass("mosaic-overlay-ok-button plone-btn plone-btn-primary")
                     .on("click", function () {
-                        self.close();
+                        self.modal.close();
                     })
             );
-            $(".mosaic-overlay .plone-modal-close")
-                .off("click")
-                .on("click", function (e) {
-                    e.preventDefault();
-                    self.close();
-                });
 
-            $(".mosaic-overlay .plone-modal-header h2").html("Properties");
+            $(".mosaic-overlay .modal-header h2").html("Properties");
         }
 
         if (mode === "all" && self.options.overlay_hide_fields) {
@@ -210,12 +197,5 @@ export default class Overlay {
             form.find("nav").addClass("mosaic-hidden");
         }
     }
-
-    close () {
-        // Hide overlay
-        this.$overlay.hide().removeClass("active");
-        $(".mosaic-overlay-blocker").hide();
-        $("body").removeClass("plone-modal-open");
-    };
 
 }

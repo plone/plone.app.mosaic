@@ -179,7 +179,7 @@ class Toolbar {
 
         var $selected_tile = $(".mosaic-selected-tile", self.mosaic.document);
         if ($selected_tile.length > 0) {
-            var tile = new Tile($selected_tile);
+            var tile = new Tile(self.mosaic, $selected_tile);
             tiletype = tile.getType();
         }
 
@@ -282,8 +282,8 @@ class Toolbar {
                             $(document.createElement("select"))
                                 .addClass("mosaic-menu-" + normalizeClass(action.name))
                                 .data("action", action.action)
-                                .on("change", function () {
-                                    self.mosaic.actionManager.execAction(action.action);
+                                .on("change", function (e) {
+                                    self.mosaic.actionManager.execAction(action.action, e.target);
                                 })
                                 .each(function () {
                                     // Local variables
@@ -353,8 +353,8 @@ class Toolbar {
                             "mosaic-menu mosaic-menu-" + action.name.replace(/_/g, "-")
                         )
                         .data("action", action.action)
-                        .on("change", function () {
-                            self.mosaic.actionManager.execAction(action.action);
+                        .on("change", function (e) {
+                            self.mosaic.actionManager.execAction(action.action, e.target);
                         })
                         .each(function () {
                             // Local variables
@@ -436,8 +436,8 @@ class Toolbar {
                         .attr("title", action.label)
                         .attr("type", "button")
                         .data("action", action.action)
-                        .on("mousedown", function () {
-                            self.mosaic.actionManager.execAction(action.name);
+                        .on("mousedown", function (e) {
+                            self.mosaic.actionManager.execAction(action.name, e.target);
                         })
                 );
             }

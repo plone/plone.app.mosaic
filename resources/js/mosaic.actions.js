@@ -56,14 +56,13 @@ class ActionManager {
         }
     }
 
-    execAction (action) {
-        // Loop through matched elements
+    execAction (action, source) {
         var self = this;
         if(!(action in self.actions)) {
             log.error(`Action ${action} not in ${self.actions}`);
             return
         }
-        return self.actions[action].exec(self);
+        return self.actions[action].exec(source);
     }
 
     getPrefixedClassName (name) {
@@ -410,7 +409,7 @@ class ActionManager {
                     var html = "<html><body>" +
                         mosaic.layoutManager.getDefaultValue(tile_config) +
                         "</body></html>";
-                    mosaic.addAppTileHTML(tile_type, html, tileUrl);
+                    mosaic.layoutManager.addAppTileHTML(tile_type, html, tileUrl);
                 } else if (tile_config.tile_type === "app") {
                     // Load add form form selected tiletype
                     var initial = true;
@@ -468,7 +467,7 @@ class ActionManager {
                                     function (event, response, state, xhr) {
                                         var tileUrl = xhr.getResponseHeader("X-Tile-Url");
                                         if (tileUrl) {
-                                            mosaic.addAppTileHTML(
+                                            mosaic.layoutManager.addAppTileHTML(
                                                 tile_type,
                                                 response,
                                                 tileUrl
@@ -503,7 +502,7 @@ class ActionManager {
                                     success: function (value, state, xhr) {
                                         var tileUrl = xhr.getResponseHeader("X-Tile-Url");
                                         if (tileUrl) {
-                                            mosaic.addAppTileHTML(
+                                            mosaic.layoutManager.addAppTileHTML(
                                                 tile_type,
                                                 value,
                                                 tileUrl
