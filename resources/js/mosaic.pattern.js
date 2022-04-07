@@ -38,7 +38,7 @@ export default Base.extend({
     init: async function() {
         var self = this;
 
-        import("../scss/mosaic-pattern.scss");
+        import("../scss/mosaic.pattern.scss");
 
         // extend options
         self.options = $.extend(true, self.default, self.options.data, self.options);
