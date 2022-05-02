@@ -321,3 +321,19 @@ ifneq ("$(wildcard Dockerfile)", "")
 else
 	@echo "$(ERROR_COLOR)A 'Dockerfile' is required to build an image.$(NO_COLOR)"
 endif
+
+
+YARN   ?= npx yarn
+
+
+.PHONY:
+watch:
+	$(YARN) run watch:webpack
+
+
+.PHONY:
+bundle:
+	$(YARN) run build:webpack
+
+
+#
