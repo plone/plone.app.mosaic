@@ -8,8 +8,8 @@
         "yarn": "^1.3.2"
     },
     "dependencies": {
-        "@patternslib/patternslib": "^7.4.0",
-        "mockup": "git+https://github.com/plone/mockup.git#master",
+        "@patternslib/patternslib": "^8.0.0",
+        "@plone/mockup": "^5.0.0-alpha.1",
         "select2": "git+https://github.com/ivaynberg/select2.git#3.5.4"
     },
     "devDependencies": {
@@ -54,6 +54,7 @@
         "yarn": "^1.22.18"
     },
     "resolutions": {
+        "@patternslib/patternslib": "8.0.0",
         "jquery": "3.6.0"
     },
     "resolutions-comments": {

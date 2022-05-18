@@ -1,7 +1,8 @@
 import "regenerator-runtime/runtime"; // needed for ``await`` support
+import "@patternslib/patternslib/src/globals";
 import $ from "jquery";
 import _ from "underscore";
-import utils from "mockup/src/core/utils";
+import utils from "@plone/mockup/src/core/utils";
 import "../scss/layouts-editor.scss";
 
 $(document).ready(function () {
