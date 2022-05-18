@@ -1,6 +1,7 @@
 // This plugin is used to create a mosaic toolbar.
 import "regenerator-runtime/runtime"; // needed for ``await`` support
 import $ from "jquery";
+import Registry from "@patternslib/patternslib/src/core/registry";
 
 var normalizeClass = function (val) {
     return val.replace(/(_|\.|\/)/g, "-").toLowerCase();
@@ -111,6 +112,8 @@ class Toolbar {
 
         // Set default actions
         self.SelectedTileChange();
+
+        Registry.scan(self.$el);
     };
 
     SelectedTileChange = function () {
@@ -251,14 +254,13 @@ class Toolbar {
                                             $(this).append(
                                                 $(document.createElement("optgroup"))
                                                     .addClass(
-                                                        "mosaic-option-group mosaic-option-group-" +
-                                                            normalizeClass(ai.value)
+                                                        "mosaic-option-group " +
+                                                        `mosaic-option-group-${normalizeClass(ai.value)}`
                                                     )
                                                     .attr("label", ai.label)
                                             );
                                             elm = $(this).find(
-                                                ".mosaic-option-group-" +
-                                                    normalizeClass(ai.value)
+                                                `.mosaic-option-group-${normalizeClass(ai.value)}`
                                             );
 
                                             // Add child nodes
@@ -270,11 +272,8 @@ class Toolbar {
                                                             ai.items[y].value
                                                         )
                                                         .addClass(
-                                                            "mosaic-option mosaic-option-" +
-                                                                normalizeClass(
-                                                                    ai.items[y]
-                                                                        .value
-                                                                )
+                                                            "mosaic-option " +
+                                                            `mosaic-option-${normalizeClass(ai.items[y].value)}`
                                                         )
                                                         .html(ai.items[y].label)
                                                 );
@@ -286,10 +285,8 @@ class Toolbar {
                                                 $(document.createElement("option"))
                                                     .attr("value", ai.value)
                                                     .addClass(
-                                                        "mosaic-option mosaic-option-" +
-                                                            normalizeClass(
-                                                                ai.value
-                                                            )
+                                                        "mosaic-option " +
+                                                        `mosaic-option-${normalizeClass(ai.value)}`
                                                     )
                                                     .html(ai.label)
                                             );
@@ -411,7 +408,7 @@ class Toolbar {
 
         $(".mosaic-toolbar-secondary-functions", self.$el).removeClass("d-none");
 
-        var x, y, action_group, elm_action_group;
+        var elm_action_group;
         // Add formats to toolbar
         if (self.mosaic.options.formats !== undefined) {
             for (const action_group of self.mosaic.options.formats) {

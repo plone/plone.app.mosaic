@@ -1,10 +1,10 @@
 import "regenerator-runtime/runtime"; // needed for ``await`` support
 import $ from "jquery";
 import _ from "underscore";
-import utils from "mockup/src/core/utils";
+import utils from "@plone/mockup/src/core/utils";
 import mosaic_utils from "./utils";
 import logging from "@patternslib/patternslib/src/core/logging";
-import Modal from "mockup/src/pat/modal/modal";
+import Modal from "@plone/mockup/src/pat/modal/modal";
 import Registry from "@patternslib/patternslib/src/core/registry";
 import "./mosaic.overlay";
 
@@ -993,7 +993,7 @@ class Tile {
 
         // Init inline TinyMCE with deactivated menubar
         const implementation = (
-            await import("mockup/src/pat/tinymce/tinymce--implementation")
+            await import("@plone/mockup/src/pat/tinymce/tinymce--implementation")
         ).default;
 
         // deep copy the options to get correct tiny settings!

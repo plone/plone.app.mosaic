@@ -3,8 +3,8 @@ import "regenerator-runtime/runtime"; // needed for ``await`` support
 import $ from "jquery";
 import _ from "underscore";
 import Base from "@patternslib/patternslib/src/core/base";
-import utils from "mockup/src/core/utils";
-import Modal from "mockup/src/pat/modal/modal";
+import utils from "@plone/mockup/src/core/utils";
+import Modal from "@plone/mockup/src/pat/modal/modal";
 import logging from "@patternslib/patternslib/src/core/logging";
 
 import SelectLayoutTemplate from "./templates/select_layout.xml";
@@ -65,7 +65,7 @@ export default Base.extend({
         // init actionManager
         const ActionManager = (await import("./mosaic.actions")).default;
         self.actionManager = new ActionManager(self);
-        await self.actionManager.initActions();
+        self.actionManager.initActions();
 
         // init layoutManager
         const LayoutManager = (await import("./mosaic.layout")).default;

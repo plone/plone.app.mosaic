@@ -2,11 +2,9 @@
 import $ from "jquery";
 import logging from "@patternslib/patternslib/src/core/logging";
 import mosaic_utils from "./utils";
-import Modal from "mockup/src/pat/modal/modal";
-import utils from "mockup/src/core/utils";
+import Modal from "@plone/mockup/src/pat/modal/modal";
+import utils from "@plone/mockup/src/core/utils";
 import "./mosaic.overlay";
-import "jquery-form";
-import "select2";
 
 const log = logging.getLogger("pat-mosaic/actions");
 
@@ -59,9 +57,10 @@ class ActionManager {
 
     execAction (action, source) {
         var self = this;
+        log.info(`Exec ${action}`);
         if(!(action in self.actions)) {
-            log.error(`Action ${action} not in ${self.actions}`);
-            return
+            log.error(`Action ${action} not in "${self.actions}"`);
+            return;
         }
         return self.actions[action].exec(source);
     }
@@ -354,8 +353,6 @@ class ActionManager {
             exec: function (source) {
                 // Execute the action
                 self.execAction($(source).val());
-                // Reset menu
-                $(source).select2("val", "none");
             },
         });
 
@@ -506,9 +503,6 @@ class ActionManager {
                     mosaic.layoutManager.addTile(tile_type, mosaic.layoutManager.getDefaultValue(tile_config));
                 }
 
-                // Reset menu
-                $(source).select2("val", "none");
-
                 // Normal exit
                 return true;
             },
@@ -547,6 +541,8 @@ class ActionManager {
             // Normal exit
             return true;
         });
+
+        log.info("Initialized Actions");
     };
 
     blurSelectedTile() {
@@ -554,7 +550,20 @@ class ActionManager {
         $(".mosaic-selected-tile", self.mosaic.document).each(function () {
             $(this).data("mosaic-tile").blur();
         });
-    }
+    };
+
+    mosaicExecAction() {
+        // Loop through matched elements
+        return this.each(function () {
+            // Check if actions specified
+            if ($(this).data("action") !== "") {
+                var mgr = $.mosaic.actionManager;
+
+                // Exec actions
+                mgr.actions[$(this).data("action")].exec(this);
+            }
+        });
+    };
 }
 
 export default ActionManager;

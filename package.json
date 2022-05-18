@@ -9,8 +9,7 @@
     },
     "dependencies": {
         "@patternslib/patternslib": "^8.0.0",
-        "@plone/mockup": "^5.0.0-alpha.1",
-        "select2": "git+https://github.com/ivaynberg/select2.git#3.5.4"
+        "@plone/mockup": "^5.0.0-alpha.1"
     },
     "devDependencies": {
         "@babel/core": "^7.17.8",

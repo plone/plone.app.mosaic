@@ -102,7 +102,7 @@ export default class LayoutManager {
         $.ajax({
             type: "GET",
             url: url,
-            success: function (value) {
+            success: async function (value) {
                 // Get dom tree
                 value = self.mosaic.getDomTreeFromHtml(value);
 
@@ -110,18 +110,18 @@ export default class LayoutManager {
                 self.mosaic.addHeadTags(url, value);
 
                 // Add tile
-                self.addTile(type, value.find(".temp_body_tag").html(), url);
+                await self.addTile(type, value.find(".temp_body_tag").html(), url);
             },
         });
     }
 
-    addAppTileHTML(type, response, url) {
+    async addAppTileHTML(type, response, url) {
         var value;
         var self = this;
 
         value = self.mosaic.getDomTreeFromHtml(response);
         self.mosaic.addHeadTags(url, value);
-        self.addTile(type, value.find(".temp_body_tag").html(), url);
+        await self.addTile(type, value.find(".temp_body_tag").html(), url);
     }
 
     editAppTile(url) {
@@ -484,8 +484,8 @@ export default class LayoutManager {
             }
 
             // If clicked TinyMCE toolbar
-            if ($(elm).parents(".mce-content-body, .tox-editor-container").length > 0) {
-                log.info(" - inside TinyMCE break");
+            if ($(elm).parents(".mce-content-body, .tox-editor-container, .modal-wrapper").length > 0) {
+                log.info(" - inside TinyMCE or Modal -> break");
                 return;
             }
 

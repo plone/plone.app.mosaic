@@ -1,6 +1,6 @@
 // This plugin is used to display an overlay
 import $ from "jquery";
-import Modal from "mockup/src/pat/modal/modal";
+import Modal from "@plone/mockup/src/pat/modal/modal";
 
 export default class Overlay {
     constructor(options, panels) {

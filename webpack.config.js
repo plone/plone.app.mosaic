@@ -10,13 +10,6 @@ module.exports = async (env, argv) => {
             "plone-mosaic.min": path.resolve(__dirname, "resources/index-plone-mosaic"),
             "layouts-editor.min": path.resolve(__dirname, "resources/index-layouts-editor"), // prettier-ignore
         },
-        externals: {
-            "window": "window",
-            "$": "jquery",
-            "jquery": "jQuery",
-            "window.jquery": "jQuery",
-            "bootstrap": true,
-        },
         optimization: {
             splitChunks: {
                 cacheGroups: {
