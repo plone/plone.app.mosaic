@@ -1,7 +1,6 @@
 // This plugin is used to create a mosaic toolbar.
 import "regenerator-runtime/runtime"; // needed for ``await`` support
 import $ from "jquery";
-import Tile from "./mosaic.tile";
 
 var normalizeClass = function (val) {
     return val.replace(/(_|\.|\/)/g, "-").toLowerCase();
@@ -95,9 +94,9 @@ class Toolbar {
                     );
                     $group.append($btnContainer);
                     actions[a].append($group);
-                    for (y = 0; y < action_group.actions.length; y += 1) {
+                    for (const group_action of action_group.actions) {
                         // Add control
-                        self.AddControl($btnContainer, action_group.actions[y]);
+                        self.AddControl($btnContainer, group_action);
                     }
                 }
             }
@@ -123,8 +122,7 @@ class Toolbar {
 
         var $selected_tile = $(".mosaic-selected-tile");
         if ($selected_tile.length > 0) {
-            var tile = new Tile(self.mosaic, $selected_tile);
-            tiletype = tile.getType();
+            $selected_tile.data("mosaic-tile").getType();
         }
 
         // Get actions

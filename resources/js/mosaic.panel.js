@@ -10,7 +10,10 @@ class Panel {
     }
     initialize($content) {
         // Local variables
-        var panel_id = this.$el.data("panel"), panel_attr_id, target = $("[data-panel=" + panel_id + "]"), max_columns = this.$el.data("max-columns") || 6;
+        var panel_id = this.$el.data("panel"),
+            panel_attr_id,
+            target = $("[data-panel=" + panel_id + "]"),
+            max_columns = this.$el.data("max-columns") || 6;
 
         // Implicitly initialize required panels with id matching element
         if (panel_id === "content" && target.length === 0) {

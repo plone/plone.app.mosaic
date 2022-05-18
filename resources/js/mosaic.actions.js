@@ -1,7 +1,8 @@
 // This plugin is used to register and execute actions.
 import $ from "jquery";
+import logging from "@patternslib/patternslib/src/core/logging";
+import mosaic_utils from "./utils";
 import Modal from "mockup/src/pat/modal/modal";
-import Tile from "./mosaic.tile";
 import utils from "mockup/src/core/utils";
 import "./mosaic.overlay";
 import "jquery-form";
@@ -228,7 +229,7 @@ class ActionManager {
                     "[name='form.widgets.ILayoutAware.customContentLayout']"
                 )
                     .trigger("focus")
-                    .trigger("blur");
+                    .trigger("focusout");
 
                 // Layout preview
                 setTimeout(function () {
@@ -294,9 +295,9 @@ class ActionManager {
                 $(".mosaic-button-savelayout").show();
                 // go through each tile and add movable
                 $(".mosaic-panel .mosaic-tile", mosaic.document).each(function () {
-                    var tile = new Tile(mosaic, this);
-                    tile.makeMovable();
-                    tile.$el.mosaicAddDrag();
+                    var $mosaic_tile = $(this).data("mosaic-tile");
+                    $mosaic_tile.makeMovable();
+                    $mosaic_tile.$el.mosaicAddDrag();
                 });
                 $(".mosaic-button-group-layout").removeClass("active");
             },
@@ -362,7 +363,7 @@ class ActionManager {
         self.registerAction("insert", {
             exec: function (source) {
                 // Local variables
-                var tile_config, tile_group, tile_type, x, y;
+                var tile_config, tile_type;
 
                 // Check if value selected
                 if ($(source).val() === "none") {
@@ -378,11 +379,10 @@ class ActionManager {
                 mosaic.toolbar.SelectedTileChange();
 
                 // Get tile config
-                for (x = 0; x < mosaic.options.tiles.length; x += 1) {
-                    tile_group = mosaic.options.tiles[x];
-                    for (y = 0; y < tile_group.tiles.length; y += 1) {
-                        if (tile_group.tiles[y].name === tile_type) {
-                            tile_config = tile_group.tiles[y];
+                for (const tile_group of mosaic.options.tiles) {
+                    for (const tile of tile_group.tiles) {
+                        if (tile.name === tile_type) {
+                            tile_config = tile;
                         }
                     }
                 }
@@ -390,15 +390,7 @@ class ActionManager {
                 // Create new app tile
                 if (tile_config.tile_type === "textapp") {
                     // an app tile
-                    // generate uid for it: http://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript
-                    var uid = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(
-                        /[xy]/g,
-                        function (c) {
-                            var r = (Math.random() * 16) | 0, v = c == "x" ? r : (r & 0x3) | 0x8;
-                            return v.toString(16);
-                        }
-                    );
-
+                    var uid = mosaic_utils.generate_uid();
                     var tileUrl = mosaic.options.context_url + "/@@" + tile_type + "/" + uid;
                     var html = "<html><body>" +
                         mosaic.layoutManager.getDefaultValue(tile_config) +
@@ -560,8 +552,7 @@ class ActionManager {
     blurSelectedTile() {
         var self = this;
         $(".mosaic-selected-tile", self.mosaic.document).each(function () {
-            var tile = new Tile(self.mosaic, this);
-            tile.blur();
+            $(this).data("mosaic-tile").blur();
         });
     }
 }

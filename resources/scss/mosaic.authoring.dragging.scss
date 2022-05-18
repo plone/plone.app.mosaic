@@ -34,7 +34,7 @@
 }
 
 .mosaic-tile-buttons {
-  bottom: 0px;
+  bottom: -2rem;
   height: auto;
   right: 0px;
   top: auto;
@@ -62,7 +62,7 @@
 .mosaic-tile:hover .mosaic-tile-label,
 .mosaic-tile:focus .mosaic-tile-label,
 .mosaic-advanced .mosaic-tile-label {
-    display: block !important;
+    display: block;
 }
 
 .mosaic-tile-label {

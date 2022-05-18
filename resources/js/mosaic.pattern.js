@@ -56,6 +56,7 @@ export default Base.extend({
         import("../scss/mosaic.pattern.scss");
 
         // extend options
+        // XXX: check possibility to clone options cleanly -> see multiple tinymce instances
         self.options = $.extend(true, self.default, self.options.data, self.options);
 
         // main page
@@ -103,14 +104,8 @@ export default Base.extend({
                 } else {
                     $("body").addClass("mosaic-layout-customized");
                     self.hasContentLayout = false;
-                    self._init($content);
+                    await self._init($content);
                 }
-
-                // XXX There is a case where you can have an extraneous mid-edit tile
-                // var $helper = $(".mosaic-helper-tile-new");
-                // if ($helper.length > 0) {
-                //     $helper.parents(".mosaic-grid-row").remove();
-                // }
             }
         }
 
@@ -166,16 +161,16 @@ export default Base.extend({
         // Init app tiles
         const Tile = (await import("./mosaic.tile")).default;
 
-        self.panels.find("[data-tile]").each(function (idx) {
+        self.panels.find("[data-tile]").each(async function (idx) {
             log.info(`Panel tile counter: ${idx}`);
             if (validTile(this)) {
                 var tile = new Tile(self, this);
-                tile.initializeContent();
+                await tile.initializeContent();
             }
         });
 
         // initialize layout events
-        await self.layoutManager.initialize_panels();
+        self.layoutManager.initialize_panels();
     },
 
     _init: async function (content) {
@@ -194,10 +189,7 @@ export default Base.extend({
 
         // Add blur to the rest of the content
         $("*", self.document).each(function () {
-            // Local variables
-            var obj;
-
-            obj = $(this);
+            var obj = $(this);
 
             // Check if block element
             if (obj.css("display") === "block" || obj.css("display") === "flex") {
@@ -216,8 +208,9 @@ export default Base.extend({
                             // Check if parent has a child who is a
                             // panel or a toolbar
                             if (
-                                obj.parent().find(".mosaic-panel, .mosaic-toolbar")
-                                    .length !== 0
+                                obj.parent().find(
+                                    ".mosaic-panel, .mosaic-toolbar"
+                                ).length !== 0
                             ) {
                                 // Add blur class
                                 obj.addClass("mosaic-blur");
@@ -228,8 +221,8 @@ export default Base.extend({
             }
         });
 
-        // on enabling, add class, disable toolbar classes, hide toolbar
-        $(".pat-toolbar").hide();
+        // on enabling: hide toolbar, add mosaic class, disable body toolbar classes
+        $("#edit-bar").hide();
         var $body = $("body");
         $body.addClass("mosaic-enabled");
         $body[0].className.split(" ").forEach(function (className) {
@@ -257,7 +250,7 @@ export default Base.extend({
                     // initialize panels
                     await self._initPanels($content);
                 } else {
-                    self._init($content);
+                    await self._init($content);
                 }
             })
             .fail(async function (xhr, type, status) {
@@ -629,6 +622,7 @@ export default Base.extend({
             callback = queueName;
             queueName = "fx"; // 'fx' autoexecutes by default
         }
+        log.info(`Queue: ${queueName}: ${callback}`);
         $(window).queue(queueName, callback);
     },
 
