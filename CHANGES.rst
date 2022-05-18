@@ -4,6 +4,15 @@ Changelog
 3.0.0 (unreleased)
 ------------------
 
+- BSSP-Overhaul of mosaic editor:
+
+  - ES6 class construction
+  - use mockup TinyMCE
+  - get rid of $.mosaic initialization
+  - start getting rid of jQuery (uncompleted)
+
+  [petschki]
+
 - Do not load mosaic editor on babel add form (`++addtranslation++...`).
   [jensens]
 
