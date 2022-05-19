@@ -1521,43 +1521,6 @@
     url-polyfill "^1.1.9"
     whatwg-fetch "^3.4.0"
 
-"@patternslib/patternslib@^8.0.0":
-  version "8.0.0"
-  resolved "https://registry.yarnpkg.com/@patternslib/patternslib/-/patternslib-8.0.0.tgz#97eb79cc5e0b324d962e1bafceb7da9cbf9f0028"
-  integrity sha512-fApsPEC89xeYs1idehIvKSCZn2bLi/723s71Ez+lBfDWlDt+3lQ861Ve//ArdeOXlviOvFbkwAnYk0h26lqoTg==
-  dependencies:
-    "@fullcalendar/adaptive" "^5.11.0"
-    "@fullcalendar/core" "^5.11.0"
-    "@fullcalendar/daygrid" "^5.11.0"
-    "@fullcalendar/interaction" "^5.11.0"
-    "@fullcalendar/list" "^5.11.0"
-    "@fullcalendar/luxon2" "^5.11.0"
-    "@fullcalendar/timegrid" "^5.11.0"
-    "@juggle/resize-observer" "^3.3.1"
-    "@stomp/stompjs" "^6.1.2"
-    google-code-prettify "^1.0.5"
-    imagesloaded "^4.1.4"
-    intersection-observer "^0.12.0"
-    jquery "^3.6.0"
-    jquery-jcrop "^0.9.13"
-    luxon "^2.3.2"
-    masonry-layout "^4.2.2"
-    moment "^2.29.3"
-    moment-timezone "^0.5.34"
-    photoswipe "^4.1.3"
-    pikaday "^1.8.0"
-    promise-polyfill "^8.2.3"
-    screenfull "^6.0.1"
-    select2 "^3.5.1"
-    showdown "^2.1.0"
-    showdown-prettify "^1.3.0"
-    slick-carousel "^1.8.1"
-    slides "git+https://github.com/Patternslib/slides.git"
-    spectrum-colorpicker "^1.8.0"
-    tippy.js "^6.3.7"
-    url-polyfill "^1.1.9"
-    whatwg-fetch "^3.4.0"
-
 "@patternslib/patternslib@^8.0.1":
   version "8.0.1"
   resolved "https://registry.yarnpkg.com/@patternslib/patternslib/-/patternslib-8.0.1.tgz#cbde1fdc288f2d273826912fd77c043556f0347d"
@@ -1595,16 +1558,16 @@
     url-polyfill "^1.1.9"
     whatwg-fetch "^3.4.0"
 
-"@plone/mockup@^5.0.0-alpha.2":
-  version "5.0.0-alpha.2"
-  resolved "https://registry.yarnpkg.com/@plone/mockup/-/mockup-5.0.0-alpha.2.tgz#9f67e508cfe9a597707f044d7a000c4e9cbf991a"
-  integrity sha512-JErYAw0b85nWVYr6zJ+KltGe2MFoiNICpo5EJi6bCYidUcn4YbvTkl4wNTm+m66aJ8kbexHby3crnY77v6LmVQ==
+"@plone/mockup@^5.0.0-alpha.3":
+  version "5.0.0-alpha.3"
+  resolved "https://registry.yarnpkg.com/@plone/mockup/-/mockup-5.0.0-alpha.3.tgz#7ab445cfc4bc2748ac69b9089027285b58c8c5fc"
+  integrity sha512-DnC6iVVV1dif24aArqiQmx/inEheTmZoptfq44dcmQmQmeWA0RVgIki5+CKnjxuDGzqUakL00dQBR3DibY77eg==
   dependencies:
     "@patternslib/pat-code-editor" "^2.1.2"
     "@patternslib/patternslib" "^8.0.1"
     backbone "1.4.1"
     backbone.paginator "1.0.0"
-    bootstrap "^5.1.3"
+    bootstrap "^5.2.0-beta1"
     bootstrap-icons "^1.8.2"
     cs-jqtree-contextmenu "0.1.0"
     datatables.net "^1.12.0"
@@ -2599,10 +2562,10 @@ bootstrap-icons@^1.8.2:
   resolved "https://registry.yarnpkg.com/bootstrap-icons/-/bootstrap-icons-1.8.2.tgz#5984f3322ee2370fc48c8857f4a1f0320f659904"
   integrity sha512-jhNjdPzvUqKOr9o0XhCZAZDWVeuOg6mJHtSj2bhiqfamZVg6ekMYNgG7pRY4GItbjIwrTaht3dNbXGbX3eJNLQ==
 
-bootstrap@^5.1.3:
-  version "5.1.3"
-  resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-5.1.3.tgz#ba081b0c130f810fa70900acbc1c6d3c28fa8f34"
-  integrity sha512-fcQztozJ8jToQWXxVuEyXWW+dSo8AiXWKwiSSrKWsRB/Qt+Ewwza+JWoLKiTuQLaEPhdNAJ7+Dosc9DOIqNy7Q==
+bootstrap@^5.2.0-beta1:
+  version "5.2.0-beta1"
+  resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-5.2.0-beta1.tgz#75647ff7327c2cac9b8e1cb6728a790a5be4cefc"
+  integrity sha512-6qbgs177WZEFY4SLQUq3tEHayYG80nfDmyTpdKi0MJqRMdS+HAoq24+YKfx6wf+nHY0rx8zrh477J1lFu4WzOA==
 
 boxen@^5.0.0:
   version "5.1.2"
