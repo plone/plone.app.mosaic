@@ -9,7 +9,7 @@
     },
     "dependencies": {
         "@patternslib/patternslib": "^8.0.0",
-        "@plone/mockup": "^5.0.0-alpha.1"
+        "@plone/mockup": "^5.0.0-alpha.2"
     },
     "devDependencies": {
         "@babel/core": "^7.17.8",
@@ -52,10 +52,6 @@
         "whybundled": "^2.0.0",
         "yarn": "^1.22.18"
     },
-    "resolutions": {
-        "@patternslib/patternslib": "8.0.0",
-        "jquery": "3.6.0"
-    },
     "resolutions-comments": {
         "ua-parser-js": "See https://github.com/faisalman/ua-parser-js/issues/536"
     },
@@ -67,7 +63,7 @@
         "watch:scss": "nodemon --watch resources/scss/ --ext scss --exec \"yarn build:css\"",
         "start": "NODE_ENV=development webpack serve --config webpack.config.js",
         "css-compile": "sass --load-path=node_modules --style expanded --source-map --embed-sources --no-error-css resources/scss/mosaic.scss:src/plone/app/mosaic/browser/static/mosaic.css",
-        "css-minify": "cleancss --level 1 --format breakWith=lf --source-map --source-map-inline-sources --output src/plone/app/mosaic/browser/static/mosaic.min.css src/plone/app/mosaic/browser/static/mosaic.css"
+        "css-minify": "cleancss -O1 --format breakWith=lf --source-map --source-map-inline-sources --output src/plone/app/mosaic/browser/static/mosaic.min.css src/plone/app/mosaic/browser/static/mosaic.css"
     },
     "browserslist": {
         "production": [

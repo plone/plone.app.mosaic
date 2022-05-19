@@ -1067,7 +1067,7 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
-"@fullcalendar/adaptive@^5.11.0":
+"@fullcalendar/adaptive@^5.10.1", "@fullcalendar/adaptive@^5.11.0":
   version "5.11.0"
   resolved "https://registry.yarnpkg.com/@fullcalendar/adaptive/-/adaptive-5.11.0.tgz#e789c47c81894c96a40bb383b4f4c443fa89964b"
   integrity sha512-BXR0v0aDF7o128DhNDqwCUe8oyq4b5tXtwr9Nz/FEvEseQltjEqhYRy8TDnK/8cp3x2nPc7oj4Zsufdy/R+LVw==
@@ -1083,7 +1083,7 @@
   dependencies:
     tslib "^2.1.0"
 
-"@fullcalendar/core@^5.11.0":
+"@fullcalendar/core@^5.10.1", "@fullcalendar/core@^5.11.0":
   version "5.11.0"
   resolved "https://registry.yarnpkg.com/@fullcalendar/core/-/core-5.11.0.tgz#336fcfb9799cf0c2d1ee15c110dce26a9e14881c"
   integrity sha512-cF/d9LuJb/6xw14ms0urv1H4BiA70c4jrufe/EuVzLR6qTDpK92IZ3JK7GVtZtzptfTYZ/NQgDV9YCzIaO9Blw==
@@ -1092,7 +1092,7 @@
     preact "^10.0.5"
     tslib "^2.1.0"
 
-"@fullcalendar/daygrid@^5.11.0", "@fullcalendar/daygrid@~5.11.0":
+"@fullcalendar/daygrid@^5.10.1", "@fullcalendar/daygrid@^5.11.0", "@fullcalendar/daygrid@~5.11.0":
   version "5.11.0"
   resolved "https://registry.yarnpkg.com/@fullcalendar/daygrid/-/daygrid-5.11.0.tgz#fd10391dfc2b6caa3538e0826f8d8f3e83e0e22a"
   integrity sha512-Ybh/dfHn/VL0qOVIRVyJc9I8oYiqqHl6xQONk8xXCe456QbPzAQLsAxpLLJLH+3smWNCfoQgvDKzR9e9XTzLMQ==
@@ -1100,7 +1100,7 @@
     "@fullcalendar/common" "~5.11.0"
     tslib "^2.1.0"
 
-"@fullcalendar/interaction@^5.11.0":
+"@fullcalendar/interaction@^5.10.1", "@fullcalendar/interaction@^5.11.0":
   version "5.11.0"
   resolved "https://registry.yarnpkg.com/@fullcalendar/interaction/-/interaction-5.11.0.tgz#9cfb46cc5f75690394ef553d2c5cf4955782ff05"
   integrity sha512-9XTI5+ydqrSX+IL3iWgKBURXfnPewn57Tmsv9mJZhiqrUEF7/+qtftLoKEAc8ZdWk/+01aBe67PFL16uPXj2Jg==
@@ -1108,7 +1108,7 @@
     "@fullcalendar/common" "~5.11.0"
     tslib "^2.1.0"
 
-"@fullcalendar/list@^5.11.0":
+"@fullcalendar/list@^5.10.1", "@fullcalendar/list@^5.11.0":
   version "5.11.0"
   resolved "https://registry.yarnpkg.com/@fullcalendar/list/-/list-5.11.0.tgz#536b51ebad59d15c238997e37e3d0e0fd09e9579"
   integrity sha512-0dl/JV6zEGseTDXpM16nozetByVvJ4l/DElYP+StCtnk+Lr51zFK0yfRWRwB9XInxyapfZLDd/3YjKXQf8Bxcw==
@@ -1124,6 +1124,14 @@
     "@fullcalendar/common" "~5.11.0"
     tslib "^2.1.0"
 
+"@fullcalendar/luxon@^5.10.1":
+  version "5.11.0"
+  resolved "https://registry.yarnpkg.com/@fullcalendar/luxon/-/luxon-5.11.0.tgz#e92e62e6045001ddf9d03cbc36b6a52186dc9fab"
+  integrity sha512-/mx/2wloDVIOiZVFKwXiGiCPqi+iwB2KZM8KS/9PZq04eWnq6S/wGK+OOk33Z7scMncoVz8Nriz31HWWpREmLQ==
+  dependencies:
+    "@fullcalendar/common" "~5.11.0"
+    tslib "^2.1.0"
+
 "@fullcalendar/premium-common@~5.11.0":
   version "5.11.0"
   resolved "https://registry.yarnpkg.com/@fullcalendar/premium-common/-/premium-common-5.11.0.tgz#984ad16dba011c656ebc9ecb358bf6f2733c5e88"
@@ -1132,7 +1140,7 @@
     "@fullcalendar/common" "~5.11.0"
     tslib "^2.1.0"
 
-"@fullcalendar/timegrid@^5.11.0":
+"@fullcalendar/timegrid@^5.10.1", "@fullcalendar/timegrid@^5.11.0":
   version "5.11.0"
   resolved "https://registry.yarnpkg.com/@fullcalendar/timegrid/-/timegrid-5.11.0.tgz#b41153ef301f21f8c1e19a65023493c48c8bacf5"
   integrity sha512-GNy+/PwAj510PS4Fu18Mf/CytNBVftFU7M8XwsUXOCJ6ouyroHZje0a7k5cH/nE5IQ6NJZfH2eAPBlxGath1MQ==
@@ -1476,7 +1484,44 @@
     codejar "^3.5.0"
     prismjs "^1.27.0"
 
-"@patternslib/patternslib@8.0.0", "@patternslib/patternslib@^7.4.0", "@patternslib/patternslib@^8.0.0":
+"@patternslib/patternslib@^7.4.0":
+  version "7.12.0"
+  resolved "https://registry.yarnpkg.com/@patternslib/patternslib/-/patternslib-7.12.0.tgz#c1584d5b95ea6af6c147089fc5320aeb21b57fd6"
+  integrity sha512-sKM2CQw9JXBSN559b1m4Y7AHdPXetHNNHoitCnn0D3vJdCsVqStLvKaC3n27T/5vrgZyEvylKY64MFalfVKTJw==
+  dependencies:
+    "@fullcalendar/adaptive" "^5.10.1"
+    "@fullcalendar/core" "^5.10.1"
+    "@fullcalendar/daygrid" "^5.10.1"
+    "@fullcalendar/interaction" "^5.10.1"
+    "@fullcalendar/list" "^5.10.1"
+    "@fullcalendar/luxon" "^5.10.1"
+    "@fullcalendar/timegrid" "^5.10.1"
+    "@juggle/resize-observer" "^3.3.1"
+    "@stomp/stompjs" "^6.1.2"
+    google-code-prettify "^1.0.5"
+    imagesloaded "^4.1.4"
+    intersection-observer "^0.12.0"
+    jquery "^3.6.0"
+    jquery-jcrop "^0.9.13"
+    luxon "^1.27.0"
+    masonry-layout "^4.2.2"
+    moment "^2.29.3"
+    moment-timezone "^0.5.34"
+    photoswipe "^4.1.3"
+    pikaday "^1.8.0"
+    promise-polyfill "^8.2.3"
+    screenfull "^6.0.1"
+    select2 "^3.5.1"
+    showdown "^2.1.0"
+    showdown-prettify "^1.3.0"
+    slick-carousel "^1.8.1"
+    slides "git+https://github.com/Patternslib/slides.git"
+    spectrum-colorpicker "^1.8.0"
+    tippy.js "^6.3.7"
+    url-polyfill "^1.1.9"
+    whatwg-fetch "^3.4.0"
+
+"@patternslib/patternslib@^8.0.0":
   version "8.0.0"
   resolved "https://registry.yarnpkg.com/@patternslib/patternslib/-/patternslib-8.0.0.tgz#97eb79cc5e0b324d962e1bafceb7da9cbf9f0028"
   integrity sha512-fApsPEC89xeYs1idehIvKSCZn2bLi/723s71Ez+lBfDWlDt+3lQ861Ve//ArdeOXlviOvFbkwAnYk0h26lqoTg==
@@ -1513,13 +1558,50 @@
     url-polyfill "^1.1.9"
     whatwg-fetch "^3.4.0"
 
-"@plone/mockup@^5.0.0-alpha.1":
-  version "5.0.0-alpha.1"
-  resolved "https://registry.yarnpkg.com/@plone/mockup/-/mockup-5.0.0-alpha.1.tgz#f5ce94e3bc3ed4c68a840a3022e135a624fc7ba7"
-  integrity sha512-qp+RF/cJnE8P7H8vIuFngWrbvJyQEfFCXrZ42IStbTsqf57mfWYMrTbwG6vOzAaiW1C2FzEc0s99f7sTBbbtiw==
+"@patternslib/patternslib@^8.0.1":
+  version "8.0.1"
+  resolved "https://registry.yarnpkg.com/@patternslib/patternslib/-/patternslib-8.0.1.tgz#cbde1fdc288f2d273826912fd77c043556f0347d"
+  integrity sha512-Bqy+P3zGQ0Cwxdm8S1atr91ZcyQ3CNZdZnql6+6uGU0ojqUzJofFX+JDwtUB0T354b+rTh9MrNplo8+fM+zKUQ==
+  dependencies:
+    "@fullcalendar/adaptive" "^5.11.0"
+    "@fullcalendar/core" "^5.11.0"
+    "@fullcalendar/daygrid" "^5.11.0"
+    "@fullcalendar/interaction" "^5.11.0"
+    "@fullcalendar/list" "^5.11.0"
+    "@fullcalendar/luxon2" "^5.11.0"
+    "@fullcalendar/timegrid" "^5.11.0"
+    "@juggle/resize-observer" "^3.3.1"
+    "@stomp/stompjs" "^6.1.2"
+    google-code-prettify "^1.0.5"
+    imagesloaded "^4.1.4"
+    intersection-observer "^0.12.0"
+    jquery "^3.6.0"
+    jquery-jcrop "^0.9.13"
+    luxon "^2.3.2"
+    masonry-layout "^4.2.2"
+    moment "^2.29.3"
+    moment-timezone "^0.5.34"
+    photoswipe "^4.1.3"
+    pikaday "^1.8.0"
+    promise-polyfill "^8.2.3"
+    screenfull "^6.0.1"
+    select2 "^3.5.1"
+    showdown "^2.1.0"
+    showdown-prettify "^1.3.0"
+    slick-carousel "^1.8.1"
+    slides "git+https://github.com/Patternslib/slides.git"
+    spectrum-colorpicker "^1.8.0"
+    tippy.js "^6.3.7"
+    url-polyfill "^1.1.9"
+    whatwg-fetch "^3.4.0"
+
+"@plone/mockup@^5.0.0-alpha.2":
+  version "5.0.0-alpha.2"
+  resolved "https://registry.yarnpkg.com/@plone/mockup/-/mockup-5.0.0-alpha.2.tgz#9f67e508cfe9a597707f044d7a000c4e9cbf991a"
+  integrity sha512-JErYAw0b85nWVYr6zJ+KltGe2MFoiNICpo5EJi6bCYidUcn4YbvTkl4wNTm+m66aJ8kbexHby3crnY77v6LmVQ==
   dependencies:
     "@patternslib/pat-code-editor" "^2.1.2"
-    "@patternslib/patternslib" "^8.0.0"
+    "@patternslib/patternslib" "^8.0.1"
     backbone "1.4.1"
     backbone.paginator "1.0.0"
     bootstrap "^5.1.3"
@@ -5330,7 +5412,7 @@ jquery.browser@0.1.0:
   dependencies:
     jquery ""
 
-jquery@, jquery@3.6.0, jquery@>=1.7, jquery@>=1.7.2, jquery@^3.6.0:
+jquery@, jquery@>=1.7, jquery@>=1.7.2, jquery@^3.6.0:
   version "3.6.0"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.6.0.tgz#c72a09f15c1bdce142f49dbf1170bdf8adac2470"
   integrity sha512-JVzAR/AjBvVt2BmYhxRCSYysDsPcssdmTFnzyLEts9qNwmjmu4JTAMYubEfwVOSwpQ1I1sKKFcxhZCI2buerfw==
@@ -5603,6 +5685,11 @@ lru-cache@^6.0.0:
   integrity sha512-Jo6dJ04CmSjuznwJSS3pUeWmd/H0ffTlkXXgwZi+eq1UCmqQwCh+eLsYOYCwY991i2Fah4h1BEMCx4qThGbsiA==
   dependencies:
     yallist "^4.0.0"
+
+luxon@^1.27.0:
+  version "1.28.0"
+  resolved "https://registry.yarnpkg.com/luxon/-/luxon-1.28.0.tgz#e7f96daad3938c06a62de0fb027115d251251fbf"
+  integrity sha512-TfTiyvZhwBYM/7QdAVDh+7dBTBA29v4ik0Ce9zda3Mnf8on1S5KJI8P2jKFZ8+5C0jhmr0KwJEO/Wdpm0VeWJQ==
 
 luxon@^2.3.2:
   version "2.4.0"
