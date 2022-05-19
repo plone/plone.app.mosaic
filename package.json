@@ -1,6 +1,6 @@
 {
     "name": "plone-mosaic",
-    "version": "3.0.0",
+    "version": "3.0.0-alpha.1",
     "description": "Mosaic Editor for Plone",
     "license": "GPL-2.0-only",
     "engines": {
@@ -8,8 +8,8 @@
         "yarn": "^1.3.2"
     },
     "dependencies": {
-        "@patternslib/patternslib": "^8.0.1",
-        "@plone/mockup": "^5.0.0-alpha.3"
+        "@patternslib/patternslib": "^8.0.2",
+        "@plone/mockup": "^5.0.0-alpha.4"
     },
     "devDependencies": {
         "@babel/core": "^7.17.8",

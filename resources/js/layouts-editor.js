@@ -1,5 +1,4 @@
 import "regenerator-runtime/runtime"; // needed for ``await`` support
-import "@patternslib/patternslib/src/globals";
 import $ from "jquery";
 import _ from "underscore";
 import utils from "@plone/mockup/src/core/utils";
