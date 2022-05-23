@@ -9,7 +9,8 @@
     },
     "dependencies": {
         "@patternslib/patternslib": "^8.0.2",
-        "@plone/mockup": "^5.0.0-alpha.4"
+        "@plone/mockup": "^5.0.0-alpha.6",
+        "underscore": "^1.13.3"
     },
     "devDependencies": {
         "@babel/core": "^7.17.8",
