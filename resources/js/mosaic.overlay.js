@@ -10,15 +10,15 @@ export default class Overlay {
 
     initialize() {
         var self = this;
-        var $el = $(".mosaic-original-content");
-        self.form = $("form", $el);
+        var originalContentSelector = ".mosaic-original-content";
 
         // we don't want to show the original el.
-        $el.hide();
+        document.querySelector(originalContentSelector).style.display = "none";
 
-        self.modal = new Modal($(".outer-wrapper"), {
-            title: $("h1", $el).text(),
-            target: ".mosaic-original-content form",
+        self.modal = new Modal(document.querySelector("body > .outer-wrapper"), {
+            title: document.querySelector("h1").innerText,
+            target: originalContentSelector,
+            content: "#form",
             modalSizeClass: "modal-xl",
         });
     }
@@ -33,40 +33,40 @@ export default class Overlay {
 
         if (mode === "all" && self.options.overlay_hide_fields) {
             // Get form tabs
-            formtabs = self.form.find("nav");
+            formtabs = self.modal.$modal.find("nav");
 
             // Show form tabs
             formtabs.removeClass("mosaic-hidden");
 
             // Show all fields
-            self.form.find("fieldset").children().removeClass("mosaic-hidden");
+            self.modal.$modal.find("fieldset").children().removeClass("mosaic-hidden");
 
             // Hide all fieldsets
-            self.form.find("fieldset").removeClass("active");
+            self.modal.$modal.find("fieldset").removeClass("active");
 
             // Deselect all tabs
             formtabs.find("a").removeClass("active");
 
             // Hide layout field
-            self.form.find(self.options.customContentLayout_selector).addClass("mosaic-hidden");
-            self.form.find(self.options.contentLayout_selector).addClass("mosaic-hidden");
+            self.modal.$modal.find(self.options.customContentLayout_selector).addClass("mosaic-hidden");
+            self.modal.$modal.find(self.options.contentLayout_selector).addClass("mosaic-hidden");
 
             // Hide title and description
             if ($(".mosaic-IDublinCore-title-tile").length > 0) {
-                self.form.find("#formfield-form-widgets-IDublinCore-title").addClass(
+                self.modal.$modal.find("#formfield-form-widgets-IDublinCore-title").addClass(
                     "mosaic-hidden"
                 );
             } else {
-                self.form.find("#formfield-form-widgets-IDublinCore-title").removeClass(
+                self.modal.$modal.find("#formfield-form-widgets-IDublinCore-title").removeClass(
                     "mosaic-hidden"
                 );
             }
             if ($(".mosaic-IDublinCore-description-tile").length > 0) {
-                self.form.find("#formfield-form-widgets-IDublinCore-description").addClass(
+                self.modal.$modal.find("#formfield-form-widgets-IDublinCore-description").addClass(
                     "mosaic-hidden"
                 );
             } else {
-                self.form.find("#formfield-form-widgets-IDublinCore-description").removeClass(
+                self.modal.$modal.find("#formfield-form-widgets-IDublinCore-description").removeClass(
                     "mosaic-hidden"
                 );
             }
@@ -90,7 +90,7 @@ export default class Overlay {
             }
 
             // Hide tab if fieldset has no visible items
-            self.form.find("fieldset").each(function () {
+            self.modal.$modal.find("fieldset").each(function () {
                 if ($(this).children("div:not(.mosaic-hidden)").length === 0) {
                     $(
                         "a[href=#fieldsetlegend-" + $(this).attr("id").split("-")[1] + "]"
@@ -103,11 +103,11 @@ export default class Overlay {
 
             // Select first tab
             visible_tabs.eq(0).addClass("active");
-            var $fieldset = self.form.find(
+            var $fieldset = self.modal.$modal.find(
                 "#fieldset-" + visible_tabs.eq(0).attr("href").split("-")[1]
             );
             if ($fieldset.length === 0) {
-                $fieldset = self.form.find("fieldset:not(.mosaic-hidden)").eq(0);
+                $fieldset = self.modal.$modal.find("fieldset:not(.mosaic-hidden)").eq(0);
             }
             $fieldset.addClass("active");
         } else if (mode === "field") {
@@ -116,7 +116,7 @@ export default class Overlay {
             fieldset = field.parents("fieldset");
 
             // Hide all fieldsets
-            self.form.find("fieldset").removeClass("active");
+            self.modal.$modal.find("fieldset").removeClass("active");
 
             // Show current fieldset
             fieldset.addClass("active");
@@ -128,7 +128,7 @@ export default class Overlay {
             field.removeClass("mosaic-hidden");
 
             // Hide form tabs
-            self.form.find("nav").addClass("mosaic-hidden");
+            self.modal.$modal.find("nav").addClass("mosaic-hidden");
         }
     }
 
