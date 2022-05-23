@@ -34,50 +34,14 @@
 }
 
 .mosaic-tile-buttons {
-  bottom: 0px;
+  bottom: -2rem;
   height: auto;
   right: 0px;
   top: auto;
   width: auto;
 
-  button,
-  button:hover {
-    /* also some reset in here */
-    background-color: #f8f8f8;
-    border-left: 1px solid #dedede;
-    border-top: 1px solid #dedede;
-    color: #292929;
-    margin: 0px;
-    padding: 6px 8px;
-  }
-
-  button:hover {
-    background-color: #fff;
-  }
-
-  button:first-child {
-    border-top-left-radius: 5px;
-  }
-
-  button::before {
-    width: 0.8em;
-    height: 0.8em;
-    display: inline-block;
-    margin: 0em 0.3em 0.4em 0.1em;
-    text-align: center;
-    vertical-align: middle;
-  }
-
-  .mosaic-btn-settings::before {
-    content: url('../img/edit.svg');
-  }
-
-  .mosaic-btn-delete::before {
-    content: url('../img/remove.svg');
-  }
-
-  .mosaic-btn-confirm::before {
-    content: url('../img/confirm.svg');
+  > .btn {
+    margin-left:0.25rem;
   }
 }
 
@@ -98,7 +62,7 @@
 .mosaic-tile:hover .mosaic-tile-label,
 .mosaic-tile:focus .mosaic-tile-label,
 .mosaic-advanced .mosaic-tile-label {
-    display: block !important;
+    display: block;
 }
 
 .mosaic-tile-label {

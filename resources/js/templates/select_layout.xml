@@ -1,0 +1,37 @@
+<div>
+    <h1>Select Layout</h1>
+    <div class="mosaic-select-layout">
+        <div class="global-layouts">
+            <ul class="d-flex flex-wrap justify-content-around">
+            <% _.each(available_layouts, function(layout) {
+                var screenshot = layout.preview || layout.screenshot;
+                if(!screenshot) {
+                    screenshot = "++plone++mosaic/img/default-layout-screenshot.png";
+                } %>
+                <li><a href="#" data-value="<%- layout.path %>">
+                <p><%- layout.title %></p>
+                <p class="mosaic-select-layout-description"><%- layout.description %></p>
+                <img src="<%- portal_url %>/<%- screenshot %>"></a></li>
+            <% }); %>
+            </ul>
+        </div>
+        <% if(user_layouts.length > 0) { %>
+        <div class="user-layouts">
+            <h4>My Layouts</h4>
+            <ul class="d-flex flex-wrap">
+            <% _.each(user_layouts, function(layout){
+                var screenshot = layout.preview || layout.screenshot;
+                if(!screenshot){
+                    screenshot = "++plone++mosaic/img/default-layout-screenshot.png";
+                } %>
+                <li><a href="#" data-value="<%- layout.path %>">
+                <p><%- layout.title %></p><img src="<%- portal_url %>/<%- screenshot %>"></a></li>
+            <% }); %>
+            </ul>
+        </div>
+        <% } %>
+        <% if(hasCustomLayouts && canChangeLayout) { %>
+        <p class="manage-custom-layouts"><a href="#" class="plone-btn plone-btn-default">Manage custom layouts</a></p>
+        <% } %>
+    </div>
+</div>

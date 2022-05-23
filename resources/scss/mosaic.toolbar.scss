@@ -2,7 +2,6 @@
 @import "bootstrap/scss/variables";
 @import "bootstrap/scss/mixins";
 @import "bootstrap/scss/navbar";
-@import "variables.plone.scss";
 
 // $mosaic-toolbar-height: 40px;
 // $mosaic-toolbar-color: #2c6596;
@@ -11,170 +10,50 @@
   z-index: $zindex-fixed;
 }
 
-// .caret {
-//   display: inline-block;
-//   width: 0;
-//   height: 0;
-//   margin-left: 2px;
-//   vertical-align: middle;
-//   border-top:   $plone-caret-width-base dashed;
-//   border-right: $plone-caret-width-base solid transparent;
-//   border-left:  $plone-caret-width-base solid transparent;
-// }
 
 .mosaic-toolbar {
-  //   position: fixed;
-  //   top: 0;
-  //   right: 0;
-  //   left: 0;
-  //   z-index: $zindex-fixed;
-  //   padding: 10px;
 
-  //   background: $mosaic-toolbar-color;
+  .select2-display-none {
+    display: none;
+  }
 
-    .select2-display-none {
-      display: none;
-    }
-
-  //   fieldset {
-  //       display: inline;
-
-  //       margin: 0 1em 0 0;
-  //       padding: 0;
-  //       border: 0;
-  //   }
-
-  //   // button {
-  //   //     @extend .btn;
-  //   //     @extend .btn-secondary;
-  //   //     margin: 0 5px 0 0;
-
-  //   //     &.mosaic-button-save {
-  //   //       @extend .btn-success;
-  //   //       &:hover {
-  //   //         @extend .btn-success:hover;
-  //   //       }
-  //   //     }
-
-  //   //     &:hover {
-  //   //       @extend .btn-secondary:hover;
-  //   //     }
-  //   // }
   .select2-container {
     margin-bottom: 0;
   }
 
   .mosaic-menu {
-    //     height: $input-height;
-    //     padding: $plone-padding-base-vertical $plone-padding-base-horizontal;
-    //     font-size: $font-size-base;
-    //     line-height: $line-height-base;
-    //     color: $input-color;
-    //     background-color: $input-bg;
-    //     background-image: none;
-    //     border: 1px solid $input-border-color;
-    //     border-radius: $input-border-radius;
-    //     display: inline-block;
-    //     margin: 0 5px 0 0;
-        width: auto;
+    min-width:12rem;
 
-    //     &.mosaic-menu-insert {
-    //         margin-right: 0;
-    //     }
+    &.select2-container {
+      a.select2-choice {
+        border: 0;
+        padding: 0;
+        box-shadow: none;
 
-    //     /* Apply bootstrap styles for select2 menus */
-        &.select2-container {
-          a.select2-choice {
-            border: 0;
-            padding: 0;
-            box-shadow: none;
-
-            &, &:hover {
-              background-color: transparent;
-              background-image: none;
-            }
-            .select2-arrow {
-              border: 0;
-              background: none;
-              // b { @extend .caret; }
-            }
-          }
-
-          &:hover {
-            // @extend .btn-primary:hover;
-            a.select2-choice {
-              // @extend .btn-primary:hover;
-            }
-          }
-
-          &.select2-dropdown-open {
-            // @extend .btn-primary:active;
-            a.select2-choice {
-              // @extend .btn-primary:active;
-            }
-          }
+        &, &:hover {
+          background-color: transparent;
+          background-image: none;
         }
+        .select2-arrow {
+          border: 0;
+          background: none;
+          // b { @extend .caret; }
+        }
+      }
+    }
   }
-
-//   .mosaic-button-group {
-//     display: inline-block;
-//     position: relative;
-
-//     .btn-container {
-//       display: none;
-//     }
-
-//     &.active {
-//       .btn-container {
-//         display: block!important;
-//         left: 0px;
-//         position: absolute;
-//         // top: $mosaic-toolbar-height;
-//         top: 33px;
-//       }
-//     }
-
-//     .btn-container {
-//       // background-color: $secondary;
-
-//       .mosaic-button {
-//         // border-radius: 0px;
-//         // min-width: 170px;
-//         text-align: left;
-//         width: 100%;
-//       }
-//     }
-//   }
 }
 
-// .mosaic-inline-toolbar {
-//   position: relative;
-//   width: 100%;
-// }
 
 .mosaic-toolbar-content {
   display: flex;
   flex-flow: wrap;
   justify-content: space-between;
-//   min-height: $mosaic-toolbar-height;
-//   background: $mosaic-toolbar-color;
 }
-
-// .mosaic-toolbar-primary-functions {
-//     padding-left: 0;
-//     box-shadow: none;
-// }
 
 .mosaic-toolbar-secondary-functions {
     box-shadow: none;
 }
-
-// @media screen and (max-width: 768px) {
-//     .mosaic-toolbar-primary-functions,
-//     .mosaic-toolbar-secondary-functions {
-//         padding: 0 15px;
-//     }
-// }
 
 /* Hide mosaic-menu labels with select2 */
 .mosaic-enabled .select2-results {
@@ -185,15 +64,13 @@
   }
 }
 
-// .mosaic-enabled .select2-hidden-accessible { display: none; }  // For Plone 4
-
 /* Apply bootstrap toolbar styles for select2 results */
 .mosaic-dropdown {
   @extend .navbar;
   @extend .mosaic-toolbar-content;
   background: white;
 
-  li.select2-disabled {
+  li.select2-disabled {
     background: none;
     color: #888888;
   }
@@ -205,22 +82,18 @@
   right: 0 !important;
 
   /* Layout menu items in horizontally aligned groups */
-  & > ul {
-    float: right;
-    & > li {
-      float: left;
-      margin-right: 5px;
-    }
+  > ul {
+    display:flex;
   }
-
-//   /* Fix border to better fit with navbar */
-//   &.select2-drop-auto-width {
-//     border-top: none;
-//   }
 
   &.select2-drop-active {
     border: 1px solid gray;
     border-radius: 0;
+  }
+
+  .select2-results-dept-1 .select2-result-label {
+    padding-left: 7px;
+    white-space:nowrap;
   }
 
   /* Avoid select2 from stealing TinyMCE focus */
@@ -270,9 +143,3 @@
     pointer-events: all;
   }
 }
-
-// @media screen and (max-width: 768px) {
-//   .mosaic-dropdown {
-//     top: 99px !important;
-//   }
-// }

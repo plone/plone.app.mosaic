@@ -1,0 +1,35 @@
+<div>
+    <h1>Delete layout</h1>
+    <div class="mosaic-delete-layout">
+        <% if(existing.length === 0 && !selected){  %>
+        <div class="alert alert-warning">
+            <strong>Warning</strong>
+            Are you certain you want to delete this layout? This can not be undone.
+        </div>
+        <% } else { %>
+        <div class="alert alert-error">
+            <strong>Warning</strong>
+            Are you certain you want to delete this layout? This can not be undone.
+            <% if(existing.length > 0) { %>
+            There are currently <%- existing.length %> items assigned to this layout.
+            <% } %>
+            You need to provide a replacement layout for the existing items in order to
+            delete this for items currently assigned to this.
+        </div>
+        <div class="form-group">
+            <label for="layoutField">Replacement Layout</label>
+            <select name="layout" class="form-select" id="layoutField">
+            <% _.each(available_layouts.concat(user_layouts), function(l){ %>
+                <% if(l.path !== layout_deleting.path){ %>
+                    <option value="<%- l.path %>"><%- l.title %></option>
+                <% } %>
+            <% }); %>
+            </select>
+        </div>
+        <% } %>
+    </div>
+    <div class="buttons">
+        <button class="plone-btn plone-btn-danger delete">Yes, delete</button>
+        <button class="plone-btn plone-btn-default cancel">No</button>
+    </div>
+</div>
