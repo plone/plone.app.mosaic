@@ -1,7 +1,6 @@
 // This plugin is used to create a mosaic layout.
 import "regenerator-runtime/runtime"; // needed for ``await`` support
 import $ from "jquery";
-import _ from "underscore";
 import logging from "@patternslib/patternslib/src/core/logging";
 import Tile from "./mosaic.tile";
 import "./mosaic.overlay";
@@ -916,7 +915,7 @@ export default class LayoutManager {
                 $(this).mosaicAddMouseMoveInnergridRow();
                 $(this).mosaicSetResizeHandles();
                 var that = $(this);
-                _.each(["top", "bottom"], function (pos) {
+                ["top", "bottom"].forEach(function (pos, idx) {
                     that.append(
                         $(self.mosaic.document.createElement("div"))
                             .addClass("mosaic-divider mosaic-divider-" + pos)

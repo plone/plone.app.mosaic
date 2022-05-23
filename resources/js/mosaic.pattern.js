@@ -198,7 +198,8 @@ export default Base.extend({
                     !obj.hasClass("mosaic-panel") &&
                     !obj.hasClass("mosaic-toolbar") &&
                     !obj.hasClass("mosaic-notifications") &&
-                    !obj.hasClass("mosaic-modal-wrapper") &&
+                    !obj.hasClass("modal-wrapper") &&
+                    !obj.hasClass("modal-backdrop") &&
                     obj.attr("id") !== "edit-zone"
                 ) {
                     // Check if inside panel or toolbar
@@ -276,7 +277,7 @@ export default Base.extend({
             return true;
         }
         return (
-            _.filter(this.options.available_layouts, function (layout) {
+            this.options.available_layouts.filter(function (layout) {
                 return layout.path.indexOf("custom/") !== -1;
             }).length > 0
         );
@@ -386,10 +387,9 @@ export default Base.extend({
                 .on("click", function (e) {
                     e.preventDefault();
                     var layout_id = $(this).attr("data-layout");
-                    _.each(
-                        self.options.available_layouts.concat(
-                            self.options.user_layouts
-                        ),
+                    self.options.available_layouts.concat(
+                        self.options.user_layouts
+                    ).forEach(
                         function (l) {
                             if (l.path === layout_id) {
                                 return self.deleteLayout(l, function (data) {

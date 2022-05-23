@@ -1,6 +1,5 @@
 import "regenerator-runtime/runtime"; // needed for ``await`` support
 import $ from "jquery";
-import _ from "underscore";
 import utils from "@plone/mockup/src/core/utils";
 import mosaic_utils from "./utils";
 import logging from "@patternslib/patternslib/src/core/logging";
@@ -1002,6 +1001,7 @@ class Tile {
         tiny_options["tiny"]["menubar"] = false;
         tiny_options["tiny"]["selector"] = `#${id}`;
         tiny_options["tiny"]["placeholder"] = _placeholder;
+        tiny_options["tiny"]["toolbar"] = "code | " + tiny_options["tiny"]["toolbar"];
 
         self.tinymce = new implementation($content, tiny_options);
         self.tinymce.init();
