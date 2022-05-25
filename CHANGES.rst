@@ -4,6 +4,11 @@ Changelog
 2.2.4 (unreleased)
 ------------------
 
+- Add ``bootstrapPath`` less variable.
+  Now the bundle can be built with ``plone-compile-resources``.
+  Contains an upgrade step.
+  [thet]
+
 - Fix Flake8 errors
   [jugmac00]
 

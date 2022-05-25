@@ -408,4 +408,21 @@
       run_deps="false"
       />
 
+  <genericsetup:registerProfile
+      name="to_5029"
+      title="Upgrade profile to 5029"
+      description=""
+      directory="profiles/upgrades/to_5029"
+      for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
+  <genericsetup:upgradeDepends
+      profile="plone.app.mosaic:default"
+      source="5028"
+      destination="5029"
+      title="Add bootstrapPath less variable"
+      import_profile="plone.app.mosaic:to_5029"
+      />
+
 </configure>
