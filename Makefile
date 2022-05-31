@@ -307,8 +307,13 @@ clean-instance:  ## remove instance configuration (keeps data)
 	@echo "$(OK_COLOR)Remove Plone/Zope configuration (keeps data) and sentinel files.$(NO_COLOR)"
 	rm -f ${INSTANCE_TARGET}
 
+.PHONY: clean-resources
+clean-resources:  ## clean npm packages
+	@echo "$(OK_COLOR)Remove npm packages.$(NO_COLOR)"
+	rm -rf node_modules/
+
 .PHONY: clean
-clean:  clean-venv clean-pyc clean-make clean-instance   ## clean all (except local database and pip installed packages)
+clean:  clean-venv clean-pyc clean-make clean-instance clean-resources   ## clean all (except local database and pip installed packages)
 
 ##############################################################################
 # DOCKER/CONTAINER
@@ -333,7 +338,7 @@ watch:
 
 .PHONY:
 bundle:
-	$(YARN) run build:webpack
+	$(YARN) run build
 
 
 #
