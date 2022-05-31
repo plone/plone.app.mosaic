@@ -1611,6 +1611,43 @@
     url-polyfill "^1.1.9"
     whatwg-fetch "^3.4.0"
 
+"@patternslib/patternslib@^8.0.3":
+  version "8.0.3"
+  resolved "https://registry.yarnpkg.com/@patternslib/patternslib/-/patternslib-8.0.3.tgz#d21a630075243d9dd9cdd0fcecc0d2f5f17e4e7b"
+  integrity sha512-ollp15PAXIAkzrYR7bizVhK9pOV//M4xDHBq4CP8XYKRnTUcMANr0+cJgSTUiGxGdO9BX39/DEzPSPS5If62Og==
+  dependencies:
+    "@fullcalendar/adaptive" "^5.11.0"
+    "@fullcalendar/core" "^5.11.0"
+    "@fullcalendar/daygrid" "^5.11.0"
+    "@fullcalendar/interaction" "^5.11.0"
+    "@fullcalendar/list" "^5.11.0"
+    "@fullcalendar/luxon2" "^5.11.0"
+    "@fullcalendar/timegrid" "^5.11.0"
+    "@juggle/resize-observer" "^3.3.1"
+    "@stomp/stompjs" "^6.1.2"
+    google-code-prettify "^1.0.5"
+    imagesloaded "^4.1.4"
+    intersection-observer "^0.12.0"
+    jquery "^3.6.0"
+    jquery-jcrop "^0.9.13"
+    luxon "^2.3.2"
+    masonry-layout "^4.2.2"
+    moment "^2.29.3"
+    moment-timezone "^0.5.34"
+    photoswipe "^4.1.3"
+    pikaday "^1.8.0"
+    promise-polyfill "^8.2.3"
+    screenfull "^6.0.1"
+    select2 "^3.5.1"
+    showdown "^2.1.0"
+    showdown-prettify "^1.3.0"
+    slick-carousel "^1.8.1"
+    slides "git+https://github.com/Patternslib/slides.git"
+    spectrum-colorpicker "^1.8.0"
+    tippy.js "^6.3.7"
+    url-polyfill "^1.1.9"
+    whatwg-fetch "^3.4.0"
+
 "@plone/mockup@^5.0.0-alpha.6":
   version "5.0.0-alpha.6"
   resolved "https://registry.yarnpkg.com/@plone/mockup/-/mockup-5.0.0-alpha.6.tgz#161de9ec304bb63fef651b81192fc9430f298840"
@@ -7451,6 +7488,10 @@ underscore@>=1.8.3, underscore@^1.13.3:
   version "1.13.3"
   resolved "https://registry.yarnpkg.com/underscore/-/underscore-1.13.3.tgz#54bc95f7648c5557897e5e968d0f76bc062c34ee"
   integrity sha512-QvjkYpiD+dJJraRA8+dGAU4i7aBbb2s0S3jA45TFOvg2VgqvdCDd/3N6CqA8gluk1W91GLoXg5enMUx560QzuA==
+
+"underscore@git+https://github.com/jashkenas/underscore.git#75d257fa10131c3d65d870dd22095cb187cd1626":
+  version "1.13.3"
+  resolved "git+https://github.com/jashkenas/underscore.git#75d257fa10131c3d65d870dd22095cb187cd1626"
 
 unicode-canonical-property-names-ecmascript@^2.0.0:
   version "2.0.0"
