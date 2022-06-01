@@ -392,8 +392,6 @@ export default class LayoutManager {
             if (e.keyCode === 17) {
                 $(".mosaic-panel", self.mosaic.document).removeClass("inner-subcolumn");
             }
-            // re-focus active tinymce to reposition toolbar
-            $(".mce-edit-focus").trigger("focus");
         };
 
         // Keydown handler
