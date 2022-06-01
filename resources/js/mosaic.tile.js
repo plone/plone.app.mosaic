@@ -994,9 +994,6 @@ class Tile {
         const TinyMCE = (
             await import("@plone/mockup/src/pat/tinymce/tinymce")
         ).default;
-        // const implementation = (
-        //     await import("@plone/mockup/src/pat/tinymce/tinymce--implementation")
-        // ).default;
 
         // deep copy the options to get correct tiny settings!
         var tiny_options = JSON.parse(JSON.stringify(self.mosaic.options.tinymce));
@@ -1008,7 +1005,7 @@ class Tile {
 
         const tiny_instance = new TinyMCE($content, tiny_options);
         await tiny_instance.init()
-        self.tinymce = tiny_instance.instance;
+        self.tinymce = tiny_instance.instance.tiny;
 
         log.info(`Setup wysiwyg for "${id}"`);
 
