@@ -1537,6 +1537,43 @@
     codejar "^3.5.0"
     prismjs "^1.27.0"
 
+"@patternslib/patternslib@8.1.0-alpha.1":
+  version "8.1.0-alpha.1"
+  resolved "https://registry.yarnpkg.com/@patternslib/patternslib/-/patternslib-8.1.0-alpha.1.tgz#d13ac7bc79e3390be0489cffed07eb2a720afe8d"
+  integrity sha512-WArZZsicmFlEoxS52BzFVJP1mNoSh+0mEIRZgEYhAnKD5jCHOzz0x0YnM/KCQWoBILLR7VsIu8HlcP1vo4/p7g==
+  dependencies:
+    "@fullcalendar/adaptive" "^5.11.0"
+    "@fullcalendar/core" "^5.11.0"
+    "@fullcalendar/daygrid" "^5.11.0"
+    "@fullcalendar/interaction" "^5.11.0"
+    "@fullcalendar/list" "^5.11.0"
+    "@fullcalendar/luxon2" "^5.11.0"
+    "@fullcalendar/timegrid" "^5.11.0"
+    "@juggle/resize-observer" "^3.3.1"
+    "@stomp/stompjs" "^6.1.2"
+    google-code-prettify "^1.0.5"
+    imagesloaded "^4.1.4"
+    intersection-observer "^0.12.0"
+    jquery "^3.6.0"
+    jquery-jcrop "^0.9.13"
+    luxon "^2.3.2"
+    masonry-layout "^4.2.2"
+    moment "^2.29.3"
+    moment-timezone "^0.5.34"
+    photoswipe "^4.1.3"
+    pikaday "^1.8.0"
+    promise-polyfill "^8.2.3"
+    screenfull "^6.0.1"
+    select2 "^3.5.1"
+    showdown "^2.1.0"
+    showdown-prettify "^1.3.0"
+    slick-carousel "^1.8.1"
+    slides "git+https://github.com/Patternslib/slides.git"
+    spectrum-colorpicker "^1.8.0"
+    tippy.js "^6.3.7"
+    url-polyfill "^1.1.9"
+    whatwg-fetch "^3.4.0"
+
 "@patternslib/patternslib@^7.4.0":
   version "7.12.0"
   resolved "https://registry.yarnpkg.com/@patternslib/patternslib/-/patternslib-7.12.0.tgz#c1584d5b95ea6af6c147089fc5320aeb21b57fd6"
@@ -1574,88 +1611,15 @@
     url-polyfill "^1.1.9"
     whatwg-fetch "^3.4.0"
 
-"@patternslib/patternslib@^8.0.2":
-  version "8.0.2"
-  resolved "https://registry.yarnpkg.com/@patternslib/patternslib/-/patternslib-8.0.2.tgz#e062e369008b41e07ffb59395d3d82ae9a210b0f"
-  integrity sha512-U4tr0jMMsJh0AWKFihQkDqMAtiL4g5uyQU8USkX96vYbeGLXrfYcJynv3DVWc/SqHjqqs+98epJO8/USfefZcg==
-  dependencies:
-    "@fullcalendar/adaptive" "^5.11.0"
-    "@fullcalendar/core" "^5.11.0"
-    "@fullcalendar/daygrid" "^5.11.0"
-    "@fullcalendar/interaction" "^5.11.0"
-    "@fullcalendar/list" "^5.11.0"
-    "@fullcalendar/luxon2" "^5.11.0"
-    "@fullcalendar/timegrid" "^5.11.0"
-    "@juggle/resize-observer" "^3.3.1"
-    "@stomp/stompjs" "^6.1.2"
-    google-code-prettify "^1.0.5"
-    imagesloaded "^4.1.4"
-    intersection-observer "^0.12.0"
-    jquery "^3.6.0"
-    jquery-jcrop "^0.9.13"
-    luxon "^2.3.2"
-    masonry-layout "^4.2.2"
-    moment "^2.29.3"
-    moment-timezone "^0.5.34"
-    photoswipe "^4.1.3"
-    pikaday "^1.8.0"
-    promise-polyfill "^8.2.3"
-    screenfull "^6.0.1"
-    select2 "^3.5.1"
-    showdown "^2.1.0"
-    showdown-prettify "^1.3.0"
-    slick-carousel "^1.8.1"
-    slides "git+https://github.com/Patternslib/slides.git"
-    spectrum-colorpicker "^1.8.0"
-    tippy.js "^6.3.7"
-    url-polyfill "^1.1.9"
-    whatwg-fetch "^3.4.0"
-
-"@patternslib/patternslib@^8.0.3":
-  version "8.0.3"
-  resolved "https://registry.yarnpkg.com/@patternslib/patternslib/-/patternslib-8.0.3.tgz#d21a630075243d9dd9cdd0fcecc0d2f5f17e4e7b"
-  integrity sha512-ollp15PAXIAkzrYR7bizVhK9pOV//M4xDHBq4CP8XYKRnTUcMANr0+cJgSTUiGxGdO9BX39/DEzPSPS5If62Og==
-  dependencies:
-    "@fullcalendar/adaptive" "^5.11.0"
-    "@fullcalendar/core" "^5.11.0"
-    "@fullcalendar/daygrid" "^5.11.0"
-    "@fullcalendar/interaction" "^5.11.0"
-    "@fullcalendar/list" "^5.11.0"
-    "@fullcalendar/luxon2" "^5.11.0"
-    "@fullcalendar/timegrid" "^5.11.0"
-    "@juggle/resize-observer" "^3.3.1"
-    "@stomp/stompjs" "^6.1.2"
-    google-code-prettify "^1.0.5"
-    imagesloaded "^4.1.4"
-    intersection-observer "^0.12.0"
-    jquery "^3.6.0"
-    jquery-jcrop "^0.9.13"
-    luxon "^2.3.2"
-    masonry-layout "^4.2.2"
-    moment "^2.29.3"
-    moment-timezone "^0.5.34"
-    photoswipe "^4.1.3"
-    pikaday "^1.8.0"
-    promise-polyfill "^8.2.3"
-    screenfull "^6.0.1"
-    select2 "^3.5.1"
-    showdown "^2.1.0"
-    showdown-prettify "^1.3.0"
-    slick-carousel "^1.8.1"
-    slides "git+https://github.com/Patternslib/slides.git"
-    spectrum-colorpicker "^1.8.0"
-    tippy.js "^6.3.7"
-    url-polyfill "^1.1.9"
-    whatwg-fetch "^3.4.0"
-
-"@plone/mockup@^5.0.0-alpha.6":
-  version "5.0.0-alpha.6"
-  resolved "https://registry.yarnpkg.com/@plone/mockup/-/mockup-5.0.0-alpha.6.tgz#161de9ec304bb63fef651b81192fc9430f298840"
-  integrity sha512-HHhJ4+cZs7ep9003Oh1UqdbfCw5m9/0o/0o2XWtWwAJJts+yLAl4/Cafoxycsez3C2nCI9ExgENPRMUIudMikQ==
+"@plone/mockup@^5.0.0-alpha.7":
+  version "5.0.0-alpha.7"
+  resolved "https://registry.yarnpkg.com/@plone/mockup/-/mockup-5.0.0-alpha.7.tgz#4c0806d31bfbc83713e0d8127d369ab76013aa32"
+  integrity sha512-pYRVX/J7fJY2vI5jVArko0st2OfZVpyzfFASBox4C5BUJwXU4vo8m6EgEpD71ivZKta74lnZ02qIgezSavXxNg==
   dependencies:
     "@patternslib/pat-code-editor" "^2.1.2"
-    "@patternslib/patternslib" "^8.0.2"
+    "@patternslib/patternslib" "8.1.0-alpha.1"
     backbone "1.4.1"
+    backbone.paginator "2.0.8"
     bootstrap "^5.2.0-beta1"
     bootstrap-icons "^1.8.2"
     cs-jqtree-contextmenu "0.1.0"
@@ -1684,7 +1648,7 @@
     sortablejs "^1.15.0"
     tinymce "^5.10.2"
     tinymce-i18n "^20.12.25"
-    underscore "^1.13.3"
+    underscore "git+https://github.com/jashkenas/underscore.git#75d257fa10131c3d65d870dd22095cb187cd1626"
 
 "@polka/url@^1.0.0-next.20":
   version "1.0.0-next.21"
@@ -2522,7 +2486,15 @@ babel-preset-jest@^28.0.2:
     babel-plugin-jest-hoist "^28.0.2"
     babel-preset-current-node-syntax "^1.0.0"
 
-backbone@1.4.1:
+backbone.paginator@2.0.8:
+  version "2.0.8"
+  resolved "https://registry.yarnpkg.com/backbone.paginator/-/backbone.paginator-2.0.8.tgz#3a7e34f0a8b97b096333587ed3048556b9eafdcb"
+  integrity sha512-8XS2CTbjnwMbJ/3Traa1te2RPecOGbZ9tc52T89pzo6NXlVEJDFnC++dp7CQLBUZpgk3g0veX8mUbEF4wbD2NQ==
+  dependencies:
+    backbone "1.1.2 || 1.2.3 || ^1.3.2"
+    underscore "^1.8.0"
+
+"backbone@1.1.2 || 1.2.3 || ^1.3.2", backbone@1.4.1:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/backbone/-/backbone-1.4.1.tgz#099a78184bc07b034048a8332229c2ccca1e3e62"
   integrity sha512-ADy1ztN074YkWbHi8ojJVFe3vAanO/lrzMGZWUClIP7oDD/Pjy2vrASraUP+2EVCfIiTtCW4FChVow01XneivA==
@@ -7484,12 +7456,7 @@ undefsafe@^2.0.5:
   resolved "https://registry.yarnpkg.com/undefsafe/-/undefsafe-2.0.5.tgz#38733b9327bdcd226db889fb723a6efd162e6e2c"
   integrity sha512-WxONCrssBM8TSPRqN5EmsjVrsv4A8X12J4ArBiiayv3DyyG3ZlIg6yysuuSYdZsVz3TKcTg2fd//Ujd4CHV1iA==
 
-underscore@>=1.8.3, underscore@^1.13.3:
-  version "1.13.3"
-  resolved "https://registry.yarnpkg.com/underscore/-/underscore-1.13.3.tgz#54bc95f7648c5557897e5e968d0f76bc062c34ee"
-  integrity sha512-QvjkYpiD+dJJraRA8+dGAU4i7aBbb2s0S3jA45TFOvg2VgqvdCDd/3N6CqA8gluk1W91GLoXg5enMUx560QzuA==
-
-"underscore@git+https://github.com/jashkenas/underscore.git#75d257fa10131c3d65d870dd22095cb187cd1626":
+underscore@>=1.8.3, underscore@^1.8.0, "underscore@git+https://github.com/jashkenas/underscore.git#75d257fa10131c3d65d870dd22095cb187cd1626":
   version "1.13.3"
   resolved "git+https://github.com/jashkenas/underscore.git#75d257fa10131c3d65d870dd22095cb187cd1626"
 
