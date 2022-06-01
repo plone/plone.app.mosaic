@@ -1,6 +1,9 @@
 // This plugin is used to display an overlay
 import $ from "jquery";
 import Modal from "@plone/mockup/src/pat/modal/modal";
+import logging from "@patternslib/patternslib/src/core/logging";
+
+const log = logging.getLogger("pat-mosaic/overlay");
 
 export default class Overlay {
     constructor(options, panels) {
@@ -85,7 +88,8 @@ export default class Overlay {
                         ".mosaic-" + field_tile.name + "-tile"
                     ).length !== 0
                 ) {
-                    $("#" + field_tile.id).addClass("mosaic-hidden");
+                    log.info(`Hide field.tile ${field_tile.id}`);
+                    self.modal.$modal.find("#" + field_tile.id).addClass("mosaic-hidden");
                 }
             }
 
