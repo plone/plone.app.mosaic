@@ -4,6 +4,9 @@ Changelog
 2.2.4 (unreleased)
 ------------------
 
+- Bugfix: Use TinyMCE `getContent()` to get editor contents on save
+  [frapell]
+
 - Add ``bootstrapPath`` less variable.
   Now the bundle can be built with ``plone-compile-resources``.
   Contains an upgrade step.
