@@ -23,6 +23,14 @@
     "webpack-merge": "^0.14.0"
   },
   "dependencies": {
-    "brace": "^0.10.0"
+    "brace": "^0.10.0",
+    "grunt": "^1.5.3",
+    "grunt-cli": "^1.4.3",
+    "grunt-contrib-less": "^3.0.0",
+    "grunt-contrib-requirejs": "^1.0.0",
+    "grunt-contrib-uglify": "^5.2.1",
+    "grunt-contrib-watch": "^1.1.0",
+    "grunt-sed": "^0.1.1",
+    "less-plugin-inline-urls": "^1.2.0"
   }
 }

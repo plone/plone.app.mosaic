@@ -133,7 +133,18 @@ define([
   };
 
   Tile.prototype.getHtmlContent = function(){
-    return this.getContentEl().html();
+    var el = this.getContentEl();
+    var content;
+    if (el.hasClass("mosaic-rich-text")){
+      var editor = tinymce.get(el.attr('id'));
+      if (editor !== null){
+        content = editor.getContent();
+      }
+    }
+    if (content === undefined){
+      content = el.html();
+    }
+    return content;
   };
 
   Tile.prototype.getEditUrl = function(){
