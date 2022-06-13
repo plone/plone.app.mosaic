@@ -39,11 +39,11 @@
 }
 
 .mosaic-resize-handle:hover {
-    border-left-style:dashed;
+    border-right-style:dashed;
 }
 
 .mosaic-resize-handle.mosaic-resize-handle-helper {
-    border-left-style:solid;
+    border-right-style:solid;
 }
 
 .mosaic-resize-placeholder {
@@ -74,7 +74,7 @@
 }
 
 .mosaic-resize-0 {
-    flex: 1 0 0%;
+    margin-left:0%;
 }
 
 .mosaic-resize-1 {

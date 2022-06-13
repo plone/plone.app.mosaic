@@ -28,20 +28,19 @@ export default class LayoutManager {
             "col-11",
             "col-12",
         ],
-        dataClasses: [
-            "mosaic-col",
-            "mosaic-col-1",
-            "mosaic-col-2",
-            "mosaic-col-3",
-            "mosaic-col-4",
-            "mosaic-col-5",
-            "mosaic-col-6",
-            "mosaic-col-7",
-            "mosaic-col-8",
-            "mosaic-col-9",
-            "mosaic-col-10",
-            "mosaic-col-11",
-            "mosaic-col-12",
+        resizeClasses: [
+            "mosaic-resize-1",
+            "mosaic-resize-2",
+            "mosaic-resize-3",
+            "mosaic-resize-4",
+            "mosaic-resize-5",
+            "mosaic-resize-6",
+            "mosaic-resize-7",
+            "mosaic-resize-8",
+            "mosaic-resize-9",
+            "mosaic-resize-10",
+            "mosaic-resize-11",
+            "mosaic-resize-12",
         ],
         resizeHandleClasses: [
             "mosaic-resize-handle-1",
@@ -72,7 +71,7 @@ export default class LayoutManager {
 
     getResizeHandleClassId(e) {
         // Loop through resize handle classes
-        for (const idx in this.layout.resizeHandleClasses) {
+        for (let idx=0; idx <  this.layout.resizeHandleClasses.length; idx++) {
             if ($(e).hasClass(this.layout.resizeHandleClasses[idx])) {
                 return idx;
             }
@@ -533,12 +532,7 @@ export default class LayoutManager {
 
                 var snap_size = GetBootstrapColByPercent(snap);
 
-                var column_sizes = [];
-                row.children(".mosaic-resize-placeholder").each(function () {
-                    var col_size = GetColSizeByColClass(self.getWidthClass(this));
-                    column_sizes.push(col_size);
-                });
-
+                var column_sizes = helper.data("column_sizes");
                 var col_size_before = 0;
                 var col_size_this = 0;
                 var col_size_after = 0;
@@ -561,64 +555,46 @@ export default class LayoutManager {
 
                 var col_size_handle = col_size_before + col_size;
 
-                log.info("column_sizes", column_sizes);
+                log.info("column_sizes_before", column_sizes);
                 log.info("snap_size", snap_size);
-                log.info("col_size_before", col_size_before);
-                log.info("col_size_after", col_size_after);
-                log.info("col_size_max", col_size_max);
                 log.info("col_size", col_size);
-                log.info("col_size_this", col_size_this);
                 log.info("col_size_handle", col_size_handle);
                 log.info("resize_handle_index", resize_handle_index);
+                log.info(`|| ${col_size_before} < ${col_size_this} > ${col_size_after} || max: ${col_size_max}`)
 
-                if (helper.data("nr_of_columns") > 1) {
+                if (helper.data("nr_of_columns") > 0) {
+                    var col_size_sum = 0;
+                    var set_resize_handler = false;
                     // Loop through columns
                     row.children(".mosaic-resize-placeholder").each(function (index) {
-                        // // If there are columns before this column and the column width is not set,
-                        // // then set it to the value of 2 and add a Reset button to the Tile.
-
-                        // var mosaicDataClass = self.getDataClass(this);
-                        // var data_size = GetColSizeByColClass(mosaicDataClass, "mosaic-col-");
-
-                        // if (index < resize_handle_index && data_size === 0) {
-                        //   column_sizes[index] = 2;
-
-                        //   var $mosaicGridCell = $(this).parent().children(".mosaic-grid-cell").get(index);
-                        //   var $tileSideTools = $($mosaicGridCell).children(".mosaic-tile").first().children(".mosaic-tile-side-tools").first();
-
-                        //   $tileSideTools.children(".mosaic-tile-label.reset").remove();
-
-                        //   $tileSideTools.append(
-                        //     $(self.mosaic.document.createElement("div"))
-                        //       .addClass("mosaic-tile-label reset")
-                        //       .append(AddResetAnchor($tileSideTools, column_sizes[index]))
-                        //   );
-                        // }
-
-                        // Left column
                         if (index === resize_handle_index) {
+                            // set new col_size for index
                             column_sizes[index] = col_size;
-
-                            var _value = 0;
-                            for (const size of column_sizes) {
-                                _value += size;
-                            }
-                            var mosaic_resize_class = "mosaic-resize-" + _value;
-
                             var col_size_class = GetWidthClassByColSize(col_size);
-                            var new_class = `mosaic-${col_size_class} ${col_size_class} ${mosaic_resize_class}`;
-                            log.info("new col_class: " + new_class);
                             $(this)
                                 .removeClass(self.layout.widthClasses.join(" "))
-                                .removeClass(self.layout.dataClasses.join(" "))
-                                .addClass(`mosaic-${col_size_class} ${col_size_class} ${mosaic_resize_class}`)
+                                .addClass(col_size_class)
                                 .find(".info")
                                 .html(col_size);
+                            set_resize_handler = true;
+                        }
+                        // move other resize placeholders accordingly
+                        $(this)
+                            .removeClass(self.layout.resizeClasses.join(" "))
+                            .addClass(`mosaic-resize-${col_size_sum}`);
+                        col_size_sum += column_sizes[index];
+                        if(set_resize_handler) {
+                            // trick to move handle helper too
+                            $(".mosaic-resize-handle-helper", row)
+                                .removeClass(self.layout.resizeClasses.join(" "))
+                                .addClass(`mosaic-resize-${col_size_sum}`);
+                            set_resize_handler = false;
                         }
                     });
 
                     // Set new size
                     $(this).data("column_sizes", column_sizes);
+                    log.info("column_sizes_after", column_sizes);
                 }
             });
         };
@@ -1400,7 +1376,8 @@ export default class LayoutManager {
                 $(this).children(".mosaic-resize-handle").remove();
 
                 // Check number of columns
-                var nr_of_columns = $(this).children(".mosaic-grid-cell").length;
+                var grid_cells = $(this).children(".mosaic-grid-cell")
+                var nr_of_columns = grid_cells.length;
 
                 if (nr_of_columns > 1 && nr_of_columns <= 12) {
                     var column_sizes = [];
@@ -1409,7 +1386,7 @@ export default class LayoutManager {
 
                     for (let i = 0; i < nr_of_columns; i++) {
                         var col_size = GetColSizeByColClass(
-                            self.getWidthClass($(this).children(".mosaic-grid-cell").get(i))
+                            self.getWidthClass(grid_cells[i])
                         );
                         column_sizes.push(col_size);
                         col_sum = col_sum + col_size;
@@ -1424,16 +1401,11 @@ export default class LayoutManager {
                     }
 
                     var resize_col_size = 0;
-                    var margin_left = 0;
                     col_size = 0;
 
                     for (let i = 0; i < nr_of_columns; i++) {
                         col_size = column_sizes[i] ? column_sizes[i] : zero_col;
-
                         resize_col_size = resize_col_size + col_size;
-                        margin_left = Math.round((resize_col_size / 12) * 10000) / 100;
-
-                        log.info("resize_col_size", resize_col_size);
 
                         $(this).append(
                             $(mosaic_doc.createElement("div"))
@@ -1443,10 +1415,12 @@ export default class LayoutManager {
                                 )
                                 .data("resize_handle_index", i)
                         );
+
+                        // set counted size to cell data
+                        $(grid_cells[i]).data("col_size", col_size)
                     }
 
                     log.info("$.fn.mosaicSetResizeHandles:");
-                    log.info("column_sizes", column_sizes);
                     log.info("zero_count", zero_count);
                     log.info("col_size", col_size);
                 }
@@ -1459,53 +1433,44 @@ export default class LayoutManager {
                         var $mosaicGridCellChildren = $(this)
                             .parent()
                             .children(".mosaic-grid-cell");
-
-                        // Get number of columns and current sizes
                         var nr_of_columns = $mosaicGridCellChildren.length;
-                        var column_sizes = [];
 
-                        if (nr_of_columns > 1 && nr_of_columns <= 12) {
-                            for (const chld of $mosaicGridCellChildren) {
-                                var mosaicWidthClass = self.getWidthClass(this);
-                                var col_size = GetColSizeByColClass(mosaicWidthClass);
-                                column_sizes.push(col_size);
-                            }
+                        if(nr_of_columns > 12) {
+                            return;
                         }
+                        var col_size_sum = 0;
+                        var column_sizes = [];
 
                         $mosaicGridCellChildren.each(function (index) {
                             var mosaicWidthClass = self.getWidthClass(this);
-                            var col_size = GetColSizeByColClass(mosaicWidthClass); // get the initial size of the column
+                            var col_size = $(this).data("col_size"); // get computed size of the column
+                            column_sizes.push(col_size);
 
-                            if (col_size == 0) {
-                                col_size = "0 (2)";
-                            }
+                            var placeholder = $(mosaic_doc.createElement("div"))
+                                .addClass(
+                                    `mosaic-resize-placeholder ${mosaicWidthClass} mosaic-resize-${col_size_sum}`
+                                )
+                                .append(
+                                    $(mosaic_doc.createElement("div"))
+                                        .addClass(
+                                            "mosaic-resize-placeholder-inner-border"
+                                        )
+                                        .append(
+                                            $(mosaic_doc.createElement("div"))
+                                                .addClass("info")
+                                                .html(col_size)
+                                        )
+                                );
 
-                            var _value = 0;
-                            for (const size of column_sizes) {
-                                _value += size;
-                            }
-                            var mosaic_resize_class = "mosaic-resize-" + _value;
+                            log.info(placeholder[0].outerHTML);
 
                             // Add placeholder
                             $(this)
                                 .parent()
-                                .append(
-                                    $(mosaic_doc.createElement("div"))
-                                        .addClass(
-                                            `mosaic-resize-placeholder ${mosaicWidthClass} ${mosaic_resize_class}`
-                                        )
-                                        .append(
-                                            $(mosaic_doc.createElement("div"))
-                                                .addClass(
-                                                    "mosaic-resize-placeholder-inner-border"
-                                                )
-                                                .append(
-                                                    $(mosaic_doc.createElement("div"))
-                                                        .addClass("info")
-                                                        .html(col_size)
-                                                )
-                                        )
-                                );
+                                .append(placeholder);
+
+                            // summarize column sizes for placeholder classes
+                            col_size_sum += col_size;
                         });
 
                         // Get resize handle index
@@ -1517,7 +1482,7 @@ export default class LayoutManager {
                             .append(
                                 $(mosaic_doc.createElement("div"))
                                     .addClass("mosaic-resize-handle mosaic-resize-handle-helper")
-                                    .addClass(self.layout.resizeHandleClasses[resize_handle_index])
+                                    .addClass(`mosaic-resize-${column_sizes[resize_handle_index]}`)
                                     .data("row_width", $(this).parent().width())
                                     .data("nr_of_columns", nr_of_columns)
                                     .data("column_sizes", column_sizes)
@@ -1733,7 +1698,7 @@ function GetColSizeByColClass(col_class, prefix) {
 function GetBootstrapColByPercent(width) {
     var grid_percent = GetGridPercentList();
 
-    for (const idx in grid_percent) {
+    for (let idx=0; idx < grid_percent.length; idx++) {
         if (width === grid_percent[idx]) {
             return idx + 1;
         }
