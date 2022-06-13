@@ -71,7 +71,7 @@ class Panel {
                 .wrap(
                     $(
                         '<div class="mosaic-grid-row">' +
-                        '<div class="mosaic-grid-cell mosaic-position-0 col-12">' +
+                        '<div class="mosaic-grid-cell col-12">' +
                         '<div class="movable removable mosaic-tile mosaic-text-tile">' +
                         '<div class="mosaic-tile-content">' +
                         "</div>" +

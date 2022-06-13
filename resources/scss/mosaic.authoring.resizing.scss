@@ -34,15 +34,16 @@
     z-index: 500;
     cursor: ew-resize;
     display: none;
+    border-width:4px;
+    border-color:var(--bs-primary);
 }
 
 .mosaic-resize-handle:hover {
-    background-image: url(../img/window.png);
-    background-position: -45px 0px;
+    border-left-style:dashed;
 }
 
 .mosaic-resize-handle.mosaic-resize-handle-helper {
-    background: url(../img/window.png) 0px 0px;
+    border-left-style:solid;
 }
 
 .mosaic-resize-placeholder {
@@ -73,7 +74,7 @@
 }
 
 .mosaic-resize-0 {
-    margin-left: 0%;
+    flex: 1 0 0%;
 }
 
 .mosaic-resize-1 {

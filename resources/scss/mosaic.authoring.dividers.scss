@@ -1,13 +1,15 @@
 
 .mosaic-grid-row .mosaic-set-custom-css {
-  text-align:right;
+  font-size:$font-size-sm;
   position:absolute;
   bottom:0;
+  text-align:right;
   z-index:101;
-  background-color:#fcfcfc;
-
+  background:#f9f9f9;
   input {
       min-width:30%;
+      font-size:$font-size-sm;
+      height:1.2rem;
   }
 }
 

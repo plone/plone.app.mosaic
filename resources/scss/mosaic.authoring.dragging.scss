@@ -208,20 +208,21 @@
   }
 
   /* Add row style labels */
-  .mosaic-grid-row:not(.mosaic-empty-row):not(:last-child):before {
+  .mosaic-grid-row:not(.mosaic-empty-row):not(:last-child):after {
     position: absolute;
     display: block;
     content: attr(class);
-    color: gray;
+    color: #aaa;
     font-weight: bold;
     left: 0;
     right: 0;
     bottom: 0;
     z-index: 100;
     white-space: nowrap;
-    background: #fcfcfc;
+    background: #f9f9f9;
     text-align: right;
     padding: 0 5px;
+    font-size:$font-size-sm;
   }
 }
 /* @end */

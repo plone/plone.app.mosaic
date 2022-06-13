@@ -568,6 +568,7 @@ class Tile {
         var modal = new Modal($(".mosaic-toolbar"), {
             ajaxUrl: tile_url,
             loadLinksWithinModal: true,
+            modalSizeClass: "modal-lg",
         });
         modal.$el.off("after-render");
         modal.on("after-render", function (event) {
