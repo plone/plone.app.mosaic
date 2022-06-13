@@ -13,14 +13,12 @@ export default class Overlay {
 
     initialize() {
         var self = this;
-        var originalContentSelector = ".mosaic-original-content";
-
+        var originalContent = document.querySelector(".mosaic-original-content");
         // we don't want to show the original el.
-        document.querySelector(originalContentSelector).style.display = "none";
+        originalContent.style.display = "none";
 
-        self.modal = new Modal(document.querySelector("body > .outer-wrapper"), {
+        self.modal = new Modal(originalContent, {
             title: document.querySelector("h1").innerText,
-            target: originalContentSelector,
             content: "#form",
             modalSizeClass: "modal-xl",
         });

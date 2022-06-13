@@ -66,7 +66,7 @@ class Toolbar {
         );
 
         // Loop through action groups
-        for (a in actions) {
+        for (const a in actions) {
             // Add actions to toolbar
             for (const action of self.mosaic.options[a]) {
                 // If single action
@@ -119,9 +119,6 @@ class Toolbar {
     SelectedTileChange = function () {
         // Local variables
         var self = this, tiletype, actions;
-
-        // Disable edit html source
-        self.mosaic.layoutManager.disableEditHtmlSource();
 
         var $selected_tile = $(".mosaic-selected-tile");
         if ($selected_tile.length > 0) {

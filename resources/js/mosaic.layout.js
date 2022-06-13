@@ -74,21 +74,6 @@ export default class LayoutManager {
         ],
     }
 
-    disableEditHtmlSource() {
-        var self = this;
-        // Find rich text textareas
-        $(".mosaic-rich-text-textarea", self.mosaic.document).each(function () {
-            // Local variables
-            var tilecontent, text;
-
-            // Get text and tilecontent
-            text = $(this).val();
-            tilecontent = $(this).parent();
-            tilecontent.html(text);
-            tilecontent.data("mosaic-tile").setupWysiwyg();
-        });
-    }
-
     addAppTile(type, url /*, id */) {
         var self = this;
         // Close overlay
@@ -325,9 +310,6 @@ export default class LayoutManager {
 
         // Content
         var content, position = 1, size = 12, body = "", classNames = "";
-
-        // Disable edit html source
-        self.disableEditHtmlSource();
 
         // Add body tag
         body += "  <body>\n";
@@ -1408,7 +1390,7 @@ export default class LayoutManager {
                         // Add resize handles
                         _row.mosaicSetResizeHandles();
 
-                        // Dropped inside column
+                    // Dropped inside column
                     } else {
 
                         // Create new column
