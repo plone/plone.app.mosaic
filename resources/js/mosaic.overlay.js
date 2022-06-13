@@ -21,7 +21,7 @@ export default class Overlay {
             content: "#content-core",
             modalSizeClass: "modal-xl",
         });
-        self.modal.initModal();
+        self.modal.init();
     }
 
     open (mode, tile_config) {

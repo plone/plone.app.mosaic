@@ -7,6 +7,11 @@ import utils from "@plone/mockup/src/core/utils";
 import Modal from "@plone/mockup/src/pat/modal/modal";
 import logging from "@patternslib/patternslib/src/core/logging";
 
+import Overlay  from "./mosaic.overlay";
+import Panel from "./mosaic.panel";
+import Tile  from "./mosaic.tile";
+import Toolbar from "./mosaic.toolbar";
+
 import SelectLayoutTemplate from "./templates/select_layout.xml";
 import SaveLayoutTemplate from "./templates/save_layout.xml";
 import ManageLayoutsTemplate from "./templates/manage_layouts.xml";
@@ -144,8 +149,6 @@ export default Base.extend({
         // Drop panels within panels (only the top level panels are editable)
         $("[data-panel] [data-panel]", self.document).removeAttr("data-panel");
 
-        const Panel = (await import("./mosaic.panel")).default;
-
         $content.find("[data-panel]").each(function () {
             var panel = new Panel(this);
             panel.initialize($content);
@@ -157,9 +160,6 @@ export default Base.extend({
         });
 
         self.panels = $(".mosaic-panel", self.document);
-
-        // Init app tiles
-        const Tile = (await import("./mosaic.tile")).default;
 
         self.panels.find("[data-tile]").each(async function (idx) {
             log.info(`Panel tile counter: ${idx}`);
@@ -178,12 +178,10 @@ export default Base.extend({
         await self._initPanels(content);
 
         // Init overlay
-        const Overlay = (await import("./mosaic.overlay")).default;
         self.overlay = new Overlay(self.options, self.panels);
         self.overlay.initialize();
 
         // Init toolbar
-        const Toolbar = (await import("./mosaic.toolbar")).default;
         self.toolbar = new Toolbar(self);
         self.toolbar.initToolbar();
 
