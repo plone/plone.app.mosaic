@@ -1,15 +1,7 @@
 .mosaic-panel-dragging .mosaic-resize-handle,
-.mosaic-panel-resizing .mosaic-resize-handle-1:hover,
-.mosaic-panel-resizing .mosaic-resize-handle-2:hover,
-.mosaic-panel-resizing .mosaic-resize-handle-3:hover,
-.mosaic-panel-resizing .mosaic-resize-handle-4:hover,
-.mosaic-panel-resizing .mosaic-resize-handle-5:hover,
-.mosaic-panel-resizing .mosaic-resize-handle-6:hover,
-.mosaic-panel-resizing .mosaic-resize-handle-7:hover,
-.mosaic-panel-resizing .mosaic-resize-handle-8:hover,
-.mosaic-panel-resizing .mosaic-resize-handle-9:hover,
-.mosaic-panel-resizing .mosaic-resize-handle-10:hover,
-.mosaic-panel-resizing .mosaic-resize-handle-11:hover {
+.mosaic-panel-dragging .mosaic-resize-handle:hover,
+.mosaic-panel-resizing .mosaic-resize-handle,
+.mosaic-panel-resizing .mosaic-resize-handle:hover {
   display: none;
 }
 

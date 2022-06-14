@@ -118,15 +118,13 @@ class Toolbar {
 
     SelectedTileChange = function () {
         // Local variables
-        var self = this, tiletype, actions;
+        var self = this;
 
-        var $selected_tile = $(".mosaic-selected-tile");
-        if ($selected_tile.length > 0) {
-            $selected_tile.data("mosaic-tile").getType();
-        }
+        var selected_tile = self.mosaic.document.querySelector(".mosaic-selected-tile");
+        var tiletype = selected_tile ? selected_tile["mosaic-tile"].getType() : null;
 
         // Get actions
-        actions = self.mosaic.options.default_available_actions;
+        var actions = self.mosaic.options.default_available_actions;
         for (const tile_group of self.mosaic.options.tiles) {
             for (const tile of tile_group.tiles) {
                 if (tile.name === tiletype) {
@@ -134,10 +132,8 @@ class Toolbar {
                 }
             }
         }
-        if (!$selected_tile.hasClass("removable")) {
-            actions = $(actions).filter(function () {
-                return this !== "remove";
-            });
+        if (selected_tile && !selected_tile.classList.contains("removable")) {
+            actions = actions.filter(item => item !== "remove");
         }
 
         // Show option groups
@@ -303,6 +299,7 @@ class Toolbar {
                             "pat-select2 mosaic-menu mosaic-menu-" + action.name.replace(/_/g, "-")
                         )
                         .attr("data-pat-select2", JSON.stringify({"minimumResultsForSearch": -1}))
+                        .data("action", action.action)
                         .on("change", function (e) {
                             self.mosaic.actionManager.execAction(action.action, e.target);
                         })

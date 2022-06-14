@@ -351,8 +351,11 @@ class ActionManager {
         // Register format action
         self.registerAction("format", {
             exec: function (source) {
-                // Execute the action
-                self.execAction($(source).val());
+                var val = $(source).val();
+                var action = $(source).find(`[value="${val}"]`).data("action")
+                self.execAction(action, source);
+                // reset selector
+                $(source).select2("val", "none");
             },
         });
 
@@ -503,6 +506,9 @@ class ActionManager {
                     mosaic.layoutManager.addTile(tile_type, mosaic.layoutManager.getDefaultValue(tile_config));
                 }
 
+                // reset menu
+                $(source).select2("val", "none");
+
                 // Normal exit
                 return true;
             },
@@ -547,8 +553,8 @@ class ActionManager {
 
     blurSelectedTile() {
         var self = this;
-        $(".mosaic-selected-tile", self.mosaic.document).each(function () {
-            $(this).data("mosaic-tile").blur();
+        this.mosaic.document.querySelectorAll(".mosaic-selected-tile").forEach(function(el) {
+            $(el).data("mosaic-tile").blur();
         });
     };
 

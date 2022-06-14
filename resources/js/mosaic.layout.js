@@ -408,7 +408,7 @@ export default class LayoutManager {
                             $(document).trigger("mouseup");
                         }
                     });
-                    // Deselect tile
+                // Deselect tile
                 } else {
                     $(".mosaic-selected-tile", self.mosaic.document).each(function () {
                         $(this).trigger("blur");
@@ -460,10 +460,10 @@ export default class LayoutManager {
                 // Check if outside toolbar
                 if ($(elm).parents(".mosaic-toolbar").length === 0) {
                     // Deselect tiles
-                    $(".mosaic-selected-tile", self.mosaic.document)
-                        .removeClass("mosaic-selected-tile")
-                        .children(".mosaic-tile-content")
-                        .trigger("blur");
+                    self.mosaic.document.querySelectorAll(".mosaic-selected-tile").forEach(function(el) {
+                        el.classList.remove("mosaic-selected-tile");
+                        $(el).data("mosaic-tile").blur();
+                    });
 
                     // Set actions
                     self.mosaic.toolbar.SelectedTileChange();
@@ -742,7 +742,7 @@ export default class LayoutManager {
         // On click select the current tile
         $(self.mosaic.document)
             .off("click", ".mosaic-tile")
-            .on("click", ".mosaic-tile", function () {
+            .on("click", ".mosaic-tile", function (e) {
                 if ($(".mosaic-helper-tile-new", self.mosaic.document).length === 0) {
                     // only if not dropping tile
                     $(this).data("mosaic-tile").select();
@@ -849,11 +849,6 @@ export default class LayoutManager {
                     that.append(
                         $(self.mosaic.document.createElement("div"))
                             .addClass("mosaic-divider mosaic-divider-" + pos)
-                            .append(
-                                $(self.mosaic.document.createElement("div")).addClass(
-                                    "mosaic-divider-dot"
-                                )
-                            )
                     );
                 });
             });
@@ -940,13 +935,6 @@ export default class LayoutManager {
                                             $(mosaic_doc.createElement("div")).append(
                                                 $(mosaic_doc.createElement("div"))
                                                     .addClass("mosaic-tile-outer-border")
-                                                    .append(
-                                                        $(
-                                                            mosaic_doc.createElement(
-                                                                "div"
-                                                            )
-                                                        ).addClass("mosaic-divider-dot")
-                                                    )
                                             )
                                         )
                                 )
@@ -963,13 +951,6 @@ export default class LayoutManager {
                                                 $(mosaic_doc.createElement("div")).append(
                                                     $(mosaic_doc.createElement("div"))
                                                         .addClass("mosaic-tile-outer-border")
-                                                        .append(
-                                                            $(
-                                                                mosaic_doc.createElement(
-                                                                    "div"
-                                                                )
-                                                            ).addClass("mosaic-divider-dot")
-                                                        )
                                                 )
                                             )
                                     )
@@ -989,11 +970,6 @@ export default class LayoutManager {
                                         $(mosaic_doc.createElement("div")).append(
                                             $(mosaic_doc.createElement("div"))
                                                 .addClass("mosaic-tile-outer-border")
-                                                .append(
-                                                    $(
-                                                        mosaic_doc.createElement("div")
-                                                    ).addClass("mosaic-divider-dot")
-                                                )
                                         )
                                     )
                             )
@@ -1185,11 +1161,6 @@ export default class LayoutManager {
                         original_tile.append(
                             $(mosaic_doc.createElement("div"))
                                 .addClass("mosaic-divider mosaic-divider-" + pos)
-                                .append(
-                                    $(mosaic_doc.createElement("div")).addClass(
-                                        "mosaic-divider-dot"
-                                    )
-                                )
                         );
                     };
                 }

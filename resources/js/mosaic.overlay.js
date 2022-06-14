@@ -27,15 +27,23 @@ export default class Overlay {
     open (mode, tile_config) {
         // Local variables
         var self = this;
-        var formtabs, visible_tabs, field, fieldset, modalContent;
+
+        // setup visibility of fields before showing modal
+        self.modal.on("after-render", function() {
+            self.setup_visibility(mode, tile_config);
+        });
 
         // show modal
         self.modal.show();
-        modalContent = self.modal.$modalContent;
+    }
+
+    setup_visibility(mode, tile_config) {
+        var self = this;
+        var modalContent = self.modal.$modalContent;
 
         if (mode === "all" && self.options.overlay_hide_fields) {
             // Get form tabs
-            formtabs = modalContent.find("nav");
+            var formtabs = modalContent.find("nav");
 
             // Show form tabs
             formtabs.removeClass("mosaic-hidden");
@@ -89,7 +97,7 @@ export default class Overlay {
             });
 
             // Get visible tabs
-            visible_tabs = formtabs.children(":not(.mosaic-hidden)");
+            var visible_tabs = formtabs.children(":not(.mosaic-hidden)");
 
             // Select first tab
             visible_tabs.eq(0).addClass("active");
@@ -102,8 +110,8 @@ export default class Overlay {
             $fieldset.addClass("active");
         } else if (mode === "field") {
             // Get fieldset and field
-            field = $("#" + tile_config.id);
-            fieldset = field.parents("fieldset");
+            var field = $("#" + tile_config.id);
+            var fieldset = field.parents("fieldset");
 
             // Hide all fieldsets
             modalContent.find("fieldset").removeClass("active");

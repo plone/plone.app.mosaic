@@ -176,21 +176,6 @@ body.mosaic-enabled .tox-tinymce-inline {
     position: absolute;
 }
 
-.mosaic-panel .mosaic-empty-row .mosaic-tile-outer-border {
-    background: url(../img/divider_horizontal.png) 0px -12px;
-    border: 0px;
-    height: 12px;
-    width: auto;
-    left: -5px;
-    right: 0px;
-}
-
-.mosaic-panel .mosaic-empty-row .mosaic-tile-outer-border .mosaic-divider-dot {
-    background-image: url(../img/divider_horizontal.png);
-    width: 12px;
-    height: 12px;
-}
-
 .mosaic-panel .mosaic-panel-dragging .mosaic-tile-align-left {
     z-index: 50;
 }

@@ -404,11 +404,6 @@ class Tile {
             self.$el.prepend(
                 $(self.mosaic.document.createElement("div"))
                     .addClass("mosaic-divider mosaic-divider-" + pos)
-                    .append(
-                        $(self.mosaic.document.createElement("div")).addClass(
-                            "mosaic-divider-dot"
-                        )
-                    )
             );
         };
 
@@ -839,8 +834,8 @@ class Tile {
             self.$el.hasClass("mosaic-read-only-tile") === false
         ) {
             // un-select existing with stored Tile instance on element
-            $(".mosaic-selected-tile").each(function() {
-                $(this).data("mosaic-tile").blur();
+            self.mosaic.document.querySelectorAll(".mosaic-selected-tile").forEach(function(el) {
+                $(el).data("mosaic-tile").blur();
             });
             // select current tile
             self.focus();
