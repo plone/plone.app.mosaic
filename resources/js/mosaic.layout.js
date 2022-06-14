@@ -1279,7 +1279,7 @@ export default class LayoutManager {
             self.mosaic.panels.mosaicAddEmptyRows();
 
             // Select new tile
-            if (new_tile) {
+            if (new_tile && original_tile.length > 0) {
                 original_tile.data("mosaic-tile").initializeContent();
                 original_tile.data("mosaic-tile").focus();
             }
