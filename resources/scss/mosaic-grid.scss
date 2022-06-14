@@ -137,7 +137,7 @@ $container-max-widths: (
 body.template-layout,
 body.mosaic-enabled {
   &.no-portlet-columns {
-    .outer-wrapper>.container {
+    .outer-wrapper>.container:not(#content-header) {
       // outline: 1px blue solid;
       max-width: unset;
       padding-left: unset;
