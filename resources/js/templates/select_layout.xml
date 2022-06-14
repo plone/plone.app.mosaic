@@ -4,14 +4,11 @@
         <div class="global-layouts">
             <ul class="d-flex flex-wrap justify-content-around">
             <% _.each(available_layouts, function(layout) {
-                var screenshot = layout.preview || layout.screenshot;
-                if(!screenshot) {
-                    screenshot = "++plone++mosaic/img/default-layout-screenshot.png";
-                } %>
+                var screenshot = layout.preview || layout.screenshot; %>
                 <li><a href="#" data-value="<%- layout.path %>">
                 <p><%- layout.title %></p>
                 <p class="mosaic-select-layout-description"><%- layout.description %></p>
-                <img src="<%- portal_url %>/<%- screenshot %>"></a></li>
+                <% if (screenshot) { %><img src="<%- portal_url %>/<%- screenshot %>"><% } %></a></li>
             <% }); %>
             </ul>
         </div>
@@ -20,12 +17,10 @@
             <h4>My Layouts</h4>
             <ul class="d-flex flex-wrap">
             <% _.each(user_layouts, function(layout){
-                var screenshot = layout.preview || layout.screenshot;
-                if(!screenshot){
-                    screenshot = "++plone++mosaic/img/default-layout-screenshot.png";
-                } %>
+                var screenshot = layout.preview || layout.screenshot; %>
                 <li><a href="#" data-value="<%- layout.path %>">
-                <p><%- layout.title %></p><img src="<%- portal_url %>/<%- screenshot %>"></a></li>
+                <p><%- layout.title %></p>
+                <% if (screenshot) { %><img src="<%- portal_url %>/<%- screenshot %>"><% } %></a></li>
             <% }); %>
             </ul>
         </div>
