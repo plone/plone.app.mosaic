@@ -73,7 +73,7 @@ help: ## This help message
 	@echo
 	@echo "${WARN_COLOR}Additional parameters:${NO_COLOR}"
 	@echo "${MARK_COLOR}PYTHON${NO_COLOR}:       python interpreter to be used (default: python3)"
-	@echo "${MARK_COLOR}VENV${NO_COLOR}:        [on|off] wether to create a Python virtual environment or not (default: on)"
+	@echo "${MARK_COLOR}VENV${NO_COLOR}:        [on|off] wether to create a Python virtual environment or not (default: off)"
 	@echo "${MARK_COLOR}VENV_FOLDER${NO_COLOR}: location of the virtual environment (default: ./venv)"
 	@echo
 	@echo "${WARN_COLOR}Targets:${NO_COLOR}"
@@ -103,7 +103,7 @@ ${SENTINEL}:
 # PYTHON, VENV, PIP
 # venv and pybin
 PYTHON?=python3
-VENV?=on
+VENV?=off
 ifeq ("${VENV}", "on")
 	VENV_FOLDER?=./venv
 	PYBIN=${VENV_FOLDER}/bin/
@@ -142,7 +142,7 @@ endif
 PIP_SENTINEL=${SENTINELFOLDER}pip.sentinel
 ${PIP_SENTINEL}: ${VENV_SENTINEL} ${CONSTRAINTS_IN} ${SENTINEL}
 	@echo "$(OK_COLOR)Install pip$(NO_COLOR)"
-	@${PYBIN}pip install -U pip>=22.0.2 wheel setuptools
+	@${PYBIN}pip install -U "pip>=22.0.2" wheel setuptools
 	@touch ${PIP_SENTINEL}
 
 ##############################################################################
@@ -151,7 +151,7 @@ ${PIP_SENTINEL}: ${VENV_SENTINEL} ${CONSTRAINTS_IN} ${SENTINEL}
 MXDEV_SENTINEL=${SENTINELFOLDER}pip-mxdev.sentinel
 ${MXDEV_SENTINEL}: ${PIP_SENTINEL}
 	@echo "$(OK_COLOR)Install mxdev$(NO_COLOR)"
-	@${PYBIN}pip install mxdev>=2.0.0 libvcs==0.11.1
+	@${PYBIN}pip install "mxdev>=2.0.0" libvcs==0.11.1
 	@touch ${MXDEV_SENTINEL}
 
 .PHONY: prepare
@@ -202,12 +202,12 @@ ${TESTRUNNER_SENTINEL}: ${PIP_SENTINEL}
 .PHONY: test
 test: ${TEST_PREREQUISITES} ${TESTRUNNER_SENTINEL} ## run tests
 	@echo "$(OK_COLOR)Run addon tests$(NO_COLOR)"
-	@${PYBIN}zope-testrunner --auto-color --auto-progress --test-path=${ADDONFOLDER}
+	@${PYBIN}zope-testrunner --all --auto-color --auto-progress --test-path=${ADDONFOLDER}
 
 .PHONY: test-ignore-warnings
 test-ignore-warnings: ${TEST_PREREQUISITES} ${TESTRUNNER_SENTINEL}  ## run tests (hide warnins)
 	@echo "$(OK_COLOR)Run addon tests$(NO_COLOR)"
-	@PYTHONWARNINGS=ignore ${PYBIN}zope-testrunner --auto-color --auto-progress --test-path=${ADDONFOLDER}
+	@PYTHONWARNINGS=ignore ${PYBIN}zope-testrunner --all --auto-color --auto-progress --test-path=${ADDONFOLDER}
 
 ##############################################################################
 # CODE FORMATTING
@@ -312,8 +312,13 @@ clean-resources:  ## clean npm packages
 	@echo "$(OK_COLOR)Remove npm packages.$(NO_COLOR)"
 	rm -rf node_modules/
 
+.PHONY: clean-tests
+clean-tests:  ## clean test output
+	@echo "$(OK_COLOR)Remove test output files.$(NO_COLOR)"
+	rm -rf robot_* test_*
+
 .PHONY: clean
-clean:  clean-venv clean-pyc clean-make clean-instance clean-resources   ## clean all (except local database and pip installed packages)
+clean:  clean-venv clean-pyc clean-make clean-instance clean-resources clean-tests   ## clean all (except local database and pip installed packages)
 
 ##############################################################################
 # DOCKER/CONTAINER

@@ -24,14 +24,12 @@ Show how to select Mosaic layout option
     ...  ${SELECTOR_TOOLBAR}  id=plone-contentmenu-display
     ...  ${SELECTOR_CONTENTMENU_DISPLAY_ITEMS}
 
-    Mouse over  id=plone-contentmenu-display-layout_view
+    Set focus to element  id=plone-contentmenu-display-layout_view
     Click element  id=plone-contentmenu-display-layout_view
 
-    ## XXX: Mouse over got stuck on Firefox 52
-    # Mouse over  ${SELECTOR_CONTENTMENU_DISPLAY_LINK}
     Run keyword and ignore error  Set window size  1024  800
     Wait until page contains element
-    ...  css=#plone-contentmenu-display-layout_view.actionMenuSelected
+    ...  css=body.layout-default-document
 
 
 Show how to select custom layout view

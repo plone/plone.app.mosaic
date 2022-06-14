@@ -10,7 +10,7 @@ Test Teardown  Close all browsers
 
 Show how Mosaic editor is opened
     Go to  ${PLONE_URL}/example-document
-    Wait Until Element Is Visible  id=contentview-edit
+    Wait For Element  id=contentview-edit
     Highlight  id=contentview-edit
     Capture and crop page screenshot
     ...  _screenshots/mosaic-editor-open.png
@@ -20,17 +20,17 @@ Show how Mosaic editor is opened
 
 Show the Mosaic editing capabilities
     Go to  ${PLONE_URL}/example-document/edit
-    Wait Until Element Is Visible  css=.mosaic-select-layout
+    Wait For Element  css=.mosaic-select-layout
     Capture and crop page screenshot
     ...  _screenshots/mosaic-editor-layout-selector.png
-    ...  css=.plone-modal
+    ...  css=.modal-dialog
 
     # Show how to select the initial layout
-    Wait until Page contains element  jquery=a[data-value="default/basic.html"]
+    Wait For Element  jquery=a[data-value="default/basic.html"]
     Highlight  jquery=a[data-value="default/basic.html"] img
     Capture and crop page screenshot
     ...  _screenshots/mosaic-editor-layout-selector-select.png
-    ...  css=.plone-modal
+    ...  css=.modal-dialog
 
     ## XXX: Only double click worked on Firefox 52
     Click element  jquery=a[data-value="default/basic.html"]
@@ -38,22 +38,20 @@ Show the Mosaic editing capabilities
 
     # Show the properties view in Mosaic editor
     Run keyword and ignore error  Set window size  1024  1200
-    Wait Until Element Is Visible  css=.mosaic-toolbar
+    Wait For Element  css=.mosaic-toolbar
     Click element  css=.mosaic-button-properties
 
     Highlight  css=.autotoc-nav
 
     Capture and crop page screenshot
     ...  _screenshots/mosaic-editor-properties-modal.png
-    ...  css=.plone-modal-content
+    ...  css=.modal-content
 
-    #...  css=html
-    #.plone-modal-content
     Run keyword and ignore error  Set window size  1024  800
     Click element  css=.mosaic-overlay-ok-button
 
     # Show the Mosaic editor
-    Wait Until Element Is Visible  css=.mosaic-toolbar
+    Wait For Element  css=.mosaic-toolbar
     Highlight  css=.mosaic-button-layout
     Capture and crop page screenshot
     ...  _screenshots/mosaic-editor-layout.png
@@ -73,7 +71,7 @@ Show the Mosaic editing capabilities
     Click element  css=.mosaic-button-customizelayout
 
     # Show how to select a new tile from menu
-    Wait Until Element Is Visible  css=.mosaic-toolbar
+    Wait For Element  css=.mosaic-toolbar
     Highlight  css=.select2-container.mosaic-menu-insert
     Click element  css=.select2-container.mosaic-menu-insert a
     Wait until element is visible  css=.select2-result.mosaic-option-irichtextbehavior-text
@@ -102,7 +100,7 @@ Show the Mosaic editing capabilities
     # Show how to drop a new tile into its initial position
 
     Click element  css=.mosaic-selected-divider
-    Wait Until Element Is Visible  css=.mosaic-button-save
+    Wait For Element  css=.mosaic-button-save
     Highlight  css=.mosaic-button-save
     Capture and crop page screenshot
     ...  _screenshots/mosaic-editor-drop-field-text-tile.png
@@ -119,4 +117,3 @@ Show the Mosaic editing capabilities
 
 
 *** Keywords ***
-

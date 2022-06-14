@@ -23,7 +23,6 @@ ${SELECTOR_CONTENTMENU_DISPLAY_ITEMS}  css=#plone-contentmenu-display ul
 
 ${SELECTOR_TOOLBAR}  css=#edit-zone
 
-
 *** Keywords ***
 
 a logged-in manager

@@ -47,3 +47,8 @@ pip-selfcheck.json
 pyvenv.cfg
 package-lock.json
 stats.json
+=*
+
+# robot test
+robot_*
+test_*
