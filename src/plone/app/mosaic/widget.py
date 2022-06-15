@@ -38,6 +38,7 @@ LAYOUT_BEHAVIORS = {
 
 FORM_DENYS = {"babel_edit"}
 
+
 class ILayoutWidget(ITextAreaWidget):
     """Marker interface for the LayoutWidget."""
 
