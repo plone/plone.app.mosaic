@@ -40,7 +40,7 @@ setup(
     zip_safe=False,
     install_requires=[
         "setuptools",
-        "Products.CMFPlone>=6.0.0a2",
+        "Products.CMFPlone>=6.0.0a4",
         "plone.subrequest",
         "plone.app.blocks",
         "plone.app.tiles",
@@ -51,10 +51,8 @@ setup(
         "test": [
             "plone.app.testing",
             "plone.app.contenttypes",
-            "plone.app.widgets>=1.8.0.dev0",
             "plone.app.robotframework",
             "robotframework-selenium2library",
-            "robotframework-selenium2screenshots",
         ]
     },
     entry_points="""

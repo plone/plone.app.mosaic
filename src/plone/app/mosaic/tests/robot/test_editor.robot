@@ -12,59 +12,43 @@ Show how Mosaic editor is opened
     Go to  ${PLONE_URL}/example-document
     Wait For Element  id=contentview-edit
     Highlight  id=contentview-edit
-    Capture and crop page screenshot
-    ...  _screenshots/mosaic-editor-open.png
-    ...  css=#portal-breadcrumbs
-    ...  ${SELECTOR_TOOLBAR}  id=contentview-edit
+    Capture Page Screenshot  mosaic-editor-open.png
 
 
 Show the Mosaic editing capabilities
     Go to  ${PLONE_URL}/example-document/edit
     Wait For Element  css=.mosaic-select-layout
-    Capture and crop page screenshot
-    ...  _screenshots/mosaic-editor-layout-selector.png
-    ...  css=.modal-dialog
+    Capture Page Screenshot  mosaic-editor-layout-selector.png
 
     # Show how to select the initial layout
     Wait For Element  jquery=a[data-value="default/basic.html"]
     Highlight  jquery=a[data-value="default/basic.html"] img
-    Capture and crop page screenshot
-    ...  _screenshots/mosaic-editor-layout-selector-select.png
-    ...  css=.modal-dialog
+    Capture Page Screenshot  mosaic-editor-layout-selector-select.png
 
-    ## XXX: Only double click worked on Firefox 52
     Click element  jquery=a[data-value="default/basic.html"]
-    # Double click element  jquery=a[data-value="default/basic.html"]
 
     # Show the properties view in Mosaic editor
     Run keyword and ignore error  Set window size  1024  1200
     Wait For Element  css=.mosaic-toolbar
-    Click element  css=.mosaic-button-properties
+    Click Overlay Button  css=.mosaic-button-properties
 
     Highlight  css=.autotoc-nav
 
-    Capture and crop page screenshot
-    ...  _screenshots/mosaic-editor-properties-modal.png
-    ...  css=.modal-content
+    Capture Page Screenshot  mosaic-editor-properties-modal.png
 
     Run keyword and ignore error  Set window size  1024  800
-    Click element  css=.mosaic-overlay-ok-button
+    Click element  css=.modal-wrapper .modal-close
 
     # Show the Mosaic editor
     Wait For Element  css=.mosaic-toolbar
     Highlight  css=.mosaic-button-layout
-    Capture and crop page screenshot
-    ...  _screenshots/mosaic-editor-layout.png
-    ...  css=html
-
-    Click element  css=.mosaic-button-layout
+    Capture Page Screenshot  mosaic-editor-layout.png
 
     Element should be visible  css=.mosaic-button-customizelayout
 
     Highlight  css=.mosaic-button-customizelayout
-    Capture and crop page screenshot
-    ...  _screenshots/mosaic-editor-customize.png
-    ...  css=html
+    Capture Page Screenshot  mosaic-editor-customize.png
+
     Clear highlight  css=.mosaic-button-layout
     Clear highlight  css=.mosaic-button-customizelayout
 
@@ -77,9 +61,7 @@ Show the Mosaic editing capabilities
     Wait until element is visible  css=.select2-result.mosaic-option-irichtextbehavior-text
     Mouse over  css=.mosaic-dropdown .select2-result.mosaic-option-irichtextbehavior-text
 
-    Capture and crop page screenshot
-    ...  _screenshots/mosaic-editor-select-field-text-tile.png
-    ...  css=.mosaic-toolbar  css=.mosaic-dropdown-insert
+    Capture Page Screenshot  mosaic-editor-select-field-text-tile.png
 
     Clear highlight  css=.mosaic-menu-insert
 
@@ -93,27 +75,21 @@ Show the Mosaic editing capabilities
     ...  display  block
     Mouse over
     ...  css=.mosaic-IDublinCore-description-tile .mosaic-divider-bottom
-    Capture and crop page screenshot
-    ...  _screenshots/mosaic-editor-drag-field-text-tile.png
-    ...  css=html
+    Capture Page Screenshot  mosaic-editor-drag-field-text-tile.png
 
     # Show how to drop a new tile into its initial position
 
     Click element  css=.mosaic-selected-divider
     Wait For Element  css=.mosaic-button-save
     Highlight  css=.mosaic-button-save
-    Capture and crop page screenshot
-    ...  _screenshots/mosaic-editor-drop-field-text-tile.png
-    ...  css=html
+    Capture Page Screenshot  mosaic-editor-drop-field-text-tile.png
 
     # Show how the custom layout looks after saving
 
     Click button  css=.mosaic-button-save
     # some people reported sporadic page unload alert ... if so, accept it
     Run keyword and ignore error  Handle Alert  action=ACCEPT  timeout=5
-    Capture and crop page screenshot
-    ...  _screenshots/mosaic-page-saved.png
-    ...  css=html
+    Capture Page Screenshot  mosaic-page-saved.png
 
 
 *** Keywords ***

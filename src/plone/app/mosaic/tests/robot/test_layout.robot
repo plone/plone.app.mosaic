@@ -3,7 +3,7 @@
 Resource  keywords.robot
 
 Test Setup  Setup Mosaic Example Page
-Test Teardown  Close all browsers
+Test Teardown  Plone test teardown
 
 
 *** Test Cases ***
@@ -16,13 +16,8 @@ Show how to select Mosaic layout option
     Click element  ${SELECTOR_CONTENTMENU_DISPLAY_LINK}
     Wait Until Element Is Visible  id=plone-contentmenu-display-layout_view
 
-    Update element style  css=.managePortletsFallback  display  none
     Highlight  id=plone-contentmenu-display-layout_view
-    Capture and crop page screenshot
-    ...  _screenshots/mosaic-custom-layout-enable.png
-    ...  css=#portal-breadcrumbs
-    ...  ${SELECTOR_TOOLBAR}  id=plone-contentmenu-display
-    ...  ${SELECTOR_CONTENTMENU_DISPLAY_ITEMS}
+    Capture Page Screenshot  mosaic-custom-layout-enable.png
 
     Set focus to element  id=plone-contentmenu-display-layout_view
     Click element  id=plone-contentmenu-display-layout_view
@@ -40,12 +35,7 @@ Show how to select custom layout view
     Click element  ${SELECTOR_CONTENTMENU_DISPLAY_LINK}
     Wait Until Element Is Visible  id=plone-contentmenu-display-layout_view
 
-    Update element style  css=.managePortletsFallback  display  none
-    Capture and crop page screenshot
-    ...  _screenshots/mosaic-custom-layout-enable-done.png
-    ...  css=#portal-breadcrumbs
-    ...  ${SELECTOR_TOOLBAR}  id=plone-contentmenu-display  id=content
-    ...  jquery=#content > div:last
+    Capture Page Screenshot  mosaic-custom-layout-enable-done.png
 
 
 *** Keywords ***

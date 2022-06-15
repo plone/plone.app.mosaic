@@ -14,9 +14,7 @@ Show Plone Mosaic activation
 
     Wait Until Element Contains  ${SELECTOR_ADDONS_MOSAIC}  Mosaic
     Highlight  ${SELECTOR_ADDONS_MOSAIC}
-    Capture and crop page screenshot
-    ...  _screenshots/mosaic-product-activated.png
-    ...  ${SELECTOR_ADDONS_ENABLED}
+    Capture Page Screenshot  mosaic-product-activated.png
 
 
 *** Keywords ***
