@@ -9,7 +9,7 @@
 # read also README_MAKE.md in this folder
 #
 default_context:
-    wsgi_http_listen: localhost:8080
+    wsgi_listen: localhost:8080
     initial_user_name: admin
     initial_user_password: admin
     load_zcml:
