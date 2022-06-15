@@ -248,7 +248,7 @@ apply-style-zpretty: ${ZPRETTY_SENTINEL}   ## apply/format code style zpretty (t
 	@find ${ADDONFOLDER} -name "*.xml"|grep -v locales|xargs ${PYBIN}zpretty -ix
 
 .PHONY: style ## apply code styles black, isort and zpretty
-style: apply-style-black apply-style-isort apply-style-zpretty
+style: apply-style-black apply-style-isort
 
 .PHONY: format ## alias for "style"
 FORMATTING: style
@@ -270,7 +270,7 @@ lint-zpretty: ${ZPRETTY_SENTINEL}   ## lint code-style zpretty (to XML/ZCML file
 	@find ${ADDONFOLDER} -name '*.xml'|grep -v locales|xargs ${PYBIN}zpretty --check -x
 
 .PHONY: lint ## lint all: check if complies with code-styles black, isort and zpretty
-lint: lint-black lint-isort lint-zpretty
+lint: lint-black lint-isort
 
 ##############################################################################
 # RUN
