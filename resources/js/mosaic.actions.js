@@ -57,7 +57,6 @@ class ActionManager {
 
     execAction (action, source) {
         var self = this;
-        log.info(`Exec ${action}`);
         if(!(action in self.actions)) {
             log.error(`Action ${action} not in "${self.actions}"`);
             return;
@@ -547,8 +546,6 @@ class ActionManager {
             // Normal exit
             return true;
         });
-
-        log.info("Initialized Actions");
     };
 
     blurSelectedTile() {

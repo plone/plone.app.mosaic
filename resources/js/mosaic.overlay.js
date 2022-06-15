@@ -80,7 +80,6 @@ export default class Overlay {
                                 ".mosaic-" + field_tile.name + "-tile"
                             ).length !== 0
                         ) {
-                            log.info(`Hide field.tile #${field_tile.id}`);
                             $(`#${field_tile.id}`, modalContent).addClass("mosaic-hidden");
                         }
                     }

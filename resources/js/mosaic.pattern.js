@@ -162,7 +162,6 @@ export default Base.extend({
         self.panels = $(".mosaic-panel", self.document);
 
         self.panels.find("[data-tile]").each(async function (idx) {
-            log.info(`Panel tile counter: ${idx}`);
             if (validTile(this)) {
                 var tile = new Tile(self, this);
                 await tile.initializeContent();
@@ -242,7 +241,6 @@ export default Base.extend({
             cache: false,
         })
             .done(async function (layoutHtml) {
-                log.info(`Apply layout ${layoutPath} with content ${layoutHtml}`)
                 var $content = self.getDomTreeFromHtml(layoutHtml);
                 self.setSelectedContentLayout(layoutPath);
                 if (self.loaded) {
@@ -620,7 +618,6 @@ export default Base.extend({
             callback = queueName;
             queueName = "fx"; // 'fx' autoexecutes by default
         }
-        log.info(`Queue: ${queueName}: ${callback}`);
         $(window).queue(queueName, callback);
     },
 

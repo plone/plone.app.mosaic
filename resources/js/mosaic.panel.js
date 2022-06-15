@@ -64,7 +64,6 @@ class Panel {
     }
     prefill() {
         if (!this.$el.hasClass("mosaic-panel")) {
-            log.info($(this));
             $(this).addClass("mosaic-panel");
             $(this)
                 .children()

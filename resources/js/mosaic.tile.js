@@ -155,9 +155,8 @@ class Tile {
             log.error(
                 `Could not find tile type on element ${self.$el} with classes: ${classNames}`
             );
-        } else {
-            log.info(`Found tile type "${tiletype}" for in classnames "${classNames}"`)
         }
+
         _TILE_TYPE_CACHE[classNames] = tiletype;
         return tiletype;
     }
@@ -670,7 +669,6 @@ class Tile {
                         .attr("value");
                     fieldhtml = `${start}${fieldval}${end}`;
                     contenteditable = true;
-                    log.info(`initialized TextWidget with val "${fieldval}"`);
                     break;
                 case "z3c.form.browser.textarea.TextAreaWidget":
                 case "z3c.form.browser.textarea.TextAreaFieldWidget":
@@ -684,7 +682,6 @@ class Tile {
                     fieldhtml += fieldval.join("<br/>");
                     fieldhtml += end;
                     contenteditable = true;
-                    log.info(`initialized Text[Area|Lines]Widget with val "${fieldval}"`);
                     break;
                 case "plone.app.z3cform.widget.RichTextFieldWidget":
                 case "plone.app.z3cform.wysiwyg.widget.WysiwygWidget":
@@ -694,7 +691,6 @@ class Tile {
                         `#${tile_config.id} textarea`
                     )[0].value
                     wysiwyg = true;
-                    log.info(`initialized RichTextWidget with val "${fieldhtml}"`);
                     break;
                 default:
                     fieldhtml =
@@ -702,7 +698,6 @@ class Tile {
                         "for field:<br/><b>" +
                         tile_config.label +
                         "</b></div>";
-                    log.info(`initialized fallback field`);
                     break;
             }
             self.fillContent({
@@ -842,13 +837,11 @@ class Tile {
         }
     }
     blur() {
-        log.info(`Blur ${this.getType()}`);
         this.$el.removeClass("mosaic-selected-tile");
         this.saveForm();
     }
     focus() {
         var self = this;
-        log.info(`Focus ${this.getType()}`);
         self.$el.addClass("mosaic-selected-tile");
         self.$el.find(".mce-content-body").trigger("focus");
         self.initializeButtons();
@@ -861,7 +854,6 @@ class Tile {
         if(!tile_config || tile_config.read_only === true) {
             return;
         }
-        log.info(`Save form ${tiletype} -> <${tile_config.tile_type} (${tile_config.widget})>`);
         // Update field values if type is rich text
         if (tile_config.tile_type === "field") {
             switch (tile_config.widget) {
@@ -912,7 +904,6 @@ class Tile {
                     textarea["pattern-tinymce"].instance.tiny.setContent(value);
                     break;
             }
-            log.info(`Saved "${value}"`);
         } else if (tile_config.tile_type === "textapp") {
             var edit_url = self.getEditUrl();
             if (edit_url) {
@@ -955,9 +946,9 @@ class Tile {
         var $content = self.$el.find(".mosaic-tile-content");
 
         if(!$content.length) {
-            log.info("No wysiwg initializable content found!");
             return;
         }
+
         // Generate random id to make sure TinyMCE is unique
         var random_id = mosaic_utils.generate_uid();
         var id = "mosaic-rich-text-init-" + random_id;
@@ -1002,8 +993,6 @@ class Tile {
         const tiny_instance = new TinyMCE($content, tiny_options);
         await tiny_instance.init()
         self.tinymce = tiny_instance.instance.tiny;
-
-        log.info(`Setup wysiwyg for "${id}"`);
 
         // Set editor class
         $content.addClass("mosaic-rich-text-initialized");

@@ -440,7 +440,6 @@ export default class LayoutManager {
 
         // Add deselect
         var DocumentMousedown = function (e) {
-            log.info("Mousedown");
             // Get element
             var elm;
             if (e.target) {
@@ -451,7 +450,6 @@ export default class LayoutManager {
 
             // If clicked TinyMCE toolbar
             if ($(elm).parents(".mce-content-body, .tox-editor-container, .modal-wrapper").length > 0) {
-                log.info(" - inside TinyMCE or Modal -> break");
                 return;
             }
 
@@ -497,8 +495,6 @@ export default class LayoutManager {
 
             // Find resize helper - there is actually only one
             $(".mosaic-resize-handle-helper", self.mosaic.document).each(function () {
-                log.info("===================");
-
                 var cur_snap_offset;
 
                 // Get helper
@@ -555,13 +551,6 @@ export default class LayoutManager {
 
                 var col_size_handle = col_size_before + col_size;
 
-                log.info("column_sizes_before", column_sizes);
-                log.info("snap_size", snap_size);
-                log.info("col_size", col_size);
-                log.info("col_size_handle", col_size_handle);
-                log.info("resize_handle_index", resize_handle_index);
-                log.info(`|| ${col_size_before} < ${col_size_this} > ${col_size_after} || max: ${col_size_max}`)
-
                 if (helper.data("nr_of_columns") > 0) {
                     var col_size_sum = 0;
                     var set_resize_handler = false;
@@ -594,7 +583,6 @@ export default class LayoutManager {
 
                     // Set new size
                     $(this).data("column_sizes", column_sizes);
-                    log.info("column_sizes_after", column_sizes);
                 }
             });
         };
@@ -1221,8 +1209,6 @@ export default class LayoutManager {
                         _col.removeClass(self.layout.widthClasses.join(" "))
                             .addClass("col");
 
-                        log.info("Now inside here left right");
-
                         // Create column with dragged tile in it
                         if (dir === "left") {
                             drop.parent().before(
@@ -1309,13 +1295,6 @@ export default class LayoutManager {
                         var col_size = Math.floor(12 / nr_of_columns);
                         var col_size_last = 12 - col_size * (nr_of_columns - 1);
 
-                        log.info("------");
-                        log.info("position", position);
-                        log.info("col_size", col_size);
-                        log.info("col_size_last", col_size_last);
-                        log.info("nr_of_columns", nr_of_columns);
-                        log.info("------");
-
                         for (var j = 0; j < nr_of_columns; j++) {
                             if (j > 0) {
                                 position = position + col_size;
@@ -1390,10 +1369,6 @@ export default class LayoutManager {
                         // set counted size to cell data
                         $(grid_cells[i]).data("col_size", col_size)
                     }
-
-                    log.info("$.fn.mosaicSetResizeHandles:");
-                    log.info("zero_count", zero_count);
-                    log.info("col_size", col_size);
                 }
 
                 // Mouse down handler on resize handle
@@ -1432,8 +1407,6 @@ export default class LayoutManager {
                                                 .html(col_size)
                                         )
                                 );
-
-                            log.info(placeholder[0].outerHTML);
 
                             // Add placeholder
                             $(this)
