@@ -158,26 +158,33 @@ body.mosaic-enabled {
         padding-left: var(--bs-gutter-x, 0.75rem);
         margin-right: auto;
         margin-left: auto;
-        padding: 0;
 
         @each $breakpoint,
         $container-max-width in $container-max-widths {
           @include media-breakpoint-up($breakpoint, $grid-breakpoints) {
             max-width: $container-max-width;
+
+            &.mosaic-grid-row-fluid-background {
+              padding-left: calc((100% - ($container-max-width - var(--bs-gutter-x) * 2)) / 2);
+              padding-right: calc((100% - ($container-max-width - var(--bs-gutter-x) * 2)) / 2);
+            }
           }
         }
 
+        &.mosaic-grid-row-fluid {
+          max-width: unset;
+          padding-left: unset;
+          padding-right: unset;
+          margin-left: 0;
+          margin-right: 0;
+        }
+        &.mosaic-grid-row-fluid-background {
+          max-width:unset;
+          margin-left: 0;
+          margin-right: 0;
+        }
       }
 
-      .mosaic-grid-row.mosaic-grid-row-fluid {
-        max-width: unset;
-        // outline: 1px dashed fuchsia;
-        padding-left: unset;
-        padding-right: unset;
-        // @include make-row();
-        margin-left: 0;
-        margin-right: 0;
-      }
 
     }
   }

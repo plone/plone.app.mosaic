@@ -70,12 +70,16 @@ body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container:not(#content-
   padding-left: var(--bs-gutter-x, 0.75rem);
   margin-right: auto;
   margin-left: auto;
-  padding: 0;
 }
 @media (min-width: 576px) {
   body.template-layout.no-portlet-columns .outer-wrapper > .container:not(#content-header) .mosaic-grid-row,
 body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container:not(#content-header) .mosaic-grid-row {
     max-width: 540px;
+  }
+  body.template-layout.no-portlet-columns .outer-wrapper > .container:not(#content-header) .mosaic-grid-row.mosaic-grid-row-fluid-background,
+body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container:not(#content-header) .mosaic-grid-row.mosaic-grid-row-fluid-background {
+    padding-left: calc((100% - (540px - var(--bs-gutter-x) * 2)) / 2);
+    padding-right: calc((100% - (540px - var(--bs-gutter-x) * 2)) / 2);
   }
 }
 @media (min-width: 768px) {
@@ -83,11 +87,21 @@ body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container:not(#content-
 body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container:not(#content-header) .mosaic-grid-row {
     max-width: 720px;
   }
+  body.template-layout.no-portlet-columns .outer-wrapper > .container:not(#content-header) .mosaic-grid-row.mosaic-grid-row-fluid-background,
+body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container:not(#content-header) .mosaic-grid-row.mosaic-grid-row-fluid-background {
+    padding-left: calc((100% - (720px - var(--bs-gutter-x) * 2)) / 2);
+    padding-right: calc((100% - (720px - var(--bs-gutter-x) * 2)) / 2);
+  }
 }
 @media (min-width: 992px) {
   body.template-layout.no-portlet-columns .outer-wrapper > .container:not(#content-header) .mosaic-grid-row,
 body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container:not(#content-header) .mosaic-grid-row {
     max-width: 960px;
+  }
+  body.template-layout.no-portlet-columns .outer-wrapper > .container:not(#content-header) .mosaic-grid-row.mosaic-grid-row-fluid-background,
+body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container:not(#content-header) .mosaic-grid-row.mosaic-grid-row-fluid-background {
+    padding-left: calc((100% - (960px - var(--bs-gutter-x) * 2)) / 2);
+    padding-right: calc((100% - (960px - var(--bs-gutter-x) * 2)) / 2);
   }
 }
 @media (min-width: 1200px) {
@@ -95,11 +109,21 @@ body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container:not(#content-
 body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container:not(#content-header) .mosaic-grid-row {
     max-width: 1140px;
   }
+  body.template-layout.no-portlet-columns .outer-wrapper > .container:not(#content-header) .mosaic-grid-row.mosaic-grid-row-fluid-background,
+body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container:not(#content-header) .mosaic-grid-row.mosaic-grid-row-fluid-background {
+    padding-left: calc((100% - (1140px - var(--bs-gutter-x) * 2)) / 2);
+    padding-right: calc((100% - (1140px - var(--bs-gutter-x) * 2)) / 2);
+  }
 }
 @media (min-width: 1400px) {
   body.template-layout.no-portlet-columns .outer-wrapper > .container:not(#content-header) .mosaic-grid-row,
 body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container:not(#content-header) .mosaic-grid-row {
     max-width: 1320px;
+  }
+  body.template-layout.no-portlet-columns .outer-wrapper > .container:not(#content-header) .mosaic-grid-row.mosaic-grid-row-fluid-background,
+body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container:not(#content-header) .mosaic-grid-row.mosaic-grid-row-fluid-background {
+    padding-left: calc((100% - (1320px - var(--bs-gutter-x) * 2)) / 2);
+    padding-right: calc((100% - (1320px - var(--bs-gutter-x) * 2)) / 2);
   }
 }
 body.template-layout.no-portlet-columns .outer-wrapper > .container:not(#content-header) .mosaic-grid-row.mosaic-grid-row-fluid,
@@ -107,6 +131,12 @@ body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container:not(#content-
   max-width: unset;
   padding-left: unset;
   padding-right: unset;
+  margin-left: 0;
+  margin-right: 0;
+}
+body.template-layout.no-portlet-columns .outer-wrapper > .container:not(#content-header) .mosaic-grid-row.mosaic-grid-row-fluid-background,
+body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container:not(#content-header) .mosaic-grid-row.mosaic-grid-row-fluid-background {
+  max-width: unset;
   margin-left: 0;
   margin-right: 0;
 }
