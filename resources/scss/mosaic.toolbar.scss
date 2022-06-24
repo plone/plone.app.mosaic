@@ -64,6 +64,25 @@
   }
 }
 
+.select2-drop {
+  &.mosaic-menu-insert,
+  &.mosaic-menu-format {
+    ul.select2-results {
+      display:flex;
+
+      .select2-result-label {
+        white-space:nowrap;
+      }
+      .select2-results-dept-0 {
+        margin:0 5px;
+      }
+      .select2-results-dept-1 .select2-result-label {
+        padding-left: 7px;
+      }
+    }
+  }
+}
+
 /* Apply bootstrap toolbar styles for select2 results */
 .mosaic-dropdown {
   @extend .navbar;

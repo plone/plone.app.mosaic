@@ -293,12 +293,15 @@ class Toolbar {
             } else {
                 $el = $(document.createElement("select"));
                 // Create menu
+                var menu_id = `mosaic-menu-${action.name.replace(/_/g, "-")}`;
                 parent.append(
                     $el
-                        .addClass(
-                            "pat-select2 mosaic-menu mosaic-menu-" + action.name.replace(/_/g, "-")
-                        )
-                        .attr("data-pat-select2", JSON.stringify({"minimumResultsForSearch": -1}))
+                        .addClass(`pat-select2 mosaic-menu ${menu_id}`)
+                        .attr("data-pat-select2", JSON.stringify({
+                            "minimumResultsForSearch": -1,
+                            "dropdownCssClass": menu_id,
+                            "dropdownAutoWidth": true,
+                        }))
                         .data("action", action.action)
                         .on("change", function (e) {
                             self.mosaic.actionManager.execAction(action.action, e.target);
