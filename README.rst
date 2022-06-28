@@ -3,20 +3,6 @@ Plone Mosaic
 
 **Plone Mosaic** is a site builder and layout solution for Plone.
 
-Read this introduction and `the package documentation`__ for more details how to use this package.
-
-__  http://plone-app-mosaic.s3-website-us-east-1.amazonaws.com/latest/
-
-.. image:: https://secure.travis-ci.org/plone/plone.app.mosaic.png?branch=master
-    :alt: Travis CI badge
-    :target: http://travis-ci.org/plone/plone.app.mosaic
-
-.. image:: https://coveralls.io/repos/plone/plone.app.mosaic/badge.png?branch=master
-    :alt: Coveralls badge
-    :target: https://coveralls.io/r/plone/plone.app.mosaic
-
-..  image:: https://www.herokucdn.com/deploy/button.png
-    :target: https://heroku.com/deploy?template=https://github.com/plone/plone.app.mosaic
 
 Concepts
 --------
@@ -81,7 +67,7 @@ Fluid rows
     For fluid (full width) rows select any tile in the row and choose "Fluid" from the "Format" menu.
     Fluid row styles only make sense on pages without portlets. In Plone 5.1.3 we can check that automatically
     (with plone.app.layout 2.8.0) and those styles are only active if no portlet columns are shown.
-    Since version 3 and Bootstrap 5 there's an feature for `fluid-row-background` which streches the background of
+    Since version 3 and Bootstrap 5 there's a feature for `fluid-row-background` which streches the background of
     the row to 100% width but keeps the columns to the page container width.
 
 
