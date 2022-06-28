@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.2.5 (unreleased)
+2.2.5 (2022-06-28)
 ------------------
 
 - Bugfix: Use TinyMCE `getContent()` to get editor contents on save
