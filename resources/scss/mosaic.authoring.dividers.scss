@@ -1,0 +1,61 @@
+
+.mosaic-grid-row .mosaic-set-custom-css {
+  font-size:$font-size-sm;
+  position:absolute;
+  bottom:0;
+  text-align:right;
+  z-index:101;
+  background:#f9f9f9;
+  input {
+      min-width:30%;
+      font-size:$font-size-sm;
+      height:1.2rem;
+  }
+}
+
+.mosaic-divider {
+    position: absolute;
+    z-index: 600;
+    display: none;
+    border-width:4px;
+    border-color: var(--bs-success);
+
+    /* general divider container needs width and height to be droppable */
+    width: 12px;
+    height: 12px;
+    top: -6px;
+    bottom: -6px;
+    left: -6px;
+    right: -6px;
+
+    &.mosaic-divider-top {
+        width: auto;
+        bottom: auto;
+        border-top-style:solid;
+    }
+    &.mosaic-divider-bottom {
+        width: auto;
+        top: auto;
+        border-bottom-style:solid;
+    }
+
+    &.mosaic-divider-right {
+        height: auto;
+        left: auto;
+        border-right-style:solid;
+    }
+
+    &.mosaic-divider-left {
+        height: auto;
+        right:auto;
+        border-left-style:solid;
+    }
+}
+
+.mosaic-selected-divider {
+    display: block !important;
+}
+
+.mosaic-empty-row .mosaic-selected-divider .mosaic-tile-outer-border {
+    border-top: solid 4px var(--bs-success);
+}

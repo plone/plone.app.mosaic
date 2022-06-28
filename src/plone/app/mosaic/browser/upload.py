@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from plone import api
 from plone.app.mosaic import _
 from zope.publisher.browser import BrowserView
@@ -14,78 +13,74 @@ class MosaicUploadView(BrowserView):
         request = self.request
 
         # Set header to json
-        request.response.setHeader('Content-Type', 'application/json')
+        request.response.setHeader("Content-Type", "application/json")
 
-        ctr_tool = api.portal.get_tool('content_type_registry')
-        id = request['uploadfile'].filename
+        ctr_tool = api.portal.get_tool("content_type_registry")
+        id = request["uploadfile"].filename
 
-        content_type = request['uploadfile'].headers["Content-Type"]
+        content_type = request["uploadfile"].headers["Content-Type"]
         typename = ctr_tool.findTypeName(id, content_type, "")
 
         # 1) check if we are allowed to create an Image in folder
         if typename not in [t.id for t in context.getAllowedTypes()]:
             error = {}
-            error['status'] = 1
-            error['message'] =\
-                _(u"Not allowed to upload a file of this type to this folder")
+            error["status"] = 1
+            error["message"] = _(
+                "Not allowed to upload a file of this type to this folder"
+            )
             return json.dumps(error)
 
         # 2) check if the current user has permissions to add stuff
-        if not context.portal_membership.checkPermission('Add portal content',
-                                                         context):
+        if not context.portal_membership.checkPermission("Add portal content", context):
             error = {}
-            error['status'] = 1
-            error['message'] =\
-                _(u"You do not have permission to upload files in this folder")
+            error["status"] = 1
+            error["message"] = _(
+                "You do not have permission to upload files in this folder"
+            )
             return json.dumps(error)
 
         # Get an unused filename without path
         id = self.cleanupFilename(id)
 
-        title = request['uploadfile'].filename
+        title = request["uploadfile"].filename
 
         newid = context.invokeFactory(type_name=typename, id=id)
 
-        if newid is None or newid == '':
+        if newid is None or newid == "":
             newid = id
 
         obj = getattr(context, newid, None)
 
         # Set title
-        # Attempt to use Archetypes mutator if there is one,
-        # in case it uses a custom storage
         if title:
-            try:
-                obj.setTitle(title)
-            except AttributeError:
-                obj.title = title
+            obj.title = title
 
         # set primary field
         pf = obj.getPrimaryField()
-        pf.set(obj, request['uploadfile'])
+        pf.set(obj, request["uploadfile"])
 
         if not obj:
             error = {}
-            error['status'] = 1
-            error['message'] = _(u"Could not upload the file")
+            error["status"] = 1
+            error["message"] = _("Could not upload the file")
             return json.dumps(error)
 
         obj.reindexObject()
         message = {}
-        message['status'] = 0
-        message['url'] = obj.absolute_url()
-        message['title'] = title
+        message["status"] = 0
+        message["url"] = obj.absolute_url()
+        message["title"] = title
         return json.dumps(message)
 
     def cleanupFilename(self, name):
         """Generate a unique id which doesn't match the system generated ids"""
 
         context = self.context
-        id = ''
-        name = name.replace('\\', '/')  # Fixup Windows filenames
-        name = name.split('/')[-1]  # Throw away any path part.
+        id = ""
+        name = name.replace("\\", "/")  # Fixup Windows filenames
+        name = name.split("/")[-1]  # Throw away any path part.
         for c in name:
-            if c.isalnum() or c in '._':
+            if c.isalnum() or c in "._":
                 id += c
 
         # Raise condition here, but not a lot we can do about that
@@ -96,11 +91,13 @@ class MosaicUploadView(BrowserView):
         count = 1
         while 1:
             if count == 1:
-                sc = ''
+                sc = ""
             else:
                 sc = str(count)
-            newid = "copy{0:s}_of_{1:s}".format(sc, id)
-            if context.check_id(newid) is None \
-                    and getattr(context, newid, None) is None:
+            newid = f"copy{sc:s}_of_{id:s}"
+            if (
+                context.check_id(newid) is None
+                and getattr(context, newid, None) is None
+            ):
                 return newid
             count += 1

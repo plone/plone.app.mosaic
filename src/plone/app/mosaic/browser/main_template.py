@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from hashlib import md5
 from lxml import etree
 from lxml import html
@@ -13,10 +12,8 @@ from Products.CMFPlone.browser.interfaces import IMainTemplate
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from repoze.xmliter.utils import getHTMLSerializer
-from six.moves import filter
-from six.moves import map
-from six.moves.urllib.parse import unquote
-from six.moves.urllib.parse import urljoin
+from urllib.parse import unquote
+from urllib.parse import urljoin
 from zExceptions import NotFound
 from zope.component import getMultiAdapter
 from zope.interface import alsoProvides
@@ -26,13 +23,12 @@ import logging
 import os
 import pkg_resources
 import re
-import six
 
 
-NSMAP = {'metal': 'http://namespaces.zope.org/metal'}
+NSMAP = {"metal": "http://namespaces.zope.org/metal"}
 slotsXPath = etree.XPath("//*[@data-slots]")
 
-logger = logging.getLogger('plone.app.mosaic')
+logger = logging.getLogger("plone.app.mosaic")
 
 TEMPLATE = """\
 <metal:page
@@ -42,6 +38,7 @@ TEMPLATE = """\
         context_state context/@@plone_context_state;
         plone_view context/@@plone;
         plone_layout context/@@plone_layout;
+        icons python:context.restrictedTraverse('@@iconresolver');
         lang portal_state/language;
         view nocall: view | nocall: plone_view;
         dummy python:plone_layout.mark_view(view);
@@ -57,8 +54,8 @@ TEMPLATE = """\
 
 
 def cook_layout_cachekey(func, layout, ajax):
-    if isinstance(layout, six.text_type):
-        layout = layout.encode('utf-8', 'replace')
+    if isinstance(layout, str):
+        layout = layout.encode("utf-8", "replace")
     return md5(layout).hexdigest(), ajax
 
 
@@ -89,16 +86,16 @@ def parse_data_slots(value):
 
     """
     value = unquote(value)
-    if '>' in value:
-        wrappers, children = value.split('>', 1)
+    if ">" in value:
+        wrappers, children = value.split(">", 1)
     else:
         wrappers = value
-        children = ''
-    if '*' in children:
-        prepends, appends = children.split('*', 1)
+        children = ""
+    if "*" in children:
+        prepends, appends = children.split("*", 1)
     else:
         prepends = children
-        appends = ''
+        appends = ""
 
     wrappers = list(filter(bool, list(map(str.strip, wrappers.split()))))
     prepends = list(filter(bool, list(map(str.strip, prepends.split()))))
@@ -110,25 +107,28 @@ def parse_data_slots(value):
 def wrap_append_prepend_slots(node, data_slots):
     wrappers, prepends, appends = parse_data_slots(data_slots)
 
-    for panelId in wrappers:
-        slot = etree.Element('{{{0:s}}}{1:s}'.format(NSMAP['metal'], panelId),
-                             nsmap=NSMAP)
-        slot.attrib['define-slot'] = panelId
+    for panel_id in wrappers:
+        slot = etree.Element(
+            "{{{0:s}}}{1:s}".format(NSMAP["metal"], panel_id), nsmap=NSMAP
+        )
+        slot.attrib["define-slot"] = panel_id
         slot_parent = node.getparent()
         slot_parent_index = slot_parent.index(node)
         slot.append(node)
         slot_parent.insert(slot_parent_index, slot)
 
-    for panelId in prepends:
-        slot = etree.Element('{{{0:s}}}{1:s}'.format(NSMAP['metal'], panelId),
-                             nsmap=NSMAP)
-        slot.attrib['define-slot'] = panelId
+    for panel_id in prepends:
+        slot = etree.Element(
+            "{{{0:s}}}{1:s}".format(NSMAP["metal"], panel_id), nsmap=NSMAP
+        )
+        slot.attrib["define-slot"] = panel_id
         node.insert(0, slot)
 
-    for panelId in appends:
-        slot = etree.Element('{{{0:s}}}{1:s}'.format(NSMAP['metal'], panelId),
-                             nsmap=NSMAP)
-        slot.attrib['define-slot'] = panelId
+    for panel_id in appends:
+        slot = etree.Element(
+            "{{{0:s}}}{1:s}".format(NSMAP["metal"], panel_id), nsmap=NSMAP
+        )
+        slot.attrib["define-slot"] = panel_id
         node.append(slot)
 
     return wrappers + prepends + appends
@@ -138,61 +138,59 @@ def wrap_append_prepend_slots(node, data_slots):
 def cook_layout(layout, ajax):
     """Return main_template compatible layout"""
     # Fix XHTML layouts with CR[+LF] line endings
-    layout = re.sub('\r', '\n', re.sub('\r\n', '\n', layout))
+    layout = re.sub("\r", "\n", re.sub("\r\n", "\n", layout))
 
     # Parse layout
-    if isinstance(layout, six.text_type):
-        result = getHTMLSerializer([layout.encode('utf-8')], encoding='utf-8')
+    if isinstance(layout, str):
+        result = getHTMLSerializer([layout.encode("utf-8")], encoding="utf-8")
     else:
-        result = getHTMLSerializer([layout], encoding='utf-8')
+        result = getHTMLSerializer([layout], encoding="utf-8")
 
     # Fix XHTML layouts with inline js (etree.tostring breaks all <![CDATA[)
-    if '<![CDATA[' in layout:
+    if "<![CDATA[" in layout:
         result.serializer = html.tostring
 
     # Wrap all panels with a metal:fill-slot -tag:
     all_slots = []
     for layoutPanelNode in slotsXPath(result.tree):
-        data_slots = layoutPanelNode.attrib['data-slots']
+        data_slots = layoutPanelNode.attrib["data-slots"]
         all_slots += wrap_append_prepend_slots(layoutPanelNode, data_slots)
-        del layoutPanelNode.attrib['data-slots']
+        del layoutPanelNode.attrib["data-slots"]
 
     # When no slots are explicitly defined, try to inject the very default
     # slots
     if len(all_slots) == 0:
         for node in result.tree.xpath('//*[@data-panel="content"]'):
-            wrap_append_prepend_slots(
-                node, 'content > body header main * content-core')
+            wrap_append_prepend_slots(node, "content > body header main * content-core")
 
     # Append implicit slots
-    head = result.tree.getroot().find('head')
+    head = result.tree.getroot().find("head")
     if not ajax and head is not None:
-        for name in ['top_slot', 'head_slot',
-                     'style_slot', 'javascript_head_slot']:
-            slot = etree.Element('{{{0:s}}}{1:s}'.format(NSMAP['metal'], name),
-                                 nsmap=NSMAP)
-            slot.attrib['define-slot'] = name
+        for name in ["top_slot", "head_slot", "style_slot", "javascript_head_slot"]:
+            slot = etree.Element(
+                "{{{0:s}}}{1:s}".format(NSMAP["metal"], name), nsmap=NSMAP
+            )
+            slot.attrib["define-slot"] = name
             head.append(slot)
 
     template = TEMPLATE
     metal = 'xmlns:metal="http://namespaces.zope.org/metal"'
 
-    if six.PY2:
-        return (template.format(''.join(result)).replace(metal, ''))
-
-    return (template.format((b''.join(result).decode("utf-8"))).replace(metal, ''))
+    return template.format(b"".join(result).decode("utf-8")).replace(metal, "")
 
 
 class ViewPageTemplateString(ViewPageTemplateFile):
-
     def __init__(self, text):
-        super(ViewPageTemplateString, self).__init__(__file__)
-        self.pt_edit(text, 'text/html')
+        super().__init__(__file__)
+        self.pt_edit(text, "text/html")
         self._cook()
 
         if self._v_errors:
-            logger.error('PageTemplateFile: Error in template %s: %s',
-                         self.filename, '\n'.join(self._v_errors))
+            logger.error(
+                "PageTemplateFile: Error in template %s: %s",
+                self.filename,
+                "\n".join(self._v_errors),
+            )
 
     def _cook_check(self):
         pass  # cooked only during init
@@ -201,50 +199,21 @@ class ViewPageTemplateString(ViewPageTemplateFile):
 class Macro(list):
     def __repr__(self):
         # Override the default list.__repr__ to hide the contents of list
-        return '<{0:s}.{1:s} object at 0x{2:x}>'.format(
-            self.__class__.__module__,
-            self.__class__.__name__,
-            id(self)
+        return "<{:s}.{:s} object at 0x{:x}>".format(
+            self.__class__.__module__, self.__class__.__name__, id(self)
         )
 
 
 def resolve_ajax_main_template():
-    # Plone 5
-    main_template = os.path.join(
-        'browser', 'templates', 'ajax_main_template.pt')
-    if pkg_resources.resource_exists('Products.CMFPlone', main_template):
-        filename = pkg_resources.resource_filename('Products.CMFPlone',
-                                                   main_template)
-        return ViewPageTemplateFile(filename)
-    else:
-        return resolve_main_template()
+    main_template = os.path.join("browser", "templates", "ajax_main_template.pt")
+    filename = pkg_resources.resource_filename("Products.CMFPlone", main_template)
+    return ViewPageTemplateFile(filename)
 
 
 def resolve_main_template():
-    # Plone 5
-    main_template = os.path.join(
-        'browser', 'templates', 'main_template.pt')
-    if pkg_resources.resource_exists('Products.CMFPlone', main_template):
-        filename = pkg_resources.resource_filename('Products.CMFPlone',
-                                                   main_template)
-        return ViewPageTemplateFile(filename)
-
-    # Plone 4 with Sunburst
-    sunburst_main_template = os.path.join(
-        'skins', 'sunburst_templates', 'main_template.pt')
-    if pkg_resources.resource_exists('plonetheme.sunburst',
-                                     sunburst_main_template):
-        filename = pkg_resources.resource_filename('plonetheme.sunburst',
-                                                   sunburst_main_template)
-        return ViewPageTemplateFile(filename)
-
-    # Fallback
-    skins_main_template = os.path.join(
-        'skins', 'plone_templates', 'main_template.pt')
-    if pkg_resources.resource_exists('Products.CMFPlone', skins_main_template):
-        filename = pkg_resources.resource_filename('Products.CMFPlone',
-                                                   skins_main_template)
-        return ViewPageTemplateFile(filename)
+    main_template = os.path.join("browser", "templates", "main_template.pt")
+    filename = pkg_resources.resource_filename("Products.CMFPlone", main_template)
+    return ViewPageTemplateFile(filename)
 
 
 @implementer(IMainTemplate, IBlocksTransformEnabled)
@@ -254,41 +223,42 @@ class MainTemplate(BrowserView):
     main_template = resolve_main_template()
 
     def __call__(self):
-        if self.request.form.get('ajax_load'):
+        if self.request.form.get("ajax_load"):
             return self.ajax_template()
-        else:
-            return self.main_template()
+        return self.main_template()
 
     @property
     def template(self):
         try:
             return self.layout
         except NotFound:
-            if self.request.form.get('ajax_load'):
-                return self.ajax_template
-            else:
-                return self.main_template
+            pass
+        if self.request.form.get("ajax_load"):
+            return self.ajax_template
+        return self.main_template
 
     @property
     def layout(self):
-        published = self.request.get('PUBLISHED')
+        published = self.request.get("PUBLISHED")
         if isinstance(published, DefaultAddView):
             # Handle the special case of DX add form of layout aware context
             layout = None
             adapter = ILayoutAware(self.context, None)
             if adapter is not None:
-                if getattr(adapter, 'sectionSiteLayout', None):
+                if getattr(adapter, "sectionSiteLayout", None):
                     layout = adapter.sectionSiteLayout
             if layout:
                 layout = urljoin(self.context.absolute_url_path(), layout)
                 layout = resolveResource(layout)
             if not layout:
-                layout = getMultiAdapter((self.context, self.request),
-                                         name='default-site-layout').index()
+                layout = getMultiAdapter(
+                    (self.context, self.request), name="default-site-layout"
+                ).index()
         else:
-            layout = getMultiAdapter((self.context, self.request),
-                                     name='page-site-layout').index()
-        cooked = cook_layout(layout, self.request.get('ajax_load'))
+            layout = getMultiAdapter(
+                (self.context, self.request), name="page-site-layout"
+            ).index()
+        cooked = cook_layout(layout, self.request.get("ajax_load"))
         pt = ViewPageTemplateString(cooked)
         bound_pt = pt.__get__(self, type(self))
         return bound_pt
@@ -297,10 +267,9 @@ class MainTemplate(BrowserView):
     @view.memoize
     def macros(self):
         # Enable blocks transform when not below resource directory
-        if not any(map(
-            IResourceDirectory.providedBy,
-            self.request.get('PARENTS') or []
-        )):
+        if not any(
+            map(IResourceDirectory.providedBy, self.request.get("PARENTS") or [])
+        ):
             alsoProvides(self.request, IBlocksTransformEnabled)
 
         # Merge macros to provide fallback macros form legacy main_template

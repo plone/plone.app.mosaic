@@ -1,73 +1,58 @@
-const webpack = require('webpack');
-const path = require('path');
-const merge = require('webpack-merge');
+process.traceDeprecation = true;
+const package_json = require("./package.json");
+const path = require("path");
+const patternslib_config = require("@patternslib/patternslib/webpack/webpack.config");
+const mf_config = require("@patternslib/patternslib/webpack/webpack.mf");
 
-const PlonePlugin = require('plonetheme-webpack-plugin');
+module.exports = async (env, argv) => {
+    let config = {
+        entry: {
+            "plone-mosaic.min": path.resolve(__dirname, "resources/index-plone-mosaic"),
+            "layouts-editor.min": path.resolve(__dirname, "resources/index-layouts-editor"), // prettier-ignore
+        },
+        optimization: {
+            splitChunks: {
+                cacheGroups: {
+                    tinymce: {
+                        name: "tinymce",
+                        test: /[\\/]node_modules[\\/]tinymce.*[\\/]/,
+                        chunks: "all",
+                    },
+                    select2: {
+                        name: "select2",
+                        test: /[\\/]node_modules[\\/]select2.*[\\/]/,
+                        chunks: "all",
+                    },
+                },
+            },
+        },
+    };
 
-const SITENAME = process.env.SITENAME || 'Plone';
-const THEMENAME = process.env.THEMENAME || 'plone-mosaic';
+    config = patternslib_config(env, argv, config, ["@plone/mockup"]);
+    config.output.path = path.resolve(__dirname, "src/plone/app/mosaic/browser/static");
 
-const PATHS = {
-  src: path.join(__dirname, 'resources', 'src', THEMENAME),
-  build: path.join(__dirname, 'resources', 'theme', THEMENAME),
-  mosaic: path.join(
-    __dirname, 'src', 'plone', 'app', 'mosaic', 'browser', 'static')
-};
+    config.plugins.push(
+        mf_config({
+            filename: "plone-mosaic-remote.min.js",
+            package_json: package_json,
+            remote_entry: config.entry["plone-mosaic.min"],
+        })
+    );
+    config.plugins.push(
+        mf_config({
+            name: "layouts-editor",
+            filename: "layouts-editor-remote.min.js",
+            package_json: package_json,
+            remote_entry: config.entry["layouts-editor.min"],
+        })
+    );
 
-const PLONE = new PlonePlugin({
-  portalUrl: 'http://localhost:8080/' + SITENAME,
-  publicPath: '/' + SITENAME + '/++theme++' + THEMENAME + '/',
-  sourcePath: PATHS.src,
-  debug: true  // disable for more quiet output
-});
-
-const common = {
-  entry: {
-   'default': path.join(PATHS.src, 'default'),
-   'logged-in': path.join(PATHS.src, 'logged-in')
-  },
-  output: {
-    path: PATHS.build
-  },
-  devServer: {
-    outputPath: PATHS.build
-  },
-  resolve: {
-    extensions: ['', '.js', '.jsx'],
-    alias: {
-      'react': 'react',  // override react shipped in Plone (example)
-      'mosaic': path.join(PATHS.mosaic, 'js', 'mosaic.pattern'), // Mosaic FS
-      'mosaic-url': path.join(PATHS.mosaic, 'js'),
-      'mosaic-base-url': path.join(PATHS.mosaic, 'js')
+    if (process.env.NODE_ENV === "development") {
+        config.devServer.port = "8011";
+        config.devServer.static.directory = __dirname;
     }
-  },
-  module: {
-    loaders: [
-      { test: /\.jsx?$/,
-        loaders: ['babel?cacheDirectory'],
-        include: PATHS.src }
-    ]
-  }
+
+    //console.log(JSON.stringify(config, null, 4));
+
+    return config;
 };
-
-switch(path.basename(process.argv[1])) {
-  case 'webpack':
-    module.exports = merge(PLONE.production, common, {
-      resolve: {
-        alias: {
-          'react': 'react-lite',  // (example)
-          'react-dom': 'react-lite'  // (example)
-        }
-      }
-    });
-    break;
-
-  case 'webpack-dev-server':
-    module.exports = merge(PLONE.development, common, {
-      entry: [
-        path.join(PATHS.src, 'default'),
-        path.join(PATHS.src, 'logged-in')
-      ]
-    });
-    break;
-}

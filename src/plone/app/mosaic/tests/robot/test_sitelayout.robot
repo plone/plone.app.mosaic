@@ -20,9 +20,7 @@ Show page site layout option
     Highlight  id=formfield-form-widgets-ILayoutAware-pageSiteLayout
     Execute javascript  $('#form-widgets-ILayoutAware-pageSiteLayout').attr('size', 6)
 
-    Capture and crop page screenshot
-    ...  _screenshots/mosaic-layout-page-site-layout.png
-    ...  id=content-core
+    Capture Page Screenshot  mosaic-layout-page-site-layout.png
 
     Clear highlight  id=formfield-form-widgets-ILayoutAware-pageSiteLayout
     Execute javascript  $('#form-widgets-ILayoutAware-pageSiteLayout').attr('size', 1)

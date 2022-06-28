@@ -1,11 +1,9 @@
-# -*- coding: utf-8 -*-
 from Acquisition import aq_base
 from Acquisition import aq_parent
 from plone.app.blocks.layoutbehavior import ILayoutAware
 from plone.app.mosaic.interfaces import IMosaicLayer
 from plone.transformchain.interfaces import ITransform
 from repoze.xmliter.serializer import XMLSerializer
-from six.moves import map
 from zope.browser.interfaces import IBrowserView
 from zope.component import getAdapters
 from zope.component import queryMultiAdapter
@@ -20,7 +18,7 @@ import re
 
 logger = logging.getLogger(__name__)
 
-LAYOUT_NAME = re.compile(r'[a-zA-Z_\-]+/[a-zA-Z_\-]+')
+LAYOUT_NAME = re.compile(r"[a-zA-Z_\-]+/[a-zA-Z_\-]+")
 
 
 def getContext(context):
@@ -35,7 +33,7 @@ def getContext(context):
 
 
 @implementer(ITransform)
-class TransformBase(object):
+class TransformBase:
     """Transform base class"""
 
     def __init__(self, published, request):
@@ -52,15 +50,13 @@ class TransformBase(object):
         return None
 
     def transformIterable(self, result, encoding):
-        if self.published is None:
-            return None
-        if not isinstance(result, XMLSerializer):
-            return None
-        if not self.request.get('plone.app.blocks.enabled', False):
-            return None
-        if self.request.get('plone.app.blocks.disabled', False):
-            return None
-        if not IMosaicLayer.providedBy(self.request):
+        if (
+            self.published is None
+            or not isinstance(result, XMLSerializer)
+            or not self.request.get("plone.app.blocks.enabled", False)
+            or self.request.get("plone.app.blocks.disabled", False)
+            or not IMosaicLayer.providedBy(self.request)
+        ):
             return None
         return self.transform(result, encoding)
 
@@ -78,13 +74,13 @@ class HTTPHeaders(TransformBase):
         context = getContext(self.published)
         manager = queryMultiAdapter(
             (context, self.request, self.published),
-            IViewletManager, name='plone.httpheaders'
+            IViewletManager,
+            name="plone.httpheaders",
         )
         if manager is not None:
             headers = list(map(str.lower, self.request.response.headers))
             for name, viewlet in getAdapters(
-                (context, self.request, self.published, manager),
-                IViewlet
+                (context, self.request, self.published, manager), IViewlet
             ):
                 viewlet.update()
                 for key, value in viewlet.getHeaders():
@@ -101,14 +97,11 @@ class HTMLLanguage(TransformBase):
 
     def transform(self, result, encoding):
         context = getContext(self.published)
-        state = queryMultiAdapter(
-            (context, self.request),
-            name='plone_portal_state'
-        )
+        state = queryMultiAdapter((context, self.request), name="plone_portal_state")
 
         root = result.tree.getroot()
         if state and root is not None:
-            root.attrib['lang'] = state.language()
+            root.attrib["lang"] = state.language()
 
         return result
 
@@ -121,53 +114,49 @@ class BodyClass(TransformBase):
 
     def transform(self, result, encoding):
         context = getContext(self.published)
-        layout = queryMultiAdapter(
-            (context, self.request),
-            name='plone_layout'
-        )
+        layout = queryMultiAdapter((context, self.request), name="plone_layout")
         root = result.tree.getroot()
         body = root.body
 
         if layout is None or body is None:
             return result
 
-        body_class = body.attrib.get('class', '')
+        body_class = body.attrib.get("class", "")
         body_classes = body_class.split()
 
         # Get default body classes
-        if 'template-' not in body_class and 'site-' not in body_class:
-            body_classes.extend([
-                n for n in layout.bodyClass(None, self.published).split()
-                if n not in body_classes
-            ])
+        if "template-" not in body_class and "site-" not in body_class:
+            body_classes.extend(
+                [
+                    n
+                    for n in layout.bodyClass(None, self.published).split()
+                    if n not in body_classes
+                ]
+            )
 
         # Get contentLayout body class
-        if (
-            'template-layout' in body_classes
-            or 'template-layout_view' in body_classes
-        ):
+        if "template-layout" in body_classes or "template-layout_view" in body_classes:
             adapted = ILayoutAware(context, None)
             if adapted is not None:
                 layout = None
-                if getattr(adapted, 'content_layout_path', False):
+                if getattr(adapted, "content_layout_path", False):
                     # plone.app.blocks > 4.0.0rc1
                     layout = adapted.content_layout_path()
                 else:
-                    layout = getattr(adapted, 'contentLayout', None)
+                    layout = getattr(adapted, "contentLayout", None)
                 if layout:
                     # Transform ++contentlayout++default/document.html
                     # into layout-default-document
                     names = LAYOUT_NAME.findall(layout)
                     if len(names) == 1:
-                        body_classes.append('layout-'
-                                            + names[0].replace('/', '-'))
+                        body_classes.append("layout-" + names[0].replace("/", "-"))
                 else:
-                    body_classes.append('layout-custom')
+                    body_classes.append("layout-custom")
 
-        body_classes.append('mosaic-grid')
+        body_classes.append("mosaic-grid")
 
         # Set body class
-        body.attrib['class'] = ' '.join(body_classes)
+        body.attrib["class"] = " ".join(body_classes)
 
         return result
 
@@ -180,10 +169,7 @@ class PatternSettings(TransformBase):
 
     def transform(self, result, encoding):
         context = getContext(self.published)
-        layout = queryMultiAdapter(
-            (context, self.request),
-            name='plone_layout'
-        )
+        layout = queryMultiAdapter((context, self.request), name="plone_layout")
         root = result.tree.getroot()
         body = root.body
 
@@ -191,11 +177,10 @@ class PatternSettings(TransformBase):
             return result
 
         plone_patterns_settings = queryMultiAdapter(
-            (context, self.request),
-            name='plone_patterns_settings'
+            (context, self.request), name="plone_patterns_settings"
         )
         if plone_patterns_settings is None:
-            logger.warn('Can not find plone_pattern_settings!')
+            logger.warn("Can not find plone_pattern_settings!")
             return result
         for key, value in plone_patterns_settings().items():
             body.attrib[key] = value

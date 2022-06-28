@@ -2,7 +2,6 @@
 
 Resource  plone/app/robotframework/keywords.robot
 Resource  plone/app/robotframework/selenium.robot
-Resource  Selenium2Screenshots/keywords.robot
 
 Library  Remote  ${PLONE_URL}/RobotRemote
 
@@ -10,7 +9,7 @@ Library  Remote  ${PLONE_URL}/RobotRemote
 *** Variables ***
 
 ${FIXTURE}  plone.app.mosaic.testing.PLONE_APP_MOSAIC_ACCEPTANCE
-@{DIMENSIONS}  1024  800
+# @{DIMENSIONS}  1024  800
 ${RESOURCE_DIR}  ${CURDIR}
 
 ${BROWSER}  chrome
@@ -22,7 +21,6 @@ ${SELECTOR_CONTENTMENU_DISPLAY_LINK}  css=#plone-contentmenu-display a
 ${SELECTOR_CONTENTMENU_DISPLAY_ITEMS}  css=#plone-contentmenu-display ul
 
 ${SELECTOR_TOOLBAR}  css=#edit-zone
-
 
 *** Keywords ***
 
@@ -57,3 +55,27 @@ Setup Mosaic Example Page
      then select mosaic layout view
 
     Run keyword and ignore error  Set window size  1024  1500
+
+
+# ----------------------------------------------------------------------------
+# Backport and simplified from outdated Selenium2Screenshots
+# ----------------------------------------------------------------------------
+
+Update element style
+    [Arguments]  ${locator}  ${name}  ${value}
+    ${elem}  Get WebElement  ${locator}
+    Execute Javascript  arguments[0].style.${name} = "${value}";  ARGUMENTS  ${elem}
+
+
+Highlight
+    [Documentation]  Add highlighting around given locator
+    [Arguments]  ${locator}
+    ...          ${width}=3px
+    ...          ${style}=dotted
+    ...          ${color}=red
+    Update element style  ${locator}  border  ${style} ${color} ${width}
+
+
+Clear Highlight
+    [Arguments]  ${locator}
+    Update element style  ${locator}  border  none

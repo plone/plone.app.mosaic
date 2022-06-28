@@ -1,6 +1,10 @@
 <?xml version="1.0"?>
-<object name="portal_catalog" meta_type="Plone Catalog Tool">
- <index name="layout" meta_type="FieldIndex">
-  <indexed_attr value="layout"/>
- </index>
+<object meta_type="Plone Catalog Tool"
+        name="portal_catalog"
+>
+  <index meta_type="FieldIndex"
+         name="layout"
+  >
+    <indexed_attr value="layout" />
+  </index>
 </object>

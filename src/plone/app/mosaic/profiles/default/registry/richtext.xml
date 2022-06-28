@@ -1,0 +1,434 @@
+<?xml version="1.0"?>
+<registry>
+
+  <record field="name"
+          interface="plone.app.mosaic.interfaces.IWidgetAction"
+          name="plone.app.mosaic.widget_actions.plone_app_z3cform_widget_RichTextFieldWidget.name"
+  >
+    <field type="plone.registry.field.TextLine">
+      <title>Name</title>
+    </field>
+    <value>plone.app.z3cform.widget.RichTextFieldWidget</value>
+  </record>
+
+  <record field="actions"
+          interface="plone.app.mosaic.interfaces.IWidgetAction"
+          name="plone.app.mosaic.widget_actions.plone_app_z3cform_widget_RichTextFieldWidget.actions"
+  >
+    <field type="plone.registry.field.List">
+      <title>Actions</title>
+      <value_type type="plone.registry.field.TextLine" />
+    </field>
+    <value>
+      <element>toolbar-styleselect</element>
+      <element>toolbar-bold</element>
+      <element>toolbar-italic</element>
+      <element>toolbar-alignleft</element>
+      <element>toolbar-aligncenter</element>
+      <element>toolbar-alignright</element>
+      <element>toolbar-alignjustify</element>
+      <element>toolbar-bullist</element>
+      <element>toolbar-numlist</element>
+      <element>toolbar-table</element>
+      <element>toolbar-ploneimage</element>
+      <element>toolbar-unlink</element>
+      <element>toolbar-plonelink</element>
+      <element>toolbar-code</element>
+    </value>
+  </record>
+
+  <!-- TinyMCE toolbar groups -->
+
+  <records interface="plone.app.mosaic.interfaces.IWeightedDict"
+           prefix="plone.app.mosaic.tinymce_categories.actions"
+  >
+    <value key="name">actions</value>
+    <value key="label">Actions</value>
+    <value key="weight">10</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IWeightedDict"
+           prefix="plone.app.mosaic.tinymce_categories.styles"
+  >
+    <value key="name">styles</value>
+    <value key="label">Styles</value>
+    <value key="weight">20</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IWeightedDict"
+           prefix="plone.app.mosaic.tinymce_categories.text"
+  >
+    <value key="name">text</value>
+    <value key="label">Text</value>
+    <value key="weight">30</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IWeightedDict"
+           prefix="plone.app.mosaic.tinymce_categories.justify"
+  >
+    <value key="name">justify</value>
+    <value key="label">Justify</value>
+    <value key="weight">40</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IWeightedDict"
+           prefix="plone.app.mosaic.tinymce_categories.lists"
+  >
+    <value key="name">lists</value>
+    <value key="label">Lists</value>
+    <value key="weight">50</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IWeightedDict"
+           prefix="plone.app.mosaic.tinymce_categories.table"
+  >
+    <value key="name">table</value>
+    <value key="label">Table</value>
+    <value key="weight">60</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IWeightedDict"
+           prefix="plone.app.mosaic.tinymce_categories.selection"
+  >
+    <value key="name">selection</value>
+    <value key="label">Selection</value>
+    <value key="weight">70</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IWeightedDict"
+           prefix="plone.app.mosaic.tinymce_categories.actions"
+  >
+    <value key="name">code</value>
+    <value key="label">Code</value>
+    <value key="weight">0</value>
+  </records>
+
+  <!-- TinyMCE toolbar actions -->
+
+  <records interface="plone.app.mosaic.interfaces.IFormat"
+           prefix="plone.app.mosaic.richtext_toolbar.undo"
+  >
+    <value key="name">toolbar-undo</value>
+    <value key="category">actions</value>
+    <value key="label">Undo</value>
+    <value key="action">undo</value>
+    <value key="icon">false</value>
+    <value key="favorite">false</value>
+    <value key="weight">110</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IFormat"
+           prefix="plone.app.mosaic.richtext_toolbar.redo"
+  >
+    <value key="name">toolbar-redo</value>
+    <value key="category">actions</value>
+    <value key="label">Redo</value>
+    <value key="action">redo</value>
+    <value key="icon">false</value>
+    <value key="favorite">false</value>
+    <value key="weight">120</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IFormat"
+           prefix="plone.app.mosaic.richtext_toolbar.styleselect"
+  >
+    <value key="name">toolbar-styleselect</value>
+    <value key="category">styles</value>
+    <value key="label">Styles</value>
+    <value key="action">styleselect</value>
+    <value key="icon">false</value>
+    <value key="favorite">true</value>
+    <value key="weight">210</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IFormat"
+           prefix="plone.app.mosaic.richtext_toolbar.styleselect"
+  >
+    <value key="name">toolbar-styleselect</value>
+    <value key="category">styles</value>
+    <value key="label">Styles</value>
+    <value key="action">styleselect</value>
+    <value key="icon">false</value>
+    <value key="favorite">false</value>
+    <value key="weight">210</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IFormat"
+           prefix="plone.app.mosaic.richtext_toolbar.bold"
+  >
+    <value key="name">toolbar-bold</value>
+    <value key="category">text</value>
+    <value key="label">B</value>
+    <value key="action">bold</value>
+    <value key="icon">false</value>
+    <value key="favorite">false</value>
+    <value key="weight">310</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IFormat"
+           prefix="plone.app.mosaic.richtext_toolbar.italic"
+  >
+    <value key="name">toolbar-italic</value>
+    <value key="category">text</value>
+    <value key="label">I</value>
+    <value key="action">italic</value>
+    <value key="icon">false</value>
+    <value key="favorite">false</value>
+    <value key="weight">320</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IFormat"
+           prefix="plone.app.mosaic.richtext_toolbar.removeformat"
+  >
+    <value key="name">toolbar-removeformat</value>
+    <value key="category">styles</value>
+    <value key="label">Remove formatting</value>
+    <value key="action">removeformat</value>
+    <value key="icon">false</value>
+    <value key="favorite">false</value>
+    <value key="weight">330</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IFormat"
+           prefix="plone.app.mosaic.richtext_toolbar.alignleft"
+  >
+    <value key="name">toolbar-alignleft</value>
+    <value key="category">justify</value>
+    <value key="label">Left-aligned</value>
+    <value key="action">alignleft</value>
+    <value key="icon">true</value>
+    <value key="favorite">false</value>
+    <value key="weight">410</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IFormat"
+           prefix="plone.app.mosaic.richtext_toolbar.aligncenter"
+  >
+    <value key="name">toolbar-aligncenter</value>
+    <value key="category">justify</value>
+    <value key="label">Center</value>
+    <value key="action">aligncenter</value>
+    <value key="icon">true</value>
+    <value key="favorite">false</value>
+    <value key="weight">420</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IFormat"
+           prefix="plone.app.mosaic.richtext_toolbar.alignright"
+  >
+    <value key="name">toolbar-alignright</value>
+    <value key="category">justify</value>
+    <value key="label">Right-aligned</value>
+    <value key="action">alignright</value>
+    <value key="icon">true</value>
+    <value key="favorite">false</value>
+    <value key="weight">430</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IFormat"
+           prefix="plone.app.mosaic.richtext_toolbar.alignjustify"
+  >
+    <value key="name">toolbar-alignjustify</value>
+    <value key="category">justify</value>
+    <value key="label">Justified</value>
+    <value key="action">alignjustify</value>
+    <value key="icon">true</value>
+    <value key="favorite">false</value>
+    <value key="weight">440</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IFormat"
+           prefix="plone.app.mosaic.richtext_toolbar.bullist"
+  >
+    <value key="name">toolbar-bullist</value>
+    <value key="category">lists</value>
+    <value key="label">Unordered list</value>
+    <value key="action">bullist</value>
+    <value key="icon">true</value>
+    <value key="favorite">false</value>
+    <value key="weight">510</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IFormat"
+           prefix="plone.app.mosaic.richtext_toolbar.numlist"
+  >
+    <value key="name">toolbar-numlist</value>
+    <value key="category">lists</value>
+    <value key="label">Ordered list</value>
+    <value key="action">numlist</value>
+    <value key="icon">true</value>
+    <value key="favorite">false</value>
+    <value key="weight">520</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IFormat"
+           prefix="plone.app.mosaic.richtext_toolbar.outdent"
+  >
+    <value key="name">toolbar-outdent</value>
+    <value key="category">lists</value>
+    <value key="label">Outdent</value>
+    <value key="action">outdent</value>
+    <value key="icon">true</value>
+    <value key="favorite">false</value>
+    <value key="weight">530</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IFormat"
+           prefix="plone.app.mosaic.richtext_toolbar.indent"
+  >
+    <value key="name">toolbar-indent</value>
+    <value key="category">lists</value>
+    <value key="label">Indent</value>
+    <value key="action">indent</value>
+    <value key="icon">true</value>
+    <value key="favorite">false</value>
+    <value key="weight">540</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IFormat"
+           prefix="plone.app.mosaic.richtext_toolbar.table"
+  >
+    <value key="name">toolbar-table</value>
+    <value key="category">lists</value>
+    <value key="label">Table</value>
+    <value key="action">table</value>
+    <value key="icon">true</value>
+    <value key="favorite">false</value>
+    <value key="weight">610</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IFormat"
+           prefix="plone.app.mosaic.richtext_toolbar.ploneimage"
+  >
+    <value key="name">toolbar-ploneimage</value>
+    <value key="category">selection</value>
+    <value key="label">Image</value>
+    <value key="action">ploneimage</value>
+    <value key="icon">false</value>
+    <value key="favorite">false</value>
+    <value key="weight">710</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IFormat"
+           prefix="plone.app.mosaic.richtext_toolbar.unlink"
+  >
+    <value key="name">toolbar-unlink</value>
+    <value key="category">selection</value>
+    <value key="label">Unlink</value>
+    <value key="action">unlink</value>
+    <value key="icon">false</value>
+    <value key="favorite">false</value>
+    <value key="weight">720</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IFormat"
+           prefix="plone.app.mosaic.richtext_toolbar.plonelink"
+  >
+    <value key="name">toolbar-plonelink</value>
+    <value key="category">selection</value>
+    <value key="label">Link</value>
+    <value key="action">plonelink</value>
+    <value key="icon">false</value>
+    <value key="favorite">false</value>
+    <value key="weight">730</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IFormat"
+           prefix="plone.app.mosaic.richtext_toolbar.anchor"
+  >
+    <value key="name">toolbar-anchor</value>
+    <value key="category">selection</value>
+    <value key="label">Anchor</value>
+    <value key="action">anchor</value>
+    <value key="icon">false</value>
+    <value key="favorite">false</value>
+    <value key="weight">740</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IFormat"
+           prefix="plone.app.mosaic.richtext_toolbar.code"
+  >
+    <value key="name">toolbar-code</value>
+    <value key="category">code</value>
+    <value key="label">Edit Code</value>
+    <value key="action">code</value>
+    <value key="icon">false</value>
+    <value key="favorite">false</value>
+    <value key="weight">100</value>
+  </records>
+
+  <!-- TinyMCE contextmenu actions -->
+
+  <records interface="plone.app.mosaic.interfaces.IFormat"
+           prefix="plone.app.mosaic.richtext_contextmenu.tableprops"
+  >
+    <value key="name">contextmenu-tableprops</value>
+    <value key="category">table</value>
+    <value key="label">Table properties</value>
+    <value key="action">tableprops</value>
+    <value key="icon">false</value>
+    <value key="favorite">false</value>
+    <value key="weight">610</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IFormat"
+           prefix="plone.app.mosaic.richtext_contextmenu.cell"
+  >
+    <value key="name">contextmenu-cell</value>
+    <value key="category">table</value>
+    <value key="label">Cell</value>
+    <value key="action">cell</value>
+    <value key="icon">false</value>
+    <value key="favorite">false</value>
+    <value key="weight">620</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IFormat"
+           prefix="plone.app.mosaic.richtext_contextmenu.row"
+  >
+    <value key="name">contextmenu-row</value>
+    <value key="category">table</value>
+    <value key="label">Row</value>
+    <value key="action">row</value>
+    <value key="icon">false</value>
+    <value key="favorite">false</value>
+    <value key="weight">630</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IFormat"
+           prefix="plone.app.mosaic.richtext_contextmenu.column"
+  >
+    <value key="name">contextmenu-column</value>
+    <value key="category">table</value>
+    <value key="label">Column</value>
+    <value key="action">column</value>
+    <value key="icon">false</value>
+    <value key="favorite">false</value>
+    <value key="weight">640</value>
+  </records>
+
+
+  <record name="plone.app.mosaic.app_tiles.plone_app_standardtiles_html.available_actions">
+    <field type="plone.registry.field.List">
+      <title>Available actions for the html tile</title>
+      <value_type type="plone.registry.field.TextLine" />
+    </field>
+    <value>
+      <element>toolbar-styleselect</element>
+      <element>toolbar-bold</element>
+      <element>toolbar-italic</element>
+      <element>toolbar-alignleft</element>
+      <element>toolbar-aligncenter</element>
+      <element>toolbar-alignright</element>
+      <element>toolbar-alignjustify</element>
+      <element>toolbar-bullist</element>
+      <element>toolbar-numlist</element>
+      <element>toolbar-table</element>
+      <element>toolbar-ploneimage</element>
+      <element>toolbar-unlink</element>
+      <element>toolbar-plonelink</element>
+      <element>toolbar-code</element>
+    </value>
+  </record>
+
+</registry>

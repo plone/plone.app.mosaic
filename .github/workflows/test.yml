@@ -1,0 +1,40 @@
+name: Test the Mosaic code
+
+on:
+  push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python:
+          - "3.7"
+          - "3.8"
+          - "3.9"
+          - "3.10"
+        plone:
+          - "6.0-dev"
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup Plone ${{ matrix.plone }} with Python ${{ matrix.python }}
+        id: setup
+        uses: plone/setup-plone@v1.0.0
+        with:
+          python-version: ${{ matrix.python }}
+          plone-version: ${{ matrix.plone }}
+
+      - name: Install package
+        run: |
+          make install
+
+      - name: Run Lint
+        run: |
+          make lint
+
+      - name: Run tests
+        run: |
+          make test-ignore-warnings

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from AccessControl import getSecurityManager
 from plone import api
 from plone.app.blocks.layoutbehavior import ILayoutAware
@@ -30,14 +29,14 @@ from zope.interface import implementer
 from zope.interface import implementer_only
 
 
-LAYOUT_VIEWS = ['layout_view', '@@layout_view']
+LAYOUT_VIEWS = {"layout_view", "@@layout_view"}
 
 LAYOUT_BEHAVIORS = {
-    'plone.app.blocks.layoutbehavior.ILayoutAware',
-    'plone.layoutaware',
+    "plone.app.blocks.layoutbehavior.ILayoutAware",
+    "plone.layoutaware",
 }
 
-FORMS_BLACKLIST = ['babel_edit']
+FORM_DENYS = {"babel_edit"}
 
 
 class ILayoutWidget(ITextAreaWidget):
@@ -50,16 +49,17 @@ class LayoutWidget(BaseWidget, TextAreaWidget):
 
     _base = TextareaWidget
 
-    pattern = 'layout'
+    pattern = "layout"
     pattern_options = BaseWidget.pattern_options.copy()
 
     @property
     @memoize
     def enabled(self):
         # Disable Mosaic editor on unexpected view names
-        if self._form_name() in FORMS_BLACKLIST:
+        if self._form_name() in FORM_DENYS:
             return False
-
+        if "++addtranslation++" in self.request.URL:
+            return False
         # Disable Mosaic editor when the form has a status message,
         # because the Mosaic editor is currently unable to properly show
         # validation errors
@@ -68,8 +68,7 @@ class LayoutWidget(BaseWidget, TextAreaWidget):
         # Disable Mosaic editor when the selected layout for the current
         # ILayoutAware or DX add form context is not custom layout
         current_browser_layout = (
-            self._add_form_portal_type_default_view()
-            or self._context_selected_layout()
+            self._add_form_portal_type_default_view() or self._context_selected_layout()
         )
         return current_browser_layout in LAYOUT_VIEWS
 
@@ -77,68 +76,57 @@ class LayoutWidget(BaseWidget, TextAreaWidget):
         """
         Obtains the type of the context object or of the object we are adding
         """
-        if 'type' in self.request.form:
-            return self.request.form['type']
-        elif IAddForm.providedBy(getattr(self.form, '__parent__', None)):
-            return getattr(getattr(
-                self.form, '__parent__', self.form), 'portal_type', None)
-        else:
-            try:
-                return self.context.portal_type
-            except AttributeError:
-                pass
-        return None
+        if "type" in self.request.form:
+            return self.request.form["type"]
+        if IAddForm.providedBy(getattr(self.form, "__parent__", None)):
+            return getattr(
+                getattr(self.form, "__parent__", self.form), "portal_type", None
+            )
+        try:
+            return self.context.portal_type
+        except AttributeError:
+            pass
 
     def get_options(self):
         registry = queryUtility(IRegistry)
         adapted = IMosaicRegistryAdapter(registry)
         pt = self.obtainType()
         kwargs = {
-            'type': pt,
-            'context': self.context,
-            'request': self.request,
+            "type": pt,
+            "context": self.context,
+            "request": self.request,
         }
         result = adapted(**kwargs)
 
         sm = getSecurityManager()
 
-        result['canChangeLayout'] = sm.checkPermission(
-            'Plone: Customize Content Layouts', self.context)
+        result["canChangeLayout"] = sm.checkPermission(
+            "Plone: Customize Content Layouts", self.context
+        )
         # This is a site permission...
         # you can either manage layouts globally or not
-        result['canManageLayouts'] = sm.checkPermission(
-            'Plone: Manage Content Layouts', api.portal.get())
-        result['context_url'] = self.context.absolute_url()
-        result['tinymce'] = get_tinymce_options(
-            self.context,
-            self.field,
-            self.request
+        result["canManageLayouts"] = sm.checkPermission(
+            "Plone: Manage Content Layouts", api.portal.get()
         )
-        if 'pattern_options' in result['tinymce']:
-            # BBB Plone 4.3.x
-            result['tinymce'] = result['tinymce']['pattern_options']
-
-        result['customContentLayout_selector'] = '#formfield-{0:s}'.format(
-            self.name.replace('.', '-')
+        result["context_url"] = self.context.absolute_url()
+        result["tinymce"] = get_tinymce_options(self.context, self.field, self.request)
+        result["customContentLayout_selector"] = "#formfield-{:s}".format(
+            self.name.replace(".", "-")
         )
-        result['contentLayout_selector'] = '#formfield-{0:s}'.format(
-            self.name.replace(
-                '.', '-'
-            ).replace(
-                '-customContentLayout', '-contentLayout'
+        result["contentLayout_selector"] = "#formfield-{:s}".format(
+            self.name.replace(".", "-").replace(
+                "-customContentLayout", "-contentLayout"
             )
         )
-        result['customContentLayout_field_selector'] = '[name="{0:s}"]'.format(
-            self.name
-        )
-        result['contentLayout_field_selector'] = '[name="{0:s}"]'.format(
-            self.name.replace('.customContentLayout', '.contentLayout')
+        result["customContentLayout_field_selector"] = f'[name="{self.name:s}"]'
+        result["contentLayout_field_selector"] = '[name="{:s}"]'.format(
+            self.name.replace(".customContentLayout", ".contentLayout")
         )
 
-        result['available_layouts'] = getContentLayoutsForType(pt, self.context)  # noqa
-        result['user_layouts'] = getUserContentLayoutsForType(pt)
+        result["available_layouts"] = getContentLayoutsForType(pt, self.context)
+        result["user_layouts"] = getUserContentLayoutsForType(pt)
 
-        return {'data': result}
+        return {"data": result}
 
     def _base_args(self):
         """Method which will calculate _base class arguments.
@@ -152,17 +140,17 @@ class LayoutWidget(BaseWidget, TextAreaWidget):
         :returns: Arguments which will be passed to _base
         :rtype: dict
         """
-        args = super(LayoutWidget, self)._base_args()
-        args['name'] = self.name
-        args['value'] = self.value
+        args = super()._base_args()
+        args["name"] = self.name
+        args["value"] = self.value
 
-        args.setdefault('pattern_options', {})
-        args['pattern_options'] = dict_merge(
-            self.get_options(),
-            args['pattern_options'])
+        args.setdefault("pattern_options", {})
+        args["pattern_options"] = dict_merge(
+            self.get_options(), args["pattern_options"]
+        )
 
         if not self.enabled:
-            args['pattern'] = self.pattern + '-disabled'
+            args["pattern"] = self.pattern + "-disabled"
 
         return args
 
@@ -170,23 +158,24 @@ class LayoutWidget(BaseWidget, TextAreaWidget):
         """Return the default view of the portal type of this add form
         if we are on a add form
         """
-        if not IAddForm.providedBy(getattr(self.form, '__parent__', None)):
-            return ''
+        if not IAddForm.providedBy(getattr(self.form, "__parent__", None)):
+            return ""
 
-        portal_type = getattr(getattr(
-            self.form, '__parent__', self.form), 'portal_type', None)
+        portal_type = getattr(
+            getattr(self.form, "__parent__", self.form), "portal_type", None
+        )
         if portal_type is None:
-            return ''
+            return ""
 
-        types_tool = api.portal.get_tool('portal_types')
+        types_tool = api.portal.get_tool("portal_types")
         fti = getattr(types_tool, portal_type, None)
         if fti is None:
-            return ''
+            return ""
 
-        behaviors = getattr(fti, 'behaviors', None) or []
+        behaviors = set(getattr(fti, "behaviors", None) or [])
 
-        if not (LAYOUT_BEHAVIORS & set(behaviors)):
-            return ''
+        if not (LAYOUT_BEHAVIORS & behaviors):
+            return ""
 
         return fti.default_view
 
@@ -195,10 +184,10 @@ class LayoutWidget(BaseWidget, TextAreaWidget):
         are on the layout aware context
         """
         if not ILayoutAware(self.context, None):
-            return ''
+            return ""
         selectable_layout = ISelectableBrowserDefault(self.context, None)
         if not selectable_layout:
-            return ''
+            return ""
         return selectable_layout.getLayout()
 
     def _form_name(self):
@@ -211,7 +200,7 @@ class LayoutWidget(BaseWidget, TextAreaWidget):
             return self.form.__name__
         except AttributeError:
             pass
-        return u''
+        return ""
 
     def _form_status(self):
         """Return the current status message of the underlying form"""
@@ -223,10 +212,10 @@ class LayoutWidget(BaseWidget, TextAreaWidget):
             return self.form.status
         except AttributeError:
             pass
-        return u''
+        return ""
 
 
-@adapter(getSpecification(ILayoutAware['customContentLayout']), IMosaicLayer)
+@adapter(getSpecification(ILayoutAware["customContentLayout"]), IMosaicLayer)
 @implementer(IFieldWidget)
 def LayoutFieldWidget(field, request):  # noqa
     return FieldWidget(field, LayoutWidget(request))
@@ -235,11 +224,10 @@ def LayoutFieldWidget(field, request):  # noqa
 @implementer(IFormExtender)
 @adapter(ILayoutBehaviorAdaptable, IMosaicLayer, DexterityExtensibleForm)
 class HideSiteLayoutFields(FormExtender):
-
     def update(self):
         for group in self.form.groups:
-            if 'ILayoutAware.pageSiteLayout' not in group.fields:
+            if "ILayoutAware.pageSiteLayout" not in group.fields:
                 continue
-            group.fields['ILayoutAware.pageSiteLayout'].mode = HIDDEN_MODE
-            group.fields['ILayoutAware.sectionSiteLayout'].mode = HIDDEN_MODE
+            group.fields["ILayoutAware.pageSiteLayout"].mode = HIDDEN_MODE
+            group.fields["ILayoutAware.sectionSiteLayout"].mode = HIDDEN_MODE
             break

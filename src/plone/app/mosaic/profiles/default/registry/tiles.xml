@@ -1,0 +1,260 @@
+<?xml version="1.0"?>
+<registry>
+
+
+
+  <!-- Tile categories -->
+  <records interface="plone.app.mosaic.interfaces.IWeightedDict"
+           prefix="plone.app.mosaic.tiles_categories.structure"
+  >
+    <value key="name">structure</value>
+    <value key="label">Structure</value>
+    <value key="weight">10</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IWeightedDict"
+           prefix="plone.app.mosaic.tiles_categories.media"
+  >
+    <value key="name">media</value>
+    <value key="label">Media</value>
+    <value key="weight">20</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IWeightedDict"
+           prefix="plone.app.mosaic.tiles_categories.fields"
+  >
+    <value key="name">fields</value>
+    <value key="label">Fields</value>
+    <value key="weight">30</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IWeightedDict"
+           prefix="plone.app.mosaic.tiles_categories.applications"
+  >
+    <value key="name">applications</value>
+    <value key="label">Applications</value>
+    <value key="weight">40</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IWeightedDict"
+           prefix="plone.app.mosaic.tiles_categories.properties"
+  >
+    <value key="name">properties</value>
+    <value key="label">Properties</value>
+    <value key="weight">50</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IWeightedDict"
+           prefix="plone.app.mosaic.tiles_categories.advanced"
+  >
+    <value key="name">advanced</value>
+    <value key="label">Advanced</value>
+    <value key="weight">60</value>
+  </records>
+
+  <!-- Tiles -->
+
+  <!-- Non-functional; Can be re-enabled once the tile and TOC pattern
+       is fixed to support freely placed TOCs -->
+  <!--
+  <records prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_tableofcontents"
+           interface="plone.app.mosaic.interfaces.ITile">
+    <value key="name">plone.app.standardtiles.tableofcontents</value>
+    <value key="label">Table of contents</value>
+    <value key="category">structure</value>
+    <value key="tile_type">app</value>
+    <value key="default_value"></value>
+    <value key="read_only">false</value>
+    <value key="settings">true</value>
+    <value key="favorite">false</value>
+    <value key="rich_text">false</value>
+    <value key="weight">100</value>
+  </records>
+  -->
+
+  <records interface="plone.app.mosaic.interfaces.ITile"
+           prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_navigation"
+  >
+    <value key="name">plone.app.standardtiles.navigation</value>
+    <value key="label">Navigation</value>
+    <value key="category">structure</value>
+    <value key="tile_type">app</value>
+    <value key="default_value" />
+    <value key="read_only">false</value>
+    <value key="settings">true</value>
+    <value key="favorite">false</value>
+    <value key="rich_text">false</value>
+    <value key="weight">110</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.ITile"
+           prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_embed"
+  >
+    <value key="name">plone.app.standardtiles.embed</value>
+    <value key="label">Embed</value>
+    <value key="category">media</value>
+    <value key="tile_type">app</value>
+    <value key="default_value" />
+    <value key="read_only">false</value>
+    <value key="settings">true</value>
+    <value key="favorite">false</value>
+    <value key="rich_text">false</value>
+    <value key="weight">20</value>
+  </records>
+
+  <!-- Raw embed is considered too advanced to be enabled by default -->
+  <!--
+  <records prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_rawembed"
+           interface="plone.app.mosaic.interfaces.ITile">
+    <value key="name">plone.app.standardtiles.rawembed</value>
+    <value key="label">Raw Embed</value>
+    <value key="category">media</value>
+    <value key="tile_type">app</value>
+    <value key="default_value"></value>
+    <value key="read_only">false</value>
+    <value key="settings">true</value>
+    <value key="favorite">false</value>
+    <value key="rich_text">false</value>
+    <value key="weight">20</value>
+  </records>
+  -->
+
+  <records interface="plone.app.mosaic.interfaces.ITile"
+           prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_discussion"
+  >
+    <value key="name">plone.app.standardtiles.discussion</value>
+    <value key="label">Discussion</value>
+    <value key="category">applications</value>
+    <value key="tile_type">app</value>
+    <value key="default_value" />
+    <value key="read_only">false</value>
+    <value key="settings">true</value>
+    <value key="favorite">false</value>
+    <value key="rich_text">false</value>
+    <value key="weight">20</value>
+  </records>
+
+
+  <!-- Portlet tile is disabled by default, because it will leave dangling
+       portlets too easily
+  <records prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_portlet"
+           interface="plone.app.mosaic.interfaces.ITile">
+    <value key="name">plone.app.standardtiles.portlet</value>
+    <value key="label">Portlet</value>
+    <value key="category">applications</value>
+    <value key="tile_type">app</value>
+    <value key="default_value"></value>
+    <value key="read_only">false</value>
+    <value key="settings">true</value>
+    <value key="favorite">false</value>
+    <value key="rich_text">false</value>
+    <value key="weight">20</value>
+  </records>
+  -->
+
+  <records interface="plone.app.mosaic.interfaces.ITile"
+           prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_document_byline"
+  >
+    <value key="name">plone.app.standardtiles.document_byline</value>
+    <value key="label">Document byline</value>
+    <value key="category">properties</value>
+    <value key="tile_type">app</value>
+    <value key="default_value" />
+    <value key="read_only">false</value>
+    <value key="settings">true</value>
+    <value key="favorite">false</value>
+    <value key="rich_text">false</value>
+    <value key="weight">10</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.ITile"
+           prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_related_items"
+  >
+    <value key="name">plone.app.standardtiles.related_items</value>
+    <value key="label">Related items</value>
+    <value key="category">properties</value>
+    <value key="tile_type">app</value>
+    <value key="default_value" />
+    <value key="read_only">false</value>
+    <value key="settings">true</value>
+    <value key="favorite">false</value>
+    <value key="rich_text">false</value>
+    <value key="weight">20</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.ITile"
+           prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_keywords"
+  >
+    <value key="name">plone.app.standardtiles.keywords</value>
+    <value key="label">Keywords</value>
+    <value key="category">properties</value>
+    <value key="tile_type">app</value>
+    <value key="default_value" />
+    <value key="read_only">false</value>
+    <value key="settings">true</value>
+    <value key="favorite">false</value>
+    <value key="rich_text">false</value>
+    <value key="weight">30</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.ITile"
+           prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_contentlisting"
+  >
+    <value key="name">plone.app.standardtiles.contentlisting</value>
+    <value key="label">Content listing</value>
+    <value key="category">advanced</value>
+    <value key="tile_type">app</value>
+    <value key="default_value" />
+    <value key="read_only">false</value>
+    <value key="settings">true</value>
+    <value key="favorite">false</value>
+    <value key="rich_text">false</value>
+    <value key="weight">10</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.ITile"
+           prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_existingcontent"
+  >
+    <value key="name">plone.app.standardtiles.existingcontent</value>
+    <value key="label">Existing Content</value>
+    <value key="category">advanced</value>
+    <value key="tile_type">app</value>
+    <value key="default_value" />
+    <value key="read_only">false</value>
+    <value key="settings">true</value>
+    <value key="favorite">false</value>
+    <value key="rich_text">false</value>
+    <value key="weight">20</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.ITile"
+           prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_rss"
+  >
+    <value key="name">plone.app.standardtiles.rss</value>
+    <value key="label">RSS</value>
+    <value key="category">advanced</value>
+    <value key="tile_type">app</value>
+    <value key="default_value" />
+    <value key="read_only">false</value>
+    <value key="settings">true</value>
+    <value key="favorite">false</value>
+    <value key="rich_text">false</value>
+    <value key="weight">30</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.ITile"
+           prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_html"
+  >
+    <value key="name">plone.app.standardtiles.html</value>
+    <value key="label">Rich Text</value>
+    <value key="category">structure</value>
+    <value key="tile_type">textapp</value>
+    <value key="default_value">&lt;p&gt;Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Sed posuere interdum sem. Quisque ligula eros ullamcorper quis, lacinia quis facilisis sed sapien. Mauris varius diam vitae arcu. Sed arcu lectus auctor vitae, consectetuer et venenatis eget velit. Sed augue orci, lacinia eu tincidunt et eleifend nec lacus./ppDonec ultricies nisl ut felis, suspendisse potenti. Lorem ipsum ligula ut hendrerit mollis, ipsum erat vehicula risus, eu suscipit sem libero nec erat. Aliquam erat volutpat. Sed congue augue vitae neque. Nulla consectetuer porttitor pede. Fusce purus morbi tortor magna condimentum vel, placerat id blandit sit amet tortor.&lt;/p&gt;</value>
+    <value key="read_only">false</value>
+    <value key="settings">false</value>
+    <value key="favorite">false</value>
+    <value key="rich_text">true</value>
+    <value key="weight">110</value>
+  </records>
+
+</registry>

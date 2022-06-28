@@ -1,0 +1,420 @@
+<?xml version="1.0"?>
+<registry>
+
+  <!-- Omitted fields -->
+  <record name="plone.app.mosaic.default_omitted_fields">
+    <field type="plone.registry.field.List">
+      <title>Default omitted fields</title>
+      <value_type type="plone.registry.field.TextLine" />
+    </field>
+    <value>
+      <element>plone.app.contenttypes.behaviors.tableofcontents.ITableOfContents.table_of_contents</element>
+      <element>plone.app.dexterity.behaviors.exclfromnav.IExcludeFromNavigation.exclude_from_nav</element>
+      <element>plone.app.dexterity.behaviors.discussion.IAllowDiscussion.allow_discussion</element>
+      <element>plone.app.dexterity.behaviors.id.IShortName.id</element>
+      <element>plone.app.dexterity.behaviors.metadata.ICategorization.language</element>
+      <element>plone.app.dexterity.behaviors.metadata.ICategorization.subjects</element>
+      <element>plone.app.dexterity.behaviors.metadata.IDublinCore.contributors</element>
+      <element>plone.app.dexterity.behaviors.metadata.IDublinCore.creators</element>
+      <element>plone.app.dexterity.behaviors.metadata.IDublinCore.effective</element>
+      <element>plone.app.dexterity.behaviors.metadata.IDublinCore.expires</element>
+      <element>plone.app.dexterity.behaviors.metadata.IDublinCore.language</element>
+      <element>plone.app.dexterity.behaviors.metadata.IDublinCore.rights</element>
+      <element>plone.app.dexterity.behaviors.metadata.IDublinCore.subjects</element>
+      <element>plone.app.dexterity.behaviors.metadata.IOwnership.contributors</element>
+      <element>plone.app.dexterity.behaviors.metadata.IOwnership.creators</element>
+      <element>plone.app.dexterity.behaviors.metadata.IOwnership.rights</element>
+      <element>plone.app.dexterity.behaviors.metadata.IPublication.effective</element>
+      <element>plone.app.dexterity.behaviors.metadata.IPublication.expires</element>
+      <element>plone.app.dexterity.behaviors.nextprevious.INextPreviousToggle.nextPreviousEnabled</element>
+      <element>plone.app.relationfield.behavior.IRelatedItems.relatedItems</element>
+      <element>plone.app.versioningbehavior.behaviors.IVersionable.changeNote</element>
+      <element>plone.app.blocks.layoutbehavior.ILayoutAware.content</element>
+      <element>plone.app.blocks.layoutbehavior.ILayoutAware.customContentLayout</element>
+      <element>plone.app.blocks.layoutbehavior.ILayoutAware.contentLayout</element>
+      <element>plone.app.blocks.layoutbehavior.ILayoutAware.pageSiteLayout</element>
+      <element>plone.app.blocks.layoutbehavior.ILayoutAware.sectionSiteLayout</element>
+    </value>
+  </record>
+
+  <!-- Primary actions -->
+  <records interface="plone.app.mosaic.interfaces.IAction"
+           prefix="plone.app.mosaic.primary_actions.save"
+  >
+    <value key="name">save</value>
+    <value key="fieldset" />
+    <value key="label">Save</value>
+    <value key="action">save</value>
+    <value key="icon">False</value>
+    <value key="menu">False</value>
+    <value key="weight">10</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IAction"
+           prefix="plone.app.mosaic.primary_actions.cancel"
+  >
+    <value key="name">cancel</value>
+    <value key="fieldset" />
+    <value key="label">Cancel</value>
+    <value key="action">cancel</value>
+    <value key="icon">False</value>
+    <value key="menu">False</value>
+    <value key="weight">20</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IAction"
+           prefix="plone.app.mosaic.primary_actions.properties"
+  >
+    <value key="name">properties</value>
+    <value key="fieldset" />
+    <value key="label">Properties</value>
+    <value key="action">properties</value>
+    <value key="icon">False</value>
+    <value key="menu">False</value>
+    <value key="weight">30</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IAction"
+           prefix="plone.app.mosaic.primary_actions.preview"
+  >
+    <value key="name">preview</value>
+    <value key="fieldset">Layout</value>
+    <value key="label">Preview</value>
+    <value key="action">preview</value>
+    <value key="icon">False</value>
+    <value key="menu">False</value>
+    <value key="weight">40</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IAction"
+           prefix="plone.app.mosaic.primary_actions.customizelayout"
+  >
+    <value key="name">customizelayout</value>
+    <value key="fieldset">Layout</value>
+    <value key="label">Customize</value>
+    <value key="action">customizelayout</value>
+    <value key="icon">False</value>
+    <value key="menu">False</value>
+    <value key="weight">50</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IAction"
+           prefix="plone.app.mosaic.primary_actions.changelayout"
+  >
+    <value key="name">changelayout</value>
+    <value key="fieldset">Layout</value>
+    <value key="label">Change</value>
+    <value key="action">changelayout</value>
+    <value key="icon">False</value>
+    <value key="menu">False</value>
+    <value key="weight">60</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IAction"
+           prefix="plone.app.mosaic.primary_actions.savelayout"
+  >
+    <value key="name">savelayout</value>
+    <value key="fieldset">Layout</value>
+    <value key="label">Save</value>
+    <value key="action">savelayout</value>
+    <value key="icon">False</value>
+    <value key="menu">False</value>
+    <value key="weight">70</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IAction"
+           prefix="plone.app.mosaic.secondary_actions.format"
+  >
+    <value key="name">format</value>
+    <value key="fieldset" />
+    <value key="label">Format</value>
+    <value key="action">format</value>
+    <value key="icon">False</value>
+    <value key="menu">True</value>
+    <value key="weight">100</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IWeightedDict"
+           prefix="plone.app.mosaic.secondary_actions.format.items.format"
+  >
+    <value key="name">none</value>
+    <value key="label">Format</value>
+    <value key="weight">10</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IAction"
+           prefix="plone.app.mosaic.secondary_actions.insert"
+  >
+    <value key="name">insert</value>
+    <value key="fieldset" />
+    <value key="label">Insert</value>
+    <value key="action">insert</value>
+    <value key="icon">False</value>
+    <value key="menu">True</value>
+    <value key="weight">200</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IWeightedDict"
+           prefix="plone.app.mosaic.secondary_actions.insert.items.insert"
+  >
+    <value key="name">none</value>
+    <value key="label">Insert</value>
+    <value key="weight">10</value>
+  </records>
+
+  <!-- Default actions -->
+  <record name="plone.app.mosaic.default_available_actions">
+    <field type="plone.registry.field.List">
+      <title>Default available actions</title>
+      <value_type type="plone.registry.field.TextLine" />
+    </field>
+    <value>
+      <element>save</element>
+      <element>cancel</element>
+      <element>properties</element>
+      <element>customizelayout</element>
+      <element>changelayout</element>
+      <element>savelayout</element>
+      <element>format</element>
+      <element>insert</element>
+      <element>tile-align-center</element>
+      <element>tile-padding-right</element>
+      <element>tile-padding-bottom</element>
+      <element>tile-align-right</element>
+      <element>tile-align-left</element>
+      <element>tile-remove-format</element>
+      <element>grid-row-fluid</element>
+      <element>grid-row-fluid-background</element>
+      <element>grid-row-dark</element>
+      <element>row-cols-2211</element>
+      <element>row-cols-3221</element>
+      <element>row-cols-3321</element>
+      <element>row-cols-4221</element>
+      <element>row-cols-4421</element>
+      <element>row-cols-6321</element>
+      <element>grid-row-remove-format</element>
+    </value>
+  </record>
+
+  <!-- Format categories -->
+  <records interface="plone.app.mosaic.interfaces.IWeightedDict"
+           prefix="plone.app.mosaic.format_categories.tile"
+  >
+    <value key="name">tile</value>
+    <value key="label">Tile</value>
+    <value key="weight">10</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IWeightedDict"
+           prefix="plone.app.mosaic.format_categories.row"
+  >
+    <value key="name">row</value>
+    <value key="label">Row</value>
+    <value key="weight">90</value>
+  </records>
+
+  <!-- Formats -->
+  <records interface="plone.app.mosaic.interfaces.IFormat"
+           prefix="plone.app.mosaic.formats.tile_align_center"
+  >
+    <value key="name">tile-align-center</value>
+    <value key="category">tile</value>
+    <value key="label">Center content</value>
+    <value key="action">tile-toggle-class</value>
+    <value key="icon">true</value>
+    <value key="favorite">false</value>
+    <value key="weight">80</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IFormat"
+           prefix="plone.app.mosaic.formats.tile_padding_right"
+  >
+    <value key="name">tile-padding-right</value>
+    <value key="category">tile</value>
+    <value key="label">Padding right</value>
+    <value key="action">tile-toggle-class</value>
+    <value key="icon">true</value>
+    <value key="favorite">false</value>
+    <value key="weight">100</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IFormat"
+           prefix="plone.app.mosaic.formats.tile_padding_bottom"
+  >
+    <value key="name">tile-padding-bottom</value>
+    <value key="category">tile</value>
+    <value key="label">Padding bottom</value>
+    <value key="action">tile-toggle-class</value>
+    <value key="icon">true</value>
+    <value key="favorite">false</value>
+    <value key="weight">110</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IFormat"
+           prefix="plone.app.mosaic.formats.tile_align_left"
+  >
+    <value key="name">tile-align-left</value>
+    <value key="category">tile</value>
+    <value key="label">Float left</value>
+    <value key="action">tile-align-left</value>
+    <value key="icon">true</value>
+    <value key="favorite">false</value>
+    <value key="weight">210</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IFormat"
+           prefix="plone.app.mosaic.formats.tile_remove_format"
+  >
+    <value key="name">tile-remove-format</value>
+    <value key="category">tile</value>
+    <value key="label">(Remove format)</value>
+    <value key="action">tile-remove-format</value>
+    <value key="icon">true</value>
+    <value key="favorite">false</value>
+    <value key="weight">900</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IFormat"
+           prefix="plone.app.mosaic.formats.tile_align_right"
+  >
+    <value key="name">tile-align-right</value>
+    <value key="category">tile</value>
+    <value key="label">Float right</value>
+    <value key="action">tile-align-right</value>
+    <value key="icon">true</value>
+    <value key="favorite">false</value>
+    <value key="weight">220</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IFormat"
+           prefix="plone.app.mosaic.formats.grid_row_fluid"
+  >
+    <value key="name">grid-row-fluid</value>
+    <value key="category">row</value>
+    <value key="label">Fluid</value>
+    <value key="action">row-toggle-class</value>
+    <value key="icon">true</value>
+    <value key="favorite">false</value>
+    <value key="weight">100</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IFormat"
+           prefix="plone.app.mosaic.formats.grid_row_fluid_background"
+  >
+    <value key="name">grid-row-fluid-background</value>
+    <value key="category">row</value>
+    <value key="label">Fluid background only</value>
+    <value key="action">row-toggle-class</value>
+    <value key="icon">true</value>
+    <value key="favorite">false</value>
+    <value key="weight">100</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IFormat"
+           prefix="plone.app.mosaic.formats.grid_row_dark"
+  >
+    <value key="name">grid-row-dark</value>
+    <value key="category">row</value>
+    <value key="label">Dark background</value>
+    <value key="action">row-toggle-class</value>
+    <value key="icon">true</value>
+    <value key="favorite">false</value>
+    <value key="weight">100</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IFormat"
+           prefix="plone.app.mosaic.formats.row_cols_2211"
+  >
+    <value key="name">row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-2</value>
+    <value key="category">row</value>
+    <value key="label">Columns L2/M2/S1</value>
+    <value key="action">row-toggle-class</value>
+    <value key="icon">true</value>
+    <value key="favorite">false</value>
+    <value key="weight">130</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IFormat"
+           prefix="plone.app.mosaic.formats.row_cols_3221"
+  >
+    <value key="name">row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3</value>
+    <value key="category">row</value>
+    <value key="label">Columns L3/M2/S2</value>
+    <value key="action">row-toggle-class</value>
+    <value key="icon">true</value>
+    <value key="favorite">false</value>
+    <value key="weight">131</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IFormat"
+           prefix="plone.app.mosaic.formats.row_cols_3321"
+  >
+    <value key="name">row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-3</value>
+    <value key="category">row</value>
+    <value key="label">Columns L3/M3/S2</value>
+    <value key="action">row-toggle-class</value>
+    <value key="icon">true</value>
+    <value key="favorite">false</value>
+    <value key="weight">132</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IFormat"
+           prefix="plone.app.mosaic.formats.row_cols_4221"
+  >
+    <value key="name">row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-4</value>
+    <value key="category">row</value>
+    <value key="label">Columns L4/M2/S2</value>
+    <value key="action">row-toggle-class</value>
+    <value key="icon">true</value>
+    <value key="favorite">false</value>
+    <value key="weight">133</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IFormat"
+           prefix="plone.app.mosaic.formats.row_cols_4421"
+  >
+    <value key="name">row-cols-1 row-cols-sm-2 row-cols-md-4 row-cols-lg-4</value>
+    <value key="category">row</value>
+    <value key="label">Columns L4/M4/S2</value>
+    <value key="action">row-toggle-class</value>
+    <value key="icon">true</value>
+    <value key="favorite">false</value>
+    <value key="weight">134</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IFormat"
+           prefix="plone.app.mosaic.formats.row_cols_6321"
+  >
+    <value key="name">row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-6</value>
+    <value key="category">row</value>
+    <value key="label">Columns L6/M3/S2</value>
+    <value key="action">row-toggle-class</value>
+    <value key="icon">true</value>
+    <value key="favorite">false</value>
+    <value key="weight">135</value>
+  </records>
+
+  <records interface="plone.app.mosaic.interfaces.IFormat"
+           prefix="plone.app.mosaic.formats.grid_row_remove_format"
+  >
+    <value key="name">grid-row-remove-format</value>
+    <value key="category">row</value>
+    <value key="label">(Remove format)</value>
+    <value key="action">row-remove-format</value>
+    <value key="icon">true</value>
+    <value key="favorite">false</value>
+    <value key="weight">900</value>
+  </records>
+
+  <!-- Widget actions -->
+  <record name="plone.app.mosaic.default_widget_actions">
+    <field type="plone.registry.field.List">
+      <title>Available default actions for the widgets</title>
+      <value_type type="plone.registry.field.TextLine" />
+    </field>
+    <value>
+    </value>
+  </record>
+
+
+</registry>

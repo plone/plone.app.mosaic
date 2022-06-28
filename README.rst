@@ -74,18 +74,22 @@ Custom classes on rows
     Also in the advanced mode, you're able to add custom classes on rows by double clicking the displayed row class.
 
 Subcolumns
-    In order to nest columns inside a cell, drag a tile, then press the "ctrl" key and drop the tile close to an existing one, either before or after it, in accordance to the shown insert marker.
+    In order to nest columns inside a cell, drag a tile, then press the "ctrl" key and drop the tile close to an
+    existing one, either before or after it, in accordance to the shown insert marker.
 
 Fluid rows
     For fluid (full width) rows select any tile in the row and choose "Fluid" from the "Format" menu.
-    Fluid row styles only make sense on pages without portlets. In Plone 5.1.3 we can check that automatically (with plone.app.layout 2.8.0) and those styles are only active if no portlet columns are shown.
+    Fluid row styles only make sense on pages without portlets. In Plone 5.1.3 we can check that automatically
+    (with plone.app.layout 2.8.0) and those styles are only active if no portlet columns are shown.
+    Since version 3 and Bootstrap 5 there's an feature for `fluid-row-background` which streches the background of
+    the row to 100% width but keeps the columns to the page container width.
 
 
 Installation
 ------------
 
 **Plone Mosaic** is installed by building a Plone site with package
-**plone.app.mosaic** and activating its **Plone Mosaic** add-on.
+`plone.app.mosaic`` and activating its **Plone Mosaic** add-on.
 
 *The dependencies are already version pinned in Plones ecosystem.*
 
@@ -94,19 +98,12 @@ enabled for any content type by enabling behaviors **Layout support** and
 **Drafting support**.
 
 
-**Note for Plone 5.1:**
-
-Since version ``2.2.x`` the renamed IRichTextBehavior behavior is used from ``plone.app.contenttypes >= 2.0.0`` to keep the Plone 5.1 compatibility pin plone.app.contenttypes to ``2.0.2``.
-
-However, if a newer version of mosaic is needed,
-the good known set for the version can be found at Github, Mosaic Code repository, in the file `versions.cfg <https://github.com/plone/plone.app.mosaic/blob/master/versions.cfg>`_
-
-An example ``buildout.cfg`` for Plone ``5.1.x`` with plone.app.mosaic ``2.2.x`` could look like this::
+An example ``buildout.cfg`` for Plone ``6.x`` could look like this::
 
     [buildout]
     extends =
-        https://dist.plone.org/release/5.1-latest/versions.cfg
-        https://raw.githubusercontent.com/plone/plone.app.mosaic/master/versions.cfg
+        https://dist.plone.org/release/6.0-latest/versions.cfg
+        https://dist.plone.org/release/6.0-latest/versions-ecosystem.cfg
 
     parts =
         instance
@@ -120,117 +117,3 @@ An example ``buildout.cfg`` for Plone ``5.1.x`` with plone.app.mosaic ``2.2.x`` 
 
     ...
 
-
-
-Backend development
--------------------
-
-Plone 5:
-
-Clone and build::
-
-    $ git clone https://github.com/plone/plone.app.mosaic
-    $ cd plone.app.mosaic
-    $ python3.7 -m venv .
-    $ ./bin/pip install -r requirements.txt
-    $ ./bin/buildout
-
-For Python 2.7 do exactly the same but create a virtualenv with::
-
-    $ virtualenv .
-
-instead of::
-
-    $ python3.7 -m venv .
-
-
-Startup::
-
-    $ ./bin/instance fg
-
-
-Get started:
-
- * open a browser at ``http://localhost:8080/``
- * create a Plone Site (user **admin**, pass **admin**)
- * on the ``Welcome to Plone`` select the new entry **Mosaic layout** from the **Display**-menu
- * click **Edit** to see the new **Mosaic Editor**
-
-
-Plone 4:
-
-Development for plone.app.mosaic has moved to Plone 5 and Python 3.
-To use plone.app.mosaic in Plone4 please use the related release on
-https://pypi.org
-
-
-Frontend development
---------------------
-
-Build the bundle with:
-
-.. code:: bash
-
-   $ npm install
-   $ bower install
-   $ make clean all watch
-
-
-Webpack based frontent development
-----------------------------------
-
-Plone Mosaic can be developed with Webpack running:
-
-.. code:: bash
-
-   $ make watch_theme
-
-or starting the instances either manually or with ``make watch_instance`` and starting the Webpack development server with:
-
-.. code:: bash
-
-   $ make watch_webpack
-
-Once you have activated theme called **Plone Mosaic**,
-the editor will be reloaded and rebuilt by Webpack development server after each filesystem change.
-
-
-Documentation screenshots
--------------------------
-
-To script screenshots into the Sphinx documentation, use the development buildout:
-
-..  code:: bash
-
-    $ git clone https://github.com/plone/plone.app.mosaic
-    $ cd plone.app.mosaic
-    $ make bin/buildout
-    $ make bin/instance
-
-To speed up your iterations, before compiling the docs, start the robot server with:
-
-..  code:: bash
-
-    $ bin/robot-server plone.app.mosaic.testing.PLONE_APP_MOSAIC_ROBOT -v
-
-With robot-server running, you can re-build the docs' screenshots relatively fast with:
-
-..  code:: bash
-
-    $ bin/robot-sphinx docs html
-
-Or simply run the embedded screenshots as robot tests from a single document with:
-
-..  code:: bash
-
-    $ bin/robot docs/getting-started.rst
-
-or with phantomjs:
-
-..  code:: bash
-
-    $ bin/robot -v BROWSER:phantomjs docs/getting-started.rst
-
-and open ``./report.html`` to view the test report.
-
-Just add ``Debug`` keyword anywhere to pause the robot in the middle of the screenshot script and drop you into a Robot Framework REPL.

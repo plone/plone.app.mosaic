@@ -1,0 +1,6 @@
+/* these styles are included in an extra bundle for anonymous users.
+ * build with `yarn build:css`
+ * see plone/app/mosaic/profiles/default/registry/resources.xml
+ */
+@import "mosaic-grid.scss";
+@import "mosaic-styles.scss";

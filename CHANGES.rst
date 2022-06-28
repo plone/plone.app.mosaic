@@ -1,9 +1,28 @@
 Changelog
 =========
 
-2.2.4 (unreleased)
+3.0.0 (unreleased)
 ------------------
 
+- Refactoring of mosaic editor:
+
+  - ES6 class construction
+  - use mockup `pat-tinymce`
+  - use mockup `pat-plone-modal`
+  - get rid of $.mosaic initialization
+  - start getting rid of jQuery (uncompleted)
+
+  [petschki]
+
+- Do not load mosaic editor on babel add form (`++addtranslation++...`).
+  [jensens]
+
+- pyupgrade, black, isort
+  [jensens]
+
+- Remove buildout and use mxdev/Makefile based approach.
+  Plone 6 only.
+  [jensens]
 - Bugfix: Use TinyMCE `getContent()` to get editor contents on save
   [frapell]
 
@@ -15,6 +34,18 @@ Changelog
 - Fix Flake8 errors
   [jugmac00]
 
+- Remove obsolete BS3 demo.
+  [jensens]
+
+- Add row columns presets feature for the row stiles
+  [balavec]
+
+- Fix advanced mode tile insert
+  [balavec]
+
+- Update for Bootstrap 5
+  [agitator]
+
 
 2.2.3 (2020-07-02)
 ------------------
@@ -22,17 +53,17 @@ Changelog
 - Remove obsolete ``mockup-patterns-base`` -> use ``pat-base``
   [petschki]
 
-- fix TinyMCE dropdown menus in toolbar by implementing ``ui_container`` option
+- fix TinyMCE drop-down menus in toolbar by implementing ``ui_container`` option
   [petschki]
 
 
 2.2.2 (2020-04-07)
 ------------------
 
-- Fix plone.app.contenttypes dependency for Plone 5.1
+- Fix ``plone.app.contenttypes`` dependency for Plone 5.1
   [agitator]
 
-- Improve tinymce toolbar sticky computation
+- Improve TinyMCE toolbar sticky computation
   [frapell]
 
 - fix .mosaic-width-quarter/.mosaic-width-three-quarters grid CSS to wrap correctly
@@ -47,16 +78,16 @@ Changelog
 - safely read tile weight from registry
   [petschki]
 
-- refactor testsuites and add robottests
+- refactor test-suites and add robot-tests
   [petschki]
 
-- Fix pip install command in .travis.yml
+- Fix pip install command in ``.travis.yml``
   [staeff]
 
-- Fix bytestring join in main_template.py
+- Fix byte-string join in ``main_template.py``
   [1letter]
 
-- Bugfix in robottest
+- Bug-fix in robot test
   [1letter]
 
 
@@ -65,7 +96,7 @@ Changelog
 
 Bug fixes:
 
-- add plone-container-xl width for mosaic-rows and fix layout when left toolbar is enabled/expanded
+- add ``plone-container-xl`` width for mosaic-rows and fix layout when left toolbar is enabled/expanded
   [petschki]
 
 - Fix action button sorting (see #439)

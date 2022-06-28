@@ -1,36 +1,85 @@
 {
-  "name": "plone-mosaic",
-  "version": "0.0.0",
-  "devDependencies": {
-    "babel-core": "^6.10.4",
-    "babel-loader": "^6.2.4",
-    "babel-preset-es2015": "^6.9.0",
-    "babel-preset-react": "^6.5.0",
-    "bower": "^1.8.8",
-    "css-loader": "^2.1.0",
-    "exports-loader": "^0.6.3",
-    "imports-loader": "^0.6.5",
-    "less": "^3.9.0",
-    "less-loader": "^2.2.3",
-    "plonetheme-webpack-plugin": "^2.0.1",
-    "requirejs": "^2.1.20",
-    "style-loader": "^0.13.1",
-    "text-loader": "0.0.1",
-    "url-loader": "^1.1.2",
-    "watch": "^0.16.0",
-    "webpack": "^4.34.0",
-    "webpack-dev-server": "^3.7.2",
-    "webpack-merge": "^0.14.0"
-  },
-  "dependencies": {
-    "brace": "^0.10.0",
-    "grunt": "^1.5.3",
-    "grunt-cli": "^1.4.3",
-    "grunt-contrib-less": "^3.0.0",
-    "grunt-contrib-requirejs": "^1.0.0",
-    "grunt-contrib-uglify": "^5.2.1",
-    "grunt-contrib-watch": "^1.1.0",
-    "grunt-sed": "^0.1.1",
-    "less-plugin-inline-urls": "^1.2.0"
-  }
+    "name": "plone-mosaic",
+    "version": "3.0.0-alpha.1",
+    "description": "Mosaic Editor for Plone",
+    "license": "GPL-2.0-only",
+    "engines": {
+        "node": ">=8.12.0",
+        "yarn": "^1.3.2"
+    },
+    "dependencies": {
+        "@patternslib/patternslib": "8.1.0-alpha.1",
+        "@plone/mockup": "^5.0.0-alpha.7"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.18.0",
+        "@babel/eslint-parser": "^7.17.0",
+        "@babel/plugin-proposal-optional-chaining": "^7.17.12",
+        "@babel/preset-env": "^7.18.0",
+        "@testing-library/jest-dom": "^5.16.4",
+        "@types/sinon": "^10.0.11",
+        "babel-loader": "^8.2.5",
+        "clean-css-cli": "^5.6.0",
+        "copy-webpack-plugin": "^11.0.0",
+        "copyfiles": "^2.4.1",
+        "core-js": "3.22.6",
+        "cross-env": "^7.0.3",
+        "css-loader": "^6.7.1",
+        "eslint": "^8.16.0",
+        "eslint-config-prettier": "^8.5.0",
+        "identity-obj-proxy": "^3.0.0",
+        "imports-loader": "^4.0.0",
+        "inspectpack": "^4.7.1",
+        "jest": "^28.1.0",
+        "jest-raw-loader": "^1.0.1",
+        "jest-watch-typeahead": "^1.1.0",
+        "nodemon": "^2.0.16",
+        "npm-run-all": "^4.1.5",
+        "prettier": "^2.6.2",
+        "prism-themes": "^1.9.0",
+        "regenerator-runtime": "^0.13.9",
+        "sass": "^1.52.1",
+        "sass-loader": "^13.0.0",
+        "style-loader": "^3.3.0",
+        "terser-webpack-plugin": "^5.3.1",
+        "webpack": "^5.72.1",
+        "webpack-bundle-analyzer": "^4.4.2",
+        "webpack-cli": "^4.9.2",
+        "webpack-dev-server": "^4.9.0",
+        "webpack-modernizr-loader": "^5.0.0",
+        "whybundled": "^2.0.0",
+        "yarn": "^1.22.18"
+    },
+    "resolutions-comments": {
+        "ua-parser-js": "See https://github.com/faisalman/ua-parser-js/issues/536"
+    },
+    "scripts": {
+        "build": "npm-run-all build:webpack build:css",
+        "build:webpack": "NODE_ENV=production webpack --config webpack.config.js",
+        "build:css": "npm-run-all css-compile css-minify",
+        "watch:webpack": "NODE_ENV=development webpack --config webpack.config.js --watch",
+        "watch:scss": "nodemon --watch resources/scss/ --ext scss --exec \"yarn build:css\"",
+        "start": "NODE_ENV=development webpack serve --config webpack.config.js",
+        "css-compile": "sass --load-path=node_modules --style expanded --source-map --embed-sources --no-error-css resources/scss/mosaic.scss:src/plone/app/mosaic/browser/static/mosaic.css",
+        "css-minify": "cleancss -O1 --format breakWith=lf --source-map --source-map-inline-sources --output src/plone/app/mosaic/browser/static/mosaic.min.css src/plone/app/mosaic/browser/static/mosaic.css"
+    },
+    "browserslist": {
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ]
+    },
+    "publishConfig": {
+        "access": "public"
+    },
+    "author": {
+        "name": "Plone Foundation",
+        "email": "releasemanager@plone.org"
+    },
+    "homepage": "https://github.com/plone/mockup",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/plone/mockup.git"
+    }
 }
