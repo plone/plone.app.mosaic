@@ -204,12 +204,12 @@ ${TESTRUNNER_SENTINEL}: ${PIP_SENTINEL}
 .PHONY: test
 test: ${TEST_PREREQUISITES} ${TESTRUNNER_SENTINEL} ## run tests
 	@echo "$(OK_COLOR)Run addon tests$(NO_COLOR)"
-	@${PYBIN}zope-testrunner --auto-color --auto-progress --all --test-path=${ADDONFOLDER}
+	@${PYBIN}zope-testrunner --auto-color --auto-progress --test-path=${ADDONFOLDER}
 
 .PHONY: test-ignore-warnings
 test-ignore-warnings: ${TEST_PREREQUISITES} ${TESTRUNNER_SENTINEL}  ## run tests (hide warnings)
 	@echo "$(OK_COLOR)Run addon tests$(NO_COLOR)"
-	@PYTHONWARNINGS=ignore ${PYBIN}zope-testrunner --auto-color --auto-progress --all --test-path=${ADDONFOLDER}
+	@PYTHONWARNINGS=ignore ${PYBIN}zope-testrunner --auto-color --auto-progress --test-path=${ADDONFOLDER}
 
 ##############################################################################
 # CODE FORMATTING
