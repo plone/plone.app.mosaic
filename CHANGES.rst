@@ -1,8 +1,8 @@
 Changelog
 =========
 
-3.0.0 (unreleased)
-------------------
+3.0.0a1 (2022-06-28)
+--------------------
 
 - Refactoring of mosaic editor:
 
