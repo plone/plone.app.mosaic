@@ -3,6 +3,11 @@ Plone Mosaic
 
 **Plone Mosaic** is a site builder and layout solution for Plone.
 
+Version Information
+-------------------
+
+- Version 2.2.x -> Plone 5.1 + 5.2
+- Version 3.0.x -> Plone 6
 
 Concepts
 --------
