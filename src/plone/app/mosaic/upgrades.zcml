@@ -409,13 +409,9 @@
       run_deps="false"
       />
 
-  <genericsetup:upgradeStep
-      title="Upgrade registry configuration"
-      profile="plone.app.mosaic:default"
-      source="5028"
-      destination="6000"
-      handler=".upgrades.upgrade_to_6000"
+  <genericsetup:registerProfile
       name="to_5029"
+      title="Upgrade profile to 5029"
       description=""
       directory="profiles/upgrades/to_5029"
       for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
@@ -448,5 +444,12 @@
       directory="profiles/upgrades/to_6000"
       />
 
+   <genericsetup:upgradeStep
+      title="Upgrade registry configuration"
+      profile="plone.app.mosaic:default"
+      source="5030"
+      destination="6000"
+      handler=".upgrades.upgrade_to_6000"
+      />
 
 </configure>
