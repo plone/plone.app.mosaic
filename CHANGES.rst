@@ -4,10 +4,11 @@ Changelog
 3.0.0 (unreleased)
 ------------------
 
-- BSSP-Overhaul of mosaic editor:
+- Refactoring of mosaic editor:
 
   - ES6 class construction
-  - use mockup TinyMCE
+  - use mockup `pat-tinymce`
+  - use mockup `pat-plone-modal`
   - get rid of $.mosaic initialization
   - start getting rid of jQuery (uncompleted)
 
