@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.2.4 (unreleased)
+2.2.5 (unreleased)
 ------------------
 
 - Bugfix: Use TinyMCE `getContent()` to get editor contents on save
@@ -15,6 +15,9 @@ Changelog
 - Fix Flake8 errors
   [jugmac00]
 
+
+2.2.4 (unreleased, no changes)
+------------------------------
 
 2.2.3 (2020-07-02)
 ------------------
