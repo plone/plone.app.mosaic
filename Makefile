@@ -311,3 +311,23 @@ clean-instance:  ## remove instance configuration (keeps data)
 
 .PHONY: clean
 clean:  clean-venv clean-pyc clean-make clean-instance   ## clean all (except local database and pip installed packages)
+
+
+##############################################################################
+# JS
+
+YARN ?= npx yarn
+
+.PHONY: install
+stamp-yarn install:
+	$(YARN) install
+	touch stamp-yarn
+
+.PHONY:
+watch: stamp-yarn
+	$(YARN) run watch:webpack
+
+
+.PHONY:
+bundle: stamp-yarn
+	$(YARN) run build
