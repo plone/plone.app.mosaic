@@ -4,7 +4,9 @@ Changelog
 3.0.0a2 (unreleased)
 --------------------
 
-- Nothing changed yet.
+- Update to mockup 5.0.0-alpha.12
+- Packaging fixes
+  [petschki]
 
 
 3.0.0a1 (2022-06-28)
