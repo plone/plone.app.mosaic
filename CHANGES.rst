@@ -37,16 +37,6 @@ Changelog
 - Remove buildout and use mxdev/Makefile based approach.
   Plone 6 only.
   [jensens]
-- Bugfix: Use TinyMCE `getContent()` to get editor contents on save
-  [frapell]
-
-- Add ``bootstrapPath`` less variable.
-  Now the bundle can be built with ``plone-compile-resources``.
-  Contains an upgrade step.
-  [thet]
-
-- Fix Flake8 errors
-  [jugmac00]
 
 - Remove obsolete BS3 demo.
   [jensens]
@@ -59,6 +49,25 @@ Changelog
 
 - Update for Bootstrap 5
   [agitator]
+
+
+2.2.5 (2022-06-28)
+------------------
+
+- Bugfix: Use TinyMCE `getContent()` to get editor contents on save
+  [frapell]
+
+- Add ``bootstrapPath`` less variable.
+  Now the bundle can be built with ``plone-compile-resources``.
+  Contains an upgrade step.
+  [thet]
+
+- Fix Flake8 errors
+  [jugmac00]
+
+
+2.2.4 (unreleased, no changes)
+------------------------------
 
 
 2.2.3 (2020-07-02)
