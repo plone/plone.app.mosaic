@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.0.0a2 (unreleased)
+3.0.0a2 (2022-07-07)
 --------------------
 
 - Update to mockup 5.0.0-alpha.12
