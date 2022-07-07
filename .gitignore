@@ -48,6 +48,8 @@ pyvenv.cfg
 package-lock.json
 stats.json
 =*
+stamp-yarn
+yarn-error.log
 
 # robot test
 robot_*

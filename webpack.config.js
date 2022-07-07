@@ -1,8 +1,10 @@
 process.traceDeprecation = true;
-const package_json = require("./package.json");
+const mf_config = require("@patternslib/dev/webpack/webpack.mf");
 const path = require("path");
-const patternslib_config = require("@patternslib/patternslib/webpack/webpack.config");
-const mf_config = require("@patternslib/patternslib/webpack/webpack.mf");
+const package_json = require("./package.json");
+const package_json_mockup = require("@plone/mockup/package.json");
+const package_json_patternslib = require("@patternslib/patternslib/package.json");
+const patternslib_config = require("@patternslib/dev/webpack/webpack.config.js");
 
 module.exports = async (env, argv) => {
     let config = {
@@ -33,17 +35,26 @@ module.exports = async (env, argv) => {
 
     config.plugins.push(
         mf_config({
+            name: "plone-mosaic",
             filename: "plone-mosaic-remote.min.js",
-            package_json: package_json,
             remote_entry: config.entry["plone-mosaic.min"],
+            dependencies: {
+                ...package_json_patternslib.dependencies,
+                ...package_json_mockup.dependencies,
+                ...package_json.dependencies,
+            },
         })
     );
     config.plugins.push(
         mf_config({
             name: "layouts-editor",
             filename: "layouts-editor-remote.min.js",
-            package_json: package_json,
             remote_entry: config.entry["layouts-editor.min"],
+            dependencies: {
+                ...package_json_patternslib.dependencies,
+                ...package_json_mockup.dependencies,
+                ...package_json.dependencies,
+            },
         })
     );
 
