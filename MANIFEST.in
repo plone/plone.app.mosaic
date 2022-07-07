@@ -1,12 +1,14 @@
-exclude .bowerrc .coveragerc Gemfile resources bootstrap-buildout.py
 exclude Makefile *.cfg *.in *.nix *.sh *.conf *.js *.json Procfile .jshintrc
 global-exclude *.pyc __pycache__
 graft docs
 graft src
+include mx.ini
 include LICENSE *.txt *.rst *.GPL *.py
-include src/plone/app/mosaic/browser/static/js/mosaic-compiled.js
-include src/plone/app/mosaic/browser/static/plone-mosaic.css.map
-prune bin
+include *.lock
+include *.md
+include *.yaml
+include .prettierignore
+recursive-include *.js *.map
 prune docs/_screenshots
 prune resources
 prune tests
