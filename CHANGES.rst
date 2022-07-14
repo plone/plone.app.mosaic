@@ -4,7 +4,9 @@ Changelog
 3.0.0a3 (unreleased)
 --------------------
 
-- Nothing changed yet.
+- Fixed old upgrade step that tried to set plone.lessvariables.
+  Ignore this on Plone 6, because it fails.
+  [maurits]
 
 
 3.0.0a2 (2022-07-07)
