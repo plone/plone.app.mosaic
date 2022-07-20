@@ -559,20 +559,34 @@ class Tile {
         var tile_url = self.getEditUrl();
 
         // Open overlay
-        var modal = new Modal($(".mosaic-toolbar"), {
+        var modal = new Modal(".mosaic-toolbar", {
+            actionOptions: {
+                isForm: true,
+                onSuccess: (event, response, state, xhr, form) => {
+                    var tileUrl = xhr.getResponseHeader("X-Tile-Url"), value = self.mosaic.getDomTreeFromHtml(response);
+                    if (tileUrl) {
+                        // Remove head tags
+                        self.mosaic.removeHeadTags(tileUrl);
+
+                        // Add head tags
+                        self.mosaic.addHeadTags(tileUrl, value);
+                        var tileHtml = value.find(".temp_body_tag").html();
+                        self.fillContent({
+                            html: tileHtml,
+                            url: tileUrl,
+                        });
+
+                        // Close overlay
+                        modal.hide();
+                        modal = null;
+                    }
+                },
+            },
             ajaxUrl: tile_url,
-            loadLinksWithinModal: true,
             modalSizeClass: "modal-lg",
         });
         modal.$el.off("after-render");
         modal.on("after-render", function (event) {
-            $('input[name*="cancel"]', modal.$modal)
-                .on("click", function (e) {
-                    e.preventDefault();
-                    // Close overlay
-                    modal.hide();
-                    modal = null;
-                });
             if (self.mosaic.hasContentLayout) {
                 // not a custom layout, make sure the form knows
                 $("form", modal.$modal).append(
@@ -581,29 +595,6 @@ class Tile {
             }
         });
         modal.show();
-        modal.$el.off("formActionSuccess");
-        modal.on(
-            "formActionSuccess",
-            function (event, response, state, xhr, form) {
-                var tileUrl = xhr.getResponseHeader("X-Tile-Url"), value = self.mosaic.getDomTreeFromHtml(response);
-                if (tileUrl) {
-                    // Remove head tags
-                    self.mosaic.removeHeadTags(tileUrl);
-
-                    // Add head tags
-                    self.mosaic.addHeadTags(tileUrl, value);
-                    var tileHtml = value.find(".temp_body_tag").html();
-                    self.fillContent({
-                        html: tileHtml,
-                        url: tileUrl,
-                    });
-
-                    // Close overlay
-                    modal.hide();
-                    modal = null;
-                }
-            }
-        );
     }
     makeMovable() {
         // If the tile is movable
