@@ -146,7 +146,7 @@
   }
 
   .mosaic-grid-row:not(.mosaic-empty-row):not(:last-child) {
-    padding: 5px;
+    padding: 5px 5px 1.2rem 5px;
     border-bottom: 2px dashed #ccc;
     border-left: 2px dashed #ccc;
     border-right: 2px dashed #ccc;
@@ -217,7 +217,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    z-index: 100;
+    z-index: 99;
     white-space: nowrap;
     background: #f9f9f9;
     text-align: right;
