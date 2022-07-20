@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.0.0a3 (unreleased)
+3.0.0a3 (2022-07-20)
 --------------------
 
 - Update to mockup 5.0.0-alpha.17 -> This fixes file upload in modal forms.
