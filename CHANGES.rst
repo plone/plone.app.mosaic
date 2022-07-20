@@ -7,6 +7,10 @@ Changelog
 - Update to mockup 5.0.0-alpha.17 -> This fixes file upload in modal forms.
   [petschki]
 
+- Fixed old upgrade step that tried to set plone.lessvariables.
+  Ignore this on Plone 6, because it fails.
+  [maurits]
+
 
 3.0.0a2 (2022-07-07)
 --------------------
