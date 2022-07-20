@@ -43,6 +43,12 @@ module.exports = async (env, argv) => {
                 ...package_json_mockup.dependencies,
                 ...package_json.dependencies,
             },
+            shared: {
+                // make shure we get the highest available Mockup version from Plone
+                mockup: {
+                    singleton: true,
+                },
+            },
         })
     );
     config.plugins.push(
@@ -54,6 +60,12 @@ module.exports = async (env, argv) => {
                 ...package_json_patternslib.dependencies,
                 ...package_json_mockup.dependencies,
                 ...package_json.dependencies,
+            },
+            shared: {
+                // make shure we get the highest available Mockup version from Plone
+                mockup: {
+                    singleton: true,
+                },
             },
         })
     );
