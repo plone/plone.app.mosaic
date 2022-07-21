@@ -3,7 +3,7 @@
 Resource  keywords.robot
 
 Test Setup  Open test browser
-Test Teardown  Close all browsers
+Test Teardown  Plone test teardown
 
 
 *** Test Cases ***

@@ -38,41 +38,46 @@ The javascript and scss files to work on are in the package root under `resource
 will be compiled into minified production bundles with `yarn build`.
 
 
-Documentation screenshots [TODOO: UPDATE GENERATED DOCUMENTATION]
------------------------------------------------------------------
+Documentation
+-------------
 
-To script screenshots into the Sphinx documentation, use the development buildout:
+To script screenshots into the Sphinx documentation, use:
 
 ..  code:: bash
 
-    $ git clone https://github.com/plone/plone.app.mosaic
+    $ git clone https://github.com/plone/plone.app.mosaic.git
     $ cd plone.app.mosaic
-    $ make bin/buildout
-    $ make bin/instance
+    $ make install
 
 To speed up your iterations, before compiling the docs, start the robot server with:
 
 ..  code:: bash
 
-    $ bin/robot-server plone.app.mosaic.testing.PLONE_APP_MOSAIC_ROBOT -v
+    $ ZSERVER_PORT=50000 ZSERVER_HOST=localhost no_proxy=* ./venv/bin/robot-server plone.app.mosaic.testing.PLONE_APP_MOSAIC_ROBOT -v
+
+Note: the `no_proxy=*` is only needed if you get the following error without it:
+
+..  code:: bash
+
+    objc[99748]: +[__NSCFConstantString initialize] may have been in progress in another thread when fork() was called.
 
 With robot-server running, you can re-build the docs' screenshots relatively fast with:
 
 ..  code:: bash
 
-    $ bin/robot-sphinx docs html
+    $ ./venv/bin/robot-sphinx docs html
 
 Or simply run the embedded screenshots as robot tests from a single document with:
 
 ..  code:: bash
 
-    $ bin/robot docs/getting-started.rst
+    $ ./venv/bin/robot docs/getting-started.rst
 
 or with phantomjs:
 
 ..  code:: bash
 
-    $ bin/robot -v BROWSER:phantomjs docs/getting-started.rst
+    $ ./venv/bin/robot -v BROWSER:phantomjs docs/getting-started.rst
 
 and open ``./report.html`` to view the test report.
 

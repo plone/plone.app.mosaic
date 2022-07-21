@@ -4,9 +4,7 @@
 
     Library  OperatingSystem
 
-    Resource  plone/app/robotframework/server.robot
     Resource  plone/app/robotframework/keywords.robot
-    Resource  Selenium2Screenshots/keywords.robot
 
     Resource  ${RESOURCE_DIR}/_selectors.robot
 
@@ -15,7 +13,7 @@
 
     *** Variables ***
 
-    ${FIXTURE}  plone.app.mosaic.testing.PLONE_APP_MOSAIC_ROBOT
+    ${FIXTURE}  plone.app.mosaic.testing.PLONE_APP_MOSAIC_ACCEPTANCE
     @{DIMENSIONS}  1024  800
     ${RESOURCE_DIR}  ${CURDIR}
 

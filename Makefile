@@ -331,3 +331,13 @@ watch: stamp-yarn
 .PHONY:
 bundle: stamp-yarn
 	$(YARN) run build
+
+
+
+##############################################################################
+# DOCUMENTATION
+
+.PHONY:
+docs: install
+	@${PYBIN}sphinx-build docs/ docs/html
+

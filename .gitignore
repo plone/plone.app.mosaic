@@ -18,6 +18,7 @@
 /devsrc/
 /dist/
 /docs/_screenshots/*.png
+/docs/html/
 /downloads/
 /eggs/
 /extras/

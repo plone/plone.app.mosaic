@@ -26,7 +26,12 @@ setup(
             "plone.app.contenttypes",
             "plone.app.robotframework",
             "robotframework-selenium2library",
-        ]
+        ],
+        "docs": [
+            "Sphinx",
+            "sphinx-rtd-theme",
+            "sphinxcontrib-robotframework",
+        ],
     },
     entry_points="""
     # -*- Entry points: -*-
