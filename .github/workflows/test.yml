@@ -19,6 +19,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+      - uses: nanasess/setup-chromedriver@v1
 
       - name: Setup Plone ${{ matrix.plone }} with Python ${{ matrix.python }}
         id: setup
@@ -29,12 +30,17 @@ jobs:
 
       - name: Install package
         run: |
-          make install
+          make VENV=off install
 
       - name: Run Lint
         run: |
-          make lint
+          make VENV=off lint
 
       - name: Run tests
         run: |
-          make test-ignore-warnings
+          export DISPLAY=:99
+          chromedriver --url-base=/wd/hub &
+          sudo Xvfb -ac :99 -screen 0 1280x1024x24 > /dev/null 2>&1 &
+          sleep 2
+          export ROBOT_BROWSER=headlesschrome &
+          make VENV=off test-ignore-warnings
