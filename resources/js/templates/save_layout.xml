@@ -18,7 +18,7 @@
         </div>
         <% } %>
     </div>
-    <div class="buttons">
-        <button class="plone-btn plone-btn-primary">Save</button>
+    <div class="formControls">
+        <button class="btn btn-primary">Save</button>
     </div>
 </div>

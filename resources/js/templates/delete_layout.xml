@@ -28,8 +28,8 @@
         </div>
         <% } %>
     </div>
-    <div class="buttons">
-        <button class="plone-btn plone-btn-danger delete">Yes, delete</button>
-        <button class="plone-btn plone-btn-default cancel">No</button>
+    <div class="formControls">
+        <button class="btn btn-danger delete">Yes, delete</button>
+        <button class="btn btn-secondary cancel">No</button>
     </div>
 </div>

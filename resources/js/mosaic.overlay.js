@@ -13,15 +13,20 @@ export default class Overlay {
 
     initialize() {
         var self = this;
-        var originalContent = document.querySelector(".mosaic-original-content");
         // we don't want to show the original el.
-        originalContent.style.display = "none";
-
-        self.modal = new Modal(originalContent, {
+        document.querySelector(".mosaic-original-content").style.display = "none";
+        // we load the original edit form via ajax to get updated content
+        // when saving properties
+        self.modal = new Modal(".mosaic-original-content", {
+            ajaxUrl: `${window.location.href}?ajax_load=${new Date().getTime()}`,
             content: "#content-core",
             modalSizeClass: "modal-xl",
+            actionOptions: {
+                isForm: true,
+                displayInModal: false,
+                reloadWindowOnClose: false,
+            }
         });
-        self.modal.init();
     }
 
     open (mode, tile_config) {
@@ -94,19 +99,6 @@ export default class Overlay {
                     ).addClass("mosaic-hidden");
                 }
             });
-
-            // Get visible tabs
-            var visible_tabs = formtabs.children(":not(.mosaic-hidden)");
-
-            // Select first tab
-            visible_tabs.eq(0).addClass("active");
-            var $fieldset = modalContent.find(
-                "#fieldset-" + visible_tabs.eq(0).attr("href").split("-")[1]
-            );
-            if ($fieldset.length === 0) {
-                $fieldset = modalContent.find("fieldset:not(.mosaic-hidden)").eq(0);
-            }
-            $fieldset.addClass("active");
         } else if (mode === "field") {
             // Get fieldset and field
             var field = $("#" + tile_config.id);
