@@ -4,7 +4,11 @@ Changelog
 3.0.0a4 (unreleased)
 --------------------
 
-- Nothing changed yet.
+- Fixed properties modal.
+  [petschki]
+
+- Update to mockup 5.0.0-alpha.18
+  [petschki]
 
 
 3.0.0a3 (2022-07-20)
