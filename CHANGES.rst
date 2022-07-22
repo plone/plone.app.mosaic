@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.0.0a4 (unreleased)
+3.0.0a4 (2022-07-22)
 --------------------
 
 - Fixed properties modal.
