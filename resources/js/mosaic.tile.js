@@ -253,7 +253,6 @@ class Tile {
 
         // Get tile config
         var tile_config = this.getConfig();
-        var editor;
 
         // Predefine vars
         switch (tile_config.tile_type) {

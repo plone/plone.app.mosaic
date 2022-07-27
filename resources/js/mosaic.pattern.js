@@ -174,6 +174,7 @@ export default Base.extend({
 
     _init: async function (content) {
         var self = this;
+
         await self._initPanels(content);
 
         // Init overlay

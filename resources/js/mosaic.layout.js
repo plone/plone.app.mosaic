@@ -83,9 +83,8 @@ export default class LayoutManager {
     addAppTile(type, url /*, id */) {
         var self = this;
         // Close overlay
-        if (self.mosaic.overlay.app) {
-            self.mosaic.overlay.app.hide();
-            // self.mosaic.overlay.trigger('destroy.modal.patterns');
+        if (self.mosaic.overlay.modal) {
+            self.mosaic.overlay.modal.hide();
         }
 
         // Get value
@@ -427,9 +426,8 @@ export default class LayoutManager {
                 });
 
                 // Hide overlay
-                if (self.mosaic.overlay.app) {
-                    self.mosaic.overlay.app.hide();
-                    // self.mosaic.overlay.$el.trigger('destroy.modal.patterns');;
+                if (self.mosaic.overlay.modal) {
+                    self.mosaic.overlay.modal.hide();
                 }
             }
         };
@@ -1264,8 +1262,9 @@ export default class LayoutManager {
             // Add empty rows
             self.mosaic.panels.mosaicAddEmptyRows();
 
-            // Select new tile
+            // Select new tile and make it draggables
             if (new_tile && original_tile.length > 0) {
+                original_tile.mosaicAddDrag();
                 original_tile.data("mosaic-tile").initializeContent();
                 original_tile.data("mosaic-tile").focus();
             }

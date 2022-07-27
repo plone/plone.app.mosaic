@@ -197,7 +197,7 @@ class Toolbar {
 
         // auto save
         if (
-            !self.mosaic.overlay.app &&
+            !self.mosaic.overlay.modal &&
             !self.mosaic.saving &&
             !self.mosaic.modal &&
             ((new Date()).getTime() - self.lastChange) > 6000

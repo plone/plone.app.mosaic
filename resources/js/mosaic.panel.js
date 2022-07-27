@@ -11,7 +11,7 @@ class Panel {
     initialize($content) {
         // Local variables
         var panel_id = this.$el.data("panel"),
-            panel_attr_id,
+            panel_attr_id, $panel_markup,
             target = $("[data-panel=" + panel_id + "]"),
             max_columns = this.$el.data("max-columns") || 6;
 
@@ -27,32 +27,25 @@ class Panel {
         // this panel
         if (panel_id === "content") {
             panel_attr_id = target.attr("id");
+            $panel_markup = $(document.createElement("div"))
+                .attr("id", panel_attr_id)
+                .attr("class", target.attr("class"))
+                .addClass("mosaic-panel")
+                .attr("data-panel", "content")
+                .attr("data-max-columns", max_columns)
+                .html($content.find("[data-panel=" + panel_id + "]").html());
             if ($(".mosaic-original-content").length === 0) {
-                target.before(
-                    $(document.createElement("div"))
-                        .attr("id", panel_attr_id)
-                        .attr("class", target.attr("class"))
-                        .addClass("mosaic-panel")
-                        .attr("data-panel", "content")
-                        .attr("data-max-columns", max_columns)
-                        .html($content.find("[data-panel=" + panel_id + "]").html())
-                );
+                target.before($panel_markup);
                 target
                     .removeAttr("data-panel")
                     .removeAttr("id")
-                    .addClass("mosaic-original-content");
+                    .addClass("mosaic-original-content disable-patterns");
             } else {
                 // re-initializing, so we just have to replace existing
-                target.replaceWith(
-                    $(document.createElement("div"))
-                        .attr("id", panel_attr_id)
-                        .attr("class", target.attr("class"))
-                        .addClass("mosaic-panel")
-                        .attr("data-panel", "content")
-                        .attr("data-max-columns", max_columns)
-                        .html($content.find("[data-panel=" + panel_id + "]").html())
-                );
+                target.replaceWith($panel_markup);
             }
+            // hide original target
+            target.hide();
         } else {
             target.attr(
                 "class",
