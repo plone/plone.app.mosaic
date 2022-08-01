@@ -18,15 +18,15 @@
   display: flex;
   flex-wrap: wrap;
   margin-top: calc(var(--bs-gutter-y) * -1);
-  margin-right: calc(var(--bs-gutter-x) / -2);
-  margin-left: calc(var(--bs-gutter-x) / -2);
+  margin-right: calc(var(--bs-gutter-x) * 0.5);
+  margin-left: calc(var(--bs-gutter-x) * 0.5);
 }
 .mosaic-grid-row > * {
   flex-shrink: 0;
   width: 100%;
   max-width: 100%;
-  padding-right: calc(var(--bs-gutter-x) / 2);
-  padding-left: calc(var(--bs-gutter-x) / 2);
+  padding-right: calc(var(--bs-gutter-x) * 0.5);
+  padding-left: calc(var(--bs-gutter-x) * 0.5);
   margin-top: var(--bs-gutter-y);
 }
 @media (max-width: 767.98px) {
@@ -66,8 +66,8 @@ body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container:not(#content-
 body.template-layout.no-portlet-columns .outer-wrapper > .container:not(#content-header) .mosaic-grid-row,
 body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container:not(#content-header) .mosaic-grid-row {
   width: 100%;
-  padding-right: var(--bs-gutter-x, 0.75rem);
-  padding-left: var(--bs-gutter-x, 0.75rem);
+  padding-right: 0;
+  padding-left: 0;
   margin-right: auto;
   margin-left: auto;
 }
@@ -78,8 +78,8 @@ body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container:not(#content-
   }
   body.template-layout.no-portlet-columns .outer-wrapper > .container:not(#content-header) .mosaic-grid-row.mosaic-grid-row-fluid-background,
 body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container:not(#content-header) .mosaic-grid-row.mosaic-grid-row-fluid-background {
-    padding-left: calc((100% - (540px - var(--bs-gutter-x) * 2)) / 2);
-    padding-right: calc((100% - (540px - var(--bs-gutter-x) * 2)) / 2);
+    padding-left: calc((100% - 540px) * 0.5);
+    padding-right: calc((100% - 540px) * 0.5);
   }
 }
 @media (min-width: 768px) {
@@ -89,8 +89,8 @@ body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container:not(#content-
   }
   body.template-layout.no-portlet-columns .outer-wrapper > .container:not(#content-header) .mosaic-grid-row.mosaic-grid-row-fluid-background,
 body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container:not(#content-header) .mosaic-grid-row.mosaic-grid-row-fluid-background {
-    padding-left: calc((100% - (720px - var(--bs-gutter-x) * 2)) / 2);
-    padding-right: calc((100% - (720px - var(--bs-gutter-x) * 2)) / 2);
+    padding-left: calc((100% - 720px) * 0.5);
+    padding-right: calc((100% - 720px) * 0.5);
   }
 }
 @media (min-width: 992px) {
@@ -100,8 +100,8 @@ body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container:not(#content-
   }
   body.template-layout.no-portlet-columns .outer-wrapper > .container:not(#content-header) .mosaic-grid-row.mosaic-grid-row-fluid-background,
 body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container:not(#content-header) .mosaic-grid-row.mosaic-grid-row-fluid-background {
-    padding-left: calc((100% - (960px - var(--bs-gutter-x) * 2)) / 2);
-    padding-right: calc((100% - (960px - var(--bs-gutter-x) * 2)) / 2);
+    padding-left: calc((100% - 960px) * 0.5);
+    padding-right: calc((100% - 960px) * 0.5);
   }
 }
 @media (min-width: 1200px) {
@@ -111,8 +111,8 @@ body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container:not(#content-
   }
   body.template-layout.no-portlet-columns .outer-wrapper > .container:not(#content-header) .mosaic-grid-row.mosaic-grid-row-fluid-background,
 body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container:not(#content-header) .mosaic-grid-row.mosaic-grid-row-fluid-background {
-    padding-left: calc((100% - (1140px - var(--bs-gutter-x) * 2)) / 2);
-    padding-right: calc((100% - (1140px - var(--bs-gutter-x) * 2)) / 2);
+    padding-left: calc((100% - 1140px) * 0.5);
+    padding-right: calc((100% - 1140px) * 0.5);
   }
 }
 @media (min-width: 1400px) {
@@ -122,8 +122,8 @@ body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container:not(#content-
   }
   body.template-layout.no-portlet-columns .outer-wrapper > .container:not(#content-header) .mosaic-grid-row.mosaic-grid-row-fluid-background,
 body.mosaic-enabled.no-portlet-columns .outer-wrapper > .container:not(#content-header) .mosaic-grid-row.mosaic-grid-row-fluid-background {
-    padding-left: calc((100% - (1320px - var(--bs-gutter-x) * 2)) / 2);
-    padding-right: calc((100% - (1320px - var(--bs-gutter-x) * 2)) / 2);
+    padding-left: calc((100% - 1320px) * 0.5);
+    padding-right: calc((100% - 1320px) * 0.5);
   }
 }
 body.template-layout.no-portlet-columns .outer-wrapper > .container:not(#content-header) .mosaic-grid-row.mosaic-grid-row-fluid,
