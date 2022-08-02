@@ -4,7 +4,14 @@ Changelog
 3.0.0a5 (unreleased)
 --------------------
 
-- Nothing changed yet.
+- Code cleanup in properties modal.
+  [petschki]
+
+- Fix moving Tiles when there are `max-columns` tiles within a row.
+  [petschki]
+
+- Layout column handle drag/drop fixes and cleanup.
+  [petschki]
 
 
 3.0.0a4 (2022-07-22)
