@@ -100,6 +100,7 @@
 
 /* Selected tile */
 .mosaic-panel .mosaic-selected-tile {
+    background-color:ivory;
     &, &:hover {
         .mosaic-tile-outer-border {
             border: 2px solid #3469d0;

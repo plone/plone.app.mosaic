@@ -16,6 +16,11 @@
     height: 16px;
     z-index: 500;
     display: none;
+    opacity: 0.4;
+}
+
+.mosaic-selected-tile .mosaic-tile-control {
+  opacity:1;
 }
 
 .mosaic-drag-handle {
