@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.0.0a5 (unreleased)
+3.0.0a5 (2022-08-02)
 --------------------
 
 - Code cleanup in properties modal.
