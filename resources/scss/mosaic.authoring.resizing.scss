@@ -65,56 +65,38 @@
 
 }
 
-.mosaic-resize-0 {
-    margin-left:0%;
+$resize-handle-perc: (
+    "0": 0,
+    "1": 8.33%,
+    "2": 16.66%,
+    "3": 25%,
+    "4": 33.33%,
+    "5": 41.66%,
+    "6": 50%,
+    "7": 58.33%,
+    "8": 66.66%,
+    "9": 75%,
+    "10": 83.33%,
+    "11": 91.66%,
+    "12": 100%,
+);
+
+@each $pos, $perc in $resize-handle-perc {
+    .mosaic-resize-#{$pos} {
+        margin-left:$perc;
+    }
 }
 
-.mosaic-resize-1 {
-    margin-left: 8.33%;
-}
-
-.mosaic-resize-2 {
-    margin-left: 16.66%;
-}
-
-.mosaic-resize-3 {
-    margin-left: 25%;
-}
-
-.mosaic-resize-4 {
-    margin-left: 33.33%;
-}
-
-.mosaic-resize-5 {
-    margin-left: 41.66%;
-}
-
-.mosaic-resize-6 {
-    margin-left: 50%;
-}
-
-.mosaic-resize-7 {
-    margin-left: 58.33%;
-}
-
-.mosaic-resize-8 {
-    margin-left: 66.66%;
-}
-
-.mosaic-resize-9 {
-    margin-left: 75%;
-}
-
-.mosaic-resize-10 {
-    margin-left: 83.33%;
-}
-
-.mosaic-resize-11 {
-    margin-left: 91.66%;
-}
-
-.mosaic-resize-12 {
-    margin-left: 100%;
+@each $breakpoint, $container-max-width in $container-max-widths {
+    @include media-breakpoint-up($breakpoint, $grid-breakpoints) {
+        .mosaic-grid-row-fluid-background {
+            @each $pos, $perc in $resize-handle-perc {
+                .mosaic-resize-#{$pos} {
+                    margin-left:calc((100% - $container-max-width) * .5 + $container-max-width * #{$perc});
+                }
+            }
+        }
+    }
 }
 
 .mosaic-layout-customized {
