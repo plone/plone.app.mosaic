@@ -84,7 +84,7 @@ export default class LayoutManager {
     addAppTile(type, url /*, id */) {
         var self = this;
         // Close overlay
-        if (self.mosaic.overlay.modal) {
+        if (self.mosaic.overlay.modal.$modal) {
             self.mosaic.overlay.modal.hide();
         }
 
@@ -427,7 +427,7 @@ export default class LayoutManager {
                 });
 
                 // Hide overlay
-                if (self.mosaic.overlay.modal) {
+                if (self.mosaic.overlay.modal.$modal) {
                     self.mosaic.overlay.modal.hide();
                 }
             }
@@ -668,52 +668,56 @@ export default class LayoutManager {
 
         // Handle mousemove on tile
         var TileMousemove = function (e) {
-            // Check if dragging
-            if ($(this).parents("[data-panel]").hasClass("mosaic-panel-dragging")) {
-                // Hide all dividers
-                $(".mosaic-selected-divider", self.mosaic.document).removeClass(
-                    "mosaic-selected-divider"
-                );
+            // only if dragging
+            if ($(this).parents("[data-panel]").hasClass("mosaic-panel-dragging") === false) {
+                return;
+            }
 
-                // Don't show dividers if above original or floating tile
-                if (
-                    $(this).hasClass("mosaic-original-tile") === false &&
-                    $(this).hasClass("mosaic-tile-align-left") === false &&
-                    $(this).hasClass("mosaic-tile-align-right") === false
-                ) {
-                    // Get direction
-                    var dir = $(this).mosaicGetDirection(e);
-                    var divider = $(this).children(".mosaic-divider-" + dir);
+            // Hide all dividers
+            $(".mosaic-selected-divider", self.mosaic.document).removeClass(
+                "mosaic-selected-divider"
+            );
 
-                    // Check if left or right divider
-                    if (dir === "left" || dir === "right") {
-                        var row = divider.parent().parent().parent();
+            // Don't show dividers if above original or floating tile
+            if (
+                $(this).hasClass("mosaic-original-tile") === false &&
+                $(this).hasClass("mosaic-tile-align-left") === false &&
+                $(this).hasClass("mosaic-tile-align-right") === false
+            ) {
+                // Get direction
+                var dir = $(this).mosaicGetDirection(e);
+                var divider = $(this).children(".mosaic-divider-" + dir);
 
-                        if (
-                            row.children(".mosaic-grid-cell").length >=
-                            $(".mosaic-panel").data("max-columns")
-                        ) {
-                            // This row already up to the max amount of columns allowed for this layout
-                            // do not allow this item to be dropped alingside any elements in this row
-                            return;
-                        }
+                // Check if left or right divider
+                if (dir === "left" || dir === "right") {
+                    var row = divider.parent().parent().parent();
+                    var cols = row.children(".mosaic-grid-cell").filter((idx, el) => {
+                        // filter out original tile to enable moving tiles
+                        // inside row with max-columns tiles
+                        return ($(el).find(".mosaic-original-tile").length === 0);
+                    });
 
-                        // If row has multiple columns
-                        if (row.children(".mosaic-grid-cell").length > 1) {
-                            divider.height(row.height() + 5);
-                            divider.css(
-                                "top",
-                                row.offset().top - divider.parent().offset().top - 5
-                            );
-                        } else {
-                            divider.height(divider.parent().height() + 5);
-                            divider.css("top", -5);
-                        }
+                    if (cols.length >= $(".mosaic-panel").data("max-columns") ) {
+                        // This row already up to the max amount of columns allowed for this layout
+                        // do not allow new items to be dropped alingside any elements in this row.
+                        return;
                     }
 
-                    // Show divider
-                    divider.addClass("mosaic-selected-divider");
+                    // If row has multiple columns
+                    if (row.children(".mosaic-grid-cell").length > 1) {
+                        divider.height(row.height() + 5);
+                        divider.css(
+                            "top",
+                            row.offset().top - divider.parent().offset().top - 5
+                        );
+                    } else {
+                        divider.height(divider.parent().height() + 5);
+                        divider.css("top", -5);
+                    }
                 }
+
+                // Show divider
+                divider.addClass("mosaic-selected-divider");
             }
         };
 
