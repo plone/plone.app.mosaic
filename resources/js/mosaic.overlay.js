@@ -9,16 +9,15 @@ export default class Overlay {
     constructor(options, panels) {
         this.options = options;
         this.panels = panels;
+        this.modal = null;
     }
 
     initialize() {
-        var self = this;
-        // we don't want to show the original el.
-        document.querySelector(".mosaic-original-content").style.display = "none";
         // we load the original edit form via ajax to get updated content
         // when saving properties
-        self.modal = new Modal(".mosaic-original-content", {
-            ajaxUrl: `${window.location.href}?ajax_load=${new Date().getTime()}`,
+        const edit_url = window.location.href.split("?");
+        this.modal = new Modal(".mosaic-original-content", {
+            ajaxUrl: `${edit_url[0]}?ajax_load=${new Date().getTime()}${edit_url.length > 1 ? "&" + edit_url[1]: ""}`,
             content: "#content-core",
             modalSizeClass: "modal-xl",
             actionOptions: {
@@ -27,17 +26,19 @@ export default class Overlay {
                 reloadWindowOnClose: false,
             }
         });
+        this.modal.init();
     }
 
     open (mode, tile_config) {
-        // Local variables
         var self = this;
-
+        self.modal.on("after-ajax", (e, m) => {
+            // make sure 'pat-layout' isn't initalized twice from the loaded edit form
+            $(self.options.customContentLayout_selector, m.$raw).addClass("disable-patterns");
+        });
         // setup visibility of fields before showing modal
-        self.modal.on("after-render", function() {
+        self.modal.on("after-render", () => {
             self.setup_visibility(mode, tile_config);
         });
-
         // show modal
         self.modal.show();
     }
@@ -47,21 +48,6 @@ export default class Overlay {
         var modalContent = self.modal.$modalContent;
 
         if (mode === "all" && self.options.overlay_hide_fields) {
-            // Get form tabs
-            var formtabs = modalContent.find("nav");
-
-            // Show form tabs
-            formtabs.removeClass("mosaic-hidden");
-
-            // Show all fields
-            modalContent.find("fieldset").children().removeClass("mosaic-hidden");
-
-            // Hide all fieldsets
-            modalContent.find("fieldset").removeClass("active");
-
-            // Deselect all tabs
-            formtabs.find("a").removeClass("active");
-
             // Hide layout field
             modalContent.find(self.options.customContentLayout_selector).addClass("mosaic-hidden");
             modalContent.find(self.options.contentLayout_selector).addClass("mosaic-hidden");
@@ -90,15 +76,6 @@ export default class Overlay {
                     }
                 }
             }
-
-            // Hide tab if fieldset has no visible items
-            modalContent.find("fieldset").each(function () {
-                if ($(this).children("div:not(.mosaic-hidden)").length === 0) {
-                    $(
-                        "a[href=#fieldsetlegend-" + $(this).attr("id").split("-")[1] + "]"
-                    ).addClass("mosaic-hidden");
-                }
-            });
         } else if (mode === "field") {
             // Get fieldset and field
             var field = $("#" + tile_config.id);

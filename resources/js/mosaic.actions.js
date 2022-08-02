@@ -339,7 +339,7 @@ class ActionManager {
         self.registerAction("add-tile", {
             exec: function () {
                 // Open overlay
-                var m = new Modal($(".mosaic-toolbar"), {
+                var m = new Modal(".mosaic-toolbar", {
                     ajaxUrl: mosaic.options.context_url +
                         "/@@add-tile?form.button.Create=Create",
                 });
@@ -407,47 +407,41 @@ class ActionManager {
                             "&form.button.Create=Create",
                         success: function (value, xhr) {
                             utils.loading.hide();
-                            var $value, action_url, authenticator, modalFunc;
+                            var $value, action_url, authenticator, openAddFormInModal;
 
                             // Read form
                             $value = $(value);
                             action_url = $value.find("#add_tile").attr("action");
                             authenticator = $value.find('[name="_authenticator"]').val();
+
                             // Open add form in modal when requires user input
-                            modalFunc = function (html) {
-                                mosaic.overlay.app = new Modal($(".mosaic-toolbar"), {
+                            openAddFormInModal = function (html) {
+                                const m = new Modal(".mosaic-toolbar", {
                                     html: html,
                                     loadLinksWithinModal: true,
                                     buttons: '.formControls > button[type="submit"], .actionButtons > button[type="submit"]',
                                 });
-                                mosaic.overlay.app.$el.off("after-render");
-                                mosaic.overlay.app.on("after-render", function (event) {
+                                m.on("after-render", function (event) {
                                     /* Remove field errors since the user has not actually
                                         been able to fill out the form yet
                                     */
+                                    var $mContent = m.$modalContent;
                                     if (initial) {
+                                        $(".field.error", $mContent).removeClass("error");
                                         $(
-                                            ".field.error",
-                                            mosaic.overlay.app.$modal
-                                        ).removeClass("error");
-                                        $(
-                                            ".fieldErrorBox,.portalMessage",
-                                            mosaic.overlay.app.$modal
+                                            ".fieldErrorBox,.portalMessage,.alert,.invalid-feedback",
+                                            $mContent
                                         ).remove();
                                         initial = false;
                                     }
 
-                                    $('input[name*="cancel"]', mosaic.overlay.app.$modal)
+                                    $('input[name*="cancel"]', $mContent)
                                         .off("click")
                                         .on("click", function () {
-                                            // Close overlay
-                                            mosaic.overlay.app.hide();
-                                            mosaic.overlay.app = null;
+                                            m.hide();
                                         });
                                 });
-                                mosaic.overlay.app.show();
-                                mosaic.overlay.app.$el.off("formActionSuccess");
-                                mosaic.overlay.app.on(
+                                m.on(
                                     "formActionSuccess",
                                     function (event, response, state, xhr) {
                                         var tileUrl = xhr.getResponseHeader("X-Tile-Url");
@@ -457,11 +451,11 @@ class ActionManager {
                                                 response,
                                                 tileUrl
                                             );
-                                            mosaic.overlay.app.hide();
-                                            mosaic.overlay.app = null;
+                                            m.hide();
                                         }
                                     }
                                 );
+                                m.show();
                             };
 
                             // Auto-submit add-form when all required fields are filled
@@ -475,7 +469,7 @@ class ActionManager {
                                     .val();
                                 return val === null || val.length === 0;
                             }).length > 0) {
-                                modalFunc(value);
+                                openAddFormInModal(value);
                             } else if (action_url) {
                                 $("form", $value).ajaxSubmit({
                                     type: "POST",
@@ -493,7 +487,7 @@ class ActionManager {
                                                 tileUrl
                                             );
                                         } else {
-                                            modalFunc(value);
+                                            openAddFormInModal(value);
                                         }
                                     },
                                 });
