@@ -457,7 +457,7 @@ export default class LayoutManager {
             }
 
             // If clicked inside TinyMCE or Modal exit
-            if ($(elm).parents(".mce-content-body, .tox-editor-container, .modal-wrapper").length > 0) {
+            if ($(elm).parents(".mce-content-body, .tox-editor-container, .tox-dialog-wrap, .modal-wrapper").length > 0) {
                 return;
             }
 

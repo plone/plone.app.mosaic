@@ -4,7 +4,8 @@ Changelog
 3.0.0a6 (unreleased)
 --------------------
 
-- Nothing changed yet.
+- Fix saving TinyMCE content when editing source code.
+  [petschki]
 
 
 3.0.0a5 (2022-08-02)
