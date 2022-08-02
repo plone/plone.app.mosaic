@@ -206,7 +206,7 @@ export default class LayoutManager {
 
     getDefaultValue(tile_config) {
         var self = this;
-        var editor_id, editor, start, end;
+        var start, end;
 
         // Wrap title and description fields for proper styles
         if (tile_config.name === "IDublinCore-title") {
@@ -225,7 +225,7 @@ export default class LayoutManager {
                 switch (tile_config.widget) {
                     case "z3c.form.browser.text.TextWidget":
                     case "z3c.form.browser.text.TextFieldWidget":
-                        textval = $("#" + tile_config.id, self.mosaic.document)
+                        var textval = $("#" + tile_config.id, self.mosaic.document)
                             .find("input")
                             .attr("value");
                         return `${start}${textval}${end}`;
