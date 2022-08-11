@@ -1,6 +1,6 @@
 {
     "name": "plone-mosaic",
-    "version": "3.0.0-alpha.1",
+    "version": "3.0.0-alpha.7",
     "description": "Mosaic Editor for Plone",
     "license": "GPL-2.0-only",
     "dependencies": {
