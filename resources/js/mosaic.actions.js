@@ -340,6 +340,7 @@ class ActionManager {
             exec: function () {
                 // Open overlay
                 var m = new Modal(".mosaic-toolbar", {
+                    modalSizeClass: "modal-lg",
                     ajaxUrl: mosaic.options.context_url +
                         "/@@add-tile?form.button.Create=Create",
                 });
@@ -418,7 +419,8 @@ class ActionManager {
                             openAddFormInModal = function (html) {
                                 const m = new Modal(".mosaic-toolbar", {
                                     html: html,
-                                    loadLinksWithinModal: true,
+                                    modalSizeClass: "modal-lg",
+                                    position: "center top",
                                     buttons: '.formControls > button[type="submit"], .actionButtons > button[type="submit"]',
                                 });
                                 m.on("after-render", function (event) {
@@ -435,7 +437,7 @@ class ActionManager {
                                         initial = false;
                                     }
 
-                                    $('input[name*="cancel"]', $mContent)
+                                    $('button[name*="cancel"]', $mContent)
                                         .off("click")
                                         .on("click", function () {
                                             m.hide();

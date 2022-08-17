@@ -20,6 +20,7 @@ export default class Overlay {
             ajaxUrl: `${edit_url[0]}?ajax_load=${new Date().getTime()}${edit_url.length > 1 ? "&" + edit_url[1]: ""}`,
             content: "#content-core",
             modalSizeClass: "modal-xl",
+            position: "center top",
             actionOptions: {
                 isForm: true,
                 displayInModal: false,
@@ -78,7 +79,7 @@ export default class Overlay {
             }
         } else if (mode === "field") {
             // Get fieldset and field
-            var field = $("#" + tile_config.id);
+            var field = $("#" + tile_config.id, modalContent);
             var fieldset = field.parents("fieldset");
 
             // Hide all fieldsets

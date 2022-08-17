@@ -493,6 +493,7 @@ class Tile {
         e.preventDefault();
 
         var self = this;
+        var el = self.el.jquery ? self.el[0] : self.el;
         var tileConfig = this.getConfig();
 
         // Check if app tile
@@ -518,6 +519,13 @@ class Tile {
                     });
                 });
             }
+        }
+
+        // If we have a tinymce instance initialized we have to destroy it
+        const tile_content = el.querySelector(".mosaic-tile-content");
+
+        if(tile_content["pattern-tinymce"]) {
+            tile_content["pattern-tinymce"].destroy();
         }
 
         // Remove empty rows
@@ -583,6 +591,7 @@ class Tile {
             },
             ajaxUrl: tile_url,
             modalSizeClass: "modal-lg",
+            position: "center top",
         });
         modal.$el.off("after-render");
         modal.on("after-render", function (event) {
