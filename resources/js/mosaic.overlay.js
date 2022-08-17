@@ -12,12 +12,17 @@ export default class Overlay {
         this.modal = null;
     }
 
+    ajax_edit_url() {
+        const edit_url = window.location.href.split("?");
+        return `${edit_url[0]}?ajax_load=${new Date().getTime()}${edit_url.length > 1 ? "&" + edit_url[1]: ""}`;
+    }
+
     initialize() {
         // we load the original edit form via ajax to get updated content
         // when saving properties
-        const edit_url = window.location.href.split("?");
-        this.modal = new Modal(".mosaic-original-content", {
-            ajaxUrl: `${edit_url[0]}?ajax_load=${new Date().getTime()}${edit_url.length > 1 ? "&" + edit_url[1]: ""}`,
+        var self = this;
+        self.modal = new Modal(".mosaic-original-content", {
+            ajaxUrl: self.ajax_edit_url(),
             content: "#content-core",
             modalSizeClass: "modal-xl",
             position: "center top",
@@ -27,7 +32,7 @@ export default class Overlay {
                 reloadWindowOnClose: false,
             }
         });
-        this.modal.init();
+        self.modal.init();
     }
 
     open (mode, tile_config) {
@@ -39,6 +44,13 @@ export default class Overlay {
         // setup visibility of fields before showing modal
         self.modal.on("after-render", () => {
             self.setup_visibility(mode, tile_config);
+        });
+        // we have to reload "original" form on page when changing the properties form
+        // here in this modal, otherwise we loose the changed data when saving the mosaic page
+        const ajax_url_parts = self.ajax_edit_url().split("?");
+        self.modal.on("formActionSuccess", (e) => {
+            $("#content-core", $(e.target)).load(
+                `${ajax_url_parts[0]} #content-core > *`, ajax_url_parts[1], () => {});
         });
         // show modal
         self.modal.show();
