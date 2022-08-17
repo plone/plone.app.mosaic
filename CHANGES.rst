@@ -7,6 +7,12 @@ Changelog
 - Fix saving TinyMCE content when editing source code.
   [petschki]
 
+- Fix saving data in properties modal which got lost after saving mosaic page.
+  [petschki]
+
+- generalization in modal positioning (top center)
+  [petschki]
+
 
 3.0.0a5 (2022-08-02)
 --------------------
