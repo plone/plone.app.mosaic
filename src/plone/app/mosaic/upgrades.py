@@ -8,6 +8,8 @@ from plone.registry.interfaces import IRegistry
 from Products.CMFCore.utils import getToolByName
 from zope.component import getUtility
 
+import os
+
 
 PROFILE_ID = "profile-plone.app.mosaic:default"
 
@@ -231,7 +233,9 @@ def add_fluid_row_styles(context):
     )
 
 
+def _profile_path(name):
+    return os.path.join(os.path.dirname(__file__), "profiles", "upgrades", name)
+
+
 def upgrade_to_6000(context):
-    context.runImportStepFromProfile(
-        PROFILE_ID.replace("default", "to_6000"), "plone.app.registry"
-    )
+    context.runAllImportStepsFromProfile(None, path=_profile_path("to_6000"))
