@@ -435,12 +435,12 @@
       run_deps="false"
       />
 
-   <genericsetup:upgradeStep
-      title="Upgrade registry configuration"
+  <genericsetup:upgradeDepends
+      title="Upgrade registry configuration 2"
       profile="plone.app.mosaic:default"
       source="5030"
       destination="6000"
-      handler=".upgrades.upgrade_to_6000"
+      import_profile="plone.app.mosaic:profiles/upgrades/to_6000"
       />
 
 </configure>

@@ -231,11 +231,3 @@ def add_fluid_row_styles(context):
     context.runImportStepFromProfile(
         PROFILE_ID.replace("default", "to_5022"), "plone.app.registry"
     )
-
-
-def _profile_path(name):
-    return os.path.join(os.path.dirname(__file__), "profiles", "upgrades", name)
-
-
-def upgrade_to_6000(context):
-    context.runAllImportStepsFromProfile(None, path=_profile_path("to_6000"))
