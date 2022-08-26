@@ -3,9 +3,10 @@ const mf_config = require("@patternslib/dev/webpack/webpack.mf");
 const path = require("path");
 const package_json = require("./package.json");
 const package_json_mockup = require("@plone/mockup/package.json");
-const patternslib_config = require("@patternslib/dev/webpack/webpack.config.js");
+const package_json_patternslib = require("@patternslib/patternslib/package.json");
+const webpack_config = require("@patternslib/dev/webpack/webpack.config").config;
 
-module.exports = async (env, argv) => {
+module.exports = () => {
     let config = {
         entry: {
             "plone-mosaic.min": path.resolve(__dirname, "resources/index-plone-mosaic"),
@@ -13,7 +14,10 @@ module.exports = async (env, argv) => {
         },
     };
 
-    config = patternslib_config(env, argv, config, ["@plone/mockup"]);
+    config = webpack_config({
+        config: config,
+        package_json: package_json,
+    });
     config.output.path = path.resolve(__dirname, "src/plone/app/mosaic/browser/static");
 
     config.plugins.push(
@@ -22,6 +26,7 @@ module.exports = async (env, argv) => {
             filename: "plone-mosaic-remote.min.js",
             remote_entry: config.entry["plone-mosaic.min"],
             dependencies: {
+                ...package_json_patternslib.dependencies,
                 ...package_json_mockup.dependencies,
                 ...package_json.dependencies,
             },
@@ -33,6 +38,7 @@ module.exports = async (env, argv) => {
             filename: "layouts-editor-remote.min.js",
             remote_entry: config.entry["layouts-editor.min"],
             dependencies: {
+                ...package_json_patternslib.dependencies,
                 ...package_json_mockup.dependencies,
                 ...package_json.dependencies,
             },
