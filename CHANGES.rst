@@ -4,7 +4,8 @@ Changelog
 3.0.0a7 (unreleased)
 --------------------
 
-- Nothing changed yet.
+- Upgrade JS dependencies and GHA config.
+  [petschki]
 
 
 3.0.0a6 (2022-08-17)
