@@ -1,6 +1,17 @@
 <?xml version="1.0"?>
 <registry>
 
+  <!-- remove obsolete bundles -->
+  <records prefix="plone.bundles/mosaic-grid"
+           interface="Products.CMFPlone.interfaces.IBundleRegistry"
+           remove="true">
+  </records>
+
+  <records prefix="plone.bundles/mosaic-styles"
+           interface="Products.CMFPlone.interfaces.IBundleRegistry"
+           remove="true">
+  </records>
+
   <records prefix="plone.bundles/mosaic" interface='Products.CMFPlone.interfaces.IBundleRegistry'>
     <value key="enabled">True</value>
     <value key="expression">python: member is not None</value>

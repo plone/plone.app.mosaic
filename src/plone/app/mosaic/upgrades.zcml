@@ -1,455 +1,420 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
-    xmlns:zcml="http://namespaces.zope.org/zcml"
-    >
+    xmlns:zcml="http://namespaces.zope.org/zcml">
 
-  <genericsetup:upgradeStep
-      title="Upgrade example layouts; Reinstall plone.app.standardtiles"
-      profile="plone.app.mosaic:default"
-      source="0001"
-      destination="2"
-      handler=".upgrades.upgrade_1_to_2"
-      />
+    <genericsetup:upgradeStep
+        title="Upgrade example layouts; Reinstall plone.app.standardtiles"
+        profile="plone.app.mosaic:default"
+        source="0001"
+        destination="2"
+        handler=".upgrades.upgrade_1_to_2" />
 
-  <genericsetup:upgradeDepends
-      title="Add 'tile-align-center' tile style"
-      profile="plone.app.mosaic:default"
-      source="0001"
-      destination="2"
-      import_profile="plone.app.mosaic:default"
-      import_steps="plone.app.registry"
-      run_deps="false"
-      />
+    <genericsetup:upgradeDepends
+        title="Add 'tile-align-center' tile style"
+        profile="plone.app.mosaic:default"
+        source="0001"
+        destination="2"
+        import_profile="plone.app.mosaic:default"
+        import_steps="plone.app.registry"
+        run_deps="false" />
 
-  <genericsetup:upgradeStep
-      title="Upgrade example layouts; Reinstall plone.app.standardtiles"
-      profile="plone.app.mosaic:bbb"
-      source="1"
-      destination="2"
-      handler=".upgrades.upgrade_1_to_2"
-      zcml:condition="not-have plone-5"
-      />
+    <genericsetup:upgradeStep
+        title="Upgrade example layouts; Reinstall plone.app.standardtiles"
+        profile="plone.app.mosaic:bbb"
+        source="1"
+        destination="2"
+        handler=".upgrades.upgrade_1_to_2"
+        zcml:condition="not-have plone-5" />
 
-  <genericsetup:upgradeDepends
-      title="Add 'tile-align-center' tile style"
-      profile="plone.app.mosaic:bbb"
-      source="1"
-      destination="2"
-      import_profile="plone.app.mosaic:default"
-      import_steps="plone.app.registry"
-      run_deps="false"
-      zcml:condition="not-have plone-5"
-      />
+    <genericsetup:upgradeDepends
+        title="Add 'tile-align-center' tile style"
+        profile="plone.app.mosaic:bbb"
+        source="1"
+        destination="2"
+        import_profile="plone.app.mosaic:default"
+        import_steps="plone.app.registry"
+        run_deps="false"
+        zcml:condition="not-have plone-5" />
 
-  <genericsetup:upgradeStep
-      title="Upgrade example layouts"
-      profile="plone.app.mosaic:default"
-      source="2"
-      destination="5003"
-      handler=".upgrades.upgrade_2_to_3"
-      />
+    <genericsetup:upgradeStep
+        title="Upgrade example layouts"
+        profile="plone.app.mosaic:default"
+        source="2"
+        destination="5003"
+        handler=".upgrades.upgrade_2_to_3" />
 
-  <genericsetup:upgradeStep
-      title="Upgrade example layouts"
-      profile="plone.app.mosaic:bbb"
-      source="2"
-      destination="4003"
-      handler=".upgrades.upgrade_2_to_3"
-      zcml:condition="not-have plone-5"
-      />
+    <genericsetup:upgradeStep
+        title="Upgrade example layouts"
+        profile="plone.app.mosaic:bbb"
+        source="2"
+        destination="4003"
+        handler=".upgrades.upgrade_2_to_3"
+        zcml:condition="not-have plone-5" />
 
-  <genericsetup:upgradeStep
-      title="Add layout editor controlpanel"
-      profile="plone.app.mosaic:default"
-      source="5003"
-      destination="5004"
-      handler=".upgrades.upgrade_3_to_4"
-      />
+    <genericsetup:upgradeStep
+        title="Add layout editor controlpanel"
+        profile="plone.app.mosaic:default"
+        source="5003"
+        destination="5004"
+        handler=".upgrades.upgrade_3_to_4" />
 
-  <genericsetup:upgradeDepends
-      title="Add layout editor controlpanel (disabled)"
-      profile="plone.app.mosaic:bbb"
-      source="4003"
-      destination="4004"
-      import_profile="plone.app.mosaic:bbb"
-      import_steps="controlpanel"
-      run_deps="false"
-      zcml:condition="not-have plone-5"
-      />
+    <genericsetup:upgradeDepends
+        title="Add layout editor controlpanel (disabled)"
+        profile="plone.app.mosaic:bbb"
+        source="4003"
+        destination="4004"
+        import_profile="plone.app.mosaic:bbb"
+        import_steps="controlpanel"
+        run_deps="false"
+        zcml:condition="not-have plone-5" />
 
-  <genericsetup:upgradeStep
-      title="Add 'link' and 'unlink' actions"
-      profile="plone.app.mosaic:default"
-      source="5004"
-      destination="5005"
-      handler=".upgrades.upgrade_4_to_5"
-      />
+    <genericsetup:upgradeStep
+        title="Add 'link' and 'unlink' actions"
+        profile="plone.app.mosaic:default"
+        source="5004"
+        destination="5005"
+        handler=".upgrades.upgrade_4_to_5" />
 
-  <genericsetup:upgradeDepends
-      title="Add 'link' and 'unlink' actions"
-      profile="plone.app.mosaic:bbb"
-      source="4004"
-      destination="4005"
-      import_profile="plone.app.mosaic:default"
-      import_steps="plone.app.registry"
-      run_deps="false"
-      zcml:condition="not-have plone-5"
-      />
+    <genericsetup:upgradeDepends
+        title="Add 'link' and 'unlink' actions"
+        profile="plone.app.mosaic:bbb"
+        source="4004"
+        destination="4005"
+        import_profile="plone.app.mosaic:default"
+        import_steps="plone.app.registry"
+        run_deps="false"
+        zcml:condition="not-have plone-5" />
 
-  <genericsetup:upgradeStep
-      title="Refactor rich text formatting into inline TinyMCE toolbar"
-      profile="plone.app.mosaic:default"
-      source="5005"
-      destination="5006"
-      handler=".upgrades.upgrade_5_to_6"
-      />
+    <genericsetup:upgradeStep
+        title="Refactor rich text formatting into inline TinyMCE toolbar"
+        profile="plone.app.mosaic:default"
+        source="5005"
+        destination="5006"
+        handler=".upgrades.upgrade_5_to_6" />
 
-  <genericsetup:upgradeStep
-      title="Refactor rich text formatting into inline TinyMCE toolbar"
-      profile="plone.app.mosaic:bbb"
-      source="4005"
-      destination="4006"
-      handler=".upgrades.upgrade_5_to_6"
-      zcml:condition="not-have plone-5"
-      />
+    <genericsetup:upgradeStep
+        title="Refactor rich text formatting into inline TinyMCE toolbar"
+        profile="plone.app.mosaic:bbb"
+        source="4005"
+        destination="4006"
+        handler=".upgrades.upgrade_5_to_6"
+        zcml:condition="not-have plone-5" />
 
-  <genericsetup:upgradeStep
-      title="Upgrade TTW layout examples"
-      profile="plone.app.mosaic:default"
-      source="5006"
-      destination="5007"
-      handler=".upgrades.upgrade_6_to_7"
-      />
+    <genericsetup:upgradeStep
+        title="Upgrade TTW layout examples"
+        profile="plone.app.mosaic:default"
+        source="5006"
+        destination="5007"
+        handler=".upgrades.upgrade_6_to_7" />
 
-  <genericsetup:upgradeStep
-      title="Upgrade TTW layout examples"
-      profile="plone.app.mosaic:bbb"
-      source="4006"
-      destination="4007"
-      handler=".upgrades.upgrade_6_to_7"
-      zcml:condition="not-have plone-5"
-      />
+    <genericsetup:upgradeStep
+        title="Upgrade TTW layout examples"
+        profile="plone.app.mosaic:bbb"
+        source="4006"
+        destination="4007"
+        handler=".upgrades.upgrade_6_to_7"
+        zcml:condition="not-have plone-5" />
 
-  <genericsetup:upgradeStep
-      title="Upgrade TTW layout examples and registry configuration"
-      profile="plone.app.mosaic:default"
-      source="5007"
-      destination="5008"
-      handler=".upgrades.upgrade_7_to_8"
-      />
+    <genericsetup:upgradeStep
+        title="Upgrade TTW layout examples and registry configuration"
+        profile="plone.app.mosaic:default"
+        source="5007"
+        destination="5008"
+        handler=".upgrades.upgrade_7_to_8" />
 
-  <genericsetup:upgradeStep
-      title="Upgrade TTW layout examples and registry configuration"
-      profile="plone.app.mosaic:bbb"
-      source="4007"
-      destination="4008"
-      handler=".upgrades.upgrade_7_to_8"
-      zcml:condition="not-have plone-5"
-      />
+    <genericsetup:upgradeStep
+        title="Upgrade TTW layout examples and registry configuration"
+        profile="plone.app.mosaic:bbb"
+        source="4007"
+        destination="4008"
+        handler=".upgrades.upgrade_7_to_8"
+        zcml:condition="not-have plone-5" />
 
-  <genericsetup:upgradeStep
-      title="Upgrade available view methods and registry configuration"
-      profile="plone.app.mosaic:default"
-      source="5008"
-      destination="5009"
-      handler=".upgrades.upgrade_8_to_9"
-      />
+    <genericsetup:upgradeStep
+        title="Upgrade available view methods and registry configuration"
+        profile="plone.app.mosaic:default"
+        source="5008"
+        destination="5009"
+        handler=".upgrades.upgrade_8_to_9" />
 
-  <genericsetup:upgradeStep
-      title="Upgrade available view methods and registry configuration"
-      profile="plone.app.mosaic:bbb"
-      source="4008"
-      destination="4009"
-      handler=".upgrades.upgrade_8_to_9"
-      zcml:condition="not-have plone-5"
-      />
+    <genericsetup:upgradeStep
+        title="Upgrade available view methods and registry configuration"
+        profile="plone.app.mosaic:bbb"
+        source="4008"
+        destination="4009"
+        handler=".upgrades.upgrade_8_to_9"
+        zcml:condition="not-have plone-5" />
 
-  <genericsetup:upgradeStep
-      title="Migrate layouted content to use 'layout_view' instead of 'view'"
-      profile="plone.app.mosaic:default"
-      source="5009"
-      destination="5010"
-      handler=".upgrades.upgrade_9_to_10"
-      />
+    <genericsetup:upgradeStep
+        title="Migrate layouted content to use 'layout_view' instead of 'view'"
+        profile="plone.app.mosaic:default"
+        source="5009"
+        destination="5010"
+        handler=".upgrades.upgrade_9_to_10" />
 
-  <genericsetup:upgradeStep
-      title="Migrate layouted content to use 'layout_view' instead of 'view'"
-      profile="plone.app.mosaic:bbb"
-      source="4009"
-      destination="4010"
-      handler=".upgrades.upgrade_9_to_10"
-      zcml:condition="not-have plone-5"
-      />
+    <genericsetup:upgradeStep
+        title="Migrate layouted content to use 'layout_view' instead of 'view'"
+        profile="plone.app.mosaic:bbb"
+        source="4009"
+        destination="4010"
+        handler=".upgrades.upgrade_9_to_10"
+        zcml:condition="not-have plone-5" />
 
-  <genericsetup:upgradeStep
-      title="Upgrade registry configuration"
-      profile="plone.app.mosaic:default"
-      source="5010"
-      destination="5011"
-      handler=".upgrades.upgrade_registry"
-      />
+    <genericsetup:upgradeStep
+        title="Upgrade registry configuration"
+        profile="plone.app.mosaic:default"
+        source="5010"
+        destination="5011"
+        handler=".upgrades.upgrade_registry" />
 
-  <genericsetup:upgradeStep
-      title="Upgrade registry configuration"
-      profile="plone.app.mosaic:bbb"
-      source="4010"
-      destination="4011"
-      handler=".upgrades.upgrade_registry"
-      zcml:condition="not-have plone-5"
-      />
+    <genericsetup:upgradeStep
+        title="Upgrade registry configuration"
+        profile="plone.app.mosaic:bbb"
+        source="4010"
+        destination="4011"
+        handler=".upgrades.upgrade_registry"
+        zcml:condition="not-have plone-5" />
 
-  <genericsetup:upgradeStep
-      title="Upgrade registry configuration"
-      profile="plone.app.mosaic:default"
-      source="5011"
-      destination="5012"
-      handler=".upgrades.upgrade_registry"
-      />
+    <genericsetup:upgradeStep
+        title="Upgrade registry configuration"
+        profile="plone.app.mosaic:default"
+        source="5011"
+        destination="5012"
+        handler=".upgrades.upgrade_registry" />
 
-  <genericsetup:upgradeStep
-      title="Upgrade registry configuration"
-      profile="plone.app.mosaic:bbb"
-      source="4011"
-      destination="4012"
-      handler=".upgrades.upgrade_registry"
-      zcml:condition="not-have plone-5"
-      />
+    <genericsetup:upgradeStep
+        title="Upgrade registry configuration"
+        profile="plone.app.mosaic:bbb"
+        source="4011"
+        destination="4012"
+        handler=".upgrades.upgrade_registry"
+        zcml:condition="not-have plone-5" />
 
-  <genericsetup:upgradeStep
-      title="Upgrade registry configuration"
-      profile="plone.app.mosaic:default"
-      source="5012"
-      destination="5013"
-      handler=".upgrades.upgrade_registry"
-      />
+    <genericsetup:upgradeStep
+        title="Upgrade registry configuration"
+        profile="plone.app.mosaic:default"
+        source="5012"
+        destination="5013"
+        handler=".upgrades.upgrade_registry" />
 
-  <genericsetup:upgradeStep
-      title="Upgrade registry and add index"
-      profile="plone.app.mosaic:default"
-      source="5013"
-      destination="5014"
-      handler=".upgrades.upgrade_to_1_0_0"
-      />
+    <genericsetup:upgradeStep
+        title="Upgrade registry and add index"
+        profile="plone.app.mosaic:default"
+        source="5013"
+        destination="5014"
+        handler=".upgrades.upgrade_to_1_0_0" />
 
-  <genericsetup:upgradeStep
-      title="Upgrade buttons"
-      profile="plone.app.mosaic:default"
-      source="5014"
-      destination="5015"
-      handler=".upgrades.upgrade_to_1_0rc3"
-      />
+    <genericsetup:upgradeStep
+        title="Upgrade buttons"
+        profile="plone.app.mosaic:default"
+        source="5014"
+        destination="5015"
+        handler=".upgrades.upgrade_to_1_0rc3" />
 
-  <genericsetup:registerProfile
-      name="to_5016"
-      title="Upgrade profile to 5016 (1.1)"
-      description=""
-      provides="Products.GenericSetup.interfaces.EXTENSION"
-      for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
-      directory="profiles/upgrades/to_5016"
-      />
+    <genericsetup:registerProfile
+        name="to_5016"
+        title="Upgrade profile to 5016 (1.1)"
+        description=""
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
+        directory="profiles/upgrades/to_5016" />
 
-  <genericsetup:upgradeStep
-      title="Upgrade omitted fields"
-      profile="plone.app.mosaic:default"
-      source="5015"
-      destination="5016"
-      handler=".upgrades.upgrade_to_1_1"
-      />
+    <genericsetup:upgradeStep
+        title="Upgrade omitted fields"
+        profile="plone.app.mosaic:default"
+        source="5015"
+        destination="5016"
+        handler=".upgrades.upgrade_to_1_1" />
 
-  <genericsetup:registerProfile
-      name="to_5017"
-      title="Upgrade profile to 5017 (2.0.0rc1)"
-      description=""
-      provides="Products.GenericSetup.interfaces.EXTENSION"
-      for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
-      directory="profiles/upgrades/to_5017"
-      />
+    <genericsetup:registerProfile
+        name="to_5017"
+        title="Upgrade profile to 5017 (2.0.0rc1)"
+        description=""
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
+        directory="profiles/upgrades/to_5017" />
 
-  <genericsetup:upgradeStep
-      title="Upgrade to 2.0.0rc1"
-      profile="plone.app.mosaic:default"
-      source="5016"
-      destination="5017"
-      handler=".upgrades.upgrade_to_2_0rc1"
-      />
+    <genericsetup:upgradeStep
+        title="Upgrade to 2.0.0rc1"
+        profile="plone.app.mosaic:default"
+        source="5016"
+        destination="5017"
+        handler=".upgrades.upgrade_to_2_0rc1" />
 
-  <genericsetup:registerProfile
-      name="to_5018"
-      title="Upgrade profile to 5018 (2.0.0rc3)"
-      description=""
-      provides="Products.GenericSetup.interfaces.EXTENSION"
-      for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
-      directory="profiles/upgrades/to_5018"
-      />
+    <genericsetup:registerProfile
+        name="to_5018"
+        title="Upgrade profile to 5018 (2.0.0rc3)"
+        description=""
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
+        directory="profiles/upgrades/to_5018" />
 
-  <genericsetup:upgradeStep
-      title="Upgrade to 2.0.0rc3"
-      profile="plone.app.mosaic:default"
-      source="5017"
-      destination="5018"
-      handler=".upgrades.upgrade_to_2_0rc3"
-      />
+    <genericsetup:upgradeStep
+        title="Upgrade to 2.0.0rc3"
+        profile="plone.app.mosaic:default"
+        source="5017"
+        destination="5018"
+        handler=".upgrades.upgrade_to_2_0rc3" />
 
-  <genericsetup:registerProfile
-      name="to_5019"
-      title="Upgrade profile to 5019 (2.0.0rc4)"
-      description=""
-      provides="Products.GenericSetup.interfaces.EXTENSION"
-      for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
-      directory="profiles/upgrades/to_5019"
-      />
+    <genericsetup:registerProfile
+        name="to_5019"
+        title="Upgrade profile to 5019 (2.0.0rc4)"
+        description=""
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
+        directory="profiles/upgrades/to_5019" />
 
-  <genericsetup:upgradeStep
-      title="Fix default layout definitions to be ASCII strings"
-      profile="plone.app.mosaic:default"
-      source="5018"
-      destination="5019"
-      handler=".upgrades.upgrade_to_2_0rc4"
-      />
+    <genericsetup:upgradeStep
+        title="Fix default layout definitions to be ASCII strings"
+        profile="plone.app.mosaic:default"
+        source="5018"
+        destination="5019"
+        handler=".upgrades.upgrade_to_2_0rc4" />
 
-  <genericsetup:registerProfile
-      name="to_5020"
-      title="Upgrade profile to 5020 (2.0.0rc5)"
-      description=""
-      provides="Products.GenericSetup.interfaces.EXTENSION"
-      for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
-      directory="profiles/upgrades/to_5020"
-      />
+    <genericsetup:registerProfile
+        name="to_5020"
+        title="Upgrade profile to 5020 (2.0.0rc5)"
+        description=""
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
+        directory="profiles/upgrades/to_5020" />
 
-  <genericsetup:upgradeStep
-      title="Fix grid and row styles for anonymous"
-      profile="plone.app.mosaic:default"
-      source="5019"
-      destination="5020"
-      handler=".upgrades.upgrade_to_2_0rc5"
-      />
+    <genericsetup:upgradeStep
+        title="Fix grid and row styles for anonymous"
+        profile="plone.app.mosaic:default"
+        source="5019"
+        destination="5020"
+        handler=".upgrades.upgrade_to_2_0rc5" />
 
-  <genericsetup:upgradeStep
-      title="Remove table specific context menu from the default rich text tiles"
-      profile="plone.app.mosaic:default"
-      source="5020"
-      destination="5021"
-      handler=".upgrades.upgrade_to_2_0rc6"
-      />
+    <genericsetup:upgradeStep
+        title="Remove table specific context menu from the default rich text tiles"
+        profile="plone.app.mosaic:default"
+        source="5020"
+        destination="5021"
+        handler=".upgrades.upgrade_to_2_0rc6" />
 
-  <genericsetup:registerProfile
-      name="to_5022"
-      title="Upgrade profile to 5022"
-      description=""
-      provides="Products.GenericSetup.interfaces.EXTENSION"
-      for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
-      directory="profiles/upgrades/to_5022"
-      />
+    <genericsetup:registerProfile
+        name="to_5022"
+        title="Upgrade profile to 5022"
+        description=""
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
+        directory="profiles/upgrades/to_5022" />
 
-  <genericsetup:upgradeStep
-      title="Add fluid row styles"
-      profile="plone.app.mosaic:default"
-      source="5021"
-      destination="5022"
-      handler=".upgrades.add_fluid_row_styles"
-      />
+    <genericsetup:upgradeStep
+        title="Add fluid row styles"
+        profile="plone.app.mosaic:default"
+        source="5021"
+        destination="5022"
+        handler=".upgrades.add_fluid_row_styles" />
 
-  <genericsetup:upgradeDepends
-      title="layout management fix -&gt; replacement layout listing"
-      profile="plone.app.mosaic:default"
-      source="5022"
-      destination="5023"
-      import_profile="plone.app.mosaic:default"
-      import_steps="plone.app.registry"
-      run_deps="false"
-      />
+    <genericsetup:upgradeDepends
+        title="layout management fix -&gt; replacement layout listing"
+        profile="plone.app.mosaic:default"
+        source="5022"
+        destination="5023"
+        import_profile="plone.app.mosaic:default"
+        import_steps="plone.app.registry"
+        run_deps="false" />
 
-  <genericsetup:upgradeDepends
-      title="add plone-container-xl width and fix row widths for enabled left toolbar"
-      profile="plone.app.mosaic:default"
-      source="5023"
-      destination="5024"
-      import_profile="plone.app.mosaic:default"
-      import_steps="plone.app.registry"
-      run_deps="false"
-      />
+    <genericsetup:upgradeDepends
+        title="add plone-container-xl width and fix row widths for enabled left toolbar"
+        profile="plone.app.mosaic:default"
+        source="5023"
+        destination="5024"
+        import_profile="plone.app.mosaic:default"
+        import_steps="plone.app.registry"
+        run_deps="false" />
 
-  <genericsetup:upgradeDepends
-      title="recompile resources"
-      profile="plone.app.mosaic:default"
-      source="5024"
-      destination="5025"
-      import_profile="plone.app.mosaic:default"
-      import_steps="plone.app.registry"
-      run_deps="false"
-      />
+    <genericsetup:upgradeDepends
+        title="recompile resources"
+        profile="plone.app.mosaic:default"
+        source="5024"
+        destination="5025"
+        import_profile="plone.app.mosaic:default"
+        import_steps="plone.app.registry"
+        run_deps="false" />
 
-  <genericsetup:upgradeDepends
-      title="Update resources"
-      description="Remove duplicate CSS selectors introduced with bootstrap less reference"
-      profile="plone.app.mosaic:default"
-      source="5025"
-      destination="5026"
-      import_profile="plone.app.mosaic:default"
-      import_steps="plone.app.registry"
-      run_deps="false"
-      />
+    <genericsetup:upgradeDepends
+        title="Update resources"
+        description="Remove duplicate CSS selectors introduced with bootstrap less reference"
+        profile="plone.app.mosaic:default"
+        source="5025"
+        destination="5026"
+        import_profile="plone.app.mosaic:default"
+        import_steps="plone.app.registry"
+        run_deps="false" />
 
-  <genericsetup:upgradeDepends
-      title="TinyMCE sticky toolbar fix "
-      profile="plone.app.mosaic:default"
-      source="5026"
-      destination="5027"
-      import_steps="plone.app.registry"
-      run_deps="false"
-      />
+    <genericsetup:upgradeDepends
+        title="TinyMCE sticky toolbar fix "
+        profile="plone.app.mosaic:default"
+        source="5026"
+        destination="5027"
+        import_steps="plone.app.registry"
+        run_deps="false" />
 
-  <genericsetup:upgradeDepends
-      title="JS/CSS Resource updates"
-      profile="plone.app.mosaic:default"
-      source="5027"
-      destination="5028"
-      import_steps="plone.app.registry"
-      run_deps="false"
-      />
+    <genericsetup:upgradeDepends
+        title="JS/CSS Resource updates"
+        profile="plone.app.mosaic:default"
+        source="5027"
+        destination="5028"
+        import_steps="plone.app.registry"
+        run_deps="false" />
 
-  <genericsetup:registerProfile
-      name="to_5029"
-      title="Upgrade profile to 5029"
-      description=""
-      directory="profiles/upgrades/to_5029"
-      for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
-      provides="Products.GenericSetup.interfaces.EXTENSION"
-      />
+    <genericsetup:registerProfile
+        name="to_5029"
+        title="Upgrade profile to 5029"
+        description=""
+        directory="profiles/upgrades/to_5029"
+        for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
+        provides="Products.GenericSetup.interfaces.EXTENSION" />
 
-  <genericsetup:upgradeDepends
-      profile="plone.app.mosaic:default"
-      source="5028"
-      destination="5029"
-      title="Add bootstrapPath less variable"
-      import_profile="plone.app.mosaic:to_5029"
-      />
+    <genericsetup:upgradeDepends
+        profile="plone.app.mosaic:default"
+        source="5028"
+        destination="5029"
+        title="Add bootstrapPath less variable"
+        import_profile="plone.app.mosaic:to_5029" />
 
-  <genericsetup:upgradeDepends
-      profile="plone.app.mosaic:default"
-      source="5029"
-      destination="5030"
-      title="JS/CSS Resource updates"
-      import_steps="plone.app.registry"
-      run_deps="false"
-      />
+    <genericsetup:upgradeDepends
+        profile="plone.app.mosaic:default"
+        source="5029"
+        destination="5030"
+        title="JS/CSS Resource updates"
+        import_steps="plone.app.registry"
+        run_deps="false" />
 
-  <genericsetup:registerProfile
-      name="to_6000"
-      title="Upgrade profile to 6000"
-      description=""
-      provides="Products.GenericSetup.interfaces.EXTENSION"
-      for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
-      directory="profiles/upgrades/to_6000"
-      />
+    <genericsetup:registerProfile
+        name="to_6000"
+        title="Upgrade profile to 6000"
+        description=""
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
+        directory="profiles/upgrades/to_6000" />
 
-   <genericsetup:upgradeStep
-      title="Upgrade registry configuration"
-      profile="plone.app.mosaic:default"
-      source="5030"
-      destination="6000"
-      handler=".upgrades.upgrade_to_6000"
-      />
+    <genericsetup:upgradeStep
+        title="Upgrade registry configuration"
+        profile="plone.app.mosaic:default"
+        source="5030"
+        destination="6000"
+        handler=".upgrades.upgrade_to_6000" />
+
+    <genericsetup:registerProfile
+        name="to_6001"
+        title="Upgrade profile to 6001"
+        description=""
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
+        directory="profiles/upgrades/to_6001" />
+
+    <genericsetup:upgradeSteps
+        profile="plone.app.mosaic:default"
+        source="6000"
+        destination="6001">
+        <genericsetup:upgradeDepends
+            title="Upgrade resource registry."
+            import_profile="plone.app.mosaic:to_6001" />
+    </genericsetup:upgradeSteps>
 
 </configure>
