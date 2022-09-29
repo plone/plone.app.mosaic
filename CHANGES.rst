@@ -4,7 +4,11 @@ Changelog
 3.0.0a7 (unreleased)
 --------------------
 
+
 - Add upgrade steps to cleanup resource registry.
+  [petschki]
+  
+- Upgrade JS dependencies and GHA config.
   [petschki]
 
 
