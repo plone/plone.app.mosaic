@@ -80,7 +80,7 @@ Installation
 ------------
 
 **Plone Mosaic** is installed by building a Plone site with package
-`plone.app.mosaic`` and activating its **Plone Mosaic** add-on.
+``plone.app.mosaic`` and activating its **Plone Mosaic** add-on.
 
 *The dependencies are already version pinned in Plones ecosystem.*
 
