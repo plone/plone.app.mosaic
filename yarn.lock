@@ -8659,9 +8659,9 @@ tinymce-i18n@^20.12.25:
   integrity sha512-MOVCgGbkZ2ZVvb9B38Mbdhwam1oZOBXDkxmzcHX3W7c3RCB8r4VG9DS8+4BcsoCCgfUg1JXwh2Hk+7aXcYXkkg==
 
 tinymce@^5.10.2:
-  version "5.10.5"
-  resolved "https://registry.yarnpkg.com/tinymce/-/tinymce-5.10.5.tgz#02aef6a67e915f1559e51fa8fb007270d9666778"
-  integrity sha512-nFKtLhmoRtExBxUfv06JlkbQWux5D+d115vxSRAqUmccZdrtpFvOIYwZmikvulLdM9pfEpvO0B+RQ2qFV/+R7w==
+  version "5.10.7"
+  resolved "https://registry.yarnpkg.com/tinymce/-/tinymce-5.10.7.tgz#d89d446f1962f2a1df6b2b70018ce475ec7ffb80"
+  integrity sha512-9UUjaO0R7FxcFo0oxnd1lMs7H+D0Eh+dDVo5hKbVe1a+VB0nit97vOqlinj+YwgoBDt6/DSCUoWqAYlLI8BLYA==
 
 tippy.js@^6.3.7:
   version "6.3.7"
