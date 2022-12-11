@@ -23,9 +23,7 @@
         "css-minify": "cleancss -O1 --format breakWith=lf --source-map --source-map-inline-sources --output src/plone/app/mosaic/browser/static/mosaic.min.css src/plone/app/mosaic/browser/static/mosaic.css"
     },
     "browserslist": [
-        "last 2 versions",
-        "not dead",
-        "> 0.2%"
+        "defaults"
     ],
     "publishConfig": {
         "access": "public"
