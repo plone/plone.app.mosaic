@@ -1,10 +1,14 @@
 Changelog
 =========
 
-3.0.0b2 (unreleased)
---------------------
+3.0.0 (unreleased)
+------------------
 
-- Nothing changed yet.
+- Fix saving/editing custom layouts and remove TTW layouts editing in the controlpanel.
+  [petschki]
+
+- Refactor resource bundles: use only one mosaic bundle.
+  [petschki]
 
 
 3.0.0b1 (2022-11-25)
@@ -13,7 +17,7 @@ Changelog
 
 - Add upgrade steps to cleanup resource registry.
   [petschki]
-  
+
 - Upgrade JS dependencies and GHA config.
   [petschki]
 
