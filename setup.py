@@ -11,9 +11,10 @@ setup(
     namespace_packages=["plone", "plone.app"],
     include_package_data=True,
     zip_safe=False,
+    python_requires=">=3.8",
     install_requires=[
         "setuptools",
-        "Products.CMFPlone>=6.0.0a6",
+        "Products.CMFPlone",
         "plone.app.blocks",
         "plone.app.tiles",
         "plone.app.drafts",
