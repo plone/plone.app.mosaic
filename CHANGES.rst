@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.0.0 (unreleased)
+3.0.0 (2022-12-12)
 ------------------
 
 - Fix saving/editing custom layouts and remove TTW layouts editing in the controlpanel.
