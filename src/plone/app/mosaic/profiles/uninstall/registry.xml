@@ -35,6 +35,5 @@
 
   <records prefix="plone.bundles/mosaic" interface='Products.CMFPlone.interfaces.IBundleRegistry' remove="true" />
   <records prefix="plone.bundles/mosaic-css" interface='Products.CMFPlone.interfaces.IBundleRegistry' remove="true" />
-  <records prefix="plone.bundles/layouts-editor" interface='Products.CMFPlone.interfaces.IBundleRegistry' remove="true"  />
 
 </registry>

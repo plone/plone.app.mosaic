@@ -2,11 +2,15 @@ import "regenerator-runtime/runtime"; // needed for ``await`` support
 import $ from "jquery";
 import _ from "underscore";
 import utils from "@plone/mockup/src/core/utils";
-import "../scss/layouts-editor.scss";
+import Base from "@patternslib/patternslib/src/core/base";
 
-$(document).ready(function () {
-    var EditorTemplate = _.template(
-        '<table class="table listing">' +
+export default Base.extend({
+    name: "layouts-editor",
+    trigger: ".pat-layouts-editor",
+    parser: "mockup",
+
+    defaults: {
+        editor_markup: '<table class="table listing">' +
             "<thead>" +
             "<th>Title</th>" +
             "<th>Path</th>" +
@@ -29,30 +33,35 @@ $(document).ready(function () {
             "</tr>" +
             "<% }); %>" +
             "</tbody" +
-            "</table>"
-    );
+            "</table>",
+    },
 
-    var loadEditor = function () {
+    init: async function() {
+        var self = this;
+
+        import("../scss/layouts-editor.scss");
+
+        await self.loadEditor();
+    },
+
+    loadEditor: function () {
+        var self = this;
         var baseUrl = window.location.origin + window.location.pathname;
         var url = baseUrl + "?list-contentlayouts=true";
         utils.loading.show();
+
         $.ajax({
             url: url,
             dataType: "JSON",
         })
             .done(function (data) {
-                var $el = $("#show-hide-editor");
-                if ($el.length === 0) {
-                    $el = $('<div id="show-hide-editor" />');
-                    $(".show-hide-layouts").append($el);
-                }
-                $el.empty();
-                $el.html(
-                    EditorTemplate({
+                self.$el.empty();
+                self.$el.html(
+                    _.template(self.options.editor_markup)({
                         items: data,
                     })
                 );
-                $(".showit,.hideit", $el).click(function (e) {
+                $(".showit,.hideit", self.$el).click(function (e) {
                     utils.loading.show();
                     e.preventDefault();
                     $.ajax({
@@ -63,17 +72,12 @@ $(document).ready(function () {
                             _authenticator: utils.getAuthenticator(),
                         },
                     }).done(function () {
-                        loadEditor();
+                        self.loadEditor();
                     });
                 });
             })
             .always(function () {
                 utils.loading.hide();
             });
-    };
-
-    $("#content-core").on("clicked", "#autotoc-item-autotoc-2", function (e) {
-        e.preventDefault();
-        loadEditor();
-    });
+    }
 });

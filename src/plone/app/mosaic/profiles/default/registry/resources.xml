@@ -21,14 +21,4 @@
     <value key="depends"></value>
   </records>
 
-  <records prefix="plone.bundles/layouts-editor" interface='Products.CMFPlone.interfaces.IBundleRegistry'>
-    <value key="enabled">True</value>
-    <value key="expression">python: member is not None</value>
-    <value key="jscompilation">++plone++mosaic/layouts-editor-remote.min.js</value>
-    <value key="csscompilation"></value>
-    <value key="load_async">False</value>
-    <value key="load_defer">False</value>
-    <value key="depends">mosaic</value>
-  </records>
-
 </registry>

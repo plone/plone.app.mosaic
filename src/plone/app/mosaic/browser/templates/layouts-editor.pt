@@ -28,27 +28,16 @@
     <h1 class="documentFirstHeading"
         i18n:translate="">Layouts Editor</h1>
 
-    <div class="documentDescription"
+    <p class="documentDescription"
        i18n:translate="">
       Edit content and site layouts
-    </div>
+    </p>
 
    <div id="content-core">
       <span tal:replace="structure context/@@authenticator/authenticator"/>
-      <div data-pat-autotoc="levels: .tab; section: .tab-content; className: autotabs" class="pat-autotoc layouts-editor">
-        <div class="tab-content" id="contentlayouts">
-          <h2 class="tab">Content Layouts</h2>
-          <div class="pat-filemanager" tal:attributes="data-pat-filemanager view/content_config">
-          </div>
-        </div>
-        <div class="tab-content">
-          <h2 class="tab" id="sitelayout">Site Layouts</h2>
-          <div class="pat-filemanager" tal:attributes="data-pat-filemanager view/site_config">
-          </div>`
-        </div>
-        <div class="tab-content show-hide-layouts">
-          <h2 class="tab" id="showhide">Show/Hide Content Layouts</h2>
-        </div>
+      <div id="mosaic-show-hide-layouts">
+        <h2>Show/Hide Content Layouts</h2>
+        <div class="pat-layouts-editor"></div>
       </div>
     </div>
 </metal:main>
