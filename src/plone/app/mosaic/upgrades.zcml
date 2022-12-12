@@ -417,4 +417,21 @@
             import_profile="plone.app.mosaic:to_6001" />
     </genericsetup:upgradeSteps>
 
+    <genericsetup:registerProfile
+        name="to_6002"
+        title="Upgrade profile to 6002"
+        description=""
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
+        directory="profiles/upgrades/to_6002" />
+
+    <genericsetup:upgradeSteps
+        profile="plone.app.mosaic:default"
+        source="6001"
+        destination="6002">
+        <genericsetup:upgradeDepends
+            title="Upgrade resource registry."
+            import_profile="plone.app.mosaic:to_6002" />
+    </genericsetup:upgradeSteps>
+
 </configure>

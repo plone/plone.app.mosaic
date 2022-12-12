@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<registry>
+
+  <!-- remove obsolete bundle -->
+  <records prefix="plone.bundles/layouts-editor"
+           interface="Products.CMFPlone.interfaces.IBundleRegistry"
+           remove="true">
+  </records>
+
+</registry>
