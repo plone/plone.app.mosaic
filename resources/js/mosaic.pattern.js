@@ -299,7 +299,6 @@ export default Base.extend({
                 )
             ),
             content: null,
-            buttons: ".plone-btn",
         });
 
         modal.on("shown", function () {
@@ -375,7 +374,6 @@ export default Base.extend({
         var modal = new Modal($el, {
             html: self.manageLayoutsTemplate($.extend({}, true, {}, self.options)),
             content: null,
-            buttons: ".plone-btn",
         });
 
         modal.on("shown", function () {
@@ -438,7 +436,6 @@ export default Base.extend({
                 )
             ),
             content: null,
-            buttons: ".plone-btn",
             modalSizeClass: "modal-lg",
             position: "center top",
         });
@@ -489,10 +486,9 @@ export default Base.extend({
                 )
             ),
             content: null,
-            buttons: ".plone-btn",
         });
         modal.on("shown", function () {
-            $(".plone-btn:visible", modal.$modal)
+            $("button:visible", modal.$modal)
                 .off("click")
                 .on("click", function (e) {
                     var layoutName = $("#layoutNameField", modal.$modal).val();
