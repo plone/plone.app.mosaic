@@ -4,7 +4,9 @@ Changelog
 3.0.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Disable ability to edit the Discussion, Document byline, Related Items and 
+  Keywords tiles. (#517)
+  [frapell]
 
 
 3.0.0 (2022-12-12)

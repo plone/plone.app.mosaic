@@ -128,7 +128,7 @@
     <value key="tile_type">app</value>
     <value key="default_value" />
     <value key="read_only">false</value>
-    <value key="settings">true</value>
+    <value key="settings">false</value>
     <value key="favorite">false</value>
     <value key="rich_text">false</value>
     <value key="weight">20</value>
@@ -161,7 +161,7 @@
     <value key="tile_type">app</value>
     <value key="default_value" />
     <value key="read_only">false</value>
-    <value key="settings">true</value>
+    <value key="settings">false</value>
     <value key="favorite">false</value>
     <value key="rich_text">false</value>
     <value key="weight">10</value>
@@ -176,7 +176,7 @@
     <value key="tile_type">app</value>
     <value key="default_value" />
     <value key="read_only">false</value>
-    <value key="settings">true</value>
+    <value key="settings">false</value>
     <value key="favorite">false</value>
     <value key="rich_text">false</value>
     <value key="weight">20</value>
@@ -191,7 +191,7 @@
     <value key="tile_type">app</value>
     <value key="default_value" />
     <value key="read_only">false</value>
-    <value key="settings">true</value>
+    <value key="settings">false</value>
     <value key="favorite">false</value>
     <value key="rich_text">false</value>
     <value key="weight">30</value>
