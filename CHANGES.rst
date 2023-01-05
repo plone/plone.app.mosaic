@@ -4,7 +4,8 @@ Changelog
 3.0.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Define some webpack optimizations for generated chunks
+  [frapell]
 
 
 3.0.0 (2022-12-12)
