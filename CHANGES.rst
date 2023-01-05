@@ -8,6 +8,9 @@ Changelog
   Keywords tiles. (#517)
   [frapell]
 
+- Define some webpack optimizations for generated chunks
+  [frapell]
+
 
 3.0.0 (2022-12-12)
 ------------------

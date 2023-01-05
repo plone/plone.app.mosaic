@@ -15,6 +15,7 @@
     "scripts": {
         "build": "npm-run-all build:webpack build:css",
         "build:webpack": "NODE_ENV=production webpack --config webpack.config.js",
+        "build:stats": "NODE_ENV=production webpack --config webpack.config.js --json > stats.json",
         "build:css": "npm-run-all css-compile css-minify",
         "watch:webpack": "NODE_ENV=development webpack --config webpack.config.js --watch",
         "watch:scss": "nodemon --watch resources/scss/ --ext scss --exec \"yarn build:css\"",
