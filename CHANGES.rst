@@ -4,6 +4,10 @@ Changelog
 3.0.1 (unreleased)
 ------------------
 
+- Disable ability to edit the Discussion, Document byline, Related Items and 
+  Keywords tiles. (#517)
+  [frapell]
+
 - Define some webpack optimizations for generated chunks
   [frapell]
 
