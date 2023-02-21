@@ -13,7 +13,7 @@ class Toolbar {
         var self = this;
         self.mosaic = mosaic;
         self.$el = $(document.createElement("div")).addClass(
-            "mosaic-toolbar bg-light position-fixed top-0 start-0 end-0 p-2 border-bottom shadow-sm"
+            "mosaic-toolbar bg-body position-fixed top-0 start-0 end-0 p-2 border-bottom shadow-sm"
         );
 
         // Add toolbar div below menu
@@ -366,7 +366,7 @@ class Toolbar {
                 parent.append(
                     $el
                         .addClass(
-                            "ms-3 d-flex align-items-center me-2 text-secondary mosaic-button mosaic-button-" +
+                            "ms-3 d-flex align-items-center me-2 text-body mosaic-button mosaic-button-" +
                                 normalizeClass(action.name) +
                                 (action.icon ? " mosaic-icon" : "")
                         )

@@ -4,6 +4,9 @@ Changelog
 3.0.2 (unreleased)
 ------------------
 
+- Update styles to support Bootstrap 5.3 dark mode.
+  [lenadax]
+
 - Depend on Bootstrap 5.3 enabled packages.
   [lenadax]
 
