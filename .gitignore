@@ -34,6 +34,7 @@
 /venv/
 /sources/
 .python-version/
+.vscode/
 components
 node_modules
 !.isort.cfg
