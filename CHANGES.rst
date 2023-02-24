@@ -4,7 +4,11 @@ Changelog
 3.0.1 (unreleased)
 ------------------
 
-- Disable ability to edit the Discussion, Document byline, Related Items and 
+- Set modal closeOnClick to false to prevent modal closing when selecting text.
+  (#522)
+  [lenadax]
+
+- Disable ability to edit the Discussion, Document byline, Related Items and
   Keywords tiles. (#517)
   [frapell]
 
