@@ -1,6 +1,7 @@
 *** Settings ***
 
 Resource  plone/app/robotframework/keywords.robot
+Resource  plone/app/robotframework/saucelabs.robot
 Resource  plone/app/robotframework/selenium.robot
 
 Library  Remote  ${PLONE_URL}/RobotRemote
@@ -8,8 +9,6 @@ Library  Remote  ${PLONE_URL}/RobotRemote
 
 *** Variables ***
 
-${FIXTURE}  plone.app.mosaic.testing.PLONE_APP_MOSAIC_ACCEPTANCE
-# @{DIMENSIONS}  1024  800
 ${RESOURCE_DIR}  ${CURDIR}
 
 ${BROWSER}  chrome
@@ -21,6 +20,8 @@ ${SELECTOR_CONTENTMENU_DISPLAY_LINK}  css=#plone-contentmenu-display a
 ${SELECTOR_CONTENTMENU_DISPLAY_ITEMS}  css=#plone-contentmenu-display ul
 
 ${SELECTOR_TOOLBAR}  css=#edit-zone
+
+${SELENIUM_RUN_ON_FAILURE}  Capture page screenshot and log source
 
 *** Keywords ***
 
@@ -45,7 +46,7 @@ select mosaic layout view
   Wait Until Element Is Visible  id=plone-contentmenu-display-layout_view
 
   Mouse over  id=plone-contentmenu-display-layout_view
-  Click element  id=plone-contentmenu-display-layout_view
+  Wait for then click element  id=plone-contentmenu-display-layout_view
 
 Setup Mosaic Example Page
     Open test browser

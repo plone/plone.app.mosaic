@@ -4,7 +4,8 @@ Changelog
 3.0.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Re-activate Robottests.
+  [petschki]
 
 
 3.0.1 (2023-02-24)

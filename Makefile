@@ -209,7 +209,7 @@ test: ${TEST_PREREQUISITES} ${TESTRUNNER_SENTINEL} ## run tests
 .PHONY: test-ignore-warnings
 test-ignore-warnings: ${TEST_PREREQUISITES} ${TESTRUNNER_SENTINEL}  ## run tests (hide warnings)
 	@echo "$(OK_COLOR)Run addon tests$(NO_COLOR)"
-	@PYTHONWARNINGS=ignore ${PYBIN}zope-testrunner --auto-color --auto-progress --test-path=${ADDONFOLDER}
+	@PYTHONWARNINGS=ignore ${PYBIN}zope-testrunner --auto-color --auto-progress --all --test-path=${ADDONFOLDER}
 
 ##############################################################################
 # CODE FORMATTING
@@ -331,3 +331,13 @@ watch: stamp-yarn
 .PHONY:
 bundle: stamp-yarn
 	$(YARN) run build
+
+
+
+##############################################################################
+# DOCUMENTATION
+
+.PHONY:
+docs: install
+	@${PYBIN}sphinx-build docs/ docs/html
+

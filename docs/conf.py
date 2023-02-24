@@ -11,9 +11,9 @@ extensions = [
 sphinxcontrib_robotframework_enabled = True
 sphinxcontrib_robotframework_quiet = True
 
-# Configure Robot Frameowrk tests to use Firefox
+# Configure Robot Frameowrk tests to use Chrome
 sphinxcontrib_robotframework_variables = {
-    "BROWSER": "Firefox"
+    "BROWSER": "chrome"
 }
 
 # The suffix of source filenames.
@@ -29,8 +29,6 @@ master_doc = 'index'
 project = os.environ.get('SPHINX_PROJECT', u'Plone Mosaic')
 copyright = os.environ.get('SPHINX_COPYRIGHT', u'Plone Foundation')
 
-# coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
-extensions = ['sphinxcontrib_robotframework']
 
 # General information about the project.
 
