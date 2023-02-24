@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.0.1 (unreleased)
+3.0.1 (2023-02-24)
 ------------------
 
 - Set modal closeOnClick to false to prevent modal closing when selecting text.
