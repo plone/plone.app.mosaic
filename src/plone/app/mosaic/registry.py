@@ -79,7 +79,6 @@ class MosaicRegistry:
         return result
 
     def mapActions(self, settings, config):
-
         for action_type in ["primary_actions", "secondary_actions"]:
             config[action_type] = []
             key = f"{self.prefix:s}.{action_type:s}"

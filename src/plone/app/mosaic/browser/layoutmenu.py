@@ -116,7 +116,6 @@ class HiddenDisplaySubMenuItem(DisplaySubMenuItem):
 @implementer(IContentMenuItem)
 @adapter(ILayoutBehaviorAdaptable, IMosaicLayer)
 class DisplayLayoutSubMenuItem(BrowserSubMenuItem):
-
     title = _("label_choose_display", default="Display")
     submenuId = "plone_contentmenu_layout"
 

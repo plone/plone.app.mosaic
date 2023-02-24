@@ -4,7 +4,6 @@ from Products.CMFCore.utils import getToolByName
 
 
 class MosaicDefaultAddForm(add.DefaultAddForm):
-
     autoGroups = False
 
     hidden_fields = [

@@ -218,7 +218,6 @@ def resolve_main_template():
 
 @implementer(IMainTemplate, IBlocksTransformEnabled)
 class MainTemplate(BrowserView):
-
     ajax_template = resolve_ajax_main_template()
     main_template = resolve_main_template()
 

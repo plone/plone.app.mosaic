@@ -589,6 +589,9 @@ class Tile {
                     }
                 },
             },
+            backdropOptions: {
+                closeOnClick: false
+            },
             ajaxUrl: tile_url,
             modalSizeClass: "modal-lg",
             position: "center top",
