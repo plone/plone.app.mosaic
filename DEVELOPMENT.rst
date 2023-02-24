@@ -23,12 +23,14 @@ Get started:
 
 JS & CSS Development::
 
+Prerequiries: Make sure you have installed node version >= 16. We recommend using `nvm install --lts && nvm use --lts`.
+
     $ yarn install
     $ yarn start
 
-In the resource registry hange the resource path for `mosaic` and `layouts-editor` to
-    - `http://localhost:8011/dist/plone-mosaic.js`
-    - `http://localhost:8011/dist/layouts-editor.js`
+In the resource registry hange the resource path for `mosaic` to
+
+    `http://localhost:8011/plone-mosaic-remote.js`
 
 This will use the resources from webpack server on port 8011 then.
 
