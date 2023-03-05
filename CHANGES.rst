@@ -4,6 +4,9 @@ Changelog
 3.0.2 (unreleased)
 ------------------
 
+- Depend on Bootstrap 5.3 enabled packages.
+  [lenadax]
+
 - Re-activate Robottests.
   [petschki]
 
