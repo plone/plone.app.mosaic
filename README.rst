@@ -6,8 +6,14 @@ Plone Mosaic
 Version Information
 -------------------
 
+- Version 3.1.x -> Plone 6.1 (not yet released ... see note below)
+- Version 3.0.x -> Plone 6.0
 - Version 2.2.x -> Plone 5.1 + 5.2
-- Version 3.0.x -> Plone 6
+
+Note on Version 3.1.x and Plone 6.0:
+
+If you want to use version 3.1.x (including Bootstrap 5.3 and color modes) in Plone 6.0 you have to pin ``plone.staticresources==2.1.0`` and ``plonetheme.barceloneta==3.1.0`` in your installation.
+
 
 Concepts
 --------
