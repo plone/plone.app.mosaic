@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.1.0 (unreleased)
+3.1.0 (2023-03-06)
 ------------------
 
 - Update styles to support Bootstrap 5.3 dark mode.
