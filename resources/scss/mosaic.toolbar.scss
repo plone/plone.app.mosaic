@@ -1,6 +1,10 @@
 @import "bootstrap/scss/functions";
 @import "bootstrap/scss/variables";
+@import "bootstrap/scss/variables-dark";
+@import "bootstrap/scss/maps";
 @import "bootstrap/scss/mixins";
+@import "bootstrap/scss/root";
+@import "bootstrap/scss/nav";
 @import "bootstrap/scss/navbar";
 
 // $mosaic-toolbar-height: 40px;
@@ -29,6 +33,8 @@
         border: 0;
         padding: 0;
         box-shadow: none;
+        height: 100%;
+        padding: 0 5px;
 
         &, &:hover {
           background-color: transparent;
@@ -70,6 +76,16 @@
     ul.select2-results {
       display:flex;
 
+      .select2-result-sub {
+        .select2-result-unselectable, .select2-disabled {
+          background: none;
+
+          > .select2-result-label {
+            color: var(--bs-body-color);
+            cursor: default;
+          }
+        }
+      }
       .select2-result-label {
         white-space:nowrap;
       }
@@ -78,6 +94,10 @@
       }
       .select2-results-dept-1 .select2-result-label {
         padding-left: 7px;
+      }
+      .select2-result.select2-highlighted {
+        background: none;
+        border-color: #3469d0;
       }
     }
   }
