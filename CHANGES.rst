@@ -4,7 +4,8 @@ Changelog
 3.1.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Remove ``plonetheme.barceloneta`` dependency. (Not needed)
+  [toalba]
 
 
 3.1.0 (2023-03-06)

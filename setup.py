@@ -20,7 +20,6 @@ setup(
         "plone.app.drafts",
         "plone.app.standardtiles",
         "plone.staticresources >= 2.1.0",
-        "plonetheme.barceloneta >= 3.1.0",
     ],
     extras_require={
         "test": [
