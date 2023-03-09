@@ -12,7 +12,7 @@ Version Information
 
 Note on Version 3.1.x and Plone 6.0:
 
-If you want to use version 3.1.x (including Bootstrap 5.3 and color modes) in Plone 6.0 you have to pin ``plone.staticresources==2.1.0`` and ``plonetheme.barceloneta==3.1.0`` in your installation.
+If you want to use version 3.1.x (including Bootstrap 5.3 and color modes) in Plone 6.0, please make sure to pin ``plone.staticresources==2.1.0`` and, if your theme depends on Barceloneta, ``plonetheme.barceloneta==3.1.0`` in your installation. 
 
 
 Concepts
