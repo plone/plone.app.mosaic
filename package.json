@@ -37,5 +37,9 @@
     "repository": {
         "type": "git",
         "url": "https://github.com/plone/mockup.git"
+    },
+    "volta": {
+        "node": "16.19.1",
+        "yarn": "1.22.19"
     }
 }
