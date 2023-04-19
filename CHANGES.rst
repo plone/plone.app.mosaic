@@ -4,6 +4,9 @@ Changelog
 3.0.2 (unreleased)
 ------------------
 
+- Correctly await the TinyMCE initialization and avoid TinyMCE double initialization.
+  [thet]
+
 - Fix CI: Let the GitHub Actions run on this 3.0.x branch.
   [thet]
 
