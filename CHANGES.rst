@@ -4,6 +4,9 @@ Changelog
 3.1.1 (unreleased)
 ------------------
 
+- Correctly await the TinyMCE initialization and avoid TinyMCE double initialization.
+  [thet]
+
 - Fix CI builds which were failing with "pip: error: no such option: --install-option"
   [fredvd, thet]
 
