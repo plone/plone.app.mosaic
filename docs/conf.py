@@ -3,18 +3,23 @@ import os
 
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
-extensions = [
-    "sphinxcontrib_robotframework",
-]
 
-# Enable Robot Framework tests during Sphinx compilation.
-sphinxcontrib_robotframework_enabled = True
-sphinxcontrib_robotframework_quiet = True
-
-# Configure Robot Frameowrk tests to use Chrome
-sphinxcontrib_robotframework_variables = {
-    "BROWSER": "chrome"
-}
+# TODO: re-enable sphinxcontrib_robotframework when one of the following is
+# merged and released:
+# - https://github.com/collective/sphinxcontrib-robotframework/pull/6
+# - https://github.com/mxstack/mxdev/pull/30
+# extensions = [
+#     "sphinxcontrib_robotframework",
+# ]
+#
+# # Enable Robot Framework tests during Sphinx compilation.
+# sphinxcontrib_robotframework_enabled = True
+# sphinxcontrib_robotframework_quiet = True
+#
+# # Configure Robot Frameowrk tests to use Chrome
+# sphinxcontrib_robotframework_variables = {
+#     "BROWSER": "chrome"
+# }
 
 # The suffix of source filenames.
 source_suffix = '.rst'
