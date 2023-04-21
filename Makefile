@@ -142,7 +142,7 @@ endif
 PIP_SENTINEL=${SENTINELFOLDER}pip.sentinel
 ${PIP_SENTINEL}: ${VENV_SENTINEL} ${CONSTRAINTS} ${SENTINEL}
 	@echo "$(OK_COLOR)Install pip$(NO_COLOR)"
-	@${PYBIN}pip install -U "pip>=22.0.2" wheel setuptools
+	@${PYBIN}pip install -U "pip==23.0" wheel setuptools
 	@touch ${PIP_SENTINEL}
 
 ##############################################################################
