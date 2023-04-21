@@ -33,7 +33,7 @@ class Panel {
                 .addClass("mosaic-panel")
                 .attr("data-panel", "content")
                 .attr("data-max-columns", max_columns)
-                .html($content.find("[data-panel=" + panel_id + "]").html());
+                .html($content.find(`[data-panel="${panel_id}"]`).html());
             if ($(".mosaic-original-content").length === 0) {
                 target.before($panel_markup);
                 target
