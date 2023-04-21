@@ -31,11 +31,7 @@ setup(
         "docs": [
             "Sphinx",
             "sphinx-rtd-theme",
-            # TODO: re-enable sphinxcontrib_robotframework when one of the
-            # following is merged and released:
-            # - https://github.com/collective/sphinxcontrib-robotframework/pull/6
-            # - https://github.com/mxstack/mxdev/pull/30
-            # "sphinxcontrib-robotframework",
+            "sphinxcontrib-robotframework",
         ],
     },
     entry_points="""
