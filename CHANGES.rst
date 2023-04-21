@@ -4,6 +4,9 @@ Changelog
 3.1.1 (unreleased)
 ------------------
 
+- Fix CI builds which were failing with "pip: error: no such option: --install-option"
+  [fredvd, thet]
+
 - Remove ``plonetheme.barceloneta`` dependency. (Not needed)
   [toalba]
 
