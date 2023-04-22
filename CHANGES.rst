@@ -4,6 +4,9 @@ Changelog
 3.0.2 (unreleased)
 ------------------
 
+- Fix CI builds which were failing with "pip: error: no such option: --install-option"
+  [fredvd, thet]
+
 - Re-activate Robottests.
   [petschki]
 
