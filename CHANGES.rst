@@ -4,6 +4,9 @@ Changelog
 3.0.2 (unreleased)
 ------------------
 
+- JavaScript: Upgrade dependencies.
+  [thet]
+
 - Correctly await the TinyMCE initialization and avoid TinyMCE double initialization.
   [thet]
 
