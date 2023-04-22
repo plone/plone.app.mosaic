@@ -1,12 +1,9 @@
 name: Test the Mosaic code
 
 on:
-  # push:
-  #   branches:
-  #     - master
   pull_request:
     branches:
-      - master
+      - 3.0.x
 
 jobs:
   build:
