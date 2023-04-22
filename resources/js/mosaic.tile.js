@@ -2,6 +2,7 @@ import "regenerator-runtime/runtime"; // needed for ``await`` support
 import $ from "jquery";
 import utils from "@plone/mockup/src/core/utils";
 import mosaic_utils from "./utils";
+import events from "@patternslib/patternslib/src/core/events";
 import logging from "@patternslib/patternslib/src/core/logging";
 import Modal from "@plone/mockup/src/pat/modal/modal";
 import Registry from "@patternslib/patternslib/src/core/registry";
@@ -992,7 +993,8 @@ class Tile {
         tiny_options["tiny"]["placeholder"] = _placeholder;
 
         const tiny_instance = new TinyMCE($content, tiny_options);
-        await tiny_instance.init()
+        // wait until ready.
+        await events.await_pattern_init(tiny_instance);
         self.tinymce = tiny_instance.instance.tiny;
 
         // Set editor class

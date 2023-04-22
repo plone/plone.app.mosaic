@@ -1,5 +1,5 @@
 -c constraints.txt
--e .[test,docs] --install-option="--pre"
+-e .[test,docs] --pre
 
 # WSGI: A system for configuration of WSGI web components in declarative .ini format.
 Paste
