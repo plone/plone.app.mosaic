@@ -4,6 +4,9 @@ Changelog
 3.1.4 (unreleased)
 ------------------
 
+- JavaScript: Loose dependencies to let Module Federation work with any Mockup version.
+  [thet]
+
 - Re-implement `Custom layout` management functionality without pattern logic.
   [petschki]
 
