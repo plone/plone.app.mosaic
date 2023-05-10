@@ -4,7 +4,8 @@ Changelog
 3.0.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix for `#541 <https://github.com/plone/plone.app.mosaic/issues/541>`_
+  [petschki]
 
 
 3.0.2 (2023-04-24)

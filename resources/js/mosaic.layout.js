@@ -2,6 +2,7 @@
 import "regenerator-runtime/runtime"; // needed for ``await`` support
 import $ from "jquery";
 import logging from "@patternslib/patternslib/src/core/logging";
+import events from "@patternslib/patternslib/src/core/events";
 import Tile from "./mosaic.tile";
 import "./mosaic.overlay";
 
@@ -153,32 +154,17 @@ export default class LayoutManager {
         self.mosaic.panels.addClass("mosaic-panel-dragging mosaic-panel-dragging-new");
 
         // Add helper
-        $(self.mosaic.panels.get(0)).append(
-            $(self.mosaic.document.createElement("div"))
-                .addClass("mosaic-grid-row")
-                .append(
-                    $(self.mosaic.document.createElement("div"))
-                        .addClass("mosaic-grid-cell col")
-                        .append(
-                            $(self.mosaic.document.createElement("div"))
-                                .addClass(
-                                    "movable removable mosaic-tile mosaic-" + type + "-tile"
-                                )
-                                .append(
-                                    $(self.mosaic.document.createElement("div"))
-                                        .addClass("mosaic-tile-content")
-                                        .attr(
-                                            "data-tileUrl",
-                                            tileUrl && tileUrl.replace(/&/gim, "&amp;")
-                                        )
-                                        .html(value)
-                                )
-                                .addClass(
-                                    "mosaic-helper-tile mosaic-helper-tile-new mosaic-original-tile"
-                                )
-                        )
-                )
-        );
+        const add_helper = document.createElement("div");
+        add_helper.classList.add("mosaic-grid-row");
+        add_helper.innerHTML =
+            `<div class="mosaic-grid-cell col">
+                <div class="movable removable mosaic-tile mosaic-${type}-tile mosaic-helper-tile mosaic-helper-tile-new mosaic-original-tile">
+                    <div class="mosaic-tile-content" data-tileUrl="${tileUrl && tileUrl.replace(/&/gim, "&amp;")}">
+                        ${value}
+                    </div>
+                </div>
+            </div>`;
+        self.mosaic.panels[0].append(add_helper);
 
         // Set helper min size
         var helper = self.mosaic.panels.find(".mosaic-helper-tile-new");
@@ -365,10 +351,11 @@ export default class LayoutManager {
 
         // Keydown handler
         var DocumentKeydown = function (e) {
+            const _document = self.mosaic.document;
             // Tab key
             if (e.keyCode === 9) {
                 // blur all active tiles. and set focus
-                for(const tile of self.mosaic.document.querySelectorAll(".mosaic-selected-tile")) {
+                for(const tile of _document.querySelectorAll(".mosaic-selected-tile")) {
                     tile["mosaic-tile"].blur();
                 }
                 // focus new tile
@@ -379,12 +366,12 @@ export default class LayoutManager {
             }
             // Check if alt
             if (e.keyCode === 18) {
-                if ($(".mosaic-panel", self.mosaic.document).hasClass("mosaic-advanced")) {
-                    $(".mosaic-panel", self.mosaic.document).removeClass("mosaic-advanced");
+                if ($(".mosaic-panel", _document).hasClass("mosaic-advanced")) {
+                    $(".mosaic-panel", _document).removeClass("mosaic-advanced");
                 } else {
                     var date = new Date();
-                    $(".mosaic-panel", self.mosaic.document).addClass("mosaic-advanced");
-                    $(".mosaic-panel", self.mosaic.document).data(
+                    $(".mosaic-panel", _document).addClass("mosaic-advanced");
+                    $(".mosaic-panel", _document).data(
                         "advanced-enabled",
                         date.getTime()
                     );
@@ -392,31 +379,38 @@ export default class LayoutManager {
             }
             // Check if ctrl
             if (e.keyCode === 17) {
-                $(".mosaic-panel", self.mosaic.document).addClass("inner-subcolumn");
+                $(".mosaic-panel", _document).addClass("inner-subcolumn");
             }
 
             // Check if esc
             if (e.keyCode === 27) {
                 // Check if dragging
-                var original_tile = $(".mosaic-original-tile", self.mosaic.document);
+                var original_tile = _document.querySelectorAll(".mosaic-original-tile");
                 if (original_tile.length > 0) {
-                    original_tile.each(function () {
-                        $(this).addClass("mosaic-drag-cancel");
-                        if ($(this).hasClass("mosaic-helper-tile-new")) {
-                            $(document).trigger("mousedown");
-                        } else {
-                            $(document).trigger("mouseup");
+                    original_tile.forEach(tile => {
+                        tile.classList.add("mosaic-drag-cancel");
+                        if (tile.classList.contains("mosaic-helper-tile-new")) {
+                            // dismiss dragging tile
+                            tile.remove();
+                            // Remove dragging class from content
+                            self.mosaic.panels.removeClass(
+                                "mosaic-panel-dragging mosaic-panel-dragging-new"
+                            );
+                            // Hide all dividers
+                            $(".mosaic-selected-divider", self.mosaic.document).removeClass(
+                                "mosaic-selected-divider"
+                            );
                         }
                     });
                 // Deselect tile
                 } else {
-                    $(".mosaic-selected-tile", self.mosaic.document).each(function () {
+                    $(".mosaic-selected-tile", _document).each(function () {
                         $(this).trigger("blur");
                     });
                 }
 
                 // Find resize helper
-                $(".mosaic-resize-handle-helper", self.mosaic.document).each(function () {
+                $(".mosaic-resize-handle-helper", _document).each(function () {
                     // Remove resizing state
                     $(this).parents("[data-panel]").removeClass("mosaic-panel-resizing");
                     $(this).parent().removeClass("mosaic-row-resizing");
@@ -434,13 +428,13 @@ export default class LayoutManager {
         };
 
         // Bind event and add to array
-        $(self.mosaic.document).off("keydown").on("keydown", DocumentKeydown);
-        $(self.mosaic.document).off("keyup").on("keyup", DocumentKeyup);
+        events.add_event_listener(self.mosaic.document, "keydown", "pat-layout--keydown", DocumentKeydown);
+        events.add_event_listener(self.mosaic.document, "keyup", "pat-layout--keyup", DocumentKeyup);
 
         // Add deselect
-        var DocumentMousedown = function (e) {
+        const DocumentMousedown = function (e) {
             // Get element
-            var elm;
+            let elm;
             if (e.target) {
                 elm = e.target;
             } else if (e.srcElement) {
@@ -468,7 +462,6 @@ export default class LayoutManager {
                     // Deselect tiles
                     self.mosaic.document.querySelectorAll(".mosaic-selected-tile").forEach(function(el) {
                         el.classList.remove("mosaic-selected-tile");
-                        $(el).data("mosaic-tile").blur();
                     });
 
                     // Set actions
@@ -478,17 +471,15 @@ export default class LayoutManager {
         };
 
         // Bind event and add to array
-        $(self.mosaic.document)
-            .off("mousedown")
-            .on("mousedown", DocumentMousedown);
+        events.add_event_listener(self.mosaic.document, "mousedown", "pat-layout--mousedown", DocumentMousedown)
 
         // Handle mouse move event: when holding down mouse left button and dragging the handler left or right.
-        var DocumentMousemove = function (e) {
+        const DocumentMousemove = function (e) {
 
             // Find resize helper
             $(".mosaic-helper-tile-new", self.mosaic.document).each(function () {
                 // Get offset
-                var offset = $(this).parent().offset();
+                const offset = $(this).parent().offset();
 
                 // Get mouse x
                 $(this).css("top", e.pageY + 3 - offset.top);
@@ -591,12 +582,12 @@ export default class LayoutManager {
         };
 
         // Bind event and add to array
-        $(self.mosaic.document).off("mousemove").on("mousemove", DocumentMousemove);
-        $(self.mosaic.document).off("dragover").on("dragover", DocumentMousemove);
+        events.add_event_listener(self.mosaic.document, "mousemove", "pat-layout--mousemove", DocumentMousemove);
+        events.add_event_listener(self.mosaic.document, "dragover", "pat-layout--dragover", DocumentMousemove);
 
         // Handle mouse up event
         // When resizing is done on mouse up event apply the changes to the div elements
-        var DocumentMouseup = function () {
+        const DocumentMouseup = function () {
             // Find resize helper
             $(".mosaic-resize-handle-helper", self.mosaic.document).each(function () {
                 var resize_handle_index = $(this).data("resize_handle_index");
@@ -664,10 +655,10 @@ export default class LayoutManager {
         };
 
         // Bind event
-        $(self.mosaic.document).off("mouseup").on("mouseup", DocumentMouseup);
+        events.add_event_listener(self.mosaic.document, "mouseup", "pat-layout--mouseup", DocumentMouseup);
 
         // Handle mousemove on tile
-        var TileMousemove = function (e) {
+        const TileMousemove = function (e) {
             // only if dragging
             if ($(this).parents("[data-panel]").hasClass("mosaic-panel-dragging") === false) {
                 return;
@@ -722,17 +713,10 @@ export default class LayoutManager {
         };
 
         // Bind events
-        $(self.mosaic.document)
-            .off("mousemove", ".mosaic-tile")
-            .on("mousemove", ".mosaic-tile", TileMousemove);
-        $(self.mosaic.document)
-            .off("dragover", ".mosaic-tile")
-            .on("dragover", ".mosaic-tile", TileMousemove);
-
-        // On click select the current tile
-        $(self.mosaic.document)
-            .off("click", ".mosaic-tile")
-            .on("click", ".mosaic-tile", function (e) {
+        self.mosaic.document.querySelectorAll(".mosaic-tile").forEach(tile => {
+            events.add_event_listener(tile, "mousemove", "pat-layout--mousemove-tile", TileMousemove);
+            events.add_event_listener(tile, "dragover", "pat-layout--dragover-tile", TileMousemove);
+            events.add_event_listener(tile, "click", "pat-layout--click-tile", function (e) {
                 if ($(".mosaic-helper-tile-new", self.mosaic.document).length === 0) {
                     // only if not dropping tile
                     if($(this).data("mosaic-tile")) {
@@ -741,7 +725,9 @@ export default class LayoutManager {
                 }
             });
 
-        var applyCustomCss = function (e) {
+        });
+
+        const applyCustomCss = function (e) {
             if ($(e.target).attr("id") === "custom-css-input-box") {
                 return;
             }
@@ -758,7 +744,7 @@ export default class LayoutManager {
             });
         };
 
-        var CustomCSSOnDblClick = function (e) {
+        const CustomCSSOnDblClick = function (e) {
             // Only do this for "mosaic-grid-row" if advanced mode is enabled
             var target = $(e.target);
             var obj = target.parents("[data-panel]");
@@ -789,9 +775,10 @@ export default class LayoutManager {
                 target.append(div);
             }
         };
-
-        $(self.mosaic.document).on("dblclick", ".mosaic-grid-row", CustomCSSOnDblClick);
-        $(self.mosaic.document).on("click", applyCustomCss);
+        self.mosaic.document.querySelectorAll(".mosaic-grid-row").forEach(gridrow => {
+            events.add_event_listener(gridrow, "dblclick", "pat-layout--dblclick-gridrow", CustomCSSOnDblClick);
+        })
+        events.add_event_listener(self.mosaic.document, "click", "pat-layout--click", applyCustomCss);
     }
 
     initialize_panels() {
@@ -1269,6 +1256,9 @@ export default class LayoutManager {
 
             // Add empty rows
             self.mosaic.panels.mosaicAddEmptyRows();
+
+            // re-initialize events
+            self.init_events();
 
             // Select new tile and make it draggables
             if (new_tile && original_tile.length > 0) {
