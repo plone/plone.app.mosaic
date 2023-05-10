@@ -1,14 +1,24 @@
-<?xml version="1.0" encoding="utf-8"?>
 <div>
-  <h1>Save Layout</h1>
-  <div class="mosaic-save-layout">
-    <p>This process takes a copy of the existing layout and saves it to a new, reusable layout.</p>
-    <div class="form-group field">
-      <label for="layoutNameField">Name</label>
-      <input class="form-control"
-             id="layoutNameField"
-             name="name"
-             type="text"
-      />
+    <h1>Save Layout</h1>
+    <div class="mosaic-save-layout">
+        <p>This process takes a copy of the existing layout and saves it to a new,
+           resuable layout.</p>
+        <div class="form-group field">
+            <label for="layoutNameField">Name</label>
+            <input type="text" name="name" class="form-control" id="layoutNameField" />
+        </div>
+        <% if(canManageLayouts){ %>
+        <div class="form-check">
+            <input id="globalLayout" type="checkbox" class="form-check-input">
+            <label for="globalLayout" class="form-check-label">Global</label>
+            </span>
+            <div class="formHelp">
+                Should this layout be available for all users on the site?
+            </div>
+        </div>
+        <% } %>
     </div>
-  </div></div>
+    <div class="formControls">
+        <button class="btn btn-primary">Save</button>
+    </div>
+</div>

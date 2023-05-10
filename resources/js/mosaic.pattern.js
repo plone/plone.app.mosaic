@@ -441,7 +441,7 @@ export default Base.extend({
             ),
             content: null,
             modalSizeClass: "modal-lg",
-            position: "center top",
+            position: "left top",
         });
         modal.on("shown", function () {
             $(".manage-custom-layouts a", modal.$modal)

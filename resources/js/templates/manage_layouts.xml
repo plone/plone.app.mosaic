@@ -1,14 +1,30 @@
-<?xml version="1.0" encoding="utf-8"?>
 <div>
-  <h1>Manage custom layouts</h1>
-  <div class="mosaic-manage-custom-layouts">
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Path</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-</tbody></table></div></div>
+    <h1>Manage custom layouts</h1>
+    <div class="mosaic-manage-custom-layouts">
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Path</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% _.each(available_layouts.concat(user_layouts), function(layout){ %>
+                    <% if(layout.path.indexOf("custom/") !== -1){ %>
+                        <% if(layout.path.split("/").length > 2 || canManageLayouts) { %>
+                        <tr>
+                            <td><%- layout.title %></td>
+                            <td><%- layout.path %></td>
+                            <td>
+                                <a href="#" class="btn btn-danger delete-layout"
+                                data-layout="<%- layout.path %>">Delete</a>
+                            </td>
+                        </tr>
+                        <% } %>
+                    <% } %>
+                <% }); %>
+            </tbody>
+        </table>
+    </div>
+</div>
