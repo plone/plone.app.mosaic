@@ -24,7 +24,7 @@ run         run Plone
 test        run tests
 lint        lint all: check if complies with code-styles black, isort and zpretty
 style       format code (black, isort, zpretty)
-prepare     prepare soures and dependencies
+prepare     prepare sources and dependencies
 install     pip install all dependencies and scripts
 instance    create configuration for an zope (plone) instance
 clean       remove instance configuration (keeps data)

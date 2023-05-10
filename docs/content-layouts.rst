@@ -283,7 +283,7 @@ name:
 label:
   This is displayed in insert menu.
 category:
-  category on insert menu (e.g. structrue, field), a new category has to be registered, "hidden" to hide it
+  category on insert menu (e.g. structure, field), a new category has to be registered, "hidden" to hide it
 tile_type:
    text, field, app - app is most likely what you want
 default_value:

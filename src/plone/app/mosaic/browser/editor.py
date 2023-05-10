@@ -254,7 +254,7 @@ class LayoutsEditor(BrowserView):
                     "hidden": key in hidden,
                 }
             )
-        result.sort(key=lambda l: l.get("key", ""))
+        result.sort(key=lambda k: k.get("key", ""))
         return json.dumps(result)
 
     @property

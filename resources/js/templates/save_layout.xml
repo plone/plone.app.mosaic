@@ -2,7 +2,7 @@
     <h1>Save Layout</h1>
     <div class="mosaic-save-layout">
         <p>This process takes a copy of the existing layout and saves it to a new,
-           resuable layout.</p>
+           reusable layout.</p>
         <div class="form-group field">
             <label for="layoutNameField">Name</label>
             <input type="text" name="name" class="form-control" id="layoutNameField" />
