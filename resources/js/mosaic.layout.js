@@ -456,7 +456,8 @@ export default class LayoutManager {
                 // Check if outside toolbar
                 if ($(elm).parents(".mosaic-toolbar").length === 0) {
                     // Deselect tiles
-                    self.mosaic.document.querySelectorAll(".mosaic-selected-tile").forEach(function(el) {
+                    self.mosaic.document.querySelectorAll(".mosaic-selected-tile:not(.mosaic-tile-loading)").forEach(function(el) {
+                        $(el).data("mosaic-tile").blur();
                         el.classList.remove("mosaic-selected-tile");
                     });
 
@@ -1259,7 +1260,10 @@ export default class LayoutManager {
             // Select new tile and make it draggables
             if (new_tile && original_tile.length > 0) {
                 original_tile.mosaicAddDrag();
-                original_tile.data("mosaic-tile").initializeContent();
+                var tiletype = original_tile.data("mosaic-tile").getType();
+                if (tiletype === "plone.app.standardtiles.html") {
+                    original_tile.data("mosaic-tile").setupWysiwyg();
+                }
                 original_tile.data("mosaic-tile").focus();
             }
         };

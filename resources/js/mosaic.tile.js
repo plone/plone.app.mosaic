@@ -723,7 +723,7 @@ class Tile {
                 url += "_layouteditor=true";
             }
             $.ajax({
-                type: "POST",
+                type: "GET",
                 url: url,
                 success: async function (value) {
                     self.$el.removeClass("mosaic-tile-loading");
