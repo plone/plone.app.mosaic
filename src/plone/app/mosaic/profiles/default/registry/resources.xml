@@ -1,24 +1,28 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="utf-8"?>
 <registry>
 
-  <records prefix="plone.bundles/mosaic" interface='Products.CMFPlone.interfaces.IBundleRegistry'>
+  <records interface="Products.CMFPlone.interfaces.IBundleRegistry"
+           prefix="plone.bundles/mosaic"
+  >
     <value key="enabled">True</value>
     <value key="expression">python: member is not None</value>
     <value key="jscompilation">++plone++mosaic/plone-mosaic-remote.min.js</value>
-    <value key="csscompilation"></value>
+    <value key="csscompilation" />
     <value key="load_async">False</value>
     <value key="load_defer">False</value>
     <value key="depends">plone</value>
   </records>
 
-  <records prefix="plone.bundles/mosaic-css" interface='Products.CMFPlone.interfaces.IBundleRegistry'>
+  <records interface="Products.CMFPlone.interfaces.IBundleRegistry"
+           prefix="plone.bundles/mosaic-css"
+  >
     <value key="enabled">True</value>
-    <value key="expression"></value>
-    <value key="jscompilation"></value>
+    <value key="expression" />
+    <value key="jscompilation" />
     <value key="csscompilation">++plone++mosaic/mosaic.min.css</value>
     <value key="load_async">False</value>
     <value key="load_defer">False</value>
-    <value key="depends"></value>
+    <value key="depends" />
   </records>
 
 </registry>

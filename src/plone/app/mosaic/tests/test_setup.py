@@ -19,7 +19,6 @@ RECORDS = [
 
 
 class InstallTestCase(unittest.TestCase):
-
     layer = PLONE_APP_MOSAIC_INTEGRATION
 
     def setUp(self):
@@ -54,7 +53,6 @@ class InstallTestCase(unittest.TestCase):
 
 
 class UninstallTestCase(unittest.TestCase):
-
     layer = PLONE_APP_MOSAIC_INTEGRATION
 
     def setUp(self):

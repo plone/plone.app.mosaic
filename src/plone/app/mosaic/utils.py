@@ -30,7 +30,6 @@ from zope.interface import Interface
 from zope.schema.interfaces import IField
 
 import os
-import six
 
 
 WIDGET_NAMES_MAP = {
@@ -114,7 +113,7 @@ def getContentLayoutsForType(pt, context=None):
         # undocumented feature right now.
         # need to figure out how to integrate into UI yet
         if "::" in item:
-            # seperator to be able to specify hidden for a specific type
+            # separator to be able to specify hidden for a specific type
             key, _, hidden_type = item.partition("::")
             if hidden_type == pt:
                 hidden.append(key)
@@ -138,7 +137,7 @@ def getContentLayoutsForType(pt, context=None):
             if not value.get("permission")
             or checkPermission(value.get("permission"), context)
         ]
-    result.sort(key=lambda l: l.get("sort_key", "") or l.get("title", ""))
+    result.sort(key=lambda k: k.get("sort_key", "") or k.get("title", ""))
     return result
 
 

@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="utf-8"?>
 <registry>
 
   <!-- interfaces -->
@@ -33,7 +33,13 @@
   />
 
 
-  <records prefix="plone.bundles/mosaic" interface='Products.CMFPlone.interfaces.IBundleRegistry' remove="true" />
-  <records prefix="plone.bundles/mosaic-css" interface='Products.CMFPlone.interfaces.IBundleRegistry' remove="true" />
+  <records interface="Products.CMFPlone.interfaces.IBundleRegistry"
+           prefix="plone.bundles/mosaic"
+           remove="true"
+  />
+  <records interface="Products.CMFPlone.interfaces.IBundleRegistry"
+           prefix="plone.bundles/mosaic-css"
+           remove="true"
+  />
 
 </registry>

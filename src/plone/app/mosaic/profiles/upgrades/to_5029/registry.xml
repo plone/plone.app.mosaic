@@ -1,7 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
 <registry>
 
-  <record name="plone.lessvariables"
-      condition="not-have plone-60">
+  <record condition="not-have plone-60"
+          name="plone.lessvariables"
+  >
     <value purge="False">
       <element key="bootstrapPath">\"{site_url}/++plone++static/components/bootstrap/\"</element>
     </value>

@@ -697,10 +697,10 @@ class Tile {
                     break;
                 default:
                     fieldhtml =
-                        '<div class="discreet">Placeholder ' +
-                        "for field:<br/><b>" +
-                        tile_config.label +
-                        "</b></div>";
+                        `<div class="text-bg-secondary">
+                            Placeholder for field:<br/>
+                            <b>${tile_config.label}</b>
+                        </div>`;
                     break;
             }
             self.fillContent({
