@@ -38,7 +38,7 @@ export default class Overlay {
     open (mode, tile_config) {
         var self = this;
         self.modal.on("after-ajax", (e, m) => {
-            // make sure 'pat-layout' isn't initalized twice from the loaded edit form
+            // make sure 'pat-layout' isn't initialized twice from the loaded edit form
             $(self.options.customContentLayout_selector, m.$raw).addClass("disable-patterns");
         });
         // setup visibility of fields before showing modal

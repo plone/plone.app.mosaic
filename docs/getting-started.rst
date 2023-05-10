@@ -170,7 +170,7 @@ Let's select the basic layout:
 
 Now the toolbar of the **Mosaic Editor** will appear on top.
 The buttons *Save* and *Cancel* belong to the current *Edit* action of the content.
-With them you can either save or discard the canges that were made to the current content element.
+With them you can either save or discard the changes that were made to the current content element.
 
 The button **Properties** opens a form where you can edit several properties of the content element,
 like the publishing date or the short name.
@@ -292,7 +292,7 @@ That's how we can build custom content layouts using Plone Mosaic.
         ...  _screenshots/mosaic-page-saved.png
         ...  css=html
 
-Note that this costum layout is saved for the current content element.
+Note that this custom layout is saved for the current content element.
 The *Layout* dropdown now has the button *Save* instead of *Customize*.
 With this you could save the layout for the whole site and make it available for other content elements.
 You can find more information about this in the sectionXXX.

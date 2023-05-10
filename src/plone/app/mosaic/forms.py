@@ -46,7 +46,7 @@ class MosaicDefaultAddForm(add.DefaultAddForm):
             return super().nextURL()
         # very hacky way to get url of object created.
         # only other way would be override a bunch of code I do not
-        # feel very comfortable overridding
+        # feel very comfortable overriding
         if self.immediate_view is not None:
             return "{:s}/@@edit".format("/".join(self.immediate_view.split("/")[:-1]))
         else:

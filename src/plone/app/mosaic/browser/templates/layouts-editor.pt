@@ -1,47 +1,57 @@
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
-      xmlns:tal="http://xml.zope.org/namespaces/tal"
-      xmlns:metal="http://xml.zope.org/namespaces/metal"
+<html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
       lang="en"
       metal:use-macro="context/prefs_main_template/macros/master"
-      i18n:domain="plone">
+      xml:lang="en"
+      i18n:domain="plone"
+>
 
-<metal:block fill-slot="top_slot">
-        <metal:override define-slot="top_slot">
-            <tal:defines tal:define="dummy python:request.set('disable_toolbar',1);
-                                     disable_column_one python:request.set('disable_plone.leftcolumn', 1);
-                                     disable_column_two python:request.set('disable_plone.rightcolumn', 1);"/>
-        </metal:override>
-    </metal:block>
+  <metal:block fill-slot="top_slot">
+    <metal:override define-slot="top_slot">
+      <tal:defines tal:define="
+                     dummy python:request.set('disable_toolbar',1);
+                     disable_column_one python:request.set('disable_plone.leftcolumn', 1);
+                     disable_column_two python:request.set('disable_plone.rightcolumn', 1);
+                   " />
+    </metal:override>
+  </metal:block>
 
-<body>
+  <body>
 
 
-<metal:main metal:fill-slot="prefs_configlet_main" i18n:domain="plone">
+    <metal:main metal:fill-slot="prefs_configlet_main"
+                i18n:domain="plone"
+    >
 
-    <a href=""
-       id="setup-link"
-       tal:attributes="href string:$portal_url/@@overview-controlpanel"
-       i18n:translate="">
+      <a id="setup-link"
+         href=""
+         tal:attributes="
+           href string:$portal_url/@@overview-controlpanel;
+         "
+         i18n:translate=""
+      >
        Site Setup
-    </a>
-    <h1 class="documentFirstHeading"
-        i18n:translate="">Layouts Editor</h1>
+      </a>
+      <h1 class="documentFirstHeading"
+          i18n:translate=""
+      >Layouts Editor</h1>
 
-    <p class="documentDescription"
-       i18n:translate="">
+      <p class="documentDescription"
+         i18n:translate=""
+      >
       Edit content and site layouts
-    </p>
+      </p>
 
-   <div id="content-core">
-      <span tal:replace="structure context/@@authenticator/authenticator"/>
-      <div id="mosaic-show-hide-layouts">
-        <h2>Show/Hide Content Layouts</h2>
-        <div class="pat-layouts-editor"></div>
+      <div id="content-core">
+        <span tal:replace="structure context/@@authenticator/authenticator"></span>
+        <div id="mosaic-show-hide-layouts">
+          <h2>Show/Hide Content Layouts</h2>
+          <div class="pat-layouts-editor"></div>
+        </div>
       </div>
-    </div>
-</metal:main>
+    </metal:main>
 
-</body>
+  </body>
 </html>
-

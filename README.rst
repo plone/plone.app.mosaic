@@ -72,7 +72,7 @@ Fluid rows
     For fluid (full width) rows select any tile in the row and choose "Fluid" from the "Format" menu.
     Fluid row styles only make sense on pages without portlets. In Plone 5.1.3 we can check that automatically
     (with plone.app.layout 2.8.0) and those styles are only active if no portlet columns are shown.
-    Since version 3 and Bootstrap 5 there's a feature for `fluid-row-background` which streches the background of
+    Since version 3 and Bootstrap 5 there's a feature for `fluid-row-background` which stretches the background of
     the row to 100% width but keeps the columns to the page container width.
 
 

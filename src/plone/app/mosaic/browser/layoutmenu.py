@@ -286,7 +286,7 @@ class DisplayLayoutMenu(BrowserMenu):
                 }
             )
 
-        # Merge the results with the original display meny
+        # Merge the results with the original display menu
         menu = getUtility(IBrowserMenu, "plone_contentmenu_display")
 
         results = []
