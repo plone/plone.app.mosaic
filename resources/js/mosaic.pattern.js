@@ -17,7 +17,6 @@ import SaveLayoutTemplate from "./templates/save_layout.xml";
 import ManageLayoutsTemplate from "./templates/manage_layouts.xml";
 import DeleteLayoutTemplate from "./templates/delete_layout.xml";
 
-logging.setLevel("INFO");
 const log = logging.getLogger("pat-mosaic");
 
 function validTile(el) {
@@ -56,27 +55,18 @@ export default Base.extend({
     deleteLayoutTemplate: _.template(DeleteLayoutTemplate),
 
     init: async function() {
-        var self = this;
+        const self = this;
 
         import("../scss/mosaic.pattern.scss");
 
         // extend options
-        // XXX: check possibility to clone options cleanly -> see multiple tinymce instances
-        self.options = $.extend(true, self.default, self.options.data, self.options);
+        self.options = {
+            ...self.default,
+            ...JSON.parse(JSON.stringify(self.options.data)),
+            ...self.options,
+        };
 
-        // main page
-        self.document = window.document;
-
-        // init actionManager
-        const ActionManager = (await import("./mosaic.actions")).default;
-        self.actionManager = new ActionManager(self);
-        self.actionManager.initActions();
-
-        // init layoutManager
-        const LayoutManager = (await import("./mosaic.layout")).default;
-        self.layoutManager = new LayoutManager(self);
-
-        var match;
+        let match;
         self.options.url = window.document.location.href;
 
         // Get the url of the page
@@ -94,6 +84,20 @@ export default Base.extend({
             self.options.type = match[2];
             self.options.ignore_context = true;
         }
+
+        log.debug(self.options);
+
+        // main page
+        self.document = window.document;
+
+        // init actionManager
+        const ActionManager = (await import("./mosaic.actions")).default;
+        self.actionManager = new ActionManager(self);
+        self.actionManager.initActions();
+
+        // init layoutManager
+        const LayoutManager = (await import("./mosaic.layout")).default;
+        self.layoutManager = new LayoutManager(self);
 
         const contentLayout = self.getSelectedContentLayout();
         if (contentLayout) {
