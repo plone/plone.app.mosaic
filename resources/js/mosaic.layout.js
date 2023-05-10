@@ -244,11 +244,7 @@ export default class LayoutManager {
                     case "plone.app.widgets.dx.RichTextWidget":
                         return $("#" + tile_config.id).find("textarea").val()
                     default:
-                        return (
-                            '<div class="discreet">Placeholder for field:<br/><b>' +
-                            tile_config.label +
-                            "</b></div>"
-                        );
+                        return `<div class="text-bg-secondary">Placeholder for field:<br/><b>${tile_config.label}</b></div>`;
                 }
             default:
                 return tile_config.default_value;

@@ -64,9 +64,9 @@ class MosaicRegistry:
             if not record.startswith(self.prefix):
                 continue
 
-            splitted = record.split(".")
+            parts = record.split(".")
             current = result
-            for x in splitted[:-1]:
+            for x in parts[:-1]:
                 # create the key if it's not there
                 if x not in current:
                     current[x] = {}
@@ -74,7 +74,7 @@ class MosaicRegistry:
                 current = current[x]
 
             # store actual key/value
-            key = splitted[-1]
+            key = parts[-1]
             current[key] = self.registry.records[record].value
         return result
 

@@ -587,7 +587,7 @@ Refactoring:
   so it can be extended on demand
   [jensens]
 
-- Remove superfluos empty testing gs profile and its zcml
+- Remove superfluous empty testing gs profile and its zcml
   [jensens]
 
 - Log warning if plone_pattern_settings view was not found
@@ -802,7 +802,7 @@ Fixes:
 - Fix situation where layout editor broke with broken or missing tiles
   [vangheem]
 
-- Fix issue where check could not add tile with requried selection field
+- Fix issue where check could not add tile with required selection field
   [datakurre]
 
 1.0a3 (2015-06-10)
@@ -826,7 +826,7 @@ Fixes:
   [datakurre]
 - Add site and page layout fields to be available on properties overlay
   [datakurre]
-- Add HTML tag language transform to set correct langauge for HTML site layouts
+- Add HTML tag language transform to set correct language for HTML site layouts
   [datakurre]
 - Add HTML body tag class transform to set body class for HTML site layouts
   [datakurre]

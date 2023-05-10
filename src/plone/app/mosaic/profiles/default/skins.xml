@@ -1,9 +1,9 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="utf-8"?>
 <object meta_type="Plone Skins Tool"
         name="portal_skins"
 >
   <skin-path based-on="Plone Default"
              name="mosaic"
   >
-  </skin-path>
+</skin-path>
 </object>

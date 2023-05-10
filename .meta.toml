@@ -1,0 +1,8 @@
+# Generated from:
+# https://github.com/plone/meta/tree/master/config/default
+[meta]
+template = "default"
+commit-id = "4ff277f0"
+
+[codespell]
+skip = "*.min.js,*.min.js.map,*.min.css.map,*.svg,yarn.lock,*.json,*/tiles.xml"

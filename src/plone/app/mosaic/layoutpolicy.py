@@ -4,7 +4,6 @@ from plone.portlets.interfaces import IPortletRetriever
 from zope.component import getMultiAdapter
 from zope.component import getUtility
 from zope.interface import implementer
-from zope.interface import Interface
 
 
 @implementer(IBodyClassAdapter)
