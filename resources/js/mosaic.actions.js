@@ -434,7 +434,6 @@ class ActionManager {
                                             ".fieldErrorBox,.portalMessage,.alert,.invalid-feedback",
                                             $mContent
                                         ).remove();
-                                        initial = false;
                                     }
 
                                     $('button[name*="cancel"]', $mContent)
@@ -447,14 +446,15 @@ class ActionManager {
                                     "formActionSuccess",
                                     function (event, response, state, xhr) {
                                         var tileUrl = xhr.getResponseHeader("X-Tile-Url");
-                                        if (tileUrl) {
+                                        if (tileUrl && initial) {
                                             mosaic.layoutManager.addAppTileHTML(
                                                 tile_type,
                                                 response,
                                                 tileUrl
                                             );
-                                            m.hide();
+                                            initial = false;
                                         }
+                                        m.hide();
                                     }
                                 );
                                 m.show();
