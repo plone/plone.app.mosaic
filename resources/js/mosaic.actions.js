@@ -18,28 +18,27 @@ class ActionManager {
     registerAction (name, options) {
         var self = this;
         // Extend default settings
-        options = $.extend(
-            {
-                // Handler for executing the action
-                exec: function () { },
+        options = {
+            // Handler for executing the action
+            exec: function () { },
 
-                // Shortcut can be any key + ctrl/shift/alt or a combination of
-                // those
-                shortcut: {
-                    ctrl: false,
-                    alt: false,
-                    shift: false,
-                    key: "",
-                },
-
-                // Method to see if the actions should be visible based on the
-                // current tile state
-                visible: function (tile) {
-                    return true;
-                },
+            // Shortcut can be any key + ctrl/shift/alt or a combination of
+            // those
+            shortcut: {
+                ctrl: false,
+                alt: false,
+                shift: false,
+                key: "",
             },
-            options
-        );
+
+            // Method to see if the actions should be visible based on the
+            // current tile state
+            visible: function (tile) {
+                return true;
+            },
+
+            ...options
+        };
 
         // Add action to manager
         self.actions[name] = options;
@@ -398,8 +397,61 @@ class ActionManager {
                     mosaic.layoutManager.addAppTileHTML(tile_type, html, tileUrl);
                 } else if (tile_config.tile_type === "app") {
                     // Load add form form selected tiletype
-                    var initial = true;
                     utils.loading.show();
+
+                    const openAddFormInModal = function (html) {
+                        let initial = true;
+                        const m = new Modal(self.mosaic.panels[0], {
+                            html: html,
+                            modalSizeClass: "modal-lg",
+                            position: "center top",
+                            buttons: '.formControls > button[type="submit"], .actionButtons > button[type="submit"]',
+                        });
+                        m.on("after-render",
+                            (event) => {
+                                /* Remove field errors since the user has not actually
+                                    been able to fill out the form yet
+                                */
+                                var $mContent = m.$modalContent;
+                                if (initial) {
+                                    $(".field.error", $mContent).removeClass("error");
+                                    $(
+                                        ".fieldErrorBox,.portalMessage,.alert,.invalid-feedback",
+                                        $mContent
+                                    ).remove();
+                                }
+                                $('button[name*="cancel"]', $mContent)
+                                    .off("click")
+                                    .on("click", function () {
+                                        m.hide();
+                                    });
+                                log.debug("after-render");
+                            }
+                        );
+                        m.on("formActionSuccess",
+                            (event, response, state, xhr) => {
+                                log.debug("TileAddForm ActionSuccess");
+                                var tileUrl = xhr.getResponseHeader("X-Tile-Url");
+                                if (tileUrl && initial) {
+                                    mosaic.layoutManager.addAppTileHTML(
+                                        tile_type,
+                                        response,
+                                        tileUrl
+                                    );
+                                    initial = false;
+                                }
+                                m.hide();
+                            }
+                        );
+                        m.on("hide", (e) => {
+                            // remove registered modal pattern events
+                            // XXX: shouldn't this be managed by pat-plone-modal?
+                            m.$el.off("after-render.plone-modal.patterns");
+                            m.$el.off("formActionSuccess.plone-modal.patterns");
+                        });
+                        m.show();
+                    };
+
                     $.ajax({
                         type: "GET",
                         url: mosaic.options.context_url +
@@ -408,57 +460,11 @@ class ActionManager {
                             "&form.button.Create=Create",
                         success: function (value, xhr) {
                             utils.loading.hide();
-                            var $value, action_url, authenticator, openAddFormInModal;
 
                             // Read form
-                            $value = $(value);
-                            action_url = $value.find("#add_tile").attr("action");
-                            authenticator = $value.find('[name="_authenticator"]').val();
-
-                            // Open add form in modal when requires user input
-                            openAddFormInModal = function (html) {
-                                const m = new Modal(".mosaic-toolbar", {
-                                    html: html,
-                                    modalSizeClass: "modal-lg",
-                                    position: "center top",
-                                    buttons: '.formControls > button[type="submit"], .actionButtons > button[type="submit"]',
-                                });
-                                m.on("after-render", function (event) {
-                                    /* Remove field errors since the user has not actually
-                                        been able to fill out the form yet
-                                    */
-                                    var $mContent = m.$modalContent;
-                                    if (initial) {
-                                        $(".field.error", $mContent).removeClass("error");
-                                        $(
-                                            ".fieldErrorBox,.portalMessage,.alert,.invalid-feedback",
-                                            $mContent
-                                        ).remove();
-                                    }
-
-                                    $('button[name*="cancel"]', $mContent)
-                                        .off("click")
-                                        .on("click", function () {
-                                            m.hide();
-                                        });
-                                });
-                                m.on(
-                                    "formActionSuccess",
-                                    function (event, response, state, xhr) {
-                                        var tileUrl = xhr.getResponseHeader("X-Tile-Url");
-                                        if (tileUrl && initial) {
-                                            mosaic.layoutManager.addAppTileHTML(
-                                                tile_type,
-                                                response,
-                                                tileUrl
-                                            );
-                                            initial = false;
-                                        }
-                                        m.hide();
-                                    }
-                                );
-                                m.show();
-                            };
+                            const $value = $(value);
+                            let action_url = $value.find("#add_tile").attr("action");
+                            const authenticator = $value.find('[name="_authenticator"]').val();
 
                             // Auto-submit add-form when all required fields are filled
                             if ($("form .required", $value).filter(function () {
