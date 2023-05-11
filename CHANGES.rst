@@ -4,6 +4,9 @@ Changelog
 3.0.3 (unreleased)
 ------------------
 
+- Fix for `#547 <https://github.com/plone/plone.app.mosaic/issues/547>`_
+  [frapell]
+
 - Fix for `#541 <https://github.com/plone/plone.app.mosaic/issues/541>`_
   [petschki]
 
