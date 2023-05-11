@@ -455,7 +455,7 @@ export default class LayoutManager {
             if ($(elm).parents(".mosaic-tile").length === 0) {
                 // Deselect tiles
                 self.mosaic.document.querySelectorAll(".mosaic-selected-tile:not(.mosaic-tile-loading)").forEach(el => {
-                    el["mosaic-tile"].blur();
+                    $(el).data("mosaic-tile").blur();
                 });
                 // Check if outside toolbar
                 if ($(elm).parents(".mosaic-toolbar").length === 0) {
@@ -793,8 +793,8 @@ export default class LayoutManager {
             obj.find(".mosaic-tile").each(async function () {
                 var tile = new Tile(self.mosaic, this)
                 await tile.initialize();
+                $(this).mosaicAddDrag()
             });
-            obj.find(".mosaic-tile").mosaicAddDrag();
             obj.mosaicAddEmptyRows();
             obj.children(".mosaic-grid-row").mosaicSetResizeHandles();
             if (i === total - 1) {

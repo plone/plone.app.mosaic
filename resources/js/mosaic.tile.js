@@ -38,6 +38,8 @@ var _missing_tile_configs = [];
 
 /* Tile class */
 class Tile {
+    _initialized = false;
+
     deprecatedHTMLTiles = [
         "table",
         "numbers",
@@ -341,6 +343,12 @@ class Tile {
     }
     async initialize() {
         var self = this;
+
+        if(self._initialized) {
+            // only initialize once
+            return;
+        }
+
         var tile_config = self.getConfig();
 
         // Check read only
@@ -410,7 +418,10 @@ class Tile {
         // convenience: store Tile instance on dom and jquery
         self.el["mosaic-tile"] = self;
         self.$el.data("mosaic-tile", self)
+
+        self._initialized = true;
     }
+
     resetClicked(e) {
         e.preventDefault();
         var self = this;
@@ -835,7 +846,7 @@ class Tile {
         ) {
             // un-select existing with stored Tile instance on element
             this.mosaic.document.querySelectorAll(".mosaic-selected-tile").forEach(el => {
-                el["mosaic-tile"].blur();
+                $(el).data("mosaic-tile").blur();
             });
             // select current tile
             this.focus();
