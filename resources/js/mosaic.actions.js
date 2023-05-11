@@ -546,7 +546,7 @@ class ActionManager {
 
     blurSelectedTile() {
         this.mosaic.document.querySelectorAll(".mosaic-selected-tile").forEach(el => {
-            el["mosaic-tile"].blur();
+            $(el).data("mosaic-tile").blur();
         });
     };
 

@@ -121,7 +121,7 @@ class Toolbar {
         var self = this;
 
         var selected_tile = self.mosaic.document.querySelector(".mosaic-selected-tile");
-        var tiletype = selected_tile ? selected_tile["mosaic-tile"].getType() : null;
+        var tiletype = selected_tile?.data ? selected_tile.data("mosaic-tile").getType() : null;
 
         // Get actions
         var actions = self.mosaic.options.default_available_actions;
