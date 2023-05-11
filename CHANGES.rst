@@ -4,6 +4,10 @@ Changelog
 3.0.3 (unreleased)
 ------------------
 
+- Fix toolbar buttons visibility based on current selected layout template
+  or customized layout.
+  [petschki]
+
 - Fix for `#547 <https://github.com/plone/plone.app.mosaic/issues/547>`_
   [frapell, petschki]
 
