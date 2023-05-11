@@ -1258,7 +1258,7 @@ export default class LayoutManager {
             // Select new tile and make it draggables
             if (new_tile && original_tile.length > 0) {
                 original_tile.mosaicAddDrag();
-                original_tile.data("mosaic-tile").initializeContent();
+                original_tile.data("mosaic-tile").initializeContent(true);
                 original_tile.data("mosaic-tile").select();
             }
         };

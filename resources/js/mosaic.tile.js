@@ -642,7 +642,7 @@ class Tile {
         });
         return value;
     }
-    async initializeContent() {
+    async initializeContent(created) {
         var self = this;
 
         // Local variables
@@ -751,6 +751,7 @@ class Tile {
                         html: tileHtml,
                         url: original_url,
                         wysiwyg: (tiletype === "plone.app.standardtiles.html"),
+                        created: created,
                     });
                 },
                 error: function () {
@@ -767,7 +768,7 @@ class Tile {
             });
         }
     }
-    async fillContent({html, url, editable, wysiwyg}) {
+    async fillContent({html, url, editable, wysiwyg, created}) {
         // need to replace the data-tile node here
         var $el = this.getDataTileEl();
         var $content;
@@ -792,7 +793,7 @@ class Tile {
             $content.attr("data-tileUrl", url);
         }
         if(wysiwyg) {
-            await this.setupWysiwyg();
+            await this.setupWysiwyg(created);
         }
         this.cacheHtml(html);
         this.scanRegistry();
@@ -956,7 +957,7 @@ class Tile {
             }
         }
     }
-    async setupWysiwyg() {
+    async setupWysiwyg(created) {
         var self = this;
 
         // Get element
@@ -980,7 +981,11 @@ class Tile {
             tiletype = "plone.app.standardtiles.html";
         }
 
-        if($content.text() === "" && tiletype === "plone.app.standardtiles.html") {
+        if(
+            created &&
+            ($content.text() === "") &&
+            (tiletype === "plone.app.standardtiles.html")
+        ) {
             // fill with default value if empty
             const config = self.getConfig();
             $content.html(config?.default_value);
