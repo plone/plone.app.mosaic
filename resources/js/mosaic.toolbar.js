@@ -153,7 +153,7 @@ class Toolbar {
         for(const val of actions) {
             if (self.mosaic.actionManager.actions[val]) {
                 if (!self.mosaic.actionManager.actions[val].visible()) {
-                    return;
+                    continue;
                 }
             }
             self.$el.find(".mosaic-button-" + val).show();
