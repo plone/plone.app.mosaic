@@ -453,13 +453,12 @@ export default class LayoutManager {
 
             // If clicked outside a tile
             if ($(elm).parents(".mosaic-tile").length === 0) {
+                // Deselect tiles
+                self.mosaic.document.querySelectorAll(".mosaic-selected-tile:not(.mosaic-tile-loading)").forEach(el => {
+                    $(el).data("mosaic-tile").blur();
+                });
                 // Check if outside toolbar
                 if ($(elm).parents(".mosaic-toolbar").length === 0) {
-                    // Deselect tiles
-                    self.mosaic.document.querySelectorAll(".mosaic-selected-tile").forEach(function(el) {
-                        el.classList.remove("mosaic-selected-tile");
-                    });
-
                     // Set actions
                     self.mosaic.toolbar.SelectedTileChange();
                 }
@@ -794,8 +793,8 @@ export default class LayoutManager {
             obj.find(".mosaic-tile").each(async function () {
                 var tile = new Tile(self.mosaic, this)
                 await tile.initialize();
+                $(this).mosaicAddDrag()
             });
-            obj.find(".mosaic-tile").mosaicAddDrag();
             obj.mosaicAddEmptyRows();
             obj.children(".mosaic-grid-row").mosaicSetResizeHandles();
             if (i === total - 1) {
@@ -1259,8 +1258,8 @@ export default class LayoutManager {
             // Select new tile and make it draggables
             if (new_tile && original_tile.length > 0) {
                 original_tile.mosaicAddDrag();
-                original_tile.data("mosaic-tile").initializeContent();
-                original_tile.data("mosaic-tile").focus();
+                original_tile.data("mosaic-tile").initializeContent(true);
+                original_tile.data("mosaic-tile").select();
             }
         };
 
