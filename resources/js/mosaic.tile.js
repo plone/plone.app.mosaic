@@ -8,6 +8,7 @@ import Modal from "@plone/mockup/src/pat/modal/modal";
 import Registry from "@patternslib/patternslib/src/core/registry";
 import "./mosaic.overlay";
 
+// show debug log by add "loglevel=DEBUG" to the URL_QUERYSTRING
 const log = logging.getLogger("pat-mosaic/tile");
 
 var _TILE_TYPE_CACHE = {};
@@ -703,7 +704,7 @@ class Tile {
                         </div>`;
                     break;
             }
-            self.fillContent({
+            await self.fillContent({
                 html: fieldhtml,
                 editable: !tile_config.read_only && contenteditable,
                 wysiwyg: wysiwyg,
@@ -723,7 +724,7 @@ class Tile {
                 url += "_layouteditor=true";
             }
             $.ajax({
-                type: "POST",
+                type: "GET",
                 url: url,
                 success: async function (value) {
                     self.$el.removeClass("mosaic-tile-loading");
@@ -735,7 +736,7 @@ class Tile {
                     var tileHtml = value.find(".temp_body_tag").html();
                     var tiletype = self.getType();
 
-                    self.fillContent({
+                    await self.fillContent({
                         html: tileHtml,
                         url: original_url,
                         wysiwyg: (tiletype === "plone.app.standardtiles.html"),
@@ -826,28 +827,30 @@ class Tile {
         });
     }
     select() {
-        var self = this;
+        log.debug("select");
+        log.debug(this);
         if (
-            self.$el.hasClass("mosaic-selected-tile") === false &&
-            self.$el.hasClass("mosaic-read-only-tile") === false
+            this.$el.hasClass("mosaic-selected-tile") === false &&
+            this.$el.hasClass("mosaic-read-only-tile") === false
         ) {
             // un-select existing with stored Tile instance on element
-            self.mosaic.document.querySelectorAll(".mosaic-selected-tile").forEach(function(el) {
-                $(el).data("mosaic-tile").blur();
+            this.mosaic.document.querySelectorAll(".mosaic-selected-tile").forEach(el => {
+                el["mosaic-tile"].blur();
             });
             // select current tile
-            self.focus();
+            this.focus();
         }
     }
     blur() {
+        log.debug("blur");
+        log.debug(this);
         this.$el.removeClass("mosaic-selected-tile");
         this.saveForm();
     }
     focus() {
-        var self = this;
-        self.$el.addClass("mosaic-selected-tile");
-        self.$el.find(".mce-content-body").trigger("focus");
-        self.initializeButtons();
+        this.$el.addClass("mosaic-selected-tile");
+        this.$el.find(".mce-content-body").trigger("focus");
+        this.initializeButtons();
     }
     saveForm() {
         var self = this;
@@ -966,19 +969,11 @@ class Tile {
             tiletype = "plone.app.standardtiles.html";
         }
 
-        // Define placeholder updater
-        var _placeholder = function () {
-            var $inside = $content.find("p > *");
-            if (($inside.length === 0 || ($inside.length === 1 && $inside.is("br"))) &&
-                $content.text().replace(/^\s+|\s+$/g, "").length === 0) {
-                $content.addClass("mosaic-tile-content-empty");
-                if ($content.find("p").length === 0) {
-                    $content.empty().append("<p></p>");
-                }
-            } else {
-                $content.removeClass("mosaic-tile-content-empty");
-            }
-        };
+        if($content.text() === "" && tiletype === "plone.app.standardtiles.html") {
+            // fill with default value if empty
+            const config = self.getConfig();
+            $content.html(config?.default_value);
+        }
 
         // Init inline TinyMCE with deactivated menubar
         const TinyMCE = (
@@ -990,7 +985,7 @@ class Tile {
         tiny_options["tiny"]["inline"] = true;
         tiny_options["tiny"]["menubar"] = false;
         tiny_options["tiny"]["selector"] = `#${id}`;
-        tiny_options["tiny"]["placeholder"] = _placeholder;
+        tiny_options["tiny"]["placeholder"] = "\u2026";
 
         const tiny_instance = new TinyMCE($content, tiny_options);
         // wait until ready.
