@@ -420,6 +420,7 @@ class Tile {
         self.$el.data("mosaic-tile", self)
 
         self._initialized = true;
+        log.debug(`Initialized ${tile_config.id}`);
     }
 
     resetClicked(e) {
