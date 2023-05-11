@@ -254,6 +254,7 @@ export default Base.extend({
                 } else {
                     await self._init($content);
                 }
+                self.toolbar.SelectedTileChange();
             })
             .fail(async function (xhr, type, status) {
                 // use backup layout
