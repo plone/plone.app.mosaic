@@ -4,6 +4,9 @@ Changelog
 3.0.3 (unreleased)
 ------------------
 
+- Fix App Tile addForm modal event handling.
+  [petschki]
+
 - Fix for `#547 <https://github.com/plone/plone.app.mosaic/issues/547>`_
   [frapell, petschki]
 
