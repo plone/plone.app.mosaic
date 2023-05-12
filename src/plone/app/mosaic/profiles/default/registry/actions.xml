@@ -186,12 +186,6 @@
       <element>grid-row-fluid</element>
       <element>grid-row-fluid-background</element>
       <element>grid-row-dark</element>
-      <element>row-cols-2211</element>
-      <element>row-cols-3221</element>
-      <element>row-cols-3321</element>
-      <element>row-cols-4221</element>
-      <element>row-cols-4421</element>
-      <element>row-cols-6321</element>
       <element>grid-row-remove-format</element>
     </value>
   </record>
@@ -320,78 +314,6 @@
     <value key="icon">true</value>
     <value key="favorite">false</value>
     <value key="weight">100</value>
-  </records>
-
-  <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.formats.row_cols_2211"
-  >
-    <value key="name">row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-2</value>
-    <value key="category">row</value>
-    <value key="label">Columns L2/M2/S1</value>
-    <value key="action">row-toggle-class</value>
-    <value key="icon">true</value>
-    <value key="favorite">false</value>
-    <value key="weight">130</value>
-  </records>
-
-  <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.formats.row_cols_3221"
-  >
-    <value key="name">row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3</value>
-    <value key="category">row</value>
-    <value key="label">Columns L3/M2/S2</value>
-    <value key="action">row-toggle-class</value>
-    <value key="icon">true</value>
-    <value key="favorite">false</value>
-    <value key="weight">131</value>
-  </records>
-
-  <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.formats.row_cols_3321"
-  >
-    <value key="name">row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-3</value>
-    <value key="category">row</value>
-    <value key="label">Columns L3/M3/S2</value>
-    <value key="action">row-toggle-class</value>
-    <value key="icon">true</value>
-    <value key="favorite">false</value>
-    <value key="weight">132</value>
-  </records>
-
-  <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.formats.row_cols_4221"
-  >
-    <value key="name">row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-4</value>
-    <value key="category">row</value>
-    <value key="label">Columns L4/M2/S2</value>
-    <value key="action">row-toggle-class</value>
-    <value key="icon">true</value>
-    <value key="favorite">false</value>
-    <value key="weight">133</value>
-  </records>
-
-  <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.formats.row_cols_4421"
-  >
-    <value key="name">row-cols-1 row-cols-sm-2 row-cols-md-4 row-cols-lg-4</value>
-    <value key="category">row</value>
-    <value key="label">Columns L4/M4/S2</value>
-    <value key="action">row-toggle-class</value>
-    <value key="icon">true</value>
-    <value key="favorite">false</value>
-    <value key="weight">134</value>
-  </records>
-
-  <records interface="plone.app.mosaic.interfaces.IFormat"
-           prefix="plone.app.mosaic.formats.row_cols_6321"
-  >
-    <value key="name">row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-6</value>
-    <value key="category">row</value>
-    <value key="label">Columns L6/M3/S2</value>
-    <value key="action">row-toggle-class</value>
-    <value key="icon">true</value>
-    <value key="favorite">false</value>
-    <value key="weight">135</value>
   </records>
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
