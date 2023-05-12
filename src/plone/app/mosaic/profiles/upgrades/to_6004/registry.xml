@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<registry>
+
+  <record name="plone.app.mosaic.default_available_actions">
+    <value purge="true">
+      <element>save</element>
+      <element>cancel</element>
+      <element>properties</element>
+      <element>customizelayout</element>
+      <element>changelayout</element>
+      <element>savelayout</element>
+      <element>format</element>
+      <element>insert</element>
+      <element>tile-align-center</element>
+      <element>tile-padding-right</element>
+      <element>tile-padding-bottom</element>
+      <element>tile-align-right</element>
+      <element>tile-align-left</element>
+      <element>tile-remove-format</element>
+      <element>grid-row-fluid</element>
+      <element>grid-row-fluid-background</element>
+      <element>grid-row-dark</element>
+      <element>grid-row-remove-format</element>
+    </value>
+  </record>
+
+
+  <records interface="plone.app.mosaic.interfaces.IFormat"
+           prefix="plone.app.mosaic.formats.row_cols_2211"
+           remove="true" />
+
+  <records interface="plone.app.mosaic.interfaces.IFormat"
+           prefix="plone.app.mosaic.formats.row_cols_3221"
+           remove="true" />
+
+  <records interface="plone.app.mosaic.interfaces.IFormat"
+           prefix="plone.app.mosaic.formats.row_cols_3321"
+           remove="true" />
+
+  <records interface="plone.app.mosaic.interfaces.IFormat"
+           prefix="plone.app.mosaic.formats.row_cols_4221"
+           remove="true" />
+
+  <records interface="plone.app.mosaic.interfaces.IFormat"
+           prefix="plone.app.mosaic.formats.row_cols_4421"
+           remove="true" />
+
+  <records interface="plone.app.mosaic.interfaces.IFormat"
+           prefix="plone.app.mosaic.formats.row_cols_6321"
+           remove="true" />
+
+</registry>
