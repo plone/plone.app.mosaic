@@ -83,36 +83,32 @@ export default class LayoutManager {
     };
 
     addAppTile(type, url /*, id */) {
-        var self = this;
         // Close overlay
-        if (self.mosaic.overlay.modal.$modal) {
-            self.mosaic.overlay.modal.hide();
+        if (this.mosaic.overlay.modal.$modal) {
+            this.mosaic.overlay.modal.hide();
         }
 
         // Get value
         $.ajax({
             type: "GET",
             url: url,
-            success: async function (value) {
+            success: async (value) => {
                 // Get dom tree
-                value = self.mosaic.getDomTreeFromHtml(value);
+                value = this.mosaic.getDomTreeFromHtml(value);
 
                 // Add head tags
-                self.mosaic.addHeadTags(url, value);
+                this.mosaic.addHeadTags(url, value);
 
                 // Add tile
-                await self.addTile(type, value.find(".temp_body_tag").html(), url);
+                await this.addTile(type, value.find(".temp_body_tag").html(), url);
             },
         });
     }
 
     async addAppTileHTML(type, response, url) {
-        var value;
-        var self = this;
-
-        value = self.mosaic.getDomTreeFromHtml(response);
-        self.mosaic.addHeadTags(url, value);
-        await self.addTile(type, value.find(".temp_body_tag").html(), url);
+        let value = this.mosaic.getDomTreeFromHtml(response);
+        this.mosaic.addHeadTags(url, value);
+        await this.addTile(type, value.find(".temp_body_tag").html(), url);
     }
 
     editAppTile(url) {
@@ -165,6 +161,7 @@ export default class LayoutManager {
                 </div>
             </div>`;
         self.mosaic.panels[0].append(add_helper);
+        log.debug(`appended helper ${type}`);
 
         // Set helper min size
         var helper = self.mosaic.panels.find(".mosaic-helper-tile-new");
@@ -351,13 +348,13 @@ export default class LayoutManager {
             // Tab key
             if (e.keyCode === 9) {
                 // blur all active tiles. and set focus
-                for(const tile of _document.querySelectorAll(".mosaic-selected-tile")) {
-                    tile["mosaic-tile"].blur();
-                }
+                _document.querySelectorAll(".mosaic-selected-tile").forEach(tile => {
+                    $(tile).data("mosaic-tile").blur();
+                });
                 // focus new tile
                 var focused_tile = document.activeElement.closest(".mosaic-tile");
                 if(focused_tile) {
-                    focused_tile["mosaic-tile"].focus();
+                    $(focused_tile).data("mosaic-tile").focus();
                 }
             }
             // Check if alt
@@ -386,8 +383,11 @@ export default class LayoutManager {
                     original_tile.forEach(tile => {
                         tile.classList.add("mosaic-drag-cancel");
                         if (tile.classList.contains("mosaic-helper-tile-new")) {
-                            // dismiss dragging tile
-                            tile.remove();
+                            // original row
+                            const $orig_row = $(tile).parent().parent();
+                            // dismiss dragging tile and remove row
+                            $(tile).remove();
+                            $orig_row.mosaicCleanupRow();
                             // Remove dragging class from content
                             self.mosaic.panels.removeClass(
                                 "mosaic-panel-dragging mosaic-panel-dragging-new"
