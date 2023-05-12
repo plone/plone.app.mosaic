@@ -4,6 +4,10 @@ Changelog
 3.0.3 (unreleased)
 ------------------
 
+- Fix toolbar buttons visibility based on current selected layout template
+  or customized layout.
+  [petschki]
+
 - Fix App Tile addForm modal event handling.
   [petschki]
 
