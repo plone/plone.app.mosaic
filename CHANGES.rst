@@ -4,6 +4,9 @@ Changelog
 3.0.3 (unreleased)
 ------------------
 
+- Remove obsolete row column presets from `Format` menu.
+  [petschki]
+
 - Fix App Tile addForm modal event handling.
   [petschki]
 
