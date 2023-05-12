@@ -4,6 +4,10 @@ Changelog
 3.0.3 (unreleased)
 ------------------
 
+- Refactor `TinyMCE` implementation: reuse already registered pattern from
+  the registry. This fixes initialization issues and duplicated chunk loading.
+  [petschki]
+
 - Fix toolbar buttons visibility based on current selected layout template
   or customized layout.
   [petschki]
