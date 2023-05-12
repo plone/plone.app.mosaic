@@ -6,6 +6,10 @@ Changelog
 
 - Remove obsolete row column presets from `Format` menu.
   [petschki]
+  
+- Fix toolbar buttons visibility based on current selected layout template
+  or customized layout.
+  [petschki]
 
 - Fix App Tile addForm modal event handling.
   [petschki]

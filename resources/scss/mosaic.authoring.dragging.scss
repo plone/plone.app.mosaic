@@ -4,9 +4,16 @@
     min-height: 1.1875em;
 }
 
+@keyframes mosaicBlurred {
+  100% {
+    opacity: .4;
+    /* maybe more fuzzy effects */
+  }
+}
+
 /* Opacity icons */
 .mosaic-blur {
-    opacity: 0.4;
+    animation: 1s mosaicBlurred ease-out forwards;
 }
 
 /* Hover icons */

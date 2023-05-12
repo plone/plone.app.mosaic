@@ -299,7 +299,7 @@ class ActionManager {
                 $(".mosaic-button-group-layout").removeClass("active");
             },
             visible: function () {
-                return mosaic.options.canChangeLayout;
+                return mosaic.hasContentLayout && mosaic.options.canChangeLayout;
             },
         });
 
