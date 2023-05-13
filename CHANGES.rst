@@ -4,6 +4,9 @@ Changelog
 3.1.1 (unreleased)
 ------------------
 
+- Remove obsolete row column presets from `Format` menu.
+  [petschki]
+
 - Fix toolbar buttons visibility based on current selected layout template
   or customized layout.
   [petschki]
