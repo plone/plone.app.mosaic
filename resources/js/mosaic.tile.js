@@ -992,11 +992,6 @@ class Tile {
             $content.html(config?.default_value);
         }
 
-        // Init inline TinyMCE with deactivated menubar
-        const TinyMCE = (
-            await import("@plone/mockup/src/pat/tinymce/tinymce")
-        ).default;
-
         // deep copy the options to get correct tiny settings!
         var tiny_options = JSON.parse(JSON.stringify(self.mosaic.options.tinymce));
         tiny_options["tiny"]["inline"] = true;
@@ -1004,7 +999,7 @@ class Tile {
         tiny_options["tiny"]["selector"] = `#${id}`;
         tiny_options["tiny"]["placeholder"] = "\u2026";
 
-        const tiny_instance = new TinyMCE($content, tiny_options);
+        const tiny_instance = new Registry.patterns["tinymce"]($content, tiny_options);
         // wait until ready.
         await events.await_pattern_init(tiny_instance);
         self.tinymce = tiny_instance.instance.tiny;
