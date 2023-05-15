@@ -7,6 +7,9 @@ Changelog
 - Remove obsolete row column presets from `Format` menu.
   [petschki]
   
+- Cleanup and update `advanced view` styles.
+  [petschki]
+
 - Refactor `TinyMCE` implementation: reuse already registered pattern from
   the registry. This fixes initialization issues and duplicated chunk loading.
   [petschki]
