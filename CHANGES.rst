@@ -4,6 +4,9 @@ Changelog
 3.1.1 (unreleased)
 ------------------
 
+- Remove obsolete row column presets from `Format` menu.
+  [petschki]
+
 - Refactor `TinyMCE` implementation: reuse already registered pattern from
   the registry. This fixes initialization issues and duplicated chunk loading.
   [petschki]
