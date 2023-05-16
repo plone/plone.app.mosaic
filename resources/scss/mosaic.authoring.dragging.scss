@@ -1,7 +1,21 @@
+@import "bootstrap/scss/buttons";
+
+/* Variables */
+.mosaic-panel {
+  --plone-mosaic-authoring-grid-border-width: 1px;
+  --plone-mosaic-authoring-grid-border-style: solid;
+  --plone-mosaic-authoring-grid-border-color: #{$gray-300};
+  --plone-mosaic-authoring-grid-border-color-active: #{$primary};
+  --plone-mosaic-authoring-innergrid-border-width: 1px;
+  --plone-mosaic-authoring-innergrid-border-style: dashed;
+  --plone-mosaic-authoring-innergrid-border-color: #{$gray-300};
+  --plone-mosaic-authoring-innergrid-border-color-active: #{$primary};
+}
+
 /* Placeholders */
 .mosaic-panel .documentFirstHeading,
 .mosaic-panel .documentDescription {
-    min-height: 1.1875em;
+  min-height: 1.1875em;
 }
 
 @keyframes mosaicBlurred {
@@ -13,36 +27,44 @@
 
 /* Opacity icons */
 .mosaic-blur {
-    animation: 1s mosaicBlurred ease-out forwards;
+  animation: 1s mosaicBlurred ease-out forwards;
 }
 
 /* Hover icons */
 .mosaic-tile-control {
-    position: absolute;
-    width: 16px;
-    height: 16px;
-    z-index: 500;
-    display: none;
-    opacity: 0.4;
+  position: absolute;
+  z-index: 500;
+  display: none;
+  opacity: 0.4;
+  line-height:1;
 }
 
-.mosaic-selected-tile .mosaic-tile-control {
-  opacity:1;
+.mosaic-selected-tile {
+   .mosaic-tile-control {
+    opacity: 1;
+
+    .mosaic-tile-label {
+      background-color: $primary;
+    }
+  }
+}
+.mosaic-tile:not(.mosaic-selected-tile):hover .mosaic-tile-label {
+  background-color:var(--plone-mosaic-tiles-outer-border-color-hover);
 }
 
 .mosaic-drag-handle {
-    background: transparent none no-repeat center center;
-    top: 0px;
-    bottom: 0px;
-    height: auto;
-    width: auto;
-    left: 0px;
-    right: 0px;
-    cursor: move;
+  background: transparent none no-repeat center center;
+  top: 0px;
+  bottom: 0px;
+  height: auto;
+  width: auto;
+  left: 0px;
+  right: 0px;
+  cursor: move;
 }
 
 .mosaic-selected-tile .mosaic-drag-handle {
-    z-index: 1;
+  z-index: 1;
 }
 
 .mosaic-tile-buttons {
@@ -52,8 +74,9 @@
   top: auto;
   width: auto;
 
-  > .btn {
-    margin-left:0.25rem;
+  >.btn:not(.btn-danger) {
+    margin-left: 0.25rem;
+    @extend .btn-light;
   }
 }
 
@@ -61,79 +84,119 @@
 .mosaic-tile:hover .mosaic-tile-side-tools,
 .mosaic-tile:focus .mosaic-tile-side-tools,
 .mosaic-advanced .mosaic-tile-side-tools {
-    display: block !important;
+  display: block !important;
 }
 
 .mosaic-tile-side-tools {
-  top: -2px;
-  left: -102px;
+  top: calc(var(--plone-mosaic-authoring-grid-border-width) * -1);
+  left: calc((100px + var(--plone-mosaic-authoring-grid-border-width)) * -1);
   width: 100px;
+}
+
+/* new tile-side-tools position for advance view */
+.mosaic-advanced {
+  .mosaic-tile {
+    padding-bottom:1rem;
+
+    .mosaic-tile-side-tools {
+      top:auto;
+      bottom:-2px;
+      width:auto;
+      left:0;
+
+      .mosaic-tile-label {
+        border-radius:0;
+        text-align:left;
+        float: left;
+        padding:4px 6px;
+        margin-right:2px;
+      }
+    }
+
+    .mosaic-tile-buttons {
+      bottom:0;
+      svg {
+        width:12px;
+        height:12px;
+      }
+      .btn {
+        --bs-btn-padding-y:1px;
+        --bs-btn-border-radius:0;
+        &:not(.btn-danger) {
+          @extend .btn-secondary;
+        }
+      }
+    }
+  }
 }
 
 .mosaic-selected-tile .mosaic-tile-label,
 .mosaic-tile:hover .mosaic-tile-label,
 .mosaic-tile:focus .mosaic-tile-label,
 .mosaic-advanced .mosaic-tile-label {
-    display: block;
+  display: block;
 }
 
 .mosaic-tile-label {
-    color: white;
-    text-align: right;
-    background-color: #3469d0;
-    border-top-left-radius: 8px;
-    border-bottom-left-radius: 8px;
-    font-size:80%;
-    font-weight:bold;
-    padding:2px 5px;
-    margin-bottom:2px;
+  color: white;
+  text-align: right;
+  border-radius: var(--bs-border-radius) 0 0 var(--bs-border-radius);
+  background-color: $gray-500;
+  font-size: $font-size-sm;
+  font-weight: bold;
+  padding: 3px 5px;
+  margin-bottom: 2px;
 
-    a {
+  a {
+    color: white;
+    text-decoration: none;
+
+    &:hover,
+    &:active,
+    &:focus {
       color: white;
-      text-decoration: none;
-      &:hover, &:active, &:focus {
-        color: white;
-      }
     }
+  }
 }
 
 .mosaic-info-icon:hover {
-    background-position: -28px -56px;
+  background-position: -28px -56px;
 }
 
 .mosaic-tile:hover .mosaic-tile-control {
-    display: none;
+  display: none;
 }
 
 .mosaic-selected-tile .mosaic-tile-control {
-    display: block !important;
+  display: block !important;
 }
 
 /* Show move icon while hovering over a tile */
 .mosaic-tile:hover .mosaic-drag-handle {
-    display: block;
+  display: block;
 }
 
 /* Hide icons while dragging or resizing*/
 .mosaic-panel-dragging {
-    min-height: 1px;
+  min-height: 1px;
 }
 
 .mosaic-panel-dragging .mosaic-tile:hover .mosaic-tile-control {
-    display: none;
+  display: none;
 }
 
 .mosaic-panel-resizing .mosaic-tile:hover .mosaic-tile-control {
-    display: none;
+  display: none;
 }
 
 /* Show move icon on helper */
 .mosaic-helper-tile .mosaic-drag-handle {
-    display: block !important;
+  display: block !important;
 }
 
 /* Empty row */
 .mosaic-panel-dragging {
+
   .mosaic-empty-row:nth-last-child(2),
   .mosaic-empty-row:first-child {
     height: 12px;
@@ -141,68 +204,64 @@
 
   .mosaic-grid-row:not(.mosaic-empty-row) {
     .mosaic-empty-row {
-        height: 12px;
+      height: 12px;
     }
   }
 }
 
 /* Inner subcolumns */
 .mosaic-panel .mosaic-innergrid-row:hover {
-    border: dashed 2px #3469d0;
-    padding-top: 10px;
+  border: var(--plone-mosaic-authoring-innergrid-border-style) var(--plone-mosaic-authoring-innergrid-border-width) var(--plone-mosaic-authoring-innergrid-border-color);
+  padding-top: 10px;
 }
 
 .mosaic-panel.mosaic-advanced {
-  .mosaic-empty-row:first-child + .mosaic-grid-row {
-    border-top: 2px dashed #ccc;
+  .mosaic-empty-row:first-child+.mosaic-grid-row {
+    border-top: var(--plone-mosaic-authoring-grid-border-style) var(--plone-mosaic-authoring-grid-border-width) var(--plone-mosaic-authoring-grid-border-color);
   }
 
   .mosaic-grid-row:not(.mosaic-empty-row):not(:last-child) {
     padding: 5px 5px 1.2rem 5px;
-    border-bottom: 2px dashed #ccc;
-    border-left: 2px dashed #ccc;
-    border-right: 2px dashed #ccc;
+    border-bottom: var(--plone-mosaic-authoring-grid-border-style) var(--plone-mosaic-authoring-grid-border-width) var(--plone-mosaic-authoring-grid-border-color);
+    border-left: var(--plone-mosaic-authoring-grid-border-style) var(--plone-mosaic-authoring-grid-border-width) var(--plone-mosaic-authoring-grid-border-color);
+    border-right: var(--plone-mosaic-authoring-grid-border-style) var(--plone-mosaic-authoring-grid-border-width) var(--plone-mosaic-authoring-grid-border-color);
 
     .mosaic-grid-cell {
       position: relative;
       padding: 5px;
-      border-left: 2px dashed #ccc;
-    }
+      border-left: var(--plone-mosaic-authoring-grid-border-style) var(--plone-mosaic-authoring-grid-border-width) var(--plone-mosaic-authoring-grid-border-color);
 
-    .mosaic-grid-cell:first-child {
-      border-left: none;
-    }
-
-    .mosaic-innergrid-row:hover {
-      border: dashed 2px #3469d0;
-      padding-top: 10px;
+      &:first-child {
+        border-left: none;
+      }
     }
 
     .mosaic-innergrid-row {
       padding: 5px;
-      border-bottom: 2px dashed #ccc;
-      border-left: 2px dashed #ccc;
-      border-right: 2px dashed #ccc;
-      border-top: 2px dashed #ccc;
+      border: var(--plone-mosaic-authoring-innergrid-border-style) var(--plone-mosaic-authoring-innergrid-border-width) var(--plone-mosaic-authoring-innergrid-border-color);
       margin-left: -7px;
       margin-right: 0px;
       margin-bottom: 10px;
 
+      &:hover {
+        border-color: var(--plone-mosaic-authoring-innergrid-border-color-active);
+      }
+
       .mosaic-grid-cell {
         padding: 5px;
-        border-left: 2px dashed #ccc;
-      }
+        border-left: var(--plone-mosaic-authoring-innergrid-border-style) var(--plone-mosaic-authoring-innergrid-border-width) var(--plone-mosaic-authoring-innergrid-border-color);
 
-      .mosaic-grid-cell:first-child {
-        border-left: none;
+        &:first-child {
+          border-left: none;
+        }
       }
-
     }
   }
 
   .mosaic-empty-row .mosaic-grid-cell {
     height: 12px;
-    > div {
+
+    >div {
       height: 12px;
     }
   }
@@ -210,7 +269,8 @@
   /* Add room for empty row placeholders when dragging */
   &.mosaic-panel-dragging {
     .mosaic-grid-row:not(:last-child) {
-      border-top: 2px dashed #ccc;
+      border-top: var(--plone-mosaic-authoring-grid-border-style) var(--plone-mosaic-authoring-grid-border-width) var(--plone-mosaic-authoring-grid-border-color);
+
       &.mosaic-empty-row {
         margin-top: 6px;
         height: 12px;
@@ -224,17 +284,18 @@
     position: absolute;
     display: block;
     content: attr(class);
-    color: #aaa;
+    color: var(--bs-secondary);
     font-weight: bold;
     left: 0;
     right: 0;
     bottom: 0;
     z-index: 99;
     white-space: nowrap;
-    background: #f9f9f9;
+    background: var(--bs-light);
     text-align: right;
     padding: 0 5px;
-    font-size:$font-size-sm;
+    font-size: $font-size-sm;
   }
 }
+
 /* @end */
