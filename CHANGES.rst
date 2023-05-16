@@ -4,6 +4,9 @@ Changelog
 3.1.1 (unreleased)
 ------------------
 
+- Cleanup and update `advanced view` styles.
+  [petschki]
+
 - Remove obsolete row column presets from `Format` menu.
   [petschki]
 
