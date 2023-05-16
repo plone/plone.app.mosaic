@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.0.3 (unreleased)
+3.0.3 (2023-05-16)
 ------------------
 
 - Remove obsolete row column presets from `Format` menu.
