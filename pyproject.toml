@@ -1,40 +1,7 @@
 # Generated from:
 # https://github.com/plone/meta/tree/master/config/default
-[tool.towncrier]
-filename = "CHANGES.rst"
-directory = "news/"
-title_format = "{version} ({project_date})"
-underlines = ["-", ""]
 
-[[tool.towncrier.type]]
-directory = "breaking"
-name = "Breaking changes:"
-showcontent = true
-
-[[tool.towncrier.type]]
-directory = "feature"
-name = "New features:"
-showcontent = true
-
-[[tool.towncrier.type]]
-directory = "bugfix"
-name = "Bug fixes:"
-showcontent = true
-
-[[tool.towncrier.type]]
-directory = "internal"
-name = "Internal:"
-showcontent = true
-
-[[tool.towncrier.type]]
-directory = "documentation"
-name = "Documentation:"
-showcontent = true
-
-[[tool.towncrier.type]]
-directory = "tests"
-name = "Tests"
-showcontent = true
+# removed towncrier
 
 [tool.isort]
 profile = "plone"
