@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.1.1 (unreleased)
+3.1.1 (2023-05-16)
 ------------------
 
 - Cleanup and update `advanced view` styles.
