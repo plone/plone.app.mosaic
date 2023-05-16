@@ -13,7 +13,7 @@ long_description = "\n\n".join(
 setup(
     # metadata in setup.cfg
     name="plone.app.mosaic",
-    version="3.1.1",
+    version="3.1.2.dev0",
     description="Plone Mosaic Site Builder and Site Layout",
     long_description=long_description,
     classifiers=[
