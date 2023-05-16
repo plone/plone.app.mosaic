@@ -92,7 +92,7 @@
 
 /* Selected tile */
 .mosaic-panel .mosaic-selected-tile {
-    background-color:var(--bs-light);
+    background-color:var(--bs-tertiary-bg);
     &, &:hover {
         .mosaic-tile-outer-border {
             border: var(--plone-mosaic-tiles-outer-border-style-active) var(--plone-mosaic-tiles-outer-border-width) var(--plone-mosaic-tiles-outer-border-color-active) !important;
