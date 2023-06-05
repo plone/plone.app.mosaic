@@ -4,11 +4,11 @@
     "description": "Mosaic Editor for Plone",
     "license": "GPL-2.0-only",
     "dependencies": {
-        "@patternslib/patternslib": "9.9.0-alpha.5",
-        "@plone/mockup": "5.1.0-alpha.3"
+        "@patternslib/patternslib": "9.9.4",
+        "@plone/mockup": "5.1.1"
     },
     "devDependencies": {
-        "@patternslib/dev": "3.3.2",
+        "@patternslib/dev": "^3.3.5",
         "clean-css-cli": "^5.6.1",
         "npm-run-all": "^4.1.5"
     },

@@ -4,7 +4,8 @@ Changelog
 3.1.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Update dependencies to Bootstrap 5.3 final versions.
+  [petschki]
 
 
 3.1.1 (2023-05-16)
