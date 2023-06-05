@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.1.2 (unreleased)
+3.1.2 (2023-06-05)
 ------------------
 
 - Update dependencies to Bootstrap 5.3 final versions.
