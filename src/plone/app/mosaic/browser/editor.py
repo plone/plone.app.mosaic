@@ -14,7 +14,6 @@ from plone.protect.authenticator import createToken
 from plone.registry.interfaces import IRegistry
 from plone.resource.manifest import MANIFEST_FILENAME
 from plone.resource.utils import queryResourceDirectory
-from Products.CMFPlone.resources import add_bundle_on_request
 from zExceptions import NotFound
 from zope.component import getUtility
 from zope.publisher.browser import BrowserView
@@ -212,14 +211,13 @@ class LayoutsEditor(BrowserView):
         self.registry = getUtility(IRegistry)
 
     def __call__(self):
-        if self.request.form.get("list-contentlayouts"):
-            return self.list_contentlayouts()
         action = self.request.form.get("action")
         if action == "show":
-            return self.show()
+            self.show()
         if action == "hide":
-            return self.hide()
-        add_bundle_on_request(self.request, "layouts-editor")
+            self.hide()
+        if action == "save":
+            self.save()
         return super().__call__()
 
     def show(self):
@@ -228,6 +226,7 @@ class LayoutsEditor(BrowserView):
         if key and key in hidden:
             hidden.remove(key)
             self.registry["plone.app.mosaic.hidden_content_layouts"] = hidden
+        api.portal.show_message(f"{key} visibility changed to show")
 
     def hide(self):
         hidden = self.registry["plone.app.mosaic.hidden_content_layouts"]
@@ -235,11 +234,34 @@ class LayoutsEditor(BrowserView):
         if key and key not in hidden:
             hidden.append(str(key))
             self.registry["plone.app.mosaic.hidden_content_layouts"] = hidden
+        api.portal.show_message(f"{key} visibility changed to hide")
+
+    def save(self):
+        layout_path = self.request.form["name"].split("/")
+        layout_resources = queryResourceDirectory(
+            CONTENT_LAYOUT_RESOURCE_NAME, layout_path.pop(0),
+        )
+        layout_file_path = "/".join(layout_path)
+        layout_resources.writeFile(layout_file_path, self.request.form["layout"])
+        api.portal.show_message(f"Saved {layout_file_path} successfully")
 
     def get_layout_id(self, layout):
         return "++layout++" + layout.replace("++contentlayout++", "").replace(
             "/", "-"
         ).replace(".html", "")
+
+    def get_layout_source(self, layout):
+        layout_path = layout.split("/")
+        layout_resources = queryResourceDirectory(
+            CONTENT_LAYOUT_RESOURCE_NAME, layout_path[0],
+        )
+        if len(layout_path) == 3:
+            # user layout
+            return layout_resources[layout_path[1]].readFile(layout_path[2])
+        elif len(layout_path) == 2:
+            return layout_resources.readFile(layout_path[1])
+        else:
+            raise TypeError(f"Wrong layout path: {layout}")
 
     def list_contentlayouts(self):
         result = []
@@ -249,13 +271,13 @@ class LayoutsEditor(BrowserView):
             result.append(
                 {
                     "key": key,
-                    "_for": value.get("for", ""),
+                    "_for": value.get("for") or "all",
                     "title": value.get("title", ""),
                     "hidden": key in hidden,
                 }
             )
         result.sort(key=lambda k: k.get("key", ""))
-        return json.dumps(result)
+        return result
 
     @property
     def content_config(self):
