@@ -10,7 +10,8 @@ Breaking changes:
 
 New features:
 
-- *add item here*
+- Re-implement `Custom layout` management functionality without pattern logic.
+  [petschki]
 
 Bug fixes:
 
