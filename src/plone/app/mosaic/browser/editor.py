@@ -239,7 +239,8 @@ class LayoutsEditor(BrowserView):
     def save(self):
         layout_path = self.request.form["name"].split("/")
         layout_resources = queryResourceDirectory(
-            CONTENT_LAYOUT_RESOURCE_NAME, layout_path.pop(0),
+            CONTENT_LAYOUT_RESOURCE_NAME,
+            layout_path.pop(0),
         )
         layout_file_path = "/".join(layout_path)
         layout_resources.writeFile(layout_file_path, self.request.form["layout"])
@@ -253,7 +254,8 @@ class LayoutsEditor(BrowserView):
     def get_layout_source(self, layout):
         layout_path = layout.split("/")
         layout_resources = queryResourceDirectory(
-            CONTENT_LAYOUT_RESOURCE_NAME, layout_path[0],
+            CONTENT_LAYOUT_RESOURCE_NAME,
+            layout_path[0],
         )
         if len(layout_path) == 3:
             # user layout
