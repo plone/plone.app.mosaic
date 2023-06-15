@@ -237,6 +237,9 @@ class LayoutsEditor(BrowserView):
         api.portal.show_message(f"{key} visibility changed to hide")
 
     def save(self):
+        if "form.buttons.Cancel" in self.request.form:
+            api.portal.show_message("Cancelled editing.")
+            return
         layout_path = self.request.form["name"].split("/")
         layout_resources = queryResourceDirectory(
             CONTENT_LAYOUT_RESOURCE_NAME,
