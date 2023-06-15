@@ -68,12 +68,7 @@
                     href="${context/absolute_url}/@@${view/__name__}?action=${python:'show' if hidden else 'hide'}&layout=${layout/key}&_authenticator=${authToken}">
                     <img tal:replace="structure python:icons.tag('eye-slash' if hidden else 'eye')" />
                   </a>
-                  <a class="btn btn-sm btn-outline-secondary pat-plone-modal"
-                     data-pat-plone-modal='{
-                        "modalSizeClass": "modal-xl",
-                        "content": "#content-core",
-                        "position": "center top"
-                     }'
+                  <a class="btn btn-sm btn-outline-secondary"
                      href="${context/absolute_url}/@@${view/__name__}?action=edit&layout=${layout/key}">
                      <img tal:replace="structure python:icons.tag('pencil')" />
                   </a>
