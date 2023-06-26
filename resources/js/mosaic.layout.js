@@ -222,6 +222,7 @@ export default class LayoutManager {
                             .replace('\\n', "<br/>");
                         return `${start}${lines}${end}`;
                     case "plone.app.z3cform.widget.RichTextFieldWidget":
+                    case "plone.app.z3cform.widgets.richtext.RichTextFieldWidget":
                     case "plone.app.z3cform.wysiwyg.widget.WysiwygWidget":
                     case "plone.app.z3cform.wysiwyg.widget.WysiwygFieldWidget":
                     case "plone.app.widgets.dx.RichTextWidget":

@@ -330,6 +330,7 @@ class Tile {
                 (tile_config.tile_type === "app" && tile_config.rich_text) ||
                 (tile_config.tile_type === "field" && !tile_config.read_only && (
                     tile_config.widget === "plone.app.z3cform.widget.RichTextFieldWidget" ||
+                    tile_config.widget === "plone.app.z3cform.widgets.richtext.RichTextFieldWidget" ||
                     tile_config.widget === "plone.app.z3cform.wysiwyg.widget.WysiwygWidget" ||
                     tile_config.widget === "plone.app.z3cform.wysiwyg.widget.WysiwygFieldWidget" ||
                     tile_config.widget === "plone.app.widgets.dx.RichTextWidget"
@@ -700,6 +701,7 @@ class Tile {
                     contenteditable = true;
                     break;
                 case "plone.app.z3cform.widget.RichTextFieldWidget":
+                case "plone.app.z3cform.widgets.richtext.RichTextFieldWidget":
                 case "plone.app.z3cform.wysiwyg.widget.WysiwygWidget":
                 case "plone.app.z3cform.wysiwyg.widget.WysiwygFieldWidget":
                 case "plone.app.widgets.dx.RichTextWidget":
@@ -907,6 +909,7 @@ class Tile {
                     textarea.innerText = value;
                     break;
                 case "plone.app.z3cform.widget.RichTextFieldWidget":
+                case "plone.app.z3cform.widgets.richtext.RichTextFieldWidget":
                 case "plone.app.z3cform.wysiwyg.widget.WysiwygWidget":
                 case "plone.app.z3cform.wysiwyg.widget.WysiwygFieldWidget":
                 case "plone.app.widgets.dx.RichTextWidget":

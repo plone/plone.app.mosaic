@@ -14,7 +14,8 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- Fix `text` field tile initialization after refactoring modules in `plone.app.z3cform`
+  [petschki]
 
 
 3.1.2 (2023-06-05)
