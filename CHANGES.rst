@@ -4,16 +4,6 @@ Changelog
 3.1.3 (unreleased)
 ------------------
 
-Breaking changes:
-
-- *add item here*
-
-New features:
-
-- *add item here*
-
-Bug fixes:
-
 - Fix `text` field tile initialization after refactoring modules in `plone.app.z3cform`
   [petschki]
 
