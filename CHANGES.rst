@@ -4,17 +4,8 @@ Changelog
 3.1.4 (unreleased)
 ------------------
 
-Breaking changes:
-
-- *add item here*
-
-New features:
-
-- *add item here*
-
-Bug fixes:
-
-- *add item here*
+- Fixing field editing in Properties form
+  [petschki, jensens, gogobd]
 
 
 3.1.3 (2023-06-27)
