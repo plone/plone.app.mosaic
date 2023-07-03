@@ -2,6 +2,7 @@
 import $ from "jquery";
 import Modal from "@plone/mockup/src/pat/modal/modal";
 import logging from "@patternslib/patternslib/src/core/logging";
+import registry from "@patternslib/patternslib/src/core/registry";
 
 const log = logging.getLogger("pat-mosaic/overlay");
 
@@ -14,7 +15,7 @@ export default class Overlay {
 
     ajax_edit_url() {
         const edit_url = window.location.href.split("?");
-        return `${edit_url[0]}?ajax_load=${new Date().getTime()}${edit_url.length > 1 ? "&" + edit_url[1]: ""}`;
+        return `${edit_url[0]}?ajax_load=${new Date().getTime()}${edit_url.length > 1 ? "&" + edit_url[1] : ""}`;
     }
 
     initialize() {
@@ -35,7 +36,7 @@ export default class Overlay {
         self.modal.init();
     }
 
-    open (mode, tile_config) {
+    open(mode, tile_config) {
         var self = this;
         self.modal.on("after-ajax", (e, m) => {
             // make sure 'pat-layout' isn't initialized twice from the loaded edit form
@@ -50,7 +51,8 @@ export default class Overlay {
         const ajax_url_parts = self.ajax_edit_url().split("?");
         self.modal.on("formActionSuccess", (e) => {
             $("#content-core", $(e.target)).load(
-                `${ajax_url_parts[0]} #content-core > *`, ajax_url_parts[1], () => {});
+                `${ajax_url_parts[0]} #content-core > *`, ajax_url_parts[1], () => { });
+            registry.scan("#content-core");
         });
         // show modal
         self.modal.show();
@@ -95,10 +97,11 @@ export default class Overlay {
             var fieldset = field.parents("fieldset");
 
             // Hide all fieldsets
-            modalContent.find("fieldset").removeClass("active");
+            modalContent.find("fieldset").removeClass("active").addClass("d-none");
+            modalContent.find("form").removeClass("pat-autotoc");
 
             // Show current fieldset
-            fieldset.addClass("active");
+            fieldset.addClass("active").removeClass("d-none");
 
             // Hide all fields in current fieldset
             fieldset.children().addClass("mosaic-hidden");
