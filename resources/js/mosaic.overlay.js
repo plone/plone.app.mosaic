@@ -52,7 +52,6 @@ export default class Overlay {
         self.modal.on("formActionSuccess", (e) => {
             $("#content-core", $(e.target)).load(
                 `${ajax_url_parts[0]} #content-core > *`, ajax_url_parts[1], () => { });
-            registry.scan("#content-core");
         });
         // show modal
         self.modal.show();
