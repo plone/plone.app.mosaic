@@ -2,7 +2,6 @@
 import $ from "jquery";
 import Modal from "@plone/mockup/src/pat/modal/modal";
 import logging from "@patternslib/patternslib/src/core/logging";
-import registry from "@patternslib/patternslib/src/core/registry";
 
 const log = logging.getLogger("pat-mosaic/overlay");
 
