@@ -390,7 +390,7 @@ Bug fixes:
 
 New features:
 
-- Add support for optiona ``permission``-key in content layout manifests
+- Add support for optional ``permission``-key in content layout manifests
   [datakurre]
 
 Bug fixes:
