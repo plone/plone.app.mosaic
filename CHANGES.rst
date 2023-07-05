@@ -1,14 +1,15 @@
 Changelog
 =========
 
-3.1.3 (unreleased)
+3.1.4 (unreleased)
 ------------------
 
-Breaking changes:
+- Fixing field editing in Properties form
+  [petschki, jensens, gogobd]
 
-- *add item here*
 
-New features:
+3.1.3 (2023-06-27)
+------------------
 
 - Re-implement `Custom layout` management functionality without pattern logic.
   [petschki]
@@ -16,6 +17,8 @@ New features:
 Bug fixes:
 
 - *add item here*
+- Fix `text` field tile initialization after refactoring modules in `plone.app.z3cform`
+  [petschki]
 
 
 3.1.2 (2023-06-05)
@@ -393,7 +396,7 @@ Bug fixes:
 
 New features:
 
-- Add support for optiona ``permission``-key in content layout manifests
+- Add support for optional ``permission``-key in content layout manifests
   [datakurre]
 
 Bug fixes:

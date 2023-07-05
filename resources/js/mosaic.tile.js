@@ -134,14 +134,14 @@ class Tile {
         // previously this.mosaic.getTileType
         var self = this;
         var classNames = self.$el.attr("class");
-        if(classNames in _TILE_TYPE_CACHE) {
+        if (classNames in _TILE_TYPE_CACHE) {
             return _TILE_TYPE_CACHE[classNames];
         }
         var tiletype = "";
-        if(classNames === undefined) {
+        if (classNames === undefined) {
             return;
         }
-        for(const cls of classNames.split(" ")) {
+        for (const cls of classNames.split(" ")) {
             let classname = cls.match(/^mosaic-([\w.\-]+)-tile$/);
             if (classname !== null) {
                 if (classname[1] !== "selected" &&
@@ -317,7 +317,7 @@ class Tile {
         return body;
     }
     isRichText(tile_config) {
-        if(this.$el.hasClass("mosaic-read-only-tile")) {
+        if (this.$el.hasClass("mosaic-read-only-tile")) {
             return false;
         }
         if (tile_config === undefined) {
@@ -330,6 +330,8 @@ class Tile {
                 (tile_config.tile_type === "app" && tile_config.rich_text) ||
                 (tile_config.tile_type === "field" && !tile_config.read_only && (
                     tile_config.widget === "plone.app.z3cform.widget.RichTextFieldWidget" ||
+                    tile_config.widget === "plone.app.z3cform.widgets.richtext.RichTextFieldWidget" ||
+                    tile_config.widget === "plone.app.z3cform.widgets.richtext.RichTextWidget" ||
                     tile_config.widget === "plone.app.z3cform.wysiwyg.widget.WysiwygWidget" ||
                     tile_config.widget === "plone.app.z3cform.wysiwyg.widget.WysiwygFieldWidget" ||
                     tile_config.widget === "plone.app.widgets.dx.RichTextWidget"
@@ -344,7 +346,7 @@ class Tile {
     async initialize() {
         var self = this;
 
-        if(self._initialized) {
+        if (self._initialized) {
             // only initialize once
             return;
         }
@@ -408,7 +410,7 @@ class Tile {
         self.makeMovable();
         self.initializeButtons();
 
-        for(const pos of ["top", "bottom", "right", "left"]) {
+        for (const pos of ["top", "bottom", "right", "left"]) {
             self.$el.prepend(
                 $(self.mosaic.document.createElement("div"))
                     .addClass("mosaic-divider mosaic-divider-" + pos)
@@ -456,7 +458,7 @@ class Tile {
             btn.textContent = label;
             buttons.push(btn);
             $(btn).on("click", click);
-            if(!(name in BUTTON_ICON_MAP)) {
+            if (!(name in BUTTON_ICON_MAP)) {
                 log.warn(`could not find button icon "${name}"`);
             } else {
                 $(btn).prepend(BUTTON_ICON_MAP[name] + " ");
@@ -538,7 +540,7 @@ class Tile {
         // If we have a tinymce instance initialized we have to destroy it
         const tile_content = el.querySelector(".mosaic-tile-content");
 
-        if(tile_content["pattern-tinymce"]) {
+        if (tile_content["pattern-tinymce"]) {
             tile_content["pattern-tinymce"].destroy();
         }
 
@@ -700,6 +702,8 @@ class Tile {
                     contenteditable = true;
                     break;
                 case "plone.app.z3cform.widget.RichTextFieldWidget":
+                case "plone.app.z3cform.widgets.richtext.RichTextFieldWidget":
+                case "plone.app.z3cform.widgets.richtext.RichTextWidget":
                 case "plone.app.z3cform.wysiwyg.widget.WysiwygWidget":
                 case "plone.app.z3cform.wysiwyg.widget.WysiwygFieldWidget":
                 case "plone.app.widgets.dx.RichTextWidget":
@@ -721,7 +725,7 @@ class Tile {
                 editable: !tile_config.read_only && contenteditable,
                 wysiwyg: wysiwyg,
             });
-        // Get data from app tile
+            // Get data from app tile
         } else if (tile_config) {
             self.$el.addClass("mosaic-tile-loading");
             url = base ? [base, href].join("/").replace(/\/+\.\//g, "/") : href;
@@ -769,7 +773,7 @@ class Tile {
             });
         }
     }
-    async fillContent({html, url, editable, wysiwyg, created}) {
+    async fillContent({ html, url, editable, wysiwyg, created }) {
         // need to replace the data-tile node here
         var $el = this.getDataTileEl();
         var $content;
@@ -782,7 +786,7 @@ class Tile {
             $content = this.getContentEl();
             $content.html(html);
         }
-        if(editable) {
+        if (editable) {
             $content.attr("contenteditable", true);
         }
         if (url && $content.length > 0) {
@@ -793,7 +797,7 @@ class Tile {
             }
             $content.attr("data-tileUrl", url);
         }
-        if(wysiwyg) {
+        if (wysiwyg) {
             await this.setupWysiwyg(created);
         }
         this.cacheHtml(html);
@@ -870,7 +874,7 @@ class Tile {
         var tiletype = self.getType();
         var tile_config = self.getConfig();
         var value;
-        if(!tile_config || tile_config.read_only === true) {
+        if (!tile_config || tile_config.read_only === true) {
             return;
         }
         // Update field values if type is rich text
@@ -900,18 +904,20 @@ class Tile {
                         });
                     value = value.replace(/^\s+|\s+$/g, "");
                     var textarea = document.querySelector(`#${tile_config.id} textarea`);
-                    if(!textarea) {
+                    if (!textarea) {
                         log.error(`No textarea with id "${tile_condig.id}" found`)
                         break;
                     }
                     textarea.innerText = value;
                     break;
                 case "plone.app.z3cform.widget.RichTextFieldWidget":
+                case "plone.app.z3cform.widgets.richtext.RichTextFieldWidget":
+                case "plone.app.z3cform.widgets.richtext.RichTextWidget":
                 case "plone.app.z3cform.wysiwyg.widget.WysiwygWidget":
                 case "plone.app.z3cform.wysiwyg.widget.WysiwygFieldWidget":
                 case "plone.app.widgets.dx.RichTextWidget":
                     var textarea = document.querySelector(`#${tile_config.id} textarea`);
-                    if(!textarea) {
+                    if (!textarea) {
                         log.error(`No textarea with id "${tile_config.id}" found`);
                         break;
                     }
@@ -964,7 +970,7 @@ class Tile {
         // Get element
         var $content = self.$el.find(".mosaic-tile-content");
 
-        if(!$content.length) {
+        if (!$content.length) {
             return;
         }
 
@@ -982,7 +988,7 @@ class Tile {
             tiletype = "plone.app.standardtiles.html";
         }
 
-        if(
+        if (
             created &&
             ($content.text() === "") &&
             (tiletype === "plone.app.standardtiles.html")
