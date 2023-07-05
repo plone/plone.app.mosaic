@@ -11,6 +11,12 @@ Changelog
 3.1.3 (2023-06-27)
 ------------------
 
+- Re-implement `Custom layout` management functionality without pattern logic.
+  [petschki]
+
+Bug fixes:
+
+- *add item here*
 - Fix `text` field tile initialization after refactoring modules in `plone.app.z3cform`
   [petschki]
 

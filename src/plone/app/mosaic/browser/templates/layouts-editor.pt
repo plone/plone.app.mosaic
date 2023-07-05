@@ -41,16 +41,64 @@
       <p class="documentDescription"
          i18n:translate=""
       >
-      Edit content and site layouts
+      Edit content layouts
       </p>
 
-      <div id="content-core">
-        <span tal:replace="structure context/@@authenticator/authenticator"></span>
-        <div id="mosaic-show-hide-layouts">
-          <h2>Show/Hide Content Layouts</h2>
-          <div class="pat-layouts-editor"></div>
+      <div id="content-core"
+           tal:define="icons nocall:context/@@iconresolver;
+                       authToken context/@@authenticator/token;
+                       action request/action|nothing">
+        <div id="mosaic-show-hide-layouts" class="table-responsive" tal:condition="python:action != 'edit'">
+          <table class="table table-sm table-bordered">
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Path</th>
+                <th>Types</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr tal:repeat="layout view/list_contentlayouts">
+                <td>${layout/title}</td>
+                <td>${layout/key}</td>
+                <td>${layout/_for}</td>
+                <td>
+                  <a class="btn btn-sm btn-outline-secondary" tal:define="hidden layout/hidden" title="toggle visibility"
+                    href="${context/absolute_url}/@@${view/__name__}?action=${python:'show' if hidden else 'hide'}&layout=${layout/key}&_authenticator=${authToken}">
+                    <img tal:replace="structure python:icons.tag('eye-slash' if hidden else 'eye')" />
+                  </a>
+                  <tal:block condition="python:layout['key'].startswith('custom/')">
+                  <a class="btn btn-sm btn-outline-secondary"
+                     href="${context/absolute_url}/@@${view/__name__}?action=edit&layout=${layout/key}">
+                     <img tal:replace="structure python:icons.tag('pencil')" />
+                  </a>
+                  <a class="btn btn-sm btn-outline-danger"
+                     href="${context/absolute_url}/@@manage-layouts-from-editor?action=deletelayout&layout=${layout/key}&_authenticator=${authToken}">
+                    <img tal:replace="structure python:icons.tag('trash')" />
+                  </a>
+                  </tal:block>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
+
+        <form action="./@@${view/__name__}" method="POST"
+              tal:condition="python:action == 'edit'"
+              tal:define="layout request/layout|nothing">
+          <input tal:replace="structure context/@@authenticator/authenticator" />
+          <input type="hidden" name="action" value="save" />
+          <input type="hidden" name="name" value="${layout}" />
+          <label>Edit Layout: <i>${request/layout}</i></label>
+          <textarea name="layout" class="pat-code-editor" data-pat-code-editor="language: html">${python:view.get_layout_source(layout)}</textarea>
+          <div class="formControls">
+            <button type="submit" class="btn btn-primary" name="form.buttons.Save">Save</button>
+            <button type="submit" class="btn btn-secondary" name="form.buttons.Cancel">Cancel</button>
+          </div>
+        </form>
       </div>
+
     </metal:main>
 
   </body>
