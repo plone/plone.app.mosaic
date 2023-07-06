@@ -1,17 +1,81 @@
 # Generated from:
 # https://github.com/plone/meta/tree/master/config/default
+# See the inline comments on how to expand/tweak this configuration file
+[tool.towncrier]
+directory = "news/"
+filename = "CHANGES.rst"
+title_format = "{version} ({project_date})"
+underlines = ["-", ""]
 
-# removed towncrier
+[[tool.towncrier.type]]
+directory = "breaking"
+name = "Breaking changes:"
+showcontent = true
+
+[[tool.towncrier.type]]
+directory = "feature"
+name = "New features:"
+showcontent = true
+
+[[tool.towncrier.type]]
+directory = "bugfix"
+name = "Bug fixes:"
+showcontent = true
+
+[[tool.towncrier.type]]
+directory = "internal"
+name = "Internal:"
+showcontent = true
+
+[[tool.towncrier.type]]
+directory = "documentation"
+name = "Documentation:"
+showcontent = true
+
+[[tool.towncrier.type]]
+directory = "tests"
+name = "Tests"
+showcontent = true
+
+##
+# Add extra configuration options in .meta.toml:
+#  [pyproject]
+#  towncrier_extra_lines = """
+#  extra_configuration
+#  """
+##
 
 [tool.isort]
 profile = "plone"
 
+##
+# Add extra configuration options in .meta.toml:
+#  [pyproject]
+#  isort_extra_lines = """
+#  extra_configuration
+#  """
+##
+
 [tool.black]
 target-version = ["py38"]
 
-[tool.codespell]
-skip = "*.min.js,*.min.js.map,*.min.css.map,*.svg,yarn.lock,*.json,*/tiles.xml"
+##
+# Add extra configuration options in .meta.toml:
+#  [pyproject]
+#  black_extra_lines = """
+#  extra_configuration
+#  """
+##
 
+[tool.codespell]
+ignore-words-list = "discreet,foo,bar"
+skip = "*.po,*.min.js,*.min.js.map,*.min.css.map,*.svg,yarn.lock,*.json,*/tiles.xml"
+##
+# Add extra configuration options in .meta.toml:
+#  [pyproject]
+#  codespell_ignores = "foo,bar"
+#  codespell_skip = "*.po,*.map,package-lock.json"
+##
 
 [tool.dependencychecker]
 Zope = [
@@ -52,3 +116,42 @@ Zope = [
   'Products.CMFCore', 'Products.CMFDynamicViewFTI',
 ]
 python-dateutil = ['dateutil']
+
+##
+# Add extra configuration options in .meta.toml:
+#  [pyproject]
+#  dependencies_ignores = "['zestreleaser.towncrier']"
+#  dependencies_mappings = [
+#    "gitpython = ['git']",
+#    "pygithub = ['github']",
+#  ]
+#  """
+##
+
+[tool.check-manifest]
+ignore = [
+    ".editorconfig",
+    ".meta.toml",
+    ".pre-commit-config.yaml",
+    "tox.ini",
+    ".flake8",
+    "mx.ini",
+
+]
+##
+# Add extra configuration options in .meta.toml:
+#  [pyproject]
+#  check_manifest_ignores = """
+#      "*.map.js",
+#      "*.pyc",
+#  """
+##
+
+
+##
+# Add extra configuration options in .meta.toml:
+#  [pyproject]
+#  extra_lines = """
+#  _your own configuration lines_
+#  """
+##

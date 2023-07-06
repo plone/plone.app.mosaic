@@ -1,0 +1,28 @@
+# Generated from:
+# https://github.com/plone/meta/tree/master/config/default
+# See the inline comments on how to expand/tweak this configuration file
+name: Meta
+on:
+  push:
+    branches:
+      - master
+      - main
+  pull_request:
+    branches:
+      - master
+      - main
+  workflow_dispatch:
+
+jobs:
+  qa:
+    uses: plone/meta/.github/workflows/qa.yml@main
+  test:
+    uses: plone/meta/.github/workflows/test.yml@main
+  coverage:
+    uses: plone/meta/.github/workflows/coverage.yml@main
+  dependencies:
+    uses: plone/meta/.github/workflows/dependencies.yml@main
+  release-ready:
+    uses: plone/meta/.github/workflows/release_ready.yml@main
+  circular:
+    uses: plone/meta/.github/workflows/circular.yml@main

@@ -1,56 +1,53 @@
-*.EGG
-*.EGG-INFO
-*.egg
+# Generated from:
+# https://github.com/plone/meta/tree/master/config/default
+# See the inline comments on how to expand/tweak this configuration file
+# python related
 *.egg-info
-*.mo
 *.pyc
 *.pyo
-*.tmp*
-.*.cfg
-.installed.txt
-*-mxdev.txt
-.DS_Store
-.idea
-/.make-sentinels/
-/bin/
-/build/
-/develop-eggs/
-/devsrc/
-/dist/
-/docs/_screenshots/*.png
-/docs/html/
-/downloads/
-/eggs/
-/extras/
-/fake-eggs/
-/html/
-/include/
-/instance/
-/lib/
-/local/
-/parts/
-/resources/theme/
-/result
-/var/
-/venv/
-/sources/
-.python-version/
-.vscode/
-components
-node_modules
-!.isort.cfg
-src/plone/app/mosaic/browser/static/js/mosaic-compiled.js
-bootstrap-buildout.py
-pip-selfcheck.json
-.Python
-.python-version
-pyvenv.cfg
-package-lock.json
-stats.json
-=*
-stamp-yarn
-yarn-error.log
 
-# robot test
+# tools related
+build/
+.coverage
+coverage.xml
+dist/
+docs/_build
+__pycache__/
+.tox
+.vscode/
+node_modules/
+
+# venv / buildout related
+bin/
+develop-eggs/
+eggs/
+.eggs/
+etc/
+.installed.cfg
+include/
+lib/
+lib64
+.mr.developer.cfg
+parts/
+pyvenv.cfg
+var/
+
+# mxdev
+/instance/
+/.make-sentinels/
+/*-mxdev.txt
+/reports/
+/sources/
+/venv/
+.installed.txt
+
 robot_*
 test_*
+
+##
+# Add extra configuration options in .meta.toml:
+#  [gitignore]
+#  extra_lines = """
+#  _your own configuration lines_
+#  """
+##

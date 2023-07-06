@@ -27,26 +27,32 @@
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
            prefix="plone.app.mosaic.formats.row_cols_2211"
-           remove="true" />
+           remove="true"
+  />
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
            prefix="plone.app.mosaic.formats.row_cols_3221"
-           remove="true" />
+           remove="true"
+  />
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
            prefix="plone.app.mosaic.formats.row_cols_3321"
-           remove="true" />
+           remove="true"
+  />
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
            prefix="plone.app.mosaic.formats.row_cols_4221"
-           remove="true" />
+           remove="true"
+  />
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
            prefix="plone.app.mosaic.formats.row_cols_4421"
-           remove="true" />
+           remove="true"
+  />
 
   <records interface="plone.app.mosaic.interfaces.IFormat"
            prefix="plone.app.mosaic.formats.row_cols_6321"
-           remove="true" />
+           remove="true"
+  />
 
 </registry>
