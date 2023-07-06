@@ -20,3 +20,12 @@ forest.*
 zpretty_extra_lines = """
         args: ["src/", ]
 """
+
+[github]
+jobs = [
+    "qa",
+    "test",
+    "coverage",
+    "dependencies",
+    "circular",
+    ]
