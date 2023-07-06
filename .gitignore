@@ -43,6 +43,7 @@ var/
 
 robot_*
 test_*
+forest.*
 
 ##
 # Add extra configuration options in .meta.toml:

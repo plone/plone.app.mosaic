@@ -1,4 +1,5 @@
 from AccessControl.security import checkPermission
+from plone import api
 from plone.app.blocks.interfaces import CONTENT_LAYOUT_MANIFEST_FORMAT
 from plone.app.blocks.interfaces import CONTENT_LAYOUT_RESOURCE_NAME
 from plone.app.blocks.interfaces import IOmittedField
@@ -17,7 +18,6 @@ from plone.registry.interfaces import IRegistry
 from plone.resource.interfaces import IResourceDirectory
 from plone.resource.utils import queryResourceDirectory
 from plone.supermodel.utils import mergedTaggedValueDict
-from Products.CMFCore.utils import getToolByName
 from z3c.form.interfaces import DISPLAY_MODE
 from z3c.form.interfaces import HIDDEN_MODE
 from z3c.form.interfaces import IEditForm
@@ -25,7 +25,6 @@ from z3c.form.interfaces import IFieldWidget
 from zExceptions import NotFound
 from zope.component import getMultiAdapter
 from zope.component import getUtility
-from zope.component.hooks import getSite
 from zope.interface import Interface
 from zope.schema.interfaces import IField
 
@@ -144,7 +143,7 @@ def getContentLayoutsForType(pt, context=None):
 def getUserContentLayoutsForType(pt):
     result = []
     layout_resources = queryResourceDirectory(CONTENT_LAYOUT_RESOURCE_NAME, "custom")
-    portal_membership = getToolByName(getSite(), "portal_membership")
+    portal_membership = api.portal.get_tool("portal_membership")
     user_id = portal_membership.getAuthenticatedMember().getId()
     try:
         users_directory = layout_resources["user-layouts"]

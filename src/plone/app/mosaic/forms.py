@@ -1,6 +1,6 @@
+from plone import api
 from plone.app.blocks.layoutbehavior import ILayoutAware
 from plone.dexterity.browser import add
-from Products.CMFCore.utils import getToolByName
 
 
 class MosaicDefaultAddForm(add.DefaultAddForm):
@@ -22,7 +22,7 @@ class MosaicDefaultAddForm(add.DefaultAddForm):
 
         # so we have it in the schemata, but is the view the default view
         # for the content type?
-        portal_types = getToolByName(self.context, "portal_types")
+        portal_types = api.portal.get_tool("portal_types")
         ptype = portal_types[self.portal_type]
         if ptype.default_view != "layout_view":
             return False

@@ -1,3 +1,5 @@
+from Acquisition import aq_inner
+from Acquisition import aq_parent
 from plone import api
 from plone.app.blocks.interfaces import IBlocksTransformEnabled
 from plone.app.blocks.layoutbehavior import ILayoutBehaviorAdaptable
@@ -13,7 +15,6 @@ from plone.dexterity.browser.view import DefaultView
 from plone.memoize import view
 from plone.protect.utils import addTokenToUrl
 from Products.CMFDynamicViewFTI.interfaces import ISelectableBrowserDefault
-from Products.CMFPlone.utils import parent
 from urllib.parse import quote
 from zExceptions import NotFound
 from zope.browsermenu.interfaces import IBrowserMenu
@@ -220,7 +221,7 @@ class DisplayLayoutMenu(BrowserMenu):
         folder_url = ""
         folder_vocab = []
         if context_state.is_default_page():
-            folder = parent(context)
+            folder = aq_parent(aq_inner(context))
             if folder is not None:
                 folder_methods = getAvailableViewMethods(folder)
                 folder_url = folder.absolute_url()

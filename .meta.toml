@@ -13,6 +13,7 @@ codespell_skip = "*.min.js,*.min.js.map,*.min.css.map,*.svg,yarn.lock,*.json,*/t
 extra_lines = """
 robot_*
 test_*
+forest.*
 """
 
 [pre_commit]
