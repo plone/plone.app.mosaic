@@ -58,10 +58,10 @@
           <table class="table table-sm table-bordered">
             <thead>
               <tr>
-                <th>Title</th>
-                <th>Path</th>
-                <th>Types</th>
-                <th>Actions</th>
+                <th i18n:translate="">Title</th>
+                <th i18n:translate="">Path</th>
+                <th i18n:translate="">Types</th>
+                <th i18n:translate="">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -73,6 +73,7 @@
                   <a class="btn btn-sm btn-outline-secondary"
                      href="${context/absolute_url}/@@${view/__name__}?action=${python:'show' if hidden else 'hide'}&amp;layout=${layout/key}&amp;_authenticator=${authToken}"
                      title="toggle visibility"
+                     i18n:attributes="title"
                      tal:define="
                        hidden layout/hidden;
                      "
@@ -118,8 +119,8 @@
                  type="hidden"
                  value="${layout}"
           />
-          <label>Edit Layout:
-            <i>${request/layout}</i></label>
+          <label i18n:translate="">Edit Layout:
+            <i i18n:name="layout">${request/layout}</i></label>
           <textarea class="pat-code-editor"
                     name="layout"
                     data-pat-code-editor="language: html"
@@ -128,10 +129,12 @@
             <button class="btn btn-primary"
                     name="form.buttons.Save"
                     type="submit"
-            >Save</button>
+                    i18n:translate=""
+                    >Save</button>
             <button class="btn btn-secondary"
                     name="form.buttons.Cancel"
                     type="submit"
+                    i18n:translate=""
             >Cancel</button>
           </div>
         </form>
