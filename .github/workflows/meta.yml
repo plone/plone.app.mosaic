@@ -22,7 +22,37 @@ jobs:
     uses: plone/meta/.github/workflows/coverage.yml@main
   dependencies:
     uses: plone/meta/.github/workflows/dependencies.yml@main
-  release-ready:
+  release_ready:
     uses: plone/meta/.github/workflows/release_ready.yml@main
   circular:
     uses: plone/meta/.github/workflows/circular.yml@main
+
+##
+# To modify the list of default jobs being created add in .meta.toml:
+# [githb]
+# jobs = [
+#    "qa",
+#    "test",
+#    "coverage",
+#    "dependencies",
+#    "release_ready",
+#    "circular",
+#    ]
+##
+
+##
+# To request that some OS level dependencies get installed
+# when running tests/coverage jobs, add in .meta.toml:
+# [githb]
+# os_dependencies = "git libxml2 libxslt"
+##
+
+
+##
+# Specify additional jobs in .meta.toml:
+#  [github]
+#  extra_lines = """
+#  another:
+#    uses: org/repo/.github/workflows/file.yml@main
+#  """
+##

@@ -1,12 +1,10 @@
+from pathlib import Path
 from setuptools import find_packages
 from setuptools import setup
 
 
-long_description = "\n\n".join(
-    [
-        open("README.rst").read(),
-        open("CHANGES.rst").read(),
-    ]
+long_description = (
+    f"{Path('README.rst').read_text()}\n" f"{Path('CHANGES.rst').read_text()}"
 )
 
 

@@ -3,7 +3,7 @@
 # See the inline comments on how to expand/tweak this configuration file
 [meta]
 template = "default"
-commit-id = "cfffba8c"
+commit-id = "64cbbf59"
 
 [pyproject]
 codespell_ignores = "foo,bar"
