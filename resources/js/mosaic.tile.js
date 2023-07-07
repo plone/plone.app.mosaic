@@ -707,9 +707,9 @@ class Tile {
                 case "plone.app.z3cform.wysiwyg.widget.WysiwygWidget":
                 case "plone.app.z3cform.wysiwyg.widget.WysiwygFieldWidget":
                 case "plone.app.widgets.dx.RichTextWidget":
-                    fieldhtml = document.querySelectorAll(
+                    fieldhtml = document.querySelector(
                         `#${tile_config.id} textarea`
-                    )[0].value
+                    ).value;
                     wysiwyg = true;
                     break;
                 default:
@@ -917,14 +917,10 @@ class Tile {
                 case "plone.app.z3cform.wysiwyg.widget.WysiwygFieldWidget":
                 case "plone.app.widgets.dx.RichTextWidget":
                     var textarea = document.querySelector(`#${tile_config.id} textarea`);
-                    if (!textarea) {
-                        log.error(`No textarea with id "${tile_config.id}" found`);
-                        break;
-                    }
                     var value = this.tinymce ?
                         this.tinymce.getContent() :
                         $(`.mosaic-${tiletype}-tile .mosaic-tile-content`, self.mosaic.document).html();
-                    textarea.innerText = value;
+                    textarea.textContent = value;
                     // get original tinymce from mockup initialization
                     textarea["pattern-tinymce"].instance.tiny.setContent(value);
                     break;
@@ -1000,6 +996,14 @@ class Tile {
 
         // deep copy the options to get correct tiny settings!
         var tiny_options = JSON.parse(JSON.stringify(self.mosaic.options.tinymce));
+
+        // we have to set the pat-tinymce inline options explicitly
+        // to false otherwise our editable mosaic tile content gets hidden
+        // if the site has inline mode globally activated
+        // see tinymce--implementation.js in mockup
+        tiny_options["inline"] = false;
+
+        // always show inline TinyMCE in mosaic editor
         tiny_options["tiny"]["inline"] = true;
         tiny_options["tiny"]["menubar"] = false;
         tiny_options["tiny"]["selector"] = `#${id}`;

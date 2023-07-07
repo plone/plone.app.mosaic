@@ -6,10 +6,10 @@ from plone.app.mosaic.interfaces import IMosaicLayer
 from plone.app.mosaic.interfaces import IMosaicRegistryAdapter
 from plone.app.mosaic.utils import getContentLayoutsForType
 from plone.app.mosaic.utils import getUserContentLayoutsForType
-from plone.app.widgets.base import dict_merge
-from plone.app.widgets.base import TextareaWidget
-from plone.app.widgets.utils import get_tinymce_options
-from plone.app.z3cform.widget import BaseWidget
+from plone.app.z3cform.utils import dict_merge
+from plone.app.z3cform.widgets.base import BaseWidget
+from plone.app.z3cform.widgets.patterns import TextareaWidget
+from plone.app.z3cform.widgets.richtext import get_tinymce_options
 from plone.dexterity.browser.base import DexterityExtensibleForm
 from plone.memoize.view import memoize
 from plone.registry.interfaces import IRegistry

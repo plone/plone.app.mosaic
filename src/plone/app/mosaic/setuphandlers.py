@@ -3,8 +3,8 @@ from plone.app.blocks.interfaces import SITE_LAYOUT_RESOURCE_NAME
 from plone.app.blocks.utils import resolveResource
 from plone.app.mosaic.interfaces import IMosaicLayer
 from plone.app.mosaic.utils import getPersistentResourceDirectory
+from plone.base.interfaces import INonInstallable
 from plone.resource.manifest import MANIFEST_FILENAME
-from Products.CMFPlone.interfaces import INonInstallable
 from zope.component import getUtility
 from zope.interface import alsoProvides
 from zope.interface import implementer

@@ -1,5 +1,6 @@
 # Generated from:
 # https://github.com/plone/meta/tree/master/config/default
+# See the inline comments on how to expand/tweak this configuration file
 #
 # EditorConfig Configuration file, for more details see:
 # http://EditorConfig.org
@@ -32,8 +33,21 @@ indent_size = 4
 # 2 space indentation
 indent_size = 2
 
+[*.{json,jsonl,js,jsx,ts,tsx,css,less,scss,html}]  # Frontend development
+# 2 space indentation
+indent_size = 2
+
 [{Makefile,.gitmodules}]
 # Tab indentation (no size specified, but view as 4 spaces)
 indent_style = tab
 indent_size = unset
 tab_width = unset
+
+
+##
+# Add extra configuration options in .meta.toml:
+#  [editorconfig]
+#  extra_lines = """
+#  _your own configuration lines_
+#  """
+##

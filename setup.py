@@ -1,12 +1,10 @@
+from pathlib import Path
 from setuptools import find_packages
 from setuptools import setup
 
 
-long_description = "\n\n".join(
-    [
-        open("README.rst").read(),
-        open("CHANGES.rst").read(),
-    ]
+long_description = (
+    f"{Path('README.rst').read_text()}\n" f"{Path('CHANGES.rst').read_text()}"
 )
 
 
@@ -42,26 +40,46 @@ setup(
     zip_safe=False,
     python_requires=">=3.8",
     install_requires=[
-        "setuptools",
-        "Products.CMFPlone",
+        "lxml",
+        "plone.api",
         "plone.app.blocks",
-        "plone.app.tiles",
+        "plone.app.content",
+        "plone.app.contentmenu",
+        "plone.app.contenttypes",
+        "plone.app.dexterity",
         "plone.app.drafts",
+        "plone.app.layout",
         "plone.app.standardtiles",
-        "plone.staticresources >= 2.1.0",
+        "plone.app.tiles",
+        "plone.app.z3cform >= 4.1.0",  # deprecated plone.app.widgets
+        "plone.autoform",
+        "plone.base",
+        "plone.dexterity",
+        "plone.i18n",
+        "plone.indexer",
+        "plone.memoize",
+        "plone.portlets",
+        "plone.protect",
+        "plone.resource",
+        "plone.supermodel",
+        "plone.tiles",
+        "plone.transformchain",
+        "repoze.xmliter",
+        "Products.CMFCore",
+        "Products.CMFPlone",
+        "setuptools",
+        "z3c.form",
     ],
     extras_require={
         "test": [
+            "plone.testing",
             "plone.app.testing",
             "plone.app.contenttypes",
             "plone.app.robotframework",
-            "robotframework-selenium2library",
+            "plone.browserlayer",
+            "robotsuite",
         ],
-        "docs": [
-            "Sphinx",
-            "sphinx-rtd-theme",
-            "sphinxcontrib-robotframework",
-        ],
+        "docs": [],
     },
     entry_points="""
     # -*- Entry points: -*-

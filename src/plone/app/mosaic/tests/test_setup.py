@@ -1,7 +1,7 @@
 from plone.app.mosaic.testing import PLONE_APP_MOSAIC_INTEGRATION
+from plone.base.utils import get_installer
 from plone.browserlayer.utils import registered_layers
 from plone.registry.interfaces import IRegistry
-from Products.CMFPlone.utils import get_installer
 from zope.component import getUtility
 
 import unittest

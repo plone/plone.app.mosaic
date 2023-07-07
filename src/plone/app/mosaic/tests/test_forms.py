@@ -1,9 +1,9 @@
+from plone import api
 from plone.app.mosaic.testing import PLONE_APP_MOSAIC_INTEGRATION
 from plone.app.testing import login
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_NAME
-from Products.CMFCore.utils import getToolByName
 from zope.component import queryMultiAdapter
 
 import unittest
@@ -19,7 +19,7 @@ class TestAddForm(unittest.TestCase):
         setRoles(self.portal, TEST_USER_ID, ("Member", "Manager"))
 
     def _get_add_view(self, container, name):
-        ttool = getToolByName(self.portal, "portal_types")
+        ttool = api.portal.get_tool("portal_types")
         ti = ttool.getTypeInfo(name)
         add_view = queryMultiAdapter((container, self.request, ti), name=ti.factory)
         if add_view is None:
@@ -30,7 +30,7 @@ class TestAddForm(unittest.TestCase):
     def test_add_form_removes_groups(self):
         login(self.portal, TEST_USER_NAME)
 
-        portal_types = getToolByName(self.portal, "portal_types")
+        portal_types = api.portal.get_tool("portal_types")
         ptype = portal_types["Document"]
         ptype.default_view = "layout_view"
 
@@ -42,7 +42,7 @@ class TestAddForm(unittest.TestCase):
     def test_add_form_not_remove_groups_when_layout_view_not_used(self):
         login(self.portal, TEST_USER_NAME)
 
-        portal_types = getToolByName(self.portal, "portal_types")
+        portal_types = api.portal.get_tool("portal_types")
         ptype = portal_types["Document"]
         ptype.default_view = "document_view"
 

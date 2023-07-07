@@ -5,7 +5,6 @@ from plone.app.mosaic.setuphandlers import create_ttw_layout_examples
 from plone.app.mosaic.widget import LAYOUT_BEHAVIORS
 from plone.registry.field import ASCIILine
 from plone.registry.interfaces import IRegistry
-from Products.CMFCore.utils import getToolByName
 from zope.component import getUtility
 
 
@@ -13,7 +12,7 @@ PROFILE_ID = "profile-plone.app.mosaic:default"
 
 
 def upgrade_1_to_2(context):
-    qi = getToolByName(context, "portal_quickinstaller")
+    qi = api.portal.get_tool("portal_quickinstaller")
     qi.reinstallProducts(["plone.app.standardtiles"])
 
     create_ttw_layout_examples(api.portal.get())
@@ -24,13 +23,13 @@ def upgrade_2_to_3(context):
 
 
 def upgrade_3_to_4(context):
-    setup = getToolByName(context, "portal_setup")
+    setup = api.portal.get_tool("portal_setup")
     setup.runImportStepFromProfile(PROFILE_ID, "plone.app.registry")
     setup.runImportStepFromProfile(PROFILE_ID, "controlpanel")
 
 
 def upgrade_4_to_5(context):
-    setup = getToolByName(context, "portal_setup")
+    setup = api.portal.get_tool("portal_setup")
     setup.runImportStepFromProfile(PROFILE_ID, "plone.app.registry")
 
 
@@ -42,12 +41,12 @@ def upgrade_5_to_6(context):
         elif key.startswith("plone.app.mosaic.tinymce"):
             del registry.records[key]
 
-    setup = getToolByName(context, "portal_setup")
+    setup = api.portal.get_tool("portal_setup")
     setup.runImportStepFromProfile(PROFILE_ID, "plone.app.registry")
 
 
 def upgrade_6_to_7(context):
-    qi = getToolByName(context, "portal_quickinstaller")
+    qi = api.portal.get_tool("portal_quickinstaller")
     qi.reinstallProducts(["plone.app.standardtiles"])
 
     create_ttw_layout_examples(api.portal.get())
@@ -59,10 +58,10 @@ def upgrade_7_to_8(context):
         if key.startswith("plone.app.mosaic.tinymce"):
             del registry.records[key]
 
-    setup = getToolByName(context, "portal_setup")
+    setup = api.portal.get_tool("portal_setup")
     setup.runImportStepFromProfile(PROFILE_ID, "plone.app.registry")
 
-    qi = getToolByName(context, "portal_quickinstaller")
+    qi = api.portal.get_tool("portal_quickinstaller")
     qi.reinstallProducts(["plone.app.standardtiles"])
 
     create_ttw_layout_examples(api.portal.get())
@@ -70,7 +69,7 @@ def upgrade_7_to_8(context):
 
 def upgrade_8_to_9(context):
     portal = api.portal.get()
-    types_tool = getToolByName(context, "portal_types")
+    types_tool = api.portal.get_tool("portal_types")
 
     # Iterate through all Dexterity content type
     all_ftis = types_tool.listTypeInfo()
@@ -90,15 +89,15 @@ def upgrade_8_to_9(context):
             fti.default_view = "layout_view"
 
     # Re-import registry configuration
-    setup = getToolByName(context, "portal_setup")
+    setup = api.portal.get_tool("portal_setup")
     setup.runImportStepFromProfile(PROFILE_ID, "plone.app.registry")
 
 
 def upgrade_9_to_10(context):
     from Products.CMFDynamicViewFTI.interfaces import ISelectableBrowserDefault
 
-    types_tool = getToolByName(context, "portal_types")
-    pc = getToolByName(context, "portal_catalog")
+    types_tool = api.portal.get_tool("portal_types")
+    pc = api.portal.get_tool("portal_catalog")
 
     # Iterate through all Dexterity content type
     all_ftis = types_tool.listTypeInfo()
@@ -118,12 +117,12 @@ def upgrade_9_to_10(context):
 
 
 def upgrade_registry(context):
-    setup = getToolByName(context, "portal_setup")
+    setup = api.portal.get_tool("portal_setup")
     setup.runImportStepFromProfile(PROFILE_ID, "plone.app.registry")
 
 
 def upgrade_to_1_0_0(context):
-    setup = getToolByName(context, "portal_setup")
+    setup = api.portal.get_tool("portal_setup")
     setup.runImportStepFromProfile(PROFILE_ID, "plone.app.registry")
     catalog = api.portal.get_tool("portal_catalog")
     if "layout" not in catalog.indexes():
