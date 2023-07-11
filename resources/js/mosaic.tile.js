@@ -607,7 +607,7 @@ class Tile {
         var modal = new Modal(".mosaic-toolbar", {
             actionOptions: {
                 isForm: true,
-                onSuccess: (event, response, state, xhr, form) => {
+                onSuccess: (event, response, state, xhr) => {
                     var tileUrl = xhr.getResponseHeader("X-Tile-Url"),
                         value = self.mosaic.getDomTreeFromHtml(response);
                     if (tileUrl) {
@@ -636,7 +636,7 @@ class Tile {
             position: "center top",
         });
         modal.$el.off("after-render");
-        modal.on("after-render", function (event) {
+        modal.on("after-render", function () {
             if (self.mosaic.hasContentLayout) {
                 // not a custom layout, make sure the form knows
                 $("form", modal.$modal).append(
@@ -900,6 +900,7 @@ class Tile {
         var tiletype = self.getType();
         var tile_config = self.getConfig();
         var value;
+        var textarea;
         if (!tile_config || tile_config.read_only === true) {
             return;
         }
@@ -929,9 +930,9 @@ class Tile {
                             value += $(this).text();
                         });
                     value = value.replace(/^\s+|\s+$/g, "");
-                    var textarea = document.querySelector(`#${tile_config.id} textarea`);
+                    textarea = document.querySelector(`#${tile_config.id} textarea`);
                     if (!textarea) {
-                        log.error(`No textarea with id "${tile_condig.id}" found`);
+                        log.error(`No textarea with id "${tile_config.id}" found`);
                         break;
                     }
                     textarea.innerText = value;
@@ -942,8 +943,8 @@ class Tile {
                 case "plone.app.z3cform.wysiwyg.widget.WysiwygWidget":
                 case "plone.app.z3cform.wysiwyg.widget.WysiwygFieldWidget":
                 case "plone.app.widgets.dx.RichTextWidget":
-                    var textarea = document.querySelector(`#${tile_config.id} textarea`);
-                    var value = this.tinymce
+                    textarea = document.querySelector(`#${tile_config.id} textarea`);
+                    value = this.tinymce
                         ? this.tinymce.getContent()
                         : $(
                               `.mosaic-${tiletype}-tile .mosaic-tile-content`,

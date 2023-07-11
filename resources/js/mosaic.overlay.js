@@ -1,9 +1,6 @@
 // This plugin is used to display an overlay
 import $ from "jquery";
 import Modal from "@plone/mockup/src/pat/modal/modal";
-import logging from "@patternslib/patternslib/src/core/logging";
-
-const log = logging.getLogger("pat-mosaic/overlay");
 
 export default class Overlay {
     constructor(options, panels) {

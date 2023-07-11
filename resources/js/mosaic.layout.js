@@ -283,8 +283,6 @@ export default class LayoutManager {
 
         // Content
         var content,
-            position = 1,
-            size = 12,
             body = "",
             classNames = "";
 
@@ -774,7 +772,7 @@ export default class LayoutManager {
                 tile,
                 "click",
                 "pat-layout--click-tile",
-                function (e) {
+                function () {
                     if (
                         $(".mosaic-helper-tile-new", self.mosaic.document).length === 0
                     ) {
@@ -894,7 +892,7 @@ export default class LayoutManager {
                 $(this).mosaicAddMouseMoveInnergridRow();
                 $(this).mosaicSetResizeHandles();
                 var that = $(this);
-                ["top", "bottom"].forEach(function (pos, idx) {
+                ["top", "bottom"].forEach(function (pos) {
                     that.append(
                         $(self.mosaic.document.createElement("div")).addClass(
                             "mosaic-divider mosaic-divider-" + pos
@@ -939,7 +937,7 @@ export default class LayoutManager {
             // Loop through matched elements
             return this.each(function () {
                 // Mouse move event
-                $(this).mousemove(function (e) {
+                $(this).on("mousemove", function (e) {
                     // Get layout object
                     var obj = $(this).parents("[data-panel]");
 
@@ -1204,7 +1202,7 @@ export default class LayoutManager {
                 fixup_classes(original_tile);
 
                 if (obj.hasClass("inner-subcolumn")) {
-                    var original_tile = $(mosaic_doc.createElement("div"))
+                    original_tile = $(mosaic_doc.createElement("div"))
                         .addClass("mosaic-grid-row mosaic-innergrid-row")
                         .append(
                             $(mosaic_doc.createElement("div"))
@@ -1465,7 +1463,7 @@ export default class LayoutManager {
                         var col_size_sum = 0;
                         var column_sizes = [];
 
-                        $mosaicGridCellChildren.each(function (index) {
+                        $mosaicGridCellChildren.each(function () {
                             var col_size = $(this).data("col_size"); // get computed size of the column
                             column_sizes.push(col_size);
 

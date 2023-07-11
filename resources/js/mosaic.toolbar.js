@@ -8,7 +8,7 @@ var normalizeClass = function (val) {
 };
 
 class Toolbar {
-    constructor(mosaic, el) {
+    constructor(mosaic) {
         var self = this;
         self.mosaic = mosaic;
         self.$el = $(document.createElement("div")).addClass(
@@ -24,7 +24,7 @@ class Toolbar {
     initToolbar() {
         var self = this;
         // Local variables
-        var content, actions, a, action_group, y;
+        var content, actions, action_group;
 
         // Empty
         self.$el.html("");
@@ -218,7 +218,7 @@ class Toolbar {
             self = this;
 
         // Check if button or menu
-        if (typeof action.menu !== undefined && action.menu) {
+        if (typeof action.menu !== "undefined" && action.menu) {
             // Check if icon menu
             if (action.icon) {
                 $el = $(document.createElement("label"));

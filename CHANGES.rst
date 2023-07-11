@@ -4,6 +4,9 @@ Changelog
 3.1.4 (unreleased)
 ------------------
 
+- JavaScript: Reformat JavaScript with prettier and fix eslint errors.
+  [thet]
+
 - Re-implement `Custom layout` management functionality without pattern logic.
   [petschki]
 

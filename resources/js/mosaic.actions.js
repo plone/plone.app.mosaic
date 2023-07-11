@@ -16,7 +16,6 @@ class ActionManager {
     }
 
     registerAction(name, options) {
-        var self = this;
         // Extend default settings
         options = {
             // Handler for executing the action
@@ -33,7 +32,7 @@ class ActionManager {
 
             // Method to see if the actions should be visible based on the
             // current tile state
-            visible: function (tile) {
+            visible: function () {
                 return true;
             },
 
@@ -41,7 +40,7 @@ class ActionManager {
         };
 
         // Add action to manager
-        self.actions[name] = options;
+        this.actions[name] = options;
 
         // Check if shortcut is defined
         if (options.shortcut.key !== "") {
@@ -50,17 +49,16 @@ class ActionManager {
             options.shortcut.action = name;
 
             // Set shortcut
-            self.shortcuts.push(options.shortcut);
+            this.shortcuts.push(options.shortcut);
         }
     }
 
     execAction(action, source) {
-        var self = this;
-        if (!(action in self.actions)) {
-            log.error(`Action ${action} not in "${self.actions}"`);
+        if (!(action in this.actions)) {
+            log.error(`Action ${action} not in "${this.actions}"`);
             return;
         }
-        return self.actions[action].exec(source);
+        return this.actions[action].exec(source);
     }
 
     getPrefixedClassName(name) {
@@ -260,7 +258,7 @@ class ActionManager {
                     tilecontent.prepend(
                         $(mosaic.document.createElement("textarea"))
                             .addClass("mosaic-rich-text-textarea")
-                            .html($.trim(text))
+                            .html(text.trim())
                             .height(height)
                     );
                 }
@@ -413,7 +411,7 @@ class ActionManager {
                             buttons:
                                 '.formControls > button[type="submit"], .actionButtons > button[type="submit"]',
                         });
-                        m.on("after-render", (event) => {
+                        m.on("after-render", () => {
                             /* Remove field errors since the user has not actually
                                     been able to fill out the form yet
                                 */
@@ -445,7 +443,7 @@ class ActionManager {
                             }
                             m.hide();
                         });
-                        m.on("hide", (e) => {
+                        m.on("hide", () => {
                             // remove registered modal pattern events
                             // XXX: shouldn't this be managed by pat-plone-modal?
                             m.$el.off("after-render.plone-modal.patterns");
@@ -461,7 +459,7 @@ class ActionManager {
                             "/@@add-tile?tiletype=" +
                             tile_type +
                             "&form.button.Create=Create",
-                        success: function (value, xhr) {
+                        success: function (value) {
                             utils.loading.hide();
 
                             // Read form
@@ -540,9 +538,7 @@ class ActionManager {
                             e.metaKey === this.ctrl)) &&
                     (e.altKey === this.alt || e.altKey === undefined) &&
                     e.shiftKey === this.shift &&
-                    e.charCode &&
-                    String.fromCharCode(e.charCode).toUpperCase().charCodeAt(0) ===
-                        this.charCode
+                    e.key.toUpperCase().charCodeAt(0) === this.charCode
                 ) {
                     // Found action
                     action = this.action;

@@ -164,7 +164,7 @@ export default Base.extend({
 
         self.panels = $(".mosaic-panel", self.document);
 
-        self.panels.find("[data-tile]").each(async function (idx) {
+        self.panels.find("[data-tile]").each(async function () {
             if (validTile(this)) {
                 var tile = new Tile(self, this);
                 await tile.initializeContent();
@@ -474,7 +474,7 @@ export default Base.extend({
         modal.show();
     },
 
-    saveLayout: function (initial) {
+    saveLayout: function () {
         var self = this;
         var $el = $("<div/>").appendTo("body");
         var modal = new Modal($el, {
