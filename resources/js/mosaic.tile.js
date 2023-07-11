@@ -874,7 +874,8 @@ class Tile {
         var tiletype = self.getType();
         var tile_config = self.getConfig();
         var value;
-        if (!tile_config || tile_config.read_only === true) {
+        var textarea;
+        if(!tile_config || tile_config.read_only === true) {
             return;
         }
         // Update field values if type is rich text
@@ -903,12 +904,12 @@ class Tile {
                             value += $(this).text();
                         });
                     value = value.replace(/^\s+|\s+$/g, "");
-                    var textarea = document.querySelector(`#${tile_config.id} textarea`);
+                    textarea = document.querySelector(`#${tile_config.id} textarea`);
                     if (!textarea) {
-                        log.error(`No textarea with id "${tile_condig.id}" found`)
+                        log.error(`No textarea with id "${tile_config.id}" found`)
                         break;
                     }
-                    textarea.innerText = value;
+                    textarea.value = value;
                     break;
                 case "plone.app.z3cform.widget.RichTextFieldWidget":
                 case "plone.app.z3cform.widgets.richtext.RichTextFieldWidget":
@@ -916,11 +917,15 @@ class Tile {
                 case "plone.app.z3cform.wysiwyg.widget.WysiwygWidget":
                 case "plone.app.z3cform.wysiwyg.widget.WysiwygFieldWidget":
                 case "plone.app.widgets.dx.RichTextWidget":
-                    var textarea = document.querySelector(`#${tile_config.id} textarea`);
-                    var value = this.tinymce ?
+                    textarea = document.querySelector(`#${tile_config.id} textarea`);
+                    if (!textarea) {
+                        log.error(`No textarea with id "${tile_config.id}" found`);
+                        break;
+                    }
+                    value = this.tinymce ?
                         this.tinymce.getContent() :
                         $(`.mosaic-${tiletype}-tile .mosaic-tile-content`, self.mosaic.document).html();
-                    textarea.textContent = value;
+                    textarea.value = value;
                     // get original tinymce from mockup initialization
                     textarea["pattern-tinymce"].instance.tiny.setContent(value);
                     break;
