@@ -5,6 +5,9 @@ Changelog
 ------------------
 
 - JavaScript: Reformat JavaScript with prettier and fix eslint errors.
+- JavaScript: Loose dependencies to let Module Federation work with any Mockup version.
+- JavaScript: Use the Module Federation name from package.json.
+- JavaScript: Set the textarea contents via value rather than innerText.
   [thet]
 
 - Re-implement `Custom layout` management functionality without pattern logic.

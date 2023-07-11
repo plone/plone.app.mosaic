@@ -935,7 +935,7 @@ class Tile {
                         log.error(`No textarea with id "${tile_config.id}" found`);
                         break;
                     }
-                    textarea.innerText = value;
+                    textarea.value = value;
                     break;
                 case "plone.app.z3cform.widget.RichTextFieldWidget":
                 case "plone.app.z3cform.widgets.richtext.RichTextFieldWidget":
@@ -944,13 +944,14 @@ class Tile {
                 case "plone.app.z3cform.wysiwyg.widget.WysiwygFieldWidget":
                 case "plone.app.widgets.dx.RichTextWidget":
                     textarea = document.querySelector(`#${tile_config.id} textarea`);
-                    value = this.tinymce
-                        ? this.tinymce.getContent()
-                        : $(
-                              `.mosaic-${tiletype}-tile .mosaic-tile-content`,
-                              self.mosaic.document
-                          ).html();
-                    textarea.textContent = value;
+                    if (!textarea) {
+                        log.error(`No textarea with id "${tile_config.id}" found`);
+                        break;
+                    }
+                    value = this.tinymce ?
+                        this.tinymce.getContent() :
+                        $(`.mosaic-${tiletype}-tile .mosaic-tile-content`, self.mosaic.document).html();
+                    textarea.value = value;
                     // get original tinymce from mockup initialization
                     textarea["pattern-tinymce"].instance.tiny.setContent(value);
                     break;
