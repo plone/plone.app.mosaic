@@ -948,9 +948,12 @@ class Tile {
                         log.error(`No textarea with id "${tile_config.id}" found`);
                         break;
                     }
-                    value = this.tinymce ?
-                        this.tinymce.getContent() :
-                        $(`.mosaic-${tiletype}-tile .mosaic-tile-content`, self.mosaic.document).html();
+                    value = this.tinymce
+                        ? this.tinymce.getContent()
+                        : $(
+                              `.mosaic-${tiletype}-tile .mosaic-tile-content`,
+                              self.mosaic.document
+                          ).html();
                     textarea.value = value;
                     // get original tinymce from mockup initialization
                     textarea["pattern-tinymce"].instance.tiny.setContent(value);
