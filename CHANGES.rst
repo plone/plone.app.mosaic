@@ -4,6 +4,9 @@ Changelog
 3.1.4 (unreleased)
 ------------------
 
+- JavaScript: Set the textarea contents via value rather than innerText.
+  [thet]
+
 - Re-implement `Custom layout` management functionality without pattern logic.
   [petschki]
 
