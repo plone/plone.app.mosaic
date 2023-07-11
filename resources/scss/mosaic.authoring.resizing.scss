@@ -2,7 +2,7 @@
 .mosaic-panel-dragging .mosaic-resize-handle:hover,
 .mosaic-panel-resizing .mosaic-resize-handle,
 .mosaic-panel-resizing .mosaic-resize-handle:hover {
-  display: none;
+    display: none;
 }
 
 .mosaic-panel-resizing {
@@ -26,16 +26,16 @@
     z-index: 500;
     cursor: ew-resize;
     display: none;
-    border-width:4px;
-    border-color:var(--bs-primary);
+    border-width: 4px;
+    border-color: var(--bs-primary);
 }
 
 .mosaic-resize-handle:hover {
-    border-right-style:dashed;
+    border-right-style: dashed;
 }
 
 .mosaic-resize-handle.mosaic-resize-handle-helper {
-    border-right-style:solid;
+    border-right-style: solid;
 }
 
 .mosaic-resize-placeholder {
@@ -62,7 +62,6 @@
         padding: 3px 7px;
         color: #3569d0;
     }
-
 }
 
 $resize-handle-perc: (
@@ -83,7 +82,7 @@ $resize-handle-perc: (
 
 @each $pos, $perc in $resize-handle-perc {
     .mosaic-resize-#{$pos} {
-        margin-left:$perc;
+        margin-left: $perc;
     }
 }
 
@@ -92,7 +91,12 @@ $resize-handle-perc: (
         .mosaic-grid-row-fluid-background {
             @each $pos, $perc in $resize-handle-perc {
                 .mosaic-resize-#{$pos} {
-                    margin-left:calc((100% - $container-max-width) * .5 + $container-max-width * #{$perc});
+                    margin-left: calc(
+                        (100% - $container-max-width) *
+                            0.5 +
+                            $container-max-width *
+                            #{$perc}
+                    );
                 }
             }
         }

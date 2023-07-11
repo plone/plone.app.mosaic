@@ -7,9 +7,9 @@ import utils from "@plone/mockup/src/core/utils";
 import Modal from "@plone/mockup/src/pat/modal/modal";
 import logging from "@patternslib/patternslib/src/core/logging";
 
-import Overlay  from "./mosaic.overlay";
+import Overlay from "./mosaic.overlay";
 import Panel from "./mosaic.panel";
-import Tile  from "./mosaic.tile";
+import Tile from "./mosaic.tile";
 import Toolbar from "./mosaic.toolbar";
 
 import SelectLayoutTemplate from "./templates/select_layout.xml";
@@ -36,7 +36,7 @@ export default Base.extend({
     parser: "mockup",
 
     default: {
-        url:"",
+        url: "",
         type: "",
         ignore_context: false,
         tileheadelements: [],
@@ -54,7 +54,7 @@ export default Base.extend({
     manageLayoutsTemplate: _.template(ManageLayoutsTemplate),
     deleteLayoutTemplate: _.template(DeleteLayoutTemplate),
 
-    init: async function() {
+    init: async function () {
         const self = this;
 
         import("../scss/mosaic.pattern.scss");
@@ -117,7 +117,6 @@ export default Base.extend({
                 }
             }
         }
-
     },
 
     initialized: function () {
@@ -165,7 +164,7 @@ export default Base.extend({
 
         self.panels = $(".mosaic-panel", self.document);
 
-        self.panels.find("[data-tile]").each(async function (idx) {
+        self.panels.find("[data-tile]").each(async function () {
             if (validTile(this)) {
                 var tile = new Tile(self, this);
                 await tile.initializeContent();
@@ -211,9 +210,8 @@ export default Base.extend({
                             // Check if parent has a child who is a
                             // panel or a toolbar
                             if (
-                                obj.parent().find(
-                                    ".mosaic-panel, .mosaic-toolbar"
-                                ).length !== 0
+                                obj.parent().find(".mosaic-panel, .mosaic-toolbar")
+                                    .length !== 0
                             ) {
                                 // Add blur class
                                 obj.addClass("mosaic-blur");
@@ -332,7 +330,9 @@ export default Base.extend({
                                 self.getSelectedContentLayout() ===
                                     "++contentlayout++" + layout.path
                             ) {
-                                await self.applyLayout("++contentlayout++" + replacement);
+                                await self.applyLayout(
+                                    "++contentlayout++" + replacement
+                                );
                             }
                         })
                         .fail(function () {
@@ -387,10 +387,9 @@ export default Base.extend({
                 .on("click", function (e) {
                     e.preventDefault();
                     var layout_id = $(this).attr("data-layout");
-                    self.options.available_layouts.concat(
-                        self.options.user_layouts
-                    ).forEach(
-                        function (l) {
+                    self.options.available_layouts
+                        .concat(self.options.user_layouts)
+                        .forEach(function (l) {
                             if (l.path === layout_id) {
                                 return self.deleteLayout(l, function (data) {
                                     // callback for when the delete is complete and we need to reload data...
@@ -402,8 +401,7 @@ export default Base.extend({
                                     self.manageCustomLayouts();
                                 });
                             }
-                        }
-                    );
+                        });
                 });
         });
         modal.show();
@@ -416,7 +414,8 @@ export default Base.extend({
             // if that is the case.
             if (self.options.available_layouts.length === 1) {
                 var layout = self.options.available_layouts[0];
-                var layoutPath = "++contentlayout++" + layout.directory + "/" + layout.file;
+                var layoutPath =
+                    "++contentlayout++" + layout.directory + "/" + layout.file;
                 await self.applyLayout(layoutPath);
                 return;
             }
@@ -435,7 +434,6 @@ export default Base.extend({
                     {
                         hasCustomLayouts: self._hasCustomLayouts(),
                         portal_url: $("body").attr("data-portal-url"),
-
                     },
                     self.options
                 )
@@ -458,14 +456,14 @@ export default Base.extend({
                     e.preventDefault();
                     var layoutPath;
                     var layout_id = $(this).attr("data-value");
-                    for(const l of self.options.available_layouts.concat(
+                    for (const l of self.options.available_layouts.concat(
                         self.options.user_layouts
                     )) {
                         if (l.path === layout_id) {
                             layoutPath = "++contentlayout++" + l.path;
                         }
                     }
-                    if(!layoutPath) {
+                    if (!layoutPath) {
                         alert("Layout does not exist!");
                         return;
                     }
@@ -476,7 +474,7 @@ export default Base.extend({
         modal.show();
     },
 
-    saveLayout: function (initial) {
+    saveLayout: function () {
         var self = this;
         var $el = $("<div/>").appendTo("body");
         var modal = new Modal($el, {
@@ -622,5 +620,4 @@ export default Base.extend({
         }
         $(window).queue(queueName, callback);
     },
-
 });

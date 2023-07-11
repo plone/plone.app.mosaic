@@ -15,12 +15,11 @@ class ActionManager {
         this.shortcuts = []; // Lookup array for shortcuts
     }
 
-    registerAction (name, options) {
-        var self = this;
+    registerAction(name, options) {
         // Extend default settings
         options = {
             // Handler for executing the action
-            exec: function () { },
+            exec: function () {},
 
             // Shortcut can be any key + ctrl/shift/alt or a combination of
             // those
@@ -33,15 +32,15 @@ class ActionManager {
 
             // Method to see if the actions should be visible based on the
             // current tile state
-            visible: function (tile) {
+            visible: function () {
                 return true;
             },
 
-            ...options
+            ...options,
         };
 
         // Add action to manager
-        self.actions[name] = options;
+        this.actions[name] = options;
 
         // Check if shortcut is defined
         if (options.shortcut.key !== "") {
@@ -50,20 +49,19 @@ class ActionManager {
             options.shortcut.action = name;
 
             // Set shortcut
-            self.shortcuts.push(options.shortcut);
+            this.shortcuts.push(options.shortcut);
         }
     }
 
-    execAction (action, source) {
-        var self = this;
-        if(!(action in self.actions)) {
-            log.error(`Action ${action} not in "${self.actions}"`);
+    execAction(action, source) {
+        if (!(action in this.actions)) {
+            log.error(`Action ${action} not in "${this.actions}"`);
             return;
         }
-        return self.actions[action].exec(source);
+        return this.actions[action].exec(source);
     }
 
-    getPrefixedClassName (name) {
+    getPrefixedClassName(name) {
         if (name.indexOf("-") > -1) {
             // dash-spaced-class-name
             return "mosaic-" + name;
@@ -71,9 +69,9 @@ class ActionManager {
             // camelCaseClassName
             return "mosaic" + name.charAt(0).toUpperCase() + name.slice(1);
         }
-    };
+    }
 
-    async initActions () {
+    async initActions() {
         var self = this;
         var mosaic = self.mosaic;
 
@@ -98,7 +96,9 @@ class ActionManager {
                         action = group.actions[j];
                         if (action.category === "tile") {
                             name = self.getPrefixedClassName(action.name);
-                            $(".mosaic-selected-tile", mosaic.document).removeClass(name);
+                            $(".mosaic-selected-tile", mosaic.document).removeClass(
+                                name
+                            );
                         }
                     }
                 }
@@ -223,7 +223,7 @@ class ActionManager {
                 // Trigger validation => drafting sync
                 $(
                     "#form-widgets-ILayoutAware-customContentLayout, " +
-                    "[name='form.widgets.ILayoutAware.customContentLayout']"
+                        "[name='form.widgets.ILayoutAware.customContentLayout']"
                 )
                     .trigger("focus")
                     .trigger("focusout");
@@ -258,7 +258,7 @@ class ActionManager {
                     tilecontent.prepend(
                         $(mosaic.document.createElement("textarea"))
                             .addClass("mosaic-rich-text-textarea")
-                            .html($.trim(text))
+                            .html(text.trim())
                             .height(height)
                     );
                 }
@@ -310,7 +310,7 @@ class ActionManager {
                 if (!yes) {
                     yes = confirm(
                         "Changing your layout will destroy all existing custom layout " +
-                        "settings you have in place. Are you sure you want to continue?"
+                            "settings you have in place. Are you sure you want to continue?"
                     );
                 }
                 if (yes) {
@@ -340,7 +340,8 @@ class ActionManager {
                 // Open overlay
                 var m = new Modal(".mosaic-toolbar", {
                     modalSizeClass: "modal-lg",
-                    ajaxUrl: mosaic.options.context_url +
+                    ajaxUrl:
+                        mosaic.options.context_url +
                         "/@@add-tile?form.button.Create=Create",
                 });
                 m.show();
@@ -351,7 +352,7 @@ class ActionManager {
         self.registerAction("format", {
             exec: function (source) {
                 var val = $(source).val();
-                var action = $(source).find(`[value="${val}"]`).data("action")
+                var action = $(source).find(`[value="${val}"]`).data("action");
                 self.execAction(action, source);
                 // reset selector
                 $(source).select2("val", "none");
@@ -372,7 +373,7 @@ class ActionManager {
                 }
 
                 // Deselect tiles
-                self.blurSelectedTile()
+                self.blurSelectedTile();
 
                 // Set actions
                 mosaic.toolbar.SelectedTileChange();
@@ -390,8 +391,10 @@ class ActionManager {
                 if (tile_config.tile_type === "textapp") {
                     // an app tile
                     var uid = mosaic_utils.generate_uid();
-                    var tileUrl = mosaic.options.context_url + "/@@" + tile_type + "/" + uid;
-                    var html = "<html><body>" +
+                    var tileUrl =
+                        mosaic.options.context_url + "/@@" + tile_type + "/" + uid;
+                    var html =
+                        "<html><body>" +
                         mosaic.layoutManager.getDefaultValue(tile_config) +
                         "</body></html>";
                     mosaic.layoutManager.addAppTileHTML(tile_type, html, tileUrl);
@@ -405,45 +408,42 @@ class ActionManager {
                             html: html,
                             modalSizeClass: "modal-lg",
                             position: "center top",
-                            buttons: '.formControls > button[type="submit"], .actionButtons > button[type="submit"]',
+                            buttons:
+                                '.formControls > button[type="submit"], .actionButtons > button[type="submit"]',
                         });
-                        m.on("after-render",
-                            (event) => {
-                                /* Remove field errors since the user has not actually
+                        m.on("after-render", () => {
+                            /* Remove field errors since the user has not actually
                                     been able to fill out the form yet
                                 */
-                                var $mContent = m.$modalContent;
-                                if (initial) {
-                                    $(".field.error", $mContent).removeClass("error");
-                                    $(
-                                        ".fieldErrorBox,.portalMessage,.alert,.invalid-feedback",
-                                        $mContent
-                                    ).remove();
-                                }
-                                $('button[name*="cancel"]', $mContent)
-                                    .off("click")
-                                    .on("click", function () {
-                                        m.hide();
-                                    });
-                                log.debug("after-render");
+                            var $mContent = m.$modalContent;
+                            if (initial) {
+                                $(".field.error", $mContent).removeClass("error");
+                                $(
+                                    ".fieldErrorBox,.portalMessage,.alert,.invalid-feedback",
+                                    $mContent
+                                ).remove();
                             }
-                        );
-                        m.on("formActionSuccess",
-                            (event, response, state, xhr) => {
-                                log.debug("TileAddForm ActionSuccess");
-                                var tileUrl = xhr.getResponseHeader("X-Tile-Url");
-                                if (tileUrl && initial) {
-                                    mosaic.layoutManager.addAppTileHTML(
-                                        tile_type,
-                                        response,
-                                        tileUrl
-                                    );
-                                    initial = false;
-                                }
-                                m.hide();
+                            $('button[name*="cancel"]', $mContent)
+                                .off("click")
+                                .on("click", function () {
+                                    m.hide();
+                                });
+                            log.debug("after-render");
+                        });
+                        m.on("formActionSuccess", (event, response, state, xhr) => {
+                            log.debug("TileAddForm ActionSuccess");
+                            var tileUrl = xhr.getResponseHeader("X-Tile-Url");
+                            if (tileUrl && initial) {
+                                mosaic.layoutManager.addAppTileHTML(
+                                    tile_type,
+                                    response,
+                                    tileUrl
+                                );
+                                initial = false;
                             }
-                        );
-                        m.on("hide", (e) => {
+                            m.hide();
+                        });
+                        m.on("hide", () => {
                             // remove registered modal pattern events
                             // XXX: shouldn't this be managed by pat-plone-modal?
                             m.$el.off("after-render.plone-modal.patterns");
@@ -454,29 +454,34 @@ class ActionManager {
 
                     $.ajax({
                         type: "GET",
-                        url: mosaic.options.context_url +
+                        url:
+                            mosaic.options.context_url +
                             "/@@add-tile?tiletype=" +
                             tile_type +
                             "&form.button.Create=Create",
-                        success: function (value, xhr) {
+                        success: function (value) {
                             utils.loading.hide();
 
                             // Read form
                             const $value = $(value);
                             let action_url = $value.find("#add_tile").attr("action");
-                            const authenticator = $value.find('[name="_authenticator"]').val();
+                            const authenticator = $value
+                                .find('[name="_authenticator"]')
+                                .val();
 
                             // Auto-submit add-form when all required fields are filled
-                            if ($("form .required", $value).filter(function () {
-                                var val = $(this)
-                                    .parents(".field")
-                                    .first()
-                                    .find("input, select, textarea")
-                                    .not('[type="hidden"]')
-                                    .last()
-                                    .val();
-                                return val === null || val.length === 0;
-                            }).length > 0) {
+                            if (
+                                $("form .required", $value).filter(function () {
+                                    var val = $(this)
+                                        .parents(".field")
+                                        .first()
+                                        .find("input, select, textarea")
+                                        .not('[type="hidden"]')
+                                        .last()
+                                        .val();
+                                    return val === null || val.length === 0;
+                                }).length > 0
+                            ) {
                                 openAddFormInModal(value);
                             } else if (action_url) {
                                 $("form", $value).ajaxSubmit({
@@ -487,7 +492,8 @@ class ActionManager {
                                         "_authenticator": authenticator,
                                     },
                                     success: function (value, state, xhr) {
-                                        var tileUrl = xhr.getResponseHeader("X-Tile-Url");
+                                        var tileUrl =
+                                            xhr.getResponseHeader("X-Tile-Url");
                                         if (tileUrl) {
                                             mosaic.layoutManager.addAppTileHTML(
                                                 tile_type,
@@ -504,7 +510,10 @@ class ActionManager {
                     });
                 } else {
                     // Add tile
-                    mosaic.layoutManager.addTile(tile_type, mosaic.layoutManager.getDefaultValue(tile_config));
+                    mosaic.layoutManager.addTile(
+                        tile_type,
+                        mosaic.layoutManager.getDefaultValue(tile_config)
+                    );
                 }
 
                 // reset menu
@@ -523,14 +532,14 @@ class ActionManager {
             // Loop through shortcuts
             $(mosaic.actionManager.shortcuts).each(function () {
                 // Check if shortcut matched
-                if ((e.ctrlKey === this.ctrl ||
-                    (navigator.userAgent.toLowerCase().indexOf("macintosh") !== -1 &&
-                        e.metaKey === this.ctrl)) &&
+                if (
+                    (e.ctrlKey === this.ctrl ||
+                        (navigator.userAgent.toLowerCase().indexOf("macintosh") !== -1 &&
+                            e.metaKey === this.ctrl)) &&
                     (e.altKey === this.alt || e.altKey === undefined) &&
                     e.shiftKey === this.shift &&
-                    e.charCode &&
-                    String.fromCharCode(e.charCode).toUpperCase().charCodeAt(0) ===
-                    this.charCode) {
+                    e.key.toUpperCase().charCodeAt(0) === this.charCode
+                ) {
                     // Found action
                     action = this.action;
                 }
@@ -548,13 +557,13 @@ class ActionManager {
             // Normal exit
             return true;
         });
-    };
+    }
 
     blurSelectedTile() {
-        this.mosaic.document.querySelectorAll(".mosaic-selected-tile").forEach(el => {
+        this.mosaic.document.querySelectorAll(".mosaic-selected-tile").forEach((el) => {
             $(el).data("mosaic-tile").blur();
         });
-    };
+    }
 
     mosaicExecAction() {
         // Loop through matched elements
@@ -567,7 +576,7 @@ class ActionManager {
                 mgr.actions[$(this).data("action")].exec(this);
             }
         });
-    };
+    }
 }
 
 export default ActionManager;
