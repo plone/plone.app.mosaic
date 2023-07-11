@@ -4,6 +4,7 @@ Changelog
 3.1.4 (unreleased)
 ------------------
 
+- JavaScript: Use the Module Federation name from package.json.
 - JavaScript: Set the textarea contents via value rather than innerText.
   [thet]
 
