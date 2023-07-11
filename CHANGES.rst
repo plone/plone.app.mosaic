@@ -5,6 +5,7 @@ Changelog
 ------------------
 
 - JavaScript: Use the Module Federation name from package.json.
+- JavaScript: Set the textarea contents via value rather than innerText.
   [thet]
 
 - Re-implement `Custom layout` management functionality without pattern logic.
