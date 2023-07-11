@@ -4,6 +4,9 @@ Changelog
 3.1.4 (unreleased)
 ------------------
 
+- JavaScript: Use the Module Federation name from package.json.
+  [thet]
+
 - Re-implement `Custom layout` management functionality without pattern logic.
   [petschki]
 
