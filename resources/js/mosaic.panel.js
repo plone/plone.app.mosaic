@@ -11,7 +11,8 @@ class Panel {
     initialize($content) {
         // Local variables
         var panel_id = this.$el.data("panel"),
-            panel_attr_id, $panel_markup,
+            panel_attr_id,
+            $panel_markup,
             target = $("[data-panel=" + panel_id + "]"),
             max_columns = this.$el.data("max-columns") || 6;
 
@@ -63,19 +64,17 @@ class Panel {
                 .wrap(
                     $(
                         '<div class="mosaic-grid-row">' +
-                        '<div class="mosaic-grid-cell col-12">' +
-                        '<div class="movable removable mosaic-tile mosaic-text-tile">' +
-                        '<div class="mosaic-tile-content">' +
-                        "</div>" +
-                        "</div>" +
-                        "</div>" +
-                        "</div>"
+                            '<div class="mosaic-grid-cell col-12">' +
+                            '<div class="movable removable mosaic-tile mosaic-text-tile">' +
+                            '<div class="mosaic-tile-content">' +
+                            "</div>" +
+                            "</div>" +
+                            "</div>" +
+                            "</div>"
                     )
                 );
         }
     }
 }
-
-
 
 export default Panel;

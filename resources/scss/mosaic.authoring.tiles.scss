@@ -1,4 +1,3 @@
-
 .mosaic-panel {
     position: relative;
     --plone-mosaic-tiles-outer-border-width: 1px;
@@ -23,32 +22,35 @@
 }
 
 .mosaic-panel .mosaic-tile .hiddenStructure,
-#content .mosaic-panel .mosaic-tile .hiddenStructure  {
+#content .mosaic-panel .mosaic-tile .hiddenStructure {
     display: none;
 }
 
 .mosaic-panel .mosaic-tile {
-  position: relative;
-  z-index: 100;
+    position: relative;
+    z-index: 100;
 
-  &.mosaic-selected-tile{
-    z-index: 101;
-  }
+    &.mosaic-selected-tile {
+        z-index: 101;
+    }
 }
 
 .mosaic-panel .mosaic-tile .mosaic-tile-content {
-  position: relative;
-  z-index: 100;
+    position: relative;
+    z-index: 100;
 }
 
-.mosaic-panel .mosaic-tile-content textarea, .mosaic-tile-content input[type=text] {
-  width: 100%;
+.mosaic-panel .mosaic-tile-content textarea,
+.mosaic-tile-content input[type="text"] {
+    width: 100%;
 }
 
 /* Outer border */
 .mosaic-panel .mosaic-tile-outer-border {
     position: absolute;
-    border: var(--plone-mosaic-tiles-outer-border-style) var(--plone-mosaic-tiles-outer-border-width) var(--plone-mosaic-tiles-outer-border-color);
+    border: var(--plone-mosaic-tiles-outer-border-style)
+        var(--plone-mosaic-tiles-outer-border-width)
+        var(--plone-mosaic-tiles-outer-border-color);
     width: auto;
     height: auto;
     z-index: 40;
@@ -61,7 +63,9 @@
 /* Inner border */
 .mosaic-panel .mosaic-tile-inner-border {
     position: absolute;
-    border: var(--plone-mosaic-tiles-inner-border-style) var(--plone-mosaic-tiles-inner-border-width) var(--plone-mosaic-tiles-inner-border-color);
+    border: var(--plone-mosaic-tiles-inner-border-style)
+        var(--plone-mosaic-tiles-inner-border-width)
+        var(--plone-mosaic-tiles-inner-border-color);
     width: auto;
     height: auto;
     z-index: 40;
@@ -73,35 +77,44 @@
 
 /* Border on mouse over */
 .mosaic-panel .mosaic-tile:hover .mosaic-tile-outer-border {
-    border: var(--plone-mosaic-tiles-outer-border-style) var(--plone-mosaic-tiles-outer-border-width) var(--plone-mosaic-tiles-outer-border-color-hover);
+    border: var(--plone-mosaic-tiles-outer-border-style)
+        var(--plone-mosaic-tiles-outer-border-width)
+        var(--plone-mosaic-tiles-outer-border-color-hover);
 }
 
 /* fixed read-only border color */
 .mosaic-panel .mosaic-tile.mosaic-read-only-tile:hover .mosaic-tile-outer-border {
-  border: var(--plone-mosaic-tiles-outer-border-style) var(--plone-mosaic-tiles-outer-border-width) #d0d0d0;
+    border: var(--plone-mosaic-tiles-outer-border-style)
+        var(--plone-mosaic-tiles-outer-border-width) #d0d0d0;
 }
 
 /* Hide hover border when dragging or resizing*/
 .mosaic-panel .mosaic-panel-dragging .mosaic-tile:hover .mosaic-tile-outer-border {
-    border: var(--plone-mosaic-tiles-outer-border-style) var(--plone-mosaic-tiles-outer-border-width) transparent;
+    border: var(--plone-mosaic-tiles-outer-border-style)
+        var(--plone-mosaic-tiles-outer-border-width) transparent;
 }
 
 .mosaic-panel .mosaic-panel-resizing .mosaic-tile:hover .mosaic-tile-outer-border {
-    border: var(--plone-mosaic-tiles-outer-border-style) var(--plone-mosaic-tiles-outer-border-width) transparent;
+    border: var(--plone-mosaic-tiles-outer-border-style)
+        var(--plone-mosaic-tiles-outer-border-width) transparent;
 }
 
 /* Selected tile */
 .mosaic-panel .mosaic-selected-tile {
-    background-color:var(--bs-tertiary-bg);
-    &, &:hover {
+    background-color: var(--bs-tertiary-bg);
+    &,
+    &:hover {
         .mosaic-tile-outer-border {
-            border: var(--plone-mosaic-tiles-outer-border-style-active) var(--plone-mosaic-tiles-outer-border-width) var(--plone-mosaic-tiles-outer-border-color-active) !important;
+            border: var(--plone-mosaic-tiles-outer-border-style-active)
+                var(--plone-mosaic-tiles-outer-border-width)
+                var(--plone-mosaic-tiles-outer-border-color-active) !important;
         }
     }
 }
 /* selected readonly tile */
 .mosaic-panel .mosaic-selected-tile.mosaic-read-only-tile {
-    &, &:hover {
+    &,
+    &:hover {
         .mosaic-tile-outer-border {
             background-color: var(--bs-light);
         }
@@ -109,9 +122,11 @@
 }
 /* resizing on selected tile */
 .mosaic-panel .mosaic-panel-resizing .mosaic-selected-tile.mosaic-tile {
-    &, &:hover {
+    &,
+    &:hover {
         .mosaic-tile-outer-border {
-            border: var(--plone-mosaic-tiles-outer-border-style-active) var(--plone-mosaic-tiles-outer-border-width) transparent;
+            border: var(--plone-mosaic-tiles-outer-border-style-active)
+                var(--plone-mosaic-tiles-outer-border-width) transparent;
             background-color: transparent;
         }
     }
@@ -127,7 +142,8 @@
 
 /* Other tiles while dragging */
 .mosaic-panel .mosaic-panel-dragging .mosaic-tile .mosaic-tile-inner-border {
-    border: var(--plone-mosaic-tiles-inner-border-style) var(--plone-mosaic-tiles-inner-border-width) $gray-600;
+    border: var(--plone-mosaic-tiles-inner-border-style)
+        var(--plone-mosaic-tiles-inner-border-width) $gray-600;
 }
 
 /* Hide inner border of helper while dragging */
@@ -145,11 +161,12 @@
 
 /* Rich text */
 body.mosaic-enabled .tox-tinymce-inline {
-    z-index:200;
+    z-index: 200;
 }
 
 .mosaic-panel table.mce-item-table {
-    th, td {
+    th,
+    td {
         border: 1px dotted #ccc;
         min-width: 1em;
     }
@@ -162,7 +179,8 @@ body.mosaic-enabled .tox-tinymce-inline {
 
 /* Helper border */
 .mosaic-panel .mosaic-tile.mosaic-helper-tile {
-    border: var(--plone-mosaic-tiles-outer-border-style) var(--plone-mosaic-tiles-outer-border-width) #3469d0;
+    border: var(--plone-mosaic-tiles-outer-border-style)
+        var(--plone-mosaic-tiles-outer-border-width) #3469d0;
     z-index: 1000;
     opacity: 0.5;
     position: absolute;
@@ -192,13 +210,13 @@ body.mosaic-enabled .tox-tinymce-inline {
 
 /* Empty tile */
 .mosaic-enabled .mosaic-panel .mosaic-tile {
-  min-height: 20px;
+    min-height: 20px;
 }
 /* @end */
 
 /* Various fixes */
 .mosaic-enabled .select2-results {
-  // Arbitrary, but necessary for e.g. long lists in TinyMCE Insert Image
-  max-height: 320px;
+    // Arbitrary, but necessary for e.g. long lists in TinyMCE Insert Image
+    max-height: 320px;
 }
 /* @end */

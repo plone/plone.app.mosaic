@@ -8,7 +8,6 @@ var normalizeClass = function (val) {
 };
 
 class Toolbar {
-
     constructor(mosaic, el) {
         var self = this;
         self.mosaic = mosaic;
@@ -19,17 +18,13 @@ class Toolbar {
         // Add toolbar div below menu
         $("body").prepend(self.$el);
 
-        self.lastChange = (new Date()).getTime();
-    };
+        self.lastChange = new Date().getTime();
+    }
 
     initToolbar() {
         var self = this;
         // Local variables
-        var content,
-            actions,
-            a,
-            action_group,
-            y;
+        var content, actions, a, action_group, y;
 
         // Empty
         self.$el.html("");
@@ -74,7 +69,7 @@ class Toolbar {
                     // Add control
                     self.AddControl(actions[a], action);
 
-                // If fieldset
+                    // If fieldset
                 } else {
                     action_group = action;
                     var classNamePart = normalizeClass(action.name);
@@ -114,14 +109,16 @@ class Toolbar {
         self.SelectedTileChange();
 
         Registry.scan(self.$el);
-    };
+    }
 
     SelectedTileChange = function () {
         // Local variables
         var self = this;
 
         var selected_tile = self.mosaic.document.querySelector(".mosaic-selected-tile");
-        var tiletype = selected_tile?.data ? selected_tile.data("mosaic-tile").getType() : null;
+        var tiletype = selected_tile?.data
+            ? selected_tile.data("mosaic-tile").getType()
+            : null;
 
         // Get actions
         var actions = self.mosaic.options.default_available_actions;
@@ -133,7 +130,7 @@ class Toolbar {
             }
         }
         if (selected_tile && !selected_tile.classList.contains("removable")) {
-            actions = actions.filter(item => item !== "remove");
+            actions = actions.filter((item) => item !== "remove");
         }
 
         // Show option groups
@@ -141,7 +138,8 @@ class Toolbar {
 
         // Hide all actions (but not complete menus)
         self.$el.find(".mosaic-button").hide();
-        self.$el.find(".mosaic-menu-format")
+        self.$el
+            .find(".mosaic-menu-format")
             .find(".mosaic-option")
             .hide()
             .attr("disabled", "disabled");
@@ -150,7 +148,7 @@ class Toolbar {
             .removeAttr("disabled");
 
         // Show actions
-        for(const val of actions) {
+        for (const val of actions) {
             if (self.mosaic.actionManager.actions[val]) {
                 if (!self.mosaic.actionManager.actions[val].visible()) {
                     continue;
@@ -158,23 +156,24 @@ class Toolbar {
             }
             self.$el.find(".mosaic-button-" + val).show();
             self.$el.find(".mosaic-icon-menu-" + val).show();
-            self.$el.find(".mosaic-option-" + val)
+            self.$el
+                .find(".mosaic-option-" + val)
                 .show()
                 .removeAttr("disabled");
-        };
+        }
         if (self.mosaic.actionManager.actions.layout.visible()) {
             $(".mosaic-button-layout").show();
         }
 
         // Disable used field tiles
-        self.$el.find(".mosaic-menu-insert")
+        self.$el
+            .find(".mosaic-menu-insert")
             .children(".mosaic-option-group-fields")
             .children()
             .each(function () {
                 if (
-                    self.mosaic.panels.find(
-                        ".mosaic-" + $(this).attr("value") + "-tile"
-                    ).length === 0
+                    self.mosaic.panels.find(".mosaic-" + $(this).attr("value") + "-tile")
+                        .length === 0
                 ) {
                     $(this).show().removeAttr("disabled");
                 } else {
@@ -200,20 +199,23 @@ class Toolbar {
             !self.mosaic.overlay.modal &&
             !self.mosaic.saving &&
             !self.mosaic.modal &&
-            ((new Date()).getTime() - self.lastChange) > 6000
+            new Date().getTime() - self.lastChange > 6000
         ) {
-            self.mosaic.queue(function(next){
+            self.mosaic.queue(function (next) {
                 self.mosaic.layoutManager.saveLayoutToForm();
-                $("#form-widgets-ILayoutAware-customContentLayout, " +
-                "[name='form.widgets.ILayoutAware.customContentLayout']").trigger("blur");
+                $(
+                    "#form-widgets-ILayoutAware-customContentLayout, " +
+                        "[name='form.widgets.ILayoutAware.customContentLayout']"
+                ).trigger("blur");
                 next();
             });
-            self.lastChange = (new Date()).getTime();
+            self.lastChange = new Date().getTime();
         }
-    }
+    };
 
     AddControl(parent, action) {
-        var $el, self = this;
+        var $el,
+            self = this;
 
         // Check if button or menu
         if (typeof action.menu !== undefined && action.menu) {
@@ -235,7 +237,10 @@ class Toolbar {
                                 .addClass("mosaic-menu-" + normalizeClass(action.name))
                                 .data("action", action.action)
                                 .on("change", function (e) {
-                                    self.mosaic.actionManager.execAction(action.action, e.target);
+                                    self.mosaic.actionManager.execAction(
+                                        action.action,
+                                        e.target
+                                    );
                                 })
                                 .each(function () {
                                     // Local variables
@@ -248,25 +253,28 @@ class Toolbar {
                                                 $(document.createElement("optgroup"))
                                                     .addClass(
                                                         "mosaic-option-group " +
-                                                        `mosaic-option-group-${normalizeClass(ai.value)}`
+                                                            `mosaic-option-group-${normalizeClass(
+                                                                ai.value
+                                                            )}`
                                                     )
                                                     .attr("label", ai.label)
                                             );
                                             elm = $(this).find(
-                                                `.mosaic-option-group-${normalizeClass(ai.value)}`
+                                                `.mosaic-option-group-${normalizeClass(
+                                                    ai.value
+                                                )}`
                                             );
 
                                             // Add child nodes
                                             for (y in ai.items) {
                                                 elm.append(
                                                     $(document.createElement("option"))
-                                                        .attr(
-                                                            "value",
-                                                            ai.items[y].value
-                                                        )
+                                                        .attr("value", ai.items[y].value)
                                                         .addClass(
                                                             "mosaic-option " +
-                                                            `mosaic-option-${normalizeClass(ai.items[y].value)}`
+                                                                `mosaic-option-${normalizeClass(
+                                                                    ai.items[y].value
+                                                                )}`
                                                         )
                                                         .html(ai.items[y].label)
                                                 );
@@ -279,7 +287,9 @@ class Toolbar {
                                                     .attr("value", ai.value)
                                                     .addClass(
                                                         "mosaic-option " +
-                                                        `mosaic-option-${normalizeClass(ai.value)}`
+                                                            `mosaic-option-${normalizeClass(
+                                                                ai.value
+                                                            )}`
                                                     )
                                                     .html(ai.label)
                                             );
@@ -297,14 +307,20 @@ class Toolbar {
                 parent.append(
                     $el
                         .addClass(`pat-select2 mosaic-menu ${menu_id}`)
-                        .attr("data-pat-select2", JSON.stringify({
-                            "minimumResultsForSearch": -1,
-                            "dropdownCssClass": menu_id,
-                            "dropdownAutoWidth": true,
-                        }))
+                        .attr(
+                            "data-pat-select2",
+                            JSON.stringify({
+                                minimumResultsForSearch: -1,
+                                dropdownCssClass: menu_id,
+                                dropdownAutoWidth: true,
+                            })
+                        )
                         .data("action", action.action)
                         .on("change", function (e) {
-                            self.mosaic.actionManager.execAction(action.action, e.target);
+                            self.mosaic.actionManager.execAction(
+                                action.action,
+                                e.target
+                            );
                         })
                         .each(function () {
                             // Local variables
@@ -329,15 +345,10 @@ class Toolbar {
                                     for (const sub_ai of ai.items) {
                                         elm.append(
                                             $(document.createElement("option"))
-                                                .attr(
-                                                    "value",
-                                                    sub_ai.value
-                                                )
+                                                .attr("value", sub_ai.value)
                                                 .addClass(
                                                     "mosaic-option mosaic-option-" +
-                                                        normalizeClass(
-                                                            sub_ai.value
-                                                        )
+                                                        normalizeClass(sub_ai.value)
                                                 )
                                                 .html(sub_ai.label)
                                         );
@@ -398,7 +409,7 @@ class Toolbar {
                 $el.hide();
             }
         }
-    };
+    }
 
     _mosaicToolbarLayoutEditor(actions) {
         var self = this;
@@ -432,7 +443,8 @@ class Toolbar {
 
         // Add items to the insert menu
         if (self.mosaic.options.tiles !== undefined) {
-            var elm_select_insert = actions.secondary_actions.find(".mosaic-menu-insert");
+            var elm_select_insert =
+                actions.secondary_actions.find(".mosaic-menu-insert");
             for (const action_group of self.mosaic.options.tiles) {
                 elm_select_insert.append(
                     $(document.createElement("optgroup"))
@@ -449,7 +461,8 @@ class Toolbar {
                     elm_action_group.append(
                         $(document.createElement("option"))
                             .addClass(
-                                "mosaic-option mosaic-option-" + normalizeClass(tile.name)
+                                "mosaic-option mosaic-option-" +
+                                    normalizeClass(tile.name)
                             )
                             .attr("value", tile.name)
                             .html(tile.label)
@@ -463,7 +476,8 @@ class Toolbar {
 
         // Add items to the format menu
         if (self.mosaic.options.formats !== undefined) {
-            var elm_select_format = actions.secondary_actions.find(".mosaic-menu-format");
+            var elm_select_format =
+                actions.secondary_actions.find(".mosaic-menu-format");
             for (const action_group of self.mosaic.options.formats) {
                 elm_select_format.append(
                     $(document.createElement("optgroup"))
@@ -495,8 +509,7 @@ class Toolbar {
                 }
             }
         }
-    };
-};
-
+    }
+}
 
 export default Toolbar;
