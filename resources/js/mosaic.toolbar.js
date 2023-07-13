@@ -377,7 +377,7 @@ class Toolbar {
                 parent.append(
                     $el
                         .addClass(
-                            "ms-3 d-flex align-items-center me-2 text-body mosaic-button mosaic-button-" +
+                            "d-flex align-items-center me-2 text-body mosaic-button mosaic-button-" +
                                 normalizeClass(action.name) +
                                 (action.icon ? " mosaic-icon" : ""),
                         )

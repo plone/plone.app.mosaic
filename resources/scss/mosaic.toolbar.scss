@@ -47,6 +47,12 @@
             }
         }
     }
+
+    .mosaic-button-group {
+        margin-left:$spacer;
+        padding-left:$spacer;
+        border-left:var(--bs-border-width) var(--bs-border-style) var(--bs-border-color);
+    }
 }
 
 .mosaic-toolbar-content {
