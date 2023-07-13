@@ -1751,7 +1751,7 @@
     colorette "^2.0.16"
     ora "^5.4.1"
 
-"@patternslib/dev@^3.3.5":
+"@patternslib/dev@*":
   version "3.3.5"
   resolved "https://registry.yarnpkg.com/@patternslib/dev/-/dev-3.3.5.tgz#9e27ed64dde3e55381f9a50ada8f8e6283d91c6b"
   integrity sha512-58+eUPBJwtbhVHY8LBwzRNKm1n0acpHf67Xi5mzHG3/rJlk/T9/iZFvnPVpQxV2VAP66/PAQFfi5OcbDqivqow==
@@ -1794,7 +1794,7 @@
     codejar "^3.6.0"
     highlight.js "<11"
 
-"@patternslib/patternslib@9.9.4", "@patternslib/patternslib@^9.9.4":
+"@patternslib/patternslib@*", "@patternslib/patternslib@^9.9.4":
   version "9.9.4"
   resolved "https://registry.yarnpkg.com/@patternslib/patternslib/-/patternslib-9.9.4.tgz#57bfc8a53c0484e420b937d909398e53de532b49"
   integrity sha512-ZifJGsc82eYCPxulk4dP3jYqu0Ap+d9vai/JyE87dB3eDYiV24zYLo1iVJGYY71ihzzWpEAaKmrptNzKSHSFjw==
@@ -1829,7 +1829,7 @@
     spectrum-colorpicker "^1.8.0"
     tippy.js "^6.3.7"
 
-"@plone/mockup@5.1.1":
+"@plone/mockup@*":
   version "5.1.1"
   resolved "https://registry.yarnpkg.com/@plone/mockup/-/mockup-5.1.1.tgz#36776257384a8db074e31247590f9b98f2959e0d"
   integrity sha512-owlp/gun2lQaXioX0JaW4PI5PMSwK/iOl1dUVi336Ev9v+TiRp+ws9fySclbv9rWqQDAPQfpIYN7SpA16avkWA==
@@ -3149,7 +3149,7 @@ cjs-module-lexer@^1.0.0:
   resolved "https://registry.yarnpkg.com/cjs-module-lexer/-/cjs-module-lexer-1.2.2.tgz#9f84ba3244a512f3a54e5277e8eef4c489864e40"
   integrity sha512-cOU9usZw8/dXIXKtwa8pM0OTJQuJkxMN6w30csNRUerHfeQ5R6U3kkU/FtJeIf3M202OHfY2U8ccInBG7/xogA==
 
-clean-css-cli@^5.6.1:
+clean-css-cli@*:
   version "5.6.2"
   resolved "https://registry.yarnpkg.com/clean-css-cli/-/clean-css-cli-5.6.2.tgz#7b645ebb8025e56e6c66f535f4a92d9c9bba9f19"
   integrity sha512-GDQkr6zVqHJhO3yWTy3sA22sMCT6iUqaJuBdqZMW6oI25MtiJ2iZXDmWzErpjoRotsB+TYPTpuZSNSgaC1n4lA==
@@ -7019,7 +7019,7 @@ normalize-url@^8.0.0:
   resolved "https://registry.yarnpkg.com/normalize-url/-/normalize-url-8.0.0.tgz#593dbd284f743e8dcf6a5ddf8fadff149c82701a"
   integrity sha512-uVFpKhj5MheNBJRTiMZ9pE/7hD1QTeEvugSJW/OmLzAp78PB5O6adfMNTvmfKhXBkvCzC+rqifWcVYpGFwTjnw==
 
-npm-run-all@^4.1.5:
+npm-run-all@*:
   version "4.1.5"
   resolved "https://registry.yarnpkg.com/npm-run-all/-/npm-run-all-4.1.5.tgz#04476202a15ee0e2e214080861bff12a51d98fba"
   integrity sha512-Oo82gJDAVcaMdi3nuoKFavkIHBRVqQ1qvMb+9LHk/cF4P6B2m8aP04hGf7oL6wZ9BuGwX1onlLhpuoofSyoQDQ==
@@ -7534,6 +7534,11 @@ prelude-ls@~1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/prelude-ls/-/prelude-ls-1.1.2.tgz#21932a549f5e52ffd9a827f570e04be62a97da54"
   integrity sha512-ESF23V4SKG6lVSGZgYNpbsiaAkdab6ZgOxe52p7+Kid3W3u3bxR4Vfd/o21dmN7jSt0IwgZ4v5MUd26FEtXE9w==
+
+prettier@3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/prettier/-/prettier-3.0.0.tgz#e7b19f691245a21d618c68bc54dc06122f6105ae"
+  integrity sha512-zBf5eHpwHOGPC47h0zrPyNn+eAEIdEzfywMoYn2XPi0P44Zp0tSq64rq0xAREh4auw2cJZHo9QUob+NqCQky4g==
 
 prettier@^2.8.8:
   version "2.8.8"
