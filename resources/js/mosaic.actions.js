@@ -4,7 +4,6 @@ import logging from "@patternslib/patternslib/src/core/logging";
 import mosaic_utils from "./utils";
 import Modal from "@plone/mockup/src/pat/modal/modal";
 import utils from "@plone/mockup/src/core/utils";
-import "./mosaic.overlay";
 
 const log = logging.getLogger("pat-mosaic/actions");
 
@@ -97,7 +96,7 @@ class ActionManager {
                         if (action.category === "tile") {
                             name = self.getPrefixedClassName(action.name);
                             $(".mosaic-selected-tile", mosaic.document).removeClass(
-                                name
+                                name,
                             );
                         }
                     }
@@ -196,7 +195,7 @@ class ActionManager {
                 mosaic.toolbar.SelectedTileChange();
                 mosaic.queue(function (next) {
                     mosaic.layoutManager.saveLayoutToForm();
-                    $("#form-buttons-save").trigger("click");
+                    mosaic.save();
                     mosaic.saving = false;
                     next();
                 });
@@ -223,7 +222,7 @@ class ActionManager {
                 // Trigger validation => drafting sync
                 $(
                     "#form-widgets-ILayoutAware-customContentLayout, " +
-                        "[name='form.widgets.ILayoutAware.customContentLayout']"
+                        "[name='form.widgets.ILayoutAware.customContentLayout']",
                 )
                     .trigger("focus")
                     .trigger("focusout");
@@ -232,7 +231,7 @@ class ActionManager {
                 setTimeout(function () {
                     window.open(
                         mosaic.options.context_url + "/@@layout_preview",
-                        "_blank"
+                        "_blank",
                     );
                 }, 1000);
             },
@@ -246,7 +245,7 @@ class ActionManager {
 
                 // Get tile content div
                 tilecontent = $(".mosaic-selected-tile", mosaic.document).children(
-                    ".mosaic-tile-content"
+                    ".mosaic-tile-content",
                 );
 
                 // Check if not already html editable
@@ -259,7 +258,7 @@ class ActionManager {
                         $(mosaic.document.createElement("textarea"))
                             .addClass("mosaic-rich-text-textarea")
                             .html(text.trim())
-                            .height(height)
+                            .height(height),
                     );
                 }
             },
@@ -310,7 +309,7 @@ class ActionManager {
                 if (!yes) {
                     yes = confirm(
                         "Changing your layout will destroy all existing custom layout " +
-                            "settings you have in place. Are you sure you want to continue?"
+                            "settings you have in place. Are you sure you want to continue?",
                     );
                 }
                 if (yes) {
@@ -420,7 +419,7 @@ class ActionManager {
                                 $(".field.error", $mContent).removeClass("error");
                                 $(
                                     ".fieldErrorBox,.portalMessage,.alert,.invalid-feedback",
-                                    $mContent
+                                    $mContent,
                                 ).remove();
                             }
                             $('button[name*="cancel"]', $mContent)
@@ -437,17 +436,11 @@ class ActionManager {
                                 mosaic.layoutManager.addAppTileHTML(
                                     tile_type,
                                     response,
-                                    tileUrl
+                                    tileUrl,
                                 );
                                 initial = false;
                             }
                             m.hide();
-                        });
-                        m.on("hide", () => {
-                            // remove registered modal pattern events
-                            // XXX: shouldn't this be managed by pat-plone-modal?
-                            m.$el.off("after-render.plone-modal.patterns");
-                            m.$el.off("formActionSuccess.plone-modal.patterns");
                         });
                         m.show();
                     };
@@ -498,7 +491,7 @@ class ActionManager {
                                             mosaic.layoutManager.addAppTileHTML(
                                                 tile_type,
                                                 value,
-                                                tileUrl
+                                                tileUrl,
                                             );
                                         } else {
                                             openAddFormInModal(value);
@@ -512,7 +505,7 @@ class ActionManager {
                     // Add tile
                     mosaic.layoutManager.addTile(
                         tile_type,
-                        mosaic.layoutManager.getDefaultValue(tile_config)
+                        mosaic.layoutManager.getDefaultValue(tile_config),
                     );
                 }
 

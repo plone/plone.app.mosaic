@@ -77,11 +77,12 @@
             .select2-result-sub {
                 .select2-result-unselectable,
                 .select2-disabled {
-                    background: none;
+                    background: var(--bs-secondary-bg);
 
                     > .select2-result-label {
-                        color: var(--bs-body-color);
+                        color: var(--bs-body-color-secondary);
                         cursor: default;
+                        opacity: 0.5;
                     }
                 }
             }

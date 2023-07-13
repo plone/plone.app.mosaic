@@ -4,7 +4,6 @@ import $ from "jquery";
 import logging from "@patternslib/patternslib/src/core/logging";
 import events from "@patternslib/patternslib/src/core/events";
 import Tile from "./mosaic.tile";
-import "./mosaic.overlay";
 
 const log = logging.getLogger("pat-mosaic/layout");
 
@@ -82,11 +81,6 @@ export default class LayoutManager {
     }
 
     addAppTile(type, url /*, id */) {
-        // Close overlay
-        if (this.mosaic.overlay.modal.$modal) {
-            this.mosaic.overlay.modal.hide();
-        }
-
         // Get value
         $.ajax({
             type: "GET",
@@ -112,8 +106,6 @@ export default class LayoutManager {
 
     editAppTile(url) {
         var self = this;
-        // Close overlay
-        self.mosaic.overlay.close();
 
         // Focus on current window
         window.parent.focus();
@@ -135,7 +127,7 @@ export default class LayoutManager {
                 // Update tile
                 var $tile = $(
                     ".mosaic-selected-tile .mosaic-tile-content",
-                    self.mosaic.document
+                    self.mosaic.document,
                 );
                 $tile.html(value.find(".temp_body_tag").html()); // jshint ignore:line
                 $tile.attr("data-tileUrl", url.replace(/&/gim, "&amp;"));
@@ -323,7 +315,7 @@ export default class LayoutManager {
         var self = this;
         var $customLayout = $(
             "#form-widgets-ILayoutAware-customContentLayout, " +
-                "[name='form.widgets.ILayoutAware.customContentLayout']"
+                "[name='form.widgets.ILayoutAware.customContentLayout']",
         );
 
         if (self.mosaic.hasContentLayout) {
@@ -340,12 +332,12 @@ export default class LayoutManager {
             if (e.keyCode === 18) {
                 var date = new Date();
                 var enabled = $(".mosaic-panel", self.mosaic.document).data(
-                    "advanced-enabled"
+                    "advanced-enabled",
                 );
                 var elapsed = date.getTime() - enabled;
                 if (elapsed > 400) {
                     $(".mosaic-panel", self.mosaic.document).removeClass(
-                        "mosaic-advanced"
+                        "mosaic-advanced",
                     );
                 }
             }
@@ -379,7 +371,7 @@ export default class LayoutManager {
                     $(".mosaic-panel", _document).addClass("mosaic-advanced");
                     $(".mosaic-panel", _document).data(
                         "advanced-enabled",
-                        date.getTime()
+                        date.getTime(),
                     );
                 }
             }
@@ -403,12 +395,12 @@ export default class LayoutManager {
                             $orig_row.mosaicCleanupRow();
                             // Remove dragging class from content
                             self.mosaic.panels.removeClass(
-                                "mosaic-panel-dragging mosaic-panel-dragging-new"
+                                "mosaic-panel-dragging mosaic-panel-dragging-new",
                             );
                             // Hide all dividers
                             $(
                                 ".mosaic-selected-divider",
-                                self.mosaic.document
+                                self.mosaic.document,
                             ).removeClass("mosaic-selected-divider");
                         }
                     });
@@ -429,11 +421,6 @@ export default class LayoutManager {
                     // Remove helper
                     $(this).remove();
                 });
-
-                // Hide overlay
-                if (self.mosaic.overlay.modal.$modal) {
-                    self.mosaic.overlay.modal.hide();
-                }
             }
         };
 
@@ -442,13 +429,13 @@ export default class LayoutManager {
             self.mosaic.document,
             "keydown",
             "pat-layout--keydown",
-            DocumentKeydown
+            DocumentKeydown,
         );
         events.add_event_listener(
             self.mosaic.document,
             "keyup",
             "pat-layout--keyup",
-            DocumentKeyup
+            DocumentKeyup,
         );
 
         // Add deselect
@@ -496,7 +483,7 @@ export default class LayoutManager {
             self.mosaic.document,
             "mousedown",
             "pat-layout--mousedown",
-            DocumentMousedown
+            DocumentMousedown,
         );
 
         // Handle mouse move event: when holding down mouse left button and dragging the handler left or right.
@@ -527,7 +514,7 @@ export default class LayoutManager {
 
                 // Get mouse percentage
                 var mouse_percentage = Math.round(
-                    (mouse_x / helper.data("row_width")) * 100
+                    (mouse_x / helper.data("row_width")) * 100,
                 );
 
                 // Get closest snap location
@@ -610,13 +597,13 @@ export default class LayoutManager {
             self.mosaic.document,
             "mousemove",
             "pat-layout--mousemove",
-            DocumentMousemove
+            DocumentMousemove,
         );
         events.add_event_listener(
             self.mosaic.document,
             "dragover",
             "pat-layout--dragover",
-            DocumentMousemove
+            DocumentMousemove,
         );
 
         // Handle mouse up event
@@ -663,9 +650,9 @@ export default class LayoutManager {
                                             .append(
                                                 AddResetAnchor(
                                                     $tileSideTools,
-                                                    column_sizes[i]
-                                                )
-                                            )
+                                                    column_sizes[i],
+                                                ),
+                                            ),
                                     );
                                 });
                         }
@@ -693,7 +680,7 @@ export default class LayoutManager {
             self.mosaic.document,
             "mouseup",
             "pat-layout--mouseup",
-            DocumentMouseup
+            DocumentMouseup,
         );
 
         // Handle mousemove on tile
@@ -708,7 +695,7 @@ export default class LayoutManager {
 
             // Hide all dividers
             $(".mosaic-selected-divider", self.mosaic.document).removeClass(
-                "mosaic-selected-divider"
+                "mosaic-selected-divider",
             );
 
             // Don't show dividers if above original or floating tile
@@ -741,7 +728,7 @@ export default class LayoutManager {
                         divider.height(row.height() + 5);
                         divider.css(
                             "top",
-                            row.offset().top - divider.parent().offset().top - 5
+                            row.offset().top - divider.parent().offset().top - 5,
                         );
                     } else {
                         divider.height(divider.parent().height() + 5);
@@ -760,13 +747,13 @@ export default class LayoutManager {
                 tile,
                 "mousemove",
                 "pat-layout--mousemove-tile",
-                TileMousemove
+                TileMousemove,
             );
             events.add_event_listener(
                 tile,
                 "dragover",
                 "pat-layout--dragover-tile",
-                TileMousemove
+                TileMousemove,
             );
             events.add_event_listener(
                 tile,
@@ -781,7 +768,7 @@ export default class LayoutManager {
                             $(this).data("mosaic-tile").select();
                         }
                     }
-                }
+                },
             );
         });
 
@@ -824,7 +811,7 @@ export default class LayoutManager {
                     }
                 });
                 var input = $(
-                    "<input type='text' id='custom-css-input-box'></input>"
+                    "<input type='text' id='custom-css-input-box'></input>",
                 ).val(custom_classes.join(" "));
                 var div = $("<div></div>")
                     .addClass("mosaic-set-custom-css")
@@ -838,14 +825,14 @@ export default class LayoutManager {
                 gridrow,
                 "dblclick",
                 "pat-layout--dblclick-gridrow",
-                CustomCSSOnDblClick
+                CustomCSSOnDblClick,
             );
         });
         events.add_event_listener(
             self.mosaic.document,
             "click",
             "pat-layout--click",
-            applyCustomCss
+            applyCustomCss,
         );
     }
 
@@ -895,8 +882,8 @@ export default class LayoutManager {
                 ["top", "bottom"].forEach(function (pos) {
                     that.append(
                         $(self.mosaic.document.createElement("div")).addClass(
-                            "mosaic-divider mosaic-divider-" + pos
-                        )
+                            "mosaic-divider mosaic-divider-" + pos,
+                        ),
                     );
                 });
             });
@@ -919,7 +906,7 @@ export default class LayoutManager {
                     if (obj.hasClass("mosaic-panel-dragging")) {
                         // Hide all dividers
                         $(".mosaic-selected-divider", mosaic_doc).removeClass(
-                            "mosaic-selected-divider"
+                            "mosaic-selected-divider",
                         );
                         $(this).children("div").addClass("mosaic-selected-divider");
                     }
@@ -945,7 +932,7 @@ export default class LayoutManager {
                     if (obj.hasClass("mosaic-panel-dragging")) {
                         // Hide all dividers
                         $(".mosaic-selected-divider", mosaic_doc).removeClass(
-                            "mosaic-selected-divider"
+                            "mosaic-selected-divider",
                         );
 
                         // Get direction
@@ -981,12 +968,12 @@ export default class LayoutManager {
                                         .append(
                                             $(mosaic_doc.createElement("div")).append(
                                                 $(
-                                                    mosaic_doc.createElement("div")
-                                                ).addClass("mosaic-tile-outer-border")
-                                            )
-                                        )
+                                                    mosaic_doc.createElement("div"),
+                                                ).addClass("mosaic-tile-outer-border"),
+                                            ),
+                                        ),
                                 )
-                                .mosaicAddMouseMoveEmptyRow()
+                                .mosaicAddMouseMoveEmptyRow(),
                         );
                         if ($(this).nextAll(".mosaic-grid-row").length === 0) {
                             $(this).after(
@@ -997,17 +984,17 @@ export default class LayoutManager {
                                             .addClass("mosaic-grid-cell col")
                                             .append(
                                                 $(
-                                                    mosaic_doc.createElement("div")
+                                                    mosaic_doc.createElement("div"),
                                                 ).append(
                                                     $(
-                                                        mosaic_doc.createElement("div")
+                                                        mosaic_doc.createElement("div"),
                                                     ).addClass(
-                                                        "mosaic-tile-outer-border"
-                                                    )
-                                                )
-                                            )
+                                                        "mosaic-tile-outer-border",
+                                                    ),
+                                                ),
+                                            ),
                                     )
-                                    .mosaicAddMouseMoveEmptyRow()
+                                    .mosaicAddMouseMoveEmptyRow(),
                             );
                         }
                     });
@@ -1025,12 +1012,12 @@ export default class LayoutManager {
                                     .append(
                                         $(mosaic_doc.createElement("div")).append(
                                             $(mosaic_doc.createElement("div")).addClass(
-                                                "mosaic-tile-outer-border"
-                                            )
-                                        )
-                                    )
+                                                "mosaic-tile-outer-border",
+                                            ),
+                                        ),
+                                    ),
                             )
-                            .mosaicAddMouseMoveEmptyRow()
+                            .mosaicAddMouseMoveEmptyRow(),
                     );
                 }
             });
@@ -1075,7 +1062,7 @@ export default class LayoutManager {
                                 if (
                                     Math.max(
                                         Math.abs(downX - event.pageX),
-                                        Math.abs(downY - event.pageY)
+                                        Math.abs(downY - event.pageY),
                                     ) >= 1
                                 ) {
                                     // Add dragging class to content area
@@ -1086,7 +1073,7 @@ export default class LayoutManager {
                                         .trigger("blur");
 
                                     var originaltile = $(event.target).parents(
-                                        ".mosaic-tile"
+                                        ".mosaic-tile",
                                     );
                                     originaltile.addClass("mosaic-original-tile");
 
@@ -1127,7 +1114,7 @@ export default class LayoutManager {
 
             // Remove dragging class from content
             self.mosaic.panels.removeClass(
-                "mosaic-panel-dragging mosaic-panel-dragging-new"
+                "mosaic-panel-dragging mosaic-panel-dragging-new",
             );
 
             // Get direction
@@ -1155,7 +1142,7 @@ export default class LayoutManager {
             const fixup_classes = (_t) => {
                 _t.removeClass("mosaic-drag-cancel");
                 _t.removeClass(
-                    "mosaic-original-tile mosaic-helper-tile mosaic-helper-tile-new mosaic-tile-align-right mosaic-tile-align-left"
+                    "mosaic-original-tile mosaic-helper-tile mosaic-helper-tile-new mosaic-tile-align-right mosaic-tile-align-left",
                 );
                 _t.css({ width: "", left: "", top: "" });
                 if (!new_tile) {
@@ -1183,7 +1170,7 @@ export default class LayoutManager {
                 drop.removeClass("mosaic-empty-row")
                     .attr(
                         "class",
-                        original_tile.parents(".mosaic-grid-row").first().attr("class")
+                        original_tile.parents(".mosaic-grid-row").first().attr("class"),
                     )
                     .off("mousemove");
 
@@ -1210,18 +1197,18 @@ export default class LayoutManager {
                                 .append(
                                     $(mosaic_doc.createElement("div")).append(
                                         $(mosaic_doc.createElement("div")).addClass(
-                                            "mosaic-innergrid-outer-border"
-                                        )
-                                    )
+                                            "mosaic-innergrid-outer-border",
+                                        ),
+                                    ),
                                 )
-                                .append(original_tile)
+                                .append(original_tile),
                         )
                         .mosaicAddMouseMoveInnergridRow();
                     for (const pos of ["top", "bottom"]) {
                         original_tile.append(
                             $(mosaic_doc.createElement("div")).addClass(
-                                "mosaic-divider mosaic-divider-" + pos
-                            )
+                                "mosaic-divider mosaic-divider-" + pos,
+                            ),
                         );
                     }
                 }
@@ -1256,9 +1243,9 @@ export default class LayoutManager {
                                             .append(
                                                 $(prev_elms.get().reverse())
                                                     .clone(true)
-                                                    .mosaicAddDrag()
-                                            )
-                                    )
+                                                    .mosaicAddDrag(),
+                                            ),
+                                    ),
                             );
                             prev_elms.remove();
                         }
@@ -1273,16 +1260,16 @@ export default class LayoutManager {
                                         $(mosaic_doc.createElement("div"))
                                             .addClass("mosaic-grid-cell col")
                                             .append(
-                                                next_elms.clone(true).mosaicAddDrag()
-                                            )
-                                    )
+                                                next_elms.clone(true).mosaicAddDrag(),
+                                            ),
+                                    ),
                             );
                             next_elms.remove();
                         }
 
                         // Resize current column
                         _col.removeClass(self.layout.widthClasses.join(" ")).addClass(
-                            "col"
+                            "col",
                         );
 
                         // Create column with dragged tile in it
@@ -1290,13 +1277,13 @@ export default class LayoutManager {
                             drop.parent().before(
                                 $(mosaic_doc.createElement("div"))
                                     .addClass("mosaic-grid-cell col")
-                                    .append(original_tile)
+                                    .append(original_tile),
                             );
                         } else {
                             drop.parent().after(
                                 $(mosaic_doc.createElement("div"))
                                     .addClass("mosaic-grid-cell col")
-                                    .append(original_tile)
+                                    .append(original_tile),
                             );
                         }
 
@@ -1310,13 +1297,13 @@ export default class LayoutManager {
                             _col.before(
                                 $(mosaic_doc.createElement("div"))
                                     .addClass("mosaic-grid-cell")
-                                    .append(original_tile)
+                                    .append(original_tile),
                             );
                         } else {
                             _col.after(
                                 $(mosaic_doc.createElement("div"))
                                     .addClass("mosaic-grid-cell")
-                                    .append(original_tile)
+                                    .append(original_tile),
                             );
                         }
 
@@ -1411,7 +1398,7 @@ export default class LayoutManager {
 
                     for (let i = 0; i < nr_of_columns; i++) {
                         var col_size = GetColSizeByColClass(
-                            self.getWidthClass(grid_cells[i])
+                            self.getWidthClass(grid_cells[i]),
                         );
                         column_sizes.push(col_size);
                         col_sum = col_sum + col_size;
@@ -1437,9 +1424,9 @@ export default class LayoutManager {
                                 .addClass(
                                     `mosaic-resize-handle mosaic-resize-handle-${
                                         i + 1
-                                    }` + ` mosaic-resize-${resize_col_size}`
+                                    }` + ` mosaic-resize-${resize_col_size}`,
                                 )
-                                .data("resize_handle_index", i)
+                                .data("resize_handle_index", i),
                         );
 
                         // set counted size to cell data
@@ -1469,18 +1456,18 @@ export default class LayoutManager {
 
                             var placeholder = $(mosaic_doc.createElement("div"))
                                 .addClass(
-                                    `mosaic-resize-placeholder col-${col_size} mosaic-resize-${col_size_sum}`
+                                    `mosaic-resize-placeholder col-${col_size} mosaic-resize-${col_size_sum}`,
                                 )
                                 .append(
                                     $(mosaic_doc.createElement("div"))
                                         .addClass(
-                                            "mosaic-resize-placeholder-inner-border"
+                                            "mosaic-resize-placeholder-inner-border",
                                         )
                                         .append(
                                             $(mosaic_doc.createElement("div"))
                                                 .addClass("info")
-                                                .html(col_size)
-                                        )
+                                                .html(col_size),
+                                        ),
                                 );
 
                             // Add placeholder
@@ -1497,15 +1484,15 @@ export default class LayoutManager {
                         $currRow.append(
                             $(mosaic_doc.createElement("div"))
                                 .addClass(
-                                    "mosaic-resize-handle mosaic-resize-handle-helper"
+                                    "mosaic-resize-handle mosaic-resize-handle-helper",
                                 )
                                 .addClass(
-                                    `mosaic-resize-${column_sizes[resize_handle_index]}`
+                                    `mosaic-resize-${column_sizes[resize_handle_index]}`,
                                 )
                                 .data("row_width", $currRow.width())
                                 .data("nr_of_columns", nr_of_columns)
                                 .data("column_sizes", column_sizes)
-                                .data("resize_handle_index", resize_handle_index)
+                                .data("resize_handle_index", resize_handle_index),
                         );
 
                         // Set resizing state
@@ -1640,7 +1627,7 @@ var AddResetAnchor = function ($tileSideTools, cols) {
             .parent()
             .parent()
             .removeClass(
-                "col-1 col-2 col-3 col-4 col-5 col-6 col-7 col-8 col-9 col-10 col-11 col-12"
+                "col-1 col-2 col-3 col-4 col-5 col-6 col-7 col-8 col-9 col-10 col-11 col-12",
             )
             .addClass("col");
 
