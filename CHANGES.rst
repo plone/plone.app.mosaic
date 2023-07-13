@@ -13,8 +13,11 @@ Changelog
 - Re-implement `Custom layout` management functionality without pattern logic.
   [petschki]
 
-- Fixing field editing in Properties form
+- Fixing field editing in Properties form.
   [petschki, jensens, gogobd]
+
+- Fixing tile settings modal.
+  [petschki]
 
 
 3.1.3 (2023-06-27)
