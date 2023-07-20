@@ -43,7 +43,7 @@ ADDONFOLDER=${ADDONBASE}src/
 INSTANCE_YAML?=instance.yaml
 INSTANCE_FOLDER?=instance
 
-PIP_PARAMS= --pre
+PIP_PARAMS=
 
 ##############################################################################
 # targets and prerequisites
@@ -122,7 +122,7 @@ ifeq (, $(shell which $(PYTHON) ))
 endif
 
 # version ok?
-PYTHON_VERSION_MIN=3.7
+PYTHON_VERSION_MIN=3.8
 PYTHON_VERSION_OK=$(shell $(PYTHON) -c 'import sys; print(int(sys.version_info[0:2] >= tuple(map(int, "$(PYTHON_VERSION_MIN)".split(".")))))' )
 
 ifeq ($(PYTHON_VERSION_OK),0)
@@ -142,7 +142,7 @@ endif
 PIP_SENTINEL=${SENTINELFOLDER}pip.sentinel
 ${PIP_SENTINEL}: ${VENV_SENTINEL} ${CONSTRAINTS} ${SENTINEL}
 	@echo "$(OK_COLOR)Install pip$(NO_COLOR)"
-	@${PYBIN}pip install -U "pip==23.0" wheel setuptools
+	@${PYBIN}pip install -U pip wheel setuptools
 	@touch ${PIP_SENTINEL}
 
 ##############################################################################
@@ -151,7 +151,7 @@ ${PIP_SENTINEL}: ${VENV_SENTINEL} ${CONSTRAINTS} ${SENTINEL}
 MXDEV_SENTINEL=${SENTINELFOLDER}pip-mxdev.sentinel
 ${MXDEV_SENTINEL}: ${PIP_SENTINEL}
 	@echo "$(OK_COLOR)Install mxdev$(NO_COLOR)"
-	@${PYBIN}pip install "mxdev==2.1.0" "libvcs==0.11.1"
+	@${PYBIN}pip install mxdev
 	@touch ${MXDEV_SENTINEL}
 
 .PHONY: prepare

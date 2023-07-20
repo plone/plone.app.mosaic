@@ -28,7 +28,7 @@ jobs:
 
       - name: Setup Plone ${{ matrix.plone }} with Python ${{ matrix.python }}
         id: setup
-        uses: plone/setup-plone@v1.0.0
+        uses: plone/setup-plone@v2.0.0
         with:
           python-version: ${{ matrix.python }}
           plone-version: ${{ matrix.plone }}
