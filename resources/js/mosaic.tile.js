@@ -225,16 +225,17 @@ class Tile {
             }
         }
 
-        // dive out of here, something went wrong finding tile config
+        // dive out of here, something could went wrong finding tile config
+        // this could be a static tile, so it has no config
         if (_missing_tile_configs.indexOf(tiletype) === -1) {
-            log.error(
+            log.warn(
                 "Could not load tile config for tile type: " +
                     tiletype +
                     " falling back to b/w compatible tile type.",
             );
             _missing_tile_configs.push(tiletype);
         }
-        tile_config = {
+        var tile_config = {
             tile_type: "app",
             name: tiletype,
             label: "Unknown",
