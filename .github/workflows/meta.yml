@@ -13,6 +13,16 @@ on:
       - main
   workflow_dispatch:
 
+##
+# To set environment variables for all jobs, add in .meta.toml:
+# [github]
+# env = """
+#     debug: 1
+#     image-name: 'org/image'
+#     image-tag: 'latest'
+# """
+##
+
 jobs:
   qa:
     uses: plone/meta/.github/workflows/qa.yml@main
@@ -22,12 +32,10 @@ jobs:
     uses: plone/meta/.github/workflows/coverage.yml@main
   dependencies:
     uses: plone/meta/.github/workflows/dependencies.yml@main
-  circular:
-    uses: plone/meta/.github/workflows/circular.yml@main
 
 ##
 # To modify the list of default jobs being created add in .meta.toml:
-# [githb]
+# [github]
 # jobs = [
 #    "qa",
 #    "test",
@@ -41,7 +49,7 @@ jobs:
 ##
 # To request that some OS level dependencies get installed
 # when running tests/coverage jobs, add in .meta.toml:
-# [githb]
+# [github]
 # os_dependencies = "git libxml2 libxslt"
 ##
 
