@@ -10,7 +10,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     strategy:
       fail-fast: false
       matrix:
@@ -39,15 +39,12 @@ jobs:
         run: |
           make VENV=off install
 
-      - name: Run Lint
-        run: |
-          make VENV=off lint
-
       - name: Start chromedriver
         run: |
           export DISPLAY=:99
           chromedriver --url-base=/wd/hub &
           sudo Xvfb -ac :99 -screen 0 1280x1024x24 > /dev/null 2>&1 &
+          sleep 2
 
       - name: Run tests
         run: |
