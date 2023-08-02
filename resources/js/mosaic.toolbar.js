@@ -11,13 +11,15 @@ class Toolbar {
     constructor(mosaic) {
         var self = this;
         self.mosaic = mosaic;
-        self.$el = $(document.createElement("div")).addClass(
-            "mosaic-toolbar bg-body position-fixed top-0 start-0 end-0 p-2 border-bottom shadow-sm",
-        );
+        self.$el = $("div.mosaic-toolbar");
+        if(!self.$el.length) {
+            self.$el = $(document.createElement("div")).addClass(
+                "mosaic-toolbar bg-body position-fixed top-0 start-0 end-0 p-2 border-bottom shadow-sm",
+            );
 
-        // Add toolbar div below menu
-        $("body").prepend(self.$el);
-
+            // Add toolbar div below menu
+            $("body").prepend(self.$el);
+        }
         self.lastChange = new Date().getTime();
     }
 
