@@ -3,11 +3,15 @@ import $ from "jquery";
 import Modal from "@plone/mockup/src/pat/modal/modal";
 
 export default class Overlay {
+    original_content = null;
+
     constructor(options, panels) {
         this.options = options;
         this.panels = panels;
-        this.original_content = document.querySelector(".mosaic-original-content");
-        this.$el = $(this.original_content);
+        if(!this.original_content) {
+            this.original_content = document.querySelector(".mosaic-original-content");
+            this.$el = $(this.original_content);
+        }
     }
 
     properties_edit_url() {
@@ -17,9 +21,34 @@ export default class Overlay {
         }`;
     }
 
+    before_modal_render() {
+        // remove the original form inside ".mosaic-original-content #content-core"
+        // to fix doubled IDs in DOM which leads to UI problems inside the
+        // modal form
+        this.$el.find("#content-core > form").remove();
+        this.$el.removeClass("properties-reloaded");
+    }
+
+    prepare_properties_form() {
+        // we have to disable "pat-layout" inside the modal form
+        this.modal.$modalContent.find("#fieldset-layout").addClass("disable-patterns");
+    }
+
+    load_properties_form() {
+        // Load the original form again
+        const self = this;
+        if(self.$el.hasClass("properties-reloaded")) {
+            return;
+        }
+        self.$el.find("#content-core").load(
+            self.properties_edit_url() + " #content-core > form",
+        );
+        self.$el.addClass("properties-reloaded");
+    }
+
     initialize() {
         const self = this;
-        this.modal = new Modal(".mosaic-original-content", {
+        self.modal = new Modal(".mosaic-original-content", {
             ajaxUrl: self.properties_edit_url(),
             content: "#content-core",
             modalSizeClass: "modal-xl",
@@ -30,14 +59,23 @@ export default class Overlay {
                 reloadWindowOnClose: false,
             },
         });
-        this.modal.init();
+        // override modal initialization
+        self.modal.on("before-render", (e) => {
+            self.before_modal_render();
+        });
+        self.modal.on("rendered", (e) => {
+            self.prepare_properties_form();
+        });
+        self.modal.on("hide", (e) => {
+            self.load_properties_form();
+        })
+        self.modal.init();
     }
 
     open(mode, tile_config) {
         // setup visibility of fields before showing modal
         this.modal.on("after-render", (e) => {
             this.setup_visibility(mode, tile_config);
-            this.sync_changes();
         });
         // show modal
         this.modal.show();
@@ -103,18 +141,5 @@ export default class Overlay {
             // Hide form tabs
             modalContent.find("nav").addClass("mosaic-hidden");
         }
-    }
-
-    sync_changes() {
-        this.modal.$modalContent.find("input,select,textarea").on("change", (e) => {
-            var source_name = e.target.name;
-            var target_el = document.querySelector(
-                `.mosaic-original-content [name="${source_name}"]`,
-            );
-            // sync value
-            target_el.value = e.target.value;
-            // and possible checkbox state
-            target_el.checked = e.target.checked;
-        });
     }
 }
