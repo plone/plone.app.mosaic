@@ -19,6 +19,9 @@ Changelog
 - Fixing tile settings modal.
   [petschki]
 
+- Re-implement "elastic" column resizing.
+  [petschki]
+
 
 3.1.3 (2023-06-27)
 ------------------
