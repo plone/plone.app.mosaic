@@ -6,12 +6,12 @@ import events from "@patternslib/patternslib/src/core/events";
 import logging from "@patternslib/patternslib/src/core/logging";
 import Modal from "@plone/mockup/src/pat/modal/modal";
 import Registry from "@patternslib/patternslib/src/core/registry";
-import "./mosaic.overlay";
 
 // show debug log by add "loglevel=DEBUG" to the URL_QUERYSTRING
 const log = logging.getLogger("pat-mosaic/tile");
 
 var _TILE_TYPE_CACHE = {};
+var _TILE_CONFIG_CACHE = {};
 const BUTTON_ICON_MAP = {
     delete:
         '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">' +
@@ -37,6 +37,35 @@ const BUTTON_ICON_MAP = {
         '<path fill-rule="evenodd" d="M11.5 2a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM9.05 3a2.5 2.5 0 0 1 4.9 0H16v1h-2.05a2.5 2.5 0 0 1-4.9 0H0V3h9.05zM4.5 7a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM2.05 8a2.5 2.5 0 0 1 4.9 0H16v1H6.95a2.5 2.5 0 0 1-4.9 0H0V8h2.05zm9.45 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm-2.45 1a2.5 2.5 0 0 1 4.9 0H16v1h-2.05a2.5 2.5 0 0 1-4.9 0H0v-1h9.05z"/>' +
         "</svg>",
 };
+var OMIT_SETTINGS_TILE_TYPES = [
+    "RichTextFieldWidget",
+    "RichTextWidget",
+    "TextAreaFieldWidget",
+    "TextAreaWidget",
+    "TextFieldWidget",
+    "TextLinesFieldWidget",
+    "TextLinesWidget",
+    "TextWidget",
+    "WysiwygFieldWidget",
+    "WysiwygWidget",
+];
+var TILE_TYPE_MAPPING = new Map([
+    // zope.schema.TextLine
+    ["z3c.form.browser.text.TextWidget", "textline"],
+    ["z3c.form.browser.text.TextFieldWidget", "textline"],
+    // zope.schema.Text
+    ["z3c.form.browser.textarea.TextAreaWidget", "textarea"],
+    ["z3c.form.browser.textarea.TextAreaFieldWidget", "textarea"],
+    ["z3c.form.browser.textlines.TextLinesWidget", "textarea"],
+    ["z3c.form.browser.textlines.TextLinesFieldWidget", "textarea"],
+    // plone.textfield.RichText
+    ["plone.app.z3cform.widget.RichTextFieldWidget", "richtext"],
+    ["plone.app.z3cform.widgets.richtext.RichTextFieldWidget", "richtext"],
+    ["plone.app.z3cform.widgets.richtext.RichTextWidget", "richtext"],
+    ["plone.app.z3cform.wysiwyg.widget.WysiwygWidget", "richtext"],
+    ["plone.app.z3cform.wysiwyg.widget.WysiwygFieldWidget", "richtext"],
+    ["plone.app.widgets.dx.RichTextWidget", "richtext"],
+]);
 
 // so we don't get spammed with missing tile warnings
 var _missing_tile_configs = [];
@@ -166,7 +195,7 @@ class Tile {
 
         if (!tiletype) {
             log.error(
-                `Could not find tile type on element ${self.$el} with classes: ${classNames}`
+                `Could not find tile type on element ${self.$el} with classes: ${classNames}`,
             );
         }
 
@@ -174,75 +203,60 @@ class Tile {
         return tiletype;
     }
     getConfig() {
-        var tile_config;
         var tiletype = this.getType();
+
+        if (tiletype in _TILE_CONFIG_CACHE) {
+            return _TILE_CONFIG_CACHE[tiletype];
+        }
+
         // Get tile config
         for (const tile_group of this.mosaic.options.tiles) {
-            var found = false;
             for (const tile of tile_group.tiles) {
-                // Set settings value
-                if (tile.tile_type === "field") {
-                    var widget = tile.widget.split(".");
-                    widget = widget[widget.length - 1];
-                    switch (widget) {
-                        case "TextWidget":
-                        case "TextFieldWidget":
-                        case "TextAreaWidget":
-                        case "TextAreaFieldWidget":
-                        case "TextLinesWidget":
-                        case "TextLinesFieldWidget":
-                        case "WysiwygWidget":
-                        case "WysiwygFieldWidget":
-                        case "RichTextWidget":
-                        case "RichTextFieldWidget":
-                            tile.settings = false;
-                            break;
-                        default:
-                            tile.settings = true;
-                    }
-                }
                 if (tile.name === tiletype) {
-                    tile_config = tile;
-                    found = true;
-                    break;
+                    // Set settings value
+                    if (tile.tile_type === "field") {
+                        const widget = tile.widget.split(".").pop();
+                        tile.settings = !OMIT_SETTINGS_TILE_TYPES.includes(widget);
+                    }
+                    // bail out here
+                    _TILE_CONFIG_CACHE[tiletype] = tile;
+                    return tile;
                 }
-            }
-            if (found) {
-                break;
             }
         }
 
-        if (!tile_config) {
-            // dive out of here, something went wrong finding tile config
-            if (_missing_tile_configs.indexOf(tiletype) === -1) {
-                log.error(
-                    "Could not load tile config for tile type: " +
-                        tiletype +
-                        " falling back to b/w compatible tile type."
-                );
-                _missing_tile_configs.push(tiletype);
-            }
-            tile_config = {
-                tile_type: "app",
-                name: tiletype,
-                label: "Unknown",
-                read_only: true,
-                favorite: false,
-                settings: false,
-                weight: 0,
-                rich_text: false,
-            };
-            if (this.deprecatedHTMLTiles.indexOf(tiletype) !== -1) {
-                // deprecated html tile type, provide b/w compat config
-                tile_config.category = "structure";
-                tile_config.read_only = false;
-                tile_config.label = tiletype;
-                tile_config.tile_type = "text";
-                tile_config.rich_text = true;
-            }
+        // dive out of here, something could went wrong finding tile config
+        // this could be a static tile, so it has no config
+        if (_missing_tile_configs.indexOf(tiletype) === -1) {
+            log.warn(
+                "Could not load tile config for tile type: " +
+                    tiletype +
+                    " falling back to b/w compatible tile type.",
+            );
+            _missing_tile_configs.push(tiletype);
         }
+        var tile_config = {
+            tile_type: "app",
+            name: tiletype,
+            label: "Unknown",
+            read_only: true,
+            favorite: false,
+            settings: false,
+            weight: 0,
+            rich_text: false,
+        };
+        if (this.deprecatedHTMLTiles.includes(tiletype)) {
+            // deprecated html tile type, provide b/w compat config
+            tile_config.category = "structure";
+            tile_config.read_only = false;
+            tile_config.label = tiletype;
+            tile_config.tile_type = "text";
+            tile_config.rich_text = true;
+        }
+        _TILE_CONFIG_CACHE[tiletype] = tile_config;
         return tile_config;
     }
+
     getHtmlBody(exportLayout) {
         var body = "";
         // Get tile type
@@ -326,36 +340,24 @@ class Tile {
                 body += "</div>\n";
 
                 // Update field values if type is rich text
-                this.saveForm();
+                this.save();
                 break;
         }
         return body;
     }
     isRichText(tile_config) {
-        if (this.$el.hasClass("mosaic-read-only-tile")) {
-            return false;
-        }
         if (tile_config === undefined) {
             tile_config = this.getConfig();
         }
+        if (this.$el.hasClass("mosaic-read-only-tile") || tile_config.read_only) {
+            return false;
+        }
         if (
-            tile_config &&
-            ((tile_config.tile_type === "text" && tile_config.rich_text) ||
-                (tile_config.tile_type === "textapp" && tile_config.rich_text) ||
-                (tile_config.tile_type === "app" && tile_config.rich_text) ||
-                (tile_config.tile_type === "field" &&
-                    !tile_config.read_only &&
-                    (tile_config.widget ===
-                        "plone.app.z3cform.widget.RichTextFieldWidget" ||
-                        tile_config.widget ===
-                            "plone.app.z3cform.widgets.richtext.RichTextFieldWidget" ||
-                        tile_config.widget ===
-                            "plone.app.z3cform.widgets.richtext.RichTextWidget" ||
-                        tile_config.widget ===
-                            "plone.app.z3cform.wysiwyg.widget.WysiwygWidget" ||
-                        tile_config.widget ===
-                            "plone.app.z3cform.wysiwyg.widget.WysiwygFieldWidget" ||
-                        tile_config.widget === "plone.app.widgets.dx.RichTextWidget")))
+            (tile_config.tile_type === "text" && tile_config.rich_text) ||
+            (tile_config.tile_type === "textapp" && tile_config.rich_text) ||
+            (tile_config.tile_type === "app" && tile_config.rich_text) ||
+            (tile_config.tile_type === "field" &&
+                TILE_TYPE_MAPPING.get(tile_config.widget) === "richtext")
         ) {
             return true;
         } else {
@@ -384,23 +386,23 @@ class Tile {
                 .addClass("mosaic-tile-outer-border")
                 .append(
                     $(self.mosaic.document.createElement("div")).addClass(
-                        "mosaic-tile-inner-border"
-                    )
-                )
+                        "mosaic-tile-inner-border",
+                    ),
+                ),
         );
 
         // Add label
         if (tile_config) {
             var side_tools = $(self.mosaic.document.createElement("div")).addClass(
-                "mosaic-tile-control mosaic-tile-side-tools"
+                "mosaic-tile-control mosaic-tile-side-tools",
             );
 
             self.$el.prepend(
                 side_tools.append(
                     $(self.mosaic.document.createElement("div"))
                         .addClass("mosaic-tile-label content")
-                        .html(tile_config.label)
-                )
+                        .html(tile_config.label),
+                ),
             );
 
             var can_reset = self.$el.parent().hasClass("col");
@@ -421,7 +423,7 @@ class Tile {
                     $(self.mosaic.document.createElement("div"))
                         .addClass("mosaic-tile-label reset")
                         .append(_addResetAnchor(self.resetClicked.bind(this)))
-                        .hide()
+                        .hide(),
                 );
             }
         }
@@ -432,8 +434,8 @@ class Tile {
         for (const pos of ["top", "bottom", "right", "left"]) {
             self.$el.prepend(
                 $(self.mosaic.document.createElement("div")).addClass(
-                    "mosaic-divider mosaic-divider-" + pos
-                )
+                    "mosaic-divider mosaic-divider-" + pos,
+                ),
             );
         }
 
@@ -452,7 +454,7 @@ class Tile {
         self.$el
             .parent()
             .removeClass(
-                "col-1 col-2 col-3 col-4 col-5 col-6 col-7 col-8 col-9 col-10 col-11 col-12"
+                "col-1 col-2 col-3 col-4 col-5 col-6 col-7 col-8 col-9 col-10 col-11 col-12",
             )
             .addClass("col");
 
@@ -502,7 +504,7 @@ class Tile {
             var confirmBtn = _addButton(
                 "Confirm delete",
                 "confirm",
-                this.confirmClicked.bind(this)
+                this.confirmClicked.bind(this),
             );
             $(confirmBtn).hide();
             var btn = _addButton("Cancel", "cancel", this.cancelClicked.bind(this));
@@ -573,7 +575,7 @@ class Tile {
         var $originalRow = this.$el.parent().parent();
 
         // Save tile value
-        this.saveForm();
+        this.save();
 
         // Remove current tile
         this.$el.remove();
@@ -640,7 +642,7 @@ class Tile {
             if (self.mosaic.hasContentLayout) {
                 // not a custom layout, make sure the form knows
                 $("form", modal.$modal).append(
-                    $('<input type="hidden" name="X-Tile-Persistent" value="yes" />')
+                    $('<input type="hidden" name="X-Tile-Persistent" value="yes" />'),
                 );
             }
         });
@@ -656,8 +658,8 @@ class Tile {
             // Add drag handle
             this.$el.prepend(
                 $(this.mosaic.document.createElement("div")).addClass(
-                    "mosaic-tile-control mosaic-drag-handle"
-                )
+                    "mosaic-tile-control mosaic-drag-handle",
+                ),
             );
         }
     }
@@ -701,49 +703,36 @@ class Tile {
                 end = "</div>";
             }
 
-            var contenteditable = false;
-            var wysiwyg = false;
+            let contenteditable = false;
+            let wysiwyg = false;
 
-            switch (tile_config.widget) {
-                case "z3c.form.browser.text.TextWidget":
-                case "z3c.form.browser.text.TextFieldWidget":
-                    fieldval = $("#" + tile_config.id)
-                        .find("input")
-                        .attr("value");
-                    fieldhtml = `${start}${fieldval}${end}`;
-                    contenteditable = true;
-                    break;
-                case "z3c.form.browser.textarea.TextAreaWidget":
-                case "z3c.form.browser.textarea.TextAreaFieldWidget":
-                case "z3c.form.browser.textlines.TextLinesWidget":
-                case "z3c.form.browser.textlines.TextLinesFieldWidget":
-                    fieldval = $("#" + tile_config.id)
-                        .find("textarea")
-                        .val()
-                        .split("\n");
-                    fieldhtml += start;
-                    fieldhtml += fieldval.join("<br/>");
-                    fieldhtml += end;
-                    contenteditable = true;
-                    break;
-                case "plone.app.z3cform.widget.RichTextFieldWidget":
-                case "plone.app.z3cform.widgets.richtext.RichTextFieldWidget":
-                case "plone.app.z3cform.widgets.richtext.RichTextWidget":
-                case "plone.app.z3cform.wysiwyg.widget.WysiwygWidget":
-                case "plone.app.z3cform.wysiwyg.widget.WysiwygFieldWidget":
-                case "plone.app.widgets.dx.RichTextWidget":
-                    fieldhtml = document.querySelector(
-                        `#${tile_config.id} textarea`
-                    ).value;
-                    wysiwyg = true;
-                    break;
-                default:
-                    fieldhtml = `<div class="text-bg-secondary">
-                            Placeholder for field:<br/>
-                            <b>${tile_config.label}</b>
-                        </div>`;
-                    break;
+            const tile_widget_type = TILE_TYPE_MAPPING.get(tile_config.widget);
+
+            if (tile_widget_type === "textline") {
+                fieldval = $("#" + tile_config.id)
+                    .find("input")
+                    .attr("value");
+                fieldhtml = `${start}${fieldval}${end}`;
+                contenteditable = true;
+            } else if (tile_widget_type === "textarea") {
+                fieldval = $("#" + tile_config.id)
+                    .find("textarea")
+                    .val()
+                    .split("\n");
+                fieldhtml += start;
+                fieldhtml += fieldval.join("<br/>");
+                fieldhtml += end;
+                contenteditable = true;
+            } else if (tile_widget_type === "richtext") {
+                fieldhtml = document.querySelector(`#${tile_config.id} textarea`).value;
+                wysiwyg = true;
+            } else {
+                fieldhtml = `<div class="text-bg-secondary">
+                    Placeholder for field:<br/>
+                    <b>${tile_config.label}</b>
+                </div>`;
             }
+
             await self.fillContent({
                 html: fieldhtml,
                 editable: !tile_config.read_only && contenteditable,
@@ -791,12 +780,13 @@ class Tile {
                             "(" +
                             tile_config.name +
                             "). Please read documentation " +
-                            "on how to correctly register tiles: https://pypi.python.org/pypi/plone.tiles"
+                            "on how to correctly register tiles: https://pypi.python.org/pypi/plone.tiles",
                     );
                 },
             });
         }
     }
+
     async fillContent({ html, url, editable, wysiwyg, created }) {
         // need to replace the data-tile node here
         var $el = this.getDataTileEl();
@@ -888,78 +878,51 @@ class Tile {
         log.debug("blur");
         log.debug(this);
         this.$el.removeClass("mosaic-selected-tile");
-        this.saveForm();
+        this.save();
     }
     focus() {
         this.$el.addClass("mosaic-selected-tile");
         this.$el.find(".mce-content-body").trigger("focus");
         this.initializeButtons();
     }
-    saveForm() {
+    async save() {
         var self = this;
         var tiletype = self.getType();
         var tile_config = self.getConfig();
-        var value;
-        var textarea;
+
         if (!tile_config || tile_config.read_only === true) {
             return;
         }
-        // Update field values if type is rich text
+
         if (tile_config.tile_type === "field") {
-            switch (tile_config.widget) {
-                case "z3c.form.browser.text.TextWidget":
-                case "z3c.form.browser.text.TextFieldWidget":
-                    var $el = $(
-                        `.mosaic-panel .mosaic-${tiletype}-tile`,
-                        self.mosaic.document
-                    );
-                    value = $el.find(".mosaic-tile-content > *").text();
-                    $("#" + tile_config.id)
-                        .find("input")
-                        .val(value);
-                    break;
-                case "z3c.form.browser.textarea.TextAreaWidget":
-                case "z3c.form.browser.textarea.TextAreaFieldWidget":
-                case "z3c.form.browser.textlines.TextLinesWidget":
-                case "z3c.form.browser.textlines.TextLinesFieldWidget":
-                    value = "";
-                    $(`.mosaic-panel .mosaic-${tiletype}-tile`, self.mosaic.document)
-                        .find(".mosaic-tile-content > *")
-                        .each(function () {
-                            // use "this" here!
-                            value += $(this).text();
-                        });
-                    value = value.replace(/^\s+|\s+$/g, "");
-                    textarea = document.querySelector(`#${tile_config.id} textarea`);
-                    if (!textarea) {
-                        log.error(`No textarea with id "${tile_config.id}" found`);
-                        break;
-                    }
-                    textarea.value = value;
-                    break;
-                case "plone.app.z3cform.widget.RichTextFieldWidget":
-                case "plone.app.z3cform.widgets.richtext.RichTextFieldWidget":
-                case "plone.app.z3cform.widgets.richtext.RichTextWidget":
-                case "plone.app.z3cform.wysiwyg.widget.WysiwygWidget":
-                case "plone.app.z3cform.wysiwyg.widget.WysiwygFieldWidget":
-                case "plone.app.widgets.dx.RichTextWidget":
-                    textarea = document.querySelector(`#${tile_config.id} textarea`);
-                    if (!textarea) {
-                        log.error(`No textarea with id "${tile_config.id}" found`);
-                        break;
-                    }
-                    value = this.tinymce
-                        ? this.tinymce.getContent()
-                        : $(
-                              `.mosaic-${tiletype}-tile .mosaic-tile-content`,
-                              self.mosaic.document
-                          ).html();
-                    textarea.value = value;
-                    // get original tinymce from mockup initialization
-                    textarea["pattern-tinymce"].instance.tiny.setContent(value);
-                    break;
+            // save contenteditable schema field values.
+            // NOTE: the other field values are saved via "settings" modal
+            // already. No action needed here.
+            const el = self.mosaic.document.querySelector(
+                `.mosaic-${tiletype}-tile .mosaic-tile-content[contenteditable]`,
+            );
+            const wrapper_el = self.mosaic.document.querySelector(`#${tile_config.id}`);
+
+            if (!el || !wrapper_el) {
+                return;
+            }
+
+            const tile_widget_type = TILE_TYPE_MAPPING.get(tile_config.widget);
+            const value =
+                tile_widget_type === "richtext"
+                    ? el.innerHTML
+                    : el.innerText.replace(/^\s+|\s+$/g, "");
+
+            const form_el =
+                tile_widget_type === "textline"
+                    ? wrapper_el.querySelector("input")
+                    : wrapper_el.querySelector("textarea");
+            form_el.value = value;
+            if (form_el["pattern-tinymce"]) {
+                form_el["pattern-tinymce"].instance.tiny.setContent(value);
             }
         } else if (tile_config.tile_type === "textapp") {
+            // save app tiles with plone.app.blocks
             var edit_url = self.getEditUrl();
             if (edit_url) {
                 var currentData = self.getHtmlContent();
@@ -1011,7 +974,7 @@ class Tile {
 
         // Get tiletype
         var tiletype = self.getType();
-        if (this.deprecatedHTMLTiles.indexOf(tiletype) !== -1) {
+        if (this.deprecatedHTMLTiles.includes(tiletype)) {
             // these tiles are deprecated but we still need to be able to edit
             // them... Yes this is a bit ugly but I think it is probably the best
             // way right now.

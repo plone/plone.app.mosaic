@@ -70,14 +70,14 @@ export default Base.extend({
         self.options.url = window.document.location.href;
 
         // Get the url of the page
-        match = self.options.url.match(/^([\w#!:.?+=&%@!\-\/]+)\/edit$/);
+        match = self.options.url.match(/^([\w#!:.?+=&%@!\-\/]+)\/edit(.*)$/);
         if (match) {
             self.options.url = match[1];
         }
 
         // Chop add
         match = self.options.url.match(
-            /^([\w#:.?=%@!\-\/]+)\/\+\+add\+\+([\w#!:.?+=&%@!\-\/]+)$/
+            /^([\w#:.?=%@!\-\/]+)\/\+\+add\+\+([\w#!:.?+=&%@!\-\/]+)$/,
         );
         if (match) {
             self.options.url = match[1];
@@ -258,11 +258,11 @@ export default Base.extend({
                 // use backup layout
                 if (status === "Not Found") {
                     window.alert(
-                        "Specified layout can not be found. Loading default layout."
+                        "Specified layout can not be found. Loading default layout.",
                     );
                 } else {
                     window.alert(
-                        "Error loading layout specified for this content. Falling back to basic layout."
+                        "Error loading layout specified for this content. Falling back to basic layout.",
                     );
                 }
                 await self.applyLayout("++contentlayout++default/basic.html");
@@ -298,8 +298,8 @@ export default Base.extend({
                             self.getSelectedContentLayout() ===
                             "++contentlayout++" + layout.path,
                     },
-                    self.options
-                )
+                    self.options,
+                ),
             ),
             content: null,
         });
@@ -331,7 +331,7 @@ export default Base.extend({
                                     "++contentlayout++" + layout.path
                             ) {
                                 await self.applyLayout(
-                                    "++contentlayout++" + replacement
+                                    "++contentlayout++" + replacement,
                                 );
                             }
                         })
@@ -435,8 +435,8 @@ export default Base.extend({
                         hasCustomLayouts: self._hasCustomLayouts(),
                         portal_url: $("body").attr("data-portal-url"),
                     },
-                    self.options
-                )
+                    self.options,
+                ),
             ),
             content: null,
             modalSizeClass: "modal-lg",
@@ -457,7 +457,7 @@ export default Base.extend({
                     var layoutPath;
                     var layout_id = $(this).attr("data-value");
                     for (const l of self.options.available_layouts.concat(
-                        self.options.user_layouts
+                        self.options.user_layouts,
                     )) {
                         if (l.path === layout_id) {
                             layoutPath = "++contentlayout++" + l.path;
@@ -485,8 +485,8 @@ export default Base.extend({
                     {
                         hasCustomLayouts: self._hasCustomLayouts(),
                     },
-                    self.options
-                )
+                    self.options,
+                ),
             ),
             content: null,
         });
@@ -536,6 +536,10 @@ export default Base.extend({
                 });
         });
         modal.show();
+    },
+
+    save: function () {
+        $("#form-buttons-save").trigger("click");
     },
 
     getDomTreeFromHtml: function (content) {

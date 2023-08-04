@@ -6,6 +6,9 @@
 *.pyc
 *.pyo
 
+# translation related
+*.mo
+
 # tools related
 build/
 .coverage

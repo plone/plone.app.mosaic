@@ -76,6 +76,16 @@ repos:
     hooks:
     -   id: i18ndude
 
+
+##
+# Add extra configuration options in .meta.toml:
+#  [pre_commit]
+#  i18ndude_extra_lines = """
+#  _your own configuration lines_
+#  """
+##
+
+
 ##
 # Add extra configuration options in .meta.toml:
 #  [pre_commit]

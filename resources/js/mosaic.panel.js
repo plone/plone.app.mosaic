@@ -42,12 +42,12 @@ class Panel {
                 // re-initializing, so we just have to replace existing
                 target.replaceWith($panel_markup);
             }
-            // hide original target
+            // hide original edit form
             target.hide();
         } else {
             target.attr(
                 "class",
-                $content.find("[data-panel=" + panel_id + "]").attr("class")
+                $content.find(`[data-panel="${panel_id}"]`).attr("class"),
             );
             target.addClass("mosaic-panel");
             target.html($content.find("[data-panel=" + panel_id + "]").html());
@@ -67,8 +67,8 @@ class Panel {
                             "</div>" +
                             "</div>" +
                             "</div>" +
-                            "</div>"
-                    )
+                            "</div>",
+                    ),
                 );
         }
     }

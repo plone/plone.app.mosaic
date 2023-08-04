@@ -43,7 +43,7 @@ ADDONFOLDER=${ADDONBASE}src/
 INSTANCE_YAML?=instance.yaml
 INSTANCE_FOLDER?=instance
 
-PIP_PARAMS= --pre
+PIP_PARAMS=
 
 ##############################################################################
 # targets and prerequisites
@@ -78,17 +78,6 @@ help: ## This help message
 	@echo "${WARN_COLOR}Targets:${NO_COLOR}"
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
-##############################################################################
-# targets and prerequisites
-# target has to be one file, otherwise step gets executes for each file separate
-PREPARE_PREREQUISITES=${PIP_REQUIREMENTS_IN_FILE} ${CONSTRAINTS} mx.ini ${ADDONBASE}setup.cfg
-PREPARE_TARGET=requirements-mxdev.txt
-INSTALL_PREREQUSISTES=${PREPARE_TARGET}
-INSTALL_TARGET=.installed.txt
-INSTANCE_PREREQUISITES=${INSTALL_TARGET} ${INSTANCE_YAML}
-INSTANCE_TARGET=${INSTANCE_FOLDER}/etc/zope.ini ${INSTANCE_FOLDER}/etc/zope.conf ${INSTANCE_FOLDER}/etc/site.zcml
-TEST_PREREQUISITES=${INSTALL_TARGET}
-RUN_PREREQUISITES=${INSTANCE_TARGET}
 
 ##############################################################################
 # BASE
@@ -122,7 +111,7 @@ ifeq (, $(shell which $(PYTHON) ))
 endif
 
 # version ok?
-PYTHON_VERSION_MIN=3.7
+PYTHON_VERSION_MIN=3.8
 PYTHON_VERSION_OK=$(shell $(PYTHON) -c 'import sys; print(int(sys.version_info[0:2] >= tuple(map(int, "$(PYTHON_VERSION_MIN)".split(".")))))' )
 
 ifeq ($(PYTHON_VERSION_OK),0)
@@ -142,7 +131,7 @@ endif
 PIP_SENTINEL=${SENTINELFOLDER}pip.sentinel
 ${PIP_SENTINEL}: ${VENV_SENTINEL} ${CONSTRAINTS} ${SENTINEL}
 	@echo "$(OK_COLOR)Install pip$(NO_COLOR)"
-	@${PYBIN}pip install -U "pip==23.0" wheel setuptools
+	@${PYBIN}pip install -U pip wheel setuptools
 	@touch ${PIP_SENTINEL}
 
 ##############################################################################
@@ -151,7 +140,7 @@ ${PIP_SENTINEL}: ${VENV_SENTINEL} ${CONSTRAINTS} ${SENTINEL}
 MXDEV_SENTINEL=${SENTINELFOLDER}pip-mxdev.sentinel
 ${MXDEV_SENTINEL}: ${PIP_SENTINEL}
 	@echo "$(OK_COLOR)Install mxdev$(NO_COLOR)"
-	@${PYBIN}pip install "mxdev==2.1.0" "libvcs==0.11.1"
+	@${PYBIN}pip install mxdev
 	@touch ${MXDEV_SENTINEL}
 
 .PHONY: prepare
@@ -311,27 +300,6 @@ clean-instance:  ## remove instance configuration (keeps data)
 
 .PHONY: clean
 clean:  clean-venv clean-pyc clean-make clean-instance   ## clean all (except local database and pip installed packages)
-
-
-##############################################################################
-# JS
-
-YARN ?= npx yarn
-
-.PHONY: install
-stamp-yarn install:
-	$(YARN) install
-	touch stamp-yarn
-
-.PHONY:
-watch: stamp-yarn
-	$(YARN) run watch:webpack
-
-
-.PHONY:
-bundle: stamp-yarn
-	$(YARN) run build
-
 
 
 ##############################################################################

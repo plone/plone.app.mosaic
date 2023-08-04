@@ -3,25 +3,53 @@ import $ from "jquery";
 import Modal from "@plone/mockup/src/pat/modal/modal";
 
 export default class Overlay {
+    original_content = null;
+
     constructor(options, panels) {
         this.options = options;
         this.panels = panels;
-        this.modal = null;
+        if(!this.original_content) {
+            this.original_content = document.querySelector(".mosaic-original-content");
+            this.$el = $(this.original_content);
+        }
     }
 
-    ajax_edit_url() {
+    properties_edit_url() {
         const edit_url = window.location.href.split("?");
         return `${edit_url[0]}?ajax_load=${new Date().getTime()}${
             edit_url.length > 1 ? "&" + edit_url[1] : ""
         }`;
     }
 
+    before_modal_render() {
+        // remove the original form inside ".mosaic-original-content #content-core"
+        // to fix doubled IDs in DOM which leads to UI problems inside the
+        // modal form
+        this.$el.find("#content-core > form").remove();
+        this.$el.removeClass("properties-reloaded");
+    }
+
+    prepare_properties_form() {
+        // we have to disable "pat-layout" inside the modal form
+        this.modal.$modalContent.find("#fieldset-layout").addClass("disable-patterns");
+    }
+
+    load_properties_form() {
+        // Load the original form again
+        const self = this;
+        if(self.$el.hasClass("properties-reloaded")) {
+            return;
+        }
+        self.$el.find("#content-core").load(
+            self.properties_edit_url() + " #content-core > form",
+        );
+        self.$el.addClass("properties-reloaded");
+    }
+
     initialize() {
-        // we load the original edit form via ajax to get updated content
-        // when saving properties
-        var self = this;
+        const self = this;
         self.modal = new Modal(".mosaic-original-content", {
-            ajaxUrl: self.ajax_edit_url(),
+            ajaxUrl: self.properties_edit_url(),
             content: "#content-core",
             modalSizeClass: "modal-xl",
             position: "center top",
@@ -31,33 +59,26 @@ export default class Overlay {
                 reloadWindowOnClose: false,
             },
         });
+        // override modal initialization
+        self.modal.on("before-render", (e) => {
+            self.before_modal_render();
+        });
+        self.modal.on("rendered", (e) => {
+            self.prepare_properties_form();
+        });
+        self.modal.on("hide", (e) => {
+            self.load_properties_form();
+        })
         self.modal.init();
     }
 
     open(mode, tile_config) {
-        var self = this;
-        self.modal.on("after-ajax", (e, m) => {
-            // make sure 'pat-layout' isn't initialized twice from the loaded edit form
-            $(self.options.customContentLayout_selector, m.$raw).addClass(
-                "disable-patterns"
-            );
-        });
         // setup visibility of fields before showing modal
-        self.modal.on("after-render", () => {
-            self.setup_visibility(mode, tile_config);
-        });
-        // we have to reload "original" form on page when changing the properties form
-        // here in this modal, otherwise we loose the changed data when saving the mosaic page
-        const ajax_url_parts = self.ajax_edit_url().split("?");
-        self.modal.on("formActionSuccess", (e) => {
-            $("#content-core", $(e.target)).load(
-                `${ajax_url_parts[0]} #content-core > *`,
-                ajax_url_parts[1],
-                () => {}
-            );
+        this.modal.on("after-render", (e) => {
+            this.setup_visibility(mode, tile_config);
         });
         // show modal
-        self.modal.show();
+        this.modal.show();
     }
 
     setup_visibility(mode, tile_config) {
@@ -73,33 +94,27 @@ export default class Overlay {
                 .find(self.options.contentLayout_selector)
                 .addClass("mosaic-hidden");
 
-            // Hide title and description
-            modalContent
-                .find("#formfield-form-widgets-IDublinCore-title")
-                .toggleClass(
-                    "mosaic-hidden",
-                    $(".mosaic-IDublinCore-title-tile").length > 0
-                );
-            modalContent
-                .find("#formfield-form-widgets-IDublinCore-description")
-                .toggleClass(
-                    "mosaic-hidden",
-                    $(".mosaic-IDublinCore-description-tile").length > 0
-                );
-
             // Hide field which are on the wysiwyg area
             for (const tg of self.options.tiles) {
                 if (tg.name === "fields") {
                     for (const field_tile of tg.tiles) {
                         if (
-                            self.panels.find(".mosaic-" + field_tile.name + "-tile")
-                                .length !== 0
+                            self.panels.find(`.mosaic-${field_tile.name}-tile`)
+                                .length === 0
                         ) {
-                            $(`#${field_tile.id}`, modalContent).addClass(
-                                "mosaic-hidden"
-                            );
+                            continue;
                         }
+                        $(`#${field_tile.id}`, modalContent).addClass("mosaic-hidden");
                     }
+                }
+            }
+
+            // hide fieldsets which only has hidden fields
+            for (fieldset of modalContent.find("fieldset")) {
+                if (
+                    fieldset.querySelectorAll(".field:not(.mosaic-hidden)").length === 0
+                ) {
+                    fieldset.classList.remove("active");
                 }
             }
         } else if (mode === "field") {
@@ -108,11 +123,14 @@ export default class Overlay {
             var fieldset = field.parents("fieldset");
 
             // Hide all fieldsets
-            modalContent.find("fieldset").removeClass("active").addClass("d-none");
+            modalContent
+                .find("fieldset")
+                .removeClass("active")
+                .addClass("mosaic-hidden");
             modalContent.find("form").removeClass("pat-autotoc");
 
             // Show current fieldset
-            fieldset.addClass("active").removeClass("d-none");
+            fieldset.addClass("active").removeClass("mosaic-hidden");
 
             // Hide all fields in current fieldset
             fieldset.children().addClass("mosaic-hidden");

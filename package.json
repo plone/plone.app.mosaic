@@ -10,7 +10,8 @@
     "devDependencies": {
         "@patternslib/dev": "*",
         "clean-css-cli": "*",
-        "npm-run-all": "*"
+        "npm-run-all": "*",
+        "prettier": "3.0.0"
     },
     "scripts": {
         "build": "npm-run-all build:webpack build:css",
