@@ -71,7 +71,6 @@ Show the Mosaic editing capabilities
     # Show how to drag a new tile into its initial position
 
     Click element  css=.mosaic-menu-insert .select2-option-irichtextbehavior-text
-    Wait until page contains element  css=.mosaic-helper-tile-new
     Wait for element  css=.mosaic-helper-tile-new
     Update element style
     ...  css=.mosaic-IDublinCore-description-tile .mosaic-divider-bottom
@@ -97,6 +96,82 @@ Show the Mosaic editing capabilities
     Capture Page Screenshot
     ...  mosaic-page-saved.png
 
+Show grid layout editor capabilities
+    Go to  ${PLONE_URL}/example-document/edit
+    Wait for element  xpath=//a[@data-value='default/basic.html']
+    Execute javascript  $("[data-value='default/basic.html']").trigger("click")
+    Wait for then click element  css=.mosaic-toolbar-primary-functions .mosaic-button-customizelayout
+
+    # insert richtext tile
+    Insert richtexttile
+
+    # add below title
+    ${empty_row_3}=  set variable  //div[contains(@class, 'mosaic-empty-row')][3]/div[contains(@class, 'mosaic-grid-cell')]
+    Update element style  xpath=${empty_row_3}  display  block
+    Mouse over  xpath=${empty_row_3}
+    Click element  xpath=${empty_row_3}
+
+    # insert 2nd richtext tile
+    Insert richtexttile
+
+    # add next to first richtext
+    ${tile_divider_right}=  set variable  //div[contains(@class, 'mosaic-grid-row')][6]/div[contains(@class, 'mosaic-grid-cell')][1]/div[contains(@class, 'plone\.app\.standardtiles\.html-tile')]/div[contains(@class, 'mosaic-divider-right')]
+    Update element style  xpath=${tile_divider_right}  display  block
+    Mouse over  xpath=${tile_divider_right}
+    Click element  xpath=${tile_divider_right}
+    Update element style  xpath=${tile_divider_right}  display  none
+
+    # insert 3rd richtext tile
+    Insert richtexttile
+
+    # add next to second richtext
+    ${tile_divider_right}=  set variable  //div[contains(@class, 'mosaic-grid-row')][6]/div[contains(@class, 'mosaic-grid-cell')][2]/div[contains(@class, 'plone\.app\.standardtiles\.html-tile')]/div[contains(@class, 'mosaic-divider-right')]
+    Update element style  xpath=${tile_divider_right}  display  block
+    Mouse over  xpath=${tile_divider_right}
+    Click element  xpath=${tile_divider_right}
+    Update element style  xpath=${tile_divider_right}  display  none
+
+    # get resize handles
+    ${resize_handle_1}=  set variable  //div[contains(@class, 'mosaic-grid-row')][6]/div[contains(@class, 'mosaic-resize-handle-1')]
+    ${resize_handle_2}=  set variable  //div[contains(@class, 'mosaic-grid-row')][6]/div[contains(@class, 'mosaic-resize-handle-2')]
+    ${resize_handle_3}=  set variable  //div[contains(@class, 'mosaic-grid-row')][6]/div[contains(@class, 'mosaic-resize-handle-3')]
+
+    # resize first
+    Drag and drop by offset  xpath=${resize_handle_1}  -50  0
+    Capture Page Screenshot
+    ...  mosaic-editor-resize-tile1-smaller.png
+
+    Drag and drop by offset  xpath=${resize_handle_1}  150  0
+    Capture Page Screenshot
+    ...  mosaic-editor-resize-tile1-larger.png
+
+    # resize second
+    Drag and drop by offset  xpath=${resize_handle_2}  -50  0
+    Capture Page Screenshot
+    ...  mosaic-editor-resize-tile2-smaller.png
+
+    Drag and drop by offset  xpath=${resize_handle_2}  150  0
+    Capture Page Screenshot
+    ...  mosaic-editor-resize-tile2-larger.png
+
+    # resize third smaller
+    Drag and drop by offset  xpath=${resize_handle_3}  -50  0
+    Capture Page Screenshot
+    ...  mosaic-editor-resize-tile3-smaller.png
+
+    # then resize first smaller -> right border should stay sticky
+    Drag and drop by offset  xpath=${resize_handle_1}  -100  0
+    Capture Page Screenshot
+    ...  mosaic-editor-resize-tile1-smaller-with-border-right.png
+
+    # Reset (1) should be visible on last column
+    Wait for then click element  xpath=//a[contains(text(), 'Reset (1)')]
+    Capture Page Screenshot
+    ...  mosaic-editor-reset-tile3.png
 
 *** Keywords ***
 
+Insert richtexttile
+    Wait for then click element  css=.select2-container.mosaic-menu-insert a
+    Wait for then click element  xpath=//li[contains(@class, 'select2-option-plone\.app\.standardtiles\.html')]
+    Wait until page contains element  css=.mosaic-helper-tile-new
