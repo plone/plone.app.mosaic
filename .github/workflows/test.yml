@@ -49,3 +49,13 @@ jobs:
       - name: Run tests
         run: |
           ROBOT_BROWSER=headlesschrome make VENV=off test-ignore-warnings
+
+      - name: Save Robotframework Log
+        uses: actions/upload-artifact@v3
+        # safe artifacts only once
+        if: matrix.python == '3.11'
+        with:
+          name: robottest-logfiles
+          path: |
+            test_*
+            robot_*
