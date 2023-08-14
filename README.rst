@@ -1,7 +1,7 @@
 Plone Mosaic
 ============
 
-**Plone Mosaic** is a site builder and layout solution for Plone.
+**Plone Mosaic** is a site builder and layout solution for Plone Classic-UI.
 
 Version Information
 -------------------
