@@ -96,7 +96,7 @@
 /* new tile-side-tools position for advance view */
 .mosaic-advanced {
     .mosaic-tile {
-        padding-bottom: 1rem;
+        padding-bottom: $spacer * 1.5;
 
         .mosaic-tile-side-tools {
             top: auto;

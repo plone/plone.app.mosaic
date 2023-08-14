@@ -153,7 +153,6 @@ export default class LayoutManager {
                 </div>
             </div>`;
         self.mosaic.panels[0].append(add_helper);
-        log.debug(`appended helper ${type}`);
 
         // Set helper min size
         var helper = self.mosaic.panels.find(".mosaic-helper-tile-new");
@@ -448,13 +447,14 @@ export default class LayoutManager {
                 elm = e.srcElement;
             }
 
-            // Find resize helper
+            // Find new tile helper
             var new_tile = $(".mosaic-helper-tile-new", self.mosaic.document);
             if (new_tile.length > 0) {
                 new_tile.each(function () {
                     // Handle drag end
                     $(this).mosaicHandleDragEnd();
                 });
+                return;
             }
 
             // If clicked inside TinyMCE or Modal exit
@@ -488,39 +488,38 @@ export default class LayoutManager {
 
         // Handle mouse move event: when holding down mouse left button and dragging the handler left or right.
         const DocumentMousemove = function (e) {
-            // Find resize helper
-            $(".mosaic-helper-tile-new", self.mosaic.document).each(function () {
+            // Get new tile helper
+            var $new_tile_helper = $(".mosaic-helper-tile-new", self.mosaic.document);
+
+            if($new_tile_helper.length) {
                 // Get offset
-                const offset = $(this).parent().offset();
-
+                const offset = $new_tile_helper.parent().offset();
                 // Get mouse x
-                $(this).css("top", e.pageY + 3 - offset.top);
-                $(this).css("left", e.pageX + 3 - offset.left);
-            });
+                $new_tile_helper.css("top", e.pageY + 3 - offset.top);
+                $new_tile_helper.css("left", e.pageX + 3 - offset.left);
 
-            // Find resize helper - there is actually only one
-            $(".mosaic-resize-handle-helper", self.mosaic.document).each(function () {
-                var cur_snap_offset;
+            }
 
-                // Get helper
-                var helper = $(this);
+            // Get resize handle helper
+            var $helper = $(".mosaic-resize-handle-helper", self.mosaic.document);
 
+            if($helper.length) {
                 // Get row
-                var row = helper.parent();
-                var resize_handle_index = helper.data("resize_handle_index");
+                var $row = $helper.parent();
+                var resize_handle_index = $helper.data("resize_handle_index");
 
                 // Get mouse x
-                var mouse_x = parseFloat(e.pageX - row.offset().left - 4);
+                var mouse_x = parseFloat(e.pageX - $row.offset().left - 4);
 
                 // Get mouse percentage
                 var mouse_percentage = Math.round(
-                    (mouse_x / helper.data("row_width")) * 100,
+                    (mouse_x / $helper.data("row_width")) * 100
                 );
 
                 // Get closest snap location
                 var snap = 8;
                 var snap_offset = 8;
-
+                var cur_snap_offset;
                 var grid_percent = GetGridPercentList();
 
                 grid_percent.forEach(function (perc) {
@@ -533,63 +532,81 @@ export default class LayoutManager {
 
                 var snap_size = GetBootstrapColByPercent(snap);
 
-                var column_sizes = helper.data("column_sizes");
-                var col_size_before = 0;
-                var col_size_after = 0;
-                for (var i = 0; i < column_sizes.length; i++) {
-                    if (i < resize_handle_index) {
-                        col_size_before += column_sizes[i] ? column_sizes[i] : 2;
-                    }
-                    if (i > resize_handle_index) {
-                        col_size_after += column_sizes[i] ? column_sizes[i] : 2;
+                var column_sizes = $helper[0]["column_sizes"];
+                // sum of all column sizes
+                var column_sizes_sum = column_sizes.reduce((a, b) => a + b, 0);
+                // sum of sizes before helper index
+                var col_size_before = column_sizes.slice(0, resize_handle_index).reduce((a, b) => a + b, 0);
+                // sum of sizes after helper index excluding last column (which is elastic)
+                var col_size_after = column_sizes.slice(resize_handle_index + 1, -1).reduce((a, b) => a + b, 0);
+                // calculate maximum size of current column
+                if(resize_handle_index == (column_sizes.length - 1)) {
+                    // if last column, we can drag to full width (12)
+                    var col_size_max = 12 - col_size_before - col_size_after;
+                } else {
+                    // if not last column, we respect last elastic column (min-size: 1)
+                    // with its fixed right margin
+                    var col_size_max = column_sizes_sum - col_size_before - col_size_after - 1;
+                }
+                var new_column_size = snap_size - col_size_before;
+                // limit to maximum of col_sizes_sum and minimum of 1
+                new_column_size = new_column_size > col_size_max ? col_size_max : new_column_size < 1 ? 1 : new_column_size;
+                var new_column_sizes = [];
+
+                for(let i=0; i<column_sizes.length; i++) {
+                    if(i === resize_handle_index) {
+                        // set new size for current column
+                        new_column_sizes.push(new_column_size);
+                    } else if (i === (column_sizes.length - 1)) {
+                        // calculate elastic size for last column
+                        var _before = new_column_sizes.reduce((a, b) => a + b);
+                        var _last_size = column_sizes_sum - _before;
+                        // last size cannot be lower than 1
+                        new_column_sizes.push(_last_size < 1 ? 1 : _last_size);
+                    } else {
+                        new_column_sizes.push(column_sizes[i]);
                     }
                 }
-                var col_size = snap_size - col_size_before;
-                var col_size_max = 12 - col_size_before - col_size_after;
-                // col_size should not be larger than max size and not less than 1
-                col_size =
-                    col_size > col_size_max ? col_size_max : col_size < 1 ? 1 : col_size;
 
-                if (helper.data("nr_of_columns") > 0) {
-                    var col_size_sum = 0;
-                    var set_resize_handler = false;
-                    var resize_css_classes = self.layout.resizeClasses.join(" ");
-                    var width_css_classes = self.layout.widthClasses.join(" ");
+                log.debug("------------------resize-handle(move)--------------------")
+                log.debug(`column_sizes_sum: ${column_sizes_sum}`);
+                log.debug(`cur_snap_offset: ${cur_snap_offset}`);
+                log.debug(`snap_size: ${snap_size}`);
+                log.debug(`col_size_before: ${col_size_before}`);
+                log.debug(`col_size_after: ${col_size_after}`);
+                log.debug(`col_size_max: ${col_size_max}`);
+                log.debug(`new_column_size: ${new_column_size}`);
+                log.debug(`new_column_sizes: ${new_column_sizes}`);
 
-                    // Loop through columns
-                    row.children(".mosaic-resize-placeholder").each(function (index) {
-                        if (index === resize_handle_index) {
-                            // set new col_size for index
-                            column_sizes[index] = col_size;
-                            var col_size_class = GetWidthClassByColSize(col_size);
-                            $(this)
-                                .removeClass(width_css_classes)
-                                .addClass(col_size_class)
-                                .find(".info")
-                                .html(col_size);
-                            set_resize_handler = true;
-                        }
+                var col_size_sum = 0;
+                var resize_css_classes = self.layout.resizeClasses.join(" ");
+                var width_css_classes = self.layout.widthClasses.join(" ");
 
-                        // move other resize placeholders accordingly
-                        $(this)
+                $row.children(".mosaic-resize-placeholder").each(function (idx) {
+                    var col_size = column_sizes[idx];
+                    var col_size_class = GetWidthClassByColSize(col_size);
+
+                    // placeholder width and position
+                    $(this)
+                        .removeClass(`${width_css_classes} ${resize_css_classes}`)
+                        .addClass(`${col_size_class} mosaic-resize-${col_size_sum}`)
+                        .find(".info")
+                        .html(col_size);
+
+                    col_size_sum += col_size;
+
+                    if(idx === resize_handle_index) {
+                        // move resize handle helper
+                        $helper
                             .removeClass(resize_css_classes)
                             .addClass(`mosaic-resize-${col_size_sum}`);
+                    }
+                });
 
-                        col_size_sum += column_sizes[index];
+                // Set new size
+                $helper[0]["column_sizes"] = new_column_sizes;
+            }
 
-                        if (set_resize_handler) {
-                            // trick to move handle helper too
-                            $(".mosaic-resize-handle-helper", row)
-                                .removeClass(resize_css_classes)
-                                .addClass(`mosaic-resize-${col_size_sum}`);
-                            set_resize_handler = false;
-                        }
-                    });
-
-                    // Set new size
-                    $(this).data("column_sizes", column_sizes);
-                }
-            });
         };
 
         // Bind event and add to array
@@ -620,7 +637,8 @@ export default class LayoutManager {
                 var panel = $(this).parents("[data-panel]");
 
                 // Get column sizes
-                var column_sizes = $(this).data("column_sizes");
+                var column_sizes = $(this)[0]["column_sizes"];
+                var css_width_classes = self.layout.widthClasses.join(" ");
 
                 // Set column sizes
                 $(this)
@@ -628,7 +646,7 @@ export default class LayoutManager {
                     .children(".mosaic-grid-cell")
                     .each(function (i) {
                         $(this)
-                            .removeClass(self.layout.widthClasses.join(" "))
+                            .removeClass(css_width_classes)
                             .addClass(GetWidthClassByColSize(column_sizes[i]));
 
                         var can_reset = $(this).hasClass("col");
@@ -1439,12 +1457,14 @@ export default class LayoutManager {
                     .children(".mosaic-resize-handle")
                     .off("mousedown")
                     .on("mousedown", function (/* e */) {
+                        if($(".mosaic-helper-tile-new").length > 0) {
+                            // do not resize when we place a new tile
+                            return;
+                        }
                         var $currRow = $(this).parent();
-                        var $mosaicGridCellChildren =
-                            $currRow.children(".mosaic-grid-cell");
-                        var nr_of_columns = $mosaicGridCellChildren.length;
+                        var $mosaicGridCellChildren = $currRow.children(".mosaic-grid-cell");
 
-                        if (nr_of_columns > 12) {
+                        if ($mosaicGridCellChildren.length > 12) {
                             return;
                         }
                         var col_size_sum = 0;
@@ -1479,21 +1499,24 @@ export default class LayoutManager {
 
                         // Get resize handle index
                         var resize_handle_index = self.getResizeHandleClassId(this);
+                        // calculate resize helper position
+                        var resize_handle_index_size = column_sizes.reduce((a, b, i) => i <= resize_handle_index ? a + b : a, 0);
 
                         // Add helper
-                        $currRow.append(
-                            $(mosaic_doc.createElement("div"))
-                                .addClass(
-                                    "mosaic-resize-handle mosaic-resize-handle-helper",
-                                )
-                                .addClass(
-                                    `mosaic-resize-${column_sizes[resize_handle_index]}`,
-                                )
-                                .data("row_width", $currRow.width())
-                                .data("nr_of_columns", nr_of_columns)
-                                .data("column_sizes", column_sizes)
-                                .data("resize_handle_index", resize_handle_index),
-                        );
+                        var $helper = $("<div />")
+                            .addClass(
+                                "mosaic-resize-handle mosaic-resize-handle-helper"
+                            )
+                            .addClass(
+                                `mosaic-resize-${resize_handle_index_size}`
+                            )
+                            .data("row_width", $currRow.width())
+                            .data("resize_handle_index", resize_handle_index);
+
+                        // save array as DOM attribute
+                        $helper[0]["column_sizes"] = column_sizes;
+
+                        $currRow.append($helper);
 
                         // Set resizing state
                         $(this)
@@ -1503,6 +1526,12 @@ export default class LayoutManager {
                         $(".mosaic-selected-tile", mosaic_doc)
                             .children(".mosaic-tile-content")
                             .trigger("blur");
+
+                        log.debug("------------------resize-handle(click)--------------------")
+                        log.debug(`resize_handle_index: ${resize_handle_index}`)
+                        log.debug(`resize_handle_index_size: ${resize_handle_index_size}`)
+                        log.debug(`row_width: ${$currRow.width()}`)
+                        log.debug(`column_sizes: ${column_sizes}`)
 
                         // Prevent drag event
                         return false;
