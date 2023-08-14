@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.1.4 (unreleased)
+3.1.4 (2023-08-14)
 ------------------
 
 - JavaScript: Reformat JavaScript with prettier and fix eslint errors.
