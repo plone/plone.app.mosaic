@@ -4,7 +4,8 @@ Changelog
 3.1.5 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Re-implement custom tinymce toolbar settings from mosaic registry.
+  [petschki]
 
 
 3.1.4 (2023-08-14)
