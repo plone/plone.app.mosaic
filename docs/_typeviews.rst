@@ -105,7 +105,7 @@ Creating a new content layout through the web
 ..  figure:: _screenshots/mosaic-layouts-as-aliases-new-add-method.png
 ..  code:: robotframework
 
-    Show how to condigure the new TTW layout as alias
+    Show how to configure the new TTW layout as alias
         Go to  ${PLONE_URL}/portal_types/Document/manage_propertiesForm
         Page should contain  Available view methods
         ${value} =  Get value  name=view_methods:lines

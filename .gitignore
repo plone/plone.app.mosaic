@@ -12,6 +12,7 @@
 # tools related
 build/
 .coverage
+.*project
 coverage.xml
 dist/
 docs/_build

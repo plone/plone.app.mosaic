@@ -74,7 +74,7 @@ class ActionManager {
         var self = this;
         var mosaic = self.mosaic;
 
-        // Register generic re-usable toggle tile class format action
+        // Register generic reusable toggle tile class format action
         self.registerAction("tile-toggle-class", {
             exec: function () {
                 var name;
@@ -85,7 +85,7 @@ class ActionManager {
             },
         });
 
-        // Register generic re-usable toggle tile class format action
+        // Register generic reusable toggle tile class format action
         self.registerAction("tile-remove-format", {
             exec: function () {
                 var i, j, group, action, name;
@@ -104,7 +104,7 @@ class ActionManager {
             },
         });
 
-        // Register generic re-usable toggle row class format action
+        // Register generic reusable toggle row class format action
         self.registerAction("row-toggle-class", {
             exec: function () {
                 var name;
@@ -118,7 +118,7 @@ class ActionManager {
             },
         });
 
-        // Register generic re-usable toggle row class format action
+        // Register generic reusable toggle row class format action
         self.registerAction("row-remove-format", {
             exec: function () {
                 var i, j, group, action, name;
