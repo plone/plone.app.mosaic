@@ -1,4 +1,10 @@
 .mosaic-enabled {
+    // no border
+    div.mce-content-body[contenteditable="true"] {
+        border:none;
+        border-radius:0;
+    }
+
     .mce-floatpanel.mce-arrow-up {
         // XXX fixes table menu panel floating above modals
         z-index: 2999 !important;

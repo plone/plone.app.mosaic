@@ -110,6 +110,24 @@ class LayoutWidget(BaseWidget, TextAreaWidget):
         )
         result["context_url"] = self.context.absolute_url()
         result["tinymce"] = get_tinymce_options(self.context, self.field, self.request)
+
+        # implement customized toolbar configuration for mosaic tinymce
+        html_tiles = [
+            t
+            for tg in result["tiles"]
+            for t in tg["tiles"]
+            if t["name"] == "plone.app.standardtiles.html"
+        ]
+
+        if html_tiles:
+            toolbar_actions = [
+                a[8:]
+                for a in html_tiles[0]["available_actions"]
+                if a.startswith("toolbar-")
+            ]
+            if toolbar_actions:
+                result["tinymce"]["tiny"]["toolbar"] = " ".join(toolbar_actions)
+
         result["customContentLayout_selector"] = "#formfield-{:s}".format(
             self.name.replace(".", "-")
         )

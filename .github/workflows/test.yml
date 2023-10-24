@@ -37,8 +37,6 @@ jobs:
           make VENV=off install
 
       - uses: nanasess/setup-chromedriver@v2
-        with:
-          chromedriver-version: '115.0.5790.102'
 
       - name: Start chromedriver
         run: |

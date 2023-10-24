@@ -32,7 +32,7 @@ TODO: some rough ideas on what else to document and how to structure everything
 
     * which ones are shown?
     * where is that configured?
-    * where are TTW chenges persisted? how to get them into the product on the file system?
+    * where are TTW changes persisted? how to get them into the product on the file system?
 
   * columns (?)
 

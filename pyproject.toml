@@ -1,6 +1,9 @@
 # Generated from:
 # https://github.com/plone/meta/tree/master/config/default
 # See the inline comments on how to expand/tweak this configuration file
+[build-system]
+requires = ["setuptools>=68.2"]
+
 ##
 # Add extra configuration options in .meta.toml:
 #  [pyproject]
