@@ -1002,6 +1002,7 @@ class Tile {
 
         // always show inline TinyMCE in mosaic editor
         tiny_options["tiny"]["inline"] = true;
+        tiny_options["tiny"]["toolbar_mode"] = "scrolling";
         tiny_options["tiny"]["menubar"] = false;
         tiny_options["tiny"]["selector"] = `#${id}`;
         tiny_options["tiny"]["placeholder"] = "\u2026";
