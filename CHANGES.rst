@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.1.5 (unreleased)
+3.1.5 (2023-10-24)
 ------------------
 
 - Re-implement custom tinymce toolbar settings from mosaic registry.
