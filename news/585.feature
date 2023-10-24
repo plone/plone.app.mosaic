@@ -1,2 +1,2 @@
-TinyMCE verison 6
+TinyMCE version 6
 [petschki]

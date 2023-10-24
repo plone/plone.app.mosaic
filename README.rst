@@ -6,11 +6,20 @@ Plone Mosaic
 Version Information
 -------------------
 
+- Version 3.2.x -> Plone 6.1
 - Version 3.1.x -> Plone 6.0.6+
 - Version 3.0.x -> Plone 6.0.0 - 6.0.5
 - Version 2.2.x -> Plone 5.1 + 5.2
 
+Note on version 3.2.x:
+~~~~~~~~~~~~~~~~~~~~~~
+
+This version adds fixes for TinyMCE 6. It depends on `plone.staticresources>=2.2.x`
+which targets Plone 6.1 but its also compatible with Plone 6.0.
+
+
 Note on Version 3.0.x:
+~~~~~~~~~~~~~~~~~~~~~~
 
 This version uses Bootstrap 5.2.x which was used in Plone 6.0.0 - 6.0.5.
 Since Plone 6.0.6 the Bootstrap Version is updated to 5.3, therefore the latest
