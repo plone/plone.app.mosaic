@@ -396,7 +396,7 @@ class Toolbar {
                         .attr("title", action.label)
                         .attr("type", "button")
                         .data("action", action.action)
-                        .on("mousedown", function (e) {
+                        .on("click", function (e) {
                             self.mosaic.actionManager.execAction(action.name, e.target);
                         }),
                 );
