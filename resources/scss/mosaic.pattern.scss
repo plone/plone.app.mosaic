@@ -1,11 +1,11 @@
+// Bootstrap configuration
 @import "bootstrap/scss/functions";
 @import "bootstrap/scss/variables";
 @import "bootstrap/scss/variables-dark";
-@import "bootstrap/scss/maps";
 @import "bootstrap/scss/mixins";
-@import "bootstrap/scss/root";
-@import "bootstrap/scss/nav";
-@import "bootstrap/scss/navbar";
+
+// Bootstrap components
+@import "bootstrap/scss/buttons";
 
 @import "mosaic.toolbar.scss";
 @import "mosaic.authoring.dragging.scss";
