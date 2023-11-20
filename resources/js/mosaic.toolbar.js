@@ -23,7 +23,7 @@ class Toolbar {
         self.lastChange = new Date().getTime();
     }
 
-    initToolbar() {
+    async initToolbar() {
         var self = this;
         // Local variables
         var content, actions, action_group;
@@ -370,15 +370,15 @@ class Toolbar {
                 );
             }
         } else {
-            if (normalizeClass(action.name) == "layout") {
+            const a_cname = normalizeClass(action.name);
+
+            if (a_cname == "layout") {
                 $el = $(document.createElement("div"));
                 // Create button
                 parent.append(
                     $el
                         .addClass(
-                            "d-flex align-items-center me-2 text-body mosaic-button mosaic-button-" +
-                                normalizeClass(action.name) +
-                                (action.icon ? " mosaic-icon" : ""),
+                            `d-flex align-items-center me-2 text-body mosaic-button-${a_cname} ${action.icon ? " mosaic-icon" : ""}`
                         )
                         .html(action.label),
                 );
@@ -388,15 +388,13 @@ class Toolbar {
                 parent.append(
                     $el
                         .addClass(
-                            "btn btn-sm btn-secondary mosaic-button mosaic-button-" +
-                                normalizeClass(action.name) +
-                                (action.icon ? " mosaic-icon" : ""),
+                            `btn btn-sm btn-${action.name === 'save' ? 'primary' : 'secondary'} mosaic-button-${a_cname} ${action.icon ? " mosaic-icon" : ""}`
                         )
                         .html(action.label)
                         .attr("title", action.label)
                         .attr("type", "button")
                         .data("action", action.action)
-                        .on("mousedown", function (e) {
+                        .on("click", function (e) {
                             self.mosaic.actionManager.execAction(action.name, e.target);
                         }),
                 );

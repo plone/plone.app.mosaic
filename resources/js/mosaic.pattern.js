@@ -186,7 +186,7 @@ export default Base.extend({
 
         // Init toolbar
         self.toolbar = new Toolbar(self);
-        self.toolbar.initToolbar();
+        await self.toolbar.initToolbar();
 
         // Add blur to the rest of the content
         $("*", self.document).each(function () {
