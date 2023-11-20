@@ -8,16 +8,18 @@
         "@plone/mockup": "*"
     },
     "devDependencies": {
-        "@patternslib/dev": "*",
-        "clean-css-cli": "*",
-        "npm-run-all": "*",
-        "prettier": "3.0.0"
+        "@patternslib/dev": "3.5.2",
+        "clean-css-cli": "5.6.2",
+        "npm-run-all": "^4.1.5",
+        "nodemon": "^3.0.1",
+        "prettier": "3.0.3"
     },
     "scripts": {
         "build": "npm-run-all build:webpack build:css",
         "build:webpack": "NODE_ENV=production webpack --config webpack.config.js",
         "build:stats": "NODE_ENV=production webpack --config webpack.config.js --json > stats.json",
         "build:css": "npm-run-all css-compile css-minify",
+        "watch": "npm-run-all --parallel watch:webpack watch:scss",
         "watch:webpack": "NODE_ENV=development webpack --config webpack.config.js --watch",
         "watch:scss": "nodemon --watch resources/scss/ --ext scss --exec \"yarn build:css\"",
         "start": "NODE_ENV=development webpack serve --config webpack.config.js",
