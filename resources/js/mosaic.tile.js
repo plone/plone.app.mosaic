@@ -1006,6 +1006,9 @@ class Tile {
         tiny_options["tiny"]["selector"] = `#${id}`;
         tiny_options["tiny"]["placeholder"] = "\u2026";
 
+        // remove "content_css" from config
+        delete tiny_options["tiny"]["content_css"];
+
         const tiny_instance = new Registry.patterns["tinymce"]($content, tiny_options);
         // wait until ready.
         await events.await_pattern_init(tiny_instance);
