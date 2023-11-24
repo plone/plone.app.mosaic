@@ -1,12 +1,3 @@
-@import "bootstrap/scss/functions";
-@import "bootstrap/scss/variables";
-@import "bootstrap/scss/variables-dark";
-@import "bootstrap/scss/maps";
-@import "bootstrap/scss/mixins";
-@import "bootstrap/scss/root";
-@import "bootstrap/scss/nav";
-@import "bootstrap/scss/navbar";
-
 // $mosaic-toolbar-height: 40px;
 // $mosaic-toolbar-color: #2c6596;
 
@@ -42,7 +33,6 @@
                 .select2-arrow {
                     border: 0;
                     background: none;
-                    // b { @extend .caret; }
                 }
             }
         }
@@ -106,46 +96,6 @@
                 border-color: #3469d0;
             }
         }
-    }
-}
-
-/* Apply bootstrap toolbar styles for select2 results */
-.mosaic-dropdown {
-    @extend .navbar;
-    @extend .mosaic-toolbar-content;
-    background: white;
-
-    li.select2-disabled {
-        background: none;
-        color: #888888;
-    }
-
-    /* Fix dropdown positioning */
-    position: fixed !important;
-    top: 53px !important;
-    left: auto !important;
-    right: 0 !important;
-
-    /* Layout menu items in horizontally aligned groups */
-    > ul {
-        display: flex;
-    }
-
-    &.select2-drop-active {
-        border: 1px solid gray;
-        border-radius: 0;
-    }
-
-    .select2-results-dept-1 .select2-result-label {
-        padding-left: 7px;
-        white-space: nowrap;
-    }
-
-    /* Avoid select2 from stealing TinyMCE focus */
-    .select2-focusser,
-    .select2-search,
-    .select2-search input {
-        display: none !important;
     }
 }
 
