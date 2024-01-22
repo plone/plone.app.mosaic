@@ -4,15 +4,15 @@
     "description": "Mosaic Editor for Plone",
     "license": "GPL-2.0-only",
     "dependencies": {
-        "@patternslib/patternslib": "9.9.8",
-        "@plone/mockup": "5.2.0-alpha.1"
+        "@patternslib/patternslib": "9.9.10",
+        "@plone/mockup": "5.2.0-alpha.3"
     },
     "devDependencies": {
-        "@patternslib/dev": "3.5.2",
-        "clean-css-cli": "5.6.2",
+        "@patternslib/dev": "3.5.3",
+        "clean-css-cli": "5.6.3",
+        "nodemon": "^3.0.3",
         "npm-run-all": "^4.1.5",
-        "nodemon": "^3.0.1",
-        "prettier": "3.0.3"
+        "prettier": "3.2.4"
     },
     "scripts": {
         "build": "npm-run-all build:webpack build:css",
