@@ -18,12 +18,6 @@ New features:
   [petschki] (#585)
 
 
-3.1.6 (unreleased)
-------------------
-
-- Nothing changed yet.
-
-
 3.1.5 (2023-10-24)
 ------------------
 
