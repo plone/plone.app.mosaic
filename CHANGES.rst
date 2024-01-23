@@ -8,6 +8,24 @@ Changelog
 
 .. towncrier release notes start
 
+3.2.0a2 (2024-01-23)
+--------------------
+
+Bug fixes:
+
+
+- Update dependencies.
+  [petschki] (#595)
+
+
+Internal:
+
+
+- SCSS cleanup
+  Development convenience: ``yarn watch`` command for webpack and scss compiling
+  [petschki] (#589)
+
+
 3.2.0a1 (2023-10-24)
 --------------------
 
