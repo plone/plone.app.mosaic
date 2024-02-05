@@ -160,10 +160,10 @@ def getUserContentLayoutsForType(pt):
             continue
         preview = value.get("preview", value.get("screenshot"))
         if preview and not preview.startswith("++"):
-            value[
-                "preview"
-            ] = "++contentlayout++custom/user-layouts/{user_id}/{path}".format(
-                user_id=user_id, path="/".join([os.path.dirname(key), preview])
+            value["preview"] = (
+                "++contentlayout++custom/user-layouts/{user_id}/{path}".format(
+                    user_id=user_id, path="/".join([os.path.dirname(key), preview])
+                )
             )
         result.append(value)
     return result
