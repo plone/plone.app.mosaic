@@ -53,11 +53,13 @@ var TILE_TYPE_MAPPING = new Map([
     // zope.schema.TextLine
     ["z3c.form.browser.text.TextWidget", "textline"],
     ["z3c.form.browser.text.TextFieldWidget", "textline"],
+    ["plone.app.z3cform.widgets.text.TextWidget", "textline"],
     // zope.schema.Text
     ["z3c.form.browser.textarea.TextAreaWidget", "textarea"],
     ["z3c.form.browser.textarea.TextAreaFieldWidget", "textarea"],
     ["z3c.form.browser.textlines.TextLinesWidget", "textarea"],
     ["z3c.form.browser.textlines.TextLinesFieldWidget", "textarea"],
+    ["plone.app.z3cform.widgets.text.TextAreaWidget", "textarea"],
     // plone.textfield.RichText
     ["plone.app.z3cform.widget.RichTextFieldWidget", "richtext"],
     ["plone.app.z3cform.widgets.richtext.RichTextFieldWidget", "richtext"],
@@ -696,7 +698,7 @@ class Tile {
                 start = '<h1 class="documentFirstHeading">';
                 end = "</h1>";
             } else if (tile_config.name === "IDublinCore-description") {
-                start = '<p class="documentDescription">';
+                start = '<p class="documentDescription lead">';
                 end = "</p>";
             } else {
                 start = "<div>";
