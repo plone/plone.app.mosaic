@@ -26,5 +26,4 @@ jobs = [
     "qa",
     "test",
     "coverage",
-    "dependencies",
     ]

@@ -30,8 +30,6 @@ jobs:
     uses: plone/meta/.github/workflows/test.yml@main
   coverage:
     uses: plone/meta/.github/workflows/coverage.yml@main
-  dependencies:
-    uses: plone/meta/.github/workflows/dependencies.yml@main
 
 ##
 # To modify the list of default jobs being created add in .meta.toml:
