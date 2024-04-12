@@ -5,14 +5,14 @@
     "license": "GPL-2.0-only",
     "dependencies": {
         "@patternslib/patternslib": "9.9.10",
-        "@plone/mockup": "5.2.0-alpha.3"
+        "@plone/mockup": "5.2.0-alpha.6"
     },
     "devDependencies": {
         "@patternslib/dev": "3.5.3",
         "clean-css-cli": "5.6.3",
-        "nodemon": "^3.0.3",
+        "nodemon": "^3.1.0",
         "npm-run-all": "^4.1.5",
-        "prettier": "3.2.4"
+        "prettier": "3.2.5"
     },
     "scripts": {
         "build": "npm-run-all build:webpack build:css",
@@ -21,10 +21,10 @@
         "build:css": "npm-run-all css-compile css-minify",
         "watch": "npm-run-all --parallel watch:webpack watch:scss",
         "watch:webpack": "NODE_ENV=development webpack --config webpack.config.js --watch",
-        "watch:scss": "nodemon --watch resources/scss/ --ext scss --exec \"yarn build:css\"",
         "start": "NODE_ENV=development webpack serve --config webpack.config.js",
+        "watch:scss": "nodemon --watch resources/scss/ --ext scss --exec \"npm run build:css\"",
         "css-compile": "sass --load-path=node_modules --style expanded --source-map --embed-sources --no-error-css resources/scss/mosaic.scss:src/plone/app/mosaic/browser/static/mosaic.css",
-        "css-minify": "cleancss -O1 --format breakWith=lf --source-map --source-map-inline-sources --output src/plone/app/mosaic/browser/static/mosaic.min.css src/plone/app/mosaic/browser/static/mosaic.css"
+        "css-minify": "cleancss -O1 --format breakWith=lf --with-rebase --source-map --source-map-inline-sources --output src/plone/app/mosaic/browser/static/mosaic.min.css src/plone/app/mosaic/browser/static/mosaic.css"
     },
     "browserslist": [
         "defaults"
