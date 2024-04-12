@@ -382,17 +382,6 @@ class Tile {
             self.$el.addClass("mosaic-read-only-tile");
         }
 
-        // Add border divs
-        self.$el.prepend(
-            $(self.mosaic.document.createElement("div"))
-                .addClass("mosaic-tile-outer-border")
-                .append(
-                    $(self.mosaic.document.createElement("div")).addClass(
-                        "mosaic-tile-inner-border",
-                    ),
-                ),
-        );
-
         // Add label
         if (tile_config) {
             var side_tools = $(self.mosaic.document.createElement("div")).addClass(

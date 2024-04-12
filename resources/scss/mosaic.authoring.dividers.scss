@@ -22,29 +22,33 @@
     /* general divider container needs width and height to be droppable */
     width: 12px;
     height: 12px;
-    top: -6px;
-    bottom: -6px;
-    left: -6px;
-    right: -6px;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
 
     &.mosaic-divider-top {
+        top:-3px;
         width: auto;
         bottom: auto;
         border-top-style: solid;
     }
     &.mosaic-divider-bottom {
+        bottom: -3px;
         width: auto;
         top: auto;
         border-bottom-style: solid;
     }
 
     &.mosaic-divider-right {
+        right: -3px;
         height: auto;
         left: auto;
         border-right-style: solid;
     }
 
     &.mosaic-divider-left {
+        left: -3px;
         height: auto;
         right: auto;
         border-left-style: solid;
@@ -53,8 +57,4 @@
 
 .mosaic-selected-divider {
     display: block !important;
-}
-
-.mosaic-empty-row .mosaic-selected-divider .mosaic-tile-outer-border {
-    border-top: solid 4px var(--bs-success);
 }

@@ -971,73 +971,27 @@ export default class LayoutManager {
          * @return {Object} jQuery object
          */
         $.fn.mosaicAddEmptyRows = function () {
-            // Loop through matched elements
-            return this.each(function () {
-                // Loop through rows
-                $(this)
-                    .find(".mosaic-grid-row:not(.mosaic-innergrid-row)")
-                    .each(function () {
-                        $(this).before(
-                            $(mosaic_doc.createElement("div"))
-                                .addClass("mosaic-grid-row mosaic-empty-row")
-                                .append(
-                                    $(mosaic_doc.createElement("div"))
-                                        .addClass("mosaic-grid-cell col")
-                                        .append(
-                                            $(mosaic_doc.createElement("div")).append(
-                                                $(
-                                                    mosaic_doc.createElement("div"),
-                                                ).addClass("mosaic-tile-outer-border"),
-                                            ),
-                                        ),
-                                )
-                                .mosaicAddMouseMoveEmptyRow(),
-                        );
-                        if ($(this).nextAll(".mosaic-grid-row").length === 0) {
-                            $(this).after(
-                                $(mosaic_doc.createElement("div"))
-                                    .addClass("mosaic-grid-row mosaic-empty-row")
-                                    .append(
-                                        $(mosaic_doc.createElement("div"))
-                                            .addClass("mosaic-grid-cell col")
-                                            .append(
-                                                $(
-                                                    mosaic_doc.createElement("div"),
-                                                ).append(
-                                                    $(
-                                                        mosaic_doc.createElement("div"),
-                                                    ).addClass(
-                                                        "mosaic-tile-outer-border",
-                                                    ),
-                                                ),
-                                            ),
-                                    )
-                                    .mosaicAddMouseMoveEmptyRow(),
-                            );
-                        }
-                    });
 
-                if (
-                    $(this).find(".mosaic-grid-row:not(.mosaic-innergrid-row)")
-                        .length === 0
-                ) {
-                    $(this).append(
+            const create_empty_row = () => {
+                return $(mosaic_doc.createElement("div"))
+                    .addClass("mosaic-grid-row mosaic-empty-row")
+                    .append(
                         $(mosaic_doc.createElement("div"))
-                            .addClass("mosaic-grid-row mosaic-empty-row")
+                            .addClass("mosaic-grid-cell col")
                             .append(
                                 $(mosaic_doc.createElement("div"))
-                                    .addClass("mosaic-grid-cell col")
-                                    .append(
-                                        $(mosaic_doc.createElement("div")).append(
-                                            $(mosaic_doc.createElement("div")).addClass(
-                                                "mosaic-tile-outer-border",
-                                            ),
-                                        ),
-                                    ),
                             )
-                            .mosaicAddMouseMoveEmptyRow(),
-                    );
-                }
+                    )
+                    .mosaicAddMouseMoveEmptyRow();
+            }
+
+            return this.each(() => {
+                // first row is always an empty one
+                $(this).prepend(create_empty_row())
+                // Loop through rows
+                $(this)
+                    .find(".mosaic-grid-row:not(.mosaic-innergrid-row):not(.mosaic-empty-row")
+                    .after(create_empty_row());
             });
         };
 

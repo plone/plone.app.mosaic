@@ -48,7 +48,7 @@
     }
 }
 .mosaic-tile:not(.mosaic-selected-tile):hover .mosaic-tile-label {
-    background-color: var(--plone-mosaic-tiles-outer-border-color-hover);
+    background-color: var(--plone-mosaic-tiles-border-color-hover);
 }
 
 .mosaic-drag-handle {
@@ -93,7 +93,7 @@
 }
 
 /* new tile-side-tools position for advance view */
-.mosaic-advanced {
+body.mosaic-layout-customized .mosaic-advanced {
     .mosaic-tile {
         padding-bottom: $spacer * 1.5;
 
@@ -193,20 +193,6 @@
     display: block !important;
 }
 
-/* Empty row */
-.mosaic-panel-dragging {
-    .mosaic-empty-row:nth-last-child(2),
-    .mosaic-empty-row:first-child {
-        height: 12px;
-    }
-
-    .mosaic-grid-row:not(.mosaic-empty-row) {
-        .mosaic-empty-row {
-            height: 12px;
-        }
-    }
-}
-
 /* Inner subcolumns */
 .mosaic-panel .mosaic-innergrid-row:hover {
     border: var(--plone-mosaic-authoring-innergrid-border-style)
@@ -215,28 +201,20 @@
     padding-top: 10px;
 }
 
-.mosaic-panel.mosaic-advanced {
-    .mosaic-empty-row:first-child + .mosaic-grid-row {
-        border-top: var(--plone-mosaic-authoring-grid-border-style)
+body.mosaic-layout-customized .mosaic-panel.mosaic-advanced {
+    .mosaic-grid-row {
+        border: var(--plone-mosaic-authoring-grid-border-style)
             var(--plone-mosaic-authoring-grid-border-width)
             var(--plone-mosaic-authoring-grid-border-color);
-    }
 
-    .mosaic-grid-row:not(.mosaic-empty-row):not(:last-child) {
-        padding: 5px 5px 1.2rem 5px;
-        border-bottom: var(--plone-mosaic-authoring-grid-border-style)
-            var(--plone-mosaic-authoring-grid-border-width)
-            var(--plone-mosaic-authoring-grid-border-color);
-        border-left: var(--plone-mosaic-authoring-grid-border-style)
-            var(--plone-mosaic-authoring-grid-border-width)
-            var(--plone-mosaic-authoring-grid-border-color);
-        border-right: var(--plone-mosaic-authoring-grid-border-style)
-            var(--plone-mosaic-authoring-grid-border-width)
-            var(--plone-mosaic-authoring-grid-border-color);
+        padding: 5px 0;
+
+        &:not(.mosaic-empty-row) {
+            padding-bottom: var(--bs-gutter-x);
+        }
 
         .mosaic-grid-cell {
             position: relative;
-            padding: 5px;
             border-left: var(--plone-mosaic-authoring-grid-border-style)
                 var(--plone-mosaic-authoring-grid-border-width)
                 var(--plone-mosaic-authoring-grid-border-color);
@@ -270,29 +248,6 @@
                 &:first-child {
                     border-left: none;
                 }
-            }
-        }
-    }
-
-    .mosaic-empty-row .mosaic-grid-cell {
-        height: 12px;
-
-        > div {
-            height: 12px;
-        }
-    }
-
-    /* Add room for empty row placeholders when dragging */
-    &.mosaic-panel-dragging {
-        .mosaic-grid-row:not(:last-child) {
-            border-top: var(--plone-mosaic-authoring-grid-border-style)
-                var(--plone-mosaic-authoring-grid-border-width)
-                var(--plone-mosaic-authoring-grid-border-color);
-
-            &.mosaic-empty-row {
-                margin-top: 6px;
-                height: 12px;
-                border: none;
             }
         }
     }
