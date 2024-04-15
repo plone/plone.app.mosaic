@@ -149,15 +149,6 @@ body.mosaic-layout-customized .mosaic-panel .mosaic-empty-row {
         > div {
             border: var(--plone-mosaic-tiles-border-style) var(--plone-mosaic-tiles-border-width) var(--plone-mosaic-tiles-border-color-muted);
             min-height: $spacer;
-
-            &:before {
-                display:block;
-                width: 100%;
-                content:"+";
-                text-align:center;
-                color: var(--plone-mosaic-tiles-border-color-muted);
-                font-size: .75rem;
-            }
         }
         &.mosaic-selected-divider > div {
             border: solid 4px var(--bs-success);
@@ -179,6 +170,11 @@ body.mosaic-layout-customized .mosaic-panel .mosaic-empty-row {
 .mosaic-enabled .select2-results {
     // Arbitrary, but necessary for e.g. long lists in TinyMCE Insert Image
     max-height: 320px;
+}
+
+.mosaic-menu-format .select2-results .select2-active {
+    color: var(--plone-link-color);
+    background-color: var(--bs-secondary-bg);
 }
 
 /* @end */

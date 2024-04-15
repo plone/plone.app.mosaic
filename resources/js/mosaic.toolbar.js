@@ -71,7 +71,7 @@ class Toolbar {
                     // Add control
                     self.AddControl(actions[a], action);
 
-                    // If fieldset
+                // If fieldset
                 } else {
                     action_group = action;
                     var classNamePart = normalizeClass(action.name);
@@ -112,6 +112,20 @@ class Toolbar {
         self.SelectedTileChange();
 
         Registry.scan(self.$el);
+
+        // set format menu callback to set selected formats of selected_tile
+        self.$el.find(".mosaic-menu-format").on("select2-open", (e) => {
+            var selected_tile = this.mosaic.document.querySelector(".mosaic-selected-tile");
+            // update tile and row format menu to the selected styles
+            const formatClasses = [
+                ...selected_tile.classList,
+                ...selected_tile.closest(".mosaic-grid-row").classList,
+            ];
+            const formatMenu = document.querySelector("#select2-drop.mosaic-menu-format")
+            for(const cls of formatClasses) {
+                formatMenu.querySelector(`.${cls.replace("mosaic-", "select2-option-")}`)?.classList.add("select2-active");
+            }
+        });
     }
 
     SelectedTileChange = function () {
@@ -298,7 +312,7 @@ class Toolbar {
                         ),
                 );
 
-                // Else text menu
+            // Else text menu
             } else {
                 $el = $(document.createElement("select"));
                 // Create menu

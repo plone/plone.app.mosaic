@@ -88,12 +88,12 @@ class Tile {
     constructor(mosaic, el) {
         var self = this;
         self.mosaic = mosaic;
-        self.el = el;
-        self.$el = $(el);
-        if (!self.$el.is(".mosaic-tile")) {
-            // XXX we need to get the outer-most container of the node here always
-            self.$el = self.$el.parents(".mosaic-tile");
+        if (!el.classList.contains(".mosaic-tile")) {
+            self.el = el.closest(".mosaic-tile");
+        } else {
+            self.el = el
         }
+        self.$el = $(self.el);
         self.focusCheckCount = 0;
     }
     getDataTileEl() {
@@ -485,7 +485,7 @@ class Tile {
         if (
             tile_config &&
             tile_config.settings &&
-            this.$el.hasClass("mosaic-read-only-tile") === false
+            this.el.classList.contains(".mosaic-read-only-tile")
         ) {
             _addButton("Edit", "settings", this.settingsClicked.bind(this));
         }
