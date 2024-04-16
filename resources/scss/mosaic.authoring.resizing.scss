@@ -15,6 +15,7 @@
 
 .mosaic-grid-row:not(.mosaic-empty-row) {
     .mosaic-resize-handle {
+        display:none;
         position: absolute;
         height: auto;
         top: 0px;
@@ -37,10 +38,6 @@
             display: block;
         }
     }
-}
-
-.mosaic-empty-row .mosaic-resize-handler {
-    display: none;
 }
 
 .mosaic-resize-placeholder {
@@ -104,8 +101,10 @@ $resize-handle-perc: (
     }
 }
 
-.mosaic-layout-customized {
-    .mosaic-resize-handle {
-        display: block;
+body.mosaic-layout-customized {
+    .mosaic-grid-row:not(.mosaic-empty-row) {
+        .mosaic-resize-handle {
+            display: block;
+        }
     }
 }

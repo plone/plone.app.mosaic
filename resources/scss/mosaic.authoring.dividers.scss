@@ -3,7 +3,9 @@
     position: absolute;
     bottom: 0;
     text-align: right;
-    z-index: 101;
+    z-index: 501;
+    background-color: $gray-500;
+
     //   background:#f9f9f9;
     input {
         min-width: 30%;
