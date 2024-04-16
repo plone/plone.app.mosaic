@@ -116,6 +116,8 @@ class Toolbar {
         // set format menu callback to set selected formats of selected_tile
         self.$el.find(".mosaic-menu-format").on("select2-open", (e) => {
             var selected_tile = this.mosaic.document.querySelector(".mosaic-selected-tile");
+            if(!selected_tile) return;
+
             // update tile and row format menu to the selected styles
             const formatClasses = [
                 ...selected_tile.classList,

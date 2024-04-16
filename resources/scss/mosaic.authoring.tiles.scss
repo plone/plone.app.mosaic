@@ -19,6 +19,7 @@
     position: relative;
     z-index: 100;
     border: var(--plone-mosaic-tiles-border-style) var(--plone-mosaic-tiles-border-width) var(--plone-mosaic-tiles-border-color);
+    margin: calc(var(--plone-mosaic-tiles-border-width) * -1);
 
     &.mosaic-selected-tile {
         z-index: 101;
@@ -148,6 +149,7 @@ body.mosaic-layout-customized .mosaic-panel .mosaic-empty-row {
     .mosaic-grid-cell {
         > div {
             border: var(--plone-mosaic-tiles-border-style) var(--plone-mosaic-tiles-border-width) var(--plone-mosaic-tiles-border-color-muted);
+            margin: calc(var(--plone-mosaic-tiles-border-width) * -1);
             min-height: $spacer;
         }
         &.mosaic-selected-divider > div {

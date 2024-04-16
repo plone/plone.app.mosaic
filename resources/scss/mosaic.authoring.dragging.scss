@@ -206,7 +206,7 @@ body.mosaic-layout-customized .mosaic-panel.mosaic-advanced {
         border: var(--plone-mosaic-authoring-grid-border-style)
             var(--plone-mosaic-authoring-grid-border-width)
             var(--plone-mosaic-authoring-grid-border-color);
-
+        margin: calc(var(--plone-mosaic-authoring-grid-border-width) * -1);
         padding: 5px 0;
 
         &:not(.mosaic-empty-row) {

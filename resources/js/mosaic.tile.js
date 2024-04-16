@@ -88,6 +88,9 @@ class Tile {
     constructor(mosaic, el) {
         var self = this;
         self.mosaic = mosaic;
+        if (el.jquery) {
+            el = el[0];
+        }
         if (!el.classList.contains(".mosaic-tile")) {
             self.el = el.closest(".mosaic-tile");
         } else {
@@ -485,7 +488,7 @@ class Tile {
         if (
             tile_config &&
             tile_config.settings &&
-            this.el.classList.contains(".mosaic-read-only-tile")
+            !this.el.classList.contains(".mosaic-read-only-tile")
         ) {
             _addButton("Edit", "settings", this.settingsClicked.bind(this));
         }
