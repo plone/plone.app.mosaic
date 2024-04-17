@@ -1,25 +1,14 @@
 .mosaic-panel {
     position: relative;
-    --plone-mosaic-tiles-outer-border-width: 1px;
-    --plone-mosaic-tiles-outer-border-style: solid;
-    --plone-mosaic-tiles-outer-border-style-active: solid;
-    --plone-mosaic-tiles-outer-border-color: transparent;
-    --plone-mosaic-tiles-outer-border-color-hover: #{$gray-300};
-    --plone-mosaic-tiles-outer-border-color-active: #{$primary};
-    --plone-mosaic-tiles-inner-border-width: 1px;
-    --plone-mosaic-tiles-inner-border-style: dotted;
-    --plone-mosaic-tiles-inner-border-color: transparent;
-    --plone-mosaic-tiles-inner-border-color-hover: #{$gray-300};
-    --plone-mosaic-tiles-inner-border-color-active: #{$primary};
+    --plone-mosaic-tiles-border-width: 1px;
+    --plone-mosaic-tiles-border-style: dashed;
+    --plone-mosaic-tiles-border-style-active: solid;
+    --plone-mosaic-tiles-border-color: #{$gray-500};
+    --plone-mosaic-tiles-border-color-muted: #{$gray-300};
+    --plone-mosaic-tiles-border-color-hover: #{$primary};
+    --plone-mosaic-tiles-border-color-active: #{$primary};
 }
 
-.mosaic-panel.mosaic-advanced {
-    --plone-mosaic-tiles-outer-border-style: dashed;
-    --plone-mosaic-tiles-outer-border-color: #{$gray-300};
-    --plone-mosaic-tiles-outer-border-color-hover: #{$primary};
-    --plone-mosaic-tiles-inner-border-color: #{$gray-100};
-    --plone-mosaic-tiles-inner-border-color-hover: #{$primary};
-}
 
 .mosaic-panel .mosaic-tile .hiddenStructure,
 #content .mosaic-panel .mosaic-tile .hiddenStructure {
@@ -29,107 +18,66 @@
 .mosaic-panel .mosaic-tile {
     position: relative;
     z-index: 100;
+    border: var(--plone-mosaic-tiles-border-style) var(--plone-mosaic-tiles-border-width) var(--plone-mosaic-tiles-border-color);
+    margin: calc(var(--plone-mosaic-tiles-border-width) * -1);
 
     &.mosaic-selected-tile {
         z-index: 101;
+        background-color: rgba(var(--bs-body-color-rgb), 0.075);
+
+        &,
+        &:hover {
+            border: var(--plone-mosaic-tiles-border-style-active) var(--plone-mosaic-tiles-border-width) var(--plone-mosaic-tiles-border-color-active) !important;
+        }
     }
-}
 
-.mosaic-panel .mosaic-tile .mosaic-tile-content {
-    position: relative;
-    z-index: 100;
-}
+    &:hover {
+        border: var(--plone-mosaic-tiles-border-style) var(--plone-mosaic-tiles-border-width) var(--plone-mosaic-tiles-border-color-hover);
+    }
 
-.mosaic-panel .mosaic-tile-content textarea,
-.mosaic-tile-content input[type="text"] {
-    width: 100%;
-}
+    &.mosaic-read-only-tile:hover {
+        border: var(--plone-mosaic-tiles-border-style) var(--plone-mosaic-tiles-border-width) #d0d0d0;
+    }
 
-/* Outer border */
-.mosaic-panel .mosaic-tile-outer-border {
-    position: absolute;
-    border: var(--plone-mosaic-tiles-outer-border-style)
-        var(--plone-mosaic-tiles-outer-border-width)
-        var(--plone-mosaic-tiles-outer-border-color);
-    width: auto;
-    height: auto;
-    z-index: 40;
-    right: calc(var(--plone-mosaic-tiles-outer-border-width) * -1);
-    left: calc(var(--plone-mosaic-tiles-outer-border-width) * -1);
-    top: calc(var(--plone-mosaic-tiles-outer-border-width) * -1);
-    bottom: calc(var(--plone-mosaic-tiles-outer-border-width) * -1);
-}
+    .mosaic-tile-content {
+        position: relative;
+        z-index: 100;
 
-/* Inner border */
-.mosaic-panel .mosaic-tile-inner-border {
-    position: absolute;
-    border: var(--plone-mosaic-tiles-inner-border-style)
-        var(--plone-mosaic-tiles-inner-border-width)
-        var(--plone-mosaic-tiles-inner-border-color);
-    width: auto;
-    height: auto;
-    z-index: 40;
-    right: 0px;
-    left: 0px;
-    top: 0px;
-    bottom: 0px;
-}
+        textarea,
+        input[type="text"] {
+            width: 100%;
+        }
+    }
 
-/* Border on mouse over */
-.mosaic-panel .mosaic-tile:hover .mosaic-tile-outer-border {
-    border: var(--plone-mosaic-tiles-outer-border-style)
-        var(--plone-mosaic-tiles-outer-border-width)
-        var(--plone-mosaic-tiles-outer-border-color-hover);
-}
-
-/* fixed read-only border color */
-.mosaic-panel .mosaic-tile.mosaic-read-only-tile:hover .mosaic-tile-outer-border {
-    border: var(--plone-mosaic-tiles-outer-border-style)
-        var(--plone-mosaic-tiles-outer-border-width) #d0d0d0;
 }
 
 /* Hide hover border when dragging or resizing*/
-.mosaic-panel .mosaic-panel-dragging .mosaic-tile:hover .mosaic-tile-outer-border {
-    border: var(--plone-mosaic-tiles-outer-border-style)
-        var(--plone-mosaic-tiles-outer-border-width) transparent;
+.mosaic-panel .mosaic-panel-dragging .mosaic-tile:hover {
+    border: var(--plone-mosaic-tiles-border-style) var(--plone-mosaic-tiles-border-width) transparent;
 }
 
-.mosaic-panel .mosaic-panel-resizing .mosaic-tile:hover .mosaic-tile-outer-border {
-    border: var(--plone-mosaic-tiles-outer-border-style)
-        var(--plone-mosaic-tiles-outer-border-width) transparent;
+.mosaic-panel .mosaic-panel-resizing .mosaic-tile:hover {
+    border: var(--plone-mosaic-tiles-border-style) var(--plone-mosaic-tiles-border-width) transparent;
 }
 
-/* Selected tile */
-.mosaic-panel .mosaic-selected-tile {
-    background-color: var(--bs-tertiary-bg);
-    &,
-    &:hover {
-        .mosaic-tile-outer-border {
-            border: var(--plone-mosaic-tiles-outer-border-style-active)
-                var(--plone-mosaic-tiles-outer-border-width)
-                var(--plone-mosaic-tiles-outer-border-color-active) !important;
-        }
-    }
-}
 /* selected readonly tile */
 .mosaic-panel .mosaic-selected-tile.mosaic-read-only-tile {
+
     &,
     &:hover {
-        .mosaic-tile-outer-border {
-            background-color: var(--bs-light);
-        }
+        background-color: var(--bs-light);
     }
 }
+
 /* resizing on selected tile */
 .mosaic-panel .mosaic-panel-resizing .mosaic-selected-tile.mosaic-tile {
+
     &,
     &:hover {
-        .mosaic-tile-outer-border {
-            border: var(--plone-mosaic-tiles-outer-border-style-active)
-                var(--plone-mosaic-tiles-outer-border-width) transparent;
-            background-color: transparent;
-        }
+        border: var(--plone-mosaic-tiles-border-style-active) var(--plone-mosaic-tiles-border-width) transparent;
+        background-color: transparent;
     }
+
     .mosaic-tile-control {
         display: none !important;
     }
@@ -140,14 +88,8 @@
     outline: 5px solid #c4183c;
 }
 
-/* Other tiles while dragging */
-.mosaic-panel .mosaic-panel-dragging .mosaic-tile .mosaic-tile-inner-border {
-    border: var(--plone-mosaic-tiles-inner-border-style)
-        var(--plone-mosaic-tiles-inner-border-width) $gray-600;
-}
-
 /* Hide inner border of helper while dragging */
-.mosaic-panel .mosaic-panel-dragging .mosaic-helper-tile .mosaic-tile-inner-border {
+.mosaic-panel .mosaic-panel-dragging .mosaic-helper-tile {
     border: 1px transparent;
 }
 
@@ -165,6 +107,7 @@ body.mosaic-enabled .tox-tinymce-inline {
 }
 
 .mosaic-panel table.mce-item-table {
+
     th,
     td {
         border: 1px dotted #ccc;
@@ -173,14 +116,13 @@ body.mosaic-enabled .tox-tinymce-inline {
 }
 
 /* Line break in description tile */
-.mosaic-panel .documentDescription + .documentDescription {
+.mosaic-panel .documentDescription+.documentDescription {
     margin-top: -10px;
 }
 
 /* Helper border */
 .mosaic-panel .mosaic-tile.mosaic-helper-tile {
-    border: var(--plone-mosaic-tiles-outer-border-style)
-        var(--plone-mosaic-tiles-outer-border-width) #3469d0;
+    border: var(--plone-mosaic-tiles-border-style) var(--plone-mosaic-tiles-border-width) #3469d0;
     z-index: 1000;
     opacity: 0.5;
     position: absolute;
@@ -198,20 +140,52 @@ body.mosaic-enabled .tox-tinymce-inline {
     opacity: 0.5;
 }
 
-/* Empty row */
-.mosaic-panel .mosaic-empty-row .mosaic-grid-cell {
-    display: none;
+/* Empty row
+   UPDATE: make empty rows always visible to make it clear to the user where he drops the tiles.
+*/
+body.mosaic-layout-customized .mosaic-panel.mosaic-panel-dragging {
+    .mosaic-empty-row {
+        padding: 5px 0;
+
+        .mosaic-grid-cell {
+            >div {
+                opacity: 0.5;
+                border: var(--plone-mosaic-tiles-border-style) var(--plone-mosaic-tiles-border-width) var(--plone-mosaic-tiles-border-color);
+                margin: calc(var(--plone-mosaic-tiles-border-width) * -1);
+                min-height: $spacer;
+
+                &:before {
+                    content: " ";
+                    display:block;
+                    height: 16px;
+                    margin-left: 5px;
+                    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" class="bi bi-plus-square-dotted" viewBox="0 0 16 16"><path d="M2.5 0q-.25 0-.487.048l.194.98A1.5 1.5 0 0 1 2.5 1h.458V0zm2.292 0h-.917v1h.917zm1.833 0h-.917v1h.917zm1.833 0h-.916v1h.916zm1.834 0h-.917v1h.917zm1.833 0h-.917v1h.917zM13.5 0h-.458v1h.458q.151 0 .293.029l.194-.981A2.5 2.5 0 0 0 13.5 0m2.079 1.11a2.5 2.5 0 0 0-.69-.689l-.556.831q.248.167.415.415l.83-.556zM1.11.421a2.5 2.5 0 0 0-.689.69l.831.556c.11-.164.251-.305.415-.415zM16 2.5q0-.25-.048-.487l-.98.194q.027.141.028.293v.458h1zM.048 2.013A2.5 2.5 0 0 0 0 2.5v.458h1V2.5q0-.151.029-.293zM0 3.875v.917h1v-.917zm16 .917v-.917h-1v.917zM0 5.708v.917h1v-.917zm16 .917v-.917h-1v.917zM0 7.542v.916h1v-.916zm15 .916h1v-.916h-1zM0 9.375v.917h1v-.917zm16 .917v-.917h-1v.917zm-16 .916v.917h1v-.917zm16 .917v-.917h-1v.917zm-16 .917v.458q0 .25.048.487l.98-.194A1.5 1.5 0 0 1 1 13.5v-.458zm16 .458v-.458h-1v.458q0 .151-.029.293l.981.194Q16 13.75 16 13.5M.421 14.89c.183.272.417.506.69.689l.556-.831a1.5 1.5 0 0 1-.415-.415zm14.469.689c.272-.183.506-.417.689-.69l-.831-.556c-.11.164-.251.305-.415.415l.556.83zm-12.877.373Q2.25 16 2.5 16h.458v-1H2.5q-.151 0-.293-.029zM13.5 16q.25 0 .487-.048l-.194-.98A1.5 1.5 0 0 1 13.5 15h-.458v1zm-9.625 0h.917v-1h-.917zm1.833 0h.917v-1h-.917zm1.834-1v1h.916v-1zm1.833 1h.917v-1h-.917zm1.833 0h.917v-1h-.917zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z"/></svg>');
+                    background-position: center left;
+                    background-repeat: no-repeat;
+                }
+
+
+            }
+
+            &.mosaic-selected-divider>div {
+                border: solid 4px var(--bs-success);
+                &:before {
+                    height:10px;
+                    margin-left: 2px;
+                }
+
+            }
+        }
+    }
 }
 
-.mosaic-panel .mosaic-empty-row .mosaic-grid-cell > div {
-    position: relative;
-}
 /* @end */
 
 /* Empty tile */
 .mosaic-enabled .mosaic-panel .mosaic-tile {
-    min-height: 20px;
+    min-height: $spacer;
 }
+
 /* @end */
 
 /* Various fixes */
@@ -219,4 +193,10 @@ body.mosaic-enabled .tox-tinymce-inline {
     // Arbitrary, but necessary for e.g. long lists in TinyMCE Insert Image
     max-height: 320px;
 }
+
+.mosaic-menu-format .select2-results .select2-active {
+    color: var(--plone-link-color);
+    background-color: var(--bs-secondary-bg);
+}
+
 /* @end */

@@ -13,8 +13,9 @@
     opacity: 0.5 !important;
 }
 
-.mosaic-grid-row {
+.mosaic-grid-row:not(.mosaic-empty-row) {
     .mosaic-resize-handle {
+        display:none;
         position: absolute;
         height: auto;
         top: 0px;
@@ -26,16 +27,15 @@
         left: -10px;
         z-index: 500;
         cursor: ew-resize;
-        display: none;
-        border-width: 3px;
-        border-color: var(--bs-primary);
+        border-right: 3px solid $gray-300;
 
         &:hover {
-            border-right-style: dashed;
+            border-right-color: $primary;
         }
+
         &.mosaic-resize-handle-helper {
             border-right-style: solid;
-            display:block;
+            display: block;
         }
     }
 }
@@ -56,6 +56,7 @@
     left: 0px;
     top: 0px;
     bottom: 0px;
+
     .info {
         position: absolute;
         right: 0px;
@@ -93,20 +94,17 @@ $resize-handle-perc: (
         .mosaic-grid-row-fluid-background {
             @each $pos, $perc in $resize-handle-perc {
                 .mosaic-resize-#{$pos} {
-                    margin-left: calc(
-                        (100% - $container-max-width) *
-                            0.5 +
-                            $container-max-width *
-                            #{$perc}
-                    );
+                    margin-left: calc((100% - $container-max-width) * 0.5 + $container-max-width * #{$perc});
                 }
             }
         }
     }
 }
 
-.mosaic-layout-customized {
-    .mosaic-resize-handle {
-        display: block;
+body.mosaic-layout-customized {
+    .mosaic-grid-row:not(.mosaic-empty-row) {
+        .mosaic-resize-handle {
+            display: block;
+        }
     }
 }

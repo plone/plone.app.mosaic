@@ -1,4 +1,3 @@
-
 /* Variables */
 .mosaic-panel {
     --plone-mosaic-authoring-grid-border-width: 1px;
@@ -47,8 +46,9 @@
         }
     }
 }
+
 .mosaic-tile:not(.mosaic-selected-tile):hover .mosaic-tile-label {
-    background-color: var(--plone-mosaic-tiles-outer-border-color-hover);
+    background-color: var(--plone-mosaic-tiles-border-color-hover);
 }
 
 .mosaic-drag-handle {
@@ -73,7 +73,7 @@
     top: auto;
     width: auto;
 
-    > .btn:not(.btn-danger) {
+    >.btn:not(.btn-danger) {
         margin-left: 0.25rem;
         @extend .btn-light;
     }
@@ -93,7 +93,7 @@
 }
 
 /* new tile-side-tools position for advance view */
-.mosaic-advanced {
+body.mosaic-layout-customized .mosaic-advanced {
     .mosaic-tile {
         padding-bottom: $spacer * 1.5;
 
@@ -114,13 +114,16 @@
 
         .mosaic-tile-buttons {
             bottom: 0;
+
             svg {
                 width: 12px;
                 height: 12px;
             }
+
             .btn {
                 --bs-btn-padding-y: 1px;
                 --bs-btn-border-radius: 0;
+
                 &:not(.btn-danger) {
                     @extend .btn-secondary;
                 }
@@ -193,53 +196,20 @@
     display: block !important;
 }
 
-/* Empty row */
-.mosaic-panel-dragging {
-    .mosaic-empty-row:nth-last-child(2),
-    .mosaic-empty-row:first-child {
-        height: 12px;
-    }
-
-    .mosaic-grid-row:not(.mosaic-empty-row) {
-        .mosaic-empty-row {
-            height: 12px;
-        }
-    }
-}
-
 /* Inner subcolumns */
 .mosaic-panel .mosaic-innergrid-row:hover {
-    border: var(--plone-mosaic-authoring-innergrid-border-style)
-        var(--plone-mosaic-authoring-innergrid-border-width)
-        var(--plone-mosaic-authoring-innergrid-border-color);
+    border: var(--plone-mosaic-authoring-innergrid-border-style) var(--plone-mosaic-authoring-innergrid-border-width) var(--plone-mosaic-authoring-innergrid-border-color);
     padding-top: 10px;
 }
 
-.mosaic-panel.mosaic-advanced {
-    .mosaic-empty-row:first-child + .mosaic-grid-row {
-        border-top: var(--plone-mosaic-authoring-grid-border-style)
-            var(--plone-mosaic-authoring-grid-border-width)
-            var(--plone-mosaic-authoring-grid-border-color);
-    }
-
-    .mosaic-grid-row:not(.mosaic-empty-row):not(:last-child) {
-        padding: 5px 5px 1.2rem 5px;
-        border-bottom: var(--plone-mosaic-authoring-grid-border-style)
-            var(--plone-mosaic-authoring-grid-border-width)
-            var(--plone-mosaic-authoring-grid-border-color);
-        border-left: var(--plone-mosaic-authoring-grid-border-style)
-            var(--plone-mosaic-authoring-grid-border-width)
-            var(--plone-mosaic-authoring-grid-border-color);
-        border-right: var(--plone-mosaic-authoring-grid-border-style)
-            var(--plone-mosaic-authoring-grid-border-width)
-            var(--plone-mosaic-authoring-grid-border-color);
+body.mosaic-layout-customized .mosaic-panel.mosaic-advanced {
+    .mosaic-grid-row:not(.mosaic-empty-row) {
+        border: var(--plone-mosaic-authoring-grid-border-style) var(--plone-mosaic-authoring-grid-border-width) var(--plone-mosaic-authoring-grid-border-color);
+        padding: 5px 0 var(--bs-gutter-x) 0;
 
         .mosaic-grid-cell {
             position: relative;
-            padding: 5px;
-            border-left: var(--plone-mosaic-authoring-grid-border-style)
-                var(--plone-mosaic-authoring-grid-border-width)
-                var(--plone-mosaic-authoring-grid-border-color);
+            border-left: var(--plone-mosaic-authoring-grid-border-style) var(--plone-mosaic-authoring-grid-border-width) var(--plone-mosaic-authoring-grid-border-color);
 
             &:first-child {
                 border-left: none;
@@ -248,72 +218,43 @@
 
         .mosaic-innergrid-row {
             padding: 5px;
-            border: var(--plone-mosaic-authoring-innergrid-border-style)
-                var(--plone-mosaic-authoring-innergrid-border-width)
-                var(--plone-mosaic-authoring-innergrid-border-color);
+            border: var(--plone-mosaic-authoring-innergrid-border-style) var(--plone-mosaic-authoring-innergrid-border-width) var(--plone-mosaic-authoring-innergrid-border-color);
             margin-left: -7px;
             margin-right: 0px;
             margin-bottom: 10px;
 
             &:hover {
-                border-color: var(
-                    --plone-mosaic-authoring-innergrid-border-color-active
-                );
+                border-color: var(--plone-mosaic-authoring-innergrid-border-color-active);
             }
 
             .mosaic-grid-cell {
                 padding: 5px;
-                border-left: var(--plone-mosaic-authoring-innergrid-border-style)
-                    var(--plone-mosaic-authoring-innergrid-border-width)
-                    var(--plone-mosaic-authoring-innergrid-border-color);
+                border-left: var(--plone-mosaic-authoring-innergrid-border-style) var(--plone-mosaic-authoring-innergrid-border-width) var(--plone-mosaic-authoring-innergrid-border-color);
 
                 &:first-child {
                     border-left: none;
                 }
             }
         }
-    }
 
-    .mosaic-empty-row .mosaic-grid-cell {
-        height: 12px;
-
-        > div {
-            height: 12px;
+        &:not(:last-child):after {
+            position: absolute;
+            display: block;
+            content: attr(class);
+            color: var(--bs-secondary-color);
+            font-weight: bold;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 500;
+            white-space: nowrap;
+            background: var(--bs-secondary-bg);
+            text-align: right;
+            padding: 0 5px;
+            font-size: $font-size-sm;
         }
     }
 
-    /* Add room for empty row placeholders when dragging */
-    &.mosaic-panel-dragging {
-        .mosaic-grid-row:not(:last-child) {
-            border-top: var(--plone-mosaic-authoring-grid-border-style)
-                var(--plone-mosaic-authoring-grid-border-width)
-                var(--plone-mosaic-authoring-grid-border-color);
-
-            &.mosaic-empty-row {
-                margin-top: 6px;
-                height: 12px;
-                border: none;
-            }
-        }
-    }
-
-    /* Add row style labels */
-    .mosaic-grid-row:not(.mosaic-empty-row):not(:last-child):after {
-        position: absolute;
-        display: block;
-        content: attr(class);
-        color: var(--bs-secondary-color);
-        font-weight: bold;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        z-index: 99;
-        white-space: nowrap;
-        background: var(--bs-secondary-bg);
-        text-align: right;
-        padding: 0 5px;
-        font-size: $font-size-sm;
-    }
 }
 
 /* @end */

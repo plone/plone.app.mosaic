@@ -88,12 +88,15 @@ class Tile {
     constructor(mosaic, el) {
         var self = this;
         self.mosaic = mosaic;
-        self.el = el;
-        self.$el = $(el);
-        if (!self.$el.is(".mosaic-tile")) {
-            // XXX we need to get the outer-most container of the node here always
-            self.$el = self.$el.parents(".mosaic-tile");
+        if (el.jquery) {
+            el = el[0];
         }
+        if (!el.classList.contains(".mosaic-tile")) {
+            self.el = el.closest(".mosaic-tile");
+        } else {
+            self.el = el
+        }
+        self.$el = $(self.el);
         self.focusCheckCount = 0;
     }
     getDataTileEl() {
@@ -382,17 +385,6 @@ class Tile {
             self.$el.addClass("mosaic-read-only-tile");
         }
 
-        // Add border divs
-        self.$el.prepend(
-            $(self.mosaic.document.createElement("div"))
-                .addClass("mosaic-tile-outer-border")
-                .append(
-                    $(self.mosaic.document.createElement("div")).addClass(
-                        "mosaic-tile-inner-border",
-                    ),
-                ),
-        );
-
         // Add label
         if (tile_config) {
             var side_tools = $(self.mosaic.document.createElement("div")).addClass(
@@ -496,7 +488,7 @@ class Tile {
         if (
             tile_config &&
             tile_config.settings &&
-            this.$el.hasClass("mosaic-read-only-tile") === false
+            !this.el.classList.contains(".mosaic-read-only-tile")
         ) {
             _addButton("Edit", "settings", this.settingsClicked.bind(this));
         }
