@@ -8,6 +8,20 @@ Changelog
 
 .. towncrier release notes start
 
+3.2.0a3 (2024-04-17)
+--------------------
+
+Bug fixes:
+
+
+- Implement new `plone.app.z3cform` widgets for Plone 6.1
+  [petschki] (#600)
+- visible hidden row to make it clear to the user where to drop tiles.
+  advanced mode only for customized layout.
+  some minor CSS fixes for draggable handles.
+  [petschki] (#601)
+
+
 3.2.0a2 (2024-01-23)
 --------------------
 
