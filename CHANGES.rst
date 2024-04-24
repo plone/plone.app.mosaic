@@ -8,6 +8,16 @@ Changelog
 
 .. towncrier release notes start
 
+3.2.0a4 (2024-04-24)
+--------------------
+
+Bug fixes:
+
+
+- Fix single field visibility in the settings modal.
+  [petschki] (#602)
+
+
 3.2.0a3 (2024-04-17)
 --------------------
 
