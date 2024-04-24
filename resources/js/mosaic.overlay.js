@@ -41,7 +41,7 @@ export default class Overlay {
             return;
         }
         self.$el.find("#content-core").load(
-            self.properties_edit_url() + " #content-core > form",
+            self.properties_edit_url() + " #content-core > form"
         );
         self.$el.addClass("properties-reloaded");
     }
@@ -86,15 +86,15 @@ export default class Overlay {
         var modalContent = self.modal.$modalContent;
 
         if (mode === "all" && self.options.overlay_hide_fields) {
-            // Hide layout field
-            modalContent
-                .find(self.options.customContentLayout_selector)
-                .addClass("mosaic-hidden");
-            modalContent
-                .find(self.options.contentLayout_selector)
-                .addClass("mosaic-hidden");
+            // reset visibility state if we come from field settings back to "all"
+            modalContent[0].querySelectorAll(".mosaic-hidden").forEach(
+                (el) => el.classList.remove("mosaic-hidden"));
 
-            // Hide field which are on the wysiwyg area
+            // Hide layout fields
+            modalContent[0].querySelectorAll("#fieldset-layout .field").forEach(
+                (el) => el.classList.add("mosaic-hidden"));
+
+            // Hide fields which are on the wysiwyg area
             for (const tg of self.options.tiles) {
                 if (tg.name === "fields") {
                     for (const field_tile of tg.tiles) {
@@ -110,11 +110,11 @@ export default class Overlay {
             }
 
             // hide fieldsets which only has hidden fields
-            for (fieldset of modalContent.find("fieldset")) {
+            for (const fieldset of modalContent.find("fieldset")) {
                 if (
                     fieldset.querySelectorAll(".field:not(.mosaic-hidden)").length === 0
                 ) {
-                    fieldset.classList.remove("active");
+                    fieldset.remove();
                 }
             }
         } else if (mode === "field") {
@@ -133,7 +133,9 @@ export default class Overlay {
             fieldset.addClass("active").removeClass("mosaic-hidden");
 
             // Hide all fields in current fieldset
-            fieldset.children().addClass("mosaic-hidden");
+            fieldset.find(".field").addClass("mosaic-hidden");
+            // Hide legend
+            fieldset.find("legend").addClass("mosaic-hidden");
 
             // Show current field
             field.removeClass("mosaic-hidden");
