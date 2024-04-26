@@ -5,7 +5,7 @@
     "license": "GPL-2.0-only",
     "dependencies": {
         "@patternslib/patternslib": "9.9.10",
-        "@plone/mockup": "5.2.0-alpha.6"
+        "@plone/mockup": "5.2.0-alpha.7"
     },
     "devDependencies": {
         "@patternslib/dev": "3.5.3",
