@@ -8,6 +8,17 @@ Changelog
 
 .. towncrier release notes start
 
+3.2.0a5 (2024-04-26)
+--------------------
+
+New features:
+
+
+- Update to latest mockup.
+  New feature: TinyMCE 7
+  [petschki] (#603)
+
+
 3.2.0a4 (2024-04-24)
 --------------------
 
