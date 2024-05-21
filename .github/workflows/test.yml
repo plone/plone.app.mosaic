@@ -15,10 +15,8 @@ jobs:
       fail-fast: false
       matrix:
         python:
-          - "3.9"
           - "3.10"
           - "3.11"
-          - "3.12"
         plone:
           - "6.1-dev"
 
