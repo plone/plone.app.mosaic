@@ -1,8 +1,8 @@
-.mosaic-panel-dragging .mosaic-resize-handle,
-.mosaic-panel-dragging .mosaic-resize-handle:hover,
-.mosaic-panel-resizing .mosaic-resize-handle,
-.mosaic-panel-resizing .mosaic-resize-handle:hover {
-    display: none;
+.mosaic-panel-dragging,
+.mosaic-panel-resizing {
+    .mosaic-resize-handle {
+        display: none;
+    }
 }
 
 .mosaic-panel-resizing {
@@ -34,6 +34,7 @@
 
         &.mosaic-resize-handle-helper {
             border-right-style: solid;
+            border-right-color: $primary;
             display: block;
         }
     }
@@ -74,8 +75,16 @@
 }
 
 .mosaic-resize-0 {
-    margin-left:0;
+    margin-left: 0;
 }
+
+// 5-column support
+$resize-handle-5-col: (
+    "2\\.4": 0.2,
+    "4\\.8": 0.4,
+    "7\\.2": 0.6,
+    "9\\.6": 0.8,
+);
 
 @each $breakpoint, $container-max-width in $container-max-widths {
     @include media-breakpoint-up($breakpoint, $grid-breakpoints) {
@@ -83,8 +92,15 @@
             .mosaic-resize-#{$i} {
                 margin-left: $container-max-width * divide($i, $grid-columns);
             }
+
             .mosaic-resize-placeholder.col-#{$i} {
                 max-width: $container-max-width * divide($i, $grid-columns);
+            }
+        }
+
+        @each $i, $width in $resize-handle-5-col {
+            .mosaic-resize-#{$i} {
+                margin-left: $container-max-width * $width;
             }
         }
     }

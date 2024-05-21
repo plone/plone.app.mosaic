@@ -10,20 +10,20 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
       matrix:
         python:
-          - "3.8"
           - "3.9"
           - "3.10"
           - "3.11"
+          - "3.12"
         plone:
           - "6.1-dev"
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Setup Plone ${{ matrix.plone }} with Python ${{ matrix.python }}
         id: setup
@@ -49,7 +49,7 @@ jobs:
           ROBOT_BROWSER=headlesschrome make VENV=off test-ignore-warnings
 
       - name: Save Robotframework Log
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         # safe artifacts only once
         if: matrix.python == '3.11'
         with:
