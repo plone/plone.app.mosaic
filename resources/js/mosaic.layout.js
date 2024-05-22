@@ -41,6 +41,11 @@ export default class LayoutManager {
             "mosaic-resize-10",
             "mosaic-resize-11",
             "mosaic-resize-12",
+            // 5-column support
+            "mosaic-resize-2.4",
+            "mosaic-resize-4.8",
+            "mosaic-resize-7.2",
+            "mosaic-resize-9.6",
         ],
         resizeHandleClasses: [
             "mosaic-resize-handle-1",
@@ -61,7 +66,7 @@ export default class LayoutManager {
     /* css helpers */
     getWidthClass(e) {
         for (const cls of this.layout.widthClasses) {
-            if ($(e).hasClass(cls)) {
+            if (e.classList.contains(cls)) {
                 return cls;
             }
         }
@@ -71,13 +76,13 @@ export default class LayoutManager {
 
     getResizeHandleClassId(e) {
         // Loop through resize handle classes
-        for (let idx = 0; idx < this.layout.resizeHandleClasses.length; idx++) {
-            if ($(e).hasClass(this.layout.resizeHandleClasses[idx])) {
-                return idx;
+        let handleIdx = 0;
+        this.layout.resizeHandleClasses.forEach((cls, idx) => {
+            if (e.classList.contains(cls)) {
+                handleIdx = idx;
             }
-        }
-        // Fallback
-        return 1;
+        })
+        return handleIdx;
     }
 
     addAppTile(type, url /*, id */) {
@@ -145,9 +150,8 @@ export default class LayoutManager {
         add_helper.classList.add("mosaic-grid-row");
         add_helper.innerHTML = `<div class="mosaic-grid-cell col">
                 <div class="movable removable mosaic-tile mosaic-${type}-tile mosaic-helper-tile mosaic-helper-tile-new mosaic-original-tile">
-                    <div class="mosaic-tile-content" data-tileUrl="${
-                        tileUrl && tileUrl.replace(/&/gim, "&amp;")
-                    }">
+                    <div class="mosaic-tile-content" data-tileUrl="${tileUrl && tileUrl.replace(/&/gim, "&amp;")
+            }">
                         ${value}
                     </div>
                 </div>
@@ -314,7 +318,7 @@ export default class LayoutManager {
         var self = this;
         var $customLayout = $(
             "#form-widgets-ILayoutAware-customContentLayout, " +
-                "[name='form.widgets.ILayoutAware.customContentLayout']",
+            "[name='form.widgets.ILayoutAware.customContentLayout']",
         );
 
         if (self.mosaic.hasContentLayout) {
@@ -491,7 +495,7 @@ export default class LayoutManager {
             // Get new tile helper
             var $new_tile_helper = $(".mosaic-helper-tile-new", self.mosaic.document);
 
-            if($new_tile_helper.length) {
+            if ($new_tile_helper.length) {
                 // Get offset
                 const offset = $new_tile_helper.parent().offset();
                 // Get mouse x
@@ -503,7 +507,7 @@ export default class LayoutManager {
             // Get resize handle helper
             var $helper = $(".mosaic-resize-handle-helper", self.mosaic.document);
 
-            if($helper.length) {
+            if ($helper.length) {
                 // Get row
                 var $row = $helper.parent();
                 var resize_handle_index = $helper.data("resize_handle_index");
@@ -540,7 +544,7 @@ export default class LayoutManager {
                 // sum of sizes after helper index excluding last column (which is elastic)
                 var col_size_after = column_sizes.slice(resize_handle_index + 1, -1).reduce((a, b) => a + b, 0);
                 // calculate maximum size of current column
-                if(resize_handle_index == (column_sizes.length - 1)) {
+                if (resize_handle_index == (column_sizes.length - 1)) {
                     // if last column, we can drag to full width (12)
                     var col_size_max = 12 - col_size_before - col_size_after;
                 } else {
@@ -551,26 +555,29 @@ export default class LayoutManager {
                 var new_column_size = snap_size - col_size_before;
                 // limit to maximum of col_sizes_sum and minimum of 1
                 new_column_size = new_column_size > col_size_max ? col_size_max : new_column_size < 1 ? 1 : new_column_size;
-                var new_column_sizes = [];
+                let new_column_sizes = [];
 
-                for(let i=0; i<column_sizes.length; i++) {
-                    if(i === resize_handle_index) {
+                column_sizes.forEach((width, i) => {
+                    if (i === resize_handle_index) {
                         // set new size for current column
                         new_column_sizes.push(new_column_size);
                     } else if (i === (column_sizes.length - 1)) {
                         // calculate elastic size for last column
                         var _before = new_column_sizes.reduce((a, b) => a + b);
                         var _last_size = column_sizes_sum - _before;
-                        // last size cannot be lower than 1
+                        // _last_size cannot be lower than 1
                         new_column_sizes.push(_last_size < 1 ? 1 : _last_size);
                     } else {
-                        new_column_sizes.push(column_sizes[i]);
+                        new_column_sizes.push(width);
                     }
-                }
+                })
 
                 log.debug("------------------resize-handle(move)--------------------")
+                log.debug(`resize_handle_index: ${resize_handle_index}`);
+                log.debug(`column_sizes: ${column_sizes}`);
                 log.debug(`column_sizes_sum: ${column_sizes_sum}`);
                 log.debug(`cur_snap_offset: ${cur_snap_offset}`);
+                log.debug(`snap: ${snap}`);
                 log.debug(`snap_size: ${snap_size}`);
                 log.debug(`col_size_before: ${col_size_before}`);
                 log.debug(`col_size_after: ${col_size_after}`);
@@ -595,7 +602,7 @@ export default class LayoutManager {
 
                     col_size_sum += col_size;
 
-                    if(idx === resize_handle_index) {
+                    if (idx === resize_handle_index) {
                         // move resize handle helper
                         $helper
                             .removeClass(resize_css_classes)
@@ -1367,9 +1374,10 @@ export default class LayoutManager {
                     var column_sizes = [];
                     var zero_count = 0;
                     var col_sum = 0;
+                    var col_size = 0;
 
                     for (let i = 0; i < nr_of_columns; i++) {
-                        var col_size = GetColSizeByColClass(
+                        col_size = GetColSizeByColClass(
                             self.getWidthClass(grid_cells[i]),
                         );
                         column_sizes.push(col_size);
@@ -1379,6 +1387,11 @@ export default class LayoutManager {
                         }
                     }
 
+                    // count "auto-size" columns with class ".col" and
+                    // calculate width equally.
+                    // NOTE: This requires extra logic in case of 5 columns.
+                    // See the ".toFixed(1)" below because of floating point
+                    // issues with 12 / 5 * 3
                     var zero_col = 0;
                     if (zero_count) {
                         zero_col = (12 - col_sum) / zero_count;
@@ -1394,9 +1407,8 @@ export default class LayoutManager {
                         $(this).append(
                             $(mosaic_doc.createElement("div"))
                                 .addClass(
-                                    `mosaic-resize-handle mosaic-resize-handle-${
-                                        i + 1
-                                    }` + ` mosaic-resize-${resize_col_size}`,
+                                    `mosaic-resize-handle mosaic-resize-handle-${i + 1
+                                    } mosaic-resize-${(nr_of_columns === 5) ? resize_col_size.toFixed(1).replace(".0", "") : resize_col_size}`,
                                 )
                                 .data("resize_handle_index", i),
                         );
@@ -1411,7 +1423,7 @@ export default class LayoutManager {
                     .children(".mosaic-resize-handle")
                     .off("mousedown")
                     .on("mousedown", function (/* e */) {
-                        if($(".mosaic-helper-tile-new").length > 0) {
+                        if ($(".mosaic-helper-tile-new").length > 0) {
                             // do not resize when we place a new tile
                             return;
                         }
@@ -1679,13 +1691,11 @@ function GetColSizeByColClass(col_class, prefix) {
  */
 function GetBootstrapColByPercent(width) {
     var grid_percent = GetGridPercentList();
-
-    for (let idx = 0; idx < grid_percent.length; idx++) {
-        if (width === grid_percent[idx]) {
-            return idx + 1;
+    let cw_idx = 12;
+    grid_percent.forEach((perc, idx) => {
+        if(perc == width) {
+            cw_idx = idx + 1;
         }
-    }
-
-    // Fallback
-    return 12;
+    })
+    return cw_idx;
 }
