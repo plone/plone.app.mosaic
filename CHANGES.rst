@@ -8,6 +8,16 @@ Changelog
 
 .. towncrier release notes start
 
+3.2.0a7 (2024-05-23)
+--------------------
+
+Bug fixes:
+
+
+- Another fix regarding resize-handles for ``fluid-background`` rows.
+  [petschki] (#606)
+
+
 3.2.0a6 (2024-05-22)
 --------------------
 
