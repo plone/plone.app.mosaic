@@ -513,7 +513,12 @@ export default class LayoutManager {
                 var resize_handle_index = $helper.data("resize_handle_index");
 
                 // Get mouse x
-                var mouse_x = parseFloat(e.pageX - $row.offset().left - 4);
+                var mouse_x = parseFloat(
+                    e.pageX - // current mouseX
+                    $row.offset().left - // current row position left
+                    parseInt(getComputedStyle($row[0]).paddingLeft) - // calculated padding (eg fluid-background-row)
+                    4 // centered handler
+                );
 
                 // Get mouse percentage
                 var mouse_percentage = Math.round(
@@ -573,6 +578,8 @@ export default class LayoutManager {
                 })
 
                 log.debug("------------------resize-handle(move)--------------------")
+                log.debug(`mouse_x: ${mouse_x}`);
+                log.debug(`mouse_percentage: ${mouse_percentage}`);
                 log.debug(`resize_handle_index: ${resize_handle_index}`);
                 log.debug(`column_sizes: ${column_sizes}`);
                 log.debug(`column_sizes_sum: ${column_sizes_sum}`);
@@ -1693,7 +1700,7 @@ function GetBootstrapColByPercent(width) {
     var grid_percent = GetGridPercentList();
     let cw_idx = 12;
     grid_percent.forEach((perc, idx) => {
-        if(perc == width) {
+        if (perc == width) {
             cw_idx = idx + 1;
         }
     })

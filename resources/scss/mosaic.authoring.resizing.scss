@@ -1,10 +1,3 @@
-.mosaic-panel-dragging,
-.mosaic-panel-resizing {
-    .mosaic-resize-handle {
-        display: none;
-    }
-}
-
 .mosaic-panel-resizing {
     cursor: ew-resize;
 }
@@ -13,7 +6,8 @@
     opacity: 0.5 !important;
 }
 
-.mosaic-grid-row:not(.mosaic-empty-row) {
+// general resize-handle setup
+.mosaic-grid-row {
     .mosaic-resize-handle {
         display: none;
         position: absolute;
@@ -24,7 +18,7 @@
         padding-right: 0;
         padding-left: 0;
         left: -10px;
-        z-index: 500;
+        z-index: 200;
         cursor: ew-resize;
         border-right: 3px solid $gray-300;
 
@@ -38,15 +32,14 @@
             display: block;
         }
     }
+}
 
-    &.mosaic-grid-row-fluid-background {
-
-        // fix handles with fluid background padding-left
-        @each $breakpoint, $container-max-width in $container-max-widths {
-            @include media-breakpoint-up($breakpoint, $grid-breakpoints) {
-                .mosaic-resize-handle {
-                    left: calc((100% - $container-max-width) * 0.5 - 10px);
-                }
+// show handles only when customized layout and not resizing/dragging
+body.mosaic-layout-customized {
+    .mosaic-panel:not(.mosaic-panel-resizing, .mosaic-panel-dragging) {
+        .mosaic-grid-row {
+            .mosaic-resize-handle {
+                display: block;
             }
         }
     }
@@ -86,30 +79,46 @@ $resize-handle-5-col: (
     "9\\.6": 0.8,
 );
 
-@each $breakpoint, $container-max-width in $container-max-widths {
-    @include media-breakpoint-up($breakpoint, $grid-breakpoints) {
-        @for $i from 1 through $grid-columns {
-            .mosaic-resize-#{$i} {
-                margin-left: $container-max-width * divide($i, $grid-columns);
-            }
+// general percentage resize-handles (works if not row-fluid-background)
+@for $i from 1 through $grid-columns {
+    .mosaic-resize-#{$i} {
+        margin-left: percentage(divide($i, $grid-columns));
+    }
 
-            .mosaic-resize-placeholder.col-#{$i} {
-                max-width: $container-max-width * divide($i, $grid-columns);
-            }
-        }
-
-        @each $i, $width in $resize-handle-5-col {
-            .mosaic-resize-#{$i} {
-                margin-left: $container-max-width * $width;
-            }
-        }
+    .mosaic-resize-placeholder.col-#{$i} {
+        max-width: percentage(divide($i, $grid-columns));
     }
 }
 
-body.mosaic-layout-customized {
-    .mosaic-grid-row:not(.mosaic-empty-row) {
-        .mosaic-resize-handle {
-            display: block;
+@each $i, $width in $resize-handle-5-col {
+    .mosaic-resize-#{$i} {
+        margin-left: percentage(divide($width, $grid-columns));
+    }
+}
+
+// fix handles with fluid background padding-left
+.mosaic-grid-row.mosaic-grid-row-fluid-background {
+    @each $breakpoint, $container-max-width in $container-max-widths {
+        @include media-breakpoint-up($breakpoint, $grid-breakpoints) {
+            .mosaic-resize-handle {
+                left: calc((100% - $container-max-width) * 0.5 - 10px);
+            }
+
+            @for $i from 1 through $grid-columns {
+                .mosaic-resize-#{$i} {
+                    margin-left: $container-max-width * divide($i, $grid-columns);
+                }
+
+                .mosaic-resize-placeholder.col-#{$i} {
+                    max-width: $container-max-width * divide($i, $grid-columns);
+                }
+            }
+
+            @each $i, $width in $resize-handle-5-col {
+                .mosaic-resize-#{$i} {
+                    margin-left: $container-max-width * $width;
+                }
+            }
         }
     }
 }

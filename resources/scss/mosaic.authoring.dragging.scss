@@ -237,7 +237,7 @@ body.mosaic-layout-customized .mosaic-panel.mosaic-advanced {
             }
         }
 
-        &:not(:last-child):after {
+        &:after {
             position: absolute;
             display: block;
             content: attr(class);
@@ -246,7 +246,7 @@ body.mosaic-layout-customized .mosaic-panel.mosaic-advanced {
             left: 0;
             right: 0;
             bottom: 0;
-            z-index: 500;
+            z-index: 200;
             white-space: nowrap;
             background: var(--bs-secondary-bg);
             text-align: right;
