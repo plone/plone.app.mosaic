@@ -71,7 +71,7 @@ target-version = ["py38"]
 ##
 
 [tool.codespell]
-ignore-words-list = "discreet,foo,bar"
+ignore-words-list = "discreet,assertin,foo,bar"
 skip = "*.po,*.min.js,*.min.js.map,*.min.css.map,*.svg,yarn.lock,*.json,*/tiles.xml"
 ##
 # Add extra configuration options in .meta.toml:

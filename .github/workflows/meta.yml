@@ -51,6 +51,13 @@ jobs:
 # os_dependencies = "git libxml2 libxslt"
 ##
 
+##
+# To test against a specific matrix of python versions
+# when running tests jobs, add in .meta.toml:
+# [github]
+# py_versions = "['3.12', '3.11']"
+##
+
 
 ##
 # Specify additional jobs in .meta.toml:
