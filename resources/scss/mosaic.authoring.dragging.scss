@@ -2,12 +2,12 @@
 .mosaic-panel {
     --plone-mosaic-authoring-grid-border-width: 1px;
     --plone-mosaic-authoring-grid-border-style: solid;
-    --plone-mosaic-authoring-grid-border-color: #{$gray-300};
-    --plone-mosaic-authoring-grid-border-color-active: #{$primary};
+    --plone-mosaic-authoring-grid-border-color: var(--bs-gray-300);
+    --plone-mosaic-authoring-grid-border-color-active: var(--bs-primary);
     --plone-mosaic-authoring-innergrid-border-width: 1px;
     --plone-mosaic-authoring-innergrid-border-style: dashed;
-    --plone-mosaic-authoring-innergrid-border-color: #{$gray-300};
-    --plone-mosaic-authoring-innergrid-border-color-active: #{$primary};
+    --plone-mosaic-authoring-innergrid-border-color: var(--bs-gray-300);
+    --plone-mosaic-authoring-innergrid-border-color-active: var(--bs-primary);
 }
 
 /* Placeholders */
@@ -42,7 +42,7 @@
         opacity: 1;
 
         .mosaic-tile-label {
-            background-color: $primary;
+            background-color: var(--bs-primary);
         }
     }
 }
@@ -75,7 +75,6 @@
 
     >.btn:not(.btn-danger) {
         margin-left: 0.25rem;
-        @extend .btn-light;
     }
 }
 
@@ -95,7 +94,7 @@
 /* new tile-side-tools position for advance view */
 body.mosaic-layout-customized .mosaic-advanced {
     .mosaic-tile {
-        padding-bottom: $spacer * 1.5;
+        padding-bottom: 1rem;
 
         .mosaic-tile-side-tools {
             top: auto;
@@ -115,18 +114,9 @@ body.mosaic-layout-customized .mosaic-advanced {
         .mosaic-tile-buttons {
             bottom: 0;
 
-            svg {
-                width: 12px;
-                height: 12px;
-            }
-
             .btn {
                 --bs-btn-padding-y: 1px;
                 --bs-btn-border-radius: 0;
-
-                &:not(.btn-danger) {
-                    @extend .btn-secondary;
-                }
             }
         }
     }
@@ -143,8 +133,8 @@ body.mosaic-layout-customized .mosaic-advanced {
     color: white;
     text-align: right;
     border-radius: var(--bs-border-radius) 0 0 var(--bs-border-radius);
-    background-color: $gray-500;
-    font-size: $font-size-sm;
+    background-color: var(--bs-gray-500);
+    font-size: calc(var(--bs-body-font-size) * .875);
     font-weight: bold;
     padding: 3px 5px;
     margin-bottom: 2px;
@@ -251,7 +241,7 @@ body.mosaic-layout-customized .mosaic-panel.mosaic-advanced {
             background: var(--bs-secondary-bg);
             text-align: right;
             padding: 0 5px;
-            font-size: $font-size-sm;
+            font-size: calc(var(--bs-body-font-size) * .875);
         }
     }
 

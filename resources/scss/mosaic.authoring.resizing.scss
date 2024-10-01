@@ -20,15 +20,15 @@
         left: -10px;
         z-index: 200;
         cursor: ew-resize;
-        border-right: 3px solid $gray-300;
+        border-right: 3px solid var(--bs-gray-300);
 
         &:hover {
-            border-right-color: $primary;
+            border-right-color: var(--bs-primary);
         }
 
         &.mosaic-resize-handle-helper {
             border-right-style: solid;
-            border-right-color: $primary;
+            border-right-color: var(--bs-primary);
             display: block;
         }
     }
@@ -60,10 +60,10 @@ body.mosaic-layout-customized {
     .info {
         position: absolute;
         right: 0px;
-        border: 1px dashed $primary;
+        border: 1px dashed var(--bs-primary);
         background: white;
         padding: 3px 7px;
-        color: $primary;
+        color: var(--bs-primary);
     }
 }
 

@@ -3,10 +3,10 @@
     --plone-mosaic-tiles-border-width: 1px;
     --plone-mosaic-tiles-border-style: dashed;
     --plone-mosaic-tiles-border-style-active: solid;
-    --plone-mosaic-tiles-border-color: #{$gray-500};
-    --plone-mosaic-tiles-border-color-muted: #{$gray-300};
-    --plone-mosaic-tiles-border-color-hover: #{$primary};
-    --plone-mosaic-tiles-border-color-active: #{$primary};
+    --plone-mosaic-tiles-border-color: var(--bs-gray-500);
+    --plone-mosaic-tiles-border-color-muted: var(--bs-gray-300);
+    --plone-mosaic-tiles-border-color-hover: var(--bs-primary);
+    --plone-mosaic-tiles-border-color-active: var(--bs-primary);
 }
 
 
@@ -89,17 +89,17 @@
 }
 
 /* Hide inner border of helper while dragging */
-.mosaic-panel .mosaic-panel-dragging .mosaic-helper-tile {
+.mosaic-panel.mosaic-panel-dragging .mosaic-helper-tile {
     border: 1px transparent;
 }
 
-.mosaic-panel .mosaic-panel-dragging-new {
-    cursor: crosshair !important;
+.mosaic-panel.mosaic-panel-dragging {
+    cursor: crosshair;
+    &.mosaic-panel-dragging-copy {
+        cursor: copy !important;
+    }
 }
 
-.mosaic-panel .mosaic-panel-dragging-new:hover {
-    cursor: crosshair !important;
-}
 
 /* Rich text */
 body.mosaic-enabled .tox-tinymce-inline {
