@@ -18,7 +18,7 @@ class ActionManager {
         // Extend default settings
         options = {
             // Handler for executing the action
-            exec: function () {},
+            exec: function () { },
 
             // Shortcut can be any key + ctrl/shift/alt or a combination of
             // those
@@ -222,7 +222,7 @@ class ActionManager {
                 // Trigger validation => drafting sync
                 $(
                     "#form-widgets-ILayoutAware-customContentLayout, " +
-                        "[name='form.widgets.ILayoutAware.customContentLayout']",
+                    "[name='form.widgets.ILayoutAware.customContentLayout']",
                 )
                     .trigger("focus")
                     .trigger("focusout");
@@ -309,7 +309,7 @@ class ActionManager {
                 if (!yes) {
                     yes = confirm(
                         "Changing your layout will destroy all existing custom layout " +
-                            "settings you have in place. Are you sure you want to continue?",
+                        "settings you have in place. Are you sure you want to continue?",
                     );
                 }
                 if (yes) {
@@ -445,14 +445,19 @@ class ActionManager {
                         m.show();
                     };
 
-                    $.ajax({
-                        type: "GET",
-                        url:
-                            mosaic.options.context_url +
-                            "/@@add-tile?tiletype=" +
-                            tile_type +
-                            "&form.button.Create=Create",
-                        success: function (value) {
+                    fetch(
+                        `${mosaic.options.context_url}/@@add-tile?tiletype=${tile_type}&form.button.Create=Create`,
+                        {
+                            method: "GET",
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                alert(`Could not create tile ${tile_type}: ${response.statusText}`);
+                                return;
+                            }
+                            return response.text();
+                        })
+                        .then(value => {
                             utils.loading.hide();
 
                             // Read form
@@ -499,8 +504,7 @@ class ActionManager {
                                     },
                                 });
                             }
-                        },
-                    });
+                        });
                 } else {
                     // Add tile
                     mosaic.layoutManager.addTile(

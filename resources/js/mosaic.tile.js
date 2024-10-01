@@ -413,7 +413,7 @@ class Tile {
         self.$el.data("mosaic-tile", self);
 
         self._initialized = true;
-        log.debug(`Initialized ${tile_config.id}`);
+        log.debug(`Initialized ${tile_config.id || tile_config.name}`);
     }
 
     resetClicked(e) {
@@ -526,19 +526,31 @@ class Tile {
                 // Remove tags
                 this.mosaic.removeHeadTags(tile_url);
 
-                // Ajax call to remove tile
-                this.mosaic.queue(function (next) {
-                    $.ajax({
-                        type: "POST",
-                        url: self.getDeleteUrl(),
-                        data: {
-                            "buttons.delete": "Delete",
-                            "_authenticator": utils.getAuthenticator(),
-                        },
-                    }).always(function () {
-                        next();
-                    });
+                const data = new URLSearchParams({
+                    "buttons.delete": "Delete",
+                    "_authenticator": utils.getAuthenticator(),
                 });
+
+                fetch(
+                    self.getDeleteUrl(),
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/x-www-form-urlencoded; charset: utf-8",
+                            "X-Requested-With": "XMLHttpRequest",  // do not redirect to nextUrl after deleting
+                        },
+                        body: data.toString(),
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            alert(`Could not delete tile ${tile_url}: ${response.statusText}`);
+                            return;
+                        }
+                        return response.json();
+                    })
+                    .catch((err) => {
+                        log.warn(`Error while delete tile ${tile_url}: ${err}`);
+                    });
             }
         }
 
@@ -733,13 +745,22 @@ class Tile {
             if (url.indexOf("_layouteditor") === -1) {
                 url += "_layouteditor=true";
             }
-            $.ajax({
-                type: "GET",
-                url: url,
-                success: async function (value) {
+            fetch(
+                url,
+                {
+                    method: "GET",
+
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        alert(`error loading tile ${tile_config.label} (${tile_config.name}).`)
+                        return;
+                    }
+                    return response.text();
+                })
+                .then(async html => {
                     self.$el.removeClass("mosaic-tile-loading");
-                    // Get dom tree
-                    value = self.mosaic.getDomTreeFromHtml(value);
+                    let value = self.mosaic.getDomTreeFromHtml(html);
 
                     // Add head tags
                     self.mosaic.addHeadTags(href, value);
@@ -752,19 +773,14 @@ class Tile {
                         wysiwyg: tiletype === "plone.app.standardtiles.html",
                         created: created,
                     });
-                },
-                error: function () {
+                })
+                .catch((err) => {
                     self.$el.removeClass("mosaic-tile-loading");
                     log.error(
-                        "Error getting data for the tile " +
-                        tile_config.label +
-                        "(" +
-                        tile_config.name +
-                        "). Please read documentation " +
-                        "on how to correctly register tiles: https://pypi.python.org/pypi/plone.tiles",
-                    );
-                },
-            });
+                        `Error getting data for the tile ${tile_config.label} ` +
+                        `(${tile_config.name}).Please read documentation on ` +
+                        `how to correctly register tiles: https://pypi.python.org/pypi/plone.tiles`);
+                });
         }
     }
 
@@ -782,7 +798,13 @@ class Tile {
             $content.html(html);
         }
         if (editable) {
-            $content.attr("contenteditable", true);
+            // special check for DublinCore.title/description
+            var $editable_tags = $content.find("h1.documentFirstHeading, p.documentDescription");
+            if ($editable_tags.length) {
+                $editable_tags.attr("contenteditable", true);
+            } else {
+                $content.attr("contenteditable", true);
+            }
         }
         if (url && $content.length > 0) {
             url = url.replace(/&/gim, "&amp;");
@@ -796,7 +818,7 @@ class Tile {
             await this.setupWysiwyg(created);
         }
         this.cacheHtml(html);
-        this.scanRegistry();
+        await this.scanRegistry();
     }
     cacheHtml(html) {
         /* Cache html on the tile element.
@@ -922,19 +944,30 @@ class Tile {
                     "buttons.save": "Save",
                 };
                 data[tile_config.name + ".content"] = currentData;
-                // need to save tile
-                self.mosaic.queue(function (next) {
-                    $.ajax({
-                        url: edit_url,
+                // save tile
+                const body = new URLSearchParams(data);
+
+                fetch(
+                    edit_url,
+                    {
                         method: "POST",
-                        data: data,
-                    }).always(function () {
+                        headers: {
+                            "Content-Type": "application/x-www-form-urlencoded; charset: utf-8",
+                        },
+                        body: body,
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            alert(`Could not save tile: ${response.statusText}`);
+                            return;
+                        }
                         self.$el.data("lastSavedData", currentData);
                         self.$el.data("activeSave", false);
                         utils.loading.hide();
-                        next();
+                    })
+                    .catch((err) => {
+                        log.warn(`Error while save tile ${tile_config.name}: ${err}`);
                     });
-                });
             }
         }
     }
