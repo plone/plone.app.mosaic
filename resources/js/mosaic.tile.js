@@ -12,31 +12,6 @@ const log = logging.getLogger("pat-mosaic/tile");
 
 var _TILE_TYPE_CACHE = {};
 var _TILE_CONFIG_CACHE = {};
-const BUTTON_ICON_MAP = {
-    delete:
-        '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">' +
-        '<path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>' +
-        "</svg>",
-    cancel:
-        '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">' +
-        '<path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>' +
-        '<path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>' +
-        "</svg>",
-    confirm:
-        '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle" viewBox="0 0 16 16">' +
-        '<path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>' +
-        '<path d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z"/>' +
-        "</svg>",
-    edit:
-        '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">' +
-        '<path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>' +
-        '<path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>' +
-        "</svg>",
-    settings:
-        '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-sliders" viewBox="0 0 16 16">' +
-        '<path fill-rule="evenodd" d="M11.5 2a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM9.05 3a2.5 2.5 0 0 1 4.9 0H16v1h-2.05a2.5 2.5 0 0 1-4.9 0H0V3h9.05zM4.5 7a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM2.05 8a2.5 2.5 0 0 1 4.9 0H16v1H6.95a2.5 2.5 0 0 1-4.9 0H0V8h2.05zm9.45 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm-2.45 1a2.5 2.5 0 0 1 4.9 0H16v1h-2.05a2.5 2.5 0 0 1-4.9 0H0v-1h9.05z"/>' +
-        "</svg>",
-};
 var OMIT_SETTINGS_TILE_TYPES = [
     "RichTextFieldWidget",
     "RichTextWidget",
@@ -235,8 +210,8 @@ class Tile {
         if (_missing_tile_configs.indexOf(tiletype) === -1) {
             log.warn(
                 "Could not load tile config for tile type: " +
-                    tiletype +
-                    " falling back to b/w compatible tile type.",
+                tiletype +
+                " falling back to b/w compatible tile type.",
             );
             _missing_tile_configs.push(tiletype);
         }
@@ -461,26 +436,32 @@ class Tile {
         $originalRow.mosaicCleanupRow();
         $originalRow.mosaicSetResizeHandles();
     }
-    initializeButtons() {
+    async initializeButtons() {
         var buttons = [];
         var tile_config = this.getConfig();
 
-        // reinitialize buttons every time
-        this.$el.find(".mosaic-tile-buttons").remove();
+        // remove existing
+        const btns_node = this.el.querySelector(".mosaic-tile-buttons");
+        if (btns_node) {
+            btns_node.parentNode.removeChild(btns_node);
+        }
 
-        var _addButton = function (label, name, click) {
-            var btn = document.createElement("button");
-            btn.className = `btn btn-sm btn-${
-                name === "confirm" ? "danger" : "light"
-            } mosaic-btn-${name}`;
+        var _addButton = async (label, name, icon_name, click) => {
+            const btn = document.createElement("button");
+            btn.classList.add("btn", "btn-sm", `btn-${name === "confirm" ? "danger" : "light"}`, "mosaic-btn-" + name);
             btn.textContent = label;
-            buttons.push(btn);
-            $(btn).on("click", click);
-            if (!(name in BUTTON_ICON_MAP)) {
+            try {
+                // get plone icons from utils
+                const icon = await utils.resolveIcon(icon_name);
+                btn.innerHTML = icon + btn.innerHTML;
+                btn.querySelector("svg").classList.add("plone-icon", "me-1");
+            } catch (err) {
                 log.warn(`could not find button icon "${name}"`);
-            } else {
-                $(btn).prepend(BUTTON_ICON_MAP[name] + " ");
             }
+            if (click != undefined) {
+                btn.addEventListener("click", click.bind(this));
+            }
+            buttons.push(btn);
             return btn;
         };
 
@@ -490,19 +471,25 @@ class Tile {
             tile_config.settings &&
             !this.el.classList.contains(".mosaic-read-only-tile")
         ) {
-            _addButton("Edit", "settings", this.settingsClicked.bind(this));
+            await _addButton("Edit", "settings", "sliders", this.settingsClicked);
         }
 
         if (!this.mosaic.hasContentLayout) {
-            _addButton("Delete", "delete", this.deleteClicked.bind(this));
-            var confirmBtn = _addButton(
+            // delete
+            await _addButton("Delete", "delete", "trash3", this.deleteClicked);
+
+            // confirm delete
+            var confirmBtn = await _addButton(
                 "Confirm delete",
                 "confirm",
-                this.confirmClicked.bind(this),
+                "check-circle",
+                this.confirmClicked,
             );
-            $(confirmBtn).hide();
-            var btn = _addButton("Cancel", "cancel", this.cancelClicked.bind(this));
-            $(btn).hide();
+            confirmBtn.style.display = "none";
+
+            // cancel delete
+            var cancelBtn = await _addButton("Cancel", "cancel", "x-circle", this.cancelClicked);
+            cancelBtn.style.display = "none";
         }
 
         if (buttons.length > 0) {
@@ -770,11 +757,11 @@ class Tile {
                     self.$el.removeClass("mosaic-tile-loading");
                     log.error(
                         "Error getting data for the tile " +
-                            tile_config.label +
-                            "(" +
-                            tile_config.name +
-                            "). Please read documentation " +
-                            "on how to correctly register tiles: https://pypi.python.org/pypi/plone.tiles",
+                        tile_config.label +
+                        "(" +
+                        tile_config.name +
+                        "). Please read documentation " +
+                        "on how to correctly register tiles: https://pypi.python.org/pypi/plone.tiles",
                     );
                 },
             });
@@ -828,7 +815,7 @@ class Tile {
         }
         $content[0]._preScanHTML = html;
     }
-    scanRegistry() {
+    async scanRegistry() {
         /*
             A bit tricky here because tiles can contain patterns.
             Pay attention to the use of _preScanHTML.
