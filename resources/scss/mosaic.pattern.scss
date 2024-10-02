@@ -1,14 +1,6 @@
-// manually set primary color to plonetheme.barceloneta $primary
-$primary: #007bb1;
-
-// Bootstrap configuration
 @import "bootstrap/scss/functions";
 @import "bootstrap/scss/variables";
-@import "bootstrap/scss/variables-dark";
-@import "bootstrap/scss/mixins";
-
-// Bootstrap components
-@import "bootstrap/scss/buttons";
+@import "bootstrap/scss/mixins/breakpoints";
 
 @import "mosaic.toolbar.scss";
 @import "mosaic.authoring.dragging.scss";
