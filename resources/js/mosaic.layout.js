@@ -4,6 +4,7 @@ import $ from "jquery";
 import logging from "@patternslib/patternslib/src/core/logging";
 import events from "@patternslib/patternslib/src/core/events";
 import Tile from "./mosaic.tile";
+import mosaic_utils from "./utils";
 
 const log = logging.getLogger("pat-mosaic/layout");
 
@@ -85,59 +86,10 @@ export default class LayoutManager {
         return handleIdx;
     }
 
-    addAppTile(type, url /*, id */) {
-        // Get value
-        $.ajax({
-            type: "GET",
-            url: url,
-            success: async (value) => {
-                // Get dom tree
-                value = this.mosaic.getDomTreeFromHtml(value);
-
-                // Add head tags
-                this.mosaic.addHeadTags(url, value);
-
-                // Add tile
-                await this.addTile(type, value.find(".temp_body_tag").html(), url);
-            },
-        });
-    }
-
     async addAppTileHTML(type, response, url) {
         let value = this.mosaic.getDomTreeFromHtml(response);
         this.mosaic.addHeadTags(url, value);
         await this.addTile(type, value.find(".temp_body_tag").html(), url);
-    }
-
-    editAppTile(url) {
-        var self = this;
-
-        // Focus on current window
-        window.parent.focus();
-
-        // Get new value
-        $.ajax({
-            type: "GET",
-            url: url,
-            success: function (value) {
-                // Get dom tree
-                value = self.mosaic.getDomTreeFromHtml(value);
-
-                // Remove head tags
-                self.mosaic.removeHeadTags(url);
-
-                // Add head tags
-                self.mosaic.addHeadTags(url, value);
-
-                // Update tile
-                var $tile = $(
-                    ".mosaic-selected-tile .mosaic-tile-content",
-                    self.mosaic.document,
-                );
-                $tile.html(value.find(".temp_body_tag").html()); // jshint ignore:line
-                $tile.attr("data-tileUrl", url.replace(/&/gim, "&amp;"));
-            },
-        });
     }
 
     async addTile(type, value, tileUrl) {
@@ -148,14 +100,15 @@ export default class LayoutManager {
         // Add helper
         const add_helper = document.createElement("div");
         add_helper.classList.add("mosaic-grid-row");
-        add_helper.innerHTML = `<div class="mosaic-grid-cell col">
-                <div class="movable removable mosaic-tile mosaic-${type}-tile mosaic-helper-tile mosaic-helper-tile-new mosaic-original-tile">
-                    <div class="mosaic-tile-content" data-tileUrl="${tileUrl && tileUrl.replace(/&/gim, "&amp;")
-            }">
-                        ${value}
-                    </div>
-                </div>
-            </div>`;
+        add_helper.innerHTML = (
+            `<div class="mosaic-grid-cell col">` +
+            `<div class="movable removable mosaic-tile mosaic-${type}-tile mosaic-helper-tile mosaic-helper-tile-new mosaic-original-tile">` +
+            `<div class="mosaic-tile-content" data-tileUrl="${tileUrl && tileUrl.replace(/&/gim, "&amp;")}">` +
+            value +
+            `</div>` +
+            `</div>` +
+            `</div>`
+        );
         self.mosaic.panels[0].append(add_helper);
 
         // Set helper min size
@@ -178,8 +131,43 @@ export default class LayoutManager {
 
         var tile = new Tile(self.mosaic, helper);
         await tile.initialize();
+
         tile.cacheHtml();
-        tile.scanRegistry();
+        await tile.scanRegistry();
+    }
+
+    async copyTile(orig_tile) {
+        const orig_tile_inst = orig_tile[0]["mosaic-tile"];
+        const tile_type = orig_tile_inst.getType();
+        if (tile_type != "plone.app.standardtiles.html") {
+            // only HTML tiles are copyable right now
+            alert("Only Richtext tiles can be copied right now. Sorry 🤷🏼‍♂️");
+            return orig_tile;
+        }
+        // remove class
+        orig_tile.removeClass("mosaic-original-tile");
+        const orig_parent = orig_tile.closest(".mosaic-grid-row");
+        // create copy tile helper
+        const copy_tile_id = mosaic_utils.generate_uid();
+        let $copy_tile_helper = $(
+            `<div class="mosaic-grid-cell col">` +
+            `<div class="movable removable copyable mosaic-tile mosaic-${tile_type}-tile mosaic-helper-tile mosaic-helper-tile-new mosaic-original-tile">` +
+            `<div class="mosaic-tile-content" data-tileUrl="./@@${tile_type}/${copy_tile_id}">` +
+            orig_tile_inst.getHtmlContent() +
+            `</div>` +
+            `</div>` +
+            `</div>`);
+        orig_parent.append($copy_tile_helper);
+
+        var tile = new Tile(this.mosaic, $copy_tile_helper.find(".mosaic-tile"));
+        await tile.initialize();
+        // save copied content
+        await tile.save();
+
+        tile.cacheHtml();
+        await tile.scanRegistry();
+
+        return tile.$el;
     }
 
     getDefaultValue(tile_config) {
@@ -198,37 +186,36 @@ export default class LayoutManager {
             end = "</div>";
         }
 
-        switch (tile_config.tile_type) {
-            case "field":
-                switch (tile_config.widget) {
-                    case "z3c.form.browser.text.TextWidget":
-                    case "z3c.form.browser.text.TextFieldWidget":
-                        var textval = $("#" + tile_config.id, self.mosaic.document)
-                            .find("input")
-                            .attr("value");
-                        return `${start}${textval}${end}`;
-                    case "z3c.form.browser.textarea.TextAreaWidget":
-                    case "z3c.form.browser.textarea.TextAreaFieldWidget":
-                    case "z3c.form.browser.textlines.TextLinesWidget":
-                    case "z3c.form.browser.textlines.TextLinesFieldWidget":
-                        var lines = $("#" + tile_config.id, self.mosaic.document)
-                            .find("textarea")
-                            .val()
-                            .replace("\\n", "<br/>");
-                        return `${start}${lines}${end}`;
-                    case "plone.app.z3cform.widget.RichTextFieldWidget":
-                    case "plone.app.z3cform.widgets.richtext.RichTextFieldWidget":
-                    case "plone.app.z3cform.wysiwyg.widget.WysiwygWidget":
-                    case "plone.app.z3cform.wysiwyg.widget.WysiwygFieldWidget":
-                    case "plone.app.widgets.dx.RichTextWidget":
-                        return $("#" + tile_config.id)
-                            .find("textarea")
-                            .val();
-                    default:
-                        return `<div class="text-bg-secondary">Placeholder for field:<br/><b>${tile_config.label}</b></div>`;
-                }
-            default:
-                return tile_config.default_value;
+        if (tile_config.tile_type == "field") {
+            switch (tile_config.widget) {
+                case "z3c.form.browser.text.TextWidget":
+                case "z3c.form.browser.text.TextFieldWidget":
+                    var textval = $("#" + tile_config.id, self.mosaic.document)
+                        .find("input")
+                        .attr("value");
+                    return `${start}${textval}${end}`;
+                case "z3c.form.browser.textarea.TextAreaWidget":
+                case "z3c.form.browser.textarea.TextAreaFieldWidget":
+                case "z3c.form.browser.textlines.TextLinesWidget":
+                case "z3c.form.browser.textlines.TextLinesFieldWidget":
+                    var lines = $("#" + tile_config.id, self.mosaic.document)
+                        .find("textarea")
+                        .val()
+                        .replace("\\n", "<br/>");
+                    return `${start}${lines}${end}`;
+                case "plone.app.z3cform.widget.RichTextFieldWidget":
+                case "plone.app.z3cform.widgets.richtext.RichTextFieldWidget":
+                case "plone.app.z3cform.wysiwyg.widget.WysiwygWidget":
+                case "plone.app.z3cform.wysiwyg.widget.WysiwygFieldWidget":
+                case "plone.app.widgets.dx.RichTextWidget":
+                    return $("#" + tile_config.id)
+                        .find("textarea")
+                        .val();
+                default:
+                    return `<div class="text-bg-secondary">Placeholder for field:<br/><b>${tile_config.label}</b></div>`;
+            }
+        } else {
+            return tile_config.default_value;
         }
     }
 
@@ -330,29 +317,41 @@ export default class LayoutManager {
 
     init_events() {
         var self = this;
+        const _document = this.mosaic.document;
+        const _panels = _document.querySelectorAll(".mosaic-panel");
+
+        if (_panels.length == 0) {
+            console.log("No mosaic panel found!");
+            return
+        }
+        else if (_panels.length > 1) {
+            console.log("More than one mosaic panels found -> initializing events only for first panel!");
+        }
+
+        const _panel = _panels[0];
+
         var DocumentKeyup = function (e) {
             // Check if alt
             if (e.keyCode === 18) {
-                var date = new Date();
-                var enabled = $(".mosaic-panel", self.mosaic.document).data(
-                    "advanced-enabled",
-                );
-                var elapsed = date.getTime() - enabled;
-                if (elapsed > 400) {
-                    $(".mosaic-panel", self.mosaic.document).removeClass(
-                        "mosaic-advanced",
-                    );
+                // check for copy mode
+                if (_panel.classList.contains("mosaic-panel-dragging-copy")) {
+                    _panel.classList.remove("mosaic-panel-dragging-copy");
+                } else {
+                    var date = new Date();
+                    var elapsed = date.getTime() - parseInt(_panel["mosaic-advanced-enabled"]);
+                    if (elapsed > 400) {
+                        _panel.classList.remove("mosaic-advanced");
+                    }
                 }
             }
             // Check if ctrl
             if (e.keyCode === 17) {
-                $(".mosaic-panel", self.mosaic.document).removeClass("inner-subcolumn");
+                _panel.classList.remove("inner-subcolumn");
             }
         };
 
         // Keydown handler
         var DocumentKeydown = function (e) {
-            const _document = self.mosaic.document;
             // Tab key
             if (e.keyCode === 9) {
                 // blur all active tiles. and set focus
@@ -367,26 +366,32 @@ export default class LayoutManager {
             }
             // Check if alt
             if (e.keyCode === 18) {
-                if ($(".mosaic-panel", _document).hasClass("mosaic-advanced")) {
-                    $(".mosaic-panel", _document).removeClass("mosaic-advanced");
+                // pressing alt during existing tile dragging checks for possible copy mode
+                // see mosaic.tile.js -> COPYABLE_TILE_TYPES
+                const orig_tile = _panel.querySelector(".mosaic-original-tile");
+                if (
+                    orig_tile?.classList.contains("copyable") &&
+                    _panel.classList.contains("mosaic-panel-dragging") &&
+                    !_panel.classList.contains("mosaic-panel-dragging-new")
+                ) {
+                    _panel.classList.add("mosaic-panel-dragging-copy");
+                }
+                else if (_panel.classList.contains("mosaic-advanced")) {
+                    _panel.classList.remove("mosaic-advanced");
                 } else {
-                    var date = new Date();
-                    $(".mosaic-panel", _document).addClass("mosaic-advanced");
-                    $(".mosaic-panel", _document).data(
-                        "advanced-enabled",
-                        date.getTime(),
-                    );
+                    _panel.classList.add("mosaic-advanced");
+                    _panel["mosaic-advanced-enabled"] = (new Date()).getTime();
                 }
             }
             // Check if ctrl
             if (e.keyCode === 17) {
-                $(".mosaic-panel", _document).addClass("inner-subcolumn");
+                _panel.classList.add("inner-subcolumn");
             }
 
             // Check if esc
             if (e.keyCode === 27) {
                 // Check if dragging
-                var original_tile = _document.querySelectorAll(".mosaic-original-tile");
+                var original_tile = _panel.querySelectorAll(".mosaic-original-tile");
                 if (original_tile.length > 0) {
                     original_tile.forEach((tile) => {
                         tile.classList.add("mosaic-drag-cancel");
@@ -397,13 +402,13 @@ export default class LayoutManager {
                             $(tile).remove();
                             $orig_row.mosaicCleanupRow();
                             // Remove dragging class from content
-                            self.mosaic.panels.removeClass(
-                                "mosaic-panel-dragging mosaic-panel-dragging-new",
+                            _panel.classList.remove(
+                                "mosaic-panel-dragging", "mosaic-panel-dragging-new",
                             );
                             // Hide all dividers
                             $(
                                 ".mosaic-selected-divider",
-                                self.mosaic.document,
+                                _document,
                             ).removeClass("mosaic-selected-divider");
                         }
                     });
@@ -420,7 +425,6 @@ export default class LayoutManager {
                     $(this).parents("[data-panel]").removeClass("mosaic-panel-resizing");
                     $(this).parent().removeClass("mosaic-row-resizing");
                     $(this).parent().children(".mosaic-resize-placeholder").remove();
-
                     // Remove helper
                     $(this).remove();
                 });
@@ -429,13 +433,13 @@ export default class LayoutManager {
 
         // Bind event and add to array
         events.add_event_listener(
-            self.mosaic.document,
+            _document,
             "keydown",
             "pat-layout--keydown",
             DocumentKeydown,
         );
         events.add_event_listener(
-            self.mosaic.document,
+            _document,
             "keyup",
             "pat-layout--keyup",
             DocumentKeyup,
@@ -486,7 +490,7 @@ export default class LayoutManager {
         events.add_event_listener(
             self.mosaic.document,
             "mousedown",
-            "pat-layout--mousedown",
+            "pat-layout--mousedown-document",
             DocumentMousedown,
         );
 
@@ -642,6 +646,7 @@ export default class LayoutManager {
         const DocumentMouseup = function () {
             // Find resize helper
             $(".mosaic-resize-handle-helper", self.mosaic.document).each(function () {
+
                 var resize_handle_index = $(this).data("resize_handle_index");
 
                 // Cleanup original row
@@ -731,46 +736,50 @@ export default class LayoutManager {
             );
 
             // Don't show dividers if above original or floating tile
+            // but not in copy mode
             if (
-                $(this).hasClass("mosaic-original-tile") === false &&
-                $(this).hasClass("mosaic-tile-align-left") === false &&
-                $(this).hasClass("mosaic-tile-align-right") === false
+                (!$(this).parents("[data-panel]").hasClass("mosaic-panel-dragging-copy") &&
+                    $(this).hasClass("mosaic-original-tile")) ||
+                $(this).hasClass("mosaic-tile-align-left") ||
+                $(this).hasClass("mosaic-tile-align-right")
             ) {
-                // Get direction
-                var dir = $(this).mosaicGetDirection(e);
-                var divider = $(this).children(".mosaic-divider-" + dir);
+                return;
+            }
 
-                // Check if left or right divider
-                if (dir === "left" || dir === "right") {
-                    var row = divider.parent().parent().parent();
-                    var cols = row.children(".mosaic-grid-cell").filter((idx, el) => {
-                        // filter out original tile to enable moving tiles
-                        // inside row with max-columns tiles
-                        return $(el).find(".mosaic-original-tile").length === 0;
-                    });
+            // Get direction
+            var dir = $(this).mosaicGetDirection(e);
+            var divider = $(this).children(".mosaic-divider-" + dir);
 
-                    if (cols.length >= $(".mosaic-panel").data("max-columns")) {
-                        // This row already up to the max amount of columns allowed for this layout
-                        // do not allow new items to be dropped alingside any elements in this row.
-                        return;
-                    }
+            // Check if left or right divider
+            if (dir === "left" || dir === "right") {
+                var row = divider.parent().parent().parent();
+                var cols = row.children(".mosaic-grid-cell").filter((idx, el) => {
+                    // filter out original tile to enable moving tiles
+                    // inside row with max-columns tiles
+                    return $(el).find(".mosaic-original-tile").length === 0;
+                });
 
-                    // If row has multiple columns
-                    if (row.children(".mosaic-grid-cell").length > 1) {
-                        divider.height(row.height() + 5);
-                        divider.css(
-                            "top",
-                            row.offset().top - divider.parent().offset().top - 5,
-                        );
-                    } else {
-                        divider.height(divider.parent().height() + 5);
-                        divider.css("top", -5);
-                    }
+                if (cols.length >= $(".mosaic-panel").data("max-columns")) {
+                    // This row already up to the max amount of columns allowed for this layout
+                    // do not allow new items to be dropped alingside any elements in this row.
+                    return;
                 }
 
-                // Show divider
-                divider.addClass("mosaic-selected-divider");
+                // If row has multiple columns
+                if (row.children(".mosaic-grid-cell").length > 1) {
+                    divider.height(row.height() + 5);
+                    divider.css(
+                        "top",
+                        row.offset().top - divider.parent().offset().top - 5,
+                    );
+                } else {
+                    divider.height(divider.parent().height() + 5);
+                    divider.css("top", -5);
+                }
             }
+
+            // Show divider
+            divider.addClass("mosaic-selected-divider");
         };
 
         // Bind events
@@ -790,16 +799,13 @@ export default class LayoutManager {
             events.add_event_listener(
                 tile,
                 "click",
-                "pat-layout--click-tile",
-                function () {
-                    if (
-                        $(".mosaic-helper-tile-new", self.mosaic.document).length === 0
-                    ) {
+                "pat-layout--select-tile",
+                () => {
+                    if ($(".mosaic-helper-tile-new", self.mosaic.document).length > 0) {
                         // only if not dropping tile
-                        if ($(this).data("mosaic-tile")) {
-                            $(this).data("mosaic-tile").select();
-                        }
+                        return;
                     }
+                    tile["mosaic-tile"].select();
                 },
             );
         });
@@ -1018,9 +1024,12 @@ export default class LayoutManager {
         $.fn.mosaicAddDrag = function () {
             // Loop through matched elements
             return this.each(function () {
-                var tile = $(this);
+                const tile = this;
+                let drag_start_ts = 0;
+                let drag_start = null;
+                let drag_start_delay = 300;
 
-                var DragMove = function (event) {
+                const DragMove = (event) => {
                     var helper = $(".mosaic-helper-tile", mosaic_doc);
                     var offset = helper.parents("[data-panel]").offset();
                     if (offset) {
@@ -1029,62 +1038,75 @@ export default class LayoutManager {
                     }
                 };
 
-                var DragStop = function () {
-                    var helper = $(".mosaic-helper-tile", mosaic_doc);
-                    $(mosaic_doc).off("mousemove", DragMove).off("mouseup", DragStop);
+                const DragStop = () => {
+                    clearTimeout(drag_start);
+
+                    events.remove_event_listener(mosaic_doc, "pat-layout--dragmove")
+                    events.remove_event_listener(mosaic_doc, "pat-layout--dragstop")
+
+                    var curr_ts = (new Date()).getTime();
+
+                    if ((curr_ts - drag_start_ts) < drag_start_delay) {
+                        // skip within dragstart delay
+                        return;
+                    }
 
                     // Handle drag end
+                    const helper = $(".mosaic-helper-tile", mosaic_doc);
                     helper.mosaicHandleDragEnd();
                     helper.remove();
                 };
 
-                return tile.each(function () {
-                    tile.find("div.mosaic-drag-handle")
-                        .off("mousedown")
-                        .on("mousedown", function (event) {
-                            var downX = event.pageX;
-                            var downY = event.pageY;
-                            var DragCheckMove = function (event) {
-                                if (
-                                    Math.max(
-                                        Math.abs(downX - event.pageX),
-                                        Math.abs(downY - event.pageY),
-                                    ) >= 1
-                                ) {
-                                    // Add dragging class to content area
-                                    self.mosaic.panels.addClass("mosaic-panel-dragging");
-                                    $(".mosaic-selected-tile", mosaic_doc)
-                                        .removeClass("mosaic-selected-tile")
-                                        .children(".mosaic-tile-content")
-                                        .trigger("blur");
+                const DragStart = (event) => {
+                    // Add dragging class to content area
+                    self.mosaic.panels.addClass("mosaic-panel-dragging");
 
-                                    var originaltile = $(event.target).parents(
-                                        ".mosaic-tile",
-                                    );
-                                    originaltile.addClass("mosaic-original-tile");
+                    $(".mosaic-selected-tile", mosaic_doc)
+                        .removeClass("mosaic-selected-tile")
+                        .children(".mosaic-tile-content")
+                        .trigger("blur");
 
-                                    var clone = originaltile.clone(true);
-                                    clone
-                                        .css({
-                                            "width": originaltile.width(),
-                                            "max-height": "50%",
-                                            "position": "absolute",
-                                            "opacity": 0.5,
-                                        })
-                                        .addClass("mosaic-helper-tile");
-                                    originaltile.parents("[data-panel]").append(clone);
+                    var originaltile = $(event.target).parents(
+                        ".mosaic-tile",
+                    );
+                    originaltile.addClass("mosaic-original-tile");
 
-                                    $(mosaic_doc).on("mousemove", DragMove);
-                                    $(mosaic_doc).on("mouseup", DragStop);
-                                    $(mosaic_doc).off("mousemove", DragCheckMove);
-                                }
-                            };
-                            $(mosaic_doc).on("mousemove", DragCheckMove);
-                            $(mosaic_doc).on("mouseup", function () {
-                                $(mosaic_doc).off("mousemove", DragCheckMove);
-                            });
-                        });
-                });
+                    var clone = originaltile.clone(true);
+                    clone
+                        .removeClass("mosaic-original-tile")
+                        .css({
+                            "width": originaltile.width(),
+                            "max-height": "33%",
+                            "position": "absolute",
+                            "opacity": 0.5,
+                        })
+                        .addClass("mosaic-helper-tile");
+                    originaltile.parents("[data-panel]").append(clone);
+
+                    events.add_event_listener(
+                        mosaic_doc,
+                        "mousemove",
+                        "pat-layout--dragmove",
+                        DragMove,
+                    )
+                }
+
+                const tile_drag_handle = tile.querySelector(".mosaic-drag-handle");
+
+                events.add_event_listener(
+                    tile_drag_handle,
+                    "mousedown",
+                    "pat-layout--startdrag",
+                    (event) => {
+                        // register dragstop
+                        events.add_event_listener(mosaic_doc, "mouseup", "pat-layout--dragstop", DragStop);
+                        // delayed dragstart
+                        drag_start_ts = (new Date()).getTime();
+                        drag_start = setTimeout(() => {
+                            DragStart(event);
+                        }, drag_start_delay);
+                    }
+                );
             });
         };
 
@@ -1094,13 +1116,14 @@ export default class LayoutManager {
          * @id jQuery.mosaicHandleDragEnd
          * @return {Object} jQuery object
          */
-        $.fn.mosaicHandleDragEnd = function () {
+        $.fn.mosaicHandleDragEnd = async function () {
             // Get layout object
             var obj = $(this).parents("[data-panel]");
+            let copy = obj.hasClass("mosaic-panel-dragging-copy");
 
             // Remove dragging class from content
-            self.mosaic.panels.removeClass(
-                "mosaic-panel-dragging mosaic-panel-dragging-new",
+            obj.removeClass(
+                "mosaic-panel-dragging mosaic-panel-dragging-copy mosaic-panel-dragging-new",
             );
 
             // Get direction
@@ -1114,15 +1137,17 @@ export default class LayoutManager {
             }
             divider.removeClass("mosaic-selected-divider");
 
-            // True if new tile is inserted
+            // True if new tile is inserted or copied
             var new_tile = $(".mosaic-helper-tile-new", mosaic_doc).length > 0;
             var original_tile = $(".mosaic-original-tile", mosaic_doc);
             // get original row here, because tile might be moved
             var original_row = original_tile.closest(".mosaic-grid-row");
+            // check if we want to copy it (pressed ALT key -> see init_events)
+            let dropped_tile = copy ? await self.copyTile(original_tile) : original_tile;
 
             // If divider is not found or not sane drop, act like esc is pressed
             if (divider.length === 0 || drop.hasClass("mosaic-helper-tile")) {
-                original_tile.addClass("mosaic-drag-cancel");
+                dropped_tile.addClass("mosaic-drag-cancel");
             }
 
             const fixup_classes = (_t) => {
@@ -1131,14 +1156,11 @@ export default class LayoutManager {
                     "mosaic-original-tile mosaic-helper-tile mosaic-helper-tile-new mosaic-tile-align-right mosaic-tile-align-left",
                 );
                 _t.css({ width: "", left: "", top: "" });
-                if (!new_tile) {
-                    _t.addClass("mosaic-new-tile");
-                }
             };
 
             if (
                 // Check if esc is pressed
-                original_tile.hasClass("mosaic-drag-cancel") ||
+                dropped_tile.hasClass("mosaic-drag-cancel") ||
                 // Not dropped on tile and empty row
                 (drop.hasClass("mosaic-tile") === false &&
                     drop.hasClass("mosaic-innergrid-row") === false &&
@@ -1148,34 +1170,31 @@ export default class LayoutManager {
                     obj.data("max-columns") &&
                     (dir === "left" || dir === "right"))
             ) {
-                fixup_classes(original_tile);
+                fixup_classes(dropped_tile);
 
-                // Dropped on empty row
             } else if (drop.hasClass("mosaic-empty-row")) {
+                // Dropped on empty row
+
                 // Replace empty with normal row class
                 drop.removeClass("mosaic-empty-row")
-                    .attr(
-                        "class",
-                        original_tile.parents(".mosaic-grid-row").first().attr("class"),
-                    )
+                    .attr("class", original_row.attr("class"))
                     .off("mousemove");
 
                 // Clean cell
                 drop.children(".mosaic-grid-cell").children("div").remove();
 
-                fixup_classes(original_tile);
+                fixup_classes(dropped_tile);
 
-                // Add tile to empty row
-                drop.children(".mosaic-grid-cell").append(original_tile);
-
-                // Dropped on row or below an inner grid
+                drop.children(".mosaic-grid-cell").append(dropped_tile);
             } else {
-                /* When the layout object has the special class (Assigned in line 82), wrap
-                the tile in a div.mosaic-grid-cell so it would create an inner column */
-                fixup_classes(original_tile);
+                // Dropped on row or below an inner grid
+
+                // When the layout object has the special class (Assigned in line 395), wrap
+                // he tile in a div.mosaic-grid-cell so it would create an inner column
+                fixup_classes(dropped_tile);
 
                 if (obj.hasClass("inner-subcolumn")) {
-                    original_tile = $(mosaic_doc.createElement("div"))
+                    dropped_tile = $(mosaic_doc.createElement("div"))
                         .addClass("mosaic-grid-row mosaic-innergrid-row")
                         .append(
                             $(mosaic_doc.createElement("div"))
@@ -1187,11 +1206,11 @@ export default class LayoutManager {
                                         ),
                                     ),
                                 )
-                                .append(original_tile),
+                                .append(dropped_tile),
                         )
                         .mosaicAddMouseMoveInnergridRow();
                     for (const pos of ["top", "bottom"]) {
-                        original_tile.append(
+                        dropped_tile.append(
                             $(mosaic_doc.createElement("div")).addClass(
                                 "mosaic-divider mosaic-divider-" + pos,
                             ),
@@ -1202,12 +1221,12 @@ export default class LayoutManager {
                 // If top
                 if (dir === "top") {
                     // Add tile before
-                    drop.before(original_tile);
+                    drop.before(dropped_tile);
 
                     // If bottom
                 } else if (dir === "bottom") {
                     // Add tile after
-                    drop.after(original_tile);
+                    drop.after(dropped_tile);
 
                     // If left
                 } else if (dir === "left" || dir === "right") {
@@ -1263,13 +1282,13 @@ export default class LayoutManager {
                             drop.parent().before(
                                 $(mosaic_doc.createElement("div"))
                                     .addClass("mosaic-grid-cell col")
-                                    .append(original_tile),
+                                    .append(dropped_tile),
                             );
                         } else {
                             drop.parent().after(
                                 $(mosaic_doc.createElement("div"))
                                     .addClass("mosaic-grid-cell col")
-                                    .append(original_tile),
+                                    .append(dropped_tile),
                             );
                         }
 
@@ -1283,13 +1302,13 @@ export default class LayoutManager {
                             _col.before(
                                 $(mosaic_doc.createElement("div"))
                                     .addClass("mosaic-grid-cell")
-                                    .append(original_tile),
+                                    .append(dropped_tile),
                             );
                         } else {
                             _col.after(
                                 $(mosaic_doc.createElement("div"))
                                     .addClass("mosaic-grid-cell")
-                                    .append(original_tile),
+                                    .append(dropped_tile),
                             );
                         }
 
@@ -1315,11 +1334,11 @@ export default class LayoutManager {
             // re-initialize events
             self.init_events();
 
-            // Select new tile and make it draggables
-            if (new_tile && original_tile.length > 0) {
-                original_tile.mosaicAddDrag();
-                original_tile.data("mosaic-tile").initializeContent(true);
-                original_tile.data("mosaic-tile").select();
+            // Select new tile and make it draggable
+            if ((new_tile || copy) && dropped_tile.length > 0) {
+                dropped_tile.mosaicAddDrag();
+                await dropped_tile.data("mosaic-tile").initializeContent(new_tile, copy);
+                dropped_tile.data("mosaic-tile").select();
             }
         };
 

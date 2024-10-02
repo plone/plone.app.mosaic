@@ -12,6 +12,11 @@ const log = logging.getLogger("pat-mosaic/tile");
 
 var _TILE_TYPE_CACHE = {};
 var _TILE_CONFIG_CACHE = {};
+
+const COPYABLE_TILE_TYPES = [
+    "textapp",
+]
+
 var OMIT_SETTINGS_TILE_TYPES = [
     "RichTextFieldWidget",
     "RichTextWidget",
@@ -354,14 +359,17 @@ class Tile {
 
         var tile_config = self.getConfig();
 
-        // Check read only
-        if (tile_config && tile_config.read_only) {
-            // Set read only
-            self.$el.addClass("mosaic-read-only-tile");
-        }
-
-        // Add label
         if (tile_config) {
+            // check read only
+            if (tile_config.read_only) {
+                self.$el.addClass("mosaic-read-only-tile");
+            }
+
+            // check copy support
+            if (COPYABLE_TILE_TYPES.includes(tile_config.tile_type)) {
+                self.$el.addClass("copyable");
+            }
+
             var side_tools = $(self.mosaic.document.createElement("div")).addClass(
                 "mosaic-tile-control mosaic-tile-side-tools",
             );
@@ -441,14 +449,14 @@ class Tile {
         var tile_config = this.getConfig();
 
         // remove existing
-        const btns_node = this.el.querySelector(".mosaic-tile-buttons");
-        if (btns_node) {
-            btns_node.parentNode.removeChild(btns_node);
-        }
+        const btns_node = this.el.querySelectorAll(".mosaic-tile-buttons");
+        btns_node.forEach(btns => {
+            this.el.removeChild(btns);
+        });
 
         var _addButton = async (label, name, icon_name, click) => {
             const btn = document.createElement("button");
-            btn.classList.add("btn", "btn-sm", `btn-${name === "confirm" ? "danger" : "light"}`, "mosaic-btn-" + name);
+            btn.classList.add("btn", "btn-sm", `btn-${name === "confirm" ? "danger" : "secondary"}`, "mosaic-btn-" + name);
             btn.textContent = label;
             try {
                 // get plone icons from utils
@@ -567,9 +575,6 @@ class Tile {
         // Get original row
         var $originalRow = this.$el.parent().parent();
 
-        // Save tile value
-        this.save();
-
         // Remove current tile
         this.$el.remove();
 
@@ -665,11 +670,8 @@ class Tile {
         });
         return value;
     }
-    async initializeContent(created) {
+    async initializeContent(created, is_copy) {
         var self = this;
-
-        // Local variables
-        var url, start, end, fieldval, fieldhtml;
 
         var base = $("body", self.mosaic.document).attr("data-base-url");
         if (!base) {
@@ -680,20 +682,24 @@ class Tile {
         // Get tile type
         var tile_config = this.getConfig();
 
-        // Check if a field tile
         if (tile_config.tile_type === "field") {
-            fieldhtml = "";
+            // Check if a field tile
+            let fieldhtml = "";
+            let fieldval = "";
+            let start = "<div>";
+            let end = "</div>";
+            let innereditable = false;
 
             // Wrap title and description fields for proper styles
+            // and make the inner node editable
             if (tile_config.name === "IDublinCore-title") {
-                start = '<h1 class="documentFirstHeading">';
+                start = '<h1 class="documentFirstHeading" contenteditable="true">';
                 end = "</h1>";
+                innereditable = true;
             } else if (tile_config.name === "IDublinCore-description") {
-                start = '<p class="documentDescription lead">';
+                start = '<p class="documentDescription lead" contenteditable="true">';
                 end = "</p>";
-            } else {
-                start = "<div>";
-                end = "</div>";
+                innereditable = true;
             }
 
             let contenteditable = false;
@@ -712,29 +718,30 @@ class Tile {
                     .find("textarea")
                     .val()
                     .split("\n");
-                fieldhtml += start;
-                fieldhtml += fieldval.join("<br/>");
-                fieldhtml += end;
+                fieldhtml = `${start}${fieldval.join("<br/>")}${end}`;
                 contenteditable = true;
             } else if (tile_widget_type === "richtext") {
                 fieldhtml = document.querySelector(`#${tile_config.id} textarea`).value;
                 wysiwyg = true;
             } else {
-                fieldhtml = `<div class="text-bg-secondary">
-                    Placeholder for field:<br/>
-                    <b>${tile_config.label}</b>
-                </div>`;
+                fieldhtml = (
+                    `<div class="text-bg-secondary">` +
+                    `Placeholder for field:<br/>` +
+                    `<b>${tile_config.label}</b>` +
+                    `</div>`
+                );
             }
 
             await self.fillContent({
-                html: fieldhtml,
-                editable: !tile_config.read_only && contenteditable,
+                html: !is_copy ? fieldhtml : null,
+                editable: !tile_config.read_only && contenteditable && !innereditable,
                 wysiwyg: wysiwyg,
             });
-            // Get data from app tile
+
         } else if (tile_config) {
+            // Get data from app tile
             self.$el.addClass("mosaic-tile-loading");
-            url = base ? [base, href].join("/").replace(/\/+\.\//g, "/") : href;
+            let url = base ? [base, href].join("/").replace(/\/+\.\//g, "/") : href;
             var original_url = url;
             // in case tile should be rendered differently for layout editor
             if (url.indexOf("?") === -1) {
@@ -768,18 +775,11 @@ class Tile {
                     var tiletype = self.getType();
 
                     await self.fillContent({
-                        html: tileHtml,
+                        html: !is_copy ? tileHtml : null,
                         url: original_url,
                         wysiwyg: tiletype === "plone.app.standardtiles.html",
                         created: created,
                     });
-                })
-                .catch((err) => {
-                    self.$el.removeClass("mosaic-tile-loading");
-                    log.error(
-                        `Error getting data for the tile ${tile_config.label} ` +
-                        `(${tile_config.name}).Please read documentation on ` +
-                        `how to correctly register tiles: https://pypi.python.org/pypi/plone.tiles`);
                 });
         }
     }
@@ -787,32 +787,28 @@ class Tile {
     async fillContent({ html, url, editable, wysiwyg, created }) {
         // need to replace the data-tile node here
         var $el = this.getDataTileEl();
-        var $content;
-        if ($el.length > 0) {
-            // only available on initialization
-            $el.parent().html(html);
-            $content = this.getContentEl();
-        } else {
-            // otherwise, we use content to fill html
-            $content = this.getContentEl();
-            $content.html(html);
-        }
-        if (editable) {
-            // special check for DublinCore.title/description
-            var $editable_tags = $content.find("h1.documentFirstHeading, p.documentDescription");
-            if ($editable_tags.length) {
-                $editable_tags.attr("contenteditable", true);
+        if (html != null) {
+            var $content;
+            if ($el.length > 0) {
+                // only available on initialization
+                $el.parent().html(html);
+                $content = this.getContentEl();
             } else {
+                // otherwise, we use content to fill html
+                $content = this.getContentEl();
+                $content.html(html);
+            }
+            if (editable) {
                 $content.attr("contenteditable", true);
             }
-        }
-        if (url && $content.length > 0) {
-            url = url.replace(/&/gim, "&amp;");
-            // also need to fix duplicate &amp;
-            while (url.indexOf("&amp;&amp;") !== -1) {
-                url = url.replace("&amp;&amp;", "&amp;");
+            if (url && $content.length > 0) {
+                url = url.replace(/&/gim, "&amp;");
+                // also need to fix duplicate &amp;
+                while (url.indexOf("&amp;&amp;") !== -1) {
+                    url = url.replace("&amp;&amp;", "&amp;");
+                }
+                $content.attr("data-tileUrl", url);
             }
-            $content.attr("data-tileUrl", url);
         }
         if (wysiwyg) {
             await this.setupWysiwyg(created);
@@ -902,7 +898,7 @@ class Tile {
             // NOTE: the other field values are saved via "settings" modal
             // already. No action needed here.
             const el = self.mosaic.document.querySelector(
-                `.mosaic-${tiletype}-tile .mosaic-tile-content[contenteditable]`,
+                `.mosaic-${tiletype}-tile [contenteditable]`,
             );
             const wrapper_el = self.mosaic.document.querySelector(`#${tile_config.id}`);
 
@@ -927,50 +923,54 @@ class Tile {
         } else if (tile_config.tile_type === "textapp") {
             // save app tiles with plone.app.blocks
             var edit_url = self.getEditUrl();
-            if (edit_url) {
-                var currentData = self.getHtmlContent();
-                if (currentData === self.$el.data("lastSavedData")) {
-                    // not dirty, do not save
-                    return;
-                }
-                // we also need to prevent double saving, conflict errors
-                if (self.$el.data("activeSave")) {
-                    return;
-                }
-                utils.loading.show();
-                self.$el.data("activeSave", true);
-                var data = {
-                    "_authenticator": utils.getAuthenticator(),
-                    "buttons.save": "Save",
-                };
-                data[tile_config.name + ".content"] = currentData;
-                // save tile
-                const body = new URLSearchParams(data);
-
-                fetch(
-                    edit_url,
-                    {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/x-www-form-urlencoded; charset: utf-8",
-                        },
-                        body: body,
-                    })
-                    .then(response => {
-                        if (!response.ok) {
-                            alert(`Could not save tile: ${response.statusText}`);
-                            return;
-                        }
-                        self.$el.data("lastSavedData", currentData);
-                        self.$el.data("activeSave", false);
-                        utils.loading.hide();
-                    })
-                    .catch((err) => {
-                        log.warn(`Error while save tile ${tile_config.name}: ${err}`);
-                    });
+            if (!edit_url) {
+                return;
             }
+            var currentData = self.getHtmlContent();
+            if (currentData === self.$el.data("lastSavedData")) {
+                // not dirty, do not save
+                return;
+            }
+            // we also need to prevent double saving, conflict errors
+            if (self.$el.data("activeSave")) {
+                return;
+            }
+            utils.loading.show();
+            self.$el.data("activeSave", true);
+            var data = {
+                "_authenticator": utils.getAuthenticator(),
+                "buttons.save": "Save",
+            };
+            data[tile_config.name + ".content"] = currentData;
+
+            // save tile
+            const body = new URLSearchParams(data);
+
+            fetch(
+                edit_url,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded; charset: utf-8",
+                        "X-Requested-With": "XMLHttpRequest",  // do not redirect to nextUrl after editing
+                    },
+                    body: body.toString(),
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        alert(`Could not save tile: ${response.statusText}`);
+                        return;
+                    }
+                    self.$el.data("lastSavedData", currentData);
+                    self.$el.data("activeSave", false);
+                    utils.loading.hide();
+                })
+                .catch((err) => {
+                    log.warn(`Error while save tile ${tile_config.name}: ${err}`);
+                });
         }
     }
+
     async setupWysiwyg(created) {
         var self = this;
 
