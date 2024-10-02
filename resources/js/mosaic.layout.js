@@ -139,11 +139,7 @@ export default class LayoutManager {
     async copyTile(orig_tile) {
         const orig_tile_inst = orig_tile[0]["mosaic-tile"];
         const tile_type = orig_tile_inst.getType();
-        if (tile_type != "plone.app.standardtiles.html") {
-            // only HTML tiles are copyable right now
-            alert("Only Richtext tiles can be copied right now. Sorry 🤷🏼‍♂️");
-            return orig_tile;
-        }
+
         // remove class
         orig_tile.removeClass("mosaic-original-tile");
         const orig_parent = orig_tile.closest(".mosaic-grid-row");
@@ -163,6 +159,12 @@ export default class LayoutManager {
         await tile.initialize();
         // save copied content
         await tile.save();
+
+        if(tile.getConfig().tile_type == "app") {
+            // copy the data from original tile too
+            const orig_tile_data = await orig_tile_inst.serialize();
+            await tile.deserialize(orig_tile_data);
+        }
 
         tile.cacheHtml();
         await tile.scanRegistry();

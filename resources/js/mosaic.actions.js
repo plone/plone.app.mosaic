@@ -411,9 +411,8 @@ class ActionManager {
                                 '.formControls > button[type="submit"], .actionButtons > button[type="submit"]',
                         });
                         m.on("after-render", () => {
-                            /* Remove field errors since the user has not actually
-                                    been able to fill out the form yet
-                                */
+                            // Remove field errors since the user has not actually
+                            // been able to fill out the form yet
                             var $mContent = m.$modalContent;
                             if (initial) {
                                 $(".field.error", $mContent).removeClass("error");

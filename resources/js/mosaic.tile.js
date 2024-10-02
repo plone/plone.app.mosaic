@@ -14,6 +14,7 @@ var _TILE_TYPE_CACHE = {};
 var _TILE_CONFIG_CACHE = {};
 
 const COPYABLE_TILE_TYPES = [
+    "app",
     "textapp",
 ]
 
@@ -102,6 +103,53 @@ class Tile {
             tile_url = this.mosaic.options.context_url + tile_url.replace(/^\./, "");
         }
         return tile_url;
+    }
+    async serialize() {
+        // return JSON serialized dict of saved tile data
+        var edit_url = this.getEditUrl();
+        let data = {};
+        await fetch(
+            edit_url,
+            {
+                method: "GET",
+            })
+            .then(response => {
+                return response.text();
+            })
+            .then(html => {
+                const parser = new DOMParser();
+                // Parse the HTML string into a document
+                const doc = parser.parseFromString(html, 'text/html');
+                // read the form
+                const form_data = new FormData(doc.querySelector("form"));
+
+                form_data.forEach((val, key) => {
+                    data[key] = val;
+                });
+            });
+        return data;
+    }
+    async deserialize(data) {
+        // saves a JSON object
+        var edit_url = this.getEditUrl();
+        var url_params = new URLSearchParams(data);
+        // add save button to trigger tile saving
+        url_params.append("buttons.save", "Save");
+
+        await fetch(
+            edit_url,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded; charset: utf-8"
+                },
+                body: url_params.toString(),
+            })
+            .then(response => {
+                if(!response.ok) {
+                    log.warn("Could not deserialize data!");
+                }
+            });
     }
     getDeleteUrl() {
         var tile_url = this.getUrl();
@@ -362,12 +410,12 @@ class Tile {
         if (tile_config) {
             // check read only
             if (tile_config.read_only) {
-                self.$el.addClass("mosaic-read-only-tile");
+                self.el.classList.add("mosaic-read-only-tile");
             }
 
             // check copy support
             if (COPYABLE_TILE_TYPES.includes(tile_config.tile_type)) {
-                self.$el.addClass("copyable");
+                self.el.classList.add("copyable");
             }
 
             var side_tools = $(self.mosaic.document.createElement("div")).addClass(
@@ -608,24 +656,25 @@ class Tile {
             actionOptions: {
                 isForm: true,
                 onSuccess: (event, response, state, xhr) => {
-                    var tileUrl = xhr.getResponseHeader("X-Tile-Url"),
-                        value = self.mosaic.getDomTreeFromHtml(response);
-                    if (tileUrl) {
-                        // Remove head tags
-                        self.mosaic.removeHeadTags(tileUrl);
-
-                        // Add head tags
-                        self.mosaic.addHeadTags(tileUrl, value);
-                        var tileHtml = value.find(".temp_body_tag").html();
-                        self.fillContent({
-                            html: tileHtml,
-                            url: tileUrl,
-                        });
-
-                        // Close overlay
-                        modal.hide();
-                        modal = null;
+                    var tileUrl = xhr.getResponseHeader("X-Tile-Url");
+                    if (!tileUrl) {
+                        return;
                     }
+                    var value = self.mosaic.getDomTreeFromHtml(response);
+                    // Remove head tags
+                    self.mosaic.removeHeadTags(tileUrl);
+
+                    // Add head tags
+                    self.mosaic.addHeadTags(tileUrl, value);
+                    var tileHtml = value.find(".temp_body_tag").html();
+                    self.fillContent({
+                        html: tileHtml,
+                        url: tileUrl,
+                    });
+
+                    // Close overlay
+                    modal.hide();
+                    modal = null;
                 },
             },
             backdropOptions: {
@@ -952,7 +1001,6 @@ class Tile {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/x-www-form-urlencoded; charset: utf-8",
-                        "X-Requested-With": "XMLHttpRequest",  // do not redirect to nextUrl after editing
                     },
                     body: body.toString(),
                 })
