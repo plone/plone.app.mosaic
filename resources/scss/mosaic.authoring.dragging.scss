@@ -67,14 +67,18 @@
 }
 
 .mosaic-tile-buttons {
-    bottom: -2rem;
     height: auto;
     right: 0px;
-    top: auto;
+    top: 100%;
     width: auto;
 
-    >.btn:not(.btn-danger) {
-        margin-left: 0.25rem;
+    .btn {
+        --bs-btn-padding-y: 1px;
+        --bs-btn-border-radius: 0;
+
+        &:not(.btn-danger) {
+            margin-left: 0.25rem;
+        }
     }
 }
 
@@ -113,11 +117,7 @@ body.mosaic-layout-customized .mosaic-advanced {
 
         .mosaic-tile-buttons {
             bottom: 0;
-
-            .btn {
-                --bs-btn-padding-y: 1px;
-                --bs-btn-border-radius: 0;
-            }
+            top:auto;
         }
     }
 }
