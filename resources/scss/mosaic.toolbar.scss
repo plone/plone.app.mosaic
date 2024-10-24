@@ -2,7 +2,7 @@
 // $mosaic-toolbar-color: #2c6596;
 
 .mosaic-toolbar {
-    z-index: $zindex-fixed;
+    z-index: 1000;
 }
 
 .mosaic-toolbar {
@@ -39,8 +39,8 @@
     }
 
     .mosaic-button-group {
-        margin-left:$spacer;
-        padding-left:$spacer;
+        margin-left:1rem;
+        padding-left:1rem;
         border-left:var(--bs-border-width) var(--bs-border-style) var(--bs-border-color);
     }
 }
