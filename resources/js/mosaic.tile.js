@@ -12,31 +12,12 @@ const log = logging.getLogger("pat-mosaic/tile");
 
 var _TILE_TYPE_CACHE = {};
 var _TILE_CONFIG_CACHE = {};
-const BUTTON_ICON_MAP = {
-    delete:
-        '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">' +
-        '<path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>' +
-        "</svg>",
-    cancel:
-        '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">' +
-        '<path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>' +
-        '<path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>' +
-        "</svg>",
-    confirm:
-        '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle" viewBox="0 0 16 16">' +
-        '<path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>' +
-        '<path d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z"/>' +
-        "</svg>",
-    edit:
-        '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">' +
-        '<path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>' +
-        '<path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>' +
-        "</svg>",
-    settings:
-        '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-sliders" viewBox="0 0 16 16">' +
-        '<path fill-rule="evenodd" d="M11.5 2a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM9.05 3a2.5 2.5 0 0 1 4.9 0H16v1h-2.05a2.5 2.5 0 0 1-4.9 0H0V3h9.05zM4.5 7a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM2.05 8a2.5 2.5 0 0 1 4.9 0H16v1H6.95a2.5 2.5 0 0 1-4.9 0H0V8h2.05zm9.45 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm-2.45 1a2.5 2.5 0 0 1 4.9 0H16v1h-2.05a2.5 2.5 0 0 1-4.9 0H0v-1h9.05z"/>' +
-        "</svg>",
-};
+
+const COPYABLE_TILE_TYPES = [
+    "app",
+    "textapp",
+]
+
 var OMIT_SETTINGS_TILE_TYPES = [
     "RichTextFieldWidget",
     "RichTextWidget",
@@ -122,6 +103,53 @@ class Tile {
             tile_url = this.mosaic.options.context_url + tile_url.replace(/^\./, "");
         }
         return tile_url;
+    }
+    async serialize() {
+        // return JSON serialized dict of saved tile data
+        var edit_url = this.getEditUrl();
+        let data = {};
+        await fetch(
+            edit_url,
+            {
+                method: "GET",
+            })
+            .then(response => {
+                return response.text();
+            })
+            .then(html => {
+                const parser = new DOMParser();
+                // Parse the HTML string into a document
+                const doc = parser.parseFromString(html, 'text/html');
+                // read the form
+                const form_data = new FormData(doc.querySelector("form"));
+
+                form_data.forEach((val, key) => {
+                    data[key] = val;
+                });
+            });
+        return data;
+    }
+    async deserialize(data) {
+        // saves a JSON object
+        var edit_url = this.getEditUrl();
+        var url_params = new URLSearchParams(data);
+        // add save button to trigger tile saving
+        url_params.append("buttons.save", "Save");
+
+        await fetch(
+            edit_url,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded; charset: utf-8"
+                },
+                body: url_params.toString(),
+            })
+            .then(response => {
+                if(!response.ok) {
+                    log.warn("Could not deserialize data!");
+                }
+            });
     }
     getDeleteUrl() {
         var tile_url = this.getUrl();
@@ -235,8 +263,8 @@ class Tile {
         if (_missing_tile_configs.indexOf(tiletype) === -1) {
             log.warn(
                 "Could not load tile config for tile type: " +
-                    tiletype +
-                    " falling back to b/w compatible tile type.",
+                tiletype +
+                " falling back to b/w compatible tile type.",
             );
             _missing_tile_configs.push(tiletype);
         }
@@ -379,14 +407,17 @@ class Tile {
 
         var tile_config = self.getConfig();
 
-        // Check read only
-        if (tile_config && tile_config.read_only) {
-            // Set read only
-            self.$el.addClass("mosaic-read-only-tile");
-        }
-
-        // Add label
         if (tile_config) {
+            // check read only
+            if (tile_config.read_only) {
+                self.el.classList.add("mosaic-read-only-tile");
+            }
+
+            // check copy support
+            if (COPYABLE_TILE_TYPES.includes(tile_config.tile_type)) {
+                self.el.classList.add("copyable");
+            }
+
             var side_tools = $(self.mosaic.document.createElement("div")).addClass(
                 "mosaic-tile-control mosaic-tile-side-tools",
             );
@@ -438,7 +469,7 @@ class Tile {
         self.$el.data("mosaic-tile", self);
 
         self._initialized = true;
-        log.debug(`Initialized ${tile_config.id}`);
+        log.debug(`Initialized ${tile_config.id || tile_config.name}`);
     }
 
     resetClicked(e) {
@@ -461,26 +492,32 @@ class Tile {
         $originalRow.mosaicCleanupRow();
         $originalRow.mosaicSetResizeHandles();
     }
-    initializeButtons() {
+    async initializeButtons() {
         var buttons = [];
         var tile_config = this.getConfig();
 
-        // reinitialize buttons every time
-        this.$el.find(".mosaic-tile-buttons").remove();
+        // remove existing
+        const btns_node = this.el.querySelectorAll(".mosaic-tile-buttons");
+        btns_node.forEach(btns => {
+            this.el.removeChild(btns);
+        });
 
-        var _addButton = function (label, name, click) {
-            var btn = document.createElement("button");
-            btn.className = `btn btn-sm btn-${
-                name === "confirm" ? "danger" : "light"
-            } mosaic-btn-${name}`;
+        var _addButton = async (label, name, icon_name, click) => {
+            const btn = document.createElement("button");
+            btn.classList.add("btn", "btn-sm", `btn-${name === "confirm" ? "danger" : "secondary"}`, "mosaic-btn-" + name);
             btn.textContent = label;
-            buttons.push(btn);
-            $(btn).on("click", click);
-            if (!(name in BUTTON_ICON_MAP)) {
+            try {
+                // get plone icons from utils
+                const icon = await utils.resolveIcon(icon_name);
+                btn.innerHTML = icon + btn.innerHTML;
+                btn.querySelector("svg").classList.add("plone-icon", "me-1");
+            } catch (err) {
                 log.warn(`could not find button icon "${name}"`);
-            } else {
-                $(btn).prepend(BUTTON_ICON_MAP[name] + " ");
             }
+            if (click != undefined) {
+                btn.addEventListener("click", click.bind(this));
+            }
+            buttons.push(btn);
             return btn;
         };
 
@@ -490,19 +527,25 @@ class Tile {
             tile_config.settings &&
             !this.el.classList.contains(".mosaic-read-only-tile")
         ) {
-            _addButton("Edit", "settings", this.settingsClicked.bind(this));
+            await _addButton("Edit", "settings", "sliders", this.settingsClicked);
         }
 
         if (!this.mosaic.hasContentLayout) {
-            _addButton("Delete", "delete", this.deleteClicked.bind(this));
-            var confirmBtn = _addButton(
+            // delete
+            await _addButton("Delete", "delete", "trash3", this.deleteClicked);
+
+            // confirm delete
+            var confirmBtn = await _addButton(
                 "Confirm delete",
                 "confirm",
-                this.confirmClicked.bind(this),
+                "check-circle",
+                this.confirmClicked,
             );
-            $(confirmBtn).hide();
-            var btn = _addButton("Cancel", "cancel", this.cancelClicked.bind(this));
-            $(btn).hide();
+            confirmBtn.style.display = "none";
+
+            // cancel delete
+            var cancelBtn = await _addButton("Cancel", "cancel", "x-circle", this.cancelClicked);
+            cancelBtn.style.display = "none";
         }
 
         if (buttons.length > 0) {
@@ -539,19 +582,31 @@ class Tile {
                 // Remove tags
                 this.mosaic.removeHeadTags(tile_url);
 
-                // Ajax call to remove tile
-                this.mosaic.queue(function (next) {
-                    $.ajax({
-                        type: "POST",
-                        url: self.getDeleteUrl(),
-                        data: {
-                            "buttons.delete": "Delete",
-                            "_authenticator": utils.getAuthenticator(),
-                        },
-                    }).always(function () {
-                        next();
-                    });
+                const data = new URLSearchParams({
+                    "buttons.delete": "Delete",
+                    "_authenticator": utils.getAuthenticator(),
                 });
+
+                fetch(
+                    self.getDeleteUrl(),
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/x-www-form-urlencoded; charset: utf-8",
+                            "X-Requested-With": "XMLHttpRequest",  // do not redirect to nextUrl after deleting
+                        },
+                        body: data.toString(),
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            alert(`Could not delete tile ${tile_url}: ${response.statusText}`);
+                            return;
+                        }
+                        return response.json();
+                    })
+                    .catch((err) => {
+                        log.warn(`Error while delete tile ${tile_url}: ${err}`);
+                    });
             }
         }
 
@@ -567,9 +622,6 @@ class Tile {
 
         // Get original row
         var $originalRow = this.$el.parent().parent();
-
-        // Save tile value
-        this.save();
 
         // Remove current tile
         this.$el.remove();
@@ -604,24 +656,25 @@ class Tile {
             actionOptions: {
                 isForm: true,
                 onSuccess: (event, response, state, xhr) => {
-                    var tileUrl = xhr.getResponseHeader("X-Tile-Url"),
-                        value = self.mosaic.getDomTreeFromHtml(response);
-                    if (tileUrl) {
-                        // Remove head tags
-                        self.mosaic.removeHeadTags(tileUrl);
-
-                        // Add head tags
-                        self.mosaic.addHeadTags(tileUrl, value);
-                        var tileHtml = value.find(".temp_body_tag").html();
-                        self.fillContent({
-                            html: tileHtml,
-                            url: tileUrl,
-                        });
-
-                        // Close overlay
-                        modal.hide();
-                        modal = null;
+                    var tileUrl = xhr.getResponseHeader("X-Tile-Url");
+                    if (!tileUrl) {
+                        return;
                     }
+                    var value = self.mosaic.getDomTreeFromHtml(response);
+                    // Remove head tags
+                    self.mosaic.removeHeadTags(tileUrl);
+
+                    // Add head tags
+                    self.mosaic.addHeadTags(tileUrl, value);
+                    var tileHtml = value.find(".temp_body_tag").html();
+                    self.fillContent({
+                        html: tileHtml,
+                        url: tileUrl,
+                    });
+
+                    // Close overlay
+                    modal.hide();
+                    modal = null;
                 },
             },
             backdropOptions: {
@@ -666,11 +719,8 @@ class Tile {
         });
         return value;
     }
-    async initializeContent(created) {
+    async initializeContent(created, is_copy) {
         var self = this;
-
-        // Local variables
-        var url, start, end, fieldval, fieldhtml;
 
         var base = $("body", self.mosaic.document).attr("data-base-url");
         if (!base) {
@@ -681,20 +731,24 @@ class Tile {
         // Get tile type
         var tile_config = this.getConfig();
 
-        // Check if a field tile
         if (tile_config.tile_type === "field") {
-            fieldhtml = "";
+            // Check if a field tile
+            let fieldhtml = "";
+            let fieldval = "";
+            let start = "<div>";
+            let end = "</div>";
+            let innereditable = false;
 
             // Wrap title and description fields for proper styles
+            // and make the inner node editable
             if (tile_config.name === "IDublinCore-title") {
-                start = '<h1 class="documentFirstHeading">';
+                start = '<h1 class="documentFirstHeading" contenteditable="true">';
                 end = "</h1>";
+                innereditable = true;
             } else if (tile_config.name === "IDublinCore-description") {
-                start = '<p class="documentDescription lead">';
+                start = '<p class="documentDescription lead" contenteditable="true">';
                 end = "</p>";
-            } else {
-                start = "<div>";
-                end = "</div>";
+                innereditable = true;
             }
 
             let contenteditable = false;
@@ -713,29 +767,30 @@ class Tile {
                     .find("textarea")
                     .val()
                     .split("\n");
-                fieldhtml += start;
-                fieldhtml += fieldval.join("<br/>");
-                fieldhtml += end;
+                fieldhtml = `${start}${fieldval.join("<br/>")}${end}`;
                 contenteditable = true;
             } else if (tile_widget_type === "richtext") {
                 fieldhtml = document.querySelector(`#${tile_config.id} textarea`).value;
                 wysiwyg = true;
             } else {
-                fieldhtml = `<div class="text-bg-secondary">
-                    Placeholder for field:<br/>
-                    <b>${tile_config.label}</b>
-                </div>`;
+                fieldhtml = (
+                    `<div class="text-bg-secondary">` +
+                    `Placeholder for field:<br/>` +
+                    `<b>${tile_config.label}</b>` +
+                    `</div>`
+                );
             }
 
             await self.fillContent({
-                html: fieldhtml,
-                editable: !tile_config.read_only && contenteditable,
+                html: !is_copy ? fieldhtml : null,
+                editable: !tile_config.read_only && contenteditable && !innereditable,
                 wysiwyg: wysiwyg,
             });
-            // Get data from app tile
+
         } else if (tile_config) {
+            // Get data from app tile
             self.$el.addClass("mosaic-tile-loading");
-            url = base ? [base, href].join("/").replace(/\/+\.\//g, "/") : href;
+            let url = base ? [base, href].join("/").replace(/\/+\.\//g, "/") : href;
             var original_url = url;
             // in case tile should be rendered differently for layout editor
             if (url.indexOf("?") === -1) {
@@ -746,13 +801,22 @@ class Tile {
             if (url.indexOf("_layouteditor") === -1) {
                 url += "_layouteditor=true";
             }
-            $.ajax({
-                type: "GET",
-                url: url,
-                success: async function (value) {
+            fetch(
+                url,
+                {
+                    method: "GET",
+
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        alert(`error loading tile ${tile_config.label} (${tile_config.name}).`)
+                        return;
+                    }
+                    return response.text();
+                })
+                .then(async html => {
                     self.$el.removeClass("mosaic-tile-loading");
-                    // Get dom tree
-                    value = self.mosaic.getDomTreeFromHtml(value);
+                    let value = self.mosaic.getDomTreeFromHtml(html);
 
                     // Add head tags
                     self.mosaic.addHeadTags(href, value);
@@ -760,56 +824,46 @@ class Tile {
                     var tiletype = self.getType();
 
                     await self.fillContent({
-                        html: tileHtml,
+                        html: !is_copy ? tileHtml : null,
                         url: original_url,
                         wysiwyg: tiletype === "plone.app.standardtiles.html",
                         created: created,
                     });
-                },
-                error: function () {
-                    self.$el.removeClass("mosaic-tile-loading");
-                    log.error(
-                        "Error getting data for the tile " +
-                            tile_config.label +
-                            "(" +
-                            tile_config.name +
-                            "). Please read documentation " +
-                            "on how to correctly register tiles: https://pypi.python.org/pypi/plone.tiles",
-                    );
-                },
-            });
+                });
         }
     }
 
     async fillContent({ html, url, editable, wysiwyg, created }) {
         // need to replace the data-tile node here
         var $el = this.getDataTileEl();
-        var $content;
-        if ($el.length > 0) {
-            // only available on initialization
-            $el.parent().html(html);
-            $content = this.getContentEl();
-        } else {
-            // otherwise, we use content to fill html
-            $content = this.getContentEl();
-            $content.html(html);
-        }
-        if (editable) {
-            $content.attr("contenteditable", true);
-        }
-        if (url && $content.length > 0) {
-            url = url.replace(/&/gim, "&amp;");
-            // also need to fix duplicate &amp;
-            while (url.indexOf("&amp;&amp;") !== -1) {
-                url = url.replace("&amp;&amp;", "&amp;");
+        if (html != null) {
+            var $content;
+            if ($el.length > 0) {
+                // only available on initialization
+                $el.parent().html(html);
+                $content = this.getContentEl();
+            } else {
+                // otherwise, we use content to fill html
+                $content = this.getContentEl();
+                $content.html(html);
             }
-            $content.attr("data-tileUrl", url);
+            if (editable) {
+                $content.attr("contenteditable", true);
+            }
+            if (url && $content.length > 0) {
+                url = url.replace(/&/gim, "&amp;");
+                // also need to fix duplicate &amp;
+                while (url.indexOf("&amp;&amp;") !== -1) {
+                    url = url.replace("&amp;&amp;", "&amp;");
+                }
+                $content.attr("data-tileUrl", url);
+            }
         }
         if (wysiwyg) {
             await this.setupWysiwyg(created);
         }
         this.cacheHtml(html);
-        this.scanRegistry();
+        await this.scanRegistry();
     }
     cacheHtml(html) {
         /* Cache html on the tile element.
@@ -828,7 +882,7 @@ class Tile {
         }
         $content[0]._preScanHTML = html;
     }
-    scanRegistry() {
+    async scanRegistry() {
         /*
             A bit tricky here because tiles can contain patterns.
             Pay attention to the use of _preScanHTML.
@@ -893,7 +947,7 @@ class Tile {
             // NOTE: the other field values are saved via "settings" modal
             // already. No action needed here.
             const el = self.mosaic.document.querySelector(
-                `.mosaic-${tiletype}-tile .mosaic-tile-content[contenteditable]`,
+                `.mosaic-${tiletype}-tile [contenteditable]`,
             );
             const wrapper_el = self.mosaic.document.querySelector(`#${tile_config.id}`);
 
@@ -918,39 +972,53 @@ class Tile {
         } else if (tile_config.tile_type === "textapp") {
             // save app tiles with plone.app.blocks
             var edit_url = self.getEditUrl();
-            if (edit_url) {
-                var currentData = self.getHtmlContent();
-                if (currentData === self.$el.data("lastSavedData")) {
-                    // not dirty, do not save
-                    return;
-                }
-                // we also need to prevent double saving, conflict errors
-                if (self.$el.data("activeSave")) {
-                    return;
-                }
-                utils.loading.show();
-                self.$el.data("activeSave", true);
-                var data = {
-                    "_authenticator": utils.getAuthenticator(),
-                    "buttons.save": "Save",
-                };
-                data[tile_config.name + ".content"] = currentData;
-                // need to save tile
-                self.mosaic.queue(function (next) {
-                    $.ajax({
-                        url: edit_url,
-                        method: "POST",
-                        data: data,
-                    }).always(function () {
-                        self.$el.data("lastSavedData", currentData);
-                        self.$el.data("activeSave", false);
-                        utils.loading.hide();
-                        next();
-                    });
-                });
+            if (!edit_url) {
+                return;
             }
+            var currentData = self.getHtmlContent();
+            if (currentData === self.$el.data("lastSavedData")) {
+                // not dirty, do not save
+                return;
+            }
+            // we also need to prevent double saving, conflict errors
+            if (self.$el.data("activeSave")) {
+                return;
+            }
+            utils.loading.show();
+            self.$el.data("activeSave", true);
+            var data = {
+                "_authenticator": utils.getAuthenticator(),
+                "buttons.save": "Save",
+            };
+            data[tile_config.name + ".content"] = currentData;
+
+            // save tile
+            const body = new URLSearchParams(data);
+
+            fetch(
+                edit_url,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded; charset: utf-8",
+                    },
+                    body: body.toString(),
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        alert(`Could not save tile: ${response.statusText}`);
+                        return;
+                    }
+                    self.$el.data("lastSavedData", currentData);
+                    self.$el.data("activeSave", false);
+                    utils.loading.hide();
+                })
+                .catch((err) => {
+                    log.warn(`Error while save tile ${tile_config.name}: ${err}`);
+                });
         }
     }
+
     async setupWysiwyg(created) {
         var self = this;
 

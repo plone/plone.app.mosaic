@@ -62,7 +62,7 @@ class Panel {
                     $(
                         '<div class="mosaic-grid-row">' +
                             '<div class="mosaic-grid-cell col-12">' +
-                            '<div class="movable removable mosaic-tile mosaic-text-tile">' +
+                            '<div class="movable removable copyable mosaic-tile mosaic-text-tile">' +
                             '<div class="mosaic-tile-content">' +
                             "</div>" +
                             "</div>" +
