@@ -8,6 +8,27 @@ Changelog
 
 .. towncrier release notes start
 
+3.2.0b1 (2024-11-06)
+--------------------
+
+New features:
+
+
+- Copy tiles with pressed ALT key while dragging.
+  [petschki] (#609)
+
+
+Bug fixes:
+
+
+- make drag/drop tiles more robust by implementing a delay before start dragging.
+  This prevents wrong tile moves when only clicking on tiles (and you have a shivering hand ;)
+  Tile dragging starts when mouse is down for 300ms.
+
+  Title/Description field tiles do not loose style when changing its text
+  [petschki] (#609)
+
+
 3.2.0a7 (2024-05-23)
 --------------------
 
