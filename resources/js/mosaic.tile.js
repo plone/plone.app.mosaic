@@ -291,40 +291,27 @@ class Tile {
     }
 
     getHtmlBody(exportLayout) {
-        var body = "";
-        // Get tile type
-        var tiletype = "",
-            classes = this.$el.attr("class").split(" ");
-
-        tiletype = this.getType();
-        classes = $(classes)
-            .filter(function () {
-                switch (this) {
-                    case "mosaic-new-tile":
-                    case "mosaic-helper-tile":
-                    case "mosaic-original-tile":
-                    case "mosaic-selected-tile":
-                    case "mosaic-edited-tile":
-                        return false;
-                    default:
-                        return true;
-                }
-            })
-            .toArray();
+        const tiletype = this.getType();
+        const removeClasses = [
+            "mosaic-new-tile",
+            "mosaic-helper-tile",
+            "mosaic-original-tile",
+            "mosaic-selected-tile",
+            "mosaic-edited-tile",
+        ]
+        const classes = Array.from(this.el.classList).filter(cls => {
+            return !removeClasses.includes(cls);
+        });
 
         // Get tile config
         var tile_config = this.getConfig();
 
+        let body = `<div class="${classes.join(' ')}">\n<div class="mosaic-tile-content">\n`;
+
         // Predefine vars
         switch (tile_config.tile_type) {
             case "text":
-                body += '<div class="' + classes.join(" ") + '">\n';
-                body += '<div class="mosaic-tile-content">\n';
-                body +=
-                    this.$el.children(".mosaic-tile-content .mce-content-body").html() +
-                    "\n";
-                body += "</div>\n";
-                body += "</div>\n";
+                body += `${this.$el.children('.mosaic-tile-content .mce-content-body').html()}\n`;
                 break;
             case "app":
             case "textapp":
@@ -343,41 +330,36 @@ class Tile {
                     }
                     url += "content=" + encodeURI(data);
                 }
-                body += '<div class="' + classes.join(" ") + '">\n';
-                body += '<div class="mosaic-tile-content">\n';
-                body += '<div data-tile="' + url + '"></div>\n';
-                body += "</div>\n";
-                body += "</div>\n";
+                body += `<div data-tile="${url}"></div>\n`;
                 break;
             case "field":
-                body += '<div class="' + classes.join(" ") + '">\n';
-                body += '<div class="mosaic-tile-content">\n';
-
                 // Calc url
-                var tile_url = "./@@plone.app.standardtiles.field?field=" + tiletype;
+                var tile_url = `./@@plone.app.standardtiles.field?field=${tiletype}`;
 
                 // ability to provide a few additional settings for field tiles
                 // can be useful in formatting field tiles in python
                 // subfield is meant for relation fields
                 var subfield = this.getValueFromClasses(classes, "mosaic-subfield-");
                 if (subfield) {
-                    tile_url += "&subfield=" + subfield;
+                    tile_url += `&subfield=${subfield}`;
                 }
                 var format = this.getValueFromClasses(classes, "mosaic-format-");
                 if (format) {
-                    tile_url += "&format=" + format;
+                    tile_url += `&format=${format}`;
                 }
 
-                body += '<div data-tile="' + tile_url + '"></div>\n';
-                body += "</div>\n";
-                body += "</div>\n";
+                body += `<div data-tile="${tile_url}"></div>\n`;
 
                 // Update field values if type is rich text
                 this.save();
                 break;
         }
+
+        body += "</div>\n</div>\n";
+
         return body;
     }
+
     isRichText(tile_config) {
         if (tile_config === undefined) {
             tile_config = this.getConfig();
@@ -456,12 +438,19 @@ class Tile {
         self.makeMovable();
         self.initializeButtons();
 
-        for (const pos of ["top", "bottom", "right", "left"]) {
-            self.$el.prepend(
-                $(self.mosaic.document.createElement("div")).addClass(
-                    "mosaic-divider mosaic-divider-" + pos,
-                ),
-            );
+        // available divider/tiledrop positions
+        let divider_pos = ["top", "bottom"];
+
+        if(!self.el.closest(".mosaic-grid-row").classList.contains("mosaic-fixed-row")) {
+            // if not fixed grid row, add left/right dividers too
+            // otherwise, tiles can only be added to top/bottom
+            divider_pos.push(...["right", "left"]);
+        }
+
+        for (const pos of divider_pos) {
+            const divider = self.mosaic.document.createElement("div");
+            divider.classList.add("mosaic-divider", `mosaic-divider-${pos}`);
+            self.el.prepend(divider);
         }
 
         // convenience: store Tile instance on dom and jquery
@@ -492,6 +481,7 @@ class Tile {
         $originalRow.mosaicCleanupRow();
         $originalRow.mosaicSetResizeHandles();
     }
+
     async initializeButtons() {
         var buttons = [];
         var tile_config = this.getConfig();
@@ -1064,7 +1054,7 @@ class Tile {
 
         // always show inline TinyMCE in mosaic editor
         tiny_options["tiny"]["inline"] = true;
-        tiny_options["tiny"]["toolbar_mode"] = "scrolling";
+        tiny_options["tiny"]["toolbar_mode"] = "floating";
         tiny_options["tiny"]["menubar"] = false;
         tiny_options["tiny"]["selector"] = `#${id}`;
         tiny_options["tiny"]["placeholder"] = "\u2026";

@@ -1,48 +1,5 @@
-// BREAKPOINT DEFINITIONS COPIED FROM BOOTSTRAP
-// scss-docs-start grid-breakpoints
-$grid-breakpoints: (
-    xs: 0,
-    sm: 576px,
-    md: 768px,
-    lg: 992px,
-    xl: 1200px,
-    xxl: 1400px,
-);
-// scss-docs-end grid-breakpoints
+@import "bootstrap/scss/mixins/grid";
 
-// scss-docs-start container-max-widths
-$container-max-widths: (
-    sm: 540px,
-    md: 720px,
-    lg: 960px,
-    xl: 1140px,
-    xxl: 1320px,
-);
-// scss-docs-end container-max-widths
-
-@function breakpoint-min($name, $breakpoints: $grid-breakpoints) {
-    $min: map-get($breakpoints, $name);
-    @return if($min !=0, $min, null);
-}
-
-@function breakpoint-max($name, $breakpoints: $grid-breakpoints) {
-    $max: map-get($breakpoints, $name);
-    @return if($max and $max > 0, $max - 0.02, null);
-}
-
-// Media of at least the minimum breakpoint width. No query for the smallest breakpoint.
-// Makes the @content apply to the given breakpoint and wider.
-@mixin media-breakpoint-up($name, $breakpoints: $grid-breakpoints) {
-    $min: breakpoint-min($name, $breakpoints);
-
-    @if $min {
-        @media (min-width: $min) {
-            @content;
-        }
-    } @else {
-        @content;
-    }
-}
 
 // MOSAIC GRID STYLES
 .mosaic-grid-bg {
@@ -56,16 +13,11 @@ $container-max-widths: (
 
 .mosaic-grid-row {
     // background: lightblue;
-    position: relative;
-    --bs-gutter-x: 1.5rem;
-    --bs-gutter-y: 0;
-    display: flex;
-    flex-wrap: wrap;
-    margin-top: calc(var(--bs-gutter-y) * -1);
-    margin-right: calc(var(--bs-gutter-x) * -0.5);
-    margin-left: calc(var(--bs-gutter-x) * -0.5);
+    @include make-row();
 
-    > * {
+    position: relative;
+
+    >* {
         flex-shrink: 0;
         width: 100%;
         max-width: 100%;
@@ -106,38 +58,43 @@ $container-max-widths: (
     // }
 
     @media (max-width: breakpoint-max("md", $grid-breakpoints)) {
-        .col {
+        > .col {
             flex: 0 0 auto;
         }
 
         // sm size
-        .col-1,
-        .col-2,
-        .col-3,
-        .col-4,
-        .col-5,
-        .col-6,
-        .col-7,
-        .col-8,
-        .col-9,
-        .col-10,
-        .col-11,
-        .col-12 {
+        > .col-1,
+        > .col-2,
+        > .col-3,
+        > .col-4,
+        > .col-5,
+        > .col-6,
+        > .col-7,
+        > .col-8,
+        > .col-9,
+        > .col-10,
+        > .col-11,
+        > .col-12 {
             width: 100%;
         }
+    }
+
+    &.mosaic-innergrid-row {
+        margin-left: calc(var(--bs-gutter-x) * -0.5);
+        margin-right: calc(var(--bs-gutter-x) * -0.5);
     }
 }
 
 body.template-layout,
 body.mosaic-enabled {
     &.no-portlet-columns {
-        .outer-wrapper > .container:not(#content-header) {
+        .outer-wrapper>.container:not(#content-header) {
             // outline: 1px blue solid;
             max-width: unset;
             padding-left: unset;
             padding-right: unset;
 
-            > .row {
+            >.row {
                 margin: 0;
 
                 // --bs-gutter-x: 0;
@@ -171,10 +128,16 @@ body.mosaic-enabled {
                     margin-left: 0;
                     margin-right: 0;
                 }
+
                 &.mosaic-grid-row-fluid-background {
                     max-width: unset;
                     margin-left: 0;
                     margin-right: 0;
+                }
+
+                &.mosaic-innergrid-row {
+                    margin-left: calc(var(--bs-gutter-x) * -0.5);
+                    margin-right: calc(var(--bs-gutter-x) * -0.5);
                 }
             }
         }

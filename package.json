@@ -9,6 +9,7 @@
     },
     "devDependencies": {
         "@patternslib/dev": "3.6.1",
+        "bootstrap": "5.3.3",
         "clean-css-cli": "5.6.3",
         "nodemon": "^3.1.7",
         "npm-run-all": "^4.1.5",
@@ -23,8 +24,9 @@
         "build:css": "npm-run-all css-compile css-minify",
         "watch": "npm-run-all --parallel watch:webpack watch:scss",
         "watch:webpack": "NODE_ENV=development webpack --config webpack.config.js --watch",
-        "start": "NODE_ENV=development webpack serve --config webpack.config.js",
         "watch:scss": "nodemon --watch resources/scss/ --ext scss --exec \"npm run build:css\"",
+        "start": "npm-run-all --parallel start:webpack watch:scss",
+        "start:webpack": "NODE_ENV=development webpack serve --config webpack.config.js",
         "css-compile": "sass --load-path=node_modules --style expanded --source-map --embed-sources --no-error-css resources/scss/mosaic.scss:src/plone/app/mosaic/browser/static/mosaic.css",
         "css-minify": "cleancss -O1 --format breakWith=lf --with-rebase --source-map --source-map-inline-sources --output src/plone/app/mosaic/browser/static/mosaic.min.css src/plone/app/mosaic/browser/static/mosaic.css"
     },

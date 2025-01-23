@@ -1,14 +1,24 @@
 .mosaic-enabled {
+
     // no border
     div.mce-content-body[contenteditable="true"] {
-        border:none;
-        border-radius:0;
+        border: none;
+        border-radius: 0;
+
+        &::after {
+            // special fix when only one floating image is in editor
+            content: " ";
+            clear: both;
+            display: block;
+            line-height: 0;
+        }
     }
 
     .mce-floatpanel.mce-arrow-up {
         // XXX fixes table menu panel floating above modals
         z-index: 2999 !important;
     }
+
     /* tinymce scrolled out of view handling */
     .mosaic-panel {
         .mosaic-rich-text-toolbar.sticky {
@@ -16,10 +26,12 @@
             position: fixed;
             margin-top: -19px;
         }
+
         .mosaic-rich-text-toolbar.right {
             right: 0;
         }
     }
+
     /* XXX these are necessary fixes for tinymce menus
      that are floating */
     position: relative;
@@ -27,6 +39,7 @@
     .mce-floatpanel.mce-fixed {
         position: absolute;
     }
+
     &.mce-sticky .mce-floatpanel.mce-fixed {
         position: fixed;
     }

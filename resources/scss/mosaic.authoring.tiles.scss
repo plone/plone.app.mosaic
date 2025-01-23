@@ -104,6 +104,15 @@
 /* Rich text */
 body.mosaic-enabled .tox-tinymce-inline {
     z-index: 200;
+
+    .tox-editor-header {
+        border-radius: var(--bs-border-radius);
+        border: var(--bs-border-width) var(--bs-border-style) var(--bs-border-color);
+    }
+    // fix tiny toolbar offset to not scroll under main toolbar
+    &.tox-tinymce--toolbar-sticky-on .tox-editor-header {
+        top:48px !important;
+    }
 }
 
 .mosaic-panel table.mce-item-table {
