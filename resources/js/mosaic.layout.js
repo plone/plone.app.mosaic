@@ -160,7 +160,7 @@ export default class LayoutManager {
         // save copied content
         await tile.save();
 
-        if(tile.getConfig().tile_type == "app") {
+        if (tile.getConfig().tile_type == "app") {
             // copy the data from original tile too
             const orig_tile_data = await orig_tile_inst.serialize();
             await tile.deserialize(orig_tile_data);
@@ -226,7 +226,7 @@ export default class LayoutManager {
             let body = "";
 
             // if empty return
-            if(!obj.querySelectorAll(".mosaic-tile").length) {
+            if (!obj.querySelectorAll(".mosaic-tile").length) {
                 return body;
             }
 
@@ -235,7 +235,7 @@ export default class LayoutManager {
 
             // Loop through cells
             for (const cell of obj.children) {
-                if(!cell.classList.contains("mosaic-grid-cell")) {
+                if (!cell.classList.contains("mosaic-grid-cell")) {
                     continue;
                 }
 
@@ -245,7 +245,7 @@ export default class LayoutManager {
                     if (child.classList.contains("mosaic-innergrid-row")) {
                         body += getLayoutRow(child);
                     }
-                    if(child.classList.contains("mosaic-tile")) {
+                    if (child.classList.contains("mosaic-tile")) {
                         body += child["mosaic-tile"].getHtmlBody(exportLayout);
                     }
                 };
@@ -267,7 +267,7 @@ export default class LayoutManager {
         panels.forEach(panel => {
             body += `<div data-panel="${panel.dataset?.panel}" data-max-colums="${panel.dataset?.maxColumns || 6}">`
             for (const row of panel.children) {
-                if(row.classList.contains("mosaic-empty-row")) {
+                if (row.classList.contains("mosaic-empty-row")) {
                     continue;
                 }
                 body += getLayoutRow(row);
@@ -798,11 +798,11 @@ export default class LayoutManager {
             self.mosaic.document.querySelectorAll(".mosaic-set-custom-css").forEach(el => {
                 const row = el.parentNode;
                 let base_css = "mosaic-grid-row";
-                if(row.classList.contains("mosaic-innergrid-row")) {
+                if (row.classList.contains("mosaic-innergrid-row")) {
                     base_css += "mosaic-innergrid-row";
                 }
                 const customCss = el.querySelector("#custom-css-input-box").value;
-                if(customCss) {
+                if (customCss) {
                     base_css += ` ${customCss}`;
                 }
                 row.setAttribute("class", base_css);
@@ -855,47 +855,47 @@ export default class LayoutManager {
         );
     }
 
-    initialize_panels() {
+    async initialize_panels() {
         var self = this;
 
         self.initJQueryHelpers();
         self.init_events();
 
-        // Loop through matched elements
-        var total = self.mosaic.panels.length;
+        // determine biggest panel during loop
+        let biggestPanel = null;
+        let width = 0;
 
-        for (var i = 0; i < total; i++) {
-            // Get current object
-            var obj = $(self.mosaic.panels[i]);
+        for (const panel of self.mosaic.panels) {
+            // Get jQuery object
+            const $panel = $(panel);
 
             // Add icons and dividers
-            obj.find(".mosaic-tile").each(async function () {
-                var tile = new Tile(self.mosaic, this);
+            for(const tileNode of panel.querySelectorAll(".mosaic-tile")) {
+                var tile = new Tile(self.mosaic, tileNode);
                 await tile.initialize();
-                $(this).mosaicAddDrag();
-            });
-            obj.mosaicAddEmptyRows();
-            obj.children(".mosaic-grid-row").mosaicSetResizeHandles();
-            if (i === total - 1) {
-                // Get biggest panel
-                var width = 0;
-                var index = 0;
-                self.mosaic.panels.each(function (j) {
-                    if ($(this).width() > width) {
-                        width = $(this).width();
-                        index = j;
-                    }
-                });
-
-                // Select first tile in biggest panel
-                var $tile = self.mosaic.panels.eq(index).find(".mosaic-tile:first");
-                if ($tile.length > 0) {
-                    $tile.data("mosaic-tile").select();
-                }
+                $(tileNode).mosaicAddDrag();
             }
 
-            obj.find(".mosaic-innergrid-row").mosaicSetResizeHandles();
+            $panel.mosaicAddEmptyRows();
+            $panel.children(".mosaic-grid-row").mosaicSetResizeHandles();
+
+            const pWidth = panel.offsetWidth;
+            if (pWidth && pWidth > width) {
+                width = pWidth;
+                biggestPanel = panel;
+            }
+
+            $panel.find(".mosaic-innergrid-row").mosaicSetResizeHandles();
         }
+
+        // Select first tile in biggest panel
+        if(biggestPanel) {
+            const firstTile = biggestPanel.querySelector(".mosaic-tile:first-child");
+            if(firstTile) {
+                firstTile["mosaic-tile"].select();
+            }
+        }
+
     }
 
     initJQueryHelpers() {
@@ -1036,7 +1036,7 @@ export default class LayoutManager {
                     "mousedown",
                     "pat-layout--startdrag",
                     (event) => {
-                        if(event.button !== 0) {
+                        if (event.button !== 0) {
                             // only left mouse down!
                             return;
                         }
@@ -1049,6 +1049,21 @@ export default class LayoutManager {
                         }, drag_start_delay);
                     }
                 );
+
+                const tile_move_btn = tile.querySelector(".mosaic-btn-move");
+                if(tile_move_btn) {
+                    events.add_event_listener(
+                        tile_move_btn,
+                        "mousedown",
+                        "pat-layout--startmove",
+                        (event) => {
+                            if (event.button === 0) {
+                                // only left mouse down starts dragging
+                                DragStart(event);
+                            }
+                        }
+                    );
+                }
             });
         };
 
@@ -1064,15 +1079,17 @@ export default class LayoutManager {
             let copy = obj.hasClass("mosaic-panel-dragging-copy");
 
             // Get direction
-            var divider = $(".mosaic-selected-divider", mosaic_doc);
-            var drop = divider.parent();
-            var dir = "";
+            const divider = mosaic_doc.querySelector(".mosaic-selected-divider");
+            const drop = $(divider.parentElement);
+
+            // get direction where to drop
+            let dir = "";
             for (const _dir of ["top", "bottom", "left", "right"]) {
-                if (divider.hasClass("mosaic-divider-" + _dir)) {
+                if (divider.classList.contains(`mosaic-divider-${_dir}`)) {
                     dir = _dir;
                 }
             }
-            divider.removeClass("mosaic-selected-divider");
+            divider.classList.remove("mosaic-selected-divider");
 
             // True if new tile is inserted or copied
             var new_tile = $(".mosaic-helper-tile-new", mosaic_doc).length > 0;
@@ -1085,6 +1102,13 @@ export default class LayoutManager {
             // If divider is not found or not sane drop, act like esc is pressed
             if (divider.length === 0 || drop.hasClass("mosaic-helper-tile")) {
                 dropped_tile.addClass("mosaic-drag-cancel");
+            }
+
+            // we have to remove left/right divider if we're dropped inside a fixed row
+            const drop_row = divider.closest(".mosaic-grid-row");
+            if (drop_row.classList.contains("mosaic-fixed-row")) {
+                $(".mosaic-divider-left", dropped_tile).remove();
+                $(".mosaic-divider-right", dropped_tile).remove();
             }
 
             const fixup_classes = (_t) => {
@@ -1129,7 +1153,7 @@ export default class LayoutManager {
                 fixup_classes(dropped_tile);
 
                 // When the layout object has the special class (Assigned in line 365), wrap
-                // the tile in a div.mosaic-innergrid-row so it would create an inner column
+                // the tile in a div.mosaic-innergrid-row so you can create nested columns
                 if (obj.hasClass("inner-subcolumn")) {
                     dropped_tile = $(mosaic_doc.createElement("div"))
                         .addClass("mosaic-grid-row mosaic-innergrid-row")
@@ -1269,7 +1293,7 @@ export default class LayoutManager {
             // Select new tile and make it draggable
             if ((new_tile || copy) && dropped_tile.length > 0) {
                 dropped_tile.mosaicAddDrag();
-                if(!dropped_tile.data("mosaic-tile")) {
+                if (!dropped_tile.data("mosaic-tile")) {
                     return;
                 }
                 await dropped_tile.data("mosaic-tile").initializeContent(new_tile, copy);
@@ -1327,7 +1351,7 @@ export default class LayoutManager {
                 // Remove resize handles
                 $(this).children(".mosaic-resize-handle").remove();
 
-                if(["mosaic-fixed-row", "mosaic-empty-row"].filter(cls => this.classList.contains(cls)).length) {
+                if (["mosaic-fixed-row", "mosaic-empty-row"].filter(cls => this.classList.contains(cls)).length) {
                     // no resize handles for empty or fixed rows
                     return;
                 }

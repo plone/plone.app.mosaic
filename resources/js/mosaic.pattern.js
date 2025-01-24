@@ -172,7 +172,7 @@ export default Base.extend({
         });
 
         // initialize layout events
-        self.layoutManager.initialize_panels();
+        await self.layoutManager.initialize_panels();
     },
 
     _init: async function (content) {

@@ -146,7 +146,7 @@ class Tile {
                 body: url_params.toString(),
             })
             .then(response => {
-                if(!response.ok) {
+                if (!response.ok) {
                     log.warn("Could not deserialize data!");
                 }
             });
@@ -436,12 +436,12 @@ class Tile {
         }
 
         self.makeMovable();
-        self.initializeButtons();
+        await self.initializeButtons();
 
         // available divider/tiledrop positions
         let divider_pos = ["top", "bottom"];
 
-        if(!self.el.closest(".mosaic-grid-row").classList.contains("mosaic-fixed-row")) {
+        if (!self.el.closest(".mosaic-grid-row").classList.contains("mosaic-fixed-row")) {
             // if not fixed grid row, add left/right dividers too
             // otherwise, tiles can only be added to top/bottom
             divider_pos.push(...["right", "left"]);
@@ -488,9 +488,9 @@ class Tile {
 
         // remove existing
         const btns_node = this.el.querySelectorAll(".mosaic-tile-buttons");
-        btns_node.forEach(btns => {
-            this.el.removeChild(btns);
-        });
+        for (const btn_node of btns_node) {
+            btn_node.remove();
+        }
 
         var _addButton = async (label, name, icon_name, click) => {
             const btn = document.createElement("button");
@@ -538,14 +538,21 @@ class Tile {
             cancelBtn.style.display = "none";
         }
 
+        // add move icon
+        if (this.el.classList.contains("movable")) {
+            // delete
+            const moveBtn = await _addButton("", "move", "arrows-move");
+        }
+
         if (buttons.length > 0) {
             var $btns = $("<div />").addClass("mosaic-tile-control mosaic-tile-buttons");
-            for (const $btn of buttons) {
-                $btns.append($btn);
+            for (const btn of buttons) {
+                $btns.append($(btn));
             }
             this.$el.prepend($btns);
         }
     }
+
     cancelClicked(e) {
         e.preventDefault();
         $(".mosaic-btn-settings,.mosaic-btn-delete", this.$el).show();
@@ -918,10 +925,10 @@ class Tile {
         this.$el.removeClass("mosaic-selected-tile");
         this.save();
     }
-    focus() {
+    async focus() {
         this.$el.addClass("mosaic-selected-tile");
         this.$el.find(".mce-content-body").trigger("focus");
-        this.initializeButtons();
+        await this.initializeButtons();
     }
     async save() {
         var self = this;

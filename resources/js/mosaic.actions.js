@@ -360,7 +360,7 @@ class ActionManager {
 
         // Register page-insert action
         self.registerAction("insert", {
-            exec: function (source) {
+            exec: async function (source) {
                 // Local variables
                 var tile_config, tile_type;
 
@@ -506,7 +506,7 @@ class ActionManager {
                         });
                 } else {
                     // Add tile
-                    mosaic.layoutManager.addTile(
+                    await mosaic.layoutManager.addTile(
                         tile_type,
                         mosaic.layoutManager.getDefaultValue(tile_config),
                     );
