@@ -538,11 +538,11 @@ class Tile {
             cancelBtn.style.display = "none";
         }
 
-        // add move icon
-        if (this.el.classList.contains("movable")) {
-            // delete
-            const moveBtn = await _addButton("", "move", "arrows-move");
-        }
+        // TODO: add move icon
+        // if (this.el.classList.contains("movable")) {
+        //     // delete
+        //     const moveBtn = await _addButton("", "move", "arrows-move");
+        // }
 
         if (buttons.length > 0) {
             var $btns = $("<div />").addClass("mosaic-tile-control mosaic-tile-buttons");
