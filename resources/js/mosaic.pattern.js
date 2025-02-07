@@ -172,7 +172,7 @@ export default Base.extend({
         });
 
         // initialize layout events
-        self.layoutManager.initialize_panels();
+        await self.layoutManager.initialize_panels();
     },
 
     _init: async function (content) {
@@ -201,6 +201,7 @@ export default Base.extend({
                     !obj.hasClass("mosaic-notifications") &&
                     !obj.hasClass("modal-wrapper") &&
                     !obj.hasClass("modal-backdrop") &&
+                    !obj.hasClass("tox") &&
                     obj.attr("id") !== "edit-zone"
                 ) {
                     // Check if inside panel or toolbar

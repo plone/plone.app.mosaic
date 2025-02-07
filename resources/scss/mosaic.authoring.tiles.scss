@@ -23,11 +23,19 @@
 
     &.mosaic-selected-tile {
         z-index: 101;
-        background-color: rgba(var(--bs-body-color-rgb), 0.075);
+
+        &,
+        .mosaic-btn-move {
+            background-color: rgba(var(--bs-body-color-rgb), 0.075);
+        }
 
         &,
         &:hover {
             border: var(--plone-mosaic-tiles-border-style-active) var(--plone-mosaic-tiles-border-width) var(--plone-mosaic-tiles-border-color-active) !important;
+        }
+        .mosaic-btn-move {
+            border-color:transparent;
+            cursor: move;
         }
     }
 
@@ -104,6 +112,15 @@
 /* Rich text */
 body.mosaic-enabled .tox-tinymce-inline {
     z-index: 200;
+
+    .tox-editor-header {
+        border-radius: var(--bs-border-radius);
+        border: var(--bs-border-width) var(--bs-border-style) var(--bs-border-color);
+    }
+    // fix tiny toolbar offset to not scroll under main toolbar
+    &.tox-tinymce--toolbar-sticky-on .tox-editor-header {
+        top:48px !important;
+    }
 }
 
 .mosaic-panel table.mce-item-table {

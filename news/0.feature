@@ -1,0 +1,2 @@
+- "mosaic-fixed-row" to enable un-changeable column layouts.
+- resurrect "mosaic-innergrid-row" feature with CTRL dropped tiles for nested grids.

@@ -19,6 +19,7 @@
 @keyframes mosaicBlurred {
     100% {
         opacity: 0.4;
+        filter: blur(1px);
         /* maybe more fuzzy effects */
     }
 }
@@ -26,6 +27,7 @@
 /* Opacity icons */
 .mosaic-blur {
     animation: 1s mosaicBlurred ease-out forwards;
+    pointer-events: none;
 }
 
 /* Hover icons */
@@ -187,9 +189,8 @@ body.mosaic-layout-customized .mosaic-advanced {
 }
 
 /* Inner subcolumns */
-.mosaic-panel .mosaic-innergrid-row:hover {
+.mosaic-panel .mosaic-innergrid-row {
     border: var(--plone-mosaic-authoring-innergrid-border-style) var(--plone-mosaic-authoring-innergrid-border-width) var(--plone-mosaic-authoring-innergrid-border-color);
-    padding-top: 10px;
 }
 
 body.mosaic-layout-customized .mosaic-panel.mosaic-advanced {
@@ -207,10 +208,8 @@ body.mosaic-layout-customized .mosaic-panel.mosaic-advanced {
         }
 
         .mosaic-innergrid-row {
-            padding: 5px;
+            padding: 5px 0 var(--bs-gutter-x) 0;
             border: var(--plone-mosaic-authoring-innergrid-border-style) var(--plone-mosaic-authoring-innergrid-border-width) var(--plone-mosaic-authoring-innergrid-border-color);
-            margin-left: -7px;
-            margin-right: 0px;
             margin-bottom: 10px;
 
             &:hover {

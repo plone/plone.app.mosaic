@@ -2,5 +2,12 @@
  * build with `yarn build:css`
  * see plone/app/mosaic/profiles/default/registry/resources.xml
  */
+@import "bootstrap/scss/functions";
+@import "bootstrap/scss/variables";
+
+@import "bootstrap/scss/maps";
+@import "bootstrap/scss/mixins";
+@import "bootstrap/scss/root";
+
 @import "mosaic-grid.scss";
 @import "mosaic-styles.scss";
