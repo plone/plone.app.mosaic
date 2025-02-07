@@ -8,6 +8,16 @@ Changelog
 
 .. towncrier release notes start
 
+3.2.0 (2025-02-07)
+------------------
+
+New features:
+
+
+- - "mosaic-fixed-row" to enable un-changeable column layouts.
+  - resurrect "mosaic-innergrid-row" feature with CTRL dropped tiles for nested grids. (#0)
+
+
 3.2.0b1 (2024-11-06)
 --------------------
 
