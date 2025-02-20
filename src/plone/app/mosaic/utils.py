@@ -10,10 +10,8 @@ from plone.app.blocks.utils import PermissionChecker
 from plone.autoform.interfaces import MODES_KEY
 from plone.autoform.interfaces import OMITTED_KEY
 from plone.autoform.interfaces import READ_PERMISSIONS_KEY
-from plone.autoform.interfaces import WIDGETS_KEY
 from plone.autoform.interfaces import WRITE_PERMISSIONS_KEY
 from plone.autoform.utils import mergedTaggedValuesForIRO
-from plone.autoform.widgets import ParameterizedWidget
 from plone.registry.interfaces import IRegistry
 from plone.resource.interfaces import IResourceDirectory
 from plone.resource.utils import queryResourceDirectory
@@ -32,23 +30,19 @@ import os
 
 
 WIDGET_NAMES_MAP = {
-    "plone.app.z3cform.widget.RichTextWidget": "plone.app.z3cform.widget.RichTextFieldWidget"
+    "plone.app.z3cform.widget.RichTextWidget": "plone.app.z3cform.widgets.richtext.RichTextFieldWidget"
 }
 
 
-def _getWidgetName(field, widgets, request):
-    if field.__name__ in widgets:
-        factory = widgets[field.__name__]
-    else:
-        factory = getMultiAdapter((field, request), IFieldWidget)
+def _getWidgetName(field, request):
+    # refactored to use adapter lookup always
+    # since there can be ParameterizedWidgets without widget_factory
+    factory = getMultiAdapter((field, request), IFieldWidget)
     if isinstance(factory, str):
         name = factory
     else:
-        if isinstance(factory, ParameterizedWidget):
-            factory = factory.widget_factory
-        elif not isinstance(factory, type):
-            factory = factory.__class__
-        name = f"{factory.__module__:s}.{factory.__name__:s}"
+        cls = factory.__class__
+        name = f"{cls.__module__}.{cls.__name__}"
     return WIDGET_NAMES_MAP.get(name, name)
 
 
@@ -66,7 +60,6 @@ def extractFieldInformation(schema, context, request, prefix):
         prefix += "-"
     omitted = mergedTaggedValuesForIRO(schema, OMITTED_KEY, iro)
     modes = mergedTaggedValuesForIRO(schema, MODES_KEY, iro)
-    widgets = mergedTaggedValueDict(schema, WIDGETS_KEY)
 
     if context is not None:
         read_permissionchecker = PermissionChecker(
@@ -99,7 +92,7 @@ def extractFieldInformation(schema, context, request, prefix):
                     "id": f"{schema.__identifier__:s}.{name:s}",
                     "name": prefix + name,
                     "title": schema[name].title,
-                    "widget": _getWidgetName(schema[name], widgets, request),
+                    "widget": _getWidgetName(schema[name], request),
                     "readonly": name in read_only,
                 }
 
