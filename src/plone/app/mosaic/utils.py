@@ -32,9 +32,13 @@ import os
 WIDGET_NAMES_MAP = {
     "plone.app.z3cform.widget.RichTextWidget": "plone.app.z3cform.widgets.richtext.RichTextFieldWidget"
 }
+WIDGET_NAMES_CACHE = {}
 
 
 def _getWidgetName(field, request):
+    _cache_key = f"{field.__module__}.{field.__class__.__name__}.{field.__name__}"
+    if _cache_key in WIDGET_NAMES_CACHE:
+        return WIDGET_NAMES_CACHE[_cache_key]
     # refactored to use adapter lookup always
     # since there can be ParameterizedWidgets without widget_factory
     factory = getMultiAdapter((field, request), IFieldWidget)
@@ -43,7 +47,9 @@ def _getWidgetName(field, request):
     else:
         cls = factory.__class__
         name = f"{cls.__module__}.{cls.__name__}"
-    return WIDGET_NAMES_MAP.get(name, name)
+    mapped_name = WIDGET_NAMES_MAP.get(name, name)
+    WIDGET_NAMES_CACHE[_cache_key] = mapped_name
+    return mapped_name
 
 
 def getPersistentResourceDirectory(id_, container=None):
