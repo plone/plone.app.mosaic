@@ -8,14 +8,14 @@
         "@plone/mockup": "^5.1.14"
     },
     "devDependencies": {
-        "@patternslib/dev": "3.6.1",
+        "@patternslib/dev": "3.7.2",
         "bootstrap": "5.3.3",
         "clean-css-cli": "5.6.3",
         "nodemon": "^3.1.7",
         "npm-run-all": "^4.1.5",
-        "prettier": "3.3.3",
+        "prettier": "3.5.1",
         "sass": "1.77.6",
-        "sass-loader": "16.0.3"
+        "sass-loader": "16.0.5"
     },
     "scripts": {
         "build": "npm-run-all build:webpack build:css",
