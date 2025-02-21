@@ -23,12 +23,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup Plone ${{ matrix.plone }} with Python ${{ matrix.python }}
-        id: setup
-        uses: plone/setup-plone@v2.0.0
+      - name: Set up Python ${{ matrix.python }}
+        uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python }}
-          plone-version: ${{ matrix.plone }}
+          cache: "pip" # caching pip dependencies
 
       - name: Install package
         run: |
