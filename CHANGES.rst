@@ -8,6 +8,16 @@ Changelog
 
 .. towncrier release notes start
 
+3.2.2 (2025-02-21)
+------------------
+
+Internal:
+
+
+- Update JS dependencies
+  [petschki] (#624)
+
+
 3.2.1 (2025-02-21)
 ------------------
 
