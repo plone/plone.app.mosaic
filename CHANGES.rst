@@ -8,6 +8,16 @@ Changelog
 
 .. towncrier release notes start
 
+3.2.1 (2025-02-21)
+------------------
+
+Bug fixes:
+
+
+- Fix widget name lookup for `IEventBasic` behavior enabled types.
+  [petschki] (#616)
+
+
 3.2.0 (2025-02-07)
 ------------------
 
