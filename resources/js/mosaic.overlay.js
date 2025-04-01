@@ -77,6 +77,9 @@ export default class Overlay {
         this.modal.on("after-render", (e) => {
             this.setup_visibility(mode, tile_config);
         });
+        this.modal.on("shown", (e) => {
+            window.setTimeout(this.setup_tabs.bind(this), 1000);
+        });
         // show modal
         this.modal.show();
     }
@@ -108,15 +111,6 @@ export default class Overlay {
                     }
                 }
             }
-
-            // hide fieldsets which only has hidden fields
-            for (const fieldset of modalContent.find("fieldset")) {
-                if (
-                    fieldset.querySelectorAll(".field:not(.mosaic-hidden)").length === 0
-                ) {
-                    fieldset.remove();
-                }
-            }
         } else if (mode === "field") {
             // Get fieldset and field
             var field = $("#" + tile_config.id, modalContent);
@@ -142,6 +136,23 @@ export default class Overlay {
 
             // Hide form tabs
             modalContent.find("nav").addClass("mosaic-hidden");
+        }
+    }
+
+    setup_tabs() {
+        // remove the tab if fieldset only contains hidden fields.
+        var self = this;
+        const modalContent = self.modal.$modalContent;
+        let fieldset_count = 0;
+
+        for (const fieldset of modalContent[0].querySelectorAll("fieldset")) {
+            if (
+                fieldset.querySelectorAll(".field:not(.mosaic-hidden)").length === 0
+            ) {
+                const tab = modalContent[0].querySelector(`.autotoc-level-${fieldset_count}`);
+                tab?.remove();
+            }
+            fieldset_count += 1;
         }
     }
 }
