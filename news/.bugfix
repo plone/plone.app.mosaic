@@ -1,0 +1,4 @@
+Fix lost layout information when saving properties modal. @petschki
+
+Fix lost orderedselect_widget information when saving properties modal. @ petschki
+

@@ -8,7 +8,7 @@ export default class Overlay {
     constructor(options, panels) {
         this.options = options;
         this.panels = panels;
-        if(!this.original_content) {
+        if (!this.original_content) {
             this.original_content = document.querySelector(".mosaic-original-content");
             this.$el = $(this.original_content);
         }
@@ -16,9 +16,8 @@ export default class Overlay {
 
     properties_edit_url() {
         const edit_url = window.location.href.split("?");
-        return `${edit_url[0]}?ajax_load=${new Date().getTime()}${
-            edit_url.length > 1 ? "&" + edit_url[1] : ""
-        }`;
+        return `${edit_url[0]}?ajax_load=${new Date().getTime()}${edit_url.length > 1 ? "&" + edit_url[1] : ""
+            }`;
     }
 
     before_modal_render() {
@@ -32,16 +31,28 @@ export default class Overlay {
     prepare_properties_form() {
         // we have to disable "pat-layout" inside the modal form
         this.modal.$modalContent.find("#fieldset-layout").addClass("disable-patterns");
+        this.prepare_orderedselectwidget()
+    }
+
+    prepare_orderedselectwidget() {
+        for (const osw of document.querySelectorAll(`form select[name$=".to"]`)) {
+            // cut ".to" to get basename
+            const base_id = osw.id.slice(0, -3);
+            window?.copyDataForSubmit(base_id);
+        }
     }
 
     load_properties_form() {
         // Load the original form again
         const self = this;
-        if(self.$el.hasClass("properties-reloaded")) {
+        if (self.$el.hasClass("properties-reloaded")) {
             return;
         }
         self.$el.find("#content-core").load(
-            self.properties_edit_url() + " #content-core > form"
+            self.properties_edit_url() + " #content-core > form", (e) => {
+                // fix for orderedselect widget, otherwise data is lost!
+                self.prepare_orderedselectwidget();
+            }
         );
         self.$el.addClass("properties-reloaded");
     }
@@ -77,6 +88,9 @@ export default class Overlay {
         this.modal.on("after-render", (e) => {
             this.setup_visibility(mode, tile_config);
         });
+        this.modal.on("shown", (e) => {
+            window.setTimeout(this.setup_tabs.bind(this), 1000);
+        });
         // show modal
         this.modal.show();
     }
@@ -108,15 +122,6 @@ export default class Overlay {
                     }
                 }
             }
-
-            // hide fieldsets which only has hidden fields
-            for (const fieldset of modalContent.find("fieldset")) {
-                if (
-                    fieldset.querySelectorAll(".field:not(.mosaic-hidden)").length === 0
-                ) {
-                    fieldset.remove();
-                }
-            }
         } else if (mode === "field") {
             // Get fieldset and field
             var field = $("#" + tile_config.id, modalContent);
@@ -142,6 +147,23 @@ export default class Overlay {
 
             // Hide form tabs
             modalContent.find("nav").addClass("mosaic-hidden");
+        }
+    }
+
+    setup_tabs() {
+        // remove the tab if fieldset only contains hidden fields.
+        var self = this;
+        const modalContent = self.modal.$modalContent;
+        let fieldset_count = 0;
+
+        for (const fieldset of modalContent[0].querySelectorAll("fieldset")) {
+            if (
+                fieldset.querySelectorAll(".field:not(.mosaic-hidden)").length === 0
+            ) {
+                const tab = modalContent[0].querySelector(`.autotoc-level-${fieldset_count}`);
+                tab?.remove();
+            }
+            fieldset_count += 1;
         }
     }
 }
