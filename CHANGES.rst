@@ -8,6 +8,17 @@ Changelog
 
 .. towncrier release notes start
 
+3.2.3 (2025-04-01)
+------------------
+
+Bug fixes:
+
+
+- Fix lost layout information when saving properties modal. @petschki
+
+  Fix lost orderedselect_widget information when saving properties modal. @ petschki (#223)
+
+
 3.2.2 (2025-02-21)
 ------------------
 
