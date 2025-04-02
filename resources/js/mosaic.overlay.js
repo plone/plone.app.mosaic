@@ -69,6 +69,9 @@ export default class Overlay {
                 displayInModal: false,
                 reloadWindowOnClose: false,
             },
+            backdropOptions: {
+                closeOnClick: false,
+            },
         });
         // override modal initialization
         self.modal.on("before-render", (e) => {
