@@ -342,6 +342,9 @@ class ActionManager {
                     ajaxUrl:
                         mosaic.options.context_url +
                         "/@@add-tile?form.button.Create=Create",
+                    backdropOptions: {
+                        closeOnClick: false,
+                    },
                 });
                 m.show();
             },
@@ -409,6 +412,9 @@ class ActionManager {
                             position: "center top",
                             buttons:
                                 '.formControls > button[type="submit"], .actionButtons > button[type="submit"]',
+                            backdropOptions: {
+                                closeOnClick: false,
+                            },
                         });
                         m.on("after-render", () => {
                             // Remove field errors since the user has not actually

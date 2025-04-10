@@ -387,6 +387,12 @@ class Tile {
             return;
         }
 
+        if(!self.el.parentElement) {
+            // This is in case, when mosaic markup is copied into
+            // richtext tiles ... do not parse those nested tiles!
+            return;
+        }
+
         var tile_config = self.getConfig();
 
         if (tile_config) {
