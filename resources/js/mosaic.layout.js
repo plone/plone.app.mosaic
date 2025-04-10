@@ -870,7 +870,7 @@ export default class LayoutManager {
             const $panel = $(panel);
 
             // Add icons and dividers
-            for(const tileNode of panel.querySelectorAll(".mosaic-tile")) {
+            for (const tileNode of panel.querySelectorAll(".mosaic-tile")) {
                 var tile = new Tile(self.mosaic, tileNode);
                 await tile.initialize();
                 $(tileNode).mosaicAddDrag();
@@ -889,9 +889,9 @@ export default class LayoutManager {
         }
 
         // Select first tile in biggest panel
-        if(biggestPanel) {
+        if (biggestPanel) {
             const firstTile = biggestPanel.querySelector(".mosaic-tile:first-child");
-            if(firstTile) {
+            if (firstTile) {
                 firstTile["mosaic-tile"].select();
             }
         }
@@ -930,9 +930,9 @@ export default class LayoutManager {
          */
         $.fn.mosaicAddEmptyRows = function () {
 
-            const create_empty_row = () => {
+            const create_empty_row = (add_class) => {
                 return $(mosaic_doc.createElement("div"))
-                    .addClass("mosaic-grid-row mosaic-empty-row")
+                    .addClass(`mosaic-grid-row mosaic-empty-row ${add_class}`)
                     .append(
                         $(mosaic_doc.createElement("div"))
                             .addClass("mosaic-grid-cell col")
@@ -945,11 +945,15 @@ export default class LayoutManager {
 
             return this.each(() => {
                 // first row is always an empty one
-                $(this).prepend(create_empty_row())
+                $(this).prepend(create_empty_row(""))
                 // Loop through rows
                 $(this)
-                    .find(".mosaic-grid-row:not(.mosaic-innergrid-row):not(.mosaic-empty-row")
-                    .after(create_empty_row());
+                    .find(".mosaic-grid-row:not(.mosaic-empty-row").each(function() {
+                        const empty_row = create_empty_row(
+                            $(this).hasClass("mosaic-innergrid-row") ? "mosaic-innergrid-row" : ""
+                        );
+                        $(this).after(empty_row);
+                    })
             });
         };
 
@@ -1051,7 +1055,7 @@ export default class LayoutManager {
                 );
 
                 const tile_move_btn = tile.querySelector(".mosaic-btn-move");
-                if(tile_move_btn) {
+                if (tile_move_btn) {
                     events.add_event_listener(
                         tile_move_btn,
                         "mousedown",
@@ -1152,7 +1156,7 @@ export default class LayoutManager {
 
                 fixup_classes(dropped_tile);
 
-                // When the layout object has the special class (Assigned in line 365), wrap
+                // When the layout object has the special class (Assigned in line 369), wrap
                 // the tile in a div.mosaic-innergrid-row so you can create nested columns
                 if (obj.hasClass("inner-subcolumn")) {
                     dropped_tile = $(mosaic_doc.createElement("div"))
