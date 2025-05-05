@@ -189,13 +189,13 @@ class ActionManager {
 
         // Register save action
         self.registerAction("save", {
-            exec: function () {
+            exec: async function () {
                 mosaic.saving = true;
-                self.blurSelectedTile();
+                await self.blurSelectedTile();
                 mosaic.toolbar.SelectedTileChange();
-                mosaic.queue(function (next) {
-                    mosaic.layoutManager.saveLayoutToForm();
-                    mosaic.save();
+                mosaic.queue(async function (next) {
+                    await mosaic.layoutManager.saveLayoutToForm();
+                    await mosaic.save();
                     mosaic.saving = false;
                     next();
                 });
@@ -561,9 +561,9 @@ class ActionManager {
         });
     }
 
-    blurSelectedTile() {
-        this.mosaic.document.querySelectorAll(".mosaic-selected-tile").forEach((el) => {
-            $(el).data("mosaic-tile").blur();
+    async blurSelectedTile() {
+        this.mosaic.document.querySelectorAll(".mosaic-selected-tile").forEach(async (el) => {
+            await $(el).data("mosaic-tile").blur();
         });
     }
 
