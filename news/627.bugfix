@@ -1,5 +1,0 @@
-fix modal backgrop not to closeOnClick. @petschki
-
-fix broken tile initialization when mosaic markup was copy/pasted into richtext tile. @petschki
-
-fix empty rows in innergrid layout. @petschki

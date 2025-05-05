@@ -8,6 +8,26 @@ Changelog
 
 .. towncrier release notes start
 
+3.2.4 (2025-05-05)
+------------------
+
+Bug fixes:
+
+
+- fix modal backgrop not to closeOnClick. @petschki
+
+  fix broken tile initialization when mosaic markup was copy/pasted into richtext tile. @petschki
+
+  fix empty rows in innergrid layout. @petschki (#627)
+- Correctly await blur and save events on tiles.  @petschki (#631)
+
+
+Internal:
+
+
+- Update dependencies. @petschki (#630)
+
+
 3.2.3 (2025-04-01)
 ------------------
 
