@@ -282,7 +282,7 @@ export default class LayoutManager {
         return `<!DOCTYPE html><html data-layout="${this.mosaic.options.layout}">${body}</html>`;
     }
 
-    saveLayoutToForm() {
+    async saveLayoutToForm() {
         var self = this;
         var $customLayout = $(
             "#form-widgets-ILayoutAware-customContentLayout, " +
@@ -292,7 +292,7 @@ export default class LayoutManager {
         if (self.mosaic.hasContentLayout) {
             $customLayout.val("");
         } else {
-            $customLayout.val(self.getPageContent());
+            $customLayout.val(await self.getPageContent());
         }
     }
 
@@ -336,8 +336,8 @@ export default class LayoutManager {
             // Tab key
             if (e.keyCode === 9) {
                 // blur all active tiles. and set focus
-                _document.querySelectorAll(".mosaic-selected-tile").forEach((tile) => {
-                    $(tile).data("mosaic-tile").blur();
+                _document.querySelectorAll(".mosaic-selected-tile").forEach(async (tile) => {
+                    await $(tile).data("mosaic-tile").blur();
                 });
                 // focus new tile
                 var focused_tile = document.activeElement.closest(".mosaic-tile");
@@ -455,8 +455,8 @@ export default class LayoutManager {
                 // Deselect tiles
                 self.mosaic.document
                     .querySelectorAll(".mosaic-selected-tile:not(.mosaic-tile-loading)")
-                    .forEach((el) => {
-                        $(el).data("mosaic-tile").blur();
+                    .forEach(async (el) => {
+                        await $(el).data("mosaic-tile").blur();
                     });
                 // Check if outside toolbar
                 if ($(elm).parents(".mosaic-toolbar").length === 0) {

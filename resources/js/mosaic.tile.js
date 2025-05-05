@@ -925,11 +925,11 @@ class Tile {
             this.focus();
         }
     }
-    blur() {
+    async blur() {
         log.debug("blur");
         log.debug(this);
         this.$el.removeClass("mosaic-selected-tile");
-        this.save();
+        await this.save();
     }
     async focus() {
         this.$el.addClass("mosaic-selected-tile");
