@@ -909,36 +909,32 @@ class Tile {
         });
     }
     select() {
-        log.debug("select ↓");
-        log.debug(this);
+        log.debug("select ↓", this);
         if (
-            this.$el.hasClass("mosaic-selected-tile") === false &&
-            this.$el.hasClass("mosaic-read-only-tile") === false
+            !this.el.classList.contains("mosaic-selected-tile") &&
+            !this.el.classList.contains("mosaic-read-only-tile")
         ) {
             // un-select existing with stored Tile instance on element
             this.mosaic.document
                 .querySelectorAll(".mosaic-selected-tile")
-                .forEach(el => el["mosaic-tile"].blur());
+                .forEach(async el => await el["mosaic-tile"].blur());
             // select current tile
             this.focus();
         }
     }
     async blur() {
-        log.debug("blur ↓");
-        log.debug(this);
+        log.debug("blur ↓", this);
         this.el.classList.remove("mosaic-selected-tile");
         await this.save();
     }
     async focus() {
-        log.debug("focus ↓");
-        log.debug(this);
+        log.debug("focus ↓", this);
         this.el.classList.add("mosaic-selected-tile");
         this.$el.find(".mce-content-body").trigger("focus");
         await this.initializeButtons();
     }
     async save() {
-        log.debug("save ↓");
-        log.debug(this);
+        log.debug("save ↓", this);
         var self = this;
         var tiletype = self.getType();
         var tile_config = self.getConfig();
@@ -946,6 +942,8 @@ class Tile {
         if (!tile_config || tile_config.read_only === true) {
             return;
         }
+
+        window.__mosaic_saving_tile = true;
 
         if (tile_config.tile_type === "field") {
             // save contenteditable schema field values.
@@ -974,6 +972,7 @@ class Tile {
             if (form_el["pattern-tinymce"]) {
                 form_el["pattern-tinymce"].instance.tiny.setContent(value);
             }
+
         } else if (tile_config.tile_type === "textapp") {
             // save app tiles with plone.app.blocks
             var edit_url = self.getEditUrl();
@@ -987,6 +986,7 @@ class Tile {
                 log.debug(`no changes in ${tile_config.name} -> not saving.`);
                 return;
             }
+
             var data = {
                 "_authenticator": utils.getAuthenticator(),
                 "buttons.save": "Save",
@@ -1015,6 +1015,8 @@ class Tile {
                 log.error(`Error while save tile ${tile_config.name}: ${error}`);
             }
         }
+
+        window.__mosaic_saving_tile = false;
     }
 
     async setupWysiwyg(created) {

@@ -57,10 +57,8 @@ class ActionManager {
             log.error(`Action ${action} not in "${this.actions}"`);
             return;
         }
-        log.debug(`Executing action "${action}" ↓`);
-        log.debug(this.actions[action]);
-        log.debug(`from source ↓`);
-        log.debug(source);
+        log.debug(`Executing action "${action}" ↓`, this.actions[action]);
+        log.debug(`from source ↓`, source);
         return this.actions[action].exec(source);
     }
 
@@ -193,7 +191,13 @@ class ActionManager {
 
         // Register save action
         self.registerAction("save", {
-            exec: function () {
+            exec: function (source) {
+                if(window.__mosaic_saving_tile) {
+                    // defer saving until all tiles are saved
+                    log.debug("Wait for saving tiles");
+                    window.setTimeout(() => {self.execAction("save", source)}, 500);
+                    return;
+                }
                 mosaic.saving = true;
                 self.blurSelectedTile();
                 mosaic.toolbar.SelectedTileChange();
@@ -564,10 +568,9 @@ class ActionManager {
 
     blurSelectedTile() {
         const selTile = this.mosaic.document.querySelectorAll(".mosaic-selected-tile");
-        if (!selTile) return;
-        log.debug("blur selected tile ↓");
-        log.debug(selTile);
-        selTile.forEach(el => el["mosaic-tile"].blur());
+        if (!selTile.length) return;
+        log.debug("blur selected tile(s) ↓", selTile);
+        selTile.forEach(async el => await el["mosaic-tile"].blur());
     }
 
     mosaicExecAction() {

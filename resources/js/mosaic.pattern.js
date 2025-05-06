@@ -90,6 +90,9 @@ export default Base.extend({
         // main page
         self.document = window.document;
 
+        // global states
+        window.__mosaic_saving_tile = false;
+
         // init actionManager
         const ActionManager = (await import("./mosaic.actions")).default;
         self.actionManager = new ActionManager(self);
