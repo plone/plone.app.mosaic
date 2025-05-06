@@ -943,9 +943,10 @@ class Tile {
             return;
         }
 
-        window.__mosaic_saving_tile = true;
-
         if (tile_config.tile_type === "field") {
+            window.__mosaic_saving_tile = true;
+            utils.loading.show();
+
             // save contenteditable schema field values.
             // NOTE: the other field values are saved via "settings" modal
             // already. No action needed here.
@@ -987,6 +988,9 @@ class Tile {
                 return;
             }
 
+            window.__mosaic_saving_tile = true;
+            utils.loading.show();
+
             var data = {
                 "_authenticator": utils.getAuthenticator(),
                 "buttons.save": "Save",
@@ -1017,6 +1021,7 @@ class Tile {
         }
 
         window.__mosaic_saving_tile = false;
+        utils.loading.hide();
     }
 
     async setupWysiwyg(created) {
