@@ -49,6 +49,7 @@ export default class Overlay {
             return;
         }
         self.$el.find("#content-core").load(
+            // eslint-disable-next-line
             self.properties_edit_url() + " #content-core > form", (e) => {
                 // fix for orderedselect widget, otherwise data is lost!
                 self.prepare_orderedselectwidget();
@@ -74,12 +75,15 @@ export default class Overlay {
             },
         });
         // override modal initialization
+        // eslint-disable-next-line
         self.modal.on("before-render", (e) => {
             self.before_modal_render();
         });
+        // eslint-disable-next-line
         self.modal.on("rendered", (e) => {
             self.prepare_properties_form();
         });
+        // eslint-disable-next-line
         self.modal.on("hide", (e) => {
             self.load_properties_form();
         })
@@ -88,9 +92,11 @@ export default class Overlay {
 
     open(mode, tile_config) {
         // setup visibility of fields before showing modal
+        // eslint-disable-next-line
         this.modal.on("after-render", (e) => {
             this.setup_visibility(mode, tile_config);
         });
+        // eslint-disable-next-line
         this.modal.on("shown", (e) => {
             window.setTimeout(this.setup_tabs.bind(this), 1000);
         });
