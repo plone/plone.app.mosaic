@@ -387,7 +387,7 @@ class Tile {
             return;
         }
 
-        if(!self.el.parentElement) {
+        if (!self.el.parentElement) {
             // This is in case, when mosaic markup is copied into
             // richtext tiles ... do not parse those nested tiles!
             return;
@@ -508,7 +508,7 @@ class Tile {
                 btn.innerHTML = icon + btn.innerHTML;
                 btn.querySelector("svg").classList.add("plone-icon", "me-1");
             } catch (err) {
-                log.warn(`could not find button icon "${name}"`);
+                log.warn(`could not find button icon "${name}" (${err})`);
             }
             if (click != undefined) {
                 btn.addEventListener("click", click.bind(this));
@@ -725,7 +725,7 @@ class Tile {
     async initializeContent(created, is_copy) {
         var self = this;
 
-        var base = $("body", self.mosaic.document).attr("data-base-url");
+        var base = self.mosaic.document.body.dataset.basUrl || null;
         if (!base) {
             base = $("head > base", self.mosaic.document).attr("href");
         }
@@ -909,7 +909,7 @@ class Tile {
         });
     }
     select() {
-        log.debug("select");
+        log.debug("select ↓");
         log.debug(this);
         if (
             this.$el.hasClass("mosaic-selected-tile") === false &&
@@ -918,25 +918,27 @@ class Tile {
             // un-select existing with stored Tile instance on element
             this.mosaic.document
                 .querySelectorAll(".mosaic-selected-tile")
-                .forEach((el) => {
-                    $(el).data("mosaic-tile").blur();
-                });
+                .forEach(el => el["mosaic-tile"].blur());
             // select current tile
             this.focus();
         }
     }
     async blur() {
-        log.debug("blur");
+        log.debug("blur ↓");
         log.debug(this);
-        this.$el.removeClass("mosaic-selected-tile");
+        this.el.classList.remove("mosaic-selected-tile");
         await this.save();
     }
     async focus() {
-        this.$el.addClass("mosaic-selected-tile");
+        log.debug("focus ↓");
+        log.debug(this);
+        this.el.classList.add("mosaic-selected-tile");
         this.$el.find(".mce-content-body").trigger("focus");
         await this.initializeButtons();
     }
     async save() {
+        log.debug("save ↓");
+        log.debug(this);
         var self = this;
         var tiletype = self.getType();
         var tile_config = self.getConfig();
@@ -976,19 +978,15 @@ class Tile {
             // save app tiles with plone.app.blocks
             var edit_url = self.getEditUrl();
             if (!edit_url) {
+                log.debug(`no url found for tile ${tile_config.name}: ${edit_url} -> not saving.`);
                 return;
             }
             var currentData = self.getHtmlContent();
-            if (currentData === self.$el.data("lastSavedData")) {
-                // not dirty, do not save
+            if (currentData === (self.el.lastSavedData || "")) {
+                // no changes
+                log.debug(`no changes in ${tile_config.name} -> not saving.`);
                 return;
             }
-            // we also need to prevent double saving, conflict errors
-            if (self.$el.data("activeSave")) {
-                return;
-            }
-            utils.loading.show();
-            self.$el.data("activeSave", true);
             var data = {
                 "_authenticator": utils.getAuthenticator(),
                 "buttons.save": "Save",
@@ -998,27 +996,24 @@ class Tile {
             // save tile
             const body = new URLSearchParams(data);
 
-            fetch(
-                edit_url,
-                {
+            try {
+                const response = await fetch(edit_url, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/x-www-form-urlencoded; charset: utf-8",
                     },
                     body: body.toString(),
-                })
-                .then(response => {
-                    if (!response.ok) {
-                        alert(`Could not save tile: ${response.statusText}`);
-                        return;
-                    }
-                    self.$el.data("lastSavedData", currentData);
-                    self.$el.data("activeSave", false);
-                    utils.loading.hide();
-                })
-                .catch((err) => {
-                    log.warn(`Error while save tile ${tile_config.name}: ${err}`);
                 });
+
+                if (!response.ok) {
+                    log.error(`Could not save tile: ${response.statusText}`);
+                } else {
+                    self.el.lastSavedData = currentData;
+                    log.debug(`successfully saved ${tile_config.name} with data "${currentData}"`);
+                }
+            } catch (error) {
+                log.error(`Error while save tile ${tile_config.name}: ${error}`);
+            }
         }
     }
 

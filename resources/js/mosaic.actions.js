@@ -57,6 +57,10 @@ class ActionManager {
             log.error(`Action ${action} not in "${this.actions}"`);
             return;
         }
+        log.debug(`Executing action "${action}" ↓`);
+        log.debug(this.actions[action]);
+        log.debug(`from source ↓`);
+        log.debug(source);
         return this.actions[action].exec(source);
     }
 
@@ -189,16 +193,13 @@ class ActionManager {
 
         // Register save action
         self.registerAction("save", {
-            exec: async function () {
+            exec: function () {
                 mosaic.saving = true;
-                await self.blurSelectedTile();
+                self.blurSelectedTile();
                 mosaic.toolbar.SelectedTileChange();
-                mosaic.queue(async function (next) {
-                    await mosaic.layoutManager.saveLayoutToForm();
-                    await mosaic.save();
-                    mosaic.saving = false;
-                    next();
-                });
+                mosaic.layoutManager.saveLayoutToForm();
+                mosaic.save();
+                mosaic.saving = false;
             },
             shortcut: {
                 ctrl: true,
@@ -561,10 +562,12 @@ class ActionManager {
         });
     }
 
-    async blurSelectedTile() {
-        this.mosaic.document.querySelectorAll(".mosaic-selected-tile").forEach(async (el) => {
-            await $(el).data("mosaic-tile").blur();
-        });
+    blurSelectedTile() {
+        const selTile = this.mosaic.document.querySelectorAll(".mosaic-selected-tile");
+        if (!selTile) return;
+        log.debug("blur selected tile ↓");
+        log.debug(selTile);
+        selTile.forEach(el => el["mosaic-tile"].blur());
     }
 
     mosaicExecAction() {

@@ -158,7 +158,7 @@ export default class LayoutManager {
         var tile = new Tile(this.mosaic, $copy_tile_helper.find(".mosaic-tile"));
         await tile.initialize();
         // save copied content
-        await tile.save();
+        tile.save();
 
         if (tile.getConfig().tile_type == "app") {
             // copy the data from original tile too
@@ -282,17 +282,20 @@ export default class LayoutManager {
         return `<!DOCTYPE html><html data-layout="${this.mosaic.options.layout}">${body}</html>`;
     }
 
-    async saveLayoutToForm() {
+    saveLayoutToForm() {
         var self = this;
-        var $customLayout = $(
-            "#form-widgets-ILayoutAware-customContentLayout, " +
-            "[name='form.widgets.ILayoutAware.customContentLayout']",
+        const customLayout = this.mosaic.document.querySelector(
+            "[name='form.widgets.ILayoutAware.customContentLayout']"
         );
 
         if (self.mosaic.hasContentLayout) {
-            $customLayout.val("");
+            customLayout.value = "";
+        } else if (!customLayout) {
+            alert("Could not save layout. Please reload page.");
         } else {
-            $customLayout.val(await self.getPageContent());
+            log.debug(`saving pageContent to field`);
+            const pageContent = self.getPageContent();
+            customLayout.value = pageContent;
         }
     }
 
@@ -336,9 +339,7 @@ export default class LayoutManager {
             // Tab key
             if (e.keyCode === 9) {
                 // blur all active tiles. and set focus
-                _document.querySelectorAll(".mosaic-selected-tile").forEach(async (tile) => {
-                    await $(tile).data("mosaic-tile").blur();
-                });
+                _document.querySelectorAll(".mosaic-selected-tile").forEach(tile => tile["mosaic-tile"].blur());
                 // focus new tile
                 var focused_tile = document.activeElement.closest(".mosaic-tile");
                 if (focused_tile) {
@@ -455,9 +456,7 @@ export default class LayoutManager {
                 // Deselect tiles
                 self.mosaic.document
                     .querySelectorAll(".mosaic-selected-tile:not(.mosaic-tile-loading)")
-                    .forEach(async (el) => {
-                        await $(el).data("mosaic-tile").blur();
-                    });
+                    .forEach(el => el["mosaic-tile"].blur());
                 // Check if outside toolbar
                 if ($(elm).parents(".mosaic-toolbar").length === 0) {
                     // Set actions
@@ -533,13 +532,14 @@ export default class LayoutManager {
                 // sum of sizes after helper index excluding last column (which is elastic)
                 var col_size_after = column_sizes.slice(resize_handle_index + 1, -1).reduce((a, b) => a + b, 0);
                 // calculate maximum size of current column
+                var col_size_max = 12
                 if (resize_handle_index == (column_sizes.length - 1)) {
                     // if last column, we can drag to full width (12)
-                    var col_size_max = 12 - col_size_before - col_size_after;
+                    col_size_max = 12 - col_size_before - col_size_after;
                 } else {
                     // if not last column, we respect last elastic column (min-size: 1)
                     // with its fixed right margin
-                    var col_size_max = column_sizes_sum - col_size_before - col_size_after - 1;
+                    col_size_max = column_sizes_sum - col_size_before - col_size_after - 1;
                 }
                 var new_column_size = snap_size - col_size_before;
                 // limit to maximum of col_sizes_sum and minimum of 1
@@ -948,7 +948,7 @@ export default class LayoutManager {
                 $(this).prepend(create_empty_row(""))
                 // Loop through rows
                 $(this)
-                    .find(".mosaic-grid-row:not(.mosaic-empty-row").each(function() {
+                    .find(".mosaic-grid-row:not(.mosaic-empty-row").each(function () {
                         const empty_row = create_empty_row(
                             $(this).hasClass("mosaic-innergrid-row") ? "mosaic-innergrid-row" : ""
                         );
