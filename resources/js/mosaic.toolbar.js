@@ -2,10 +2,13 @@
 import "regenerator-runtime/runtime"; // needed for ``await`` support
 import $ from "jquery";
 import Registry from "@patternslib/patternslib/src/core/registry";
+import logging from "@patternslib/patternslib/src/core/logging";
 
 var normalizeClass = function (val) {
     return val.replace(/(_|\.|\/)/g, "-").toLowerCase();
 };
+
+const log = logging.getLogger("pat-mosaic/toolbar");
 
 class Toolbar {
     constructor(mosaic) {
@@ -113,7 +116,7 @@ class Toolbar {
         Registry.scan(self.$el);
 
         // set format menu callback to set selected formats of selected_tile
-        self.$el.find(".mosaic-menu-format").on("select2-open", (e) => {
+        self.$el.find(".mosaic-menu-format").on("select2-open", () => {
             var selected_tile = this.mosaic.document.querySelector(".mosaic-selected-tile");
             if (!selected_tile) return;
 
@@ -213,17 +216,11 @@ class Toolbar {
         if (
             !self.mosaic.saving &&
             !self.mosaic.modal &&
-            new Date().getTime() - self.lastChange > 6000
+            (new Date().getTime() - self.lastChange) > 6000
         ) {
-            self.mosaic.queue(function (next) {
-                self.mosaic.layoutManager.saveLayoutToForm();
-                $(
-                    "#form-widgets-ILayoutAware-customContentLayout, " +
-                    "[name='form.widgets.ILayoutAware.customContentLayout']",
-                ).trigger("blur");
-                next();
-            });
+            self.mosaic.layoutManager.saveLayoutToForm();
             self.lastChange = new Date().getTime();
+            log.debug("autosaved layout");
         }
     };
 
