@@ -90,6 +90,9 @@ export default Base.extend({
         // main page
         self.document = window.document;
 
+        // global states
+        window.__mosaic_saving_tile = false;
+
         // init actionManager
         const ActionManager = (await import("./mosaic.actions")).default;
         self.actionManager = new ActionManager(self);
@@ -329,7 +332,7 @@ export default Base.extend({
                             if (
                                 replacement &&
                                 self.getSelectedContentLayout() ===
-                                    "++contentlayout++" + layout.path
+                                "++contentlayout++" + layout.path
                             ) {
                                 await self.applyLayout(
                                     "++contentlayout++" + replacement,
@@ -540,7 +543,18 @@ export default Base.extend({
     },
 
     save: function () {
-        $("#form-buttons-save").trigger("click");
+        log.debug("Save document...")
+        const editForm = this.el.closest("form");
+
+        if (!editForm) {
+            alert("Could not save! Please reload...");
+        }
+
+        // do not war about unloading when saving
+        editForm["pattern-formunloadalert"]._suppressed = true;
+
+        log.debug("GOOD BYE!");
+        this.document.getElementById("form-buttons-save").click();
     },
 
     getDomTreeFromHtml: function (content) {
@@ -616,13 +630,6 @@ export default Base.extend({
                 // Add head elements
                 $("head", self.document).append(this);
             });
-    },
+    }
 
-    queue: function (queueName, callback) {
-        if (typeof callback === "undefined") {
-            callback = queueName;
-            queueName = "fx"; // 'fx' autoexecutes by default
-        }
-        $(window).queue(queueName, callback);
-    },
 });
