@@ -49,7 +49,7 @@ export default class Overlay {
             return;
         }
         self.$el.find("#content-core").load(
-            self.properties_edit_url() + " #content-core > form", (e) => {
+            self.properties_edit_url() + " #content-core > form", () => {
                 // fix for orderedselect widget, otherwise data is lost!
                 self.prepare_orderedselectwidget();
             }
@@ -74,13 +74,13 @@ export default class Overlay {
             },
         });
         // override modal initialization
-        self.modal.on("before-render", (e) => {
+        self.modal.on("before-render", () => {
             self.before_modal_render();
         });
-        self.modal.on("rendered", (e) => {
+        self.modal.on("rendered", () => {
             self.prepare_properties_form();
         });
-        self.modal.on("hide", (e) => {
+        self.modal.on("hide", () => {
             self.load_properties_form();
         })
         self.modal.init();
@@ -88,10 +88,10 @@ export default class Overlay {
 
     open(mode, tile_config) {
         // setup visibility of fields before showing modal
-        this.modal.on("after-render", (e) => {
+        this.modal.on("after-render", () => {
             this.setup_visibility(mode, tile_config);
         });
-        this.modal.on("shown", (e) => {
+        this.modal.on("shown", () => {
             window.setTimeout(this.setup_tabs.bind(this), 1000);
         });
         // show modal
