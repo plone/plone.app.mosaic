@@ -44,7 +44,6 @@ TEMPLATE = """\
         dummy python:plone_layout.mark_view(view);
         portal_url portal_state/portal_url;
         checkPermission nocall: context/portal_membership/checkPermission;
-        site_properties nocall: context/portal_properties/site_properties;
         ajax_include_head request/ajax_include_head | nothing;
         ajax_load request/ajax_load | python: False;
         toolbar_class python:request.cookies.get('plone-toolbar', 'plone-toolbar-left pat-toolbar');
