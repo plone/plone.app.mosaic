@@ -1,2 +1,0 @@
-Define the compatible node version.
-[thet]

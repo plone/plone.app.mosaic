@@ -8,6 +8,25 @@ Changelog
 
 .. towncrier release notes start
 
+3.2.5 (2025-05-21)
+------------------
+
+Bug fixes:
+
+
+- Refactor layout saving: remove jQuery queue. @petschki (#632)
+- Remove portal_properties from Plone < 6. [gogobd] (#633)
+
+
+Internal:
+
+
+- Define the compatible node version.
+  [thet] (#529)
+- Upgrade JavaScript dependencies.
+  [thet]
+
+
 3.2.4 (2025-05-05)
 ------------------
 

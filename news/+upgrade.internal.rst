@@ -1,2 +1,0 @@
-Upgrade JavaScript dependencies.
-[thet]
