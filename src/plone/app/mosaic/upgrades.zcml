@@ -532,4 +532,24 @@
         />
   </genericsetup:upgradeSteps>
 
+  <genericsetup:registerProfile
+      name="to_6005"
+      title="Upgrade profile to 6005"
+      description=""
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
+      directory="profiles/upgrades/to_6005"
+      />
+
+  <genericsetup:upgradeSteps
+      profile="plone.app.mosaic:default"
+      source="6004"
+      destination="6005"
+      >
+    <genericsetup:upgradeDepends
+        title="Register new disable_edit_bar setting."
+        import_profile="plone.app.mosaic:to_6005"
+        />
+  </genericsetup:upgradeSteps>
+
 </configure>
