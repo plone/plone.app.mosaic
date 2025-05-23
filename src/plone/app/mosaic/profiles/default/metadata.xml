@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-  <version>6004</version>
+  <version>6005</version>
   <dependencies>
     <dependency>profile-plone.app.contenttypes:default</dependency>
     <dependency>profile-plone.app.drafts:default</dependency>
