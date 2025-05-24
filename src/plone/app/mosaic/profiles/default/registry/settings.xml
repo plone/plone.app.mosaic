@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<registry
+    xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+    i18n:domain="plone">
+
+  <record name="plone.app.mosaic.settings.disable_edit_bar">
+    <field type="plone.registry.field.Bool">
+      <default>True</default>
+      <description i18n:translate="">Hide or show the Plone edit toolbar. The standard Plone toolbar isn't very useful in the normal Mosaic context. You can enable or disable it with this setting.</description>
+      <required>False</required>
+      <title i18n:translate="">Hide the Plone toolbar</title>
+    </field>
+    <value>True</value>
+  </record>
+
+</registry>

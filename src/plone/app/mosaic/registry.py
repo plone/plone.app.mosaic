@@ -78,6 +78,11 @@ class MosaicRegistry:
             current[key] = self.registry.records[record].value
         return result
 
+    def mapSettings(self, settings, config):
+        config["settings"] = config.get("settings", {})
+        settings = settings.get(f"{self.prefix:s}.settings", {})
+        return settings
+
     def mapActions(self, settings, config):
         for action_type in ["primary_actions", "secondary_actions"]:
             config[action_type] = []
@@ -285,6 +290,7 @@ class MosaicRegistry:
     def __call__(self, **kwargs):
         settings = self.parseRegistry()
         config = {}
+        config = self.mapSettings(settings, config)
         config = self.mapFormatCategories(settings, config)
         config = self.mapFormats(settings, config)
         config = self.mapTinyMCEActionCategories(settings, config)
