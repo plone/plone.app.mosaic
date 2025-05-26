@@ -547,7 +547,7 @@
       destination="6005"
       >
     <genericsetup:upgradeDepends
-        title="Register new disable_edit_bar setting."
+        title="Upgrade profile to 6005."
         import_profile="plone.app.mosaic:to_6005"
         />
   </genericsetup:upgradeSteps>
