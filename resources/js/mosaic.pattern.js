@@ -42,6 +42,7 @@ export default Base.extend({
         tileheadelements: [],
         available_layouts: [],
         overlay_hide_fields: true,
+        disable_edit_bar: true,
     },
 
     // mosaic API
@@ -224,16 +225,18 @@ export default Base.extend({
             }
         });
 
-        // on enabling: hide toolbar, add mosaic class, disable body toolbar classes
-        $("#edit-bar").hide();
-        var $body = $("body");
-        $body.addClass("mosaic-enabled");
-        $body[0].className.split(" ").forEach(function (className) {
-            if (className.indexOf("plone-toolbar") !== -1) {
-                $body.removeClass(className);
-            }
-        });
+        if (self.options.disable_edit_bar) {
+            // on enabling: hide toolbar, add mosaic class, disable body toolbar classes
+            document.getElementById("edit-bar").style.display = "none";
+            document.body.classList.forEach(cls => {
+                if (cls.includes("plone-toolbar")) {
+                    // remove all plone-toolbar* classes from body
+                    document.body.classList.remove(cls);
+                }
+            });
+        }
 
+        document.body.classList.add("mosaic-enabled");
         self.initialized();
     },
 
