@@ -227,11 +227,11 @@ export default Base.extend({
 
         if (self.options.disable_edit_bar) {
             // on enabling: hide toolbar, add mosaic class, disable body toolbar classes
-            $("#edit-bar").hide();
-            var $body = $("body");
-            $body[0].className.split(" ").forEach(function (className) {
-                if (className.indexOf("plone-toolbar") !== -1) {
-                    $body.removeClass(className);
+            document.getElementById("edit-bar").style.display = "none";
+            document.body.classList.forEach(cls => {
+                if (cls.includes("plone-toolbar")) {
+                    // remove all plone-toolbar* classes from body
+                    document.body.classList.remove(cls);
                 }
             });
         }
