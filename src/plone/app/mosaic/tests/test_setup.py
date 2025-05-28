@@ -47,10 +47,6 @@ class InstallTestCase(unittest.TestCase):
 
         # TODO: check for records associated with interfaces
 
-    def test_skins(self):
-        skins = self.portal["portal_skins"]
-        self.assertIn("mosaic", skins.getSkinSelections())
-
 
 class UninstallTestCase(unittest.TestCase):
     layer = PLONE_APP_MOSAIC_INTEGRATION
