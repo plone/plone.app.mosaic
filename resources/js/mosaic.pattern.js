@@ -190,41 +190,6 @@ export default Base.extend({
         self.toolbar = new Toolbar(self);
         await self.toolbar.initToolbar();
 
-        // Add blur to the rest of the content
-        $("*", self.document).each(function () {
-            var obj = $(this);
-
-            // Check if block element
-            if (obj.css("display") === "block" || obj.css("display") === "flex") {
-                // Check if panel or toolbar
-                if (
-                    !obj.hasClass("mosaic-panel") &&
-                    !obj.hasClass("mosaic-toolbar") &&
-                    !obj.hasClass("mosaic-notifications") &&
-                    !obj.hasClass("modal-wrapper") &&
-                    !obj.hasClass("modal-backdrop") &&
-                    !obj.hasClass("tox") &&
-                    obj.attr("id") !== "edit-zone"
-                ) {
-                    // Check if inside panel or toolbar
-                    if (obj.parents(".mosaic-panel, .mosaic-toolbar").length === 0) {
-                        // Check if parent of a panel or toolbar
-                        if (obj.find(".mosaic-panel, .mosaic-toolbar").length === 0) {
-                            // Check if parent has a child who is a
-                            // panel or a toolbar
-                            if (
-                                obj.parent().find(".mosaic-panel, .mosaic-toolbar")
-                                    .length !== 0
-                            ) {
-                                // Add blur class
-                                obj.addClass("mosaic-blur");
-                            }
-                        }
-                    }
-                }
-            }
-        });
-
         if (self.options.disable_edit_bar) {
             // on enabling: hide toolbar, add mosaic class, disable body toolbar classes
             document.getElementById("edit-bar").style.display = "none";
@@ -235,6 +200,42 @@ export default Base.extend({
                 }
             });
         }
+
+        // Add blur to the rest of the content
+        document.body.querySelectorAll("*").forEach(obj => {
+            // early exit
+            if (!["block", "flex"].includes(window.getComputedStyle(obj).display)) return;
+
+            // calculations
+            const validChild = obj.closest(".mosaic-toolbar, .mosaic-panel, #edit-bar, .tox") !== null;
+            const alreadyBlurred = obj.closest(".mosaic-blur") !== null;
+            const validContainer = obj.querySelectorAll(".mosaic-toolbar, .mosaic-panel, #global_statusmessage").length !== 0;
+            // note: edit-bar might be disabled above ... this got skipped already because display=none
+            const specialObj = ["edit-zone", "edit-bar", "global_statusmessage"].includes(obj.id);
+            const validObj = [
+                "mosaic-panel",
+                "mosaic-toolbar",
+                "mosaic-notifications",
+                "modal-wrapper",
+                "modal-backdrop",
+                "alert",
+                "tox"
+            ].some(cls => obj.classList.contains(cls));
+
+            // do not blur when one of these conditions is true
+            if (
+                validObj ||
+                specialObj ||
+                validChild ||
+                validContainer ||
+                alreadyBlurred
+            ) {
+                return;
+            }
+
+            // blur the rest
+            obj.classList.add("mosaic-blur");
+        });
 
         document.body.classList.add("mosaic-enabled");
         self.initialized();
