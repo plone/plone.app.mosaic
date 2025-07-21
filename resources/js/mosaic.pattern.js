@@ -193,12 +193,9 @@ export default Base.extend({
         if (self.options.disable_edit_bar) {
             // on enabling: hide toolbar, add mosaic class, disable body toolbar classes
             document.getElementById("edit-bar").style.display = "none";
-            document.body.classList.forEach(cls => {
-                if (cls.includes("plone-toolbar")) {
-                    // remove all plone-toolbar* classes from body
-                    document.body.classList.remove(cls);
-                }
-            });
+            // somehow there was a problem filtering the classes with el.classList.forEach()
+            // converting it to a list and filtering it does the trick
+            document.body.className = [...document.body.classList].filter(cls => !cls.startsWith("plone-toolbar")).join(" ");
         }
 
         // Add blur to the rest of the content
