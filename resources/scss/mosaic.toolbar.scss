@@ -57,6 +57,12 @@ body.plone-toolbar-left {
     }
 }
 
+body.plone-toolbar-top {
+    > .mosaic-toolbar {
+        margin-top: var(--plone-toolbar-top-height);
+    }
+}
+
 .mosaic-toolbar-content {
     display: flex;
     flex-flow: wrap;
