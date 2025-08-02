@@ -1,4 +1,0 @@
-- Refactor/speedup blur calculations.
-- Do not blur "alert". This fixes an issue, when editing a default_page with the alert "click here" for parent folder.
-
-@petschki

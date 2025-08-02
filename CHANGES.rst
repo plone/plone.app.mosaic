@@ -8,6 +8,24 @@ Changelog
 
 .. towncrier release notes start
 
+3.3.1 (2025-08-02)
+------------------
+
+Bug fixes:
+
+
+- Fix enabling the plone toolbar with the new feature option.
+
+  - Show plone toolbar actually.
+  - add left-margin to mosaic-toolbar.
+
+  @petschki (#640)
+- - Refactor/speedup blur calculations.
+  - Do not blur "alert". This fixes an issue, when editing a default_page with the alert "click here" for parent folder.
+
+  @petschki
+
+
 3.3.0 (2025-06-19)
 ------------------
 
