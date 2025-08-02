@@ -45,6 +45,24 @@
     }
 }
 
+// with enabled edit-bar
+body.plone-toolbar-left {
+    > .mosaic-toolbar {
+        margin-left: var(--plone-toolbar-width-collaped);
+    }
+    &.plone-toolbar-left-expanded {
+        > .mosaic-toolbar {
+            margin-left: var(--plone-toolbar-width);
+        }
+    }
+}
+
+body.plone-toolbar-top {
+    > .mosaic-toolbar {
+        margin-top: var(--plone-toolbar-top-height);
+    }
+}
+
 .mosaic-toolbar-content {
     display: flex;
     flex-flow: wrap;
