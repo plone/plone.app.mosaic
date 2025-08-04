@@ -63,7 +63,7 @@ repos:
     hooks:
     -   id: check-manifest
 -   repo: https://github.com/regebro/pyroma
-    rev: "4.3.3"
+    rev: "5.0"
     hooks:
     -   id: pyroma
 -   repo: https://github.com/mgedmin/check-python-versions
