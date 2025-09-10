@@ -1,4 +1,5 @@
 from hashlib import md5
+from importlib.resources import files
 from lxml import etree
 from lxml import html
 from plone.app.blocks.interfaces import IBlocksTransformEnabled
@@ -21,7 +22,6 @@ from zope.interface import implementer
 
 import logging
 import os
-import pkg_resources
 import re
 
 
@@ -205,13 +205,13 @@ class Macro(list):
 
 def resolve_ajax_main_template():
     main_template = os.path.join("browser", "templates", "ajax_main_template.pt")
-    filename = pkg_resources.resource_filename("Products.CMFPlone", main_template)
+    filename = files("Products.CMFPlone") / main_template
     return ViewPageTemplateFile(filename)
 
 
 def resolve_main_template():
     main_template = os.path.join("browser", "templates", "main_template.pt")
-    filename = pkg_resources.resource_filename("Products.CMFPlone", main_template)
+    filename = files("Products.CMFPlone") / main_template
     return ViewPageTemplateFile(filename)
 
 
