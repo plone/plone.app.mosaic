@@ -575,7 +575,7 @@ class Tile {
 
     moveTile(e) {
         e.preventDefault();
-        // re-use drag handle to move tile
+        // reuse drag handle to move tile
         this.el.closest(".mosaic-tile").querySelector(".mosaic-drag-handle").dispatchEvent(new MouseEvent("mousedown", {
             view: window,
             bubbles: true,
@@ -584,7 +584,7 @@ class Tile {
 
     copyTile(e) {
         e.preventDefault();
-        // add copy class to mosaic-panel and re-use drag handle to copy tile
+        // add copy class to mosaic-panel and reuse drag handle to copy tile
         this.el.closest(".mosaic-panel").classList.add("mosaic-panel-dragging-copy");
         this.moveTile(e);
     }
