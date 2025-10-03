@@ -78,9 +78,7 @@
         --bs-btn-padding-y: 1px;
         --bs-btn-border-radius: 0;
 
-        &:not(.btn-danger) {
-            margin-left: 0.25rem;
-        }
+        margin-left: 0.25rem;
     }
 }
 
@@ -140,6 +138,7 @@ body.mosaic-layout-customized .mosaic-advanced {
     font-weight: bold;
     padding: 3px 5px;
     margin-bottom: 2px;
+    flex-grow: 1;
 
     a {
         color: white;
@@ -162,7 +161,7 @@ body.mosaic-layout-customized .mosaic-advanced {
 }
 
 .mosaic-selected-tile .mosaic-tile-control {
-    display: block !important;
+    display: flex !important;
 }
 
 /* Show move icon while hovering over a tile */

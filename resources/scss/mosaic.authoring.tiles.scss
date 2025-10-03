@@ -23,11 +23,7 @@
 
     &.mosaic-selected-tile {
         z-index: 101;
-
-        &,
-        .mosaic-btn-move {
-            background-color: rgba(var(--bs-body-color-rgb), 0.075);
-        }
+        background-color: rgba(var(--bs-body-color-rgb), 0.075);
 
         &,
         &:hover {
@@ -36,6 +32,9 @@
         .mosaic-btn-move {
             border-color:transparent;
             cursor: move;
+        }
+        .mosaic-btn-copy {
+            cursor: copy;
         }
     }
 

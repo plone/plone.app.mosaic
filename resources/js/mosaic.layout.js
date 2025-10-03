@@ -426,7 +426,7 @@ export default class LayoutManager {
             DocumentKeyup,
         );
 
-        // Add deselect
+        // mousedown event
         const DocumentMousedown = function (e) {
             // Get element
             let elm;
@@ -474,6 +474,37 @@ export default class LayoutManager {
             DocumentMousedown,
         );
 
+        let scrollInterval = null;
+
+        const stopScroll = () => {
+            if (scrollInterval) {
+                clearInterval(scrollInterval);
+                scrollInterval = null;
+            }
+        };
+
+        const startScroll = (diff) => {
+            if (scrollInterval) return;
+            scrollInterval = setInterval(() => {
+                window.scrollBy(0, diff);
+            }, 50);
+        };
+
+        const checkScroll = (e) => {
+            const scrollMargin = 60;
+            const scrollSpeed = 100;
+            const viewportHeight = window.innerHeight;
+
+            if (e.clientY < scrollMargin) {
+                startScroll(-scrollSpeed);
+            } else if (e.clientY > (viewportHeight - scrollMargin)) {
+                startScroll(scrollSpeed);
+            } else {
+                stopScroll();
+            }
+
+        };
+
         // Handle mouse move event: when holding down mouse left button and dragging the handler left or right.
         const DocumentMousemove = function (e) {
             // Get new tile helper
@@ -485,7 +516,6 @@ export default class LayoutManager {
                 // Get mouse x
                 $new_tile_helper.css("top", e.pageY + 3 - offset.top);
                 $new_tile_helper.css("left", e.pageX + 3 - offset.left);
-
             }
 
             // Get resize handle helper
@@ -606,6 +636,11 @@ export default class LayoutManager {
                 $helper[0]["column_sizes"] = new_column_sizes;
             }
 
+            if(_panel.classList.contains("mosaic-panel-dragging")) {
+                // scroll up an down if reaching top or bottom of viewport
+                checkScroll(e);
+            }
+
         };
 
         // Bind event and add to array
@@ -625,6 +660,9 @@ export default class LayoutManager {
         // Handle mouse up event
         // When resizing is done on mouse up event apply the changes to the div elements
         const DocumentMouseup = function () {
+            // stop scrolling
+            stopScroll();
+
             // Find resize helper
             $(".mosaic-resize-handle-helper", self.mosaic.document).each(function () {
 
@@ -1034,26 +1072,27 @@ export default class LayoutManager {
                     )
                 }
 
-                const tile_drag_handle = tile.querySelector(".mosaic-drag-handle");
-
-                events.add_event_listener(
-                    tile_drag_handle,
-                    "mousedown",
-                    "pat-layout--startdrag",
-                    (event) => {
-                        if (event.button !== 0) {
-                            // only left mouse down!
-                            return;
+                tile.querySelectorAll(".mosaic-drag-handle").forEach(tile_drag_handle => {
+                    events.add_event_listener(
+                        tile_drag_handle,
+                        "mousedown",
+                        "pat-layout--startdrag",
+                        (event) => {
+                            if (event.button !== 0) {
+                                // only left mouse down!
+                                return;
+                            }
+                            // register dragstop
+                            events.add_event_listener(mosaic_doc, "mouseup", "pat-layout--dragstop", DragStop);
+                            // delayed dragstart
+                            drag_start_ts = (new Date()).getTime();
+                            drag_start = setTimeout(() => {
+                                DragStart(event);
+                            }, drag_start_delay);
                         }
-                        // register dragstop
-                        events.add_event_listener(mosaic_doc, "mouseup", "pat-layout--dragstop", DragStop);
-                        // delayed dragstart
-                        drag_start_ts = (new Date()).getTime();
-                        drag_start = setTimeout(() => {
-                            DragStart(event);
-                        }, drag_start_delay);
-                    }
-                );
+                    );
+                });
+
 
                 const tile_move_btn = tile.querySelector(".mosaic-btn-move");
                 if (tile_move_btn) {
@@ -1085,16 +1124,16 @@ export default class LayoutManager {
 
             // Get direction
             const divider = mosaic_doc.querySelector(".mosaic-selected-divider");
-            const drop = $(divider.parentElement);
+            const drop = $(divider?.parentElement);
 
             // get direction where to drop
             let dir = "";
             for (const _dir of ["top", "bottom", "left", "right"]) {
-                if (divider.classList.contains(`mosaic-divider-${_dir}`)) {
+                if (divider?.classList.contains(`mosaic-divider-${_dir}`)) {
                     dir = _dir;
                 }
             }
-            divider.classList.remove("mosaic-selected-divider");
+            divider?.classList.remove("mosaic-selected-divider");
 
             // True if new tile is inserted or copied
             var new_tile = $(".mosaic-helper-tile-new", mosaic_doc).length > 0;
@@ -1105,13 +1144,13 @@ export default class LayoutManager {
             let dropped_tile = copy ? await self.copyTile(original_tile) : original_tile;
 
             // If divider is not found or not sane drop, act like esc is pressed
-            if (divider.length === 0 || drop.hasClass("mosaic-helper-tile")) {
+            if (!divider || divider.length === 0 || drop.hasClass("mosaic-helper-tile")) {
                 dropped_tile.addClass("mosaic-drag-cancel");
             }
 
             // we have to remove left/right divider if we're dropped inside a fixed row
-            const drop_row = divider.closest(".mosaic-grid-row");
-            if (drop_row.classList.contains("mosaic-fixed-row")) {
+            const drop_row = divider?.closest(".mosaic-grid-row");
+            if (drop_row?.classList.contains("mosaic-fixed-row")) {
                 $(".mosaic-divider-left", dropped_tile).remove();
                 $(".mosaic-divider-right", dropped_tile).remove();
             }
@@ -1128,17 +1167,17 @@ export default class LayoutManager {
                 // Check if esc is pressed
                 dropped_tile.hasClass("mosaic-drag-cancel") ||
                 // Not dropped on tile and empty row
-                (drop.hasClass("mosaic-tile") === false &&
-                    drop.hasClass("mosaic-innergrid-row") === false &&
-                    drop.hasClass("mosaic-empty-row") === false) ||
+                (drop?.hasClass("mosaic-tile") === false &&
+                    drop?.hasClass("mosaic-innergrid-row") === false &&
+                    drop?.hasClass("mosaic-empty-row") === false) ||
                 // Check if max columns rows is reached
-                (drop.parent().parent().children(".mosaic-grid-cell").length >=
+                (drop?.parent().parent().children(".mosaic-grid-cell").length >=
                     obj.data("max-columns") &&
                     (dir === "left" || dir === "right"))
             ) {
                 fixup_classes(dropped_tile);
 
-            } else if (drop.hasClass("mosaic-empty-row")) {
+            } else if (drop?.hasClass("mosaic-empty-row")) {
                 // Dropped on empty row
 
                 // Replace empty with normal row class
