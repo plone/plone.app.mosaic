@@ -73,10 +73,10 @@ body.mosaic-layout-customized {
 
 // 5-column support
 $resize-handle-5-col: (
-    "2\\.4": 0.2,
-    "4\\.8": 0.4,
-    "7\\.2": 0.6,
-    "9\\.6": 0.8,
+    "2\\.4": 2.4,
+    "4\\.8": 4.8,
+    "7\\.2": 7.2,
+    "9\\.6": 9.6,
 );
 
 // general percentage resize-handles (works if not row-fluid-background)
@@ -116,7 +116,7 @@ $resize-handle-5-col: (
 
             @each $i, $width in $resize-handle-5-col {
                 .mosaic-resize-#{$i} {
-                    margin-left: $container-max-width * $width;
+                    margin-left: $container-max-width * divide($width, $grid-columns);
                 }
             }
         }
