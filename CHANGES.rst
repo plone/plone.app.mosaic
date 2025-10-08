@@ -8,6 +8,27 @@ Changelog
 
 .. towncrier release notes start
 
+3.3.2 (2025-10-08)
+------------------
+
+Bug fixes:
+
+
+- Add buttons to tile toolbar to make moving/copying more obvious and robust for the user. @petschki
+- Enable window scrolling when reaching upper/lower boundary with the mouse while moving/copying tiles. @petschki
+- Fix rare case, when UI is broken after moving an dropping tile not on divider or other sane element.  @petschki
+- fix TinyMCE "toolbar_mode". use "scrolling" instead of "floating" to fix too narrow toolbar icons on small tiles.  @petschki
+
+
+Internal:
+
+
+- Drop use of ``pkg_resources`` in code.  [maurits] (#4126)
+- Update configuration files.
+  [plone devs]
+- Update dependencies.  @petschki
+
+
 3.3.1 (2025-08-02)
 ------------------
 
