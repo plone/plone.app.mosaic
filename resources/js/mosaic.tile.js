@@ -498,10 +498,18 @@ class Tile {
             btn_node.remove();
         }
 
-        var _addButton = async (label, name, icon_name, click) => {
+        var _addButton = async ({ label = "", name = "", icon_name = "", onclick = null, onmousedown = null, css_class = "", title = "", disabled = false }) => {
             const btn = document.createElement("button");
             btn.classList.add("btn", "btn-sm", `btn-${name === "confirm" ? "danger" : "secondary"}`, "mosaic-btn-" + name);
-            btn.textContent = label;
+            if (css_class) {
+                btn.classList.add(...css_class.split(" "));
+            }
+            if (label) {
+                btn.textContent = label;
+            }
+            if (title) {
+                btn.setAttribute("title", title);
+            }
             try {
                 // get plone icons from utils
                 const icon = await utils.resolveIcon(icon_name);
@@ -510,12 +518,24 @@ class Tile {
             } catch (err) {
                 log.warn(`could not find button icon "${name}" (${err})`);
             }
-            if (click != undefined) {
-                btn.addEventListener("click", click.bind(this));
+            if (onclick != undefined) {
+                btn.addEventListener("click", onclick.bind(this));
+            }
+            if (onmousedown != undefined) {
+                btn.addEventListener("mousedown", onmousedown.bind(this));
+            }
+            if (disabled) {
+                btn.disabled = true;
             }
             buttons.push(btn);
             return btn;
         };
+
+        // Add move icon
+        await _addButton({ name: "move", icon_name: "arrows-move", onmousedown: this.moveTile, disabled: !this.el.classList.contains("movable"), title: "Click and drag to move tile" });
+
+        // Add copy icon
+        await _addButton({ name: "copy", icon_name: "copy", onmousedown: this.copyTile, disabled: !this.el.classList.contains("copyable"), title: "Click and drag to copy tile" });
 
         // Add settings icon
         if (
@@ -523,32 +543,26 @@ class Tile {
             tile_config.settings &&
             !this.el.classList.contains(".mosaic-read-only-tile")
         ) {
-            await _addButton("Edit", "settings", "sliders", this.settingsClicked);
+            await _addButton({ label: "Edit", name: "settings", icon_name: "sliders", onclick: this.settingsClicked, title: "Edit settings" });
         }
 
         if (!this.mosaic.hasContentLayout) {
             // delete
-            await _addButton("Delete", "delete", "trash3", this.deleteClicked);
+            await _addButton({ label: "Delete", name: "delete", icon_name: "trash3", onclick: this.deleteClicked, title: "Delete tile" });
 
             // confirm delete
-            var confirmBtn = await _addButton(
-                "Confirm delete",
-                "confirm",
-                "check-circle",
-                this.confirmClicked,
-            );
+            var confirmBtn = await _addButton({
+                label: "Confirm delete",
+                name: "confirm",
+                icon_name: "check-circle",
+                onclick: this.confirmClicked,
+            });
             confirmBtn.style.display = "none";
 
             // cancel delete
-            var cancelBtn = await _addButton("Cancel", "cancel", "x-circle", this.cancelClicked);
+            var cancelBtn = await _addButton({ label: "Cancel", name: "cancel", icon_name: "x-circle", onclick: this.cancelClicked });
             cancelBtn.style.display = "none";
         }
-
-        // TODO: add move icon
-        // if (this.el.classList.contains("movable")) {
-        //     // delete
-        //     const moveBtn = await _addButton("", "move", "arrows-move");
-        // }
 
         if (buttons.length > 0) {
             var $btns = $("<div />").addClass("mosaic-tile-control mosaic-tile-buttons");
@@ -559,15 +573,39 @@ class Tile {
         }
     }
 
+    moveTile(e) {
+        e.preventDefault();
+        // reuse drag handle to move tile
+        this.el.closest(".mosaic-tile").querySelector(".mosaic-drag-handle").dispatchEvent(new MouseEvent("mousedown", {
+            view: window,
+            bubbles: true,
+        }));
+    }
+
+    copyTile(e) {
+        e.preventDefault();
+        // add copy class to mosaic-panel and reuse drag handle to copy tile
+        this.el.closest(".mosaic-panel").classList.add("mosaic-panel-dragging-copy");
+        this.moveTile(e);
+    }
+
     cancelClicked(e) {
         e.preventDefault();
-        $(".mosaic-btn-settings,.mosaic-btn-delete", this.$el).show();
-        $(".mosaic-btn-cancel,.mosaic-btn-confirm", this.$el).hide();
+        this.el.querySelectorAll(".mosaic-btn-cancel, .mosaic-btn-confirm").forEach(btn => {
+            btn.style.display = "none";
+        });
+        this.el.querySelectorAll(".mosaic-btn-settings, .mosaic-btn-delete").forEach(btn => {
+            btn.style.display = "block";
+        });
     }
     deleteClicked(e) {
         e.preventDefault();
-        $(".mosaic-btn-settings,.mosaic-btn-delete", this.$el).hide();
-        $(".mosaic-btn-cancel,.mosaic-btn-confirm", this.$el).show();
+        this.el.querySelectorAll(".mosaic-btn-delete, .mosaic-btn-settings").forEach(btn => {
+            btn.style.display = "none";
+        });
+        this.el.querySelectorAll(".mosaic-btn-cancel, .mosaic-btn-confirm").forEach(btn => {
+            btn.style.display = "block";
+        });
     }
     confirmClicked(e) {
         e.preventDefault();
@@ -1067,7 +1105,7 @@ class Tile {
 
         // always show inline TinyMCE in mosaic editor
         tiny_options["tiny"]["inline"] = true;
-        tiny_options["tiny"]["toolbar_mode"] = "floating";
+        tiny_options["tiny"]["toolbar_mode"] = "scrolling";
         tiny_options["tiny"]["menubar"] = false;
         tiny_options["tiny"]["selector"] = `#${id}`;
         tiny_options["tiny"]["placeholder"] = "\u2026";
