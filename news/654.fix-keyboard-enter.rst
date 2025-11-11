@@ -1,0 +1,6 @@
+Fix keyboard activation in Mosaic editor
+--------------------------------------
+
+Ensure Enter and Space activate Mosaic toolbar and tile buttons even when
+other handlers prevent default. This restores keyboard accessibility in the
+Mosaic editor UI. (fixes: #587)
