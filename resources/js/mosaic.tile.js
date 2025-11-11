@@ -524,6 +524,14 @@ class Tile {
             if (onmousedown != undefined) {
                 btn.addEventListener("mousedown", onmousedown.bind(this));
             }
+            // Ensure keyboard activation (Enter / Space) triggers the same action
+            btn.addEventListener("keydown", function (ev) {
+                if (ev.key === "Enter" || ev.key === " ") {
+                    ev.preventDefault();
+                    // trigger the click handler attached above
+                    btn.click();
+                }
+            });
             if (disabled) {
                 btn.disabled = true;
             }
