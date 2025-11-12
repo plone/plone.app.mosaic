@@ -1,0 +1,2 @@
+- Bugfix: Use TinyMCE `getContent()` to get editor contents on save
+  [frapell]
