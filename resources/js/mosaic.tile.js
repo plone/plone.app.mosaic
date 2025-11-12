@@ -87,18 +87,10 @@ class Tile {
         return this.$el.children(".mosaic-tile-content");
     }
     getHtmlContent() {
-        var el = this.getContentEl();
-        var content;
-        if (el.hasClass("mosaic-rich-text-initialized")){
-            var editor = tinymce.get(el.attr('id'));
-            if (editor !== null){
-                content = editor.getContent();
-            }
+        if(this.el["mosaic-pattern"]?.tinymce) {
+            return this.el["mosaic-pattern"].tinymce.getContent();
         }
-        if (content === undefined){
-            content = el.html();
-        }
-        return content;
+        return this.getContentEl().html();
     }
     getEditUrl() {
         var tile_url = this.getUrl();
@@ -774,6 +766,9 @@ class Tile {
     async initializeContent(created, is_copy) {
         var self = this;
 
+        // make sure tile is initialized
+        await self.initialize();
+
         var base = self.mosaic.document.body.dataset.basUrl || null;
         if (!base) {
             base = $("head > base", self.mosaic.document).attr("href");
@@ -1127,7 +1122,7 @@ class Tile {
         const tiny_instance = new Registry.patterns["tinymce"]($content, tiny_options);
         // wait until ready.
         await events.await_pattern_init(tiny_instance);
-        self.tinymce = tiny_instance.instance.tiny;
+        self.el["mosaic-tile"].tinymce = tiny_instance.instance.tiny;
 
         // Set editor class
         $content.addClass("mosaic-rich-text-initialized");
