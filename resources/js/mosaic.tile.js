@@ -87,7 +87,18 @@ class Tile {
         return this.$el.children(".mosaic-tile-content");
     }
     getHtmlContent() {
-        return this.getContentEl().html();
+        var el = this.getContentEl();
+        var content;
+        if (el.hasClass("mosaic-rich-text-initialized")){
+            var editor = tinymce.get(el.attr('id'));
+            if (editor !== null){
+                content = editor.getContent();
+            }
+        }
+        if (content === undefined){
+            content = el.html();
+        }
+        return content;
     }
     getEditUrl() {
         var tile_url = this.getUrl();
