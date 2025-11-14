@@ -15,7 +15,7 @@
         "npm-run-all": "^4.1.5",
         "prettier": "3.6.2",
         "sass": "1.77.8",
-        "sass-loader": "16.0.5"
+        "sass-loader": "16.0.6"
     },
     "scripts": {
         "build": "npm-run-all build:webpack build:css",
