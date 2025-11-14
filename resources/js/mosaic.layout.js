@@ -9,7 +9,7 @@ import mosaic_utils from "./utils";
 const log = logging.getLogger("pat-mosaic/layout");
 
 function validMosaicTile(el) {
-    if (el.classList.contains("mosaic-tile") || el.closest(".mosaic-tile")) {
+    if (el.closest(".mosaic-tile")) {
         return true;
     }
     return false;
