@@ -87,8 +87,8 @@ class Tile {
         return this.$el.children(".mosaic-tile-content");
     }
     getHtmlContent() {
-        if(this.el["mosaic-pattern"]?.tinymce) {
-            return this.el["mosaic-pattern"].tinymce.getContent();
+        if (this.tinymce) {
+            return this.tinymce.getContent();
         }
         return this.getContentEl().html();
     }
@@ -461,6 +461,9 @@ class Tile {
             divider.classList.add("mosaic-divider", `mosaic-divider-${pos}`);
             self.el.prepend(divider);
         }
+        self.$el.mosaicAddDrag();
+
+        await self.initializeContent();
 
         // convenience: store Tile instance on dom and jquery
         self.el["mosaic-tile"] = self;
@@ -655,10 +658,8 @@ class Tile {
         }
 
         // If we have a tinymce instance initialized we have to destroy it
-        const tile_content = el.querySelector(".mosaic-tile-content");
-
-        if (tile_content["pattern-tinymce"]) {
-            tile_content["pattern-tinymce"].destroy();
+        if (this.tinymce) {
+            this.tinymce.destroy();
         }
 
         // Remove empty rows
@@ -766,10 +767,7 @@ class Tile {
     async initializeContent(created, is_copy) {
         var self = this;
 
-        // make sure tile is initialized
-        await self.initialize();
-
-        var base = self.mosaic.document.body.dataset.basUrl || null;
+        var base = self.mosaic.document.body.dataset.baseUrl || null;
         if (!base) {
             base = $("head > base", self.mosaic.document).attr("href");
         }
@@ -953,18 +951,15 @@ class Tile {
         });
     }
     select() {
-        log.debug("select ↓", this);
-        if (
-            !this.el.classList.contains("mosaic-selected-tile") &&
-            !this.el.classList.contains("mosaic-read-only-tile")
-        ) {
-            // un-select existing with stored Tile instance on element
-            this.mosaic.document
-                .querySelectorAll(".mosaic-selected-tile")
-                .forEach(async el => await el["mosaic-tile"].blur());
-            // select current tile
-            this.focus();
+         if (this.el.classList.contains("mosaic-read-only-tile") || this.el.classList.contains("mosaic-selected-tile")) {
+            return;
         }
+        // un-select existing with stored Tile instance on element
+        this.mosaic.document
+            .querySelectorAll(".mosaic-selected-tile")
+            .forEach(async el => await el["mosaic-tile"].blur());
+        // select current tile
+        this.focus();
     }
     async blur() {
         log.debug("blur ↓", this);
@@ -1122,7 +1117,7 @@ class Tile {
         const tiny_instance = new Registry.patterns["tinymce"]($content, tiny_options);
         // wait until ready.
         await events.await_pattern_init(tiny_instance);
-        self.el["mosaic-tile"].tinymce = tiny_instance.instance.tiny;
+        self.tinymce = tiny_instance.instance.tiny;
 
         // Set editor class
         $content.addClass("mosaic-rich-text-initialized");

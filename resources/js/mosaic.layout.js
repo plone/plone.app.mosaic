@@ -8,6 +8,13 @@ import mosaic_utils from "./utils";
 
 const log = logging.getLogger("pat-mosaic/layout");
 
+function validMosaicTile(el) {
+    if (el.classList.contains("mosaic-tile") || el.closest(".mosaic-tile")) {
+        return true;
+    }
+    return false;
+}
+
 export default class LayoutManager {
     constructor(mosaic) {
         this.mosaic = mosaic;
@@ -636,7 +643,7 @@ export default class LayoutManager {
                 $helper[0]["column_sizes"] = new_column_sizes;
             }
 
-            if(_panel.classList.contains("mosaic-panel-dragging")) {
+            if (_panel.classList.contains("mosaic-panel-dragging")) {
                 // scroll up an down if reaching top or bottom of viewport
                 checkScroll(e);
             }
@@ -894,47 +901,60 @@ export default class LayoutManager {
         );
     }
 
-    async initialize_panels() {
-        var self = this;
+    async initialize() {
+        this.initJQueryHelpers();
+        this.init_events();
+        await this.init_tiles();
+        this.focusFirstTile();
+    }
 
-        self.initJQueryHelpers();
-        self.init_events();
+    async init_tiles() {
+        // Initialize tiles
 
-        // determine biggest panel during loop
-        let biggestPanel = null;
-        let width = 0;
-
-        for (const panel of self.mosaic.panels) {
-            // Get jQuery object
+        for (const panel of this.mosaic.panels) {
             const $panel = $(panel);
 
-            // Add icons and dividers
-            for (const tileNode of panel.querySelectorAll(".mosaic-tile")) {
-                var tile = new Tile(self.mosaic, tileNode);
-                await tile.initialize();
-                $(tileNode).mosaicAddDrag();
-            }
+            for (const el of panel.querySelectorAll("[data-tile]")) {
+                if (validMosaicTile(el)) {
+                    const tile = new Tile(this.mosaic, el);
+                    await tile.initialize();
+                }
+            };
 
             $panel.mosaicAddEmptyRows();
             $panel.children(".mosaic-grid-row").mosaicSetResizeHandles();
 
-            const pWidth = panel.offsetWidth;
-            if (pWidth && pWidth > width) {
-                width = pWidth;
-                biggestPanel = panel;
-            }
-
-            $panel.find(".mosaic-innergrid-row").mosaicSetResizeHandles();
+            panel.querySelectorAll(".mosaic-innergrid-row").forEach(el => {
+                const $el = $(el);
+                $el.mosaicAddMouseMoveInnergridRow();
+                $el.mosaicSetResizeHandles();
+                ["top", "bottom"].forEach(pos => {
+                    $el.append(
+                        $(this.mosaic.document.createElement("div")).addClass(
+                            "mosaic-divider mosaic-divider-" + pos,
+                        ),
+                    );
+                });
+            });
         }
+    };
 
-        // Select first tile in biggest panel
-        if (biggestPanel) {
-            const firstTile = biggestPanel.querySelector(".mosaic-tile:first-child");
-            if (firstTile) {
-                firstTile["mosaic-tile"].select();
+    focusFirstTile() {
+        log.debug("Focusing first tile");
+        // focus first tile in biggest panel
+        var width = 0;
+        var index = 0;
+        this.mosaic.panels.each(function (j) {
+            if ($(this).width() > width) {
+                width = $(this).width();
+                index = j;
             }
-        }
+        });
 
+        var $tile = this.mosaic.panels.eq(index).find(".mosaic-tile:first");
+        if ($tile.length > 0) {
+            $tile.data("mosaic-tile").select();
+        }
     }
 
     initJQueryHelpers() {
