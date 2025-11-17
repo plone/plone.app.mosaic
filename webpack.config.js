@@ -5,6 +5,7 @@ const package_json = require("./package.json");
 const package_json_mockup = require("@plone/mockup/package.json");
 const package_json_patternslib = require("@patternslib/patternslib/package.json");
 const webpack_config = require("@patternslib/dev/webpack/webpack.config").config;
+const util = require("util");
 
 module.exports = () => {
     let config = {
@@ -37,7 +38,7 @@ module.exports = () => {
         config.devServer.static.directory = __dirname;
     }
 
-    // console.log(JSON.stringify(config, null, 4));
+    // console.log(util.inspect(config, { depth: null, colors: true }));
 
     return config;
 };
