@@ -1034,7 +1034,7 @@ class Tile {
             // editing URL. Convert such occurrences to a relative "../resolveuid/...".
             let normalizedData = currentData;
             try {
-                const portal = (self.mosaic && self.mosaic.options && self.mosaic.options.context_url) ? self.mosaic.options.context_url : null;
+                const portal = self?.mosaic?.options?.context_url || null;
                 if (portal) {
                     // escape portal for regex
                     const escPortal = portal.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
