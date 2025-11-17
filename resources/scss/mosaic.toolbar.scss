@@ -113,18 +113,19 @@
 .mosaic-dropdown {
     @extend .navbar;
     @extend .mosaic-toolbar-content;
-    background: white;
 
-    li.select2-disabled {
-        background: none;
-        color: #888888;
-    }
+    background: white;
 
     /* Fix dropdown positioning */
     position: fixed !important;
     top: 53px !important;
     left: auto !important;
     right: 0 !important;
+
+    li.select2-disabled {
+        background: none;
+        color: #888888;
+    }
 
     /* Layout menu items in horizontally aligned groups */
     > ul {
