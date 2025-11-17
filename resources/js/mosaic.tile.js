@@ -1027,11 +1027,19 @@ class Tile {
             self.mosaic.saving_tile = true;
             utils.loading.show();
 
+            // Normalize internal resolveuid links before saving.
+            // In some editing contexts the editor can produce links that include
+            // the portal/site name (e.g. "/Plone/resolveuid/<uid>") or even the
+            // full absolute portal URL. Storing those absolute URLs can break the
+            // resolveuid transform when the viewing site URL differs from the
+            // editing URL. Convert such occurrences to a relative "../resolveuid/...".
+            let normalizedData = currentData.replace(/(["'])[^'"]+\/resolveuid\//g, '$1../resolveuid/');
+
             var data = {
                 "_authenticator": utils.getAuthenticator(),
                 "buttons.save": "Save",
             };
-            data[tile_config.name + ".content"] = currentData;
+            data[tile_config.name + ".content"] = normalizedData;
 
             // save tile
             const body = new URLSearchParams(data);
@@ -1048,8 +1056,9 @@ class Tile {
                 if (!response.ok) {
                     log.error(`Could not save tile: ${response.statusText}`);
                 } else {
-                    self.el.lastSavedData = currentData;
-                    log.debug(`successfully saved ${tile_config.name} with data "${currentData}"`);
+                    // store normalized data as lastSavedData so subsequent diffs match
+                    self.el.lastSavedData = normalizedData;
+                    log.debug(`successfully saved ${tile_config.name} with data "${normalizedData}"`);
                 }
             } catch (error) {
                 log.error(`Error while save tile ${tile_config.name}: ${error}`);

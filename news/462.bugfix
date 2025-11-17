@@ -1,0 +1,2 @@
+Normalize resolveuid links to relative paths before saving tile content to prevent broken links when editing and viewing sites have different URLs.
+@anushka-codes1
