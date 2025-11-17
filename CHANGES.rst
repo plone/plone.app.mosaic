@@ -8,6 +8,26 @@ Changelog
 
 .. towncrier release notes start
 
+3.1.6 (2025-11-17)
+------------------
+
+Bug fixes:
+
+
+- Bugfix: Use TinyMCE `getContent()` to get editor contents on save
+  [frapell] (#486)
+
+
+Internal:
+
+
+- SCSS cleanup
+
+  Development convenience: `watch` script for webpack and scss compiling
+
+  [petschki] (#590)
+
+
 3.1.5 (2023-10-24)
 ------------------
 
