@@ -1032,24 +1032,7 @@ class Tile {
             // full absolute portal URL. Storing those absolute URLs can break the
             // resolveuid transform when the viewing site URL differs from the
             // editing URL. Convert such occurrences to a relative "../resolveuid/...".
-            let normalizedData = currentData;
-            try {
-                const portal = self?.mosaic?.options?.context_url || null;
-                if (portal) {
-                    // escape portal for regex
-                    const escPortal = portal.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-                    // replace occurrences like "<portal>/resolveuid/..." with "../resolveuid/..."
-                    normalizedData = normalizedData.replace(new RegExp(escPortal + "\\/resolveuid\\/", "g"), "../resolveuid/");
-                    // also replace full urls prefixed with http(s)://host/.../resolveuid/
-                    normalizedData = normalizedData.replace(/https?:\/\/[^\s'"<>]+\/resolveuid\//g, "../resolveuid/");
-                }
-                // generic fallback: "/anySiteName/resolveuid/..." -> "../resolveuid/..."
-                normalizedData = normalizedData.replace(/(["'])\/[^\/\s'"<>]+\/resolveuid\//g, '$1../resolveuid/');
-            } catch (e) {
-                // if normalization fails for any reason, keep original HTML
-                log.warn(`Could not normalize resolveuid links: ${e}`);
-                normalizedData = currentData;
-            }
+            let normalizedData = currentData.replace(/(["'])[^'"]+\/resolveuid\//g, '$1../resolveuid/');
 
             var data = {
                 "_authenticator": utils.getAuthenticator(),
