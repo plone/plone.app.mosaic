@@ -1,4 +1,8 @@
 .mosaic-enabled {
+    /* XXX these are necessary fixes for tinymce menus
+     that are floating */
+    position: relative;
+
     // no border
     div.mce-content-body[contenteditable="true"] {
         border:none;
@@ -20,9 +24,6 @@
             right: 0;
         }
     }
-    /* XXX these are necessary fixes for tinymce menus
-     that are floating */
-    position: relative;
 
     .mce-floatpanel.mce-fixed {
         position: absolute;
