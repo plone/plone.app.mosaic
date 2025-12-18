@@ -8,6 +8,24 @@ Changelog
 
 .. towncrier release notes start
 
+4.0.0a1 (2025-12-18)
+--------------------
+
+Breaking changes:
+
+
+- Replace ``pkg_resources`` namespace with PEP 420 native namespace.
+  Support only Plone 6.2 and Python 3.10+.
+  @petschki
+
+
+Bug fixes:
+
+
+- - Bugfix: Use TinyMCE `getContent()` to get editor contents on save
+    [frapell] (#486)
+
+
 3.3.2 (2025-10-08)
 ------------------
 
