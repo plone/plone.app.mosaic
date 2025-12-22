@@ -355,6 +355,13 @@ class Toolbar {
                         .data("action", action.action)
                         .on("click", function (e) {
                             self.mosaic.actionManager.execAction(action.name, e.target);
+                        })
+                        // ensure Enter/Space keyboard activation triggers the click handler
+                        .on("keydown", function (ev) {
+                            if (ev.key === "Enter" || ev.key === " ") {
+                                ev.preventDefault();
+                                $(this).trigger("click");
+                            }
                         }),
                 );
             }
