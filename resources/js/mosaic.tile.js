@@ -69,6 +69,136 @@ define([
                         e.stopPropagation();
                         $(this).click();
                     }
+import "regenerator-runtime/runtime"; // needed for ``await`` support
+import $ from "jquery";
+import utils from "@plone/mockup/src/core/utils";
+import mosaic_utils from "./utils";
+import events from "@patternslib/patternslib/src/core/events";
+import logging from "@patternslib/patternslib/src/core/logging";
+import Modal from "@plone/mockup/src/pat/modal/modal";
+import Registry from "@patternslib/patternslib/src/core/registry";
+
+// show debug log by add "loglevel=DEBUG" to the URL_QUERYSTRING
+const log = logging.getLogger("pat-mosaic/tile");
+
+var _TILE_TYPE_CACHE = {};
+var _TILE_CONFIG_CACHE = {};
+
+const COPYABLE_TILE_TYPES = [
+    "app",
+    "textapp",
+]
+
+var OMIT_SETTINGS_TILE_TYPES = [
+    "RichTextFieldWidget",
+    "RichTextWidget",
+    "TextAreaFieldWidget",
+    "TextAreaWidget",
+    "TextFieldWidget",
+    "TextLinesFieldWidget",
+    "TextLinesWidget",
+    "TextWidget",
+    "WysiwygFieldWidget",
+    "WysiwygWidget",
+];
+var TILE_TYPE_MAPPING = new Map([
+    // zope.schema.TextLine
+    ["z3c.form.browser.text.TextWidget", "textline"],
+    ["z3c.form.browser.text.TextFieldWidget", "textline"],
+    ["plone.app.z3cform.widgets.text.TextWidget", "textline"],
+    // zope.schema.Text
+    ["z3c.form.browser.textarea.TextAreaWidget", "textarea"],
+    ["z3c.form.browser.textarea.TextAreaFieldWidget", "textarea"],
+    ["z3c.form.browser.textlines.TextLinesWidget", "textarea"],
+    ["z3c.form.browser.textlines.TextLinesFieldWidget", "textarea"],
+    ["plone.app.z3cform.widgets.text.TextAreaWidget", "textarea"],
+    // plone.textfield.RichText
+    ["plone.app.z3cform.widget.RichTextFieldWidget", "richtext"],
+    ["plone.app.z3cform.widgets.richtext.RichTextFieldWidget", "richtext"],
+    ["plone.app.z3cform.widgets.richtext.RichTextWidget", "richtext"],
+    ["plone.app.z3cform.wysiwyg.widget.WysiwygWidget", "richtext"],
+    ["plone.app.z3cform.wysiwyg.widget.WysiwygFieldWidget", "richtext"],
+    ["plone.app.widgets.dx.RichTextWidget", "richtext"],
+]);
+
+// so we don't get spammed with missing tile warnings
+var _missing_tile_configs = [];
+
+/* Tile class */
+class Tile {
+    _initialized = false;
+
+    deprecatedHTMLTiles = [
+        "table",
+        "numbers",
+        "bullets",
+        "text",
+        "subheading",
+        "heading",
+    ];
+
+    constructor(mosaic, el) {
+        var self = this;
+        self.mosaic = mosaic;
+        if (el.jquery) {
+            el = el[0];
+        }
+        if (!el.classList.contains(".mosaic-tile")) {
+            self.el = el.closest(".mosaic-tile");
+        } else {
+            self.el = el
+        }
+        self.$el = $(self.el);
+        self.focusCheckCount = 0;
+    }
+    getDataTileEl() {
+        return this.$el.find("[data-tile]");
+    }
+    getContentEl() {
+        return this.$el.children(".mosaic-tile-content");
+    }
+    getHtmlContent() {
+        if (this.tinymce) {
+            return this.tinymce.getContent();
+        }
+        return this.getContentEl().html();
+    }
+    getEditUrl() {
+        var tile_url = this.getUrl();
+        if (!tile_url) {
+            return;
+        }
+        tile_url = tile_url.replace(/@@/, "@@edit-tile/");
+        if (!tile_url) {
+            return;
+        }
+        // Calc absolute edit url
+        if (tile_url.match(/^\.\/.*/)) {
+            tile_url = this.mosaic.options.context_url + tile_url.replace(/^\./, "");
+        }
+        return tile_url;
+    }
+    async serialize() {
+        // return JSON serialized dict of saved tile data
+        var edit_url = this.getEditUrl();
+        let data = {};
+        await fetch(
+            edit_url,
+            {
+                method: "GET",
+            })
+            .then(response => {
+                return response.text();
+            })
+            .then(html => {
+                const parser = new DOMParser();
+                // Parse the HTML string into a document
+                const doc = parser.parseFromString(html, 'text/html');
+                // read the form
+                const form_data = new FormData(doc.querySelector("form"));
+
+                form_data.forEach((val, key) => {
+                    data[key] = val;
                 });
             });
         }
@@ -108,6 +238,9 @@ define([
         if ($el.hasClass('mosaic-app-tile')) {
             Mosaic.initializeAppTile($el);
         }
+        self.$el.mosaicAddDrag();
+
+        await self.initializeContent();
 
         // Add controls
         Mosaic.addControls($el);
@@ -199,6 +332,50 @@ define([
                 e.preventDefault();
                 Mosaic.removeFromGrid($el);
             });
+        var self = this;
+        var el = self.el.jquery ? self.el[0] : self.el;
+        var tileConfig = this.getConfig();
+
+        // Check if app tile
+        if (tileConfig.tile_type === "app" || tileConfig.tile_type === "textapp") {
+            // Get url
+            var tile_url = this.getUrl();
+
+            if (tile_url && tile_url !== "undefined") {
+                // Remove tags
+                this.mosaic.removeHeadTags(tile_url);
+
+                const data = new URLSearchParams({
+                    "buttons.delete": "Delete",
+                    "_authenticator": utils.getAuthenticator(),
+                });
+
+                fetch(
+                    self.getDeleteUrl(),
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/x-www-form-urlencoded; charset: utf-8",
+                            "X-Requested-With": "XMLHttpRequest",  // do not redirect to nextUrl after deleting
+                        },
+                        body: data.toString(),
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            alert(`Could not delete tile ${tile_url}: ${response.statusText}`);
+                            return;
+                        }
+                        return response.json();
+                    })
+                    .catch((err) => {
+                        log.warn(`Error while delete tile ${tile_url}: ${err}`);
+                    });
+            }
+        }
+
+        // If we have a tinymce instance initialized we have to destroy it
+        if (this.tinymce) {
+            this.tinymce.destroy();
         }
 
         $controls.append($button_container);
@@ -264,6 +441,39 @@ define([
                 var dragHandle = document.createElement('div');
                 dragHandle.className = 'mosaic-drag-handle';
                 controls.appendChild(dragHandle);
+        });
+        return value;
+    }
+    async initializeContent(created, is_copy) {
+        var self = this;
+
+        var base = self.mosaic.document.body.dataset.baseUrl || null;
+        if (!base) {
+            base = $("head > base", self.mosaic.document).attr("href");
+        }
+        var href = this.getUrl();
+
+        // Get tile type
+        var tile_config = this.getConfig();
+
+        if (tile_config.tile_type === "field") {
+            // Check if a field tile
+            let fieldhtml = "";
+            let fieldval = "";
+            let start = "<div>";
+            let end = "</div>";
+            let innereditable = false;
+
+            // Wrap title and description fields for proper styles
+            // and make the inner node editable
+            if (tile_config.name === "IDublinCore-title") {
+                start = '<h1 class="documentFirstHeading" contenteditable="true">';
+                end = "</h1>";
+                innereditable = true;
+            } else if (tile_config.name === "IDublinCore-description") {
+                start = '<p class="documentDescription lead" contenteditable="true">';
+                end = "</p>";
+                innereditable = true;
             }
             
             // Check if tile config available
@@ -319,6 +529,49 @@ define([
         tiles.forEach(function(tile) {
             // Skip if controls already exist
             if (tile.querySelector('.mosaic-tile-control')) {
+    }
+    select() {
+         if (this.el.classList.contains("mosaic-read-only-tile") || this.el.classList.contains("mosaic-selected-tile")) {
+            return;
+        }
+        // un-select existing with stored Tile instance on element
+        this.mosaic.document
+            .querySelectorAll(".mosaic-selected-tile")
+            .forEach(async el => await el["mosaic-tile"].blur());
+        // select current tile
+        this.focus();
+    }
+    async blur() {
+        log.debug("blur ↓", this);
+        this.el.classList.remove("mosaic-selected-tile");
+        await this.save();
+    }
+    async focus() {
+        log.debug("focus ↓", this);
+        this.el.classList.add("mosaic-selected-tile");
+        this.$el.find(".mce-content-body").trigger("focus");
+        await this.initializeButtons();
+    }
+    async save() {
+        log.debug("save ↓", this);
+        var self = this;
+        var tiletype = self.getType();
+        var tile_config = self.getConfig();
+
+        if (!tile_config || tile_config.read_only === true) {
+            return;
+        }
+
+        if (tile_config.tile_type === "field") {
+            // save contenteditable schema field values.
+            // NOTE: the other field values are saved via "settings" modal
+            // already. No action needed here.
+            const el = self.mosaic.document.querySelector(
+                `.mosaic-${tiletype}-tile [contenteditable]`,
+            );
+            const wrapper_el = self.mosaic.document.querySelector(`#${tile_config.id}`);
+
+            if (!el || !wrapper_el) {
                 return;
             }
             

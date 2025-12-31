@@ -19,17 +19,6 @@ import DeleteLayoutTemplate from "./templates/delete_layout.xml";
 
 const log = logging.getLogger("pat-mosaic");
 
-function validTile(el) {
-    var $el = $(el);
-    if ($el.is(".mosaic-tile")) {
-        return true;
-    }
-    if ($el.parents(".mosaic-tile").length > 0) {
-        return true;
-    }
-    return false;
-}
-
 export default Base.extend({
     name: "layout",
     trigger: ".pat-layout",
@@ -166,15 +155,8 @@ export default Base.extend({
 
         self.panels = $(".mosaic-panel", self.document);
 
-        self.panels.find("[data-tile]").each(async function () {
-            if (validTile(this)) {
-                var tile = new Tile(self, this);
-                await tile.initializeContent();
-            }
-        });
-
-        // initialize layout events
-        await self.layoutManager.initialize_panels();
+        // initialize layoutManager
+        await self.layoutManager.initialize();
     },
 
     _init: async function (content) {
