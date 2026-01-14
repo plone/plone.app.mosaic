@@ -53,7 +53,6 @@ export default Base.extend({
         // extend options
         self.options = {
             ...self.default,
-            ...JSON.parse(JSON.stringify(self.options.data)),
             ...self.options,
         };
 
