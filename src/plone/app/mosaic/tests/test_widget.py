@@ -25,7 +25,12 @@ class TestLayoutWidget(unittest.TestCase):
             (ILayoutAware["customContentLayout"], self.request), IFieldWidget
         )
 
-        # Test pattern name
+        # Test pattern name (default disabled)
+        self.assertEqual(widget.pattern, "layout-disabled")
+
+        # enable "layout_view" on widget context
+        widget.context = self.layer["portal"]
+        widget.context.setLayout("layout_view")
         self.assertEqual(widget.pattern, "layout")
 
     def test_pattern_options__settings(self):
@@ -33,9 +38,10 @@ class TestLayoutWidget(unittest.TestCase):
             (ILayoutAware["customContentLayout"], self.request), IFieldWidget
         )
 
-        # get_options need a context on the widget.
+        # get_options need a context with the proper layout view on the widget.
         widget.context = self.layer["portal"]
-        options = widget.get_options()["data"]
+        widget.context.setLayout("layout_view")
+        options = widget.get_pattern_options()
 
         # Test default disable_edit_bar value
         self.assertIn("disable_edit_bar", options)
@@ -45,5 +51,5 @@ class TestLayoutWidget(unittest.TestCase):
         plone.api.portal.set_registry_record(
             name="plone.app.mosaic.settings.disable_edit_bar", value=False
         )
-        options = widget.get_options()["data"]
+        options = widget.get_pattern_options()
         self.assertEqual(options["disable_edit_bar"], False)
