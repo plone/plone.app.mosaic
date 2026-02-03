@@ -552,4 +552,14 @@
         />
   </genericsetup:upgradeSteps>
 
+  <genericsetup:upgradeStep
+      title="Clean up obsolete mosaic-grid-cell CSS classes"
+      description="Removes obsolete mosaic-position-* and mosaic-width-* classes,
+                   converts to Bootstrap 5 equivalents. See issue #593."
+      profile="plone.app.mosaic:default"
+      source="6005"
+      destination="6006"
+      handler=".upgrades.upgrade_to_6006"
+      />
+
 </configure>
