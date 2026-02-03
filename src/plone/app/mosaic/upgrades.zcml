@@ -570,6 +570,12 @@
         title="Upgrade profile to 6100."
         import_profile="plone.app.mosaic:to_6100"
         />
+    <genericsetup:upgradeStep
+        title="Clean up obsolete mosaic-grid-cell CSS classes"
+        description="Removes obsolete mosaic-position-* and mosaic-width-* classes,
+                     converts to Bootstrap 5 equivalents. See issue #593."
+        handler=".upgrades.upgrade_cleanup_grid_cell_classes"
+        />
   </genericsetup:upgradeSteps>
 
 </configure>
