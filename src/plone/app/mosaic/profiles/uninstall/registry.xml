@@ -33,11 +33,11 @@
   />
 
 
-  <records interface="Products.CMFPlone.interfaces.IBundleRegistry"
+  <records interface="plone.base.interfaces.IBundleRegistry"
            prefix="plone.bundles/mosaic"
            remove="true"
   />
-  <records interface="Products.CMFPlone.interfaces.IBundleRegistry"
+  <records interface="plone.base.interfaces.IBundleRegistry"
            prefix="plone.bundles/mosaic-css"
            remove="true"
   />
