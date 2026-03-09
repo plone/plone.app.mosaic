@@ -28,7 +28,6 @@ from zope.schema.interfaces import IField
 
 import os
 
-
 WIDGET_NAMES_MAP = {
     "plone.app.z3cform.widget.RichTextWidget": "plone.app.z3cform.widgets.richtext.RichTextFieldWidget"
 }
