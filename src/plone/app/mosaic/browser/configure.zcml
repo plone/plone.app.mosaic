@@ -52,7 +52,7 @@
 
   <browser:page
       name="layouts-editor"
-      for="Products.CMFPlone.interfaces.siteroot.IPloneSiteRoot"
+      for="plone.base.interfaces.IPloneSiteRoot"
       class=".editor.LayoutsEditor"
       template="templates/layouts-editor.pt"
       permission="plone.ManageContentLayouts"

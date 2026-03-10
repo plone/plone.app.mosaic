@@ -51,7 +51,7 @@
   />
 
   <!-- new bundle for the mosaic grid -->
-  <records interface="Products.CMFPlone.interfaces.IBundleRegistry"
+  <records interface="plone.base.interfaces.IBundleRegistry"
            prefix="plone.bundles/mosaic-grid"
   >
     <value key="csscompilation">++plone++mosaic/mosaic-grid.css</value>
