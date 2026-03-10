@@ -12,4 +12,3 @@ recursive-include *.js *.map
 recursive-exclude news *
 prune docs/_screenshots
 prune resources
-prune tests
