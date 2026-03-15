@@ -6,21 +6,18 @@ from plone.app.mosaic.interfaces import IMosaicLayer
 from plone.app.mosaic.interfaces import IMosaicRegistryAdapter
 from plone.app.mosaic.utils import getContentLayoutsForType
 from plone.app.mosaic.utils import getUserContentLayoutsForType
-from plone.app.z3cform.utils import dict_merge
-from plone.app.z3cform.widgets.base import BaseWidget
-from plone.app.z3cform.widgets.patterns import TextareaWidget
+from plone.app.z3cform.interfaces import ITextAreaWidget
 from plone.app.z3cform.widgets.richtext import get_tinymce_options
+from plone.app.z3cform.widgets.text import TextAreaWidget
 from plone.dexterity.browser.base import DexterityExtensibleForm
 from plone.memoize.view import memoize
 from plone.registry.interfaces import IRegistry
 from plone.z3cform.fieldsets.extensible import FormExtender
 from plone.z3cform.fieldsets.interfaces import IFormExtender
 from Products.CMFDynamicViewFTI.interfaces import ISelectableBrowserDefault
-from z3c.form.browser.textarea import TextAreaWidget
 from z3c.form.interfaces import HIDDEN_MODE
 from z3c.form.interfaces import IAddForm
 from z3c.form.interfaces import IFieldWidget
-from z3c.form.interfaces import ITextAreaWidget
 from z3c.form.util import getSpecification
 from z3c.form.widget import FieldWidget
 from zope.component import adapter
@@ -43,13 +40,18 @@ class ILayoutWidget(ITextAreaWidget):
 
 
 @implementer_only(ILayoutWidget)
-class LayoutWidget(BaseWidget, TextAreaWidget):
+class LayoutWidget(TextAreaWidget):
     """Layout widget for z3c.form."""
 
-    _base = TextareaWidget
+    @property
+    def pattern(self):
+        """add check for disabled layout attribute"""
+        name = "layout"
 
-    pattern = "layout"
-    pattern_options = BaseWidget.pattern_options.copy()
+        if not self.enabled:
+            name = name + "-disabled"
+
+        return name
 
     @property
     @memoize
@@ -86,7 +88,10 @@ class LayoutWidget(BaseWidget, TextAreaWidget):
         except AttributeError:
             pass
 
-    def get_options(self):
+    def get_pattern_options(self):
+        # skip options if widget is disabled
+        if not self.enabled:
+            return {}
         registry = queryUtility(IRegistry)
         adapted = IMosaicRegistryAdapter(registry)
         pt = self.obtainType()
@@ -143,33 +148,7 @@ class LayoutWidget(BaseWidget, TextAreaWidget):
         result["available_layouts"] = getContentLayoutsForType(pt, self.context)
         result["user_layouts"] = getUserContentLayoutsForType(pt)
 
-        return {"data": result}
-
-    def _base_args(self):
-        """Method which will calculate _base class arguments.
-
-        Returns (as python dictionary):
-            - `pattern`: pattern name
-            - `pattern_options`: pattern options
-            - `name`: field name
-            - `value`: field value
-
-        :returns: Arguments which will be passed to _base
-        :rtype: dict
-        """
-        args = super()._base_args()
-        args["name"] = self.name
-        args["value"] = self.value
-
-        args.setdefault("pattern_options", {})
-        args["pattern_options"] = dict_merge(
-            self.get_options(), args["pattern_options"]
-        )
-
-        if not self.enabled:
-            args["pattern"] = self.pattern + "-disabled"
-
-        return args
+        return result
 
     def _add_form_portal_type_default_view(self):
         """Return the default view of the portal type of this add form
