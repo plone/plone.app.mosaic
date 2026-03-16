@@ -7,7 +7,7 @@ commit-id = "2.6.0"
 
 [pyproject]
 codespell_ignores = "foo,bar"
-codespell_skip = "*.config.js,*.min.js,*.min.js.map,*.min.css.map,*.svg,yarn.lock,*.json,*/tiles.xml"
+codespell_skip = "*.config.js,*.min.js,*.min.js.map,*.min.css.map,*.svg,pnpm-lock.yaml,*.json,*/tiles.xml"
 
 [gitignore]
 extra_lines = """
