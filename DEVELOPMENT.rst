@@ -37,6 +37,8 @@ This will use the resources from webpack server on port 8011 then.
 The javascript and scss files to work on are in the package root under `resources` and
 will be compiled into minified production bundles with `pnpm build`.
 
+To upgrade the dependencies, run `pnpm update` or `pnpm update --latest --interactive`.
+
 
 Documentation
 -------------
