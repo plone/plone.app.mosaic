@@ -16,7 +16,8 @@
         "prettier": "3.8.1"
     },
     "resolutions": {
-        "sass": "1.77.8"
+        "sass": "1.77.8",
+        "jquery": "3.7.1"
     },
     "scripts": {
         "build": "npm-run-all build:webpack build:css",
