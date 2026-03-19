@@ -245,7 +245,7 @@
       title="Upgrade profile to 5016 (1.1)"
       description=""
       provides="Products.GenericSetup.interfaces.EXTENSION"
-      for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
+      for="plone.base.interfaces.IMigratingPloneSiteRoot"
       directory="profiles/upgrades/to_5016"
       />
 
@@ -262,7 +262,7 @@
       title="Upgrade profile to 5017 (2.0.0rc1)"
       description=""
       provides="Products.GenericSetup.interfaces.EXTENSION"
-      for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
+      for="plone.base.interfaces.IMigratingPloneSiteRoot"
       directory="profiles/upgrades/to_5017"
       />
 
@@ -279,7 +279,7 @@
       title="Upgrade profile to 5018 (2.0.0rc3)"
       description=""
       provides="Products.GenericSetup.interfaces.EXTENSION"
-      for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
+      for="plone.base.interfaces.IMigratingPloneSiteRoot"
       directory="profiles/upgrades/to_5018"
       />
 
@@ -296,7 +296,7 @@
       title="Upgrade profile to 5019 (2.0.0rc4)"
       description=""
       provides="Products.GenericSetup.interfaces.EXTENSION"
-      for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
+      for="plone.base.interfaces.IMigratingPloneSiteRoot"
       directory="profiles/upgrades/to_5019"
       />
 
@@ -313,7 +313,7 @@
       title="Upgrade profile to 5020 (2.0.0rc5)"
       description=""
       provides="Products.GenericSetup.interfaces.EXTENSION"
-      for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
+      for="plone.base.interfaces.IMigratingPloneSiteRoot"
       directory="profiles/upgrades/to_5020"
       />
 
@@ -338,7 +338,7 @@
       title="Upgrade profile to 5022"
       description=""
       provides="Products.GenericSetup.interfaces.EXTENSION"
-      for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
+      for="plone.base.interfaces.IMigratingPloneSiteRoot"
       directory="profiles/upgrades/to_5022"
       />
 
@@ -414,7 +414,7 @@
       title="Upgrade profile to 5029"
       description=""
       provides="Products.GenericSetup.interfaces.EXTENSION"
-      for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
+      for="plone.base.interfaces.IMigratingPloneSiteRoot"
       directory="profiles/upgrades/to_5029"
       />
 
@@ -440,7 +440,7 @@
       title="Upgrade profile to 6000"
       description=""
       provides="Products.GenericSetup.interfaces.EXTENSION"
-      for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
+      for="plone.base.interfaces.IMigratingPloneSiteRoot"
       directory="profiles/upgrades/to_6000"
       />
 
@@ -457,7 +457,7 @@
       title="Upgrade profile to 6001"
       description=""
       provides="Products.GenericSetup.interfaces.EXTENSION"
-      for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
+      for="plone.base.interfaces.IMigratingPloneSiteRoot"
       directory="profiles/upgrades/to_6001"
       />
 
@@ -477,7 +477,7 @@
       title="Upgrade profile to 6002"
       description=""
       provides="Products.GenericSetup.interfaces.EXTENSION"
-      for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
+      for="plone.base.interfaces.IMigratingPloneSiteRoot"
       directory="profiles/upgrades/to_6002"
       />
 
@@ -497,7 +497,7 @@
       title="Upgrade profile to 6003"
       description=""
       provides="Products.GenericSetup.interfaces.EXTENSION"
-      for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
+      for="plone.base.interfaces.IMigratingPloneSiteRoot"
       directory="profiles/upgrades/to_6003"
       />
 
@@ -517,7 +517,7 @@
       title="Upgrade profile to 6004"
       description=""
       provides="Products.GenericSetup.interfaces.EXTENSION"
-      for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
+      for="plone.base.interfaces.IMigratingPloneSiteRoot"
       directory="profiles/upgrades/to_6004"
       />
 
@@ -537,7 +537,7 @@
       title="Upgrade profile to 6005"
       description=""
       provides="Products.GenericSetup.interfaces.EXTENSION"
-      for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
+      for="plone.base.interfaces.IMigratingPloneSiteRoot"
       directory="profiles/upgrades/to_6005"
       />
 

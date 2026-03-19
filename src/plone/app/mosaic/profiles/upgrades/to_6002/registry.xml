@@ -2,7 +2,7 @@
 <registry>
 
   <!-- remove obsolete bundle -->
-  <records interface="Products.CMFPlone.interfaces.IBundleRegistry"
+  <records interface="plone.base.interfaces.IBundleRegistry"
            prefix="plone.bundles/layouts-editor"
            remove="true"
   >

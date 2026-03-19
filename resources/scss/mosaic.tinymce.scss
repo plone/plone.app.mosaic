@@ -9,6 +9,7 @@
     div.mce-content-body[contenteditable="true"] {
         border: none;
         border-radius: 0;
+        padding: 0;
 
         &::after {
             // special fix when only one floating image is in editor

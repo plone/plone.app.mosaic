@@ -2,14 +2,14 @@
 <registry>
 
   <!-- update bundle values -->
-  <records interface="Products.CMFPlone.interfaces.IBundleRegistry"
+  <records interface="plone.base.interfaces.IBundleRegistry"
            prefix="plone.bundles/mosaic"
   >
     <value key="expression">python: member is not None</value>
     <value key="depends" />
   </records>
 
-  <records interface="Products.CMFPlone.interfaces.IBundleRegistry"
+  <records interface="plone.base.interfaces.IBundleRegistry"
            prefix="plone.bundles/layouts-editor"
   >
     <value key="expression">python: member is not None</value>
@@ -17,13 +17,13 @@
   </records>
 
   <!-- remove obsolete bundles -->
-  <records interface="Products.CMFPlone.interfaces.IBundleRegistry"
+  <records interface="plone.base.interfaces.IBundleRegistry"
            prefix="plone.bundles/mosaic-grid"
            remove="true"
   >
 </records>
 
-  <records interface="Products.CMFPlone.interfaces.IBundleRegistry"
+  <records interface="plone.base.interfaces.IBundleRegistry"
            prefix="plone.bundles/mosaic-styles"
            remove="true"
   >

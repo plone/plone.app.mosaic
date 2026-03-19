@@ -3,11 +3,11 @@
 # See the inline comments on how to expand/tweak this configuration file
 [meta]
 template = "default"
-commit-id = "2.3.1"
+commit-id = "2.6.0"
 
 [pyproject]
 codespell_ignores = "foo,bar"
-codespell_skip = "*.min.js,*.min.js.map,*.min.css.map,*.svg,yarn.lock,*.json,*/tiles.xml"
+codespell_skip = "*.config.js,*.min.js,*.min.js.map,*.min.css.map,*.svg,yarn.lock,*.json,*/tiles.xml"
 
 [gitignore]
 extra_lines = """

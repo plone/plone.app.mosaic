@@ -2,19 +2,19 @@
 <registry>
 
   <!-- remove obsolete bundles -->
-  <records interface="Products.CMFPlone.interfaces.IBundleRegistry"
+  <records interface="plone.base.interfaces.IBundleRegistry"
            prefix="plone.bundles/mosaic-grid"
            remove="true"
   >
 </records>
 
-  <records interface="Products.CMFPlone.interfaces.IBundleRegistry"
+  <records interface="plone.base.interfaces.IBundleRegistry"
            prefix="plone.bundles/mosaic-styles"
            remove="true"
   >
 </records>
 
-  <records interface="Products.CMFPlone.interfaces.IBundleRegistry"
+  <records interface="plone.base.interfaces.IBundleRegistry"
            prefix="plone.bundles/mosaic"
   >
     <value key="enabled">True</value>
@@ -26,7 +26,7 @@
     <value key="depends">plone</value>
   </records>
 
-  <records interface="Products.CMFPlone.interfaces.IBundleRegistry"
+  <records interface="plone.base.interfaces.IBundleRegistry"
            prefix="plone.bundles/mosaic-css"
   >
     <value key="enabled">True</value>
@@ -38,7 +38,7 @@
     <value key="depends" />
   </records>
 
-  <records interface="Products.CMFPlone.interfaces.IBundleRegistry"
+  <records interface="plone.base.interfaces.IBundleRegistry"
            prefix="plone.bundles/layouts-editor"
   >
     <value key="enabled">True</value>

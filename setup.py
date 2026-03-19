@@ -1,7 +1,6 @@
 from pathlib import Path
 from setuptools import setup
 
-
 long_description = (
     f"{Path('README.rst').read_text()}\n" f"{Path('CHANGES.rst').read_text()}"
 )
@@ -26,6 +25,7 @@ setup(
         "Programming Language :: Python :: 3.11",
         "Programming Language :: Python :: 3.12",
         "Programming Language :: Python :: 3.13",
+        "Programming Language :: Python :: 3.14",
         "Operating System :: OS Independent",
         "License :: OSI Approved :: GNU General Public License v2 (GPLv2)",
     ],
