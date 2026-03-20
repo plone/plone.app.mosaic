@@ -452,6 +452,12 @@ class ActionManager {
                             }
                             m.hide();
                         });
+                        m.on("hidden", () => {
+                            // Clean up handlers when modal is closed (cancel or success)
+                            $(self.mosaic.panels[0]).off(
+                                "formActionSuccess.plone-modal.patterns after-render.plone-modal.patterns hidden.plone-modal.patterns"
+                            );
+                        });
                         m.show();
                     };
 
