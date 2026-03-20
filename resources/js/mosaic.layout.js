@@ -400,7 +400,7 @@ export default class LayoutManager {
                             });
                         }
                     });
-                    // Deselect tile
+                // Deselect tile
                 } else {
                     $(".mosaic-selected-tile", _document).each(function () {
                         $(this).trigger("blur");
