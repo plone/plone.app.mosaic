@@ -5,7 +5,7 @@
     "license": "GPL-2.0-only",
     "dependencies": {
         "@patternslib/patternslib": "^9.10.4",
-        "@plone/mockup": "^5.5.1"
+        "@plone/mockup": "^5.6.1"
     },
     "devDependencies": {
         "@patternslib/dev": "3.8.1",
@@ -17,7 +17,7 @@
     },
     "resolutions": {
         "sass": "1.77.8",
-        "jquery": "3.7.1"
+        "jquery": "<4"
     },
     "scripts": {
         "build": "npm-run-all build:webpack build:css",
