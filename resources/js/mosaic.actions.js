@@ -370,13 +370,11 @@ class ActionManager {
         self.registerAction("insert", {
             exec: async function (source) {
                 // Local variables
-                var tile_config, tile_type;
+                const tile_type = source.value;
 
                 // Check if value selected
-                if ($(source).val() === "none") {
+                if (tile_type === "none") {
                     return false;
-                } else {
-                    tile_type = $(source).val();
                 }
 
                 // Deselect tiles
@@ -384,6 +382,8 @@ class ActionManager {
 
                 // Set actions
                 mosaic.toolbar.SelectedTileChange();
+
+                let tile_config = null;
 
                 // Get tile config
                 for (const tile_group of mosaic.options.tiles) {
@@ -411,7 +411,7 @@ class ActionManager {
 
                     const openAddFormInModal = function (html) {
                         let initial = true;
-                        const m = new Modal(self.mosaic.panels[0], {
+                        const _modal = new Modal(self.mosaic.panels[0], {
                             html: html,
                             modalSizeClass: "modal-lg",
                             position: "center top",
@@ -421,10 +421,10 @@ class ActionManager {
                                 closeOnClick: false,
                             },
                         });
-                        m.on("after-render", () => {
+                        _modal.on("after-render", () => {
                             // Remove field errors since the user has not actually
                             // been able to fill out the form yet
-                            var $mContent = m.$modalContent;
+                            var $mContent = _modal.$modalContent;
                             if (initial) {
                                 $(".field.error", $mContent).removeClass("error");
                                 $(
@@ -432,14 +432,9 @@ class ActionManager {
                                     $mContent,
                                 ).remove();
                             }
-                            $('button[name*="cancel"]', $mContent)
-                                .off("click")
-                                .on("click", function () {
-                                    m.hide();
-                                });
                             log.debug("after-render");
                         });
-                        m.on("formActionSuccess", (event, response, state, xhr) => {
+                        _modal.on("formActionSuccess", (event, response, state, xhr) => {
                             log.debug("TileAddForm ActionSuccess");
                             var tileUrl = xhr.getResponseHeader("X-Tile-Url");
                             if (tileUrl && initial) {
@@ -450,13 +445,19 @@ class ActionManager {
                                 );
                                 initial = false;
                             }
-                            m.hide();
+                            _modal.hide();
                         });
-                        m.show();
+                        _modal.on("hidden", () => {
+                            // Clean up handlers when modal is closed (cancel or success)
+                            $(self.mosaic.panels[0]).off(
+                                "formActionSuccess.plone-modal.patterns after-render.plone-modal.patterns hidden.plone-modal.patterns"
+                            );
+                        });
+                        _modal.show();
                     };
 
                     fetch(
-                        `${mosaic.options.context_url}/@@add-tile?tiletype=${tile_type}&form.button.Create=Create`,
+                        `${mosaic.options.context_url}/@@add-tile/${tile_type}`,
                         {
                             method: "GET",
                         })
