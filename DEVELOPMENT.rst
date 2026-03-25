@@ -25,8 +25,8 @@ JS & CSS Development::
 
 Prerequiries: Make sure you have installed node version >= 16. We recommend using `nvm install --lts && nvm use --lts`.
 
-    $ yarn install
-    $ yarn start
+    $ pnpm install
+    $ pnpm start
 
 In the resource registry hange the resource path for `mosaic` to
 
@@ -35,7 +35,9 @@ In the resource registry hange the resource path for `mosaic` to
 This will use the resources from webpack server on port 8011 then.
 
 The javascript and scss files to work on are in the package root under `resources` and
-will be compiled into minified production bundles with `yarn build`.
+will be compiled into minified production bundles with `pnpm build`.
+
+To upgrade the dependencies, run `pnpm update` or `pnpm update --latest --interactive`.
 
 
 Documentation

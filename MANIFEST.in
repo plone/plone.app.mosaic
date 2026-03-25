@@ -1,4 +1,4 @@
-exclude Makefile *.cfg *.in *.nix *.sh *.conf *.js *.json Procfile .jshintrc *-mxdev.txt .installed.txt
+exclude Makefile *.cfg *.in *.nix *.sh *.conf *.js *.json Procfile .jshintrc *-mxdev.txt .installed.txt .npmrc
 global-exclude *.pyc __pycache__
 graft docs
 graft src
