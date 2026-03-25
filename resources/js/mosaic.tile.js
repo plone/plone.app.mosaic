@@ -382,7 +382,7 @@ class Tile {
             return false;
         }
     }
-    async initialize() {
+    async initialize(skipContent = false) {
         var self = this;
 
         if (self._initialized) {
@@ -463,7 +463,9 @@ class Tile {
         }
         self.$el.mosaicAddDrag();
 
-        await self.initializeContent();
+        if (!skipContent) {
+            await self.initializeContent();
+        }
 
         // convenience: store Tile instance on dom and jquery
         self.el["mosaic-tile"] = self;

@@ -163,9 +163,9 @@ export default class LayoutManager {
         orig_parent.append($copy_tile_helper);
 
         var tile = new Tile(this.mosaic, $copy_tile_helper.find(".mosaic-tile"));
-        await tile.initialize();
+        await tile.initialize(true);
         // save copied content
-        tile.save();
+        await tile.save();
 
         if (tile.getConfig().tile_type == "app") {
             // copy the data from original tile too
