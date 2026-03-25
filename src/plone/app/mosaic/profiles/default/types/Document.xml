@@ -14,5 +14,6 @@
   >
     <element value="plone.layoutaware" />
     <element value="plone.draftable" />
+    <element value="plone.textindexer" />
   </property>
 </object>

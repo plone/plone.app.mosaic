@@ -550,6 +550,26 @@
         title="Upgrade profile to 6005."
         import_profile="plone.app.mosaic:to_6005"
         />
+
+    </genericsetup:upgradeSteps>
+  <genericsetup:registerProfile
+      name="to_6006"
+      title="Upgrade profile to 6006"
+      description=""
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      for="plone.base.interfaces.IMigratingPloneSiteRoot"
+      directory="profiles/upgrades/to_6006"
+      />
+
+  <genericsetup:upgradeSteps
+      profile="plone.app.mosaic:default"
+      source="6005"
+      destination="6006"
+      >
+    <genericsetup:upgradeDepends
+        title="Upgrade profile to 6006."
+        import_profile="plone.app.mosaic:to_6006"
+        />
   </genericsetup:upgradeSteps>
 
 </configure>
