@@ -13,6 +13,7 @@
             purge="false"
   >
     <element value="plone.layoutaware" />
+    <element value="plone.textindexer" />
     <element value="plone.draftable" />
   </property>
 </object>

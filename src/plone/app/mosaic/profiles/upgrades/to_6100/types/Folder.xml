@@ -1,19 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <object xmlns:i18n="http://xml.zope.org/namespaces/i18n"
         meta_type="Dexterity FTI"
-        name="News Item"
+        name="Folder"
         i18n:domain="plone"
 >
-  <property name="view_methods"
-            purge="false"
-  >
-    <element value="layout_view" />
-  </property>
   <property name="behaviors"
             purge="false"
   >
-    <element value="plone.layoutaware" />
     <element value="plone.textindexer" />
-    <element value="plone.draftable" />
   </property>
 </object>
