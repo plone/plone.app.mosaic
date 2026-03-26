@@ -12,30 +12,29 @@ Show how to select Mosaic layout option
 
     Go to  ${PLONE_URL}/example-document
 
-    Wait Until Element Is Visible  ${SELECTOR_CONTENTMENU_DISPLAY_LINK}
-    Click element  ${SELECTOR_CONTENTMENU_DISPLAY_LINK}
-    Wait Until Element Is Visible  id=plone-contentmenu-display-layout_view
+    Wait For Elements State  ${SELECTOR_CONTENTMENU_DISPLAY_LINK}  visible
+    Click  ${SELECTOR_CONTENTMENU_DISPLAY_LINK}
+    Wait For Elements State  id=plone-contentmenu-display-layout_view  visible
 
     Highlight  id=plone-contentmenu-display-layout_view
-    Capture Page Screenshot  mosaic-custom-layout-enable.png
+    Take Screenshot  filename=mosaic-custom-layout-enable.png
 
-    Set focus to element  id=plone-contentmenu-display-layout_view
-    Click element  id=plone-contentmenu-display-layout_view
+    Focus  id=plone-contentmenu-display-layout_view
+    Click  id=plone-contentmenu-display-layout_view
 
-    Run keyword and ignore error  Set window size  1024  800
-    Wait until page contains element
-    ...  css=body.layout-default-document
+    Set Viewport Size  1024  800
+    Wait For Elements State  css=body.layout-default-document  attached
 
 
 Show how to select custom layout view
 
     Go to  ${PLONE_URL}/example-document
 
-    Wait Until Element Is Visible  ${SELECTOR_CONTENTMENU_DISPLAY_LINK}
-    Click element  ${SELECTOR_CONTENTMENU_DISPLAY_LINK}
-    Wait Until Element Is Visible  id=plone-contentmenu-display-layout_view
+    Wait For Elements State  ${SELECTOR_CONTENTMENU_DISPLAY_LINK}  visible
+    Click  ${SELECTOR_CONTENTMENU_DISPLAY_LINK}
+    Wait For Elements State  id=plone-contentmenu-display-layout_view  visible
 
-    Capture Page Screenshot  mosaic-custom-layout-enable-done.png
+    Take Screenshot  filename=mosaic-custom-layout-enable-done.png
 
 
 *** Keywords ***
