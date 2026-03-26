@@ -8,6 +8,62 @@ Changelog
 
 .. towncrier release notes start
 
+4.0.0a2 (2026-03-26)
+--------------------
+
+New features:
+
+
+- Add upgrade step to clean up obsolete mosaic-grid-cell CSS classes.
+  Removes deprecated ``mosaic-position-*`` and ``mosaic-width-*`` classes,
+  and converts them to Bootstrap 5 equivalents.
+  [Shyam-Raghuwanshi] (#673)
+- Add `plone.textindexer` behavior to enable `plone.app.blocks` tile indexing.  @petschki
+- Rewrite Robottests to use Playwright testbrowser.  @petschki
+
+
+Bug fixes:
+
+
+- Fix duplicated app tiles when "add modal" was cancelled multiple times.  @petschki (#684)
+- Fix copied tile content being empty. The tile's ``initialize()`` method
+  was fetching content from the server (which doesn't exist yet for the copy),
+  overwriting the already inserted HTML. Now ``initialize()`` accepts a
+  ``skipContent`` parameter to skip the content fetch when copying.
+  Also properly ``await`` the ``save()`` call to prevent race conditions.
+  @petschki
+- Remove padding for inline TinyMCE.
+  @petschki
+- Update LayoutWidget to use latest z3c.form extendable attributes.  @petschki
+
+
+Internal:
+
+
+- Performance improvements for the layout editor:
+
+  - Cache the currently selected divider element instead of querying the
+    entire document on every ``mousemove`` event during drag operations.
+  - Use ``element.closest()`` instead of jQuery ``parents()`` traversal in
+    high-frequency mousemove handlers.
+  - Make ``mosaicAddEmptyRows()`` idempotent: reuse existing empty rows
+    instead of destroying all and recreating them after every drag/drop.
+  - Fix double ``.width()`` read in ``addTile`` causing unnecessary layout
+    recalculation.
+
+  @petschki
+- Run plone-codemod migrations for Plone 6.2.
+  [thet]
+- Update Plone 6.2 dependencies and metadata.
+  @petschki
+- Update configuration files.
+  [plone devs]
+- Update plone/meta.
+  @petschki
+- Update to latest mockup.
+  @petschki
+
+
 4.0.0a1 (2025-12-18)
 --------------------
 

@@ -1,2 +1,0 @@
-Update plone/meta.
-@petschki
