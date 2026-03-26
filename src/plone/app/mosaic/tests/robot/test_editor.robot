@@ -10,97 +10,86 @@ Test Teardown  Plone test teardown
 
 Show how Mosaic editor is opened
     Go to  ${PLONE_URL}/example-document
-    Wait for Element  id=contentview-edit
+    Wait For Elements State  id=contentview-edit  visible
     Highlight  id=contentview-edit
-    Capture Page Screenshot
-    ...  mosaic-editor-open.png
+    Take Screenshot  filename=mosaic-editor-open.png
 
 
 Show the Mosaic editing capabilities
     Go to  ${PLONE_URL}/example-document/edit
-    Wait for Element  css=.mosaic-select-layout
-    Capture Page Screenshot
-    ...  mosaic-editor-layout-selector.png
+    Wait For Elements State  css=.mosaic-select-layout  visible
+    Take Screenshot  filename=mosaic-editor-layout-selector.png
 
     # Show how to select the initial layout
-    Wait for element  xpath=//a[@data-value='default/basic.html']
+    Wait For Elements State  css=[data-value='default/basic.html']  visible
     Highlight  xpath=//a[@data-value='default/basic.html']/img
-    Capture Page Screenshot
-    ...  mosaic-editor-layout-selector-select.png
+    Take Screenshot  filename=mosaic-editor-layout-selector-select.png
 
-    ## fire click event with javascript
-    Execute javascript  $("[data-value='default/basic.html']").trigger("click")
+    # fire click event
+    Evaluate JavaScript  css=[data-value='default/basic.html']  (elem) => elem.click()
 
     # Show the properties view in Mosaic editor
-    Wait for Element  css=.mosaic-toolbar
-    Click element  css=.mosaic-button-properties
+    Wait For Elements State  css=.mosaic-toolbar  visible
+    Click  css=.mosaic-button-properties
 
-    Wait for Element  css=.modal-body form .autotoc-nav
+    Wait For Elements State  css=.modal-body form .autotoc-nav  visible
     Highlight  css=.modal-body form .autotoc-nav
 
-    Capture Page Screenshot
-    ...  mosaic-editor-properties-modal.png
+    Take Screenshot  filename=mosaic-editor-properties-modal.png
 
-    Click element  css=.pattern-modal-buttons #form-buttons-save
+    Click  css=.pattern-modal-buttons #form-buttons-save
 
-    Wait Until Element is not visible  css=.pattern-modal-buttons #form-buttons-save
+    Wait For Elements State  css=.pattern-modal-buttons #form-buttons-save  hidden
 
     # Show the Mosaic editor
-    Element should be visible  css=.mosaic-toolbar-primary-functions .mosaic-button-customizelayout
-    Element should not be visible  css=.mosaic-toolbar-secondary-functions
+    Wait For Elements State  css=.mosaic-toolbar-primary-functions .mosaic-button-customizelayout  visible
+    Wait For Elements State  css=.mosaic-toolbar-secondary-functions  hidden
 
     Highlight  css=.mosaic-toolbar-primary-functions .mosaic-button-customizelayout
-    Capture Page Screenshot
-    ...  mosaic-editor-customize.png
+    Take Screenshot  filename=mosaic-editor-customize.png
     Clear highlight  css=.mosaic-toolbar-primary-functions .mosaic-button-customizelayout
 
-    Wait for then click element  css=.mosaic-toolbar-primary-functions .mosaic-button-customizelayout
+    Click  css=.mosaic-toolbar-primary-functions .mosaic-button-customizelayout
 
     # Show how to select a new tile from menu
-    Wait for Element  css=.select2-container.mosaic-menu-insert
+    Wait For Elements State  css=.select2-container.mosaic-menu-insert  visible
     Highlight  css=.select2-container.mosaic-menu-insert
-    Click element  css=.select2-container.mosaic-menu-insert a
-    Wait for element  css=.mosaic-menu-insert .select2-option-irichtextbehavior-text
-    Mouse over  css=.mosaic-menu-insert .select2-option-irichtextbehavior-text
+    Click  css=.select2-container.mosaic-menu-insert a
+    Wait For Elements State  css=.mosaic-menu-insert .select2-option-irichtextbehavior-text  visible
+    Hover  css=.mosaic-menu-insert .select2-option-irichtextbehavior-text
 
-    Capture Page Screenshot
-    ...  mosaic-editor-select-field-text-tile.png
+    Take Screenshot  filename=mosaic-editor-select-field-text-tile.png
 
-    Clear highlight  css=.mosaic-menu-insert
+    Clear highlight  css=.select2-container.mosaic-menu-insert
 
     # Show how to drag a new tile into its initial position
 
-    Click element  css=.mosaic-menu-insert .select2-option-irichtextbehavior-text
-    Wait for element  css=.mosaic-helper-tile-new
+    Click  css=.mosaic-menu-insert .select2-option-irichtextbehavior-text
+    Wait For Elements State  css=.mosaic-helper-tile-new  attached
     Update element style
     ...  css=.mosaic-IDublinCore-description-tile .mosaic-divider-bottom
     ...  display  block
-    Mouse over
-    ...  css=.mosaic-IDublinCore-description-tile .mosaic-divider-bottom
-    Capture Page Screenshot
-    ...  mosaic-editor-drag-field-text-tile.png
+    Hover  css=.mosaic-IDublinCore-description-tile .mosaic-divider-bottom
+    Take Screenshot  filename=mosaic-editor-drag-field-text-tile.png
 
     # Show how to drop a new tile into its initial position
 
-    Click element  css=.mosaic-selected-divider
-    Wait for Element  css=.mosaic-button-save
+    Click  css=.mosaic-selected-divider
+    Wait For Elements State  css=.mosaic-button-save  visible
     Highlight  css=.mosaic-button-save
-    Capture Page Screenshot
-    ...  mosaic-editor-drop-field-text-tile.png
+    Take Screenshot  filename=mosaic-editor-drop-field-text-tile.png
 
     # Show how the custom layout looks after saving
-
-    Click button  css=.mosaic-button-save
-    # some people reported sporadic page unload alert ... if so, accept it
-    Run keyword and ignore error  Handle Alert  action=ACCEPT  timeout=5
-    Capture Page Screenshot
-    ...  mosaic-page-saved.png
+    # register dialog handler before the click that might trigger a beforeunload dialog
+    Handle Future Dialogs    action=accept
+    Click  css=.mosaic-button-save
+    Take Screenshot  filename=mosaic-page-saved.png
 
 Show grid layout editor capabilities
     Go to  ${PLONE_URL}/example-document/edit
-    Wait for element  xpath=//a[@data-value='default/basic.html']
-    Execute javascript  $("[data-value='default/basic.html']").trigger("click")
-    Wait for then click element  css=.mosaic-toolbar-primary-functions .mosaic-button-customizelayout
+    Wait For Elements State  css=[data-value='default/basic.html']  visible
+    Evaluate JavaScript  css=[data-value='default/basic.html']  (elem) => elem.click()
+    Click  css=.mosaic-toolbar-primary-functions .mosaic-button-customizelayout
 
     # insert richtext tile
     Insert richtexttile
@@ -108,8 +97,8 @@ Show grid layout editor capabilities
     # add below title
     ${empty_row_3}=  set variable  //div[contains(@class, 'mosaic-empty-row')][3]/div[contains(@class, 'mosaic-grid-cell')]
     Update element style  xpath=${empty_row_3}  display  block
-    Mouse over  xpath=${empty_row_3}
-    Click element  xpath=${empty_row_3}
+    Hover  xpath=${empty_row_3}
+    Click  xpath=${empty_row_3}
 
     # insert 2nd richtext tile
     Insert richtexttile
@@ -117,8 +106,8 @@ Show grid layout editor capabilities
     # add next to first richtext
     ${tile_divider_right}=  set variable  //div[contains(@class, 'mosaic-grid-row')][6]/div[contains(@class, 'mosaic-grid-cell')][1]/div[contains(@class, 'plone\.app\.standardtiles\.html-tile')]/div[contains(@class, 'mosaic-divider-right')]
     Update element style  xpath=${tile_divider_right}  display  block
-    Mouse over  xpath=${tile_divider_right}
-    Click element  xpath=${tile_divider_right}
+    Hover  xpath=${tile_divider_right}
+    Click  xpath=${tile_divider_right}
     Update element style  xpath=${tile_divider_right}  display  none
 
     # insert 3rd richtext tile
@@ -127,8 +116,8 @@ Show grid layout editor capabilities
     # add next to second richtext
     ${tile_divider_right}=  set variable  //div[contains(@class, 'mosaic-grid-row')][6]/div[contains(@class, 'mosaic-grid-cell')][2]/div[contains(@class, 'plone\.app\.standardtiles\.html-tile')]/div[contains(@class, 'mosaic-divider-right')]
     Update element style  xpath=${tile_divider_right}  display  block
-    Mouse over  xpath=${tile_divider_right}
-    Click element  xpath=${tile_divider_right}
+    Hover  xpath=${tile_divider_right}
+    Click  xpath=${tile_divider_right}
     Update element style  xpath=${tile_divider_right}  display  none
 
     # get resize handles
@@ -137,41 +126,34 @@ Show grid layout editor capabilities
     ${resize_handle_3}=  set variable  //div[contains(@class, 'mosaic-grid-row')][6]/div[contains(@class, 'mosaic-resize-handle-3')]
 
     # resize first
-    Drag and drop by offset  xpath=${resize_handle_1}  -50  0
-    Capture Page Screenshot
-    ...  mosaic-editor-resize-tile1-smaller.png
+    Drag And Drop By Offset  xpath=${resize_handle_1}  -50  0
+    Take Screenshot  filename=mosaic-editor-resize-tile1-smaller.png
 
-    Drag and drop by offset  xpath=${resize_handle_1}  150  0
-    Capture Page Screenshot
-    ...  mosaic-editor-resize-tile1-larger.png
+    Drag And Drop By Offset  xpath=${resize_handle_1}  150  0
+    Take Screenshot  filename=mosaic-editor-resize-tile1-larger.png
 
     # resize second
-    Drag and drop by offset  xpath=${resize_handle_2}  -50  0
-    Capture Page Screenshot
-    ...  mosaic-editor-resize-tile2-smaller.png
+    Drag And Drop By Offset  xpath=${resize_handle_2}  -50  0
+    Take Screenshot  filename=mosaic-editor-resize-tile2-smaller.png
 
-    Drag and drop by offset  xpath=${resize_handle_2}  150  0
-    Capture Page Screenshot
-    ...  mosaic-editor-resize-tile2-larger.png
+    Drag And Drop By Offset  xpath=${resize_handle_2}  150  0
+    Take Screenshot  filename=mosaic-editor-resize-tile2-larger.png
 
     # resize third smaller
-    Drag and drop by offset  xpath=${resize_handle_3}  -50  0
-    Capture Page Screenshot
-    ...  mosaic-editor-resize-tile3-smaller.png
+    Drag And Drop By Offset  xpath=${resize_handle_3}  -50  0
+    Take Screenshot  filename=mosaic-editor-resize-tile3-smaller.png
 
     # then resize first smaller -> right border should stay sticky
-    Drag and drop by offset  xpath=${resize_handle_1}  -100  0
-    Capture Page Screenshot
-    ...  mosaic-editor-resize-tile1-smaller-with-border-right.png
+    Drag And Drop By Offset  xpath=${resize_handle_1}  -100  0
+    Take Screenshot  filename=mosaic-editor-resize-tile1-smaller-with-border-right.png
 
     # Reset (1) should be visible on last column
-    Wait for then click element  xpath=//a[contains(text(), 'Reset (1)')]
-    Capture Page Screenshot
-    ...  mosaic-editor-reset-tile3.png
+    Evaluate JavaScript    xpath=//a[contains(text(), 'Reset (1)')]    (elem) => elem.click()
+    Take Screenshot  filename=mosaic-editor-reset-tile3.png
 
 *** Keywords ***
 
 Insert richtexttile
-    Wait for then click element  css=.select2-container.mosaic-menu-insert a
-    Wait for then click element  xpath=//li[contains(@class, 'select2-option-plone\.app\.standardtiles\.html')]
-    Wait until page contains element  css=.mosaic-helper-tile-new
+    Click    css=.select2-container.mosaic-menu-insert a
+    Click    xpath=//li[contains(@class, 'select2-option-plone\.app\.standardtiles\.html')]
+    Wait For Elements State    css=.mosaic-helper-tile-new    attached

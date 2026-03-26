@@ -14,16 +14,12 @@ Show page site layout option
 
     Go to  ${PLONE_URL}/example-document/edit
 
-    Page should contain link  Layout
-    Click link  Layout
+    Wait For Elements State  xpath=//a[contains(@class,'autotoc-level')][normalize-space(.)='Layout']  visible
+    Click  xpath=//a[contains(@class,'autotoc-level')][normalize-space(.)='Layout']
 
-    Highlight  id=formfield-form-widgets-ILayoutAware-pageSiteLayout
-    Execute javascript  $('#form-widgets-ILayoutAware-pageSiteLayout').attr('size', 6)
+    Wait For Elements State  id=formfield-form-widgets-ILayoutAware-pageSiteLayout  attached
 
-    Capture Page Screenshot  mosaic-layout-page-site-layout.png
-
-    Clear highlight  id=formfield-form-widgets-ILayoutAware-pageSiteLayout
-    Execute javascript  $('#form-widgets-ILayoutAware-pageSiteLayout').attr('size', 1)
+    Take Screenshot  filename=mosaic-layout-page-site-layout.png
 
 
 *** Keywords ***

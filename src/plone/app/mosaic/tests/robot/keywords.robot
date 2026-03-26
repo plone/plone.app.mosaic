@@ -1,8 +1,6 @@
 *** Settings ***
 
-Resource  plone/app/robotframework/keywords.robot
-Resource  plone/app/robotframework/saucelabs.robot
-Resource  plone/app/robotframework/selenium.robot
+Resource  plone/app/robotframework/browser.robot
 
 Library  Remote  ${PLONE_URL}/RobotRemote
 
@@ -11,17 +9,13 @@ Library  Remote  ${PLONE_URL}/RobotRemote
 
 ${RESOURCE_DIR}  ${CURDIR}
 
-${BROWSER}  chrome
+${SELECTOR_ADDONS_ENABLED}  css=#activated-products
+${SELECTOR_ADDONS_MOSAIC}  xpath=(//*[@id='activated-products']//*[contains(text(), 'Mosaic')])[1]
 
-${SELECTOR_ADDONS_ENABLED}  jquery=#activated-products
-${SELECTOR_ADDONS_MOSAIC}  ${SELECTOR_ADDONS_ENABLED} ul li h3:contains('Mosaic')
-
-${SELECTOR_CONTENTMENU_DISPLAY_LINK}  css=#plone-contentmenu-display a
+${SELECTOR_CONTENTMENU_DISPLAY_LINK}  css=#plone-contentmenu-display a.dropdown-toggle
 ${SELECTOR_CONTENTMENU_DISPLAY_ITEMS}  css=#plone-contentmenu-display ul
 
 ${SELECTOR_TOOLBAR}  css=#edit-zone
-
-${SELENIUM_RUN_ON_FAILURE}  Capture page screenshot and log source
 
 *** Keywords ***
 
@@ -41,12 +35,10 @@ an example document
 select mosaic layout view
   Go to  ${PLONE_URL}/example-document
 
-  Wait Until Element Is Visible  ${SELECTOR_CONTENTMENU_DISPLAY_LINK}
-  Click element  ${SELECTOR_CONTENTMENU_DISPLAY_LINK}
-  Wait Until Element Is Visible  id=plone-contentmenu-display-layout_view
-
-  Mouse over  id=plone-contentmenu-display-layout_view
-  Wait for then click element  id=plone-contentmenu-display-layout_view
+  Wait For Elements State  ${SELECTOR_CONTENTMENU_DISPLAY_LINK}  visible
+  Click  ${SELECTOR_CONTENTMENU_DISPLAY_LINK}
+  Wait For Elements State  id=plone-contentmenu-display-layout_view  visible
+  Click  id=plone-contentmenu-display-layout_view
 
 Setup Mosaic Example Page
     Open test browser
@@ -55,7 +47,7 @@ Setup Mosaic Example Page
       and an example document
      then select mosaic layout view
 
-    Run keyword and ignore error  Set window size  1024  1500
+    Set Viewport Size  1024  1500
 
 
 # ----------------------------------------------------------------------------
@@ -64,8 +56,7 @@ Setup Mosaic Example Page
 
 Update element style
     [Arguments]  ${locator}  ${name}  ${value}
-    ${elem}  Get WebElement  ${locator}
-    Execute Javascript  arguments[0].style.${name} = "${value}";  ARGUMENTS  ${elem}
+    Evaluate JavaScript    ${locator}    (elem) => { elem.style['${name}'] = '${value}'; }
 
 
 Highlight
@@ -80,3 +71,13 @@ Highlight
 Clear Highlight
     [Arguments]  ${locator}
     Update element style  ${locator}  border  none
+
+
+Drag And Drop By Offset
+    [Arguments]    ${locator}    ${x_offset}    ${y_offset}
+    ${bbox}=    Get BoundingBox    ${locator}
+    ${from_x}=    Evaluate    int(${bbox}[x] + ${bbox}[width] / 2)
+    ${from_y}=    Evaluate    int(${bbox}[y] + ${bbox}[height] / 2)
+    ${to_x}=    Evaluate    ${from_x} + int(${x_offset})
+    ${to_y}=    Evaluate    ${from_y} + int(${y_offset})
+    Drag And Drop By Coordinates    ${from_x}    ${from_y}    ${to_x}    ${to_y}

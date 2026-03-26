@@ -3,7 +3,7 @@
 Resource  keywords.robot
 
 Test Setup  Open test browser
-Test Teardown  Close all browsers
+Test Teardown  Plone Test Teardown
 
 
 *** Test Cases ***
@@ -12,9 +12,9 @@ Show Plone Mosaic activation
     Given a logged-in manager
     and the addons controlpanel
 
-    Wait Until Element Contains  ${SELECTOR_ADDONS_MOSAIC}  Mosaic
+    Wait For Elements State  ${SELECTOR_ADDONS_MOSAIC}  visible
     Highlight  ${SELECTOR_ADDONS_MOSAIC}
-    Capture Page Screenshot  mosaic-product-activated.png
+    Take Screenshot  filename=mosaic-product-activated.png
 
 
 *** Keywords ***
