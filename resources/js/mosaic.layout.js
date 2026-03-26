@@ -18,6 +18,24 @@ function validMosaicTile(el) {
 export default class LayoutManager {
     constructor(mosaic) {
         this.mosaic = mosaic;
+        this._lastSelectedDivider = null;
+    }
+
+    _clearSelectedDivider() {
+        if (this._lastSelectedDivider) {
+            this._lastSelectedDivider.classList.remove("mosaic-selected-divider");
+            this._lastSelectedDivider = null;
+        }
+    }
+
+    _selectDivider(el) {
+        this._clearSelectedDivider();
+        // el can be a DOM element or jQuery object
+        var dom = el instanceof $ ? el[0] : el;
+        if (dom) {
+            dom.classList.add("mosaic-selected-divider");
+            this._lastSelectedDivider = dom;
+        }
     }
 
     layout = {
@@ -124,8 +142,9 @@ export default class LayoutManager {
         // Get max width
         var width = 0;
         self.mosaic.panels.each(function () {
-            if ($(this).width() > width) {
-                width = $(this).width();
+            var w = $(this).width();
+            if (w > width) {
+                width = w;
             }
         });
 
@@ -163,9 +182,9 @@ export default class LayoutManager {
         orig_parent.append($copy_tile_helper);
 
         var tile = new Tile(this.mosaic, $copy_tile_helper.find(".mosaic-tile"));
-        await tile.initialize();
+        await tile.initialize(true);
         // save copied content
-        tile.save();
+        await tile.save();
 
         if (tile.getConfig().tile_type == "app") {
             // copy the data from original tile too
@@ -395,9 +414,7 @@ export default class LayoutManager {
                                 "mosaic-panel-dragging", "mosaic-panel-dragging-new",
                             );
                             // Hide all dividers
-                            _document.querySelectorAll(".mosaic-selected-divider").forEach(divider => {
-                                divider.classList.remove("mosaic-selected-divider");
-                            });
+                            self._clearSelectedDivider();
                         }
                     });
                 // Deselect tile
@@ -748,34 +765,31 @@ export default class LayoutManager {
 
         // Handle mousemove on tile
         const TileMousemove = function (e) {
+            var $tile = $(this);
+            var panel = this.closest("[data-panel]");
 
             // only if dragging
-            if (
-                $(this).parents("[data-panel]").hasClass("mosaic-panel-dragging") ===
-                false
-            ) {
+            if (!panel || !panel.classList.contains("mosaic-panel-dragging")) {
                 return;
             }
 
-            // Hide all dividers
-            $(".mosaic-selected-divider", self.mosaic.document).removeClass(
-                "mosaic-selected-divider",
-            );
+            // Hide previous divider
+            self._clearSelectedDivider();
 
             // Don't show dividers if above original or floating tile
             // but not in copy mode
             if (
-                (!$(this).parents("[data-panel]").hasClass("mosaic-panel-dragging-copy") &&
-                    $(this).hasClass("mosaic-original-tile")) ||
-                $(this).hasClass("mosaic-tile-align-left") ||
-                $(this).hasClass("mosaic-tile-align-right")
+                (!panel.classList.contains("mosaic-panel-dragging-copy") &&
+                    this.classList.contains("mosaic-original-tile")) ||
+                this.classList.contains("mosaic-tile-align-left") ||
+                this.classList.contains("mosaic-tile-align-right")
             ) {
                 return;
             }
 
             // Get direction
-            var dir = $(this).mosaicGetDirection(e);
-            var divider = $(this).children(".mosaic-divider-" + dir);
+            var dir = $tile.mosaicGetDirection(e);
+            var divider = $tile.children(".mosaic-divider-" + dir);
 
             // Check if left or right divider
             if (dir === "left" || dir === "right") {
@@ -806,7 +820,7 @@ export default class LayoutManager {
             }
 
             // Show divider
-            divider.addClass("mosaic-selected-divider");
+            self._selectDivider(divider);
         };
 
         // Bind events
@@ -967,15 +981,15 @@ export default class LayoutManager {
                 // Mouse move event
                 $(this).on("mousemove", function (/* e */) {
                     // Get layout object
-                    var obj = $(this).parents("[data-panel]");
+                    var panel = this.closest("[data-panel]");
 
                     // Check if dragging
-                    if (obj.hasClass("mosaic-panel-dragging")) {
-                        // Hide all dividers
-                        $(".mosaic-selected-divider", mosaic_doc).removeClass(
-                            "mosaic-selected-divider",
-                        );
-                        $(this).children("div").addClass("mosaic-selected-divider");
+                    if (panel && panel.classList.contains("mosaic-panel-dragging")) {
+                        self._clearSelectedDivider();
+                        var child = this.querySelector(".mosaic-grid-cell");
+                        if (child) {
+                            self._selectDivider(child);
+                        }
                     }
                 });
             });
@@ -1002,17 +1016,37 @@ export default class LayoutManager {
                     .mosaicAddMouseMoveEmptyRow();
             }
 
-            return this.each(() => {
-                // first row is always an empty one
-                $(this).prepend(create_empty_row(""))
-                // Loop through rows
-                $(this)
-                    .find(".mosaic-grid-row:not(.mosaic-empty-row").each(function () {
-                        const empty_row = create_empty_row(
-                            $(this).hasClass("mosaic-innergrid-row") ? "mosaic-innergrid-row" : ""
-                        );
-                        $(this).after(empty_row);
-                    })
+            return this.each(function () {
+                var $panel = $(this);
+                var children = $panel.children(".mosaic-grid-row");
+
+                // Remove consecutive empty rows and trailing empty rows
+                var prev_was_empty = false;
+                children.each(function () {
+                    var is_empty = $(this).hasClass("mosaic-empty-row");
+                    if (is_empty && prev_was_empty) {
+                        // consecutive empty rows -> remove
+                        $(this).off("mousemove").remove();
+                    }
+                    prev_was_empty = is_empty;
+                });
+
+                // Re-read after cleanup
+                children = $panel.children(".mosaic-grid-row");
+
+                // Ensure first row is empty
+                if (children.length === 0 || !children.first().hasClass("mosaic-empty-row")) {
+                    $panel.prepend(create_empty_row(""));
+                }
+
+                // Ensure every non-empty row is followed by an empty row
+                $panel.children(".mosaic-grid-row:not(.mosaic-empty-row)").each(function () {
+                    var $next = $(this).next(".mosaic-grid-row");
+                    if ($next.length === 0 || !$next.hasClass("mosaic-empty-row")) {
+                        var add_class = $(this).hasClass("mosaic-innergrid-row") ? "mosaic-innergrid-row" : "";
+                        $(this).after(create_empty_row(add_class));
+                    }
+                });
             });
         };
 
@@ -1143,7 +1177,7 @@ export default class LayoutManager {
             let copy = obj.hasClass("mosaic-panel-dragging-copy");
 
             // Get direction
-            const divider = mosaic_doc.querySelector(".mosaic-selected-divider");
+            const divider = self._lastSelectedDivider;
             const drop = $(divider?.parentElement);
 
             // get direction where to drop
@@ -1153,7 +1187,7 @@ export default class LayoutManager {
                     dir = _dir;
                 }
             }
-            divider?.classList.remove("mosaic-selected-divider");
+            self._clearSelectedDivider();
 
             // True if new tile is inserted or copied
             var new_tile = $(".mosaic-helper-tile-new", mosaic_doc).length > 0;
@@ -1341,14 +1375,13 @@ export default class LayoutManager {
                 "mosaic-panel-dragging mosaic-panel-dragging-copy mosaic-panel-dragging-unique mosaic-panel-dragging-new inner-subcolumn",
             );
 
-            // Remove remaining empty rows
-            self.mosaic.panels.find(".mosaic-grid-row:not(:has(.mosaic-tile))").remove();
-            self.mosaic.panels.find(".mosaic-empty-row").remove();
+            // Remove remaining empty rows (rows without tiles)
+            self.mosaic.panels.find(".mosaic-grid-row:not(.mosaic-empty-row):not(:has(.mosaic-tile))").remove();
 
             // Cleanup original row
             original_row.mosaicCleanupRow();
 
-            // Add empty rows
+            // Sync empty rows (reuses existing, adds missing, removes duplicates)
             self.mosaic.panels.mosaicAddEmptyRows();
 
             // re-initialize events

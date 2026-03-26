@@ -382,7 +382,7 @@ class Tile {
             return false;
         }
     }
-    async initialize() {
+    async initialize(skipContent = false) {
         var self = this;
 
         if (self._initialized) {
@@ -463,7 +463,9 @@ class Tile {
         }
         self.$el.mosaicAddDrag();
 
-        await self.initializeContent();
+        if (!skipContent) {
+            await self.initializeContent();
+        }
 
         // convenience: store Tile instance on dom and jquery
         self.el["mosaic-tile"] = self;
@@ -662,9 +664,6 @@ class Tile {
             this.tinymce.destroy();
         }
 
-        // Remove empty rows
-        this.mosaic.panels.find(".mosaic-empty-row").remove();
-
         // Get original row
         var $originalRow = this.$el.parent().parent();
 
@@ -674,7 +673,7 @@ class Tile {
         // Cleanup original row
         $originalRow.mosaicCleanupRow();
 
-        // Add empty rows
+        // Sync empty rows (reuses existing, adds missing, removes duplicates)
         this.mosaic.panels.mosaicAddEmptyRows();
 
         // Set toolbar
