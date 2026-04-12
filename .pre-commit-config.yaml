@@ -1,5 +1,5 @@
 # Generated from:
-# https://github.com/plone/meta/tree/main/src/plone/meta/default
+# https://github.com/plone/meta/tree/2.x/src/plone/meta/default
 # See the inline comments on how to expand/tweak this configuration file
 ci:
     autofix_prs: false
@@ -70,7 +70,7 @@ repos:
     rev: "0.24.0"
     hooks:
     -   id: check-python-versions
-        args: ['--only', 'setup.py,pyproject.toml']
+        args: ['--only', 'setup.py,tox.ini']
 -   repo: https://github.com/collective/i18ndude
     rev: "6.3.0"
     hooks:
