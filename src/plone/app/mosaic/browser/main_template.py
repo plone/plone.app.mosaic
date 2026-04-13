@@ -235,6 +235,7 @@ class MainTemplate(BrowserView):
         return self.main_template
 
     @property
+    @view.memoize
     def layout(self):
         published = self.request.get("PUBLISHED")
         if isinstance(published, DefaultAddView):
