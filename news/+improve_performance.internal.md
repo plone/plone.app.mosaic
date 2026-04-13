@@ -10,5 +10,7 @@ JavaScript frontend performance improvements:
 - Fix `scanRegistry()` memory leak: use namespaced events to prevent handler accumulation.
 - Cache tile buttons in `focus()`: reuse existing buttons instead of rebuilding on every click.
 - Remove unnecessary `regenerator-runtime` imports (native async/await supported by browserslist target).
+- Fix unawaited `fetch()` in `initializeContent()`: tile content loading was fire-and-forget, now properly awaited.
+- Add `?debug` query parameter for editor performance diagnostics: shows per-tile render times, tile URLs in labels, and auto-enables advanced mode.
 
 @petschki
