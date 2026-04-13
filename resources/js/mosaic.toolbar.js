@@ -1,5 +1,4 @@
 // This plugin is used to create a mosaic toolbar.
-import "regenerator-runtime/runtime"; // needed for ``await`` support
 import $ from "jquery";
 import Registry from "@patternslib/patternslib/src/core/registry";
 import logging from "@patternslib/patternslib/src/core/logging";

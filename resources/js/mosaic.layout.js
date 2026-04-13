@@ -1,5 +1,4 @@
 // This plugin is used to create a mosaic layout.
-import "regenerator-runtime/runtime"; // needed for ``await`` support
 import $ from "jquery";
 import logging from "@patternslib/patternslib/src/core/logging";
 import events from "@patternslib/patternslib/src/core/events";
@@ -928,12 +927,11 @@ export default class LayoutManager {
         for (const panel of this.mosaic.panels) {
             const $panel = $(panel);
 
-            for (const el of panel.querySelectorAll("[data-tile]")) {
-                if (validMosaicTile(el)) {
-                    const tile = new Tile(this.mosaic, el);
-                    await tile.initialize();
-                }
-            };
+            // Initialize all tiles in parallel for better performance
+            const tilePromises = [...panel.querySelectorAll("[data-tile]")]
+                .filter(validMosaicTile)
+                .map(el => new Tile(this.mosaic, el).initialize());
+            await Promise.all(tilePromises);
 
             $panel.mosaicAddEmptyRows();
             $panel.children(".mosaic-grid-row").mosaicSetResizeHandles();

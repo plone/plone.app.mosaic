@@ -1,4 +1,3 @@
-import "regenerator-runtime/runtime"; // needed for ``await`` support
 import $ from "jquery";
 import utils from "@plone/mockup/src/core/utils";
 import mosaic_utils from "./utils";
@@ -944,7 +943,8 @@ class Tile {
         Registry.scan($el);
 
         // also check the content of the tile and override link handling...
-        $("a", $el).on("click", function (e) {
+        // Use .off() before .on() to prevent accumulating duplicate handlers
+        $("a", $el).off("click.mosaic-tile").on("click.mosaic-tile", function (e) {
             e.preventDefault();
             e.stopPropagation();
         });
@@ -969,7 +969,13 @@ class Tile {
         log.debug("focus ↓", this);
         this.el.classList.add("mosaic-selected-tile");
         this.$el.find(".mce-content-body").trigger("focus");
-        await this.initializeButtons();
+        // Show existing buttons instead of rebuilding them
+        var existingBtns = this.el.querySelector(".mosaic-tile-buttons");
+        if (existingBtns) {
+            existingBtns.style.display = "";
+        } else {
+            await this.initializeButtons();
+        }
     }
     async save() {
         log.debug("save ↓", this);
