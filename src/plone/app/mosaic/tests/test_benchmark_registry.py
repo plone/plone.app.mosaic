@@ -1,4 +1,5 @@
 """Benchmark: parseRegistry() per-request cache performance."""
+
 from plone.app.mosaic.registry import PARSE_REGISTRY_CACHE_KEY
 from plone.app.mosaic.testing import PLONE_APP_MOSAIC_INTEGRATION
 from plone.registry.interfaces import IRegistry
@@ -43,9 +44,7 @@ class TestBenchmarkParseRegistry(unittest.TestCase):
 
         # Count registry records to show context
         mosaic_records = sum(
-            1
-            for r in registry.records
-            if r.startswith("plone.app.mosaic")
+            1 for r in registry.records if r.startswith("plone.app.mosaic")
         )
 
         print("\n")
@@ -97,9 +96,7 @@ class TestBenchmarkParseRegistry(unittest.TestCase):
         print(
             f"  {'No cache':<20} {mean_no_cache:>9.2f}  {std_no_cache:>9.2f}  {bar_no}"
         )
-        print(
-            f"  {'With cache':<20} {mean_cached:>9.2f}  {std_cached:>9.2f}  {bar_ca}"
-        )
+        print(f"  {'With cache':<20} {mean_cached:>9.2f}  {std_cached:>9.2f}  {bar_ca}")
         print()
         print(f"  Speedup: {speedup:.1f}x")
         print()
