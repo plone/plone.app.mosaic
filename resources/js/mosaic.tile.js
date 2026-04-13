@@ -412,11 +412,18 @@ class Tile {
                 "mosaic-tile-control mosaic-tile-side-tools",
             );
 
+            var labelHtml = tile_config.label;
+            if (self.mosaic.debug) {
+                var tileUrl = self.getUrl() || self.el.querySelector("[data-tile]")?.getAttribute("data-tile") || "";
+                labelHtml += '<br><span style="font-weight:normal;font-size:10px;opacity:0.7;word-break:break-all">' +
+                    tileUrl.replace(/&/g, "&amp;").replace(/</g, "&lt;") + '</span>';
+            }
+
             self.$el.prepend(
                 side_tools.append(
                     $(self.mosaic.document.createElement("div"))
                         .addClass("mosaic-tile-label content")
-                        .html(tile_config.label),
+                        .html(labelHtml),
                 ),
             );
 
@@ -844,7 +851,7 @@ class Tile {
             if (url.indexOf("_layouteditor") === -1) {
                 url += "_layouteditor=true";
             }
-            fetch(
+            await fetch(
                 url,
                 {
                     method: "GET",

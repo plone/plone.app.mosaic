@@ -46,6 +46,9 @@ export default Base.extend({
 
     init: async function () {
         const self = this;
+        self._debugStartTime = performance.now();
+        self.debug = new URLSearchParams(window.location.search).has("debug");
+        self._debugTimings = [];
 
         import("../scss/mosaic.pattern.scss");
 
@@ -200,6 +203,53 @@ export default Base.extend({
 
         document.body.classList.add("mosaic-enabled");
         self.initialized();
+
+        if (self.debug) {
+            // Switch all panels to advanced mode to show tile labels
+            document.querySelectorAll(".mosaic-panel").forEach(function (panel) {
+                panel.classList.add("mosaic-advanced");
+            });
+            self._renderDebugOverlay();
+        }
+    },
+
+    _renderDebugOverlay: function () {
+        var self = this;
+        var totalTime = (performance.now() - self._debugStartTime).toFixed(1);
+        var timings = self._debugTimings.slice().sort((a, b) => b.duration - a.duration);
+
+        var el = document.createElement("div");
+        el.id = "mosaic-debug";
+        el.style.cssText = "position:fixed;bottom:10px;right:10px;z-index:99999;" +
+            "background:rgba(0,0,0,0.88);color:#0f0;font:12px/1.5 monospace;" +
+            "padding:12px 16px;border-radius:8px;max-height:50vh;overflow:auto;" +
+            "pointer-events:auto;min-width:340px;";
+
+        var html = "<div style='font-size:14px;font-weight:bold;margin-bottom:8px;color:#fff'>" +
+            "Mosaic Debug</div>" +
+            "<div>Total init: <b>" + totalTime + " ms</b></div>" +
+            "<div>Tiles: <b>" + timings.length + "</b></div>" +
+            "<hr style='border-color:#444;margin:8px 0'>" +
+            "<table style='width:100%;border-collapse:collapse'>" +
+            "<tr style='color:#aaa'><th style='text-align:left;padding:2px 8px 2px 0'>Tile</th>" +
+            "<th style='text-align:right;padding:2px 0'>ms</th></tr>";
+
+        timings.forEach(function (t) {
+            var color = t.duration > 200 ? "#f44" : t.duration > 50 ? "#fa0" : "#0f0";
+            html += "<tr><td style='padding:2px 8px 2px 0;white-space:nowrap;max-width:250px;" +
+                "overflow:hidden;text-overflow:ellipsis'>" + self._escapeHtml(t.name) + "</td>" +
+                "<td style='text-align:right;color:" + color + "'>" + t.duration.toFixed(1) + "</td></tr>";
+        });
+
+        html += "</table>";
+        el.innerHTML = html;
+        document.body.appendChild(el);
+    },
+
+    _escapeHtml: function (str) {
+        var div = document.createElement("div");
+        div.textContent = str;
+        return div.innerHTML;
     },
 
     applyLayout: async function (layoutPath) {
