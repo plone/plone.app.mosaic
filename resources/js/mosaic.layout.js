@@ -948,7 +948,6 @@ export default class LayoutManager {
 
             panel.querySelectorAll(".mosaic-innergrid-row").forEach(el => {
                 const $el = $(el);
-                $el.mosaicAddMouseMoveInnergridRow();
                 $el.mosaicSetResizeHandles();
                 ["top", "bottom"].forEach(pos => {
                     $el.append(

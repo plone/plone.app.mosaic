@@ -12,5 +12,6 @@ JavaScript frontend performance improvements:
 - Remove unnecessary `regenerator-runtime` imports (native async/await supported by browserslist target).
 - Fix unawaited `fetch()` in `initializeContent()`: tile content loading was fire-and-forget, now properly awaited.
 - Add `?debug` query parameter for editor performance diagnostics: shows per-tile render times, tile URLs in labels, and auto-enables advanced mode.
+- Remove dead `mosaicAddMouseMoveInnergridRow()` call in `init_tiles()` (definition was removed in an earlier commit but call remained).
 
 @petschki

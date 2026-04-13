@@ -276,11 +276,11 @@ export default Base.extend({
         } catch (err) {
             if (err.message === "Not Found") {
                 window.alert(
-                    "Specified layout can not be found. Loading default layout.",
+                    `Specified layout can not be found: ${layoutPath}. Loading default layout.`,
                 );
             } else {
                 window.alert(
-                    "Error loading layout specified for this content. Falling back to basic layout.",
+                    `Error loading layout specified for this content: ${layoutPath}, "${err.message}". Falling back to basic layout.`,
                 );
             }
             if (layoutPath !== "++contentlayout++default/basic.html") {
