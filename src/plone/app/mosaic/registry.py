@@ -67,10 +67,8 @@ class MosaicRegistry:
         """
         request = getRequest()
         if request is not None:
-            try:
-                cache = request.annotations.get(PARSE_REGISTRY_CACHE_KEY)
-            except AttributeError:
-                cache = request.environ.get(PARSE_REGISTRY_CACHE_KEY)
+            store = getattr(request, "annotations", request.environ)
+            cache = store.get(PARSE_REGISTRY_CACHE_KEY)
             if cache is not None:
                 return cache
 
@@ -93,10 +91,8 @@ class MosaicRegistry:
             current[key] = self.registry.records[record].value
 
         if request is not None:
-            try:
-                request.annotations[PARSE_REGISTRY_CACHE_KEY] = result
-            except AttributeError:
-                request.environ[PARSE_REGISTRY_CACHE_KEY] = result
+            store = getattr(request, "annotations", request.environ)
+            store[PARSE_REGISTRY_CACHE_KEY] = result
         return result
 
     def mapSettings(self, settings, config):
