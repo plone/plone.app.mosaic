@@ -5,8 +5,11 @@ from plone.dexterity.utils import iterSchemataForType
 from plone.registry.interfaces import IRegistry
 from Products.CMFCore.interfaces._content import IFolderish
 from zope.component import adapter
+from zope.globalrequest import getRequest
 from zope.i18n import translate
 from zope.interface import implementer
+
+PARSE_REGISTRY_CACHE_KEY = "plone.app.mosaic.parseRegistry"
 
 
 class DottedDict(dict):
@@ -57,7 +60,17 @@ class MosaicRegistry:
         self.registry = registry
 
     def parseRegistry(self):
-        """Make a dictionary structure for the values in the registry"""
+        """Make a dictionary structure for the values in the registry.
+
+        Results are cached per-request to avoid iterating over all registry
+        records multiple times within the same page render.
+        """
+        request = getRequest()
+        if request is not None:
+            store = getattr(request, "annotations", request.environ)
+            cache = store.get(PARSE_REGISTRY_CACHE_KEY)
+            if cache is not None:
+                return cache
 
         result = DottedDict()
         for record in self.registry.records:
@@ -76,6 +89,10 @@ class MosaicRegistry:
             # store actual key/value
             key = parts[-1]
             current[key] = self.registry.records[record].value
+
+        if request is not None:
+            store = getattr(request, "annotations", request.environ)
+            store[PARSE_REGISTRY_CACHE_KEY] = result
         return result
 
     def mapSettings(self, settings, config):

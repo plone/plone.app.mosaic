@@ -8,7 +8,7 @@
     <field type="plone.registry.field.TextLine">
       <title>Name</title>
     </field>
-    <value>plone.app.z3cform.widget.RichTextFieldWidget</value>
+    <value>plone.app.z3cform.widgets.richtext.RichTextFieldWidget</value>
   </record>
 
   <record field="actions"

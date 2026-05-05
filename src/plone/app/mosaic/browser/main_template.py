@@ -23,6 +23,7 @@ from zope.interface import implementer
 import logging
 import os
 import re
+import time
 
 NSMAP = {"metal": "http://namespaces.zope.org/metal"}
 slotsXPath = etree.XPath("//*[@data-slots]")
@@ -220,9 +221,16 @@ class MainTemplate(BrowserView):
     main_template = resolve_main_template()
 
     def __call__(self):
+        start = time.perf_counter()
         if self.request.form.get("ajax_load"):
-            return self.ajax_template()
-        return self.main_template()
+            result = self.ajax_template()
+        else:
+            result = self.main_template()
+        elapsed = (time.perf_counter() - start) * 1000
+        logger.debug(
+            "MainTemplate rendered in %.1f ms for %s", elapsed, self.request.URL
+        )
+        return result
 
     @property
     def template(self):
@@ -235,6 +243,7 @@ class MainTemplate(BrowserView):
         return self.main_template
 
     @property
+    @view.memoize
     def layout(self):
         published = self.request.get("PUBLISHED")
         if isinstance(published, DefaultAddView):

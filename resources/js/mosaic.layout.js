@@ -1,5 +1,4 @@
 // This plugin is used to create a mosaic layout.
-import "regenerator-runtime/runtime"; // needed for ``await`` support
 import $ from "jquery";
 import logging from "@patternslib/patternslib/src/core/logging";
 import events from "@patternslib/patternslib/src/core/events";
@@ -928,19 +927,27 @@ export default class LayoutManager {
         for (const panel of this.mosaic.panels) {
             const $panel = $(panel);
 
-            for (const el of panel.querySelectorAll("[data-tile]")) {
-                if (validMosaicTile(el)) {
-                    const tile = new Tile(this.mosaic, el);
-                    await tile.initialize();
+            // Initialize all tiles in parallel for better performance
+            const tileElements = [...panel.querySelectorAll("[data-tile]")].filter(validMosaicTile);
+            const tilePromises = tileElements.map(async (el) => {
+                const tileName = el.getAttribute("data-tile") || "unknown";
+                const t0 = performance.now();
+                const tile = new Tile(this.mosaic, el);
+                await tile.initialize();
+                if (this.mosaic.debug) {
+                    this.mosaic._debugTimings.push({
+                        name: tileName,
+                        duration: performance.now() - t0,
+                    });
                 }
-            };
+            });
+            await Promise.all(tilePromises);
 
             $panel.mosaicAddEmptyRows();
             $panel.children(".mosaic-grid-row").mosaicSetResizeHandles();
 
             panel.querySelectorAll(".mosaic-innergrid-row").forEach(el => {
                 const $el = $(el);
-                $el.mosaicAddMouseMoveInnergridRow();
                 $el.mosaicSetResizeHandles();
                 ["top", "bottom"].forEach(pos => {
                     $el.append(

@@ -51,5 +51,7 @@ class TestLayoutWidget(unittest.TestCase):
         plone.api.portal.set_registry_record(
             name="plone.app.mosaic.settings.disable_edit_bar", value=False
         )
+        # Clear per-request parseRegistry cache so the new value is picked up
+        self.request.environ.pop("plone.app.mosaic.parseRegistry", None)
         options = widget.get_pattern_options()
         self.assertEqual(options["disable_edit_bar"], False)
