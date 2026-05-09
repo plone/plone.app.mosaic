@@ -12,7 +12,7 @@ repos:
     -   id: pyupgrade
         args: [--py310-plus]
 -   repo: https://github.com/pycqa/isort
-    rev: 8.0.1
+    rev: 9.0.0a3
     hooks:
     -   id: isort
 -   repo: https://github.com/psf/black-pre-commit-mirror
@@ -20,7 +20,7 @@ repos:
     hooks:
     -   id: black
 -   repo: https://github.com/collective/zpretty
-    rev: 3.1.1
+    rev: 4.0.0
     hooks:
     -   id: zpretty
         args: ["src/", ]
@@ -67,7 +67,7 @@ repos:
     hooks:
     -   id: pyroma
 -   repo: https://github.com/mgedmin/check-python-versions
-    rev: "0.24.0"
+    rev: "0.24.2"
     hooks:
     -   id: check-python-versions
         args: ['--only', 'setup.py,tox.ini']
