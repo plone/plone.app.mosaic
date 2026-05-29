@@ -28,7 +28,6 @@ from zope.component import queryUtility
 from zope.interface import implementer
 from zope.interface import implementer_only
 
-
 LAYOUT_VIEWS = {"layout_view", "@@layout_view"}
 
 LAYOUT_BEHAVIORS = {

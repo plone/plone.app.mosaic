@@ -24,7 +24,6 @@ import logging
 import os
 import re
 
-
 NSMAP = {"metal": "http://namespaces.zope.org/metal"}
 slotsXPath = etree.XPath("//*[@data-slots]")
 
