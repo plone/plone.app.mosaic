@@ -45,7 +45,6 @@ pygments_style = "sphinx"
 
 html_theme = "sphinx_book_theme"
 html_static_path = ["_static"]
-templates_path = ["_templates"]
 html_theme_options = {
     "repository_url": "https://github.com/plone/plone.app.mosaic",
     "use_repository_button": True,

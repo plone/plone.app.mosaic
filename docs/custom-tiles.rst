@@ -81,3 +81,21 @@ Tile Types
 *   **app**: A standard tile that renders its content dynamically.
 *   **field**: A tile that displays and allows editing a specific field of the content item.
 *   **text**: A simple rich text tile.
+
+Rich Text vs. HTML Tiles
+------------------------
+
+When designing layouts, it's important to understand where tile data is stored:
+
+1.  **Structure Tiles (Text, Table, etc.)**: These tiles store their content **within the layout HTML itself**. If you save a layout containing a Text tile and reuse it on another page, changing the text on one page will not be possible without changing the layout, or the text will be identical across all pages using that layout.
+2.  **HTML Tiles (plone.app.standardtiles.html)**: These tiles store their data **on the content object**. This allows you to have a predefined layout with editable rich text areas that are unique to each page.
+
+To enable the HTML tile in the "Insert" menu, you can use the following registry configuration:
+
+.. code-block:: xml
+
+  <records prefix="plone.app.mosaic.app_tiles.plone_app_standardtiles_html"
+           interface="plone.app.mosaic.interfaces.ITile">
+    <value key="category">structure</value>
+  </records>
+
