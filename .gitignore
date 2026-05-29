@@ -46,6 +46,7 @@ local.cfg
 /reports/
 /sources/
 /venv/
+/.mxdev_cache
 .installed.txt
 
 robot_*
