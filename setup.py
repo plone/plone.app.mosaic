@@ -77,10 +77,10 @@ setup(
             "robotsuite",
         ],
         "docs": [
-            "Sphinx<8.0",
+            "Sphinx",
             "sphinx-book-theme",
             "sphinx-copybutton",
-            "sphinxcontrib-robotframework",
+            "robotframework",
         ],
     },
     entry_points="""

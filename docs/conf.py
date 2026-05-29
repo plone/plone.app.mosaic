@@ -1,21 +1,10 @@
 import os
-import sphinx.directives
-import sphinx.directives.code
-sphinx.directives.CodeBlock = sphinx.directives.code.CodeBlock
 
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
 extensions = [
-    "sphinxcontrib_robotframework",
     "sphinx_copybutton",
 ]
-
-# Enable Robot Framework tests during Sphinx compilation.
-sphinxcontrib_robotframework_enabled = os.environ.get("ROBOT_ENABLED", "True") == "True"
-sphinxcontrib_robotframework_quiet = True
-
-# Configure Robot Frameowrk tests to use Chrome
-sphinxcontrib_robotframework_variables = {"BROWSER": "headlesschrome"}
 
 # The suffix of source filenames.
 source_suffix = ".rst"

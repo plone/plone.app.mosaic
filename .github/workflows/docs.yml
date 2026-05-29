@@ -26,7 +26,6 @@ jobs:
 
       - name: Build Documentation
         run: |
-          export ROBOT_ENABLED=False
           cd docs
           make html
 
