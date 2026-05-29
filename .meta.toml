@@ -22,7 +22,8 @@ zpretty_extra_lines = """
 """
 
 [tox]
-test_matrix = {"6.1" = ["*"], "6.0" = ["*"]}
+# for 3.x maintenance we have our own chromedriver setup for the selenium tests
+use_test_matrix = false
 
 [github]
 jobs = [
