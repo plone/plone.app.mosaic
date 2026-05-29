@@ -1,8 +1,6 @@
 .. _section_tiles:
 .. index:: Tiles
 
-..  include:: _robot.rst
-
 .. _mosaic_tiles:
 
 Mosaic Tiles
