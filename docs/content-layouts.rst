@@ -7,8 +7,6 @@ Content Layouts
 
 There is a Plone control panel to configure Mosaic called *Mosaic Layout Editor*.
 
-..  image:: _screenshots/overview-controlpanel_mosaic-layout-editor.png
-
 Just add **@@layouts-editor** to your sites URL.
 
 
@@ -35,8 +33,6 @@ b) Through-the-web
 ~~~~~~~~~~~~~~~~~~
 
 Go to the Mosaic settings in the sites control panel (see above) and choose the tab *Show/Hide Content Layouts*.
-
-.. figure:: _screenshots/layouts-editor_show-hide-content-layouts.png
 
 There you can toggle the visibility of your content layouts.
 
@@ -173,9 +169,6 @@ If you want to have tiles in your layout that editors cannot move around
 to other places in the current content layout through the Mosaic Editor,
 you can remove *movable* from the classes definition in the Content Layouts Editor.
 
-.. figure:: _screenshots/mosaic-layout-editor_remove-movable-class.png
-
-
 Example tile definition in layout
 
 
@@ -223,8 +216,6 @@ The default value for the amount of columns is set to 4. It can optionally
 configured to a different value using the attribute *data-max-columns* in the
 layout file. This attribute needs to be set on the *div* element that has the
 attribute *data-panel="content"*
-
-.. figure:: _screenshots/mosaic-layout-editor_configure-max-columns.png
 
 
 Adding editable HTML area (raw html tile) into content layout
