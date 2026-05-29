@@ -17,6 +17,9 @@
         "sass": "1.77.8",
         "sass-loader": "16.0.5"
     },
+    "resolutions": {
+        "jquery": "3.7.1"
+    },
     "scripts": {
         "build": "npm-run-all build:webpack build:css",
         "build:webpack": "NODE_ENV=production webpack --config webpack.config.js",
