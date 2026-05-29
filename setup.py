@@ -2,7 +2,6 @@ from pathlib import Path
 from setuptools import find_packages
 from setuptools import setup
 
-
 long_description = (
     f"{Path('README.rst').read_text()}\n" f"{Path('CHANGES.rst').read_text()}"
 )
@@ -24,11 +23,11 @@ setup(
         "Framework :: Plone :: Addon",
         "Framework :: Zope :: 5",
         "Programming Language :: Python",
-        "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",
         "Programming Language :: Python :: 3.12",
+        "Programming Language :: Python :: 3.13",
         "Operating System :: OS Independent",
         "License :: OSI Approved :: GNU General Public License v2 (GPLv2)",
     ],
@@ -41,7 +40,7 @@ setup(
     namespace_packages=["plone", "plone.app"],
     include_package_data=True,
     zip_safe=False,
-    python_requires=">=3.8",
+    python_requires=">=3.9,<3.14",
     install_requires=[
         "lxml",
         "plone.api",

@@ -30,7 +30,6 @@ from zope.traversing.namespace import SimpleHandler
 
 import logging
 
-
 logger = logging.getLogger("plone.app.mosaic")
 
 

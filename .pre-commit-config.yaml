@@ -1,5 +1,5 @@
 # Generated from:
-# https://github.com/plone/meta/tree/main/src/plone/meta/default
+# https://github.com/plone/meta/tree/2.x/src/plone/meta/default
 # See the inline comments on how to expand/tweak this configuration file
 ci:
     autofix_prs: false
@@ -7,20 +7,20 @@ ci:
 
 repos:
 -   repo: https://github.com/asottile/pyupgrade
-    rev: v3.20.0
+    rev: v3.21.2
     hooks:
     -   id: pyupgrade
-        args: [--py38-plus]
+        args: [--py39-plus]
 -   repo: https://github.com/pycqa/isort
-    rev: 6.1.0
+    rev: 9.0.0a3
     hooks:
     -   id: isort
 -   repo: https://github.com/psf/black-pre-commit-mirror
-    rev: 25.9.0
+    rev: 26.3.1
     hooks:
     -   id: black
 -   repo: https://github.com/collective/zpretty
-    rev: 3.1.1
+    rev: 4.0.0
     hooks:
     -   id: zpretty
         args: ["src/", ]
@@ -45,7 +45,7 @@ repos:
 #  """
 ##
 -   repo: https://github.com/codespell-project/codespell
-    rev: v2.4.1
+    rev: v2.4.2
     hooks:
     -   id: codespell
         additional_dependencies:
@@ -59,20 +59,20 @@ repos:
 #  """
 ##
 -   repo: https://github.com/mgedmin/check-manifest
-    rev: "0.50"
+    rev: "0.51"
     hooks:
     -   id: check-manifest
 -   repo: https://github.com/regebro/pyroma
-    rev: "5.0"
+    rev: "5.0.1"
     hooks:
     -   id: pyroma
 -   repo: https://github.com/mgedmin/check-python-versions
-    rev: "0.22.1"
+    rev: "0.24.2"
     hooks:
     -   id: check-python-versions
-        args: ['--only', 'setup.py,pyproject.toml']
+        args: ['--only', 'setup.py']
 -   repo: https://github.com/collective/i18ndude
-    rev: "6.2.1"
+    rev: "6.3.0"
     hooks:
     -   id: i18ndude
 

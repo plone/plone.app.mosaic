@@ -10,7 +10,6 @@ from zope.interface import alsoProvides
 from zope.interface import implementer
 from zope.schema.interfaces import IVocabularyFactory
 
-
 EXAMPLE_SITE_LAYOUT = b"""\
 [sitelayout]
 title = Plone layout (Custom)

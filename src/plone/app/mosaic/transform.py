@@ -15,7 +15,6 @@ from zope.viewlet.interfaces import IViewletManager
 import logging
 import re
 
-
 logger = logging.getLogger(__name__)
 
 LAYOUT_NAME = re.compile(r"[a-zA-Z_\-]+/[a-zA-Z_\-]+")

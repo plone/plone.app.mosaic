@@ -1,7 +1,9 @@
 -c constraints.txt
 -e .[test,docs] --pre
 
-# WSGI: A system for configuration of WSGI web components in declarative .ini format.
-Paste
-pdbpp
-
+# see https://dist.plone.org/release/6.1-dev/requirements.txt
+packaging==26.0
+pip==26.0.1
+setuptools==81.0.0
+wheel==0.46.3
+zc.buildout==4.2.0
