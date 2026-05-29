@@ -1,18 +1,18 @@
 import os
-import sphinx_rtd_theme
 
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
 extensions = [
     "sphinxcontrib_robotframework",
+    "sphinx_copybutton",
 ]
 
 # Enable Robot Framework tests during Sphinx compilation.
-sphinxcontrib_robotframework_enabled = True
+sphinxcontrib_robotframework_enabled = os.environ.get("ROBOT_ENABLED", "True") == "True"
 sphinxcontrib_robotframework_quiet = True
 
 # Configure Robot Frameowrk tests to use Chrome
-sphinxcontrib_robotframework_variables = {"BROWSER": "chrome"}
+sphinxcontrib_robotframework_variables = {"BROWSER": "headlesschrome"}
 
 # The suffix of source filenames.
 source_suffix = ".rst"
@@ -51,10 +51,16 @@ pygments_style = "sphinx"
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 
-html_theme = "sphinx_rtd_theme"
-html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
+html_theme = "sphinx_book_theme"
 html_static_path = ["_static"]
 templates_path = ["_templates"]
+html_theme_options = {
+    "repository_url": "https://github.com/plone/plone.app.mosaic",
+    "use_repository_button": True,
+    "use_issues_button": True,
+    "use_edit_page_button": True,
+    "path_to_docs": "docs",
+}
 
 # -- Options for LaTeX output -------------------------------------------------
 
