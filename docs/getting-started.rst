@@ -15,36 +15,6 @@ the projects status and how the development process of the product works.
 
 .. _README.rst: https://github.com/plone/plone.app.mosaic/blob/master/README.rst
 
-
-.. index:: Installation
-
-Installation and activation
----------------------------
-
-**Plone Mosaic** is installed like any other Plone add-on with buildout.
-It has several dependencies that need to be installed in specific versions.
-Please check `installation notes`_.
-
-.. _installation notes: https://github.com/plone/plone.app.mosaic/blob/master/README.rst#installation
-
-.. note::
-          Check :ref:`enable_site_layouts` if you want to use Mosaic Site Layouts
-          on top of Content Layouts.
-
-
-After the installation it needs to be activated in the Add-on control panel.
-
-Even with **Plone Mosaic** installed and activated the Plone site should look and behave normal.
-But now it is possible to add tiles to each page and get them rendered through the Plone Mosaic composition chain.
-
-.. note::
-
-  If something breaks just by installing **Plone Mosaic**,
-  it's probably a bug and it should be reported_ as such.
-
-.. _reported: https://github.com/plone/plone.app.mosaic/issues
-
-
 Mosaic Layout
 -------------
 
@@ -53,57 +23,71 @@ It needs to be enabled in the display menu of a content item.
 To follow along create a document and after saving it,
 set the **Display** option to **Mosaic layout**.
 
+.. figure:: _static/images/p6-mosaic-display-menu.png
+   :alt: The display menu in Plone 6 showing the Mosaic layout option.
+
+   Selecting "Mosaic layout" from the Display menu.
+
 How the current content looks after the first time the **Mosaic layout** is enabled
 depends on the configured defaults for its portal type.
 Still,
 at least the title and the description should always be displayed.
 
-
 Mosaic editor
 -------------
 
 When the **Mosaic layout** has been enabled,
-the **Mosaic editor** is opened by clicking the **Edit** tab.
+the **Mosaic editor** is opened by clicking the **Edit** tab in the Plone toolbar.
+
+.. figure:: _static/images/p6-mosaic-edit-tab.png
+   :alt: The Plone toolbar highlighting the Edit tab.
+
+   Clicking the Edit tab to open the Mosaic editor.
 
 When the editor is opened for the first time,
 it asks to the select the initial layout for the content.
 
+.. figure:: _static/images/p6-mosaic-layout-selector.png
+   :alt: The layout selector modal in the Mosaic editor.
+
+   Selecting an initial layout for the content.
+
 The selected layout can then be used as it is,
 or it can be customized by adding, removing and formatting tiles.
-How to achieve this will be described later on.
 
-Let's select the basic layout.
-
-Now the toolbar of the **Mosaic Editor** will appear on top.
-The buttons *Save* and *Cancel* belong to the current *Edit* action of the content.
-With them you can either save or discard the changes that were made to the current content element.
+Now the toolbar of the **Mosaic Editor** will appear on top of the content area.
+The buttons **Save** and **Cancel** belong to the current *Edit* action of the content.
+With them you can either save or discard the changes that were made to the current page.
 
 The button **Properties** opens a form where you can edit several properties of the content element,
-like the publishing date or the short name.
+like the publishing date or the short name, without leaving the editor.
 
+The dropdown **Layout** has the two options **Change** and **Customize**.
+**Change** opens the form where you can choose another layout from all available predefined layouts.
 
-The dropdown *Layout* has the two options *Change* and *Customize*.
-*Change* opens the form where you can choose another layout from all available layouts.
+With the option **Customize** you enable the current layout for customization,
+i.e. two new dropdowns **Insert** and **Format** appear and allow to add new tiles and format existing ones.
 
-With the option *Customize* you enable the current layout for customization,
-i.e. two new dropdowns *Insert* and *Format* appear and allow to add new tiles and format existing ones.
+.. figure:: _static/images/p6-mosaic-toolbar-customizing.png
+   :alt: The Mosaic toolbar with Insert and Format menus visible.
 
-To add a new tile in the **Mosaic editor**, select the "Text" tile from the *Insert* menu.
-An overview about all available standard tiles refer to the :ref:`mosaic_tiles` part of this documentation,
-and drag the appearing tile into the desired position.
+   The Mosaic toolbar after clicking "Customize".
 
-Finally, a mouse click drops the tile into selected position and the page can be saved.
+To add a new tile in the **Mosaic editor**, select a tile from the **Insert** menu.
+Tiles are grouped into categories like **Structure**, **Media**, **Fields**, etc.
+
+.. figure:: _static/images/p6-mosaic-insert-menu.png
+   :alt: The Insert menu showing various tile categories.
+
+   The Insert menu with available tiles.
+
+When you select a tile, it will appear as a draggable element. Drag it into the desired position in the content area.
+As you move the tile, potential drop zones will be highlighted.
+
+Finally, a mouse click drops the tile into the selected position and the page can be saved using the **Save** button in the Mosaic toolbar.
 
 That's how we can build custom content layouts using Plone Mosaic.
 
-Note that this custom layout is saved for the current content element.
-The *Layout* dropdown now has the button *Save* instead of *Customize*.
-With this you could save the layout for the whole site and make it available for other content elements.
-You can find more information about this in the sectionXXX.
-
-**ToDo Screenshot with Layout dropdown showing Change/Save focus on Save**
-
-The button *Change* will open up the *Select Layout* form again and all the
-customizations you made on the page will be discarded.
-
-**ToDo Screenshot discard current custom layout on form**
+Note that this custom layout is saved for the current content item.
+The **Layout** dropdown now has the button **Save** instead of **Customize**.
+With this you could save the layout globally and make it available for other content elements of the same type.

@@ -1,18 +1,52 @@
 .. _section_custom_grid:
-.. index:: Custom Grid
 
 Using a Custom Grid
 ===================
 
-Mosaic uses specific classnames which define the basic structure using rows and columns.
-The default grid system is based on Bootstrap, the default grid system from Plone 5.
+Mosaic uses specific class names to define the layout structure using rows and columns.
+In Plone 6, the default grid system is based on **Bootstrap 5**.
 
-Integration of styles on to those classes is done by mixins in less, as you can see defined in mosaic.grid.less.
-Mixins that we use are the ones that come from mixin.grid.plone.less within the Barceloneta theme.
+Standard Grid Structure
+-----------------------
 
-Mosaic for now only supports full, half, thirds and quarters for the definition, that you find in mixin.grid.plone.less.
-If you want to use your own grid system, just override the mixin classes with mixins of your choice.
+Mosaic generates rows and columns that typically look like this in the HTML:
 
-Pro Tip
--------
-You probably won't want responsive styles for your edit view, because then you don't see to which position you're moving your tiles otherwise when editing on a smaller device.
+.. code-block:: html
+
+   <div class="row">
+     <div class="col-md-6 mosaic-column">
+       <!-- tiles -->
+     </div>
+     <div class="col-md-6 mosaic-column">
+       <!-- tiles -->
+     </div>
+   </div>
+
+Customizing via SCSS
+--------------------
+
+In Plone 6, you should customize the grid styles using **SCSS**.
+The layout engine relies on classes like ``mosaic-grid-row`` and ``mosaic-column``.
+
+If you want to use a different grid system (like CSS Grid or a different framework), you will need to:
+
+1.  Override the default Mosaic CSS/SCSS.
+2.  Ensure your theme provides the necessary styling for the column classes Mosaic generates.
+
+Supported Column Spans
+----------------------
+
+By default, Mosaic supports:
+
+*   Full width (100%)
+*   Halves (50%)
+*   Thirds (33.3%)
+*   Quarters (25%)
+
+These are mapped to the appropriate Bootstrap ``col-md-*`` classes.
+
+Responsive Considerations
+-------------------------
+
+.. tip::
+   While your theme should be responsive, you might want to maintain a fixed-width grid in the **Mosaic Editor** itself. This ensures that the drop zones and tile positions remain predictable for the editor while they are composing the page.
