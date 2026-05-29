@@ -8,6 +8,15 @@ Changelog
 
 .. towncrier release notes start
 
+3.3.3 (2026-05-29)
+------------------
+
+Internal:
+
+
+- Dependency maintenance.  @petschki
+
+
 3.3.2 (2025-10-08)
 ------------------
 

@@ -10,7 +10,7 @@ long_description = (
 setup(
     # metadata in setup.cfg
     name="plone.app.mosaic",
-    version="3.3.3.dev0",
+    version="3.3.3",
     description="Plone Mosaic Site Builder and Site Layout",
     long_description=long_description,
     long_description_content_type="text/x-rst",
