@@ -46,8 +46,7 @@ jobs:
 
       - name: Save Robotframework Log
         uses: actions/upload-artifact@v4
-        # safe artifacts only once
-        # if: matrix.python == '3.12'
+        if: always()
         with:
           name: robottest-logfiles
           path: |
