@@ -28,7 +28,6 @@ use_test_matrix = false
 [github]
 jobs = [
    "qa",
-   "coverage",
    "release_ready",
    "circular",
 ]
