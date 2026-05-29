@@ -77,7 +77,7 @@ setup(
             "robotsuite",
         ],
         "docs": [
-            "Sphinx",
+            "Sphinx<8.0",
             "sphinx-book-theme",
             "sphinx-copybutton",
             "sphinxcontrib-robotframework",
