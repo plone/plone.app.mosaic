@@ -17,7 +17,7 @@ Step 1: Enable Mosaic Layout
 2.  Save the document.
 3.  In the toolbar, click on the **Display** menu and select **Mosaic layout**.
 
-.. figure:: ../_static/images/p6-mosaic-display-menu.png
+.. figure:: ../_static/generated-screenshots/p6-mosaic-display-menu.png
    :alt: The display menu in Plone 6 showing the Mosaic layout option.
 
    Selecting "Mosaic layout" from the Display menu.
@@ -29,14 +29,14 @@ Step 2: Open the Mosaic Editor
 
 1.  Click the **Edit** tab in the Plone toolbar.
 
-.. figure:: ../_static/images/p6-mosaic-edit-tab.png
+.. figure:: ../_static/generated-screenshots/p6-mosaic-edit-tab.png
    :alt: The Plone toolbar highlighting the Edit tab.
 
    Opening the Mosaic editor.
 
 2.  If this is the first time you've edited this page, you will be prompted to select an initial layout. Select the **Basic** layout.
 
-.. figure:: ../_static/images/p6-mosaic-layout-selector.png
+.. figure:: ../_static/generated-screenshots/p6-mosaic-layout-selector.png
    :alt: The layout selector modal.
 
    Selecting an initial layout.
@@ -48,14 +48,14 @@ The Mosaic toolbar appears at the top of the content area.
 
 1.  Click the **Layout** menu and select **Customize**. This enables the "Insert" and "Format" menus.
 
-.. figure:: ../_static/images/p6-mosaic-toolbar-customizing.png
+.. figure:: ../_static/generated-screenshots/p6-mosaic-toolbar-customizing.png
    :alt: The Mosaic toolbar in customization mode.
 
    The toolbar after clicking "Customize".
 
 2.  Click the **Insert** menu. You will see categories of tiles like **Structure**, **Media**, and **Fields**.
 
-.. figure:: ../_static/images/p6-mosaic-insert-menu.png
+.. figure:: ../_static/generated-screenshots/p6-mosaic-insert-menu.png
    :alt: The Insert menu.
 
    Available tiles in the Insert menu.

@@ -13,7 +13,7 @@ Mosaic provides a dedicated interface for managing layouts globally.
 1.  Navigate to ``@@layouts-editor`` in your Plone site (e.g., ``http://localhost:8080/Plone/@@layouts-editor``).
 2.  Use the interface to edit HTML, manifest settings, or toggle visibility of existing layouts.
 
-.. figure:: ../_static/images/p6-mosaic-layout-editor.png
+.. figure:: ../_static/generated-screenshots/p6-mosaic-layout-editor.png
    :alt: The Mosaic Layout Editor.
 
    The Layout Editor interface.

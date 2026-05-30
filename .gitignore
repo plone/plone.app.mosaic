@@ -16,6 +16,7 @@ build/
 coverage.xml
 dist/
 docs/_build
+docs/_static/generated-screenshots
 __pycache__/
 .tox
 .vscode/

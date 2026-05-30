@@ -9,6 +9,7 @@ Test Teardown  Plone test teardown
 *** Test Cases ***
 
 Show page site layout option
+    [Tags]  robot:docs
     Given a logged-in site administrator
       and an example document
 
@@ -19,7 +20,15 @@ Show page site layout option
 
     Wait For Elements State  id=formfield-form-widgets-ILayoutAware-pageSiteLayout  attached
 
-    Take Screenshot  filename=mosaic-layout-page-site-layout.png
+    Take Screenshot  filename=p6-mosaic-site-layout-selector.png
+
+
+Show layouts editor
+    [Tags]  robot:docs
+    Given a logged-in manager
+    Go to  ${PLONE_URL}/@@layouts-editor
+    Wait For Elements State  css=.mosaic-layouts-editor  visible
+    Take Screenshot  filename=p6-mosaic-layout-editor.png
 
 
 *** Keywords ***

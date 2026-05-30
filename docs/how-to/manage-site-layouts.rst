@@ -15,7 +15,7 @@ Changing the Current Site Layout
 
 For content types that are "Layout Aware", you can change the site layout through the **Layout** tab or menu.
 
-.. figure:: ../_static/images/p6-mosaic-site-layout-selector.png
+.. figure:: ../_static/generated-screenshots/p6-mosaic-site-layout-selector.png
    :alt: The site layout selection interface.
 
    Selecting a site layout for a specific content item or section.

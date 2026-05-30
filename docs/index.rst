@@ -41,20 +41,18 @@ The Mosaic editor lets you insert blocks (a.k.a. tiles) into the content of the 
    explanation/data-storage
 
 
-Screenshots Needed
-==================
+Automated Screenshots
+=====================
 
-The documentation contains placeholders for screenshots that need to be captured from a live Plone 6.2+ site to match the modern UI. 
+The documentation uses screenshots that are automatically generated during the acceptance test execution. 
 
-Please place the following images in ``docs/_static/images/``:
+To regenerate the screenshots locally, you can run:
 
-* ``p6-mosaic-display-menu.png``: The Plone "Display" menu with "Mosaic layout" highlighted.
-* ``p6-mosaic-edit-tab.png``: The Plone toolbar showing the "Edit" tab.
-* ``p6-mosaic-layout-selector.png``: The Mosaic layout selection modal that appears on first edit.
-* ``p6-mosaic-toolbar-customizing.png``: The Mosaic toolbar after clicking "Customize", showing "Insert" and "Format" menus.
-* ``p6-mosaic-insert-menu.png``: The "Insert" menu opened, showing available tile categories.
-* ``p6-mosaic-layout-editor.png``: The ``@@layouts-editor`` control panel.
-* ``p6-mosaic-site-layout-selector.png``: The site layout selection interface (from the Layout tab/menu).
+.. code-block:: bash
+
+   tox -e docs-screenshots
+
+This will run the subset of Robot Framework tests tagged with ``robot:docs`` and place the resulting images in ``docs/_static/generated-screenshots/``.
 
 
 Terminology changes in Plone Mosaic
