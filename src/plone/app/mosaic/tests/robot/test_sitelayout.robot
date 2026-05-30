@@ -27,7 +27,7 @@ Show layouts editor
     [Tags]  robot:docs
     Given a logged-in manager
     Go to  ${PLONE_URL}/@@layouts-editor
-    Wait For Elements State  css=.mosaic-layouts-editor  visible
+    Wait For Elements State  css=#mosaic-show-hide-layouts  visible
     Take Screenshot  filename=p6-mosaic-layout-editor.png
 
 
