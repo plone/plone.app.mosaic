@@ -18,7 +18,9 @@ def test_suite():
     ]
     robot_options = os.environ.get("ROBOT_OPTIONS", "").split()
     for robot_test in robot_tests:
-        robottestsuite = robotsuite.RobotTestSuite(robot_test, robot_options=robot_options)
+        robottestsuite = robotsuite.RobotTestSuite(
+            robot_test, robot_options=robot_options
+        )
         robottestsuite.level = ROBOT_TEST_LEVEL
         suite.addTests(
             [
