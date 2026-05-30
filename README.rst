@@ -164,3 +164,25 @@ This command will:
 
 These screenshots are ignored by git and are automatically generated and published by the GitHub Actions documentation workflow.
 
+Troubleshooting Screenshots
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+If ``tox -e docs-screenshots`` fails locally, check the following:
+
+1. **System Dependencies**: Playwright requires several system libraries (like ``libgtk-4``, ``libvpx``, etc.). On Linux, you can install them by running:
+
+   .. code-block:: bash
+
+      npx playwright install-deps
+
+2. **Node.js**: Ensure you have a recent version of Node.js installed (v22+ is recommended).
+
+3. **Stale Locks**: If you get an error about "stale locks" or "unable to update lock", try removing the ``.tox`` directory and starting fresh:
+
+   .. code-block:: bash
+
+      rm -rf .tox
+      tox -e docs-screenshots
+
+4. **UI Changes**: If tests fail with timeouts, it might be due to UI changes in Plone Core. You may need to update the selectors in ``src/plone/app/mosaic/tests/robot/``.
+

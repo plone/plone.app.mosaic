@@ -16,7 +16,14 @@ def test_suite():
         for doc in os.listdir(robot_dir)
         if doc.endswith(".robot") and doc.startswith("test_")
     ]
-    robot_options = os.environ.get("ROBOT_OPTIONS", "").split()
+    robot_options = {}
+    raw_options = os.environ.get("ROBOT_OPTIONS", "").split()
+    for i in range(len(raw_options)):
+        if raw_options[i] == "--include" and i + 1 < len(raw_options):
+            robot_options["include"] = [raw_options[i + 1]]
+        elif raw_options[i] == "--outputdir" and i + 1 < len(raw_options):
+            robot_options["outputdir"] = raw_options[i + 1]
+
     for robot_test in robot_tests:
         robottestsuite = robotsuite.RobotTestSuite(
             robot_test, robot_options=robot_options
