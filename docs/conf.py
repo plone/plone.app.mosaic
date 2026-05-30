@@ -29,7 +29,7 @@ copyright = os.environ.get("SPHINX_COPYRIGHT", "Plone Foundation")
 # The short X.Y version.
 version = "1.0"
 # The full version, including alpha/beta/rc tags.
-release = "1.0.0"
+release = "4.0.0"
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
