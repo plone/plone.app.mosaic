@@ -8,7 +8,7 @@ This tutorial will guide you through the first steps of using **Plone Mosaic** t
 Prerequisites
 -------------
 
-Before starting, ensure that **Mosaic** is installed and activated in your Plone site. See the :ref:`how_to_install` guide for details.
+Before starting, ensure that **Mosaic** is installed and activated in your Plone site. See the :ref:`installation` guide for details.
 
 Step 1: Enable Mosaic Layout
 ----------------------------

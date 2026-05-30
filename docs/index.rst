@@ -10,26 +10,35 @@ The Mosaic editor lets you insert blocks (a.k.a. tiles) into the content of the 
 
 .. toctree::
    :maxdepth: 2
-   :caption: User Guide
+   :caption: Tutorials
 
-   installation
-   getting-started
-   tiles
-   content-layouts
+   tutorials/getting-started
 
 .. toctree::
    :maxdepth: 2
-   :caption: Advanced Configuration
+   :caption: How-to Guides
 
-   site-layouts
-   custom-grid
-   registry-reference
+   how-to/install
+   how-to/manage-content-layouts
+   how-to/save-custom-layout
+   how-to/manage-site-layouts
+   how-to/create-custom-tile
+   how-to/use-custom-grid
 
 .. toctree::
    :maxdepth: 2
-   :caption: Developer Guide
+   :caption: Reference
 
-   custom-tiles
+   reference/tiles
+   reference/layouts
+   reference/registry
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Explanation
+
+   explanation/architecture
+   explanation/data-storage
 
 
 Screenshots Needed
@@ -50,7 +59,6 @@ Please place the following images in ``docs/_static/images/``:
 
 Terminology changes in Plone Mosaic
 ===================================
-
 
 **Plone Mosaic** changes how Plone page composition works, and the new way comes with some new terms:
 
