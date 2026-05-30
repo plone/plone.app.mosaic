@@ -125,3 +125,42 @@ An example ``buildout.cfg`` for Plone ``6.x`` could look like this::
 
     ...
 
+
+Documentation
+-------------
+
+The documentation for **Plone Mosaic** is located in the ``docs/`` folder and is built using Sphinx.
+It is organized according to the Diátaxis framework.
+
+To build the documentation locally, you can use ``tox``:
+
+.. code-block:: bash
+
+   tox -e docs
+
+The built documentation will be available in ``docs/_build/html/index.html``.
+
+
+Maintainers
+-----------
+
+Automated Screenshots
+~~~~~~~~~~~~~~~~~~~~~
+
+The documentation includes screenshots that are automatically generated using Robot Framework and Playwright.
+Specific tests are tagged with ``robot:docs``.
+
+To regenerate the screenshots locally, run:
+
+.. code-block:: bash
+
+   tox -e docs-screenshots
+
+This command will:
+1. Initialize the Playwright browsers.
+2. Start a Plone environment.
+3. Run the documentation-specific tests.
+4. Save the new screenshots to ``docs/_static/generated-screenshots/``.
+
+These screenshots are ignored by git and are automatically generated and published by the GitHub Actions documentation workflow.
+
