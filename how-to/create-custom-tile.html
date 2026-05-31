@@ -1,0 +1,625 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content="How to create custom tiles to extend Plone Mosaic functionality." name="description" />
+<meta content="How to create custom tiles to extend Plone Mosaic functionality." property="og:description" />
+<meta content="Creating custom tiles" property="og:title" />
+<meta content="Plone, Mosaic, Tiles, Custom, Development" name="keywords" />
+
+    <title>Creating custom tiles &#8212; Plone Mosaic 4.0.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5349f25f" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/plone-sphinx-theme.css?v=88f4e24d" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=a1c85040"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/plone-sphinx-theme.js?v=ce3a8c55"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'how-to/create-custom-tile';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Creating custom tile and row formats" href="create-custom-format.html" />
+    <link rel="prev" title="Site layout management" href="manage-site-layouts.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Plone Mosaic</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/getting-started.html">Getting started with Mosaic</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">How-to guides</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="manage-content-layouts.html">How to manage content layouts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="save-custom-layout.html">How to save a custom layout</a></li>
+<li class="toctree-l1"><a class="reference internal" href="manage-site-layouts.html">Site layout management</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Creating custom tiles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="create-custom-format.html">Creating custom tile and row formats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="use-custom-grid.html">Using a custom grid</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../reference/tiles.html">Mosaic tiles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/layouts.html">Layout configuration reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/registry.html">Registry reference</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Explanation</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../explanation/architecture.html">Mosaic architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../explanation/data-storage.html">Understanding tile data storage</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/plone/plone.app.mosaic" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/plone/plone.app.mosaic/edit/main/docs/how-to/create-custom-tile.md" target="_blank"
+   class="btn btn-sm btn-source-edit-button dropdown-item"
+   title="Suggest edit"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="btn__text-container">Suggest edit</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/plone/plone.app.mosaic/issues/new?title=Issue%20on%20page%20%2Fhow-to/create-custom-tile.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/how-to/create-custom-tile.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Creating custom tiles</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#python-based-tiles">Python-based tiles</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-the-tile-class">1. Create the tile class</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#register-the-tile-in-zcml">2. Register the tile in ZCML</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#register-in-the-mosaic-registry">3. Register in the Mosaic Registry</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#html-based-tiles-ttw">HTML-based tiles (TTW)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-the-html-file">1. Add the HTML file</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#register-in-the-registry">2. Register in the registry</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tile-types">Tile types</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rich-text-vs-html-tiles">Rich text vs. HTML tiles</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="creating-custom-tiles">
+<span id="id1"></span><h1>Creating custom tiles<a class="headerlink" href="#creating-custom-tiles" title="Link to this heading">#</a></h1>
+<p>Adding custom tiles is the primary way to extend Plone Mosaic’s functionality.
+There are two main ways to create tiles: Python-based tiles and HTML-based tiles.</p>
+<section id="python-based-tiles">
+<h2>Python-based tiles<a class="headerlink" href="#python-based-tiles" title="Link to this heading">#</a></h2>
+<p>Python tiles allow for complex logic, dynamic data fetching, and custom forms.</p>
+<section id="create-the-tile-class">
+<h3>1. Create the tile class<a class="headerlink" href="#create-the-tile-class" title="Link to this heading">#</a></h3>
+<p>Define your tile by inheriting from <code class="docutils literal notranslate"><span class="pre">plone.tiles.Tile</span></code>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">plone.tiles</span><span class="w"> </span><span class="kn">import</span> <span class="n">Tile</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">MyCustomTile</span><span class="p">(</span><span class="n">Tile</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;Hello from my custom tile!&quot;</span><span class="p">}</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="register-the-tile-in-zcml">
+<h3>2. Register the tile in ZCML<a class="headerlink" href="#register-the-tile-in-zcml" title="Link to this heading">#</a></h3>
+<p>Register the tile in your package’s <code class="docutils literal notranslate"><span class="pre">configure.zcml</span></code>.</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;plone:tile</span>
+<span class="w">    </span><span class="na">name=</span><span class="s">&quot;my.package.customtile&quot;</span>
+<span class="w">    </span><span class="na">title=</span><span class="s">&quot;My Custom Tile&quot;</span>
+<span class="w">    </span><span class="na">description=</span><span class="s">&quot;A tile with custom logic&quot;</span>
+<span class="w">    </span><span class="na">add_permission=</span><span class="s">&quot;cmf.ModifyPortalContent&quot;</span>
+<span class="w">    </span><span class="na">class=</span><span class="s">&quot;.tiles.MyCustomTile&quot;</span>
+<span class="w">    </span><span class="na">template=</span><span class="s">&quot;templates/my_custom_tile.pt&quot;</span>
+<span class="w">    </span><span class="na">for=</span><span class="s">&quot;*&quot;</span>
+<span class="w">    </span><span class="na">permission=</span><span class="s">&quot;zope2.View&quot;</span>
+<span class="w">    </span><span class="nt">/&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="register-in-the-mosaic-registry">
+<h3>3. Register in the Mosaic Registry<a class="headerlink" href="#register-in-the-mosaic-registry" title="Link to this heading">#</a></h3>
+<p>To make the tile appear in the Mosaic <span class="menuselection">Insert</span> menu, you must register it in the Plone registry.
+This is usually done via <code class="docutils literal notranslate"><span class="pre">registry/tiles.xml</span></code> in your GenericSetup profile.</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;records</span><span class="w"> </span><span class="na">prefix=</span><span class="s">&quot;plone.app.mosaic.app_tiles.my_package_customtile&quot;</span>
+<span class="w">         </span><span class="na">interface=</span><span class="s">&quot;plone.app.mosaic.interfaces.ITile&quot;</span><span class="nt">&gt;</span>
+<span class="w">  </span><span class="nt">&lt;value</span><span class="w"> </span><span class="na">key=</span><span class="s">&quot;name&quot;</span><span class="nt">&gt;</span>my.package.customtile<span class="nt">&lt;/value&gt;</span>
+<span class="w">  </span><span class="nt">&lt;value</span><span class="w"> </span><span class="na">key=</span><span class="s">&quot;label&quot;</span><span class="nt">&gt;</span>My<span class="w"> </span>Custom<span class="w"> </span>Tile<span class="nt">&lt;/value&gt;</span>
+<span class="w">  </span><span class="nt">&lt;value</span><span class="w"> </span><span class="na">key=</span><span class="s">&quot;category&quot;</span><span class="nt">&gt;</span>applications<span class="nt">&lt;/value&gt;</span>
+<span class="w">  </span><span class="nt">&lt;value</span><span class="w"> </span><span class="na">key=</span><span class="s">&quot;tile_type&quot;</span><span class="nt">&gt;</span>app<span class="nt">&lt;/value&gt;</span>
+<span class="w">  </span><span class="nt">&lt;value</span><span class="w"> </span><span class="na">key=</span><span class="s">&quot;read_only&quot;</span><span class="nt">&gt;</span>false<span class="nt">&lt;/value&gt;</span>
+<span class="w">  </span><span class="nt">&lt;value</span><span class="w"> </span><span class="na">key=</span><span class="s">&quot;settings&quot;</span><span class="nt">&gt;</span>true<span class="nt">&lt;/value&gt;</span>
+<span class="w">  </span><span class="nt">&lt;value</span><span class="w"> </span><span class="na">key=</span><span class="s">&quot;weight&quot;</span><span class="nt">&gt;</span>100<span class="nt">&lt;/value&gt;</span>
+<span class="nt">&lt;/records&gt;</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="html-based-tiles-ttw">
+<h2>HTML-based tiles (TTW)<a class="headerlink" href="#html-based-tiles-ttw" title="Link to this heading">#</a></h2>
+<p>Simple tiles that only contain static HTML or basic template logic can be added through the web or as resources.</p>
+<section id="add-the-html-file">
+<h3>1. Add the HTML file<a class="headerlink" href="#add-the-html-file" title="Link to this heading">#</a></h3>
+<p>Place an HTML file in your package’s resource directory (e.g., <code class="docutils literal notranslate"><span class="pre">resources/tiles/simple.html</span></code>).</p>
+</section>
+<section id="register-in-the-registry">
+<h3>2. Register in the registry<a class="headerlink" href="#register-in-the-registry" title="Link to this heading">#</a></h3>
+<p>Register it as a <code class="docutils literal notranslate"><span class="pre">textapp</span></code> or <code class="docutils literal notranslate"><span class="pre">app</span></code> tile in the registry, pointing the name to the resource path.</p>
+</section>
+</section>
+<section id="tile-types">
+<h2>Tile types<a class="headerlink" href="#tile-types" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>app</strong>: A standard tile that renders its content dynamically.</p></li>
+<li><p><strong>field</strong>: A tile that displays and allows editing a specific field of the content item.</p></li>
+<li><p><strong>text</strong>: A simple rich text tile.</p></li>
+</ul>
+</section>
+<section id="rich-text-vs-html-tiles">
+<h2>Rich text vs. HTML tiles<a class="headerlink" href="#rich-text-vs-html-tiles" title="Link to this heading">#</a></h2>
+<p>When designing layouts, it’s important to understand where tile data is stored:</p>
+<ol class="arabic simple">
+<li><p><strong>Structure tiles (Text, Table, etc.)</strong>: These tiles store their content <strong>within the layout HTML itself</strong>.
+If you save a layout containing a Text tile and reuse it on another page, changing the text on one page will not be possible without changing the layout, or the text will be identical across all pages using that layout.</p></li>
+<li><p><strong>HTML tiles (plone.app.standardtiles.html)</strong>: These tiles store their data <strong>on the content object</strong>.
+This allows you to have a predefined layout with editable rich text areas that are unique to each page.</p></li>
+</ol>
+<p>To enable the HTML tile in the <span class="menuselection">Insert</span> menu, you can use the following registry configuration:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;records</span><span class="w"> </span><span class="na">prefix=</span><span class="s">&quot;plone.app.mosaic.app_tiles.plone_app_standardtiles_html&quot;</span>
+<span class="w">         </span><span class="na">interface=</span><span class="s">&quot;plone.app.mosaic.interfaces.ITile&quot;</span><span class="nt">&gt;</span>
+<span class="w">  </span><span class="nt">&lt;value</span><span class="w"> </span><span class="na">key=</span><span class="s">&quot;category&quot;</span><span class="nt">&gt;</span>structure<span class="nt">&lt;/value&gt;</span>
+<span class="nt">&lt;/records&gt;</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="manage-site-layouts.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Site layout management</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="create-custom-format.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Creating custom tile and row formats</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#python-based-tiles">Python-based tiles</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-the-tile-class">1. Create the tile class</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#register-the-tile-in-zcml">2. Register the tile in ZCML</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#register-in-the-mosaic-registry">3. Register in the Mosaic Registry</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#html-based-tiles-ttw">HTML-based tiles (TTW)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-the-html-file">1. Add the HTML file</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#register-in-the-registry">2. Register in the registry</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tile-types">Tile types</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rich-text-vs-html-tiles">Rich text vs. HTML tiles</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Author name not set
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright Plone Foundation.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
