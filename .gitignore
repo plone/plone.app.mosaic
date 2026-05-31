@@ -16,7 +16,6 @@ build/
 coverage.xml
 dist/
 docs/_build
-docs/_static/generated-screenshots
 __pycache__/
 .tox
 .vscode/
@@ -48,6 +47,8 @@ local.cfg
 /sources/
 /venv/
 .installed.txt
+
+docs/_static/generated-screenshots
 
 /robot_*
 /test_*
