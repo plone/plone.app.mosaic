@@ -78,8 +78,10 @@ setup(
         ],
         "docs": [
             "Sphinx",
-            "sphinx-book-theme",
+            "myst-parser",
+            "plone-sphinx-theme",
             "sphinx-copybutton",
+            "sphinx-design",
             "robotframework",
         ],
     },
