@@ -62,6 +62,7 @@ how-to/manage-content-layouts
 how-to/save-custom-layout
 how-to/manage-site-layouts
 how-to/create-custom-tile
+how-to/create-custom-format
 how-to/use-custom-grid
 ```
 
