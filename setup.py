@@ -76,7 +76,14 @@ setup(
             "plone.browserlayer",
             "robotsuite",
         ],
-        "docs": [],
+        "docs": [
+            "Sphinx",
+            "myst-parser",
+            "plone-sphinx-theme",
+            "sphinx-copybutton",
+            "sphinx-design",
+            "robotframework",
+        ],
     },
     entry_points="""
     # -*- Entry points: -*-

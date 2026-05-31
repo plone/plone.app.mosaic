@@ -9,16 +9,18 @@ Test Teardown  Plone test teardown
 *** Test Cases ***
 
 Show how Mosaic editor is opened
+    [Tags]  robot:docs
     Go to  ${PLONE_URL}/example-document
     Wait For Elements State  id=contentview-edit  visible
     Highlight  id=contentview-edit
-    Take Screenshot  filename=mosaic-editor-open.png
+    Take Screenshot  filename=p6-mosaic-edit-tab.png
 
 
 Show the Mosaic editing capabilities
+    [Tags]  robot:docs
     Go to  ${PLONE_URL}/example-document/edit
     Wait For Elements State  css=.mosaic-select-layout  visible
-    Take Screenshot  filename=mosaic-editor-layout-selector.png
+    Take Screenshot  filename=p6-mosaic-layout-selector.png
 
     # Show how to select the initial layout
     Wait For Elements State  css=[data-value='default/basic.html']  visible
@@ -46,7 +48,7 @@ Show the Mosaic editing capabilities
     Wait For Elements State  css=.mosaic-toolbar-secondary-functions  hidden
 
     Highlight  css=.mosaic-toolbar-primary-functions .mosaic-button-customizelayout
-    Take Screenshot  filename=mosaic-editor-customize.png
+    Take Screenshot  filename=p6-mosaic-toolbar-customizing.png
     Clear highlight  css=.mosaic-toolbar-primary-functions .mosaic-button-customizelayout
 
     Click  css=.mosaic-toolbar-primary-functions .mosaic-button-customizelayout
@@ -58,7 +60,7 @@ Show the Mosaic editing capabilities
     Wait For Elements State  css=.mosaic-menu-insert .select2-option-irichtextbehavior-text  visible
     Hover  css=.mosaic-menu-insert .select2-option-irichtextbehavior-text
 
-    Take Screenshot  filename=mosaic-editor-select-field-text-tile.png
+    Take Screenshot  filename=p6-mosaic-insert-menu.png
 
     Clear highlight  css=.select2-container.mosaic-menu-insert
 

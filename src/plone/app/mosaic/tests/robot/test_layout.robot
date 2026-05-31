@@ -9,7 +9,7 @@ Test Teardown  Plone test teardown
 *** Test Cases ***
 
 Show how to select Mosaic layout option
-
+    [Tags]  robot:docs
     Go to  ${PLONE_URL}/example-document
 
     Wait For Elements State  ${SELECTOR_CONTENTMENU_DISPLAY_LINK}  visible
@@ -17,7 +17,7 @@ Show how to select Mosaic layout option
     Wait For Elements State  id=plone-contentmenu-display-layout_view  visible
 
     Highlight  id=plone-contentmenu-display-layout_view
-    Take Screenshot  filename=mosaic-custom-layout-enable.png
+    Take Screenshot  filename=p6-mosaic-display-menu.png
 
     Focus  id=plone-contentmenu-display-layout_view
     Click  id=plone-contentmenu-display-layout_view
@@ -27,7 +27,7 @@ Show how to select Mosaic layout option
 
 
 Show how to select custom layout view
-
+    [Tags]  robot:docs
     Go to  ${PLONE_URL}/example-document
 
     Wait For Elements State  ${SELECTOR_CONTENTMENU_DISPLAY_LINK}  visible

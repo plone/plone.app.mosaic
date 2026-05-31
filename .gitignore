@@ -48,6 +48,8 @@ local.cfg
 /venv/
 .installed.txt
 
+docs/_static/generated-screenshots
+
 /robot_*
 /test_*
 /forest.*

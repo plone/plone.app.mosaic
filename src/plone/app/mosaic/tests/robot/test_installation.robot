@@ -9,6 +9,7 @@ Test Teardown  Plone Test Teardown
 *** Test Cases ***
 
 Show Plone Mosaic activation
+    [Tags]  robot:docs
     Given a logged-in manager
     and the addons controlpanel
 
