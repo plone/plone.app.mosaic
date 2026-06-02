@@ -13,19 +13,19 @@ Show how Mosaic editor is opened
     Go to  ${PLONE_URL}/example-document
     Wait For Elements State  id=contentview-edit  visible
     Highlight  id=contentview-edit
-    Take Screenshot  filename=p6-mosaic-edit-tab.png
+    Take Documentation Screenshot  filename=p6-mosaic-edit-tab.png
 
 
 Show the Mosaic editing capabilities
     [Tags]  robot:docs
     Go to  ${PLONE_URL}/example-document/edit
     Wait For Elements State  css=.mosaic-select-layout  visible
-    Take Screenshot  filename=p6-mosaic-layout-selector.png
+    Take Documentation Screenshot  filename=p6-mosaic-layout-selector.png
 
     # Show how to select the initial layout
     Wait For Elements State  css=[data-value='default/basic.html']  visible
     Highlight  xpath=//a[@data-value='default/basic.html']/img
-    Take Screenshot  filename=mosaic-editor-layout-selector-select.png
+    Take Documentation Screenshot  filename=mosaic-editor-layout-selector-select.png
 
     # fire click event
     Evaluate JavaScript  css=[data-value='default/basic.html']  (elem) => elem.click()
@@ -37,7 +37,7 @@ Show the Mosaic editing capabilities
     Wait For Elements State  css=.modal-body form .autotoc-nav  visible
     Highlight  css=.modal-body form .autotoc-nav
 
-    Take Screenshot  filename=mosaic-editor-properties-modal.png
+    Take Documentation Screenshot  filename=mosaic-editor-properties-modal.png
 
     Click  css=.pattern-modal-buttons #form-buttons-save
 
@@ -48,7 +48,7 @@ Show the Mosaic editing capabilities
     Wait For Elements State  css=.mosaic-toolbar-secondary-functions  hidden
 
     Highlight  css=.mosaic-toolbar-primary-functions .mosaic-button-customizelayout
-    Take Screenshot  filename=p6-mosaic-toolbar-customizing.png
+    Take Documentation Screenshot  filename=p6-mosaic-toolbar-customizing.png
     Clear highlight  css=.mosaic-toolbar-primary-functions .mosaic-button-customizelayout
 
     Click  css=.mosaic-toolbar-primary-functions .mosaic-button-customizelayout
@@ -60,7 +60,7 @@ Show the Mosaic editing capabilities
     Wait For Elements State  css=.mosaic-menu-insert .select2-option-irichtextbehavior-text  visible
     Hover  css=.mosaic-menu-insert .select2-option-irichtextbehavior-text
 
-    Take Screenshot  filename=p6-mosaic-insert-menu.png
+    Take Documentation Screenshot  filename=p6-mosaic-insert-menu.png
 
     Clear highlight  css=.select2-container.mosaic-menu-insert
 
@@ -72,20 +72,20 @@ Show the Mosaic editing capabilities
     ...  css=.mosaic-IDublinCore-description-tile .mosaic-divider-bottom
     ...  display  block
     Hover  css=.mosaic-IDublinCore-description-tile .mosaic-divider-bottom
-    Take Screenshot  filename=mosaic-editor-drag-field-text-tile.png
+    Take Documentation Screenshot  filename=mosaic-editor-drag-field-text-tile.png
 
     # Show how to drop a new tile into its initial position
 
     Click  css=.mosaic-selected-divider
     Wait For Elements State  css=.mosaic-button-save  visible
     Highlight  css=.mosaic-button-save
-    Take Screenshot  filename=mosaic-editor-drop-field-text-tile.png
+    Take Documentation Screenshot  filename=mosaic-editor-drop-field-text-tile.png
 
     # Show how the custom layout looks after saving
     # register dialog handler before the click that might trigger a beforeunload dialog
     Handle Future Dialogs    action=accept
     Click  css=.mosaic-button-save
-    Take Screenshot  filename=mosaic-page-saved.png
+    Take Documentation Screenshot  filename=mosaic-page-saved.png
 
 Show grid layout editor capabilities
     Go to  ${PLONE_URL}/example-document/edit
@@ -129,29 +129,29 @@ Show grid layout editor capabilities
 
     # resize first
     Drag And Drop By Offset  xpath=${resize_handle_1}  -50  0
-    Take Screenshot  filename=mosaic-editor-resize-tile1-smaller.png
+    Take Documentation Screenshot  filename=mosaic-editor-resize-tile1-smaller.png  width=1024  height=1500
 
     Drag And Drop By Offset  xpath=${resize_handle_1}  150  0
-    Take Screenshot  filename=mosaic-editor-resize-tile1-larger.png
+    Take Documentation Screenshot  filename=mosaic-editor-resize-tile1-larger.png  width=1024  height=1500
 
     # resize second
     Drag And Drop By Offset  xpath=${resize_handle_2}  -50  0
-    Take Screenshot  filename=mosaic-editor-resize-tile2-smaller.png
+    Take Documentation Screenshot  filename=mosaic-editor-resize-tile2-smaller.png  width=1024  height=1500
 
     Drag And Drop By Offset  xpath=${resize_handle_2}  150  0
-    Take Screenshot  filename=mosaic-editor-resize-tile2-larger.png
+    Take Documentation Screenshot  filename=mosaic-editor-resize-tile2-larger.png  width=1024  height=1500
 
     # resize third smaller
     Drag And Drop By Offset  xpath=${resize_handle_3}  -50  0
-    Take Screenshot  filename=mosaic-editor-resize-tile3-smaller.png
+    Take Documentation Screenshot  filename=mosaic-editor-resize-tile3-smaller.png  width=1024  height=1500
 
     # then resize first smaller -> right border should stay sticky
     Drag And Drop By Offset  xpath=${resize_handle_1}  -100  0
-    Take Screenshot  filename=mosaic-editor-resize-tile1-smaller-with-border-right.png
+    Take Documentation Screenshot  filename=mosaic-editor-resize-tile1-smaller-with-border-right.png  width=1024  height=1500
 
     # Reset (1) should be visible on last column
     Evaluate JavaScript    xpath=//a[contains(text(), 'Reset (1)')]    (elem) => elem.click()
-    Take Screenshot  filename=mosaic-editor-reset-tile3.png
+    Take Documentation Screenshot  filename=mosaic-editor-reset-tile3.png  width=1024  height=1500
 
 *** Keywords ***
 

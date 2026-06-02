@@ -17,7 +17,7 @@ Show how to select Mosaic layout option
     Wait For Elements State  id=plone-contentmenu-display-layout_view  visible
 
     Highlight  id=plone-contentmenu-display-layout_view
-    Take Screenshot  filename=p6-mosaic-display-menu.png
+    Take Documentation Screenshot  filename=p6-mosaic-display-menu.png
 
     Focus  id=plone-contentmenu-display-layout_view
     Click  id=plone-contentmenu-display-layout_view
@@ -34,7 +34,7 @@ Show how to select custom layout view
     Click  ${SELECTOR_CONTENTMENU_DISPLAY_LINK}
     Wait For Elements State  id=plone-contentmenu-display-layout_view  visible
 
-    Take Screenshot  filename=mosaic-custom-layout-enable-done.png
+    Take Documentation Screenshot  filename=mosaic-custom-layout-enable-done.png
 
 
 *** Keywords ***
