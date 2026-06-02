@@ -20,7 +20,7 @@ Show page site layout option
 
     Wait For Elements State  id=formfield-form-widgets-ILayoutAware-pageSiteLayout  attached
 
-    Take Screenshot  filename=p6-mosaic-site-layout-selector.png
+    Take Documentation Screenshot  filename=p6-mosaic-site-layout-selector.png
 
 
 Show layouts editor
@@ -28,7 +28,7 @@ Show layouts editor
     Given a logged-in manager
     Go to  ${PLONE_URL}/@@layouts-editor
     Wait For Elements State  css=#mosaic-show-hide-layouts  visible
-    Take Screenshot  filename=p6-mosaic-layout-editor.png
+    Take Documentation Screenshot  filename=p6-mosaic-layout-editor.png
 
 
 *** Keywords ***

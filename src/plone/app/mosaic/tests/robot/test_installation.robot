@@ -15,7 +15,7 @@ Show Plone Mosaic activation
 
     Wait For Elements State  ${SELECTOR_ADDONS_MOSAIC}  visible
     Highlight  ${SELECTOR_ADDONS_MOSAIC}
-    Take Screenshot  filename=mosaic-product-activated.png
+    Take Documentation Screenshot  filename=mosaic-product-activated.png  width=1024  height=1500
 
 
 *** Keywords ***

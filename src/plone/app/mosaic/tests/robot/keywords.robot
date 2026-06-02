@@ -4,6 +4,8 @@ Resource  plone/app/robotframework/browser.robot
 
 Library  Remote  ${PLONE_URL}/RobotRemote
 
+# MOSAIC_TESTING_SCREENSHOT_DIR is set in tox.ini and .meta.toml to point to the directory where screenshots taken during tests should be stored. This is used for documentation purposes, but can also be useful when developing tests to verify that the test is interacting with the page as expected.
+# These screenshots are used for documentation too.
 
 *** Variables ***
 
@@ -81,3 +83,11 @@ Drag And Drop By Offset
     ${to_x}=    Evaluate    ${from_x} + int(${x_offset})
     ${to_y}=    Evaluate    ${from_y} + int(${y_offset})
     Drag And Drop By Coordinates    ${from_x}    ${from_y}    ${to_x}    ${to_y}
+
+Take Documentation Screenshot
+    [Arguments]  ${filename}
+    ...          ${width}=1024
+    ...          ${height}=900
+    Set Viewport Size  ${width}  ${height}
+    Take Screenshot  filename=%{MOSAIC_TESTING_SCREENSHOT_DIR}/${filename}
+    Set Viewport Size  1024  1500
