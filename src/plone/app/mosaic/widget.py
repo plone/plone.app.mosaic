@@ -16,9 +16,9 @@ from plone.z3cform.fieldsets.extensible import FormExtender
 from plone.z3cform.fieldsets.interfaces import IFormExtender
 from Products.CMFDynamicViewFTI.interfaces import ISelectableBrowserDefault
 from z3c.form.interfaces import HIDDEN_MODE
-from z3c.form.interfaces import INPUT_MODE
 from z3c.form.interfaces import IAddForm
 from z3c.form.interfaces import IFieldWidget
+from z3c.form.interfaces import INPUT_MODE
 from z3c.form.util import getSpecification
 from z3c.form.widget import FieldWidget
 from zope.component import adapter
