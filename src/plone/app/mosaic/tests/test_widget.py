@@ -33,6 +33,36 @@ class TestLayoutWidget(unittest.TestCase):
         widget.context.setLayout("layout_view")
         self.assertEqual(widget.pattern, "layout")
 
+    def test_pattern_disabled_in_display_mode(self):
+        # When the widget is rendered in display or hidden mode (e.g. inside
+        # @@content-core / @@version-view / versions_history_form) the Mosaic
+        # editor must not be enabled, otherwise the `pat-layout` editor markup
+        # is emitted and its JavaScript throws on a non-editable element.
+        from zope.annotation.interfaces import IAnnotations
+
+        widget = getMultiAdapter(
+            (ILayoutAware["customContentLayout"], self.request), IFieldWidget
+        )
+        widget.context = self.layer["portal"]
+        widget.context.setLayout("layout_view")
+
+        # `enabled` is memoized on the request without the mode in its key, so
+        # reset the cache before checking each mode.
+        annotations = IAnnotations(self.request)
+
+        # Input mode: editor enabled.
+        annotations["plone.memoize"] = {}
+        widget.mode = "input"
+        self.assertEqual(widget.pattern, "layout")
+
+        # Display mode: editor disabled -> "layout-disabled" (no .pat-layout
+        # trigger, so the editor JS is never initialized).
+        annotations["plone.memoize"] = {}
+        widget.mode = "display"
+        self.assertEqual(widget.pattern, "layout-disabled")
+        self.assertFalse(widget.enabled)
+        self.assertEqual(widget.get_pattern_options(), {})
+
     def test_pattern_options__settings(self):
         widget = getMultiAdapter(
             (ILayoutAware["customContentLayout"], self.request), IFieldWidget
