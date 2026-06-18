@@ -18,6 +18,7 @@ from Products.CMFDynamicViewFTI.interfaces import ISelectableBrowserDefault
 from z3c.form.interfaces import HIDDEN_MODE
 from z3c.form.interfaces import IAddForm
 from z3c.form.interfaces import IFieldWidget
+from z3c.form.interfaces import INPUT_MODE
 from z3c.form.util import getSpecification
 from z3c.form.widget import FieldWidget
 from zope.component import adapter
@@ -56,6 +57,14 @@ class LayoutWidget(TextAreaWidget):
     @property
     @memoize
     def enabled(self):
+        # The Mosaic editor only makes sense in input mode. When the widget is
+        # rendered in display (or hidden) mode the `pat-layout` editor markup
+        # must not be emitted, otherwise the editor JavaScript gets initialized
+        # on a non-editable element and throws.
+        # This happens e.g. when `@@content-core` of a layout aware item is
+        # rendered inside `@@version-view` / `versions_history_form`.
+        if self.mode != INPUT_MODE:
+            return False
         # Disable Mosaic editor on unexpected view names
         if self._form_name() in FORM_DENYS:
             return False
