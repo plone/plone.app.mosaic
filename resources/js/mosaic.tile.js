@@ -295,6 +295,12 @@ class Tile {
         const removeClasses = [
             "mosaic-new-tile",
             "mosaic-helper-tile",
+            // "mosaic-helper-tile-new" is a separate class token and is NOT
+            // covered by "mosaic-helper-tile" above. If it leaks into the
+            // serialized layout it produces a tile that "sticks" to the mouse
+            // on reload (see DocumentMousemove in mosaic.layout.js), so it must
+            // be stripped here as well.
+            "mosaic-helper-tile-new",
             "mosaic-original-tile",
             "mosaic-selected-tile",
             "mosaic-edited-tile",
