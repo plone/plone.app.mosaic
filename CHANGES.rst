@@ -8,6 +8,20 @@ Changelog
 
 .. towncrier release notes start
 
+3.3.4 (2026-06-22)
+------------------
+
+Bug fixes:
+
+
+- Fix new-tile drag helper "sticking" to the mouse in the layout editor.
+  The ``mosaic-helper-tile-new`` class is now stripped when serializing the
+  layout, so it can no longer leak into ``customContentLayout``. A leftover
+  helper no longer follows the cursor on load (it is only glued to the mouse
+  during an actual drag) and pressing ESC reliably destroys any stuck helper.
+  [petschki]
+
+
 3.3.3 (2026-05-29)
 ------------------
 
