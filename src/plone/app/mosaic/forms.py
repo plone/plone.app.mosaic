@@ -1,3 +1,4 @@
+from functools import cached_property
 from plone import api
 from plone.app.blocks.layoutbehavior import ILayoutAware
 from plone.dexterity.browser import add
@@ -12,7 +13,7 @@ class MosaicDefaultAddForm(add.DefaultAddForm):
         "IVersionable.changeNote",
     ]
 
-    @property
+    @cached_property
     def mosaic_enabled(self):
         schemata = [s for s in self.additionalSchemata]
 
