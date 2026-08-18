@@ -397,6 +397,33 @@ export default class LayoutManager {
 
             // Check if esc
             if (e.keyCode === 27) {
+                // Workaround: destroy any "stuck" new-tile drag helpers.
+                // A leftover ".mosaic-helper-tile-new" can end up in the loaded
+                // layout (e.g. persisted into customContentLayout from a stale
+                // save) without the accompanying ".mosaic-original-tile" class
+                // or "mosaic-panel-dragging" state. Such an element is not
+                // covered by the dragging handling below but is still glued to
+                // the mouse by DocumentMousemove. Pressing ESC must always get
+                // rid of it.
+                var stuck_helpers = _document.querySelectorAll(".mosaic-helper-tile-new");
+                if (stuck_helpers.length > 0) {
+                    stuck_helpers.forEach((tile) => {
+                        // original row
+                        const $orig_row = $(tile).parent().parent();
+                        // dismiss dragging tile and cleanup row
+                        $(tile).remove();
+                        $orig_row.mosaicCleanupRow();
+                    });
+                    // Remove dragging state from the panel
+                    _panel.classList.remove(
+                        "mosaic-panel-dragging", "mosaic-panel-dragging-new",
+                    );
+                    // Hide all dividers
+                    _document.querySelectorAll(".mosaic-selected-divider").forEach(divider => {
+                        divider.classList.remove("mosaic-selected-divider");
+                    });
+                }
+
                 // Check if dragging
                 var original_tile = _panel.querySelectorAll(".mosaic-original-tile");
                 if (original_tile.length > 0) {
@@ -533,7 +560,11 @@ export default class LayoutManager {
             // Get new tile helper
             var $new_tile_helper = $(".mosaic-helper-tile-new", self.mosaic.document);
 
-            if ($new_tile_helper.length) {
+            // Only glue the helper to the mouse while an actual drag is in
+            // progress. A leftover ".mosaic-helper-tile-new" (e.g. persisted
+            // into a stale layout) would otherwise stick to the cursor on load
+            // even though no drag is happening. ESC still removes it.
+            if ($new_tile_helper.length && _panel.classList.contains("mosaic-panel-dragging")) {
                 // Get offset
                 const offset = $new_tile_helper.parent().offset();
                 // Get mouse x
