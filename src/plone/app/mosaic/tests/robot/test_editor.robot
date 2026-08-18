@@ -54,10 +54,8 @@ Show the Mosaic editing capabilities
     Click  css=.mosaic-toolbar-primary-functions .mosaic-button-customizelayout
 
     # Show how to select a new tile from menu
-    Wait For Elements State  css=.select2-container.mosaic-menu-insert  visible
     Highlight  css=.select2-container.mosaic-menu-insert
     Click  css=.select2-container.mosaic-menu-insert a
-    Wait For Elements State  css=.mosaic-menu-insert .select2-option-irichtextbehavior-text  visible
     Hover  css=.mosaic-menu-insert .select2-option-irichtextbehavior-text
 
     Take Documentation Screenshot  filename=p6-mosaic-insert-menu.png
@@ -67,7 +65,6 @@ Show the Mosaic editing capabilities
     # Show how to drag a new tile into its initial position
 
     Click  css=.mosaic-menu-insert .select2-option-irichtextbehavior-text
-    Wait For Elements State  css=.mosaic-helper-tile-new  attached
     Update element style
     ...  css=.mosaic-IDublinCore-description-tile .mosaic-divider-bottom
     ...  display  block
@@ -158,4 +155,3 @@ Show grid layout editor capabilities
 Insert richtexttile
     Click    css=.select2-container.mosaic-menu-insert a
     Click    xpath=//li[contains(@class, 'select2-option-plone\.app\.standardtiles\.html')]
-    Wait For Elements State    css=.mosaic-helper-tile-new    attached
