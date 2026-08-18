@@ -336,7 +336,14 @@ def upgrade_cleanup_grid_cell_classes(context):
     for brain in catalog.unrestrictedSearchResults(
         object_provides=ILayoutBehaviorAdaptable.__identifier__
     ):
-        obj = brain.getObject()
+        try:
+            obj = brain.getObject()
+        except KeyError:
+            # Stale object in Catalog? Log and ignore.
+            logger.warning(
+                "Stale object in catalog. Cannot retrieve %s", brain.getURL()
+            )
+            continue
         layout = ILayoutAware(obj)
         custom = layout.customContentLayout
 
