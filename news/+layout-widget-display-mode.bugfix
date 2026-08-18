@@ -1,5 +1,0 @@
-Do not enable the Mosaic layout editor (``pat-layout``) when the layout
-widget is rendered in display or hidden mode. This avoids a JavaScript
-error when viewing an older revision of a ``layout_view`` page via
-``versions_history_form`` (the version preview renders ``@@content-core``
-in display mode).

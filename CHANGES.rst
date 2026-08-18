@@ -8,6 +8,44 @@ Changelog
 
 .. towncrier release notes start
 
+4.1.0 (2026-08-18)
+------------------
+
+New features:
+
+
+- Modernize documentation to match Plone doc style guide.
+  [erral]
+
+
+Bug fixes:
+
+
+- Do not enable the Mosaic layout editor (``pat-layout``) when the layout
+  widget is rendered in display or hidden mode. This avoids a JavaScript
+  error when viewing an older revision of a ``layout_view`` page via
+  ``versions_history_form`` (the version preview renders ``@@content-core``
+  in display mode).
+- Fix the robot tests by removing a unnecessary wait statement.
+
+  The keyword "Wait For Elements State" is not safe to use in playwright tests.
+  It was removed for all ".mosaic-helper-tile-new" assignments to fix the failing
+  tests.
+  @thet
+- Harden upgrade.
+  In the upgrade "Clean up obsolete mosaic-grid-cell CSS classes", don't break if
+  no object can be retrieved from the brain.
+  @thet
+
+
+Internal:
+
+
+- Cache the mosaic_enabled call in forms.py.
+  @thet
+- Upgrade CI infrastructure code. @thet
+
+
 4.0.0 (2026-05-18)
 ------------------
 
