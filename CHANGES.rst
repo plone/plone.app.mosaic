@@ -75,6 +75,17 @@ Internal:
 4.0.0a2 (2026-03-26)
 --------------------
 
+Breaking changes:
+
+
+- Update LayoutWidget to use latest z3c.form extendable attributes.
+  The ``LayoutWidget.get_options`` method was renamed to
+  ``get_pattern_options`` to align with the conventions used by
+  ``plone.app.z3cform`` and the data is directly available on the result while
+  the ``data`` key was removed.
+  @petschki
+
+
 New features:
 
 
@@ -98,7 +109,6 @@ Bug fixes:
   @petschki
 - Remove padding for inline TinyMCE.
   @petschki
-- Update LayoutWidget to use latest z3c.form extendable attributes.  @petschki
 
 
 Internal:
