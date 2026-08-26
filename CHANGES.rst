@@ -8,6 +8,18 @@ Changelog
 
 .. towncrier release notes start
 
+4.1.1 (2026-08-26)
+------------------
+
+Internal:
+
+
+- Use use_ajax to detect ajax requests.
+
+  Since we're on Plone 6.2 we can use the automatic ajax request detection
+  instead of relying on the presence of the ajax_load request parameter.
+
+
 4.1.0 (2026-08-18)
 ------------------
 
