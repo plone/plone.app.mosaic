@@ -1,0 +1,33 @@
+# pnpm settings (moved here from .npmrc; pnpm >= 10 reads its own settings
+# from this file).
+# Keep in sync with the conventions used in plone.staticresources.
+
+shamefullyHoist: true
+publicHoistPattern:
+  - "*"
+
+# pnpm 12 blocks git-resolved transitive dependencies by default.
+# @plone/mockup and @patternslib/patternslib depend on slides, select2 and
+# slick-carousel via git, so allow exotic subdeps here.
+blockExoticSubdeps: false
+
+# Dependencies with install scripts that are allowed to run.
+allowBuilds:
+  "@parcel/watcher": true
+  "@patternslib/dev": true
+  "@plone/mockup": true
+  unrs-resolver: true
+  yarn: false
+
+# Allow installing freshly released Mockup versions right away.
+minimumReleaseAgeExclude:
+  - "@plone/mockup"
+
+# Version pins (formerly the "resolutions" field in package.json, which
+# pnpm >= 12 no longer reads).
+# sass: keep the CSS output stable; newer sass versions change the color
+#       notation of the compiled Bootstrap variables.
+# jquery: stay on jQuery 3.
+overrides:
+  sass: 1.77.8
+  jquery: "<4"
