@@ -299,6 +299,8 @@ class ActionManager {
                     var $mosaic_tile = $(this).data("mosaic-tile");
                     $mosaic_tile.makeMovable();
                     $mosaic_tile.$el.mosaicAddDrag();
+                    // Reinit delete/confirm/cancel buttons
+                    $mosaic_tile.initializeButtons();
                 });
                 $(".mosaic-button-group-layout").removeClass("active");
             },
