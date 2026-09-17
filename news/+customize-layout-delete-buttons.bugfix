@@ -1,0 +1,2 @@
+Rebuild tile buttons when customizing a content layout, so the layout's own
+tiles get a delete button instead of only tiles added afterwards.
