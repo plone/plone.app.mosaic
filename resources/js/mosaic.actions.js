@@ -379,6 +379,14 @@ class ActionManager {
                     return false;
                 }
 
+                // Reset the menu up front, before anything asynchronous.
+                // mockup's select2 pattern re-dispatches select2's jQuery
+                // change as a native change event, which this jQuery handler
+                // also receives -- putting the menu back to "none" here makes
+                // that second run exit above instead of inserting the tile a
+                // second time.
+                $(source).select2("val", "none");
+
                 // Deselect tiles
                 self.blurSelectedTile();
 
@@ -525,9 +533,6 @@ class ActionManager {
                         mosaic.layoutManager.getDefaultValue(tile_config),
                     );
                 }
-
-                // reset menu
-                $(source).select2("val", "none");
 
                 // Normal exit
                 return true;

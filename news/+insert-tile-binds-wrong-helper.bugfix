@@ -1,0 +1,2 @@
+Insert: bind the tile just created rather than the first unplaced helper, which
+left a second inserted tile without its Tile instance.  @frapell

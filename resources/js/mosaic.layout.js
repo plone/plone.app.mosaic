@@ -135,8 +135,13 @@ export default class LayoutManager {
         );
         self.mosaic.panels[0].append(add_helper);
 
-        // Set helper min size
-        var helper = self.mosaic.panels.find(".mosaic-helper-tile-new");
+        // Set helper min size. Scope the lookup to the row just created: a
+        // tile from an earlier insert that has not been placed yet still
+        // carries .mosaic-helper-tile-new, and searching the panels would
+        // return that one instead. The element created here would then never
+        // be passed to new Tile(), and the missing instance only surfaces
+        // later, when saving walks the tiles.
+        var helper = $(add_helper).find(".mosaic-helper-tile-new");
 
         // Get max width
         var width = 0;
