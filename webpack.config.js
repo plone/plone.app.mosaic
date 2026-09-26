@@ -9,7 +9,7 @@ const webpack_config = require("@patternslib/dev/webpack/webpack.config").config
 module.exports = () => {
     let config = {
         entry: {
-            "plone-mosaic.min": path.resolve(__dirname, "resources/index"),
+            "plone-mosaic.min": "./resources/index",
         },
     };
 
