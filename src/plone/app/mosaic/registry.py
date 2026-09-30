@@ -3,8 +3,10 @@ from plone.app.mosaic.interfaces import IMosaicRegistryAdapter
 from plone.app.mosaic.utils import extractFieldInformation
 from plone.dexterity.utils import iterSchemataForType
 from plone.registry.interfaces import IRegistry
+from plone.tiles.interfaces import ITileType
 from Products.CMFCore.interfaces._content import IFolderish
 from zope.component import adapter
+from zope.component import queryUtility
 from zope.globalrequest import getRequest
 from zope.i18n import translate
 from zope.interface import implementer
@@ -211,6 +213,17 @@ class MosaicRegistry:
         tiles = settings.get(f"{self.prefix:s}.{tile_category:s}", {})
         for key, tile in tiles.items():
             if "category" not in tile:
+                continue
+            # The registry entry only describes a tile's presentation
+            # (label, category, weight, ...); it does not tell us whether
+            # the tile itself is actually registered. Packages such as
+            # plone.app.standardtiles gate some of their <plone:tile />
+            # directives behind a zcml:condition (e.g. the discussion tile
+            # requires plone.app.discussion to be installed), so a stale
+            # registry entry can outlive its tile. Skip anything that has
+            # no matching ITileType utility to avoid offering tiles that
+            # 404 as soon as they're inserted.
+            if queryUtility(ITileType, name=tile["name"]) is None:
                 continue
             index = getCategoryIndex(config["tiles"], tile["category"])
             if index is not None:

@@ -1,0 +1,3 @@
+Insert menu: tiles whose type isn't actually registered are no longer listed,
+so switching off an add-on (e.g. plone.app.discussion) removes its tile from
+the picker instead of leaving a stale entry that 404s when inserted. @afonsojanu
