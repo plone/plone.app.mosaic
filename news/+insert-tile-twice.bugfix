@@ -1,0 +1,2 @@
+Insert: reset the menu before awaiting, so the native change event mockup's
+select2 re-dispatches no longer inserts the tile a second time.  @frapell
