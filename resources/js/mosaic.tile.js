@@ -1118,10 +1118,20 @@ class Tile {
 
         // always show inline TinyMCE in mosaic editor
         tiny_options["tiny"]["inline"] = true;
-        tiny_options["tiny"]["toolbar_mode"] = "scrolling";
         tiny_options["tiny"]["menubar"] = false;
         tiny_options["tiny"]["selector"] = `#${id}`;
         tiny_options["tiny"]["placeholder"] = "\u2026";
+
+        // Bound the inline toolbar by the editing area. Without max_width
+        // TinyMCE stretches it from the tile's left edge to the right edge of
+        // the *window*, so on a narrow tile most of the toolbar hangs outside
+        // the layout. It also gives the overflow drawer -- the "floating"
+        // toolbar_mode that TinyMCE defaults to -- the right width to decide
+        // which buttons to move behind its "more" button.
+        const panel = self.el.closest(".mosaic-panel");
+        if (panel?.clientWidth) {
+            tiny_options["tiny"]["max_width"] = panel.clientWidth;
+        }
 
         // remove "content_css" from config
         delete tiny_options["tiny"]["content_css"];
