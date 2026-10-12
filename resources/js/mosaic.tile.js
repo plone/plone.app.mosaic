@@ -1122,15 +1122,9 @@ class Tile {
         tiny_options["tiny"]["selector"] = `#${id}`;
         tiny_options["tiny"]["placeholder"] = "\u2026";
 
-        // Bound the inline toolbar by the editing area. Without max_width
-        // TinyMCE stretches it from the tile's left edge to the right edge of
-        // the *window*, so on a narrow tile most of the toolbar hangs outside
-        // the layout. It also gives the overflow drawer -- the "floating"
-        // toolbar_mode that TinyMCE defaults to -- the right width to decide
-        // which buttons to move behind its "more" button.
-        const panel = self.el.closest(".mosaic-panel");
-        if (panel?.clientWidth) {
-            tiny_options["tiny"]["max_width"] = panel.clientWidth;
+        const tile_width = Math.floor(self.el.getBoundingClientRect().width);
+        if (tile_width) {
+            tiny_options["tiny"]["max_width"] = tile_width - 20;
         }
 
         // remove "content_css" from config
@@ -1140,6 +1134,9 @@ class Tile {
         // wait until ready.
         await events.await_pattern_init(tiny_instance);
         self.tinymce = tiny_instance.instance.tiny;
+        // Mosaic may still shift the layout after init. Let TinyMCE recompute
+        // the inline toolbar width and its overflow against the final width.
+        requestAnimationFrame(() => self.tinymce?.dispatch("ResizeWindow"));
 
         // Set editor class
         $content.addClass("mosaic-rich-text-initialized");
