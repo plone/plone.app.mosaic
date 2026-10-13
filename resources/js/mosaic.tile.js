@@ -1124,10 +1124,14 @@ class Tile {
 
         // always show inline TinyMCE in mosaic editor
         tiny_options["tiny"]["inline"] = true;
-        tiny_options["tiny"]["toolbar_mode"] = "scrolling";
         tiny_options["tiny"]["menubar"] = false;
         tiny_options["tiny"]["selector"] = `#${id}`;
         tiny_options["tiny"]["placeholder"] = "\u2026";
+
+        const tile_width = Math.floor(self.el.getBoundingClientRect().width);
+        if (tile_width) {
+            tiny_options["tiny"]["max_width"] = tile_width - 20;
+        }
 
         // remove "content_css" from config
         delete tiny_options["tiny"]["content_css"];
@@ -1136,6 +1140,9 @@ class Tile {
         // wait until ready.
         await events.await_pattern_init(tiny_instance);
         self.tinymce = tiny_instance.instance.tiny;
+        // Mosaic may still shift the layout after init. Let TinyMCE recompute
+        // the inline toolbar width and its overflow against the final width.
+        requestAnimationFrame(() => self.tinymce?.dispatch("ResizeWindow"));
 
         // Set editor class
         $content.addClass("mosaic-rich-text-initialized");

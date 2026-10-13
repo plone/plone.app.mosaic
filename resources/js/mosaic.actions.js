@@ -299,6 +299,8 @@ class ActionManager {
                     var $mosaic_tile = $(this).data("mosaic-tile");
                     $mosaic_tile.makeMovable();
                     $mosaic_tile.$el.mosaicAddDrag();
+                    // Reinit delete/confirm/cancel buttons
+                    $mosaic_tile.initializeButtons();
                 });
                 $(".mosaic-button-group-layout").removeClass("active");
             },
@@ -376,6 +378,14 @@ class ActionManager {
                 if (tile_type === "none") {
                     return false;
                 }
+
+                // Reset the menu up front, before anything asynchronous.
+                // mockup's select2 pattern re-dispatches select2's jQuery
+                // change as a native change event, which this jQuery handler
+                // also receives -- putting the menu back to "none" here makes
+                // that second run exit above instead of inserting the tile a
+                // second time.
+                $(source).select2("val", "none");
 
                 // Deselect tiles
                 self.blurSelectedTile();
@@ -523,9 +533,6 @@ class ActionManager {
                         mosaic.layoutManager.getDefaultValue(tile_config),
                     );
                 }
-
-                // reset menu
-                $(source).select2("val", "none");
 
                 // Normal exit
                 return true;

@@ -9,8 +9,8 @@ from plone.dexterity.browser.add import DefaultAddView
 from plone.memoize import ram
 from plone.memoize import view
 from plone.resource.interfaces import IResourceDirectory
+from Products.CMFPlone.browser import main_template
 from Products.CMFPlone.browser.interfaces import IMainTemplate
-from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from repoze.xmliter.utils import getHTMLSerializer
 from urllib.parse import unquote
@@ -216,13 +216,13 @@ def resolve_main_template():
 
 
 @implementer(IMainTemplate, IBlocksTransformEnabled)
-class MainTemplate(BrowserView):
+class MainTemplate(main_template.MainTemplate):
     ajax_template = resolve_ajax_main_template()
     main_template = resolve_main_template()
 
     def __call__(self):
         start = time.perf_counter()
-        if self.request.form.get("ajax_load"):
+        if self.use_ajax:
             result = self.ajax_template()
         else:
             result = self.main_template()
@@ -238,7 +238,7 @@ class MainTemplate(BrowserView):
             return self.layout
         except NotFound:
             pass
-        if self.request.form.get("ajax_load"):
+        if self.use_ajax:
             return self.ajax_template
         return self.main_template
 
@@ -264,7 +264,7 @@ class MainTemplate(BrowserView):
             layout = getMultiAdapter(
                 (self.context, self.request), name="page-site-layout"
             ).index()
-        cooked = cook_layout(layout, self.request.get("ajax_load"))
+        cooked = cook_layout(layout, self.use_ajax)
         pt = ViewPageTemplateString(cooked)
         bound_pt = pt.__get__(self, type(self))
         return bound_pt
