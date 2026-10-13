@@ -424,9 +424,7 @@ export default class LayoutManager {
                         "mosaic-panel-dragging", "mosaic-panel-dragging-new",
                     );
                     // Hide all dividers
-                    _document.querySelectorAll(".mosaic-selected-divider").forEach(divider => {
-                        divider.classList.remove("mosaic-selected-divider");
-                    });
+                    self._clearSelectedDivider();
                 }
 
                 // Check if dragging
