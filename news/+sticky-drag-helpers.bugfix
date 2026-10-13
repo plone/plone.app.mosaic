@@ -1,2 +1,0 @@
-Remove stale new-tile drag helpers with ESC, keep them off the mouse unless a drag is in progress, and strip the helper class when a tile is serialized, so a leftover helper from a stale layout can no longer stick to the cursor.
-@petschki

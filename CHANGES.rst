@@ -8,6 +8,32 @@ Changelog
 
 .. towncrier release notes start
 
+4.2.0 (2026-10-13)
+------------------
+
+New features:
+
+
+- Export the bundle entry as default, so a module federation host with Patternslib 9.11 (plone.staticresources 3.0.8 or later) waits for mosaic's patterns before the initial DOM scan. Older hosts ignore the export and initialize mosaic as before, so the bundle keeps working with plone.staticresources 3.0.6 as shipped with Plone 6.2.2.
+  Update dependencies: @patternslib/patternslib 9.11, @plone/mockup 5.6.14 and @patternslib/dev 4.3.
+  @petschki
+
+
+Bug fixes:
+
+
+- Insert: bind the tile just created rather than the first unplaced helper, which
+  left a second inserted tile without its Tile instance.  @frapell
+- Insert: reset the menu before awaiting, so the native change event mockup's
+  select2 re-dispatches no longer inserts the tile a second time.  @frapell
+- Rebuild tile buttons when customizing a content layout, so the layout's own
+  tiles get a delete button instead of only tiles added afterwards. @frapell
+- Remove stale new-tile drag helpers with ESC, keep them off the mouse unless a drag is in progress, and strip the helper class when a tile is serialized, so a leftover helper from a stale layout can no longer stick to the cursor.
+  @petschki
+- Size the richtext tile's inline TinyMCE toolbar to the editing area rather than
+  the window, and stop forcing `toolbar_mode` so the overflow menu applies.  @frapell
+
+
 4.1.2 (2026-09-09)
 ------------------
 

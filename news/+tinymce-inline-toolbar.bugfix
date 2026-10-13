@@ -1,2 +1,0 @@
-Size the richtext tile's inline TinyMCE toolbar to the editing area rather than
-the window, and stop forcing `toolbar_mode` so the overflow menu applies.  @frapell
