@@ -1,2 +1,2 @@
 // Webpack entry point for module federation.
-import("./mosaic.js");
+export default import("./mosaic.js");

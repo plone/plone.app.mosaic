@@ -1,2 +1,3 @@
-Update dependencies
+Update dependencies: @patternslib/patternslib 9.11, @plone/mockup 5.6.14 and @patternslib/dev 4.3.
+Export the bundle entry as default, so the module federation host waits for mosaic's patterns before the initial DOM scan (requires patternslib 9.11).
 @petschki
