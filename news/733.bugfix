@@ -1,2 +1,4 @@
-Wait for tile saves before submitting the page on "Save", and show an error when a tile could not be saved instead of losing the changes silently.
+Get a fresh CSRF token before saving or deleting tiles and before submitting the edit form.
+An outdated token made the server abort the save while still reporting success, so changes were lost silently.
+Also show an error and stop saving the page if a tile could not be saved.
 @gogobd

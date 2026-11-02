@@ -203,7 +203,9 @@ class ActionManager {
                 // the form. Otherwise the page navigation cancels the pending
                 // tile save request and the last edits are lost.
                 const saved = await self.blurSelectedTile();
-                if (!saved && !window.confirm(
+                const failed = [...mosaic.document.querySelectorAll(".mosaic-tile")]
+                    .some(el => el.mosaicSaveFailed);
+                if ((!saved || failed) && !window.confirm(
                     "Some tiles could not be saved. Their changes will be lost " +
                     "if you continue. Save the rest of the page anyway?"
                 )) {
@@ -212,6 +214,10 @@ class ActionManager {
                 }
                 mosaic.toolbar.SelectedTileChange();
                 mosaic.layoutManager.saveLayoutToForm();
+                // Put a current CSRF token into the edit form. With an outdated
+                // token the server aborts the save, but still redirects as if
+                // it had succeeded.
+                await mosaic_utils.get_fresh_authenticator(mosaic.options.context_url);
                 mosaic.save();
                 mosaic.saving = false;
             },
