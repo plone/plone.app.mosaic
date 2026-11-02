@@ -15,7 +15,7 @@ class MosaicDefaultAddForm(add.DefaultAddForm):
 
     @cached_property
     def mosaic_enabled(self):
-        schemata = [s for s in self.additionalSchemata]
+        schemata = [*self.additionalSchemata]
 
         if ILayoutAware not in schemata:
             # if it is not a mosaic add form, carry on...
