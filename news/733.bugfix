@@ -1,0 +1,2 @@
+Wait for tile saves before submitting the page on "Save", and show an error when a tile could not be saved instead of losing the changes silently.
+@gogobd

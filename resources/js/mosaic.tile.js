@@ -976,7 +976,7 @@ class Tile {
     async blur() {
         log.debug("blur ↓", this);
         this.el.classList.remove("mosaic-selected-tile");
-        await this.save();
+        return await this.save();
     }
     async focus() {
         log.debug("focus ↓", this);
@@ -1044,6 +1044,7 @@ class Tile {
 
             self.mosaic.saving_tile = true;
             utils.loading.show();
+            let error_message = null;
 
             var data = {
                 "_authenticator": utils.getAuthenticator(),
@@ -1065,17 +1066,30 @@ class Tile {
 
                 if (!response.ok) {
                     log.error(`Could not save tile: ${response.statusText}`);
+                    error_message = `${response.status} ${response.statusText}`;
                 } else {
                     self.el.lastSavedData = currentData;
                     log.debug(`successfully saved ${tile_config.name} with data "${currentData}"`);
                 }
             } catch (error) {
                 log.error(`Error while save tile ${tile_config.name}: ${error}`);
+                error_message = `${error}`;
             }
 
             self.mosaic.saving_tile = false;
             utils.loading.hide();
+
+            if (error_message) {
+                // Do not fail silently: the user would lose the changes
+                // of this tile without noticing.
+                window.alert(
+                    `Could not save tile "${tile_config.label || tile_config.name}" ` +
+                    `(${error_message}). Please copy your changes and reload the page.`
+                );
+                return false;
+            }
         }
+        return true;
 
     }
 
