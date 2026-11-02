@@ -646,20 +646,21 @@ class Tile {
                 const delete_url = self.getDeleteUrl();
                 mosaic_utils
                     .get_fresh_authenticator(self.mosaic.options.context_url)
-                    .then(token => fetch(
-                        delete_url,
-                        {
+                    .then((token) =>
+                        fetch(delete_url, {
                             method: "POST",
                             headers: {
-                                "Content-Type": "application/x-www-form-urlencoded; charset: utf-8",
-                                "X-Requested-With": "XMLHttpRequest",  // do not redirect to nextUrl after deleting
+                                "Content-Type":
+                                    "application/x-www-form-urlencoded; charset: utf-8",
+                                "X-Requested-With": "XMLHttpRequest", // do not redirect to nextUrl after deleting
                             },
                             body: new URLSearchParams({
                                 "buttons.delete": "Delete",
                                 "_authenticator": token,
                             }).toString(),
-                        }))
-                    .then(response => {
+                        }),
+                    )
+                    .then((response) => {
                         if (!response.ok) {
                             alert(`Could not delete tile ${tile_url}: ${response.statusText}`);
                             return;
@@ -1050,7 +1051,7 @@ class Tile {
             try {
                 var data = {
                     "_authenticator": await mosaic_utils.get_fresh_authenticator(
-                        self.mosaic.options.context_url
+                        self.mosaic.options.context_url,
                     ),
                     "buttons.save": "Save",
                 };
@@ -1072,12 +1073,18 @@ class Tile {
                 // session expired) means the data was not saved.
                 const tile_path = (url) =>
                     decodeURIComponent(new URL(url, window.location.href).pathname);
-                const expected_path = tile_path(edit_url).replace("/@@edit-tile/", "/@@");
+                const expected_path = tile_path(edit_url).replace(
+                    "/@@edit-tile/",
+                    "/@@",
+                );
 
                 if (!response.ok) {
                     log.error(`Could not save tile: ${response.statusText}`);
                     error_message = `${response.status} ${response.statusText}`;
-                } else if (response.redirected && tile_path(response.url) !== expected_path) {
+                } else if (
+                    response.redirected &&
+                    tile_path(response.url) !== expected_path
+                ) {
                     log.error(`Could not save tile: redirected to ${response.url}`);
                     error_message = "you may have been logged out";
                 } else {
@@ -1100,7 +1107,7 @@ class Tile {
                 self.el.mosaicSaveFailed = true;
                 window.alert(
                     `Could not save tile "${tile_config.label || tile_config.name}" ` +
-                    `(${error_message}). Please copy your changes and reload the page.`
+                        `(${error_message}). Please copy your changes and reload the page.`,
                 );
                 return false;
             }

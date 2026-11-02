@@ -203,12 +203,16 @@ class ActionManager {
                 // the form. Otherwise the page navigation cancels the pending
                 // tile save request and the last edits are lost.
                 const saved = await self.blurSelectedTile();
-                const failed = [...mosaic.document.querySelectorAll(".mosaic-tile")]
-                    .some(el => el.mosaicSaveFailed);
-                if ((!saved || failed) && !window.confirm(
-                    "Some tiles could not be saved. Their changes will be lost " +
-                    "if you continue. Save the rest of the page anyway?"
-                )) {
+                const failed = [
+                    ...mosaic.document.querySelectorAll(".mosaic-tile"),
+                ].some((el) => el.mosaicSaveFailed);
+                if (
+                    (!saved || failed) &&
+                    !window.confirm(
+                        "Some tiles could not be saved. Their changes will be lost " +
+                            "if you continue. Save the rest of the page anyway?",
+                    )
+                ) {
                     mosaic.saving = false;
                     return;
                 }
@@ -596,9 +600,9 @@ class ActionManager {
         if (!selTile.length) return true;
         log.debug("blur selected tile(s) ↓", selTile);
         const results = await Promise.all(
-            [...selTile].map(el => el["mosaic-tile"].blur())
+            [...selTile].map((el) => el["mosaic-tile"].blur()),
         );
-        return results.every(result => result !== false);
+        return results.every((result) => result !== false);
     }
 
     mosaicExecAction() {

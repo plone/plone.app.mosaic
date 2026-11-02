@@ -38,9 +38,13 @@ const get_fresh_authenticator = async function (context_url) {
                 return token;
             }
         }
-        log.warn(`Could not get a fresh authenticator (${response.status}), using the one in the page.`);
+        log.warn(
+            `Could not get a fresh authenticator (${response.status}), using the one in the page.`,
+        );
     } catch (error) {
-        log.warn(`Could not get a fresh authenticator (${error}), using the one in the page.`);
+        log.warn(
+            `Could not get a fresh authenticator (${error}), using the one in the page.`,
+        );
     }
     return utils.getAuthenticator();
 };
