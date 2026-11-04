@@ -1,3 +1,4 @@
+from functools import lru_cache
 from hashlib import md5
 from importlib.resources import files
 from lxml import etree
@@ -195,6 +196,17 @@ class ViewPageTemplateString(ViewPageTemplateFile):
         pass  # cooked only during init
 
 
+@lru_cache(maxsize=256)
+def layout_template(cooked):
+    """Return the compiled template of a cooked layout.
+
+    Compiling a layout is a full Chameleon compilation, so do it once per
+    layout instead of once per request. A new template per request also
+    leaks memory with z3c.jbot, which keeps every template instance it binds.
+    """
+    return ViewPageTemplateString(cooked)
+
+
 class Macro(list):
     def __repr__(self):
         # Override the default list.__repr__ to hide the contents of list
@@ -265,7 +277,7 @@ class MainTemplate(main_template.MainTemplate):
                 (self.context, self.request), name="page-site-layout"
             ).index()
         cooked = cook_layout(layout, self.use_ajax)
-        pt = ViewPageTemplateString(cooked)
+        pt = layout_template(cooked)
         bound_pt = pt.__get__(self, type(self))
         return bound_pt
 
