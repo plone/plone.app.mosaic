@@ -13,7 +13,7 @@ def toggleLayoutViewOnFTI(object, event):
         or "plone.layoutaware" in fti.behaviors
     ):
         # Add Mosaic view into available view methods
-        view_methods = [i for i in fti.getAvailableViewMethods(portal)]
+        view_methods = [*fti.getAvailableViewMethods(portal)]
         if "layout_view" not in view_methods:
             view_methods.append("layout_view")
             fti.view_methods = view_methods
