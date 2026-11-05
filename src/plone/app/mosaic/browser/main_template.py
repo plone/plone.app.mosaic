@@ -1,3 +1,4 @@
+from collections import OrderedDict
 from hashlib import md5
 from importlib.resources import files
 from lxml import etree
@@ -23,6 +24,7 @@ from zope.interface import implementer
 import logging
 import os
 import re
+import threading
 import time
 
 NSMAP = {"metal": "http://namespaces.zope.org/metal"}
@@ -195,6 +197,38 @@ class ViewPageTemplateString(ViewPageTemplateFile):
         pass  # cooked only during init
 
 
+LAYOUT_TEMPLATES_MAX = 256
+_layout_templates = OrderedDict()
+_layout_templates_lock = threading.Lock()
+
+
+def layout_template(cooked):
+    """Return the compiled template of a cooked layout.
+
+    Compiling a layout is a full Chameleon compilation, so do it once per
+    layout instead of once per request. A new template per request also
+    leaks memory with z3c.jbot, which keeps every template instance it binds.
+
+    Templates are keyed by the digest of the cooked layout, like
+    ``cook_layout``. A template that fails to compile is not kept, so the
+    next request compiles it again.
+    """
+    key = md5(cooked.encode("utf-8", "replace")).hexdigest()
+    with _layout_templates_lock:
+        template = _layout_templates.get(key)
+        if template is not None:
+            _layout_templates.move_to_end(key)
+            return template
+    template = ViewPageTemplateString(cooked)
+    if template._v_errors:
+        return template
+    with _layout_templates_lock:
+        _layout_templates[key] = template
+        if len(_layout_templates) > LAYOUT_TEMPLATES_MAX:
+            _layout_templates.popitem(last=False)
+    return template
+
+
 class Macro(list):
     def __repr__(self):
         # Override the default list.__repr__ to hide the contents of list
@@ -265,7 +299,7 @@ class MainTemplate(main_template.MainTemplate):
                 (self.context, self.request), name="page-site-layout"
             ).index()
         cooked = cook_layout(layout, self.use_ajax)
-        pt = ViewPageTemplateString(cooked)
+        pt = layout_template(cooked)
         bound_pt = pt.__get__(self, type(self))
         return bound_pt
 
