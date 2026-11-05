@@ -643,22 +643,24 @@ class Tile {
                 // Remove tags
                 this.mosaic.removeHeadTags(tile_url);
 
-                const data = new URLSearchParams({
-                    "buttons.delete": "Delete",
-                    "_authenticator": utils.getAuthenticator(),
-                });
-
-                fetch(
-                    self.getDeleteUrl(),
-                    {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/x-www-form-urlencoded; charset: utf-8",
-                            "X-Requested-With": "XMLHttpRequest",  // do not redirect to nextUrl after deleting
-                        },
-                        body: data.toString(),
-                    })
-                    .then(response => {
+                const delete_url = self.getDeleteUrl();
+                mosaic_utils
+                    .get_fresh_authenticator(self.mosaic.options.context_url)
+                    .then((token) =>
+                        fetch(delete_url, {
+                            method: "POST",
+                            headers: {
+                                "Content-Type":
+                                    "application/x-www-form-urlencoded; charset: utf-8",
+                                "X-Requested-With": "XMLHttpRequest", // do not redirect to nextUrl after deleting
+                            },
+                            body: new URLSearchParams({
+                                "buttons.delete": "Delete",
+                                "_authenticator": token,
+                            }).toString(),
+                        }),
+                    )
+                    .then((response) => {
                         if (!response.ok) {
                             alert(`Could not delete tile ${tile_url}: ${response.statusText}`);
                             return;
@@ -976,7 +978,7 @@ class Tile {
     async blur() {
         log.debug("blur ↓", this);
         this.el.classList.remove("mosaic-selected-tile");
-        await this.save();
+        return await this.save();
     }
     async focus() {
         log.debug("focus ↓", this);
@@ -1044,17 +1046,20 @@ class Tile {
 
             self.mosaic.saving_tile = true;
             utils.loading.show();
-
-            var data = {
-                "_authenticator": utils.getAuthenticator(),
-                "buttons.save": "Save",
-            };
-            data[tile_config.name + ".content"] = currentData;
-
-            // save tile
-            const body = new URLSearchParams(data);
+            let error_message = null;
 
             try {
+                var data = {
+                    "_authenticator": await mosaic_utils.get_fresh_authenticator(
+                        self.mosaic.options.context_url,
+                    ),
+                    "buttons.save": "Save",
+                };
+                data[tile_config.name + ".content"] = currentData;
+
+                // save tile
+                const body = new URLSearchParams(data);
+
                 const response = await fetch(edit_url, {
                     method: "POST",
                     headers: {
@@ -1063,19 +1068,51 @@ class Tile {
                     body: body.toString(),
                 });
 
+                // On success the edit form redirects to the tile itself.
+                // A redirect anywhere else (e.g. to a login page because the
+                // session expired) means the data was not saved.
+                const tile_path = (url) =>
+                    decodeURIComponent(new URL(url, window.location.href).pathname);
+                const expected_path = tile_path(edit_url).replace(
+                    "/@@edit-tile/",
+                    "/@@",
+                );
+
                 if (!response.ok) {
                     log.error(`Could not save tile: ${response.statusText}`);
+                    error_message = `${response.status} ${response.statusText}`;
+                } else if (
+                    response.redirected &&
+                    tile_path(response.url) !== expected_path
+                ) {
+                    log.error(`Could not save tile: redirected to ${response.url}`);
+                    error_message = "you may have been logged out";
                 } else {
                     self.el.lastSavedData = currentData;
+                    self.el.mosaicSaveFailed = false;
                     log.debug(`successfully saved ${tile_config.name} with data "${currentData}"`);
                 }
             } catch (error) {
                 log.error(`Error while save tile ${tile_config.name}: ${error}`);
+                error_message = `${error}`;
             }
 
             self.mosaic.saving_tile = false;
             utils.loading.hide();
+
+            if (error_message) {
+                // Do not fail silently: the user would lose the changes
+                // of this tile without noticing. Remember the failure for
+                // the save action, which may not have started this save.
+                self.el.mosaicSaveFailed = true;
+                window.alert(
+                    `Could not save tile "${tile_config.label || tile_config.name}" ` +
+                        `(${error_message}). Please copy your changes and reload the page.`,
+                );
+                return false;
+            }
         }
+        return true;
 
     }
 

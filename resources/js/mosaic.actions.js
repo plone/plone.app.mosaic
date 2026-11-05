@@ -191,7 +191,7 @@ class ActionManager {
 
         // Register save action
         self.registerAction("save", {
-            exec: function (source) {
+            exec: async function (source) {
                 if(mosaic.saving_tile) {
                     // defer saving until all tiles are saved
                     log.debug("Wait for saving tiles");
@@ -199,9 +199,29 @@ class ActionManager {
                     return;
                 }
                 mosaic.saving = true;
-                self.blurSelectedTile();
+                // Wait until the selected tile(s) are saved before submitting
+                // the form. Otherwise the page navigation cancels the pending
+                // tile save request and the last edits are lost.
+                const saved = await self.blurSelectedTile();
+                const failed = [
+                    ...mosaic.document.querySelectorAll(".mosaic-tile"),
+                ].some((el) => el.mosaicSaveFailed);
+                if (
+                    (!saved || failed) &&
+                    !window.confirm(
+                        "Some tiles could not be saved. Their changes will be lost " +
+                            "if you continue. Save the rest of the page anyway?",
+                    )
+                ) {
+                    mosaic.saving = false;
+                    return;
+                }
                 mosaic.toolbar.SelectedTileChange();
                 mosaic.layoutManager.saveLayoutToForm();
+                // Put a current CSRF token into the edit form. With an outdated
+                // token the server aborts the save, but still redirects as if
+                // it had succeeded.
+                await mosaic_utils.get_fresh_authenticator(mosaic.options.context_url);
                 mosaic.save();
                 mosaic.saving = false;
             },
@@ -574,11 +594,15 @@ class ActionManager {
         });
     }
 
-    blurSelectedTile() {
+    async blurSelectedTile() {
+        // Returns true if all selected tiles were saved successfully.
         const selTile = this.mosaic.document.querySelectorAll(".mosaic-selected-tile");
-        if (!selTile.length) return;
+        if (!selTile.length) return true;
         log.debug("blur selected tile(s) ↓", selTile);
-        selTile.forEach(async el => await el["mosaic-tile"].blur());
+        const results = await Promise.all(
+            [...selTile].map((el) => el["mosaic-tile"].blur()),
+        );
+        return results.every((result) => result !== false);
     }
 
     mosaicExecAction() {
