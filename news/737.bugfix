@@ -1,3 +1,0 @@
-Compile each site layout once instead of on every request.
-With z3c.jbot installed, the template built per request was never released, so the process grew with every page view.
-@jensens

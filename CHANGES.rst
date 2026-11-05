@@ -8,6 +8,21 @@ Changelog
 
 .. towncrier release notes start
 
+4.2.1 (2026-11-05)
+------------------
+
+Bug fixes:
+
+
+- Get a fresh CSRF token before saving or deleting tiles and before submitting the edit form.
+  An outdated token made the server abort the save while still reporting success, so changes were lost silently.
+  Also show an error and stop saving the page if a tile could not be saved.
+  @gogobd (#733)
+- Compile each site layout once instead of on every request.
+  With z3c.jbot installed, the template built per request was never released, so the process grew with every page view.
+  @jensens (#737)
+
+
 4.2.0 (2026-10-13)
 ------------------
 
