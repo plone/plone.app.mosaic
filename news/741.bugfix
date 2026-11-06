@@ -1,0 +1,2 @@
+Emptying an existing rich text tile is saved now, before the tile silently kept its old content.
+@gogobd
