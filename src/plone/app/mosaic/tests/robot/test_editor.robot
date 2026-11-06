@@ -5,6 +5,10 @@ Resource  keywords.robot
 Test Setup  Setup Mosaic Example Page
 Test Teardown  Plone test teardown
 
+*** Variables ***
+
+${SELECTOR_RICHTEXT_TILE}  css=.mosaic-plone\\.app\\.standardtiles\\.html-tile .mosaic-rich-text-initialized
+
 
 *** Test Cases ***
 
@@ -150,7 +154,46 @@ Show grid layout editor capabilities
     Evaluate JavaScript    xpath=//a[contains(text(), 'Reset (1)')]    (elem) => elem.click()
     Take Documentation Screenshot  filename=mosaic-editor-reset-tile3.png  width=1024  height=1500
 
+Removing the content of a richtext tile is saved
+    Go to  ${PLONE_URL}/example-document/edit
+    Wait For Elements State  css=[data-value='default/basic.html']  visible
+    Evaluate JavaScript  css=[data-value='default/basic.html']  (elem) => elem.click()
+    Wait For Elements State  css=.mosaic-toolbar-primary-functions .mosaic-button-customizelayout  visible
+    Click  css=.mosaic-toolbar-primary-functions .mosaic-button-customizelayout
+
+    # add a richtext tile with content
+    Insert richtexttile
+    ${empty_row}=  set variable  //div[contains(@class, 'mosaic-empty-row')][3]/div[contains(@class, 'mosaic-grid-cell')]
+    Update element style  xpath=${empty_row}  display  block
+    Hover  xpath=${empty_row}
+    Click  xpath=${empty_row}
+    Wait For Elements State  ${SELECTOR_RICHTEXT_TILE}  visible
+    Click into richtext tile
+    Keyboard Key  press  Control+a
+    Keyboard Input  type  Text to remove
+    Save the Mosaic editor
+    Get Text  css=body  contains  Text to remove
+
+    # remove the content again after loading the editor from scratch
+    Go to  ${PLONE_URL}/example-document/edit
+    Wait For Elements State  ${SELECTOR_RICHTEXT_TILE}  visible
+    Click into richtext tile
+    Keyboard Key  press  Control+a
+    Keyboard Key  press  Delete
+    Save the Mosaic editor
+    Get Text  css=body  not contains  Text to remove
+
 *** Keywords ***
+
+Save the Mosaic editor
+    # register dialog handler before the click that might trigger a beforeunload dialog
+    Handle Future Dialogs    action=accept
+    Click  css=.mosaic-button-save
+    Wait For Condition  Url  should end with  /example-document
+
+Click into richtext tile
+    # the drag handle covers the tile until the tile is selected
+    Click With Options  ${SELECTOR_RICHTEXT_TILE}  force=True
 
 Insert richtexttile
     Click    css=.select2-container.mosaic-menu-insert a

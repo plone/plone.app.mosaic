@@ -1,2 +1,2 @@
-Emptying an existing rich text tile is saved now, before the tile silently kept its old content.
+Fixed emptying an existing rich text tile: the tile kept its old content after saving, without showing an error.
 @gogobd
