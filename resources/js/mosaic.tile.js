@@ -1055,7 +1055,9 @@ class Tile {
                     ),
                     "buttons.save": "Save",
                 };
-                data[tile_config.name + ".content"] = currentData;
+                // The server rejects empty content because the field is
+                // required, so send what an empty tile renders as anyway.
+                data[tile_config.name + ".content"] = currentData || "<p></p>";
 
                 // save tile
                 const body = new URLSearchParams(data);
@@ -1081,10 +1083,12 @@ class Tile {
                 if (!response.ok) {
                     log.error(`Could not save tile: ${response.statusText}`);
                     error_message = `${response.status} ${response.statusText}`;
-                } else if (
-                    response.redirected &&
-                    tile_path(response.url) !== expected_path
-                ) {
+                } else if (!response.redirected) {
+                    // Without a redirect the form was rendered again with
+                    // validation errors: nothing was stored.
+                    log.error(`Could not save tile: rejected by ${edit_url}`);
+                    error_message = "the server rejected the content";
+                } else if (tile_path(response.url) !== expected_path) {
                     log.error(`Could not save tile: redirected to ${response.url}`);
                     error_message = "you may have been logged out";
                 } else {
@@ -1177,6 +1181,20 @@ class Tile {
         // wait until ready.
         await events.await_pattern_init(tiny_instance);
         self.tinymce = tiny_instance.instance.tiny;
+        if (!created) {
+            // Remember the stored content of existing tiles to be able to
+            // detect that it was removed. New tiles have to be saved even if
+            // their content is not changed, it may be the default value.
+            const remember_content = () => {
+                self.el.lastSavedData ??= self.getHtmlContent();
+            };
+            // The editor returns no content until it is fully initialized.
+            if (self.tinymce.initialized) {
+                remember_content();
+            } else {
+                self.tinymce.once("init", remember_content);
+            }
+        }
         // Mosaic may still shift the layout after init. Let TinyMCE recompute
         // the inline toolbar width and its overflow against the final width.
         requestAnimationFrame(() => self.tinymce?.dispatch("ResizeWindow"));

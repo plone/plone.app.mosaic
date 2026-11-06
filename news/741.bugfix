@@ -1,0 +1,2 @@
+Fixed emptying an existing rich text tile: the tile kept its old content after saving, without showing an error.
+@gogobd
