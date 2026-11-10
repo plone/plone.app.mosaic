@@ -1,0 +1,3 @@
+Send a valid ``Content-Type`` header (``charset=utf-8`` instead of ``charset: utf-8``) when saving, deleting and copying tiles.
+The malformed header made web application firewalls like ModSecurity with the OWASP Core Rule Set block these requests with 403 Forbidden.
+@gogobd

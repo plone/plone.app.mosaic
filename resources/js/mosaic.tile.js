@@ -143,7 +143,7 @@ class Tile {
             {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/x-www-form-urlencoded; charset: utf-8"
+                    "Content-Type": "application/x-www-form-urlencoded; charset=utf-8"
                 },
                 body: url_params.toString(),
             })
@@ -651,7 +651,7 @@ class Tile {
                             method: "POST",
                             headers: {
                                 "Content-Type":
-                                    "application/x-www-form-urlencoded; charset: utf-8",
+                                    "application/x-www-form-urlencoded; charset=utf-8",
                                 "X-Requested-With": "XMLHttpRequest", // do not redirect to nextUrl after deleting
                             },
                             body: new URLSearchParams({
@@ -1063,7 +1063,7 @@ class Tile {
                 const response = await fetch(edit_url, {
                     method: "POST",
                     headers: {
-                        "Content-Type": "application/x-www-form-urlencoded; charset: utf-8",
+                        "Content-Type": "application/x-www-form-urlencoded; charset=utf-8",
                     },
                     body: body.toString(),
                 });
