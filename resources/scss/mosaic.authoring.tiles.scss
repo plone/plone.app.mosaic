@@ -112,6 +112,25 @@
 body.mosaic-enabled .tox-tinymce-inline {
     z-index: 200;
 
+    // TinyMCE sets the left edge (the one of the tile) and a width up to the
+    // window's edge, which squeezes the toolbar of a narrow tile at the right.
+    // Span to the end of the row instead (set by Tile.alignRichTextToolbar):
+    // the auto margin keeps a toolbar that fits at the left, one that is wider
+    // overflows to the left and ends with the row.
+    right: var(--mosaic-toolbar-right, 0px);
+    width: auto !important;
+    flex-direction: row;
+    justify-content: flex-end;
+    // the container may span other tiles: only the toolbar takes the pointer
+    pointer-events: none;
+
+    > .tox-editor-container {
+        flex: none;
+        margin-right: auto;
+        max-width: 100vw;
+        pointer-events: auto;
+    }
+
     .tox-editor-header {
         border-radius: var(--bs-border-radius);
         border: var(--bs-border-width) var(--bs-border-style) var(--bs-border-color);

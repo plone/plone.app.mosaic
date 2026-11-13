@@ -82,6 +82,10 @@ Show the Mosaic editing capabilities
     # register dialog handler before the click that might trigger a beforeunload dialog
     Handle Future Dialogs    action=accept
     Click  css=.mosaic-button-save
+    # wait for the saved page: a screenshot taken while the browser still
+    # navigates fails with "Unable to capture screenshot"
+    Wait For Condition  Url  not contains  /edit
+    Wait For Load State  load
     Take Documentation Screenshot  filename=mosaic-page-saved.png
 
 Show grid layout editor capabilities

@@ -1,0 +1,2 @@
+Keep the inline TinyMCE toolbar of a rich text tile usable in narrow columns: it gets the room for a full toolbar instead of the tile width only and is right-aligned with the row when it does not fit next to the tile's left edge.
+@petschki

@@ -12,6 +12,9 @@ const log = logging.getLogger("pat-mosaic/tile");
 var _TILE_TYPE_CACHE = {};
 var _TILE_CONFIG_CACHE = {};
 
+// Room for the default toolbar of a rich text tile in one line.
+const RICHTEXT_TOOLBAR_MIN_WIDTH = 720;
+
 const COPYABLE_TILE_TYPES = [
     "app",
     "textapp",
@@ -1165,9 +1168,15 @@ class Tile {
         tiny_options["tiny"]["selector"] = `#${id}`;
         tiny_options["tiny"]["placeholder"] = "\u2026";
 
+        // The inline toolbar is as wide as its tile, but a narrow column
+        // keeps the room for a usable toolbar: otherwise only the "more"
+        // button of the overflow drawer is left.
         const tile_width = Math.floor(self.el.getBoundingClientRect().width);
         if (tile_width) {
-            tiny_options["tiny"]["max_width"] = tile_width - 20;
+            tiny_options["tiny"]["max_width"] = Math.max(
+                tile_width - 20,
+                Math.min(RICHTEXT_TOOLBAR_MIN_WIDTH, self.getRowContentRect().width)
+            );
         }
 
         // remove "content_css" from config
@@ -1177,12 +1186,47 @@ class Tile {
         // wait until ready.
         await events.await_pattern_init(tiny_instance);
         self.tinymce = tiny_instance.instance.tiny;
+        // A toolbar wider than its tile must not leave the row.
+        self.tinymce.on("focus ResizeWindow", () => self.alignRichTextToolbar());
         // Mosaic may still shift the layout after init. Let TinyMCE recompute
         // the inline toolbar width and its overflow against the final width.
         requestAnimationFrame(() => self.tinymce?.dispatch("ResizeWindow"));
 
         // Set editor class
         $content.addClass("mosaic-rich-text-initialized");
+    }
+
+    getRowContentRect() {
+        // The area of the row the tiles are placed in: a row with a fluid
+        // background is as wide as the window and centers its cells with a
+        // padding.
+        const row = this.el.closest(".mosaic-grid-row") || this.el;
+        const rect = row.getBoundingClientRect();
+        const style = window.getComputedStyle(row);
+        const left = rect.left + (parseFloat(style.paddingLeft) || 0);
+        const right = rect.right - (parseFloat(style.paddingRight) || 0);
+        return { left: left, right: right, width: Math.floor(right - left) };
+    }
+
+    alignRichTextToolbar() {
+        // TinyMCE places the inline toolbar at the left edge of the tile. Tell
+        // the stylesheet where the row ends: the toolbar container spans from
+        // the tile's left edge to that point and right-aligns a toolbar that
+        // does not fit in between (see mosaic.authoring.tiles.scss).
+        const container = this.tinymce?.getContainer?.();
+        if (!container) {
+            return;
+        }
+        const parent = container.offsetParent || document.documentElement;
+        const parent_right = parent.getBoundingClientRect().left + parent.clientWidth;
+        const row_right = Math.min(
+            this.getRowContentRect().right,
+            document.documentElement.clientWidth
+        );
+        container.style.setProperty(
+            "--mosaic-toolbar-right",
+            `${Math.max(Math.round(parent_right - row_right), 0)}px`
+        );
     }
 }
 
