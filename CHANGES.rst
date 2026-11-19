@@ -8,6 +8,26 @@ Changelog
 
 .. towncrier release notes start
 
+4.2.2 (2026-11-19)
+------------------
+
+Bug fixes:
+
+
+- Send a valid ``Content-Type`` header (``charset=utf-8`` instead of ``charset: utf-8``) when saving, deleting and copying tiles.
+  The malformed header made web application firewalls like ModSecurity with the OWASP Core Rule Set block these requests with 403 Forbidden.
+  @gogobd (#743)
+- Keep the inline TinyMCE toolbar of a rich text tile usable in narrow columns: it gets the room for a full toolbar instead of the tile width only and is right-aligned with the row when it does not fit next to the tile's left edge.
+  @petschki
+
+
+Internal:
+
+
+- Robot test of the editor: wait for the saved page before taking its screenshot.
+  @petschki
+
+
 4.2.1 (2026-11-05)
 ------------------
 
