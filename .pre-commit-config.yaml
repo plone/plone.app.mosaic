@@ -10,7 +10,7 @@ repos:
     rev: v3.22.0
     hooks:
     -   id: pyupgrade
-        args: [--py310-plus]
+        args: [--py311-plus]
 -   repo: https://github.com/pycqa/isort
     rev: 10.0.0b2
     hooks:
@@ -63,14 +63,14 @@ repos:
     hooks:
     -   id: check-manifest
 -   repo: https://github.com/regebro/pyroma
-    rev: "5.1b1"
+    rev: "5.1b2"
     hooks:
     -   id: pyroma
 -   repo: https://github.com/mgedmin/check-python-versions
     rev: "0.25.0"
     hooks:
     -   id: check-python-versions
-        args: ['--only', 'setup.py,tox.ini']
+        args: ['--only', 'pyproject.toml,tox.ini']
 -   repo: https://github.com/collective/i18ndude
     rev: "6.3.0"
     hooks:
